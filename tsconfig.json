@@ -29,5 +29,8 @@
     "lib",
     "build",
     ".yalc"
+  ],
+  "types": [
+    "vite/client"
   ]
 }

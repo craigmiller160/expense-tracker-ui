@@ -1,5 +1,8 @@
 import { createApi } from '@craigmiller160/ajax-api';
+import { AxiosResponse } from 'axios';
 
 export const expenseTrackerApi = createApi({
 	baseURL: '/expense-tracker/api'
 });
+
+export const getData = <T>(res: AxiosResponse<T>) => res.data;

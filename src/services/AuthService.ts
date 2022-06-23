@@ -1,9 +1,12 @@
-import { expenseTrackerApi } from './AjaxApi';
+import { expenseTrackerApi, getData } from './AjaxApi';
 import { createResource } from 'solid-js';
+import { AuthUser } from '../types/auth';
 
 export const getAuthUser = () =>
 	createResource(() =>
-		expenseTrackerApi.get({
-			uri: '/oauth/user'
-		})
+		expenseTrackerApi
+			.get<AuthUser>({
+				uri: '/oauth/user'
+			})
+			.then(getData)
 	);

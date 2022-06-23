@@ -4,7 +4,7 @@ import solidPlugin from 'vite-plugin-solid';
 export default {
 	root: path.join(process.cwd(), 'src'),
 	server: {
-		port: 3001
+		port: 3002
 	},
 	plugins: [solidPlugin()],
 	build: {

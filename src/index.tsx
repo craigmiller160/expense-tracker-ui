@@ -1,7 +1,8 @@
 import { render } from 'solid-js/web';
+import { App } from './components/App';
 
 const dispose = render(
-	() => <h1>Hello World</h1>,
+	() => <App />,
 	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 	document.getElementById('root')!
 );

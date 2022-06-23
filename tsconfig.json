@@ -20,7 +20,10 @@
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
     "declaration": false,
-    "module": "es2022"
+    "module": "es2022",
+    "types": [
+      "vite/client"
+    ]
   },
   "include": [
     "src/**/*"
@@ -30,8 +33,5 @@
     "lib",
     "build",
     ".yalc"
-  ],
-  "types": [
-    "vite/client"
   ]
 }

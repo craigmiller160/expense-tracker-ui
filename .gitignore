@@ -1,0 +1,11 @@
+.DS_Store
+.idea
+*.iml
+node_modules
+yarn-error.log
+.yalc
+yalc.lock
+build
+coverage
+deploy/build
+reports

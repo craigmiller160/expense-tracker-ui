@@ -3,7 +3,7 @@
   "version": "1.0.0-beta",
   "scripts": {
     "lint": "craig-lint",
-    "start": "",
+    "start": "vite",
     "prepare": "husky install"
   },
   "lint-staged": {

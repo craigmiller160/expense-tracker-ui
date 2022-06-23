@@ -272,6 +272,13 @@
     "@babel/helper-validator-identifier" "^7.16.7"
     to-fast-properties "^2.0.0"
 
+"@craigmiller160/ajax-api@^1.1.3":
+  version "1.1.3"
+  resolved "https://craigmiller160.ddns.net:30003/repository/npm-group/@craigmiller160/ajax-api/-/ajax-api-1.1.3.tgz#6cb9019241c0af5e20183e459b7780692f9c1a6c"
+  integrity sha512-B+BJXMOr7QTIXRN7TuOUp1r9CNBgmoU7um0vR5NuVXyuT0qsD4Gbde5j9/7+enI/gOa5sO+Nfq2+VsfETiOhfw==
+  dependencies:
+    axios "^0.21.1"
+
 "@craigmiller160/eslint-config-jest@^1.0.0":
   version "1.0.0"
   resolved "https://craigmiller160.ddns.net:30003/repository/npm-group/@craigmiller160/eslint-config-jest/-/eslint-config-jest-1.0.0.tgz#33561582506e1c59ebb2d5c2ae1d9f57ca64adb8"
@@ -666,6 +673,13 @@ astral-regex@^2.0.0:
   version "2.0.0"
   resolved "https://craigmiller160.ddns.net:30003/repository/npm-group/astral-regex/-/astral-regex-2.0.0.tgz#483143c567aeed4785759c0865786dc77d7d2e31"
   integrity sha512-Z7tMw1ytTXt5jqMcOP+OQteU1VuNK9Y02uuJtKQ1Sv69jXQKKg5cibLwGJow8yzZP+eAc18EmLGPal0bp36rvQ==
+
+axios@^0.21.1:
+  version "0.21.4"
+  resolved "https://craigmiller160.ddns.net:30003/repository/npm-group/axios/-/axios-0.21.4.tgz#c67b90dc0568e5c1cf2b0b858c43ba28e2eda575"
+  integrity sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==
+  dependencies:
+    follow-redirects "^1.14.0"
 
 babel-plugin-jsx-dom-expressions@^0.33.8:
   version "0.33.10"
@@ -1297,6 +1311,11 @@ flatted@^3.1.0:
   version "3.2.5"
   resolved "https://craigmiller160.ddns.net:30003/repository/npm-group/flatted/-/flatted-3.2.5.tgz#76c8584f4fc843db64702a6bd04ab7a8bd666da3"
   integrity sha512-WIWGi2L3DyTUvUrwRKgGi9TwxQMUEqPOPQBVi71R96jZXJdFskXEmf54BoZaS1kknGODoIGASGEzBUYdyMCBJg==
+
+follow-redirects@^1.14.0:
+  version "1.15.1"
+  resolved "https://craigmiller160.ddns.net:30003/repository/npm-group/follow-redirects/-/follow-redirects-1.15.1.tgz#0ca6a452306c9b276e4d3127483e29575e207ad5"
+  integrity sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==
 
 fs.realpath@^1.0.0:
   version "1.0.0"

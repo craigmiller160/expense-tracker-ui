@@ -24,6 +24,8 @@
     "vite-plugin-solid": "^2.2.6"
   },
   "dependencies": {
+    "@suid/icons-material": "^0.2.4",
+    "@suid/material": "^0.4.2",
     "solid-js": "^1.4.4"
   }
 }

@@ -1,11 +1,12 @@
 import Container from '@suid/material/Container';
 import { AuthUserProvider } from './AuthUserProvider';
+import { Welcome } from './Welcome';
 
 export const Content = () => {
 	return (
 		<AuthUserProvider>
 			<Container>
-				<h1>Root</h1>
+				<Welcome />
 			</Container>
 		</AuthUserProvider>
 	);

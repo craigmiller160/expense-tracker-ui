@@ -5,3 +5,7 @@ export interface AuthUser {
 	readonly lastName: string;
 	readonly roles: ReadonlyArray<string>;
 }
+
+export interface AuthCodeLogin {
+	readonly url: string;
+}

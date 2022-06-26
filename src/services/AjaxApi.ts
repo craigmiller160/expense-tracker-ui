@@ -1,6 +1,8 @@
 import { createApi } from '@craigmiller160/ajax-api';
 import { AxiosResponse } from 'axios';
 
+// TODO need global error handler
+
 export const expenseTrackerApi = createApi({
 	baseURL: '/expense-tracker/api'
 });

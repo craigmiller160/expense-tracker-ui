@@ -30,14 +30,18 @@ const getAuthBtnTxt = deriveFromAuthUser({
 	succeeded: 'Logout'
 });
 
-const getAuthBtnAction = deriveFromAuthUser({
-	loading: constVoid,
-	failed: login,
-	succeeded: logout // TODO need to clear auth signal
-});
+const [, { refetch }] = authUserResource;
+type RefetchType = typeof refetch;
+
+const getAuthBtnAction = (refetch: RefetchType) =>
+	deriveFromAuthUser({
+		loading: constVoid,
+		failed: login,
+		succeeded: () => logout().then(() => refetch())
+	});
 
 export const Navbar = () => {
-	const [data] = authUserResource;
+	const [data, { refetch }] = authUserResource;
 	return (
 		<Box sx={{ flexGrow: 1 }}>
 			<AppBar position="static">
@@ -49,7 +53,10 @@ export const Navbar = () => {
 					>
 						Expense Tracker
 					</Typography>
-					<Button onClick={getAuthBtnAction(data)} color="inherit">
+					<Button
+						onClick={getAuthBtnAction(refetch)(data)}
+						color="inherit"
+					>
 						{getAuthBtnTxt(data)}
 					</Button>
 				</Toolbar>

@@ -17,7 +17,7 @@ interface DerivedFromAuthUser<T> {
 }
 
 const deriveFromAuthUser =
-	<T extends any>(derived: DerivedFromAuthUser<T>) =>
+	<T,>(derived: DerivedFromAuthUser<T>) =>
 	(data: DefaultResource<AuthUser>): T =>
 		match({ loading: data.loading, error: data.error })
 			.with({ loading: true }, () => derived.loading)

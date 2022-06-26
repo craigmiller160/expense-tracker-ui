@@ -1,7 +1,8 @@
 import { createStore } from 'solid-js/store';
+import { AlertColor } from '@suid/material/Alert';
 
 export interface AlertData {
-	readonly type: string;
+	readonly type: AlertColor;
 	readonly message: string;
 }
 
@@ -9,6 +10,6 @@ export interface AlertStoreData {
 	readonly alerts: ReadonlyArray<AlertData>;
 }
 
-export const [getAlertStore, setAlertStore] = createStore<AlertStoreData>({
+export const [alertStore, updateAlertStore] = createStore<AlertStoreData>({
 	alerts: []
 });

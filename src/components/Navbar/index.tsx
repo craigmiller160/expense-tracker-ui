@@ -4,11 +4,11 @@ import Toolbar from '@suid/material/Toolbar';
 import Typography from '@suid/material/Typography';
 import Button from '@suid/material/Button';
 import { authUserResource } from '../../resources/AuthResources';
-import { Resource } from 'solid-js';
 import { AuthUser } from '../../types/auth';
 import { match, P } from 'ts-pattern';
+import { DefaultResource } from '../../resources/types';
 
-const getAuthBtnTxt = (data: Resource<AuthUser>) =>
+const getAuthBtnTxt = (data: DefaultResource<AuthUser>) =>
 	match({ loading: data.loading, error: data.error })
 		.with({ loading: true }, () => '')
 		.with({ loading: false, error: P.nullish }, () => 'Logout')

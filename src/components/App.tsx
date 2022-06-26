@@ -1,9 +1,11 @@
-import { Root } from './Root';
 import CssBaseline from '@suid/material/CssBaseline';
+import { Navbar } from './Navbar';
+import { Content } from './Content';
 
 export const App = () => (
 	<>
 		<CssBaseline />
-		<Root />
+		<Navbar />
+		<Content />
 	</>
 );

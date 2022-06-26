@@ -1,6 +1,7 @@
 import './Welcome.scss';
+import Typography from '@suid/material/Typography';
 export const Welcome = () => (
 	<div class="Welcome">
-		<h1>Welcome to Expense Tracker</h1>
+		<Typography variant="h4">Welcome to Expense Tracker</Typography>
 	</div>
 );

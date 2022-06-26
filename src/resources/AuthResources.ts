@@ -5,3 +5,8 @@ import { DefaultResourceReturn } from './types';
 
 export const authUserResource: DefaultResourceReturn<AuthUser> =
 	createResource(getAuthUser);
+
+export const isAuthenticated = (): boolean => {
+	const [data] = authUserResource;
+	return !data.loading && !data.error;
+};

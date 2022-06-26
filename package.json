@@ -30,6 +30,7 @@
     "@suid/icons-material": "^0.2.4",
     "@suid/material": "^0.4.2",
     "solid-app-router": "^0.4.1",
-    "solid-js": "^1.4.4"
+    "solid-js": "^1.4.4",
+    "ts-pattern": "^4.0.3"
   }
 }

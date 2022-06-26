@@ -7,12 +7,34 @@ import { authUserResource } from '../../resources/AuthResources';
 import { AuthUser } from '../../types/auth';
 import { match, P } from 'ts-pattern';
 import { DefaultResource } from '../../resources/types';
+import { login, logout } from '../../services/AuthService';
+import { constVoid } from 'fp-ts/es6/function';
 
-const getAuthBtnTxt = (data: DefaultResource<AuthUser>) =>
-	match({ loading: data.loading, error: data.error })
-		.with({ loading: true }, () => '')
-		.with({ loading: false, error: P.nullish }, () => 'Logout')
-		.otherwise(() => 'Login');
+interface DerivedFromAuthUser<T> {
+	readonly loading: T;
+	readonly failed: T;
+	readonly succeeded: T;
+}
+
+const deriveFromAuthUser =
+	<T extends any>(derived: DerivedFromAuthUser<T>) =>
+	(data: DefaultResource<AuthUser>): T =>
+		match({ loading: data.loading, error: data.error })
+			.with({ loading: true }, () => derived.loading)
+			.with({ loading: false, error: P.nullish }, () => derived.succeeded)
+			.otherwise(() => derived.failed);
+
+const getAuthBtnTxt = deriveFromAuthUser({
+	loading: '',
+	failed: 'Login',
+	succeeded: 'Logout'
+});
+
+const getAuthBtnAction = deriveFromAuthUser({
+	loading: constVoid,
+	failed: login,
+	succeeded: logout // TODO need to clear auth signal
+});
 
 export const Navbar = () => {
 	const [data] = authUserResource;
@@ -27,7 +49,9 @@ export const Navbar = () => {
 					>
 						Expense Tracker
 					</Typography>
-					<Button color="inherit">{getAuthBtnTxt(data)}</Button>
+					<Button onClick={getAuthBtnAction(data)} color="inherit">
+						{getAuthBtnTxt(data)}
+					</Button>
 				</Toolbar>
 			</AppBar>
 		</Box>

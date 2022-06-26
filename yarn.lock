@@ -1345,6 +1345,11 @@ follow-redirects@^1.14.0:
   resolved "https://craigmiller160.ddns.net:30003/repository/npm-group/follow-redirects/-/follow-redirects-1.15.1.tgz#0ca6a452306c9b276e4d3127483e29575e207ad5"
   integrity sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==
 
+fp-ts@^2.12.1:
+  version "2.12.1"
+  resolved "https://craigmiller160.ddns.net:30003/repository/npm-group/fp-ts/-/fp-ts-2.12.1.tgz#e389488bfd1507af06bd5965e97367edcd4fabad"
+  integrity sha512-oxvgqUYR6O9VkKXrxkJ0NOyU0FrE705MeqgBUMEPWyTu6Pwn768cJbHChw2XOBlgFLKfIHxjr2OOBFpv2mUGZw==
+
 fs.realpath@^1.0.0:
   version "1.0.0"
   resolved "https://craigmiller160.ddns.net:30003/repository/npm-group/fs.realpath/-/fs.realpath-1.0.0.tgz#1504ad2523158caa40db4a2787cb01411994ea4f"

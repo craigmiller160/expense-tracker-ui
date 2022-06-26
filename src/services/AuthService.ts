@@ -22,7 +22,11 @@ export const login = (): Promise<AuthCodeLogin> =>
 			uri: '/oauth/authcode/login',
 			errorMsg: 'Error getting login URI'
 		})
-		.then(getData);
+		.then(getData)
+		.then((data) => {
+			window.location.assign(data.url);
+			return data;
+		});
 
 export const logout = () =>
 	expenseTrackerApi

@@ -10,3 +10,15 @@ export const getAuthUser = () =>
 			})
 			.then(getData)
 	);
+
+export const authUserResource = createResource(
+	() =>
+		expenseTrackerApi
+			.get<AuthUser>({
+				uri: '/oauth/user'
+			})
+			.then(getData),
+	{
+		deferStream: true
+	}
+);

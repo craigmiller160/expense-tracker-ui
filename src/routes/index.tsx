@@ -2,6 +2,7 @@ import { RouteDefinition } from 'solid-app-router';
 import { namedLazy } from '../utils/solidWrappers';
 import { Redirect } from '../components/UI/Redirect';
 import { isAuthenticated } from '../resources/AuthResources';
+import { createEffect } from 'solid-js';
 
 const welcomeRoute: RouteDefinition = {
 	path: '/welcome',
@@ -25,8 +26,8 @@ const catchAllRoute: RouteDefinition = {
 };
 
 export const createRoutes = (): RouteDefinition[] => {
-	const isAuth = isAuthenticated();
-	const categoriesRouteToUse = isAuth ? categoriesRoute : null;
+	createEffect(() => console.log('IsAuth', isAuthenticated()));
+	const categoriesRouteToUse = isAuthenticated() ? categoriesRoute : null;
 
 	return [welcomeRoute, categoriesRouteToUse, catchAllRoute].filter(
 		(route) => !!route

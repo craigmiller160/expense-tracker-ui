@@ -18,6 +18,7 @@ describe('Navbar', () => {
 	});
 
 	it('is not logged in', () => {
-		throw new Error();
+		renderApp();
+		expect(screen.findByText('Login')).toBeInTheDocument();
 	});
 });

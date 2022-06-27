@@ -1,4 +1,7 @@
 import { ApiServer, newApiServer } from '../../server';
+import { renderApp } from '../../testutils/renderApp';
+import { screen } from 'solid-testing-library';
+import '@testing-library/jest-dom';
 
 describe('Navbar', () => {
 	let apiServer: ApiServer;
@@ -10,7 +13,8 @@ describe('Navbar', () => {
 	});
 
 	it('is logged in', () => {
-		throw new Error();
+		renderApp();
+		expect(screen.findByText('Logout')).toBeInTheDocument();
 	});
 
 	it('is not logged in', () => {

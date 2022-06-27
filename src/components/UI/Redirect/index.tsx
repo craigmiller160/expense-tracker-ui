@@ -1,5 +1,5 @@
 import { useNavigate } from 'solid-app-router';
-import { createEffect } from 'solid-js';
+import { onMount } from 'solid-js';
 
 interface Props {
 	readonly path: string;
@@ -7,6 +7,6 @@ interface Props {
 
 export const Redirect = (props: Props) => {
 	const navigate = useNavigate();
-	createEffect(() => navigate(props.path));
+	onMount(() => navigate(props.path));
 	return <></>;
 };

@@ -22,7 +22,8 @@
     "declaration": false,
     "module": "es2022",
     "types": [
-      "vite/client"
+      "vite/client",
+      "jest"
     ]
   },
   "include": [

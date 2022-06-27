@@ -5,7 +5,7 @@
     "lint": "craig-lint",
     "start": "vite",
     "prepare": "husky install",
-    "test": "craig-test"
+    "test": "vitest"
   },
   "lint-staged": {
     "*.{ts,tsx}": "eslint --fix --max-warnings=0"

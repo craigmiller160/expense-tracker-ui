@@ -1,3 +1,5 @@
-.Welcome {
+@import "../../../styles/page";
 
+.Welcome {
+  @include PageRoot;
 }

@@ -43,5 +43,15 @@ export default {
 		target: 'esnext',
 		outDir: path.join(process.cwd(), 'build'),
 		emptyOutDir: true
+	},
+	test: {
+		environment: 'jsdom',
+		globals: true,
+		transformMode: {
+			web: [/\.[jt]sx?$/]
+		},
+		deps: {
+			inline: [/solid-js/]
+		}
 	}
 };

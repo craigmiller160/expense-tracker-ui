@@ -6,7 +6,7 @@ import * as Option from 'fp-ts/es6/Option';
 import { DbRecord, UserRecord } from '../../src/types/db';
 import { nanoid } from 'nanoid';
 
-const USER_ID = 1;
+export const USER_ID = 1;
 
 export interface Data {
 	readonly authUser: OptionT<AuthUser>;

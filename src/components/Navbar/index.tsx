@@ -1,5 +1,6 @@
 import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
 import { useDeriveNavbarFromAuthUser } from './useDeriveNavbarFromAuthUser';
+import { Link } from 'react-router-dom';
 
 export const Navbar = () => {
 	const {
@@ -12,12 +13,24 @@ export const Navbar = () => {
 		<Box sx={{ flexGrow: 1 }}>
 			<AppBar position="static">
 				<Toolbar>
-					<Typography variant="h6" component="div">
-						Expense Tracker
-					</Typography>
+					<Button
+						component={Link}
+						to="/expense-tracker"
+						color="inherit"
+					>
+						<Typography variant="h6" component="div">
+							Expense Tracker
+						</Typography>
+					</Button>
 					<Box sx={{ marginRight: '1rem' }} />
 					{isAuthorized && (
-						<Button color="inherit">Manage Categories</Button>
+						<Button
+							component={Link}
+							to="/expense-tracker/categories"
+							color="inherit"
+						>
+							Manage Categories
+						</Button>
 					)}
 					<Box sx={{ flexGrow: 1 }} />
 					{hasCheckedAuthorization && (

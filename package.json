@@ -3,7 +3,7 @@
   "version": "1.0.0-beta",
   "scripts": {
     "lint": "craig-lint",
-    "start": "vite",
+    "start": "node scripts/startDev.js",
     "prepare": "husky install"
   },
   "lint-staged": {

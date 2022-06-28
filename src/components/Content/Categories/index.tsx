@@ -1,1 +1,8 @@
-export const Categories = () => <h1>Manage Categories</h1>
+import { Typography } from '@mui/material';
+import './Categories.scss';
+
+export const Categories = () => (
+	<div className="Categories">
+		<Typography variant="h4">Manage Categories</Typography>
+	</div>
+);

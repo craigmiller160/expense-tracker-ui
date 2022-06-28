@@ -8,7 +8,7 @@ const queryClient = new QueryClient();
 
 export const App = () => (
 	<QueryClientProvider client={queryClient}>
-		<BrowserRouter basename="/expense-tracker">
+		<BrowserRouter basename="/">
 			<CssBaseline />
 			<Navbar />
 			<Content />

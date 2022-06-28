@@ -9,6 +9,7 @@ import { match, P } from 'ts-pattern';
 import { DefaultResource } from '../../resources/types';
 import { login, logout } from '../../services/AuthService';
 import { constVoid } from 'fp-ts/es6/function';
+import { Link } from 'solid-app-router';
 
 interface DerivedFromAuthUser<T> {
 	readonly loading: T;

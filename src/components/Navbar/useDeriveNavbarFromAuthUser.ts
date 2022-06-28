@@ -36,7 +36,9 @@ const getAuthButtonAction = (refetch: () => Promise<unknown>) =>
 	});
 
 export const useDeriveNavbarFromAuthUser = (): DerivedValues => {
-	const { status, refetch } = useGetAuthUser();
+	const {
+		result: { status, refetch }
+	} = useGetAuthUser();
 	const authButtonText = getAuthButtonText(status);
 	const authButtonAction = getAuthButtonAction(refetch)(status);
 

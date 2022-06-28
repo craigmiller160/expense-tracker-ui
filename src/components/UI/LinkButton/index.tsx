@@ -1,18 +1,19 @@
-import Button, { ButtonTypeMap } from '@suid/material/Button';
+import Button from '@suid/material/Button';
 import { useNavigate } from 'solid-app-router';
-import { DefaultComponentProps } from '@suid/types';
+import { EventHandler } from '../../../types/solid';
+
+type OnClickHandler = EventHandler<HTMLButtonElement, MouseEvent>;
 
 interface Props {
 	readonly path: string;
-	readonly onClick?: JSX.EventHandlerUnion<>
+	readonly onClick?: OnClickHandler;
 }
 
-export const LinkButton: = (
-	props: Props
-) => {
+export const LinkButton = (props: Props) => {
 	const navigate = useNavigate();
-	const onClick = (event) => {
+	const onClick: OnClickHandler = (event) => {
 		navigate(props.path);
+		props.onClick?.(event);
 	};
-	return <Button onClick={(evt) => {} />;
+	return <Button onClick={onClick} />;
 };

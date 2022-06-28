@@ -3,13 +3,16 @@ import AppBar from '@suid/material/AppBar';
 import Toolbar from '@suid/material/Toolbar';
 import Typography from '@suid/material/Typography';
 import Button from '@suid/material/Button';
-import { authUserResource } from '../../resources/AuthResources';
+import {
+	authUserResource,
+	isAuthenticated
+} from '../../resources/AuthResources';
 import { AuthUser } from '../../types/auth';
 import { match, P } from 'ts-pattern';
 import { DefaultResource } from '../../resources/types';
 import { login, logout } from '../../services/AuthService';
 import { constVoid } from 'fp-ts/es6/function';
-import { Link } from 'solid-app-router';
+import { LinkButton } from '../UI/LinkButton';
 
 interface DerivedFromAuthUser<T> {
 	readonly loading: T;
@@ -50,7 +53,14 @@ export const Navbar = () => {
 					<Typography variant="h6" component="div">
 						Expense Tracker
 					</Typography>
-					<Button color="inherit">Manage Categories</Button>
+					<Box sx={{ marginRight: '0.5rem' }} />
+					{isAuthenticated() && (
+						<LinkButton
+							path="/categories"
+							color="inherit"
+							label="Manage Categories"
+						/>
+					)}
 					<Box sx={{ flexGrow: 1 }} />
 					<Button
 						onClick={getAuthBtnAction(refetch)(data)}

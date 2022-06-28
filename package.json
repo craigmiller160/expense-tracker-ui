@@ -46,6 +46,7 @@
     "react-router-dom": "^6.3.0",
     "solid-app-router": "^0.4.1",
     "solid-js": "^1.4.4",
-    "ts-pattern": "^4.0.3"
+    "ts-pattern": "^4.0.3",
+    "use-immer": "^0.7.0"
   }
 }

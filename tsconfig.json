@@ -18,12 +18,11 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "jsxImportSource": "solid-js",
     "declaration": false,
     "module": "es2022"
   },
   "include": [
-    "old-src/**/*"
+    "src/**/*"
   ],
   "exclude": [
     "node_modules",

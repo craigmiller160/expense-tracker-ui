@@ -34,6 +34,7 @@
     "@emotion/styled": "^11.9.3",
     "@mui/material": "^5.8.6",
     "fp-ts": "^2.12.1",
+    "immer": "^9.0.15",
     "nanoid": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

@@ -28,16 +28,17 @@ const getAuthButtonText = deriveFromAuthUser({
 	succeeded: 'Logout'
 });
 
-const getAuthButtonAction = deriveFromAuthUser<() => Promise<unknown>>({
-	loading: () => Promise.resolve(),
-	failed: login,
-	succeeded: logout
-});
+const getAuthButtonAction = (refetch: () => Promise<unknown>) =>
+	deriveFromAuthUser<() => Promise<unknown>>({
+		loading: () => Promise.resolve(),
+		failed: login,
+		succeeded: () => logout().then(refetch)
+	});
 
 export const useDeriveNavbarFromAuthUser = (): DerivedValues => {
-	const { status } = useGetAuthUser();
+	const { status, refetch } = useGetAuthUser();
 	const authButtonText = getAuthButtonText(status);
-	const authButtonAction = getAuthButtonAction(status);
+	const authButtonAction = getAuthButtonAction(refetch)(status);
 
 	return {
 		authButtonText,

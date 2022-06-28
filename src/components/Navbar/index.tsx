@@ -1,6 +1,8 @@
-import { AppBar, Box, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
+import { useDeriveNavbarFromAuthUser } from '../../../old-src/components/Navbar/useDeriveNavbarFromAuthUser';
 
 export const Navbar = () => {
+	const { authButtonText, authButtonAction } = useDeriveNavbarFromAuthUser();
 	return (
 		<Box sx={{ flexGrow: 1 }}>
 			<AppBar position="static">
@@ -11,6 +13,9 @@ export const Navbar = () => {
 				</Toolbar>
 				<Box sx={{ marginRight: '0.5rem' }} />
 				<Box sx={{ flexGrow: 1 }} />
+				<Button color="inherit" onClick={authButtonAction}>
+					{authButtonText}
+				</Button>
 			</AppBar>
 		</Box>
 	);

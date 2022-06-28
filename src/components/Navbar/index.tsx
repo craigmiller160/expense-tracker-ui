@@ -48,9 +48,6 @@ const getAuthBtnAction = (refetch: RefetchType) =>
 
 export const Navbar = () => {
 	const [data, { refetch }] = authUserResource;
-	createEffect(() => console.log('Checked', hasCheckedAuthStatus()));
-	createEffect(() => console.log('IsAuth', isAuthenticated()));
-	createEffect(() => console.log('Raw', data.loading, data.error, data()));
 	return (
 		<Box sx={{ flexGrow: 1 }}>
 			<AppBar position="static">

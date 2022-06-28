@@ -8,7 +8,6 @@ export const authUserResource: DefaultResourceReturn<AuthUser> =
 
 export const hasCheckedAuthStatus = (): boolean => {
 	const [data] = authUserResource;
-	console.log('InnerCheck', data.loading, data(), data.error);
 	return !data.loading && (!!data() || !!data.error);
 };
 

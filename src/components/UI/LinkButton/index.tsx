@@ -1,12 +1,13 @@
 import Button from '@suid/material/Button';
 import { useNavigate } from 'solid-app-router';
 import { EventHandler } from '../../../types/solid';
+import { JSX } from 'solid-js';
 
 type OnClickHandler = EventHandler<HTMLButtonElement, MouseEvent>;
 
 interface Props {
 	readonly path: string;
-	readonly label: string;
+	readonly label: string | JSX.Element;
 	readonly color?:
 		| 'inherit'
 		| 'primary'

@@ -50,9 +50,15 @@ export const Navbar = () => {
 		<Box sx={{ flexGrow: 1 }}>
 			<AppBar position="static">
 				<Toolbar>
-					<Typography variant="h6" component="div">
-						Expense Tracker
-					</Typography>
+					<LinkButton
+						path="/"
+						label={
+							<Typography variant="h6" component="div">
+								Expense Tracker
+							</Typography>
+						}
+						color="inherit"
+					/>
 					<Box sx={{ marginRight: '0.5rem' }} />
 					{isAuthenticated() && (
 						<LinkButton

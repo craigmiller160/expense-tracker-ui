@@ -12,6 +12,8 @@ interface DerivedFromAuthUser<T> {
 interface DerivedValues {
 	readonly authButtonText: string;
 	readonly authButtonAction: () => Promise<unknown>;
+	readonly isAuthorized: boolean;
+	readonly hasCheckedAuthorization: boolean;
 }
 
 const deriveFromAuthUser =
@@ -37,13 +39,16 @@ const getAuthButtonAction = (refetch: () => Promise<unknown>) =>
 
 export const useDeriveNavbarFromAuthUser = (): DerivedValues => {
 	const {
-		result: { status, refetch }
+		result: { status, refetch },
+		extra: { isAuthorized, hasCheckedAuthorization }
 	} = useGetAuthUser();
 	const authButtonText = getAuthButtonText(status);
 	const authButtonAction = getAuthButtonAction(refetch)(status);
 
 	return {
 		authButtonText,
-		authButtonAction
+		authButtonAction,
+		isAuthorized,
+		hasCheckedAuthorization
 	};
 };

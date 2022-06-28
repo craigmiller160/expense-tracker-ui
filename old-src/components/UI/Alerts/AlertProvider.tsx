@@ -24,8 +24,8 @@ export interface AlertContextValue {
 
 export const AlertContext = createContext<AlertContextValue>({
 	alerts: [],
-	addAlert: () => {},
-	removeAlert: () => {}
+	addAlert: () => {}, // eslint-disable-line  @typescript-eslint/no-empty-function
+	removeAlert: () => {} // eslint-disable-line  @typescript-eslint/no-empty-function
 });
 
 export const AlertProvider = (props: PropsWithChildren) => {

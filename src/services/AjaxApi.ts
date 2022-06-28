@@ -6,8 +6,8 @@ import { addAlert } from '../stores/AlertStore';
 import { authUserResource } from '../resources/AuthResources';
 
 const handleUnauthorizedError = debounce(() => {
-	const [, { refetch }] = authUserResource;
-	refetch();
+	const [, { mutate }] = authUserResource;
+	mutate(undefined); // TODO need to validate that this works if unauthorized
 	addAlert('error', 'Unauthorized');
 }, 500);
 

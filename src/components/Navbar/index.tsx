@@ -5,6 +5,7 @@ import Typography from '@suid/material/Typography';
 import Button from '@suid/material/Button';
 import {
 	authUserResource,
+	hasCheckedAuthStatus,
 	isAuthenticated
 } from '../../resources/AuthResources';
 import { AuthUser } from '../../types/auth';
@@ -68,12 +69,14 @@ export const Navbar = () => {
 						/>
 					)}
 					<Box sx={{ flexGrow: 1 }} />
-					<Button
-						onClick={getAuthBtnAction(refetch)(data)}
-						color="inherit"
-					>
-						{getAuthBtnTxt(data)}
-					</Button>
+					{hasCheckedAuthStatus() && (
+						<Button
+							onClick={getAuthBtnAction(refetch)(data)}
+							color="inherit"
+						>
+							{getAuthBtnTxt(data)}
+						</Button>
+					)}
 				</Toolbar>
 			</AppBar>
 		</Box>

@@ -1,11 +1,5 @@
 import { AppBar, Box, Toolbar, Typography } from '@mui/material';
 
-interface DerivedFromAuthUser<T> {
-	readonly loading: T;
-	readonly failed: T;
-	readonly succeeded: T;
-}
-
 export const Navbar = () => {
 	return (
 		<Box sx={{ flexGrow: 1 }}>

@@ -1,4 +1,4 @@
-import { AuthUser } from '../../types/auth';
+import { AuthUser, AuthCodeLogin } from '../../types/auth';
 import { expenseTrackerApi, getData } from './AjaxApi';
 
 // TODO look into suppressing the error
@@ -7,5 +7,25 @@ export const getAuthUser = (): Promise<AuthUser> =>
 		.get<AuthUser>({
 			uri: '/oauth/user',
 			errorMsg: 'Error getting authenticated user'
+		})
+		.then(getData);
+
+export const login = (): Promise<AuthCodeLogin> =>
+	expenseTrackerApi
+		.post<void, AuthCodeLogin>({
+			uri: '/oauth/authcode/login',
+			errorMsg: 'Error getting login URI'
+		})
+		.then(getData)
+		.then((data) => {
+			window.location.assign(data.url);
+			return data;
+		});
+
+export const logout = () =>
+	expenseTrackerApi
+		.get<void>({
+			uri: '/oauth/logout',
+			errorMsg: 'Error logging out'
 		})
 		.then(getData);

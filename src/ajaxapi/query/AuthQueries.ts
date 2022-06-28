@@ -14,7 +14,9 @@ export const useGetAuthUser = (): QueryHookResult<
 	AuthUser,
 	GetAuthUserExtra
 > => {
-	const result = useQuery<AuthUser, Error>(GET_AUTH_USER, getAuthUser);
+	const result = useQuery<AuthUser, Error>(GET_AUTH_USER, getAuthUser, {
+		retry: false
+	});
 	const isAuthorized = () => result.status === 'success';
 	const hasCheckedAuthorization = () =>
 		!['idle', 'loading'].includes(result.status);

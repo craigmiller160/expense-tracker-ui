@@ -1,5 +1,5 @@
 import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
-import { useDeriveNavbarFromAuthUser } from '../../../old-src/components/Navbar/useDeriveNavbarFromAuthUser';
+import { useDeriveNavbarFromAuthUser } from './useDeriveNavbarFromAuthUser';
 
 export const Navbar = () => {
 	const { authButtonText, authButtonAction } = useDeriveNavbarFromAuthUser();

@@ -48,8 +48,10 @@ const getAuthBtnAction = (refetch: RefetchType) =>
 
 export const Navbar = () => {
 	const [data, { refetch }] = authUserResource;
+	createEffect(() => console.log('HasChecked', data.loading, data.error, data()));
 	return (
 		<Box sx={{ flexGrow: 1 }}>
+			<h1>Loading: {data.loading ? 'Yes' : 'No'}</h1>
 			<AppBar position="static">
 				<Toolbar>
 					<LinkButton

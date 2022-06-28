@@ -1,7 +1,7 @@
 import { match } from 'ts-pattern';
-import { useGetAuthUser } from '../../api/query/AuthQueries';
+import { useGetAuthUser } from '../../ajaxapi/query/AuthQueries';
 import { QueryStatus } from 'react-query';
-import { login, logout } from '../../api/service/AuthService';
+import { login, logout } from '../../ajaxapi/service/AuthService';
 
 interface DerivedFromAuthUser<T> {
 	readonly loading: T;

@@ -1,0 +1,1 @@
+export const Categories = () => <h1>Manage Categories</h1>

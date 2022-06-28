@@ -32,6 +32,9 @@
   },
   "dependencies": {
     "@craigmiller160/ajax-api": "file:.yalc/@craigmiller160/ajax-api",
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
+    "@mui/material": "^5.8.6",
     "@suid/icons-material": "^0.2.4",
     "@suid/material": "^0.4.2",
     "fp-ts": "^2.12.1",

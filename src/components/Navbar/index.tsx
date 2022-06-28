@@ -10,12 +10,12 @@ export const Navbar = () => {
 					<Typography variant="h6" component="div">
 						Expense Tracker
 					</Typography>
+					<Box sx={{ marginRight: '0.5rem' }} />
+					<Box sx={{ flexGrow: 1 }} />
+					<Button color="inherit" onClick={authButtonAction}>
+						{authButtonText}
+					</Button>
 				</Toolbar>
-				<Box sx={{ marginRight: '0.5rem' }} />
-				<Box sx={{ flexGrow: 1 }} />
-				<Button color="inherit" onClick={authButtonAction}>
-					{authButtonText}
-				</Button>
 			</AppBar>
 		</Box>
 	);

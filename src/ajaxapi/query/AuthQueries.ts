@@ -6,8 +6,8 @@ import { AuthUser } from '../../types/auth';
 export const GET_AUTH_USER = 'AuthQueries_getAuthUser';
 
 export interface GetAuthUserExtra {
-	readonly isAuthorized: () => boolean;
-	readonly hasCheckedAuthorization: () => boolean;
+	readonly isAuthorized: boolean;
+	readonly hasCheckedAuthorization: boolean;
 }
 
 export const useGetAuthUser = (): QueryHookResult<
@@ -17,14 +17,13 @@ export const useGetAuthUser = (): QueryHookResult<
 	const result = useQuery<AuthUser, Error>(GET_AUTH_USER, getAuthUser, {
 		retry: false
 	});
-	const isAuthorized = () => result.status === 'success';
-	const hasCheckedAuthorization = () =>
-		!['idle', 'loading'].includes(result.status);
 	return {
 		result,
 		extra: {
-			isAuthorized,
-			hasCheckedAuthorization
+			isAuthorized: result.status === 'success',
+			hasCheckedAuthorization: !['idle', 'loading'].includes(
+				result.status
+			)
 		}
 	};
 };

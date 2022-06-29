@@ -22,8 +22,6 @@ import {
 	useNewConfirmDialog
 } from '../../UI/ConfirmDialog/ConfirmDialogProvider';
 
-// TODO add delete warning
-
 const COLUMNS = ['Name', 'Actions'];
 
 const dataToRows = (

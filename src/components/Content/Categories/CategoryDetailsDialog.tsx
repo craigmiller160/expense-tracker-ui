@@ -32,7 +32,7 @@ interface Props {
 	readonly selectedCategory: OptionT<CategoryDetails>;
 	readonly onClose: () => void;
 	readonly saveCategory: (category: CategoryDetails) => void;
-	readonly deleteCategory: (category: CategoryDetails) => void;
+	readonly deleteCategory: (id?: string) => void;
 }
 
 interface FormData {
@@ -71,6 +71,34 @@ const createResetForm =
 		reset(data);
 	};
 
+const getCategoryId = (
+	selectedCategory: OptionT<CategoryDetails>
+): string | undefined =>
+	Option.fold<CategoryDetails, string | undefined>(
+		() => undefined,
+		(cat) => cat.id
+	)(selectedCategory);
+
+const prepareOutput = (
+	selectedCategory: OptionT<CategoryDetails>,
+	formData: FormData
+): CategoryDetails =>
+	pipe(
+		selectedCategory,
+		Option.map(
+			(cat): CategoryDetails => ({
+				...cat,
+				name: formData.name
+			})
+		),
+		Option.getOrElse(
+			(): CategoryDetails => ({
+				isNew: false,
+				name: ''
+			})
+		)
+	);
+
 export const CategoryDetailsDialog = (props: Props) => {
 	const title = getTitle(props.selectedCategory);
 	const { handleSubmit, control, reset, formState } = useForm<FormData>();
@@ -81,7 +109,8 @@ export const CategoryDetailsDialog = (props: Props) => {
 		resetForm(props.selectedCategory);
 	}, [hasCategory, resetForm]);
 
-	const onSubmit = (values: FormData) => console.log('Data', values);
+	const onSubmit = (values: FormData) =>
+		props.saveCategory(prepareOutput(props.selectedCategory, values));
 
 	return (
 		<Dialog
@@ -117,12 +146,24 @@ export const CategoryDetailsDialog = (props: Props) => {
 						<Button
 							variant="contained"
 							color="success"
-							disabled={!formState.isDirty && !isNewCategory(props.selectedCategory)}
+							type="submit"
+							disabled={
+								!formState.isDirty &&
+								!isNewCategory(props.selectedCategory)
+							}
 						>
 							Save
 						</Button>
 						{!isNewCategory(props.selectedCategory) && (
-							<Button variant="contained" color="error">
+							<Button
+								variant="contained"
+								color="error"
+								onClick={() =>
+									props.deleteCategory(
+										getCategoryId(props.selectedCategory)
+									)
+								}
+							>
 								Delete
 							</Button>
 						)}

@@ -1,5 +1,4 @@
 import {
-	MutateFunction,
 	UseMutateFunction,
 	useMutation,
 	useQuery,

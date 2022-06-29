@@ -14,7 +14,6 @@ import { CategoryDetailsDialog } from './CategoryDetailsDialog';
 import { Updater, useImmer } from 'use-immer';
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
 import * as Option from 'fp-ts/es6/Option';
-import { MutateFunction } from 'react-query';
 import { match } from 'ts-pattern';
 
 const COLUMNS = ['Name', 'Actions'];
@@ -96,10 +95,8 @@ export const Categories = () => {
 			})
 		);
 
-	const saveCategory = createSaveCategory(
-		createMutate,
-		updateMutate,
-		() => updateSelectedCategoryDetails(Option.none)
+	const saveCategory = createSaveCategory(createMutate, updateMutate, () =>
+		updateSelectedCategoryDetails(Option.none)
 	);
 
 	return (

@@ -18,6 +18,8 @@ import { OptionT } from '@craigmiller160/ts-functions/es/types';
 import * as Option from 'fp-ts/es6/Option';
 import { match } from 'ts-pattern';
 
+// TODO add delete warning
+
 const COLUMNS = ['Name', 'Actions'];
 
 const dataToRows = (

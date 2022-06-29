@@ -1,16 +1,5 @@
-import {
-	AppBar,
-	Box,
-	Button,
-	Dialog,
-	IconButton,
-	Slide,
-	Toolbar,
-	Typography
-} from '@mui/material';
-import { forwardRef, ReactElement, Ref, useCallback, useEffect } from 'react';
-import { TransitionProps } from '@mui/material/transitions';
-import CloseIcon from '@mui/icons-material/Close';
+import { Button, Typography } from '@mui/material';
+import { useCallback, useEffect } from 'react';
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
 import * as Option from 'fp-ts/es6/Option';
 import { CategoryDetails } from '../../../types/categories';
@@ -18,15 +7,7 @@ import { pipe } from 'fp-ts/es6/function';
 import './CategoryDetailsDialog.scss';
 import { FormState, useForm, UseFormReset } from 'react-hook-form';
 import { TextField } from '@craigmiller160/react-hook-form-material-ui';
-
-const Transition = forwardRef(function Transition(
-	props: TransitionProps & {
-		children: ReactElement;
-	},
-	ref: Ref<unknown>
-) {
-	return <Slide direction="left" ref={ref} {...props} />;
-});
+import { SideDialog } from '../../UI/SideDialog';
 
 interface Props {
 	readonly selectedCategory: OptionT<CategoryDetails>;
@@ -116,27 +97,8 @@ export const CategoryDetailsDialog = (props: Props) => {
 		props.saveCategory(prepareOutput(props.selectedCategory, values));
 
 	return (
-		<Dialog
-			fullScreen
-			onClose={props.onClose}
-			open={hasCategory}
-			TransitionComponent={Transition}
-			className="CategoryDetailsDialog"
-		>
-			<AppBar sx={{ position: 'relative' }}>
-				<Toolbar>
-					<Typography variant="h6">{title}</Typography>
-					<Box sx={{ flexGrow: 1 }} />
-					<IconButton
-						edge="start"
-						color="inherit"
-						onClick={props.onClose}
-					>
-						<CloseIcon />
-					</IconButton>
-				</Toolbar>
-			</AppBar>
-			<div className="Body">
+		<SideDialog title={title} open={hasCategory} onClose={props.onClose}>
+			<div className="CategoryDetailsDialog">
 				<Typography variant="h6">Category Information</Typography>
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<TextField
@@ -178,6 +140,6 @@ export const CategoryDetailsDialog = (props: Props) => {
 					</div>
 				</form>
 			</div>
-		</Dialog>
+		</SideDialog>
 	);
 };

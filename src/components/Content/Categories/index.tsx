@@ -2,7 +2,7 @@ import { Button, TableCell, TableRow, Typography } from '@mui/material';
 import './Categories.scss';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 import { Table } from '../../UI/Table';
-import { CategoryResponse } from '../../../types/categories';
+import { CategoryDetails, CategoryResponse } from '../../../types/categories';
 import { ReactNode } from 'react';
 import { CategoryDetailsDialog } from './CategoryDetailsDialog';
 import { Updater, useImmer } from 'use-immer';
@@ -12,7 +12,7 @@ import * as Option from 'fp-ts/es6/Option';
 const COLUMNS = ['Name', 'Actions'];
 
 const dataToRows = (
-	updateSelectCategoryDetails: (idOption: OptionT<string>) => void,
+	updateSelectCategoryDetails: (idOption: OptionT<CategoryDetails>) => void,
 	data?: ReadonlyArray<CategoryResponse>
 ): ReadonlyArray<ReactNode> =>
 	(data ?? []).map((category) => (
@@ -23,7 +23,7 @@ const dataToRows = (
 					variant="contained"
 					color="info"
 					onClick={() =>
-						updateSelectCategoryDetails(Option.some(category.id))
+						updateSelectCategoryDetails(Option.some(category))
 					}
 				>
 					Details
@@ -33,13 +33,13 @@ const dataToRows = (
 	));
 
 interface State {
-	readonly selectedCategoryDetails: OptionT<string>;
+	readonly selectedCategoryDetails: OptionT<CategoryDetails>;
 }
 
 const createUpdateSelectedCategoryDetails =
-	(setState: Updater<State>) => (idOption: OptionT<string>) =>
+	(setState: Updater<State>) => (category: OptionT<CategoryDetails>) =>
 		setState((draft) => {
-			draft.selectedCategoryDetails = idOption;
+			draft.selectedCategoryDetails = category;
 		});
 
 export const Categories = () => {
@@ -67,7 +67,7 @@ export const Categories = () => {
 				</Table>
 			</div>
 			<CategoryDetailsDialog
-				open={Option.isSome(state.selectedCategoryDetails)}
+				selectedCategory={state.selectedCategoryDetails}
 				onClose={() => updateSelectedCategoryDetails(Option.none)}
 			/>
 		</div>

@@ -1,4 +1,4 @@
-import { CategoryResponse } from '../../types/categories';
+import { CategoryRequest, CategoryResponse } from '../../types/categories';
 import { expenseTrackerApi, getData } from './AjaxApi';
 
 export const getAllCategories = (): Promise<ReadonlyArray<CategoryResponse>> =>
@@ -15,3 +15,12 @@ export const getAllCategories = (): Promise<ReadonlyArray<CategoryResponse>> =>
 				})
 			)
 		);
+
+export const updateCategory = (id: string, name: string): Promise<unknown> =>
+	expenseTrackerApi.put<CategoryRequest, unknown>({
+		uri: `/categories/${id}`,
+		errorMsg: `Error updating category ${id}`,
+		body: {
+			name
+		}
+	});

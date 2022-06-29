@@ -1,5 +1,6 @@
 import { AuthUser, AuthCodeLogin } from '../../types/auth';
 import { expenseTrackerApi, getData } from './AjaxApi';
+import { NoAlertError } from '../../error/NoAlertError';
 
 // TODO look into suppressing the error
 export const getAuthUser = (): Promise<AuthUser> =>
@@ -11,7 +12,7 @@ export const getAuthUser = (): Promise<AuthUser> =>
 		.then(getData)
 		.catch((ex) =>
 			Promise.reject(
-				new Error('Error getting authenticated user', {
+				new NoAlertError('Error getting authenticated user', {
 					cause: ex
 				})
 			)

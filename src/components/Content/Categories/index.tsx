@@ -86,6 +86,8 @@ export const Categories = () => {
 			<CategoryDetailsDialog
 				selectedCategory={state.selectedCategoryDetails}
 				onClose={() => updateSelectedCategoryDetails(Option.none)}
+				saveCategory={() => {}}
+				deleteCategory={() => {}}
 			/>
 		</div>
 	);

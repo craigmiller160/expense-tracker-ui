@@ -1,6 +1,7 @@
 import {
 	AppBar,
-	Box, Button,
+	Box,
+	Button,
 	Dialog,
 	IconButton,
 	Slide,
@@ -30,6 +31,8 @@ const Transition = forwardRef(function Transition(
 interface Props {
 	readonly selectedCategory: OptionT<CategoryDetails>;
 	readonly onClose: () => void;
+	readonly saveCategory: (category: CategoryDetails) => void;
+	readonly deleteCategory: (category: CategoryDetails) => void;
 }
 
 interface FormData {
@@ -44,6 +47,12 @@ const getTitle = (selectedCategory: OptionT<CategoryDetails>): string =>
 		),
 		Option.getOrElse(() => '')
 	);
+
+const isNewCategory = (selectedCategory: OptionT<CategoryDetails>): boolean =>
+	Option.fold<CategoryDetails, boolean>(
+		() => false,
+		(cat) => cat.isNew
+	)(selectedCategory);
 
 const createResetForm =
 	(reset: UseFormReset<FormData>) =>
@@ -64,7 +73,7 @@ const createResetForm =
 
 export const CategoryDetailsDialog = (props: Props) => {
 	const title = getTitle(props.selectedCategory);
-	const { handleSubmit, control, reset } = useForm<FormData>();
+	const { handleSubmit, control, reset, formState } = useForm<FormData>();
 	const hasCategory = Option.isSome(props.selectedCategory);
 	const resetForm = useCallback(createResetForm(reset), [reset]);
 
@@ -105,8 +114,18 @@ export const CategoryDetailsDialog = (props: Props) => {
 						label="Category Name"
 					/>
 					<div className="Actions">
-						<Button variant="contained" color="success">Save</Button>
-						<Button variant="contained" color="error">Delete</Button>
+						<Button
+							variant="contained"
+							color="success"
+							disabled={!formState.isDirty && !isNewCategory(props.selectedCategory)}
+						>
+							Save
+						</Button>
+						{!isNewCategory(props.selectedCategory) && (
+							<Button variant="contained" color="error">
+								Delete
+							</Button>
+						)}
 					</div>
 				</form>
 			</div>

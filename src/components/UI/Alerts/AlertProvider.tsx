@@ -1,6 +1,6 @@
 import { createContext, PropsWithChildren } from 'react';
 import { AlertColor } from '@mui/material';
-import { useImmer } from 'use-immer';
+import { Updater, useImmer } from 'use-immer';
 import { nanoid } from 'nanoid';
 
 export interface AlertData {
@@ -28,11 +28,9 @@ export const AlertContext = createContext<AlertContextValue>({
 	removeAlert: () => {} // eslint-disable-line  @typescript-eslint/no-empty-function
 });
 
-export const AlertProvider = (props: PropsWithChildren) => {
-	const [state, setState] = useImmer<State>({
-		alerts: []
-	});
-	const addAlert: AddAlert = (severity, message) =>
+const createAddAlert =
+	(setState: Updater<State>): AddAlert =>
+	(severity, message) =>
 		setState((draft) => {
 			draft.alerts.push({
 				id: nanoid(),
@@ -40,14 +38,22 @@ export const AlertProvider = (props: PropsWithChildren) => {
 				message
 			});
 		});
-	const removeAlert: RemoveAlert = (id) =>
+
+const createRemoveAlert =
+	(setState: Updater<State>): RemoveAlert =>
+	(id) =>
 		setState((draft) => {
 			draft.alerts = draft.alerts.filter((alert) => alert.id !== id);
 		});
+
+export const AlertProvider = (props: PropsWithChildren) => {
+	const [state, setState] = useImmer<State>({
+		alerts: []
+	});
 	const value: AlertContextValue = {
 		alerts: state.alerts,
-		addAlert,
-		removeAlert
+		addAlert: createAddAlert(setState),
+		removeAlert: createRemoveAlert(setState)
 	};
 	return (
 		<AlertContext.Provider value={value}>

@@ -6,15 +6,33 @@ import { NoAlertError } from '../../error/NoAlertError';
 import { constVoid } from 'fp-ts/es6/function';
 import { QueryErrorSupportProvider } from './QueryErrorSupportProvider';
 import { QueryErrorSupportHandler } from './QueryErrorSupportHandler';
+import { AxiosError } from 'axios';
+import { isAxiosError } from '@craigmiller160/ajax-api';
 
 const concatenateMessage = (error: Error): string => {
-	let message: string = error.message;
-	let baseError = error;
-	while (baseError.cause !== undefined) {
+	const messages: string[] = [];
+	let baseError: Error | undefined = error;
+	while (baseError !== undefined) {
+		messages.push(baseError.message);
 		baseError = baseError.cause;
-		message = `${message}; ${baseError.message}`;
 	}
-	return message;
+	return messages.join('; ');
+};
+
+const findResponseStatus = (error: Error): number => {
+	let baseError: Error | undefined = error;
+	while (baseError !== undefined) {
+		if (isAxiosError(baseError)) {
+			return baseError.response?.status ?? -1;
+		}
+		baseError = baseError.cause;
+	}
+	return -1;
+};
+
+const handleErrorType = (alertContext: AlertContextValue, error: Error) => {
+	const status = findResponseStatus(error);
+	alertContext.addAlert('error', concatenateMessage(error));
 };
 
 // TODO need to handle 401 errors
@@ -26,11 +44,7 @@ const createErrorHandler =
 					P.not(P.instanceOf(NoAlertError)),
 					P.instanceOf(Error)
 				),
-				(e) =>
-					alertContext.addAlert(
-						'error',
-						concatenateMessage(e as Error)
-					)
+				(e) => handleErrorType(alertContext, e as Error)
 			)
 			.with(P.instanceOf(NoAlertError), () => constVoid())
 			.otherwise(() =>

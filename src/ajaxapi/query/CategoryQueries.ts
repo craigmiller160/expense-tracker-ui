@@ -7,5 +7,7 @@ export const GET_ALL_CATEGORIES = 'CategoryQueries_GetAllCategories';
 export const useGetAllCategories = () =>
 	useQuery<ReadonlyArray<CategoryResponse>, Error>(
 		GET_ALL_CATEGORIES,
-		getAllCategories
+		getAllCategories, {
+			retry: false // TODO delete this
+		}
 	);

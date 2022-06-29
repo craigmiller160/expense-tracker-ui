@@ -2,12 +2,20 @@ import {
 	AppBar,
 	Box,
 	Dialog,
+	DialogActions,
+	DialogContent,
 	IconButton,
 	Slide,
 	Toolbar,
 	Typography
 } from '@mui/material';
-import { forwardRef, PropsWithChildren, ReactElement, Ref } from 'react';
+import {
+	forwardRef,
+	PropsWithChildren,
+	ReactElement,
+	ReactNode,
+	Ref
+} from 'react';
 import { TransitionProps } from '@mui/material/transitions';
 import CloseIcon from '@mui/icons-material/Close';
 import './SideDialog.scss';
@@ -25,6 +33,7 @@ interface Props {
 	readonly title: string;
 	readonly open: boolean;
 	readonly onClose: () => void;
+	readonly actions?: ReactNode;
 }
 
 export const SideDialog = (props: PropsWithChildren<Props>) => {
@@ -49,7 +58,8 @@ export const SideDialog = (props: PropsWithChildren<Props>) => {
 					</IconButton>
 				</Toolbar>
 			</AppBar>
-			<div className="Body">{props.children}</div>
+			<DialogContent className="Body">{props.children}</DialogContent>
+			<DialogActions>{props.actions}</DialogActions>
 		</Dialog>
 	);
 };

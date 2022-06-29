@@ -7,7 +7,6 @@
   form {
     margin: 1rem auto;
     width: 100%;
-    height: 85vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -16,16 +15,16 @@
     .NameField {
       width: 50%;
     }
+  }
+}
 
-    .Actions {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-around;
+.CategoryDetailsActions {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 
-      button {
-        width: 30%;
-      }
-    }
+  button {
+    width: 30%;
   }
 }

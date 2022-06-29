@@ -65,6 +65,12 @@ interface DeleteCategoryParams {
 	readonly id: string;
 }
 
+export type DeleteCategoryMutation = UseMutateFunction<
+	unknown,
+	Error,
+	DeleteCategoryParams
+>;
+
 export const useDeleteCategory = () => {
 	const queryClient = useQueryClient();
 	return useMutation<unknown, Error, DeleteCategoryParams>(

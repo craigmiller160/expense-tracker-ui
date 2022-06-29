@@ -2,8 +2,10 @@ import { Button, TableCell, TableRow, Typography } from '@mui/material';
 import './Categories.scss';
 import {
 	CreateCategoryMutation,
+	DeleteCategoryMutation,
 	UpdateCategoryMutation,
 	useCreateCategory,
+	useDeleteCategory,
 	useGetAllCategories,
 	useUpdateCategory
 } from '../../../ajaxapi/query/CategoryQueries';
@@ -76,6 +78,17 @@ const createSaveCategory =
 		closeDialog();
 	};
 
+const createDeleteCategory =
+	(deleteMutate: DeleteCategoryMutation, closeDialog: () => void) =>
+	(id?: string) => {
+		if (id) {
+			deleteMutate({
+				id
+			});
+		}
+		closeDialog();
+	};
+
 export const Categories = () => {
 	const [state, setState] = useImmer<State>({
 		selectedCategoryDetails: Option.none
@@ -83,6 +96,7 @@ export const Categories = () => {
 	const { data, isLoading } = useGetAllCategories();
 	const { mutate: updateMutate } = useUpdateCategory();
 	const { mutate: createMutate } = useCreateCategory();
+	const { mutate: deleteMutate } = useDeleteCategory();
 	const updateSelectedCategoryDetails =
 		createUpdateSelectedCategoryDetails(setState);
 	const Rows = dataToRows(updateSelectedCategoryDetails, data);
@@ -96,6 +110,9 @@ export const Categories = () => {
 		);
 
 	const saveCategory = createSaveCategory(createMutate, updateMutate, () =>
+		updateSelectedCategoryDetails(Option.none)
+	);
+	const deleteCategory = createDeleteCategory(deleteMutate, () =>
 		updateSelectedCategoryDetails(Option.none)
 	);
 
@@ -122,7 +139,7 @@ export const Categories = () => {
 				selectedCategory={state.selectedCategoryDetails}
 				onClose={() => updateSelectedCategoryDetails(Option.none)}
 				saveCategory={saveCategory}
-				deleteCategory={() => {}}
+				deleteCategory={deleteCategory}
 			/>
 		</div>
 	);

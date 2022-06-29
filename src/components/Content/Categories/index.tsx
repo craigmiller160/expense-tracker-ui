@@ -11,12 +11,13 @@ import {
 } from '../../../ajaxapi/query/CategoryQueries';
 import { Table } from '../../UI/Table';
 import { CategoryDetails, CategoryResponse } from '../../../types/categories';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { CategoryDetailsDialog } from './CategoryDetailsDialog';
 import { Updater, useImmer } from 'use-immer';
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
 import * as Option from 'fp-ts/es6/Option';
 import { match } from 'ts-pattern';
+import { useNewConfirmDialog } from '../../UI/ConfirmDialog/ConfirmDialogProvider';
 
 // TODO add delete warning
 
@@ -117,6 +118,8 @@ export const Categories = () => {
 	const deleteCategory = createDeleteCategory(deleteMutate, () =>
 		updateSelectedCategoryDetails(Option.none)
 	);
+
+	const newConfirmDialog = useNewConfirmDialog();
 
 	return (
 		<div className="Categories">

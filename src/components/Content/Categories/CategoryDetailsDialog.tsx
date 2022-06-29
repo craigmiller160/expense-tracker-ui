@@ -15,6 +15,7 @@ import * as Option from 'fp-ts/es6/Option';
 import { CategoryDetails } from '../../../types/categories';
 import { pipe } from 'fp-ts/es6/function';
 import './CategoryDetailsDialog.scss';
+import { useForm } from 'react-hook-form';
 
 const Transition = forwardRef(function Transition(
 	props: TransitionProps & {
@@ -30,6 +31,10 @@ interface Props {
 	readonly onClose: () => void;
 }
 
+interface FormData {
+	readonly name: string;
+}
+
 const getTitle = (selectedCategory: OptionT<CategoryDetails>): string =>
 	pipe(
 		selectedCategory,
@@ -41,6 +46,10 @@ const getTitle = (selectedCategory: OptionT<CategoryDetails>): string =>
 
 export const CategoryDetailsDialog = (props: Props) => {
 	const title = getTitle(props.selectedCategory);
+	const { handleSubmit } = useForm<FormData>();
+
+	const onSubmit = (values: FormData) => console.log('Data', values);
+
 	return (
 		<Dialog
 			fullScreen
@@ -62,7 +71,11 @@ export const CategoryDetailsDialog = (props: Props) => {
 					</IconButton>
 				</Toolbar>
 			</AppBar>
-			<h1>Hello World</h1>
+			<div className="Body">
+				<form onSubmit={handleSubmit(onSubmit)}>
+
+				</form>
+			</div>
 		</Dialog>
 	);
 };

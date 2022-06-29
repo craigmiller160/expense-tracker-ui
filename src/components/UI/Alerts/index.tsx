@@ -6,7 +6,7 @@ import { AlertContext } from './AlertProvider';
 export const Alerts = () => {
 	const alertContext = useContext(AlertContext);
 	useEffect(() => {
-		alertContext.addAlert('error', 'Hello World');
+		alertContext.addAlert('success', 'Hello World');
 	}, []);
 
 	return (

@@ -1,4 +1,10 @@
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import {
+	MutateFunction,
+	UseMutateFunction,
+	useMutation,
+	useQuery,
+	useQueryClient
+} from 'react-query';
 import {
 	createCategory,
 	deleteCategory,
@@ -20,6 +26,12 @@ interface UpdateCategoryParams {
 	readonly name: string;
 }
 
+export type UpdateCategoryMutation = UseMutateFunction<
+	unknown,
+	Error,
+	UpdateCategoryParams
+>;
+
 export const useUpdateCategory = () => {
 	const queryClient = useQueryClient();
 	return useMutation<unknown, Error, UpdateCategoryParams>(
@@ -34,9 +46,15 @@ interface CreateCategoryParams {
 	readonly name: string;
 }
 
+export type CreateCategoryMutation = UseMutateFunction<
+	CategoryResponse,
+	Error,
+	CreateCategoryParams
+>;
+
 export const useCreateCategory = () => {
 	const queryClient = useQueryClient();
-	return useMutation<unknown, Error, CreateCategoryParams>(
+	return useMutation<CategoryResponse, Error, CreateCategoryParams>(
 		({ name }) => createCategory(name),
 		{
 			onSuccess: () => queryClient.invalidateQueries(GET_ALL_CATEGORIES)

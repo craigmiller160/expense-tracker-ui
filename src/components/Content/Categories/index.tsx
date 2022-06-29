@@ -1,6 +1,12 @@
 import { Button, TableCell, TableRow, Typography } from '@mui/material';
 import './Categories.scss';
-import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
+import {
+	CreateCategoryMutation,
+	UpdateCategoryMutation,
+	useCreateCategory,
+	useGetAllCategories,
+	useUpdateCategory
+} from '../../../ajaxapi/query/CategoryQueries';
 import { Table } from '../../UI/Table';
 import { CategoryDetails, CategoryResponse } from '../../../types/categories';
 import { ReactNode } from 'react';
@@ -8,6 +14,8 @@ import { CategoryDetailsDialog } from './CategoryDetailsDialog';
 import { Updater, useImmer } from 'use-immer';
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
 import * as Option from 'fp-ts/es6/Option';
+import { MutateFunction } from 'react-query';
+import { match } from 'ts-pattern';
 
 const COLUMNS = ['Name', 'Actions'];
 
@@ -47,11 +55,35 @@ const createUpdateSelectedCategoryDetails =
 			draft.selectedCategoryDetails = category;
 		});
 
+const createSaveCategory =
+	(
+		createMutate: CreateCategoryMutation,
+		updateMutate: UpdateCategoryMutation,
+		closeDialog: () => void
+	) =>
+	(category: CategoryDetails) => {
+		match(category)
+			.with({ isNew: true }, (c) =>
+				createMutate({
+					name: c.name
+				})
+			)
+			.otherwise((c) =>
+				updateMutate({
+					id: c.id!, // eslint-disable-line @typescript-eslint/no-non-null-assertion
+					name: c.name
+				})
+			);
+		closeDialog();
+	};
+
 export const Categories = () => {
 	const [state, setState] = useImmer<State>({
 		selectedCategoryDetails: Option.none
 	});
 	const { data, isLoading } = useGetAllCategories();
+	const { mutate: updateMutate } = useUpdateCategory();
+	const { mutate: createMutate } = useCreateCategory();
 	const updateSelectedCategoryDetails =
 		createUpdateSelectedCategoryDetails(setState);
 	const Rows = dataToRows(updateSelectedCategoryDetails, data);
@@ -63,6 +95,12 @@ export const Categories = () => {
 				isNew: true
 			})
 		);
+
+	const saveCategory = createSaveCategory(
+		createMutate,
+		updateMutate,
+		() => updateSelectedCategoryDetails(Option.none)
+	);
 
 	return (
 		<div className="Categories">
@@ -86,7 +124,7 @@ export const Categories = () => {
 			<CategoryDetailsDialog
 				selectedCategory={state.selectedCategoryDetails}
 				onClose={() => updateSelectedCategoryDetails(Option.none)}
-				saveCategory={() => {}}
+				saveCategory={saveCategory}
 				deleteCategory={() => {}}
 			/>
 		</div>

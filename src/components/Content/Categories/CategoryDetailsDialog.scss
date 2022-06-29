@@ -15,12 +15,25 @@
     form {
       margin: 1rem auto;
       width: 100%;
+      height: 85vh;
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: space-between;
 
       .NameField {
         width: 50%;
+      }
+
+      .Actions {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+
+        button {
+          width: 30%;
+        }
       }
     }
   }

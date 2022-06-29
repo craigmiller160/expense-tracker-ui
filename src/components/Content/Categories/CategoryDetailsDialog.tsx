@@ -1,6 +1,6 @@
 import {
 	AppBar,
-	Box,
+	Box, Button,
 	Dialog,
 	IconButton,
 	Slide,
@@ -104,6 +104,10 @@ export const CategoryDetailsDialog = (props: Props) => {
 						control={control}
 						label="Category Name"
 					/>
+					<div className="Actions">
+						<Button variant="contained" color="success">Save</Button>
+						<Button variant="contained" color="error">Delete</Button>
+					</div>
 				</form>
 			</div>
 		</Dialog>

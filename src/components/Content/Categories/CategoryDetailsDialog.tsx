@@ -34,7 +34,7 @@ const getTitle = (selectedCategory: OptionT<CategoryDetails>): string =>
 	pipe(
 		selectedCategory,
 		Option.map((category) =>
-			category.isNew ? 'New Category' : category.name
+			category.isNew ? 'New Category' : `Category: ${category.name}`
 		),
 		Option.getOrElse(() => '')
 	);

@@ -5,13 +5,14 @@ import {
 	TableHead,
 	TableRow,
 	TableCell,
-	TableBody
+	TableBody, LinearProgress
 } from '@mui/material';
 import { PropsWithChildren } from 'react';
 import './Table.scss';
 
 interface Props {
 	readonly columns: ReadonlyArray<string>;
+	readonly loading?: boolean;
 }
 
 export const Table = (props: PropsWithChildren<Props>) => (
@@ -24,7 +25,8 @@ export const Table = (props: PropsWithChildren<Props>) => (
 					))}
 				</TableRow>
 			</TableHead>
-			<TableBody>{props.children}</TableBody>
+			{props.loading && <LinearProgress />}
+			{!props.loading && <TableBody>{props.children}</TableBody>}
 		</MuiTable>
 	</TableContainer>
 );

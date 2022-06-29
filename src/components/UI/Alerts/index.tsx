@@ -1,18 +1,27 @@
-import { AlertColor } from '@mui/material';
+import { Alert, Stack } from '@mui/material';
 import './Alerts.scss';
-
-export interface AlertData {
-	readonly id: string;
-	readonly severity: AlertColor;
-	readonly message: string;
-}
-
-export interface AlertContextValue {
-	readonly alerts: ReadonlyArray<AlertData>;
-	readonly addAlert: (severity: AlertColor, message: string) => void;
-	readonly removeAlerts: (id: string) => void;
-}
+import { useContext, useEffect } from 'react';
+import { AlertContext } from './AlertProvider';
 
 export const Alerts = () => {
-	return <></>;
+	const alertContext = useContext(AlertContext);
+	useEffect(() => {
+		alertContext.addAlert('error', 'Hello World');
+	}, []);
+
+	return (
+		<div className="Alerts">
+			<Stack sx={{ width: '50%' }}>
+				{alertContext.alerts.map((alert) => (
+					<Alert
+						onClose={() => alertContext.removeAlert(alert.id)}
+						key={alert.id}
+						severity={alert.severity}
+					>
+						{alert.message}
+					</Alert>
+				))}
+			</Stack>
+		</div>
+	);
 };

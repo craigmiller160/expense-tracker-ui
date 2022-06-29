@@ -2,7 +2,7 @@ import { AuthUser, AuthCodeLogin } from '../../types/auth';
 import { expenseTrackerApi, getData } from './AjaxApi';
 import { NoAlertError } from '../../error/NoAlertError';
 
-// TODO look into suppressing the error
+// TODO remove the use of my ajax lib
 export const getAuthUser = (): Promise<AuthUser> =>
 	expenseTrackerApi
 		.get<AuthUser>({

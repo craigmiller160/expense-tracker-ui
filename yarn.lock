@@ -291,6 +291,11 @@
   dependencies:
     prettier "^2.5.1"
 
+"@craigmiller160/ts-functions@^1.4.0":
+  version "1.4.0"
+  resolved "https://craigmiller160.ddns.net:30003/repository/npm-group/@craigmiller160/ts-functions/-/ts-functions-1.4.0.tgz#a952c26f9e3c4d000b941cfe6cb653405e28fffc"
+  integrity sha512-GUD+YE54E5FgO2H+0H5kZz+zQXYIKuqa3b2wDqH9+5rXcsz9gE0CY79oBtvvCLt2f+FAtiaeVJkgEe/6Pr5d0w==
+
 "@emotion/babel-plugin@^11.7.1":
   version "11.9.2"
   resolved "https://craigmiller160.ddns.net:30003/repository/npm-group/@emotion/babel-plugin/-/babel-plugin-11.9.2.tgz#723b6d394c89fb2ef782229d92ba95a740576e95"
@@ -474,6 +479,13 @@
     clsx "^1.1.1"
     prop-types "^15.8.1"
     react-is "^17.0.2"
+
+"@mui/icons-material@^5.8.4":
+  version "5.8.4"
+  resolved "https://craigmiller160.ddns.net:30003/repository/npm-group/@mui/icons-material/-/icons-material-5.8.4.tgz#3f2907c9f8f5ce4d754cb8fb4b68b5a1abf4d095"
+  integrity sha512-9Z/vyj2szvEhGWDvb+gG875bOGm8b8rlHBKOD1+nA3PcgC3fV6W1AU6pfOorPeBfH2X4mb9Boe97vHvaSndQvA==
+  dependencies:
+    "@babel/runtime" "^7.17.2"
 
 "@mui/material@^5.8.6":
   version "5.8.6"

@@ -9,9 +9,17 @@
 .Categories {
   @include PageRoot;
 
+  .TitleWrapper {
+    margin-bottom: 2rem;
+  }
+
   .TableWrapper {
     width: 50%;
-    margin-top: 2rem;
+
+    .ActionWrapper {
+      margin-bottom: 0.5rem;
+      @include TableRightAlign;
+    }
 
     th:nth-child(2) {
       @include TableRightAlign;

@@ -14,8 +14,12 @@ const dataToRows = (
 		<TableRow key={category.id}>
 			<TableCell>{category.name}</TableCell>
 			<TableCell>
-				<Button>Edit</Button>
-				<Button>Delete</Button>
+				<Button variant="contained" color="info">
+					Edit
+				</Button>
+				<Button variant="contained" color="error">
+					Delete
+				</Button>
 			</TableCell>
 		</TableRow>
 	));
@@ -25,8 +29,15 @@ export const Categories = () => {
 	const Rows = dataToRows(data);
 	return (
 		<div className="Categories">
-			<Typography variant="h4">Manage Categories</Typography>
+			<div className="TitleWrapper">
+				<Typography variant="h4">Manage Categories</Typography>
+			</div>
 			<div className="TableWrapper">
+				<div className="ActionWrapper">
+					<Button variant="contained" color="secondary">
+						Add
+					</Button>
+				</div>
 				<Table columns={COLUMNS} loading={isLoading}>
 					{Rows}
 				</Table>

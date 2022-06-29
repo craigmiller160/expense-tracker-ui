@@ -8,7 +8,14 @@ export const getAuthUser = (): Promise<AuthUser> =>
 			uri: '/oauth/user',
 			errorMsg: 'Error getting authenticated user'
 		})
-		.then(getData);
+		.then(getData)
+		.catch((ex) =>
+			Promise.reject(
+				new Error('Error getting authenticated user', {
+					cause: ex
+				})
+			)
+		);
 
 export const login = (): Promise<AuthCodeLogin> =>
 	expenseTrackerApi

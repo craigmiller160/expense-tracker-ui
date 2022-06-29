@@ -55,6 +55,7 @@ export const AlertProvider = (props: PropsWithChildren) => {
 		addAlert: createAddAlert(setState),
 		removeAlert: createRemoveAlert(setState)
 	};
+	// TODO add timeout
 	return (
 		<AlertContext.Provider value={value}>
 			{props.children}

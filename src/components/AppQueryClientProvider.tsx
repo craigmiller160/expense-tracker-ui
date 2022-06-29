@@ -24,7 +24,11 @@ const createErrorHandler =
 					P.not(P.instanceOf(NoAlertError)),
 					P.instanceOf(Error)
 				),
-				(e) => alertContext.addAlert('error', concatenateMessage(e))
+				(e) =>
+					alertContext.addAlert(
+						'error',
+						concatenateMessage(e as Error)
+					)
 			)
 			.with(P.instanceOf(NoAlertError), () => constVoid())
 			.otherwise(() =>

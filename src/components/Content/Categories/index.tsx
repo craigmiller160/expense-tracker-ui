@@ -23,7 +23,12 @@ const dataToRows = (
 					variant="contained"
 					color="info"
 					onClick={() =>
-						updateSelectCategoryDetails(Option.some(category))
+						updateSelectCategoryDetails(
+							Option.some({
+								...category,
+								isNew: false
+							})
+						)
 					}
 				>
 					Details
@@ -51,6 +56,14 @@ export const Categories = () => {
 		createUpdateSelectedCategoryDetails(setState);
 	const Rows = dataToRows(updateSelectedCategoryDetails, data);
 
+	const onNewCategory = () =>
+		updateSelectedCategoryDetails(
+			Option.some({
+				name: '',
+				isNew: true
+			})
+		);
+
 	return (
 		<div className="Categories">
 			<div className="TitleWrapper">
@@ -58,7 +71,11 @@ export const Categories = () => {
 			</div>
 			<div className="TableWrapper">
 				<div className="ActionWrapper">
-					<Button variant="contained" color="secondary">
+					<Button
+						variant="contained"
+						color="secondary"
+						onClick={onNewCategory}
+					>
 						Add
 					</Button>
 				</div>

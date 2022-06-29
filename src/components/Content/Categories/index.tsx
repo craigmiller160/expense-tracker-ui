@@ -1,4 +1,4 @@
-import { TableCell, TableRow, Typography } from '@mui/material';
+import { Button, TableCell, TableRow, Typography } from '@mui/material';
 import './Categories.scss';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 import { Table } from '../../UI/Table';
@@ -13,7 +13,10 @@ const dataToRows = (
 	(data ?? []).map((category) => (
 		<TableRow key={category.id}>
 			<TableCell>{category.name}</TableCell>
-			<TableCell>TBD</TableCell>
+			<TableCell>
+				<Button>Edit</Button>
+				<Button>Delete</Button>
+			</TableCell>
 		</TableRow>
 	));
 

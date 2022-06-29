@@ -1,4 +1,4 @@
-import { Component, lazy } from 'solid-js';
+import { ComponentType, lazy } from 'react';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export const namedLazy = (
@@ -7,7 +7,7 @@ export const namedLazy = (
 ) =>
 	lazy(() =>
 		importer().then((res) => ({
-			default: res[name] as Component<any>
+			default: res[name] as ComponentType<any>
 		}))
 	);
 /* eslint-enable @typescript-eslint/no-explicit-any */

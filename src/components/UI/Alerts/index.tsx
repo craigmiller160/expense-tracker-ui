@@ -1,23 +1,23 @@
-import { For } from 'solid-js';
-import Alert from '@suid/material/Alert';
-import Stack from '@suid/material/Stack';
-import { alertStore, removeAlert } from '../../../stores/AlertStore';
+import { Alert, Stack } from '@mui/material';
 import './Alerts.scss';
+import { useContext } from 'react';
+import { AlertContext } from './AlertProvider';
 
 export const Alerts = () => {
+	const alertContext = useContext(AlertContext);
+
 	return (
-		<div class="Alerts">
+		<div className="Alerts">
 			<Stack sx={{ width: '50%' }}>
-				<For each={alertStore.alerts}>
-					{(alert) => (
-						<Alert
-							onClose={() => removeAlert(alert.id)}
-							severity={alert.type}
-						>
-							{alert.message}
-						</Alert>
-					)}
-				</For>
+				{alertContext.alerts.map((alert) => (
+					<Alert
+						onClose={() => alertContext.removeAlert(alert.id)}
+						key={alert.id}
+						severity={alert.severity}
+					>
+						{alert.message}
+					</Alert>
+				))}
 			</Stack>
 		</div>
 	);

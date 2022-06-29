@@ -1,11 +1,12 @@
-import { render } from 'solid-js/web';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
 import { App } from './components/App';
 
-const dispose = render(
-	() => <App />,
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-	document.getElementById('root')!
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+const root = ReactDOM.createRoot(document.querySelector('#root')!);
+
+root.render(
+	<React.StrictMode>
+		<App />
+	</React.StrictMode>
 );
-if (import.meta.hot) {
-	import.meta.hot.dispose(dispose);
-}

@@ -1,0 +1,148 @@
+import { Button, TableCell, TableRow, Typography } from '@mui/material';
+import './Categories.scss';
+import {
+	CreateCategoryMutation,
+	DeleteCategoryMutation,
+	UpdateCategoryMutation,
+	useCreateCategory,
+	useDeleteCategory,
+	useGetAllCategories,
+	useUpdateCategory
+} from '../../../ajaxapi/query/CategoryQueries';
+import { Table } from '../../UI/Table';
+import { CategoryDetails, CategoryResponse } from '../../../types/categories';
+import { ReactNode } from 'react';
+import { CategoryDetailsDialog } from './CategoryDetailsDialog';
+import { Updater, useImmer } from 'use-immer';
+import { OptionT } from '@craigmiller160/ts-functions/es/types';
+import * as Option from 'fp-ts/es6/Option';
+import { match } from 'ts-pattern';
+
+// TODO add delete warning
+
+const COLUMNS = ['Name', 'Actions'];
+
+const dataToRows = (
+	updateSelectCategoryDetails: (idOption: OptionT<CategoryDetails>) => void,
+	data?: ReadonlyArray<CategoryResponse>
+): ReadonlyArray<ReactNode> =>
+	(data ?? []).map((category) => (
+		<TableRow key={category.id}>
+			<TableCell>{category.name}</TableCell>
+			<TableCell>
+				<Button
+					variant="contained"
+					color="info"
+					onClick={() =>
+						updateSelectCategoryDetails(
+							Option.some({
+								...category,
+								isNew: false
+							})
+						)
+					}
+				>
+					Details
+				</Button>
+			</TableCell>
+		</TableRow>
+	));
+
+interface State {
+	readonly selectedCategoryDetails: OptionT<CategoryDetails>;
+}
+
+const createUpdateSelectedCategoryDetails =
+	(setState: Updater<State>) => (category: OptionT<CategoryDetails>) =>
+		setState((draft) => {
+			draft.selectedCategoryDetails = category;
+		});
+
+const createSaveCategory =
+	(
+		createMutate: CreateCategoryMutation,
+		updateMutate: UpdateCategoryMutation,
+		closeDialog: () => void
+	) =>
+	(category: CategoryDetails) => {
+		match(category)
+			.with({ isNew: true }, (c) =>
+				createMutate({
+					name: c.name
+				})
+			)
+			.otherwise((c) =>
+				updateMutate({
+					id: c.id!, // eslint-disable-line @typescript-eslint/no-non-null-assertion
+					name: c.name
+				})
+			);
+		closeDialog();
+	};
+
+const createDeleteCategory =
+	(deleteMutate: DeleteCategoryMutation, closeDialog: () => void) =>
+	(id?: string) => {
+		if (id) {
+			deleteMutate({
+				id
+			});
+		}
+		closeDialog();
+	};
+
+export const Categories = () => {
+	const [state, setState] = useImmer<State>({
+		selectedCategoryDetails: Option.none
+	});
+	const { data, isLoading } = useGetAllCategories();
+	const { mutate: updateMutate } = useUpdateCategory();
+	const { mutate: createMutate } = useCreateCategory();
+	const { mutate: deleteMutate } = useDeleteCategory();
+	const updateSelectedCategoryDetails =
+		createUpdateSelectedCategoryDetails(setState);
+	const Rows = dataToRows(updateSelectedCategoryDetails, data);
+
+	const onNewCategory = () =>
+		updateSelectedCategoryDetails(
+			Option.some({
+				name: '',
+				isNew: true
+			})
+		);
+
+	const saveCategory = createSaveCategory(createMutate, updateMutate, () =>
+		updateSelectedCategoryDetails(Option.none)
+	);
+	const deleteCategory = createDeleteCategory(deleteMutate, () =>
+		updateSelectedCategoryDetails(Option.none)
+	);
+
+	return (
+		<div className="Categories">
+			<div className="TitleWrapper">
+				<Typography variant="h4">Manage Categories</Typography>
+			</div>
+			<div className="TableWrapper">
+				<div className="ActionWrapper">
+					<Button
+						variant="contained"
+						color="secondary"
+						onClick={onNewCategory}
+					>
+						Add
+					</Button>
+				</div>
+				<Table columns={COLUMNS} loading={isLoading}>
+					{Rows}
+				</Table>
+			</div>
+			<CategoryDetailsDialog
+				selectedCategory={state.selectedCategoryDetails}
+				onClose={() => updateSelectedCategoryDetails(Option.none)}
+				saveCategory={saveCategory}
+				deleteCategory={deleteCategory}
+			/>
+		</div>
+	);
+};

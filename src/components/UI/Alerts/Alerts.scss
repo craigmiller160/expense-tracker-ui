@@ -1,11 +1,12 @@
 .Alerts {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  position: absolute;
 
-    .MuiAlert-root {
-        margin: 0.5rem auto;
-        width: 100%;
-    }
+  .MuiAlert-root {
+    margin: 0.5rem auto;
+    width: 100%;
+  }
 }

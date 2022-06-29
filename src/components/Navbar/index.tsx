@@ -1,64 +1,43 @@
-import { Box } from '@suid/material/Box';
-import AppBar from '@suid/material/AppBar';
-import Toolbar from '@suid/material/Toolbar';
-import Typography from '@suid/material/Typography';
-import Button from '@suid/material/Button';
-import { authUserResource } from '../../resources/AuthResources';
-import { AuthUser } from '../../types/auth';
-import { match, P } from 'ts-pattern';
-import { DefaultResource } from '../../resources/types';
-import { login, logout } from '../../services/AuthService';
-import { constVoid } from 'fp-ts/es6/function';
-
-interface DerivedFromAuthUser<T> {
-	readonly loading: T;
-	readonly failed: T;
-	readonly succeeded: T;
-}
-
-const deriveFromAuthUser =
-	<T,>(derived: DerivedFromAuthUser<T>) =>
-	(data: DefaultResource<AuthUser>): T =>
-		match({ loading: data.loading, error: data.error })
-			.with({ loading: true }, () => derived.loading)
-			.with({ loading: false, error: P.nullish }, () => derived.succeeded)
-			.otherwise(() => derived.failed);
-
-const getAuthBtnTxt = deriveFromAuthUser({
-	loading: '',
-	failed: 'Login',
-	succeeded: 'Logout'
-});
-
-const [, { refetch }] = authUserResource;
-type RefetchType = typeof refetch;
-
-const getAuthBtnAction = (refetch: RefetchType) =>
-	deriveFromAuthUser({
-		loading: constVoid,
-		failed: login,
-		succeeded: () => logout().then(() => refetch())
-	});
+import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
+import { useDeriveNavbarFromAuthUser } from './useDeriveNavbarFromAuthUser';
+import { Link } from 'react-router-dom';
 
 export const Navbar = () => {
-	const [data, { refetch }] = authUserResource;
+	const {
+		authButtonText,
+		authButtonAction,
+		isAuthorized,
+		hasCheckedAuthorization
+	} = useDeriveNavbarFromAuthUser();
 	return (
 		<Box sx={{ flexGrow: 1 }}>
 			<AppBar position="static">
 				<Toolbar>
-					<Typography
-						variant="h6"
-						component="div"
-						sx={{ flexGrow: 1 }}
-					>
-						Expense Tracker
-					</Typography>
 					<Button
-						onClick={getAuthBtnAction(refetch)(data)}
+						component={Link}
+						to="/expense-tracker"
 						color="inherit"
 					>
-						{getAuthBtnTxt(data)}
+						<Typography variant="h6" component="div">
+							Expense Tracker
+						</Typography>
 					</Button>
+					<Box sx={{ marginRight: '1rem' }} />
+					{isAuthorized && (
+						<Button
+							component={Link}
+							to="/expense-tracker/categories"
+							color="inherit"
+						>
+							Manage Categories
+						</Button>
+					)}
+					<Box sx={{ flexGrow: 1 }} />
+					{hasCheckedAuthorization && (
+						<Button color="inherit" onClick={authButtonAction}>
+							{authButtonText}
+						</Button>
+					)}
 				</Toolbar>
 			</AppBar>
 		</Box>

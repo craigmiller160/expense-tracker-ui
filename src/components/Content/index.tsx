@@ -1,8 +1,12 @@
-import Container from '@suid/material/Container';
-import { Welcome } from './Welcome';
+import { useAppRoutes } from '../../routes';
+import { Alerts } from '../UI/Alerts';
 
-export const Content = () => (
-	<Container>
-		<Welcome />
-	</Container>
-);
+export const Content = () => {
+	const Routes = useAppRoutes();
+	return (
+		<>
+			<Alerts />
+			{Routes}
+		</>
+	);
+};

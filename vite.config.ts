@@ -1,5 +1,5 @@
 import path from 'path';
-import solidPlugin from 'vite-plugin-solid';
+import react from '@vitejs/plugin-react';
 import fs from 'fs';
 
 export default {
@@ -38,7 +38,7 @@ export default {
 			}
 		}
 	},
-	plugins: [solidPlugin()],
+	plugins: [react()],
 	build: {
 		target: 'esnext',
 		outDir: path.join(process.cwd(), 'build'),

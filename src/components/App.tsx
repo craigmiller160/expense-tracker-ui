@@ -1,13 +1,18 @@
-import CssBaseline from '@suid/material/CssBaseline';
+import { CssBaseline } from '@mui/material';
+import { BrowserRouter } from 'react-router-dom';
 import { Navbar } from './Navbar';
 import { Content } from './Content';
-import { Alerts } from './UI/Alerts';
+import { AlertProvider } from './UI/Alerts/AlertProvider';
+import { AppQueryAndErrorHandlingProvider } from './QueryClient/AppQueryAndErrorHandlingProvider';
 
 export const App = () => (
-	<>
-		<CssBaseline />
-		<Navbar />
-		<Alerts />
-		<Content />
-	</>
+	<AlertProvider>
+		<AppQueryAndErrorHandlingProvider>
+			<BrowserRouter basename="/">
+				<CssBaseline />
+				<Navbar />
+				<Content />
+			</BrowserRouter>
+		</AppQueryAndErrorHandlingProvider>
+	</AlertProvider>
 );

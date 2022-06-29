@@ -1,20 +1,25 @@
+import { AuthUser, AuthCodeLogin } from '../../types/auth';
 import { expenseTrackerApi, getData } from './AjaxApi';
-import { AuthCodeLogin, AuthUser } from '../types/auth';
-import { isAxiosError } from '@craigmiller160/ajax-api';
+import { NoAlertOrStatusHandlingError } from '../../error/NoAlertOrStatusHandlingError';
 
+// TODO remove the use of my ajax lib
 export const getAuthUser = (): Promise<AuthUser> =>
 	expenseTrackerApi
 		.get<AuthUser>({
 			uri: '/oauth/user',
-			errorMsg: 'Error getting authenticated user',
-			suppressError: (ex: Error) => {
-				if (isAxiosError(ex)) {
-					return ex.response?.status === 401;
-				}
-				return false;
-			}
+			errorMsg: 'Error getting authenticated user'
 		})
-		.then(getData);
+		.then(getData)
+		.catch((ex) =>
+			Promise.reject(
+				new NoAlertOrStatusHandlingError(
+					'Error getting authenticated user',
+					{
+						cause: ex
+					}
+				)
+			)
+		);
 
 export const login = (): Promise<AuthCodeLogin> =>
 	expenseTrackerApi

@@ -3,16 +3,16 @@ import { BrowserRouter } from 'react-router-dom';
 import { Navbar } from './Navbar';
 import { Content } from './Content';
 import { AlertProvider } from './UI/Alerts/AlertProvider';
-import { AppQueryClientProvider } from './QueryClient/AppQueryClientProvider';
+import { AppQueryAndErrorHandlingProvider } from './QueryClient/AppQueryAndErrorHandlingProvider';
 
 export const App = () => (
 	<AlertProvider>
-		<AppQueryClientProvider>
+		<AppQueryAndErrorHandlingProvider>
 			<BrowserRouter basename="/">
 				<CssBaseline />
 				<Navbar />
 				<Content />
 			</BrowserRouter>
-		</AppQueryClientProvider>
+		</AppQueryAndErrorHandlingProvider>
 	</AlertProvider>
 );

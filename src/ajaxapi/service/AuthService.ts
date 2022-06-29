@@ -1,6 +1,6 @@
 import { AuthUser, AuthCodeLogin } from '../../types/auth';
 import { expenseTrackerApi, getData } from './AjaxApi';
-import { NoAlertError } from '../../error/NoAlertError';
+import { NoAlertOrStatusHandlingError } from '../../error/NoAlertOrStatusHandlingError';
 
 // TODO remove the use of my ajax lib
 export const getAuthUser = (): Promise<AuthUser> =>
@@ -12,9 +12,12 @@ export const getAuthUser = (): Promise<AuthUser> =>
 		.then(getData)
 		.catch((ex) =>
 			Promise.reject(
-				new NoAlertError('Error getting authenticated user', {
-					cause: ex
-				})
+				new NoAlertOrStatusHandlingError(
+					'Error getting authenticated user',
+					{
+						cause: ex
+					}
+				)
 			)
 		);
 

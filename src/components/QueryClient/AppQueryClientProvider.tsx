@@ -3,11 +3,13 @@ import { AlertContext, AlertContextValue } from '../UI/Alerts/AlertProvider';
 import { QueryCache, QueryClient, QueryClientProvider } from 'react-query';
 import { match, P } from 'ts-pattern';
 import { NoAlertError } from '../../error/NoAlertError';
-import { constVoid } from 'fp-ts/es6/function';
-import { QueryErrorSupportProvider } from './QueryErrorSupportProvider';
-import { QueryErrorSupportHandler } from './QueryErrorSupportHandler';
-import { AxiosError } from 'axios';
+import {
+	QueryErrorSupportContext,
+	QueryErrorSupportValue
+} from './QueryErrorSupportProvider';
 import { isAxiosError } from '@craigmiller160/ajax-api';
+import { NoAlertOrStatusHandlingError } from '../../error/NoAlertOrStatusHandlingError';
+import { constVoid } from 'fp-ts/es6/function';
 
 const concatenateMessage = (error: Error): string => {
 	const messages: string[] = [];
@@ -30,23 +32,49 @@ const findResponseStatus = (error: Error): number => {
 	return -1;
 };
 
-const handleErrorType = (alertContext: AlertContextValue, error: Error) => {
+const handleResponseStatus = (
+	queryErrorSupport: QueryErrorSupportValue,
+	error: Error
+) => {
 	const status = findResponseStatus(error);
+	if (status === 401) {
+		queryErrorSupport.setHasUnauthorizedError(true);
+	}
+};
+
+const handleErrorWithAlert = (
+	alertContext: AlertContextValue,
+	queryErrorSupport: QueryErrorSupportValue,
+	error: Error
+) => {
+	handleResponseStatus(queryErrorSupport, error);
 	alertContext.addAlert('error', concatenateMessage(error));
 };
 
-// TODO need to handle 401 errors
 const createErrorHandler =
-	(alertContext: AlertContextValue) => (error: unknown) => {
+	(
+		alertContext: AlertContextValue,
+		queryErrorSupport: QueryErrorSupportValue
+	) =>
+	(error: unknown) => {
 		match(error)
 			.with(
 				P.intersection(
 					P.not(P.instanceOf(NoAlertError)),
+					P.not(P.instanceOf(NoAlertOrStatusHandlingError)),
 					P.instanceOf(Error)
 				),
-				(e) => handleErrorType(alertContext, e as Error)
+				(e) =>
+					handleErrorWithAlert(
+						alertContext,
+						queryErrorSupport,
+						e as Error
+					)
 			)
-			.with(P.instanceOf(NoAlertError), () => constVoid())
+			.with(P.instanceOf(NoAlertOrStatusHandlingError), () => constVoid())
+			.with(P.instanceOf(NoAlertError), (e) =>
+				handleResponseStatus(queryErrorSupport, e as Error)
+			)
 			.otherwise(() =>
 				alertContext.addAlert('error', `Unknown Error: ${error}`)
 			);
@@ -54,18 +82,15 @@ const createErrorHandler =
 
 export const AppQueryClientProvider = (props: PropsWithChildren) => {
 	const alertContext = useContext(AlertContext);
+	const queryErrorSupport = useContext(QueryErrorSupportContext);
 	const queryClient = new QueryClient({
 		queryCache: new QueryCache({
-			onError: createErrorHandler(alertContext)
+			onError: createErrorHandler(alertContext, queryErrorSupport)
 		})
 	});
 	return (
-		<QueryErrorSupportProvider>
-			<QueryClientProvider client={queryClient}>
-				<QueryErrorSupportHandler>
-					{props.children}
-				</QueryErrorSupportHandler>
-			</QueryClientProvider>
-		</QueryErrorSupportProvider>
+		<QueryClientProvider client={queryClient}>
+			{props.children}
+		</QueryClientProvider>
 	);
 };

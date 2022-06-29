@@ -2,4 +2,9 @@
 
 .Categories {
   @include PageRoot;
+
+  .TableWrapper {
+    width: 50%;
+    margin-top: 2rem;
+  }
 }

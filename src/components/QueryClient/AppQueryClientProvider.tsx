@@ -1,9 +1,11 @@
 import { PropsWithChildren, useContext } from 'react';
-import { AlertContext, AlertContextValue } from './UI/Alerts/AlertProvider';
+import { AlertContext, AlertContextValue } from '../UI/Alerts/AlertProvider';
 import { QueryCache, QueryClient, QueryClientProvider } from 'react-query';
 import { match, P } from 'ts-pattern';
-import { NoAlertError } from '../error/NoAlertError';
+import { NoAlertError } from '../../error/NoAlertError';
 import { constVoid } from 'fp-ts/es6/function';
+import { QueryErrorSupportProvider } from './QueryErrorSupportProvider';
+import { QueryErrorSupportHandler } from './QueryErrorSupportHandler';
 
 const concatenateMessage = (error: Error): string => {
 	let message: string = error.message;
@@ -44,8 +46,12 @@ export const AppQueryClientProvider = (props: PropsWithChildren) => {
 		})
 	});
 	return (
-		<QueryClientProvider client={queryClient}>
-			{props.children}
-		</QueryClientProvider>
+		<QueryErrorSupportProvider>
+			<QueryClientProvider client={queryClient}>
+				<QueryErrorSupportHandler>
+					{props.children}
+				</QueryErrorSupportHandler>
+			</QueryClientProvider>
+		</QueryErrorSupportProvider>
 	);
 };

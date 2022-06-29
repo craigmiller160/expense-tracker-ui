@@ -1,20 +1,18 @@
 import { CssBaseline } from '@mui/material';
 import { BrowserRouter } from 'react-router-dom';
 import { Navbar } from './Navbar';
-import { QueryClient, QueryClientProvider } from 'react-query';
 import { Content } from './Content';
 import { AlertProvider } from './UI/Alerts/AlertProvider';
-
-const queryClient = new QueryClient();
+import { AppQueryClientProvider } from './AppQueryClientProvider';
 
 export const App = () => (
 	<AlertProvider>
-		<QueryClientProvider client={queryClient}>
+		<AppQueryClientProvider>
 			<BrowserRouter basename="/">
 				<CssBaseline />
 				<Navbar />
 				<Content />
 			</BrowserRouter>
-		</QueryClientProvider>
+		</AppQueryClientProvider>
 	</AlertProvider>
 );

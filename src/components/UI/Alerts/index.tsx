@@ -1,13 +1,10 @@
 import { Alert, Stack } from '@mui/material';
 import './Alerts.scss';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { AlertContext } from './AlertProvider';
 
 export const Alerts = () => {
 	const alertContext = useContext(AlertContext);
-	useEffect(() => {
-		alertContext.addAlert('success', 'Hello World');
-	}, []);
 
 	return (
 		<div className="Alerts">

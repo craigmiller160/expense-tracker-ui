@@ -2,7 +2,7 @@ import { useImmer } from 'use-immer';
 import { createContext, PropsWithChildren, useContext } from 'react';
 
 type OnConfirmAction = () => void;
-type NewConfirmDialog = (
+export type NewConfirmDialog = (
 	title: string,
 	message: string,
 	onConfirmAction: OnConfirmAction

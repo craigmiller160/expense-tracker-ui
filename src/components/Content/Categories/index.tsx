@@ -11,13 +11,16 @@ import {
 } from '../../../ajaxapi/query/CategoryQueries';
 import { Table } from '../../UI/Table';
 import { CategoryDetails, CategoryResponse } from '../../../types/categories';
-import { ReactNode, useEffect } from 'react';
+import { ReactNode } from 'react';
 import { CategoryDetailsDialog } from './CategoryDetailsDialog';
 import { Updater, useImmer } from 'use-immer';
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
 import * as Option from 'fp-ts/es6/Option';
 import { match } from 'ts-pattern';
-import { useNewConfirmDialog } from '../../UI/ConfirmDialog/ConfirmDialogProvider';
+import {
+	NewConfirmDialog,
+	useNewConfirmDialog
+} from '../../UI/ConfirmDialog/ConfirmDialogProvider';
 
 // TODO add delete warning
 
@@ -82,14 +85,27 @@ const createSaveCategory =
 	};
 
 const createDeleteCategory =
-	(deleteMutate: DeleteCategoryMutation, closeDialog: () => void) =>
+	(
+		deleteMutate: DeleteCategoryMutation,
+		closeDialog: () => void,
+		newConfirmDialog: NewConfirmDialog
+	) =>
 	(id?: string) => {
-		if (id) {
-			deleteMutate({
-				id
-			});
-		}
-		closeDialog();
+		const doDelete = () => {
+			if (id) {
+				deleteMutate({
+					id
+				});
+			}
+		};
+		newConfirmDialog(
+			'Confirm Deletion',
+			'Are you sure you want to delete this Category?',
+			() => {
+				doDelete();
+				closeDialog();
+			}
+		);
 	};
 
 export const Categories = () => {
@@ -100,6 +116,8 @@ export const Categories = () => {
 	const { mutate: updateMutate } = useUpdateCategory();
 	const { mutate: createMutate } = useCreateCategory();
 	const { mutate: deleteMutate } = useDeleteCategory();
+	const newConfirmDialog = useNewConfirmDialog();
+
 	const updateSelectedCategoryDetails =
 		createUpdateSelectedCategoryDetails(setState);
 	const Rows = dataToRows(updateSelectedCategoryDetails, data);
@@ -115,11 +133,11 @@ export const Categories = () => {
 	const saveCategory = createSaveCategory(createMutate, updateMutate, () =>
 		updateSelectedCategoryDetails(Option.none)
 	);
-	const deleteCategory = createDeleteCategory(deleteMutate, () =>
-		updateSelectedCategoryDetails(Option.none)
+	const deleteCategory = createDeleteCategory(
+		deleteMutate,
+		() => updateSelectedCategoryDetails(Option.none),
+		newConfirmDialog
 	);
-
-	const newConfirmDialog = useNewConfirmDialog();
 
 	return (
 		<div className="Categories">

@@ -4,14 +4,17 @@ import {
 	Table as MuiTable,
 	TableHead,
 	TableRow,
-	TableCell
+	TableCell,
+	TableBody
 } from '@mui/material';
+import { PropsWithChildren } from 'react';
+import './Table.scss';
 
 interface Props {
 	readonly columns: ReadonlyArray<string>;
 }
 
-export const Table = (props: Props) => (
+export const Table = (props: PropsWithChildren<Props>) => (
 	<TableContainer component={Paper}>
 		<MuiTable>
 			<TableHead>
@@ -21,6 +24,7 @@ export const Table = (props: Props) => (
 					))}
 				</TableRow>
 			</TableHead>
+			<TableBody>{props.children}</TableBody>
 		</MuiTable>
 	</TableContainer>
 );

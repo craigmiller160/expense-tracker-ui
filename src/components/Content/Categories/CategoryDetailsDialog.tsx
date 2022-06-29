@@ -14,6 +14,7 @@ import { OptionT } from '@craigmiller160/ts-functions/es/types';
 import * as Option from 'fp-ts/es6/Option';
 import { CategoryDetails } from '../../../types/categories';
 import { pipe } from 'fp-ts/es6/function';
+import './CategoryDetailsDialog.scss';
 
 const Transition = forwardRef(function Transition(
 	props: TransitionProps & {
@@ -46,8 +47,9 @@ export const CategoryDetailsDialog = (props: Props) => {
 			onClose={props.onClose}
 			open={Option.isSome(props.selectedCategory)}
 			TransitionComponent={Transition}
+			className="CategoryDetailsDialog"
 		>
-			<AppBar>
+			<AppBar sx={{ position: 'relative' }}>
 				<Toolbar>
 					<Typography variant="h6">{title}</Typography>
 					<Box sx={{ flexGrow: 1 }} />

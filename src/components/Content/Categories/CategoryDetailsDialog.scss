@@ -1,0 +1,8 @@
+.CategoryDetailsDialog {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  .MuiDialog-container {
+    width: 30%;
+  }
+}

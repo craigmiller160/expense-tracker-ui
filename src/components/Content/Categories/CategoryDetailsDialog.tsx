@@ -7,7 +7,7 @@ import {
 	Toolbar,
 	Typography
 } from '@mui/material';
-import { forwardRef, ReactElement, Ref } from 'react';
+import { forwardRef, ReactElement, Ref, useCallback, useEffect } from 'react';
 import { TransitionProps } from '@mui/material/transitions';
 import CloseIcon from '@mui/icons-material/Close';
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
@@ -15,7 +15,8 @@ import * as Option from 'fp-ts/es6/Option';
 import { CategoryDetails } from '../../../types/categories';
 import { pipe } from 'fp-ts/es6/function';
 import './CategoryDetailsDialog.scss';
-import { useForm } from 'react-hook-form';
+import { useForm, UseFormReset } from 'react-hook-form';
+import { TextField } from '@craigmiller160/react-hook-form-material-ui';
 
 const Transition = forwardRef(function Transition(
 	props: TransitionProps & {
@@ -44,9 +45,32 @@ const getTitle = (selectedCategory: OptionT<CategoryDetails>): string =>
 		Option.getOrElse(() => '')
 	);
 
+const createResetForm =
+	(reset: UseFormReset<FormData>) =>
+	(selectedCategory: OptionT<CategoryDetails>) => {
+		const data = pipe(
+			selectedCategory,
+			Option.fold(
+				(): FormData => ({
+					name: ''
+				}),
+				(category): FormData => ({
+					name: category.isNew ? 'New Category' : category.name
+				})
+			)
+		);
+		reset(data);
+	};
+
 export const CategoryDetailsDialog = (props: Props) => {
 	const title = getTitle(props.selectedCategory);
-	const { handleSubmit } = useForm<FormData>();
+	const { handleSubmit, control, reset } = useForm<FormData>();
+	const hasCategory = Option.isSome(props.selectedCategory);
+	const resetForm = useCallback(createResetForm(reset), [reset]);
+
+	useEffect(() => {
+		resetForm(props.selectedCategory);
+	}, [hasCategory, resetForm]);
 
 	const onSubmit = (values: FormData) => console.log('Data', values);
 
@@ -54,7 +78,7 @@ export const CategoryDetailsDialog = (props: Props) => {
 		<Dialog
 			fullScreen
 			onClose={props.onClose}
-			open={Option.isSome(props.selectedCategory)}
+			open={hasCategory}
 			TransitionComponent={Transition}
 			className="CategoryDetailsDialog"
 		>
@@ -72,8 +96,14 @@ export const CategoryDetailsDialog = (props: Props) => {
 				</Toolbar>
 			</AppBar>
 			<div className="Body">
+				<Typography variant="h6">Category Information</Typography>
 				<form onSubmit={handleSubmit(onSubmit)}>
-
+					<TextField
+						className="NameField"
+						name="name"
+						control={control}
+						label="Category Name"
+					/>
 				</form>
 			</div>
 		</Dialog>

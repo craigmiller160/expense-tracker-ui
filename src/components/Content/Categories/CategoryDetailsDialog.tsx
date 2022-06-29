@@ -83,6 +83,40 @@ const prepareOutput = (
 const formHasErrors = (formState: FormState<FormData>): boolean =>
 	Object.keys(formState.errors).length > 0;
 
+interface DialogActionsProps {
+	readonly selectedCategory: OptionT<CategoryDetails>;
+	readonly deleteCategory: (id?: string) => void;
+	readonly formState: FormState<FormData>;
+}
+
+const CategoryDetailsDialogActions = (props: DialogActionsProps) => (
+	<div className="CategoryDetailsActions">
+		<Button
+			variant="contained"
+			color="success"
+			type="submit"
+			disabled={
+				(props.formState.isDirty && formHasErrors(props.formState)) ||
+				(!props.formState.isDirty &&
+					!isNewCategory(props.selectedCategory))
+			}
+		>
+			Save
+		</Button>
+		{!isNewCategory(props.selectedCategory) && (
+			<Button
+				variant="contained"
+				color="error"
+				onClick={() =>
+					props.deleteCategory(getCategoryId(props.selectedCategory))
+				}
+			>
+				Delete
+			</Button>
+		)}
+	</div>
+);
+
 export const CategoryDetailsDialog = (props: Props) => {
 	const title = getTitle(props.selectedCategory);
 	const { handleSubmit, control, reset, formState } = useForm<FormData>();
@@ -96,8 +130,21 @@ export const CategoryDetailsDialog = (props: Props) => {
 	const onSubmit = (values: FormData) =>
 		props.saveCategory(prepareOutput(props.selectedCategory, values));
 
+	const Actions = (
+		<CategoryDetailsDialogActions
+			selectedCategory={props.selectedCategory}
+			deleteCategory={props.deleteCategory}
+			formState={formState}
+		/>
+	);
+
 	return (
-		<SideDialog title={title} open={hasCategory} onClose={props.onClose}>
+		<SideDialog
+			title={title}
+			open={hasCategory}
+			onClose={props.onClose}
+			actions={Actions}
+		>
 			<div className="CategoryDetailsDialog">
 				<Typography variant="h6">Category Information</Typography>
 				<form onSubmit={handleSubmit(onSubmit)}>
@@ -110,34 +157,6 @@ export const CategoryDetailsDialog = (props: Props) => {
 							required: 'Must provide a name'
 						}}
 					/>
-					<div className="Actions">
-						<Button
-							variant="contained"
-							color="success"
-							type="submit"
-							disabled={
-								(formState.isDirty &&
-									formHasErrors(formState)) ||
-								(!formState.isDirty &&
-									!isNewCategory(props.selectedCategory))
-							}
-						>
-							Save
-						</Button>
-						{!isNewCategory(props.selectedCategory) && (
-							<Button
-								variant="contained"
-								color="error"
-								onClick={() =>
-									props.deleteCategory(
-										getCategoryId(props.selectedCategory)
-									)
-								}
-							>
-								Delete
-							</Button>
-						)}
-					</div>
 				</form>
 			</div>
 		</SideDialog>

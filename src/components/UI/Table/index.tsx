@@ -5,7 +5,8 @@ import {
 	TableHead,
 	TableRow,
 	TableCell,
-	TableBody, LinearProgress
+	TableBody,
+	LinearProgress
 } from '@mui/material';
 import { PropsWithChildren } from 'react';
 import './Table.scss';
@@ -25,8 +26,8 @@ export const Table = (props: PropsWithChildren<Props>) => (
 					))}
 				</TableRow>
 			</TableHead>
-			{props.loading && <LinearProgress />}
 			{!props.loading && <TableBody>{props.children}</TableBody>}
 		</MuiTable>
+		{props.loading && <LinearProgress />}
 	</TableContainer>
 );

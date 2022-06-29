@@ -24,7 +24,7 @@ export const Categories = () => {
 		<div className="Categories">
 			<Typography variant="h4">Manage Categories</Typography>
 			<div className="TableWrapper">
-				<Table columns={COLUMNS} loading={true}>
+				<Table columns={COLUMNS} loading={isLoading}>
 					{Rows}
 				</Table>
 			</div>

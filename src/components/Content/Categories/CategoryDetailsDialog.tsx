@@ -16,7 +16,7 @@ import * as Option from 'fp-ts/es6/Option';
 import { CategoryDetails } from '../../../types/categories';
 import { pipe } from 'fp-ts/es6/function';
 import './CategoryDetailsDialog.scss';
-import { useForm, UseFormReset } from 'react-hook-form';
+import { FormState, useForm, UseFormReset } from 'react-hook-form';
 import { TextField } from '@craigmiller160/react-hook-form-material-ui';
 
 const Transition = forwardRef(function Transition(
@@ -99,6 +99,9 @@ const prepareOutput = (
 		)
 	);
 
+const formHasErrors = (formState: FormState<FormData>): boolean =>
+	Object.keys(formState.errors).length > 0;
+
 export const CategoryDetailsDialog = (props: Props) => {
 	const title = getTitle(props.selectedCategory);
 	const { handleSubmit, control, reset, formState } = useForm<FormData>();
@@ -141,6 +144,9 @@ export const CategoryDetailsDialog = (props: Props) => {
 						name="name"
 						control={control}
 						label="Category Name"
+						rules={{
+							required: 'Must provide a name'
+						}}
 					/>
 					<div className="Actions">
 						<Button
@@ -148,8 +154,10 @@ export const CategoryDetailsDialog = (props: Props) => {
 							color="success"
 							type="submit"
 							disabled={
-								!formState.isDirty &&
-								!isNewCategory(props.selectedCategory)
+								(formState.isDirty &&
+									formHasErrors(formState)) ||
+								(!formState.isDirty &&
+									!isNewCategory(props.selectedCategory))
 							}
 						>
 							Save

@@ -58,6 +58,7 @@ describe('Manage Categories', () => {
 			expect(screen.queryByText('New Category')).not.toBeInTheDocument()
 		);
 		await waitFor(() => expect(screen.queryByText('Abc')).toBeVisible());
+		expect(screen.queryAllByText('Details')).toHaveLength(4);
 	});
 
 	it('updates category name', async () => {
@@ -70,7 +71,26 @@ describe('Manage Categories', () => {
 		await waitFor(() =>
 			expect(screen.queryAllByText('Manage Categories')).toHaveLength(2)
 		);
-		throw new Error();
+		await waitFor(() =>
+			expect(screen.queryAllByText('Details')).toHaveLength(3)
+		);
+		const firstDetailsButton = screen.getAllByText('Details')[0];
+		userEvent.click(firstDetailsButton);
+
+		await waitFor(() =>
+			expect(screen.queryByText('Category: Entertainment')).toBeVisible()
+		);
+		typeInInput(screen.getByTestId('name-field'), 'Abc');
+
+		userEvent.click(screen.getByText('Save'));
+		await waitFor(() =>
+			expect(
+				screen.queryByText('Category: Entertainment')
+			).not.toBeInTheDocument()
+		);
+		await waitFor(() => expect(screen.queryByText('Abc')).toBeVisible());
+		expect(screen.queryByText('Entertainment')).not.toBeInTheDocument();
+		expect(screen.queryAllByText('Details')).toHaveLength(3);
 	});
 
 	it('deletes category', async () => {

@@ -34,7 +34,7 @@ export const Navbar = () => {
 							</Button>
 							<Button
 								component={Link}
-								to="/expense-tracker/categories"
+								to="/expense-tracker/upload"
 								color="inherit"
 							>
 								Upload Transactions

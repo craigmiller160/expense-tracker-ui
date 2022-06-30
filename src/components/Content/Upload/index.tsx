@@ -5,7 +5,7 @@ export const Upload = () => {
 	return (
 		<div className="TransactionUpload">
 			<div className="TitleWrapper">
-				<Typography variant="h4">Manage Categories</Typography>
+				<Typography variant="h4">Upload Transactions</Typography>
 			</div>
 		</div>
 	);

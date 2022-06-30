@@ -31,8 +31,8 @@ export const Navbar = () => {
 								label="Manage Categories"
 							/>
 							<LinkButton
-								to="/expense-tracker/upload"
-								label="Upload Transactions"
+								to="/expense-tracker/import"
+								label="Import Transactions"
 							/>
 						</>
 					)}

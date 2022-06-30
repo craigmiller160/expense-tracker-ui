@@ -1,15 +1,13 @@
-import './Upload.scss';
+import './ImportTransactions.scss';
 import { Typography } from '@mui/material';
 import { useImmer } from 'use-immer';
 import { expenseTrackerApi } from '../../../ajaxapi/service/AjaxApi';
-
-// TODO rename component and route to TransactionImport
 
 interface State {
 	readonly file: any;
 }
 
-export const Upload = () => {
+export const Import = () => {
 	const [state, setState] = useImmer<State>({
 		file: null
 	});
@@ -31,9 +29,9 @@ export const Upload = () => {
 	};
 
 	return (
-		<div className="TransactionUpload">
+		<div className="ImportTransactions">
 			<div className="TitleWrapper">
-				<Typography variant="h4">Upload Transactions</Typography>
+				<Typography variant="h4">Import Transactions</Typography>
 			</div>
 			<input type="file" onChange={onChange} />
 			<button onClick={doSubmit}>Submit</button>

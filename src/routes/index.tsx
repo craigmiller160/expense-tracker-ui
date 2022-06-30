@@ -13,9 +13,9 @@ const Categories = namedLazy(
 	() => import('../components/Content/Categories'),
 	'Categories'
 );
-const Upload = namedLazy(
-	() => import('../components/Content/Upload'),
-	'Upload'
+const Import = namedLazy(
+	() => import('../components/Content/Import'),
+	'Import'
 );
 
 interface RouteRules {
@@ -38,7 +38,7 @@ const createAuthorizedRoutes = (): RouteObject[] => [
 	},
 	{
 		path: 'upload',
-		element: <LazySuspenseWrapper component={Upload} />
+		element: <LazySuspenseWrapper component={Import} />
 	},
 	{
 		path: '*',

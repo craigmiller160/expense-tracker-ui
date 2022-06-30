@@ -42,10 +42,14 @@ interface FormProps {
 }
 
 const DialogForm = ({ formSubmit, children }: PropsWithChildren<FormProps>) => (
-	<form onSubmit={formSubmit}>{children}</form>
+	<form className="DialogForm" onSubmit={formSubmit}>
+		{children}
+	</form>
 );
 
-const NoForm = (props: PropsWithChildren<FormProps>) => <>{props.children}</>;
+const NoForm = (props: PropsWithChildren<FormProps>) => (
+	<div className="DialogForm">{props.children}</div>
+);
 
 export const SideDialog = (props: PropsWithChildren<Props>) => {
 	const Form = props.formSubmit ? DialogForm : NoForm;

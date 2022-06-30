@@ -13,6 +13,10 @@ const Categories = namedLazy(
 	() => import('../components/Content/Categories'),
 	'Categories'
 );
+const Upload = namedLazy(
+	() => import('../components/Content/Upload'),
+	'Upload'
+);
 
 interface RouteRules {
 	readonly isAuthorized: boolean;
@@ -31,6 +35,10 @@ const createAuthorizedRoutes = (): RouteObject[] => [
 	{
 		path: 'categories',
 		element: <LazySuspenseWrapper component={Categories} />
+	},
+	{
+		path: 'upload',
+		element: <LazySuspenseWrapper component={Upload} />
 	},
 	{
 		path: '*',

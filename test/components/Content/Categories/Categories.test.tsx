@@ -37,6 +37,9 @@ describe('Manage Categories', () => {
 			initialPath: '/expense-tracker/categories'
 		});
 		await waitFor(() =>
+			expect(screen.queryByText('Expense Tracker')).toBeVisible()
+		);
+		await waitFor(() =>
 			expect(screen.queryAllByText('Manage Categories')).toHaveLength(2)
 		);
 		userEvent.click(screen.getByText('Add'));

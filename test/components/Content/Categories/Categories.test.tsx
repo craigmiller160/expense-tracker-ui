@@ -44,19 +44,19 @@ describe('Manage Categories', () => {
 			expect(screen.queryByText('New Category')).toBeVisible()
 		);
 		expect(screen.queryByDisplayValue('New Category')).toBeVisible();
-		fireEvent(screen.getByDisplayValue('New Category'), {
-			// @ts-ignore
-			target: { value: 'Fun' }
+		// TODO clean this up
+		fireEvent.change(screen.getByTestId('name-field'), {
+			target: {
+				// @ts-ignore
+				value: 'Abc'
+			}
 		});
-		// userEvent.type(screen.getByTestId('name-field'), 'Fun');
 		await waitFor(() =>
-			expect(screen.getByDisplayValue('Fun')).toBeVisible()
+			expect(screen.getByDisplayValue('Abc')).toBeVisible()
 		);
-		// @ts-ignore
-		console.log('VALUE: ', screen.getByTestId('name-field').value);
 		userEvent.click(screen.getByText('Save'));
 
-		await waitFor(() => expect(screen.queryByText('Fun')).toBeVisible());
+		await waitFor(() => expect(screen.queryByText('Abc')).toBeVisible());
 		expect(screen.queryByText('New Category')).not.toBeInTheDocument();
 	});
 

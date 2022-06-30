@@ -77,13 +77,14 @@ export const Import = () => {
 				/>
 				<FileChooser
 					name="file"
+					testId="transaction-file-chooser"
 					control={control}
 					disabled={isLoading}
 					rules={{ required: 'File is required' }}
 				/>
 				{isLoading && <LinearProgress />}
 				<Button variant="contained" type="submit" disabled={isLoading}>
-					Submit
+					Import
 				</Button>
 			</StyledForm>
 		</div>

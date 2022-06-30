@@ -1,31 +1,24 @@
 import './ImportTransactions.scss';
-import { Typography } from '@mui/material';
-import { useImmer } from 'use-immer';
-import { expenseTrackerApi } from '../../../ajaxapi/service/AjaxApi';
+import { Input, Typography } from '@mui/material';
+import { useForm } from 'react-hook-form';
+import { FileType } from '../../../types/file';
+import { useEffect } from 'react';
 
-interface State {
-	readonly file: any;
+interface FormData {
+	readonly file?: File;
+	readonly fileType: FileType;
 }
 
 export const Import = () => {
-	const [state, setState] = useImmer<State>({
-		file: null
-	});
-	const onChange = (event: any) => {
-		console.log('Event', event.target.files[0]);
-		setState((draft) => {
-			draft.file = event.target.files[0];
+	const { control, reset, handleSubmit } = useForm<FormData>();
+	useEffect(() => {
+		reset({
+			fileType: FileType.CHASE_CSV
 		});
-	};
+	}, []);
 
-	const doSubmit = () => {
-		console.log('submitting');
-		const form = new FormData();
-		form.append('file', state.file);
-		expenseTrackerApi.post<FormData, unknown>({
-			uri: '/transaction-import?type=DISCOVER_CSV',
-			body: form
-		});
+	const onSubmit = (values: FormData) => {
+
 	};
 
 	return (
@@ -33,8 +26,9 @@ export const Import = () => {
 			<div className="TitleWrapper">
 				<Typography variant="h4">Import Transactions</Typography>
 			</div>
-			<input type="file" onChange={onChange} />
-			<button onClick={doSubmit}>Submit</button>
+			<form onSubmit={handleSubmit(onSubmit)}>
+				<Input type="file" />
+			</form>
 		</div>
 	);
 };

@@ -15,16 +15,16 @@ describe('Navbar', () => {
 	it('renders before authentication', async () => {
 		apiServer.actions.clearDefaultUser();
 		renderApp();
-		expect(screen.queryByText('Expense Tracker')).toBeVisible();
 		await waitFor(() => expect(screen.queryByText('Login')).toBeVisible());
+		expect(screen.queryByText('Expense Tracker')).toBeVisible();
 		expect(screen.queryByText('Logout')).not.toBeInTheDocument();
 		expect(screen.queryByText('Manage Categories')).not.toBeInTheDocument();
 	});
 
 	it('renders after authentication', async () => {
 		renderApp();
-		expect(screen.queryByText('Expense Tracker')).toBeVisible();
 		await waitFor(() => expect(screen.queryByText('Logout')).toBeVisible());
+		expect(screen.queryByText('Expense Tracker')).toBeVisible();
 		expect(screen.queryByText('Login')).not.toBeInTheDocument();
 		expect(screen.queryByText('Manage Categories')).toBeVisible();
 	});

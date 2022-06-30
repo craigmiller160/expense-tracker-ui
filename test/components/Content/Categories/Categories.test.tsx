@@ -3,13 +3,6 @@ import { renderApp } from '../../../testutils/renderApp';
 import { waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { screen } from '@testing-library/react';
-import { PropsWithChildren } from 'react';
-
-jest.mock('react', () => {
-	const React = jest.requireActual('react');
-	React.Suspense = ({ children }: PropsWithChildren) => children;
-	return React;
-});
 
 describe('Manage Categories', () => {
 	let apiServer: ApiServer;

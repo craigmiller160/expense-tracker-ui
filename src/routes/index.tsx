@@ -37,7 +37,7 @@ const createAuthorizedRoutes = (): RouteObject[] => [
 		element: <LazySuspenseWrapper component={Categories} />
 	},
 	{
-		path: 'upload',
+		path: 'import',
 		element: <LazySuspenseWrapper component={Import} />
 	},
 	{

@@ -4,9 +4,9 @@ import { useForm } from 'react-hook-form';
 import { FileType } from '../../../types/file';
 import {
 	Autocomplete,
-	FileChooser,
 	SelectOption
 } from '@craigmiller160/react-hook-form-material-ui';
+import { FileChooser } from '../../UI/FileChooser';
 import { match } from 'ts-pattern';
 import { StyledForm } from './StyledForm';
 import {

@@ -1,5 +1,8 @@
 import { ApiServer, newApiServer } from '../../../server';
 import { renderApp } from '../../../testutils/renderApp';
+import { waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import { screen } from '@testing-library/react';
 
 describe('Manage Categories', () => {
 	let apiServer: ApiServer;
@@ -14,7 +17,9 @@ describe('Manage Categories', () => {
 		renderApp({
 			initialPath: '/expense-tracker/categories'
 		});
-		throw new Error();
+		await waitFor(() =>
+			expect(screen.queryAllByText('Manage Categories')).toHaveLength(2)
+		);
 	});
 
 	it('adds new category', async () => {

@@ -1,6 +1,15 @@
-export {};
+import { ApiServer, newApiServer } from '../../../server';
 
 describe('Transaction Import', () => {
+	let apiServer: ApiServer;
+	beforeEach(() => {
+		apiServer = newApiServer();
+	});
+
+	afterEach(() => {
+		apiServer.server.shutdown();
+	});
+
 	it('imports file successfully', async () => {
 		throw new Error();
 	});

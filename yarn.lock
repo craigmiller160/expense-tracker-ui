@@ -291,7 +291,7 @@
   dependencies:
     prettier "^2.5.1"
 
-"@craigmiller160/react-hook-form-material-ui@^1.2.0-beta.1":
+"@craigmiller160/react-hook-form-material-ui@^1.2.0-beta":
   version "1.2.0-beta.1"
   resolved "https://craigmiller160.ddns.net:30003/repository/npm-group/@craigmiller160/react-hook-form-material-ui/-/react-hook-form-material-ui-1.2.0-beta.1.tgz#891008b7cf023e166843b9e2faf5f366fe5deeba"
   integrity sha512-yHUwUqweMlef3jNe98IcMabgCRDLrDkLMLhWU1X7aYuoZAW6kUEfwUZvphp1fbs3dRCDQZxZ8jn+EbeRbbE+OQ==

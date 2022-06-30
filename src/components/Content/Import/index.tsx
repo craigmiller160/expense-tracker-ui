@@ -7,7 +7,7 @@ import {
 	SelectOption
 } from '@craigmiller160/react-hook-form-material-ui';
 import { match } from 'ts-pattern';
-import { FileChooser } from '../../UI/FileChooser';
+import { FileChooser } from '@craigmiller160/react-hook-form-material-ui';
 import { StyledForm } from './StyledForm';
 
 interface FormData {

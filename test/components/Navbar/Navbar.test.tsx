@@ -24,8 +24,8 @@ describe('Navbar', () => {
 	it('renders after authentication', async () => {
 		renderApp();
 		expect(screen.queryByText('Expense Tracker')).toBeVisible();
+		await waitFor(() => expect(screen.queryByText('Logout')).toBeVisible());
 		expect(screen.queryByText('Login')).not.toBeInTheDocument();
-		expect(screen.queryByText('Logout')).toBeVisible();
 		expect(screen.queryByText('Manage Categories')).toBeVisible();
 	});
 });

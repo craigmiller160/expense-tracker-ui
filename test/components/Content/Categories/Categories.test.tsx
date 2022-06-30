@@ -4,6 +4,12 @@ import { waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { screen } from '@testing-library/react';
 
+jest.mock('react', () => {
+	const React = jest.requireActual('react');
+	React.Suspense = ({ children }) => children;
+	return React;
+});
+
 describe('Manage Categories', () => {
 	let apiServer: ApiServer;
 	beforeEach(() => {

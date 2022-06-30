@@ -5,11 +5,13 @@ import { WritableDraft } from 'immer/dist/types/types-external';
 import * as Option from 'fp-ts/es6/Option';
 import { DbRecord } from '../../src/types/db';
 import { nanoid } from 'nanoid';
+import { CategoryResponse } from '../../src/types/categories';
 
 export const USER_ID = 1;
 
 export interface Data {
 	readonly authUser: OptionT<AuthUser>;
+	readonly categories: Record<string, CategoryResponse>;
 }
 
 export type DataUpdater = (draft: WritableDraft<Data>) => void;
@@ -29,7 +31,8 @@ export const ensureDbRecord = <T extends object>(record: T): T & DbRecord => {
 
 export class Database {
 	data: Data = {
-		authUser: Option.none
+		authUser: Option.none,
+		categories: {}
 	};
 
 	updateData(updater: DataUpdater) {

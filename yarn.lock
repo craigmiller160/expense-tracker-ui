@@ -242,9 +242,9 @@
     to-fast-properties "^2.0.0"
 
 "@craigmiller160/ajax-api@^1.2.0-beta":
-  version "1.2.0-beta.1"
-  resolved "https://craigmiller160.ddns.net:30003/repository/npm-group/@craigmiller160/ajax-api/-/ajax-api-1.2.0-beta.1.tgz#708c72d2425d8eafcb07708b5a93b67288a5bc02"
-  integrity sha512-nFrIyavv3bQePrXpFVf1Mv6g96M34CgsaS01mu2qBfh4A6v6bspf43bJOm+xuchmlrPiqUibLO5BWLRgblz6Sg==
+  version "1.2.0-beta.2"
+  resolved "https://craigmiller160.ddns.net:30003/repository/npm-group/@craigmiller160/ajax-api/-/ajax-api-1.2.0-beta.2.tgz#ec57e1d6bc171a77d2758756c8a5cf92ffd4bf89"
+  integrity sha512-LQUrcgYD/yLeS+XijMFC3PWTw+VqhiFn7j2yQprCXYdIuDPmMwubX3rxcTP8sHyURJneSptsAtbutN+txRufTQ==
   dependencies:
     axios "^0.26.0"
 

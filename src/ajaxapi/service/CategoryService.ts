@@ -5,21 +5,14 @@ export const getAllCategories = (): Promise<ReadonlyArray<CategoryResponse>> =>
 	expenseTrackerApi
 		.get<ReadonlyArray<CategoryResponse>>({
 			uri: '/categories',
-			errorMsg: 'Error getting all categories'
+			errorCustomizer: 'Error getting all categories'
 		})
-		.then(getData)
-		.catch((ex) =>
-			Promise.reject(
-				new Error('Error getting all categories', {
-					cause: ex
-				})
-			)
-		);
+		.then(getData);
 
 export const updateCategory = (id: string, name: string): Promise<unknown> =>
 	expenseTrackerApi.put<CategoryRequest, unknown>({
 		uri: `/categories/${id}`,
-		errorMsg: `Error updating category ${id}`,
+		errorCustomizer: `Error updating category ${id}`,
 		body: {
 			name
 		}
@@ -29,7 +22,7 @@ export const createCategory = (name: string): Promise<CategoryResponse> =>
 	expenseTrackerApi
 		.post<CategoryRequest, CategoryResponse>({
 			uri: '/categories',
-			errorMsg: 'Error adding category',
+			errorCustomizer: 'Error adding category',
 			body: {
 				name
 			}
@@ -39,5 +32,5 @@ export const createCategory = (name: string): Promise<CategoryResponse> =>
 export const deleteCategory = (id: string): Promise<unknown> =>
 	expenseTrackerApi.delete<unknown>({
 		uri: `/categories/${id}`,
-		errorMsg: `Error deleting category ${id}`
+		errorCustomizer: `Error deleting category ${id}`
 	});

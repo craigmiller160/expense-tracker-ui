@@ -150,6 +150,7 @@ export const CategoryDetailsDialog = (props: Props) => {
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<TextField
 						className="NameField"
+						testId="name-field"
 						name="name"
 						control={control}
 						label="Category Name"

@@ -2,7 +2,7 @@ import { ApiServer, newApiServer } from '../../../server';
 import { renderApp } from '../../../testutils/renderApp';
 import { waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { screen } from '@testing-library/react';
+import { screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 describe('Manage Categories', () => {
@@ -43,7 +43,17 @@ describe('Manage Categories', () => {
 		await waitFor(() =>
 			expect(screen.queryByText('New Category')).toBeVisible()
 		);
-		userEvent.type(screen.getByLabelText('CategoryName'), 'Fun');
+		expect(screen.queryByDisplayValue('New Category')).toBeVisible();
+		fireEvent(screen.getByDisplayValue('New Category'), {
+			// @ts-ignore
+			target: { value: 'Fun' }
+		});
+		// userEvent.type(screen.getByTestId('name-field'), 'Fun');
+		await waitFor(() =>
+			expect(screen.getByDisplayValue('Fun')).toBeVisible()
+		);
+		// @ts-ignore
+		console.log('VALUE: ', screen.getByTestId('name-field').value);
 		userEvent.click(screen.getByText('Save'));
 
 		await waitFor(() => expect(screen.queryByText('Fun')).toBeVisible());

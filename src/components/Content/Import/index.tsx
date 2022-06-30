@@ -1,5 +1,5 @@
 import './ImportTransactions.scss';
-import { Breakpoints, Button, Typography, useTheme } from '@mui/material';
+import { Button, Typography, useTheme } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { FileType } from '../../../types/file';
 import {

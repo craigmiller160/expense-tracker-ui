@@ -34,9 +34,21 @@ interface Props {
 	readonly open: boolean;
 	readonly onClose: () => void;
 	readonly actions?: ReactNode;
+	readonly formSubmit?: () => void;
 }
 
+interface FormProps {
+	readonly formSubmit?: () => void;
+}
+
+const DialogForm = ({ formSubmit, children }: PropsWithChildren<FormProps>) => (
+	<form onSubmit={formSubmit}>{children}</form>
+);
+
+const NoForm = (props: PropsWithChildren<FormProps>) => <>{props.children}</>;
+
 export const SideDialog = (props: PropsWithChildren<Props>) => {
+	const Form = props.formSubmit ? DialogForm : NoForm;
 	return (
 		<Dialog
 			fullScreen
@@ -45,21 +57,23 @@ export const SideDialog = (props: PropsWithChildren<Props>) => {
 			TransitionComponent={Transition}
 			className="SideDialog"
 		>
-			<AppBar sx={{ position: 'relative' }}>
-				<Toolbar>
-					<Typography variant="h6">{props.title}</Typography>
-					<Box sx={{ flexGrow: 1 }} />
-					<IconButton
-						edge="start"
-						color="inherit"
-						onClick={props.onClose}
-					>
-						<CloseIcon />
-					</IconButton>
-				</Toolbar>
-			</AppBar>
-			<DialogContent className="Body">{props.children}</DialogContent>
-			<DialogActions>{props.actions}</DialogActions>
+			<Form formSubmit={props.formSubmit}>
+				<AppBar sx={{ position: 'relative' }}>
+					<Toolbar>
+						<Typography variant="h6">{props.title}</Typography>
+						<Box sx={{ flexGrow: 1 }} />
+						<IconButton
+							edge="start"
+							color="inherit"
+							onClick={props.onClose}
+						>
+							<CloseIcon />
+						</IconButton>
+					</Toolbar>
+				</AppBar>
+				<DialogContent className="Body">{props.children}</DialogContent>
+				<DialogActions>{props.actions}</DialogActions>
+			</Form>
 		</Dialog>
 	);
 };

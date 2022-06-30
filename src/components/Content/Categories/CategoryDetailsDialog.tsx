@@ -144,13 +144,14 @@ export const CategoryDetailsDialog = (props: Props) => {
 			open={hasCategory}
 			onClose={props.onClose}
 			actions={Actions}
+			formSubmit={handleSubmit(onSubmit)}
 		>
 			<div
 				className="CategoryDetailsDialog"
 				data-testid="category-details-form"
 			>
 				<Typography variant="h6">Category Information</Typography>
-				<form onSubmit={handleSubmit(onSubmit)}>
+				<div className="CategoryDetailsForm">
 					<TextField
 						className="NameField"
 						testId="name-field"
@@ -161,7 +162,7 @@ export const CategoryDetailsDialog = (props: Props) => {
 							required: 'Must provide a name'
 						}}
 					/>
-				</form>
+				</div>
 			</div>
 		</SideDialog>
 	);

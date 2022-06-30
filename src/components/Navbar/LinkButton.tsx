@@ -10,7 +10,10 @@ interface Props {
 
 export const LinkButton = (props: Props) => {
 	const location = useLocation();
-	const classes = ['LinkButton'].join(',');
+	const isActive = location.pathname.startsWith(props.to);
+	const classes = ['LinkButton', isActive ? 'active' : null]
+		.filter((c) => c !== null)
+		.join(' ');
 	return (
 		<Button
 			className={classes}

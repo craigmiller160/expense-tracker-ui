@@ -1,13 +1,13 @@
 import './ImportTransactions.scss';
 import { Button, LinearProgress, Typography, useTheme } from '@mui/material';
-import { useForm, UseFormReset } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { FileType } from '../../../types/file';
 import {
 	Autocomplete,
+	FileChooser,
 	SelectOption
 } from '@craigmiller160/react-hook-form-material-ui';
 import { match } from 'ts-pattern';
-import { FileChooser } from '@craigmiller160/react-hook-form-material-ui';
 import { StyledForm } from './StyledForm';
 import {
 	ImportTransactionsMutation,
@@ -40,11 +40,7 @@ const defaultValues: FormData = {
 };
 
 const createOnSubmit =
-	(
-		importTransactions: ImportTransactionsMutation,
-		reset: UseFormReset<FormData>
-	) =>
-	(values: FormData) => {
+	(importTransactions: ImportTransactionsMutation) => (values: FormData) => {
 		importTransactions({
 			file: values.file!, // eslint-disable-line @typescript-eslint/no-non-null-assertion
 			type: values.fileType.value
@@ -55,9 +51,11 @@ export const Import = () => {
 	const { control, handleSubmit, reset } = useForm<FormData>({
 		defaultValues
 	});
-	const { mutate, isLoading } = useImportTransactions();
+	const { mutate, isLoading } = useImportTransactions(() =>
+		reset(defaultValues)
+	);
 	const theme = useTheme();
-	const onSubmit = createOnSubmit(mutate, reset);
+	const onSubmit = createOnSubmit(mutate);
 
 	return (
 		<div className="ImportTransactions">
@@ -83,9 +81,7 @@ export const Import = () => {
 					disabled={isLoading}
 					rules={{ required: 'File is required' }}
 				/>
-				{
-					isLoading && <LinearProgress />
-				}
+				{isLoading && <LinearProgress />}
 				<Button variant="contained" type="submit" disabled={isLoading}>
 					Submit
 				</Button>

@@ -6,7 +6,7 @@ import {
 	Autocomplete,
 	SelectOption
 } from '@craigmiller160/react-hook-form-material-ui';
-import { FileChooser } from '../../UI/FileChooser';
+import { FileChooser } from '@craigmiller160/react-hook-form-material-ui';
 import { match } from 'ts-pattern';
 import { StyledForm } from './StyledForm';
 import {

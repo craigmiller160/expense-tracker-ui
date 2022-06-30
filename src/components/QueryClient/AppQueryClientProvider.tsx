@@ -1,6 +1,11 @@
 import { PropsWithChildren, useContext } from 'react';
 import { AlertContext, AlertContextValue } from '../UI/Alerts/AlertProvider';
-import { QueryCache, QueryClient, QueryClientProvider } from 'react-query';
+import {
+	MutationCache,
+	QueryCache,
+	QueryClient,
+	QueryClientProvider
+} from 'react-query';
 import { match, P } from 'ts-pattern';
 import { NoAlertError } from '../../error/NoAlertError';
 import {
@@ -85,6 +90,9 @@ export const AppQueryClientProvider = (props: PropsWithChildren) => {
 	const queryErrorSupport = useContext(QueryErrorSupportContext);
 	const queryClient = new QueryClient({
 		queryCache: new QueryCache({
+			onError: createErrorHandler(alertContext, queryErrorSupport)
+		}),
+		mutationCache: new MutationCache({
 			onError: createErrorHandler(alertContext, queryErrorSupport)
 		})
 	});

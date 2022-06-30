@@ -15,33 +15,44 @@ import {
 import { isAxiosError } from '@craigmiller160/ajax-api';
 import { NoAlertOrStatusHandlingError } from '../../error/NoAlertOrStatusHandlingError';
 import { constVoid } from 'fp-ts/es6/function';
+import { ErrorResponse, isErrorResponse } from '../../types/error';
 
-const concatenateMessage = (error: Error): string => {
+interface CombinedErrorValues {
+	readonly message: string;
+	readonly status?: number;
+	readonly errorResponse?: ErrorResponse;
+}
+
+const getCombinedErrorValues = (error: Error): CombinedErrorValues => {
 	const messages: string[] = [];
 	let baseError: Error | undefined = error;
-	while (baseError !== undefined) {
+	while (baseError != undefined) {
 		messages.push(baseError.message);
-		baseError = baseError.cause;
-	}
-	return messages.join('; ');
-};
-
-const findResponseStatus = (error: Error): number => {
-	let baseError: Error | undefined = error;
-	while (baseError !== undefined) {
 		if (isAxiosError(baseError)) {
-			return baseError.response?.status ?? -1;
+			const status = baseError.response?.status ?? -1;
+			const body = baseError.response?.data;
+			const errorResponse: ErrorResponse | undefined = isErrorResponse(
+				body
+			)
+				? body
+				: undefined;
+			return {
+				message: messages.join('; '),
+				status,
+				errorResponse
+			};
 		}
 		baseError = baseError.cause;
 	}
-	return -1;
+	return {
+		message: messages.join('; ')
+	};
 };
 
-const handleResponseStatus = (
+const specialResponseStatusAction = (
 	queryErrorSupport: QueryErrorSupportValue,
-	error: Error
+	status?: number
 ) => {
-	const status = findResponseStatus(error);
 	if (status === 401) {
 		queryErrorSupport.setHasUnauthorizedError(true);
 	}
@@ -52,8 +63,13 @@ const handleErrorWithAlert = (
 	queryErrorSupport: QueryErrorSupportValue,
 	error: Error
 ) => {
-	handleResponseStatus(queryErrorSupport, error);
-	alertContext.addAlert('error', concatenateMessage(error));
+	const combinedValues = getCombinedErrorValues(error);
+	specialResponseStatusAction(queryErrorSupport, combinedValues.status);
+	if (combinedValues.status === 400 && !!combinedValues.errorResponse) {
+		alertContext.addAlert('error', combinedValues.errorResponse.message);
+	} else {
+		alertContext.addAlert('error', combinedValues.message);
+	}
 };
 
 const createErrorHandler =
@@ -78,7 +94,10 @@ const createErrorHandler =
 			)
 			.with(P.instanceOf(NoAlertOrStatusHandlingError), () => constVoid())
 			.with(P.instanceOf(NoAlertError), (e) =>
-				handleResponseStatus(queryErrorSupport, e as Error)
+				specialResponseStatusAction(
+					queryErrorSupport,
+					getCombinedErrorValues(e as Error).status
+				)
 			)
 			.otherwise(() =>
 				alertContext.addAlert('error', `Unknown Error: ${error}`)

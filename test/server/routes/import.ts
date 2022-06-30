@@ -23,6 +23,6 @@ export const createImportRoutes = (database: Database, server: Server) => {
 					transactionsImported: 10
 				})
 			)
-			.otherwise(() => new Response(400, null, error));
+			.otherwise(() => new Response(400, undefined, error));
 	});
 };

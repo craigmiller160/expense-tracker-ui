@@ -62,7 +62,31 @@ describe('Manage Categories', () => {
 	});
 
 	it('will not save category without name', async () => {
-		throw new Error();
+		renderApp({
+			initialPath: '/expense-tracker/categories'
+		});
+		await waitFor(() =>
+			expect(screen.queryByText('Expense Tracker')).toBeVisible()
+		);
+		await waitFor(() =>
+			expect(screen.queryAllByText('Manage Categories')).toHaveLength(2)
+		);
+		userEvent.click(screen.getByText('Add'));
+		await waitFor(() =>
+			expect(screen.queryByText('New Category')).toBeVisible()
+		);
+		expect(screen.queryByDisplayValue('New Category')).toBeVisible();
+		typeInInput(screen.getByTestId('name-field'), '');
+		await waitFor(() =>
+			expect(
+				screen.queryByDisplayValue('New Category')
+			).not.toBeInTheDocument()
+		);
+
+		userEvent.click(screen.getByText('Save'));
+		await waitFor(() =>
+			expect(screen.queryByText('Must provide a name')).toBeVisible()
+		);
 	});
 
 	it('updates category name', async () => {

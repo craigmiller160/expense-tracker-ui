@@ -61,6 +61,10 @@ describe('Manage Categories', () => {
 		expect(screen.queryAllByText('Details')).toHaveLength(4);
 	});
 
+	it('will not save category without name', async () => {
+		throw new Error();
+	});
+
 	it('updates category name', async () => {
 		renderApp({
 			initialPath: '/expense-tracker/categories'

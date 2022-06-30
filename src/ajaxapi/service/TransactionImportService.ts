@@ -8,7 +8,8 @@ export const importTransactions = (type: FileType, file: File) => {
 	return expenseTrackerApi
 		.post<FormData, ImportTransactionsResponse>({
 			uri: `transaction-import?type=${type}`,
-			errorCustomizer: 'Error importing transaction'
+			errorCustomizer: 'Error importing transaction',
+			body: form
 		})
 		.then(getData);
 };

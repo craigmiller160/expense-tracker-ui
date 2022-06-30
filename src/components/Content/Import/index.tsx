@@ -1,5 +1,5 @@
 import './ImportTransactions.scss';
-import { Button, Input, Typography, useTheme } from '@mui/material';
+import { Breakpoints, Button, Typography, useTheme } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { FileType } from '../../../types/file';
 import {
@@ -8,6 +8,7 @@ import {
 } from '@craigmiller160/react-hook-form-material-ui';
 import { match } from 'ts-pattern';
 import { FileChooser } from '../../UI/FileChooser';
+import { StyledForm } from './StyledForm';
 
 interface FormData {
 	readonly file?: File;
@@ -36,18 +37,18 @@ export const Import = () => {
 		}
 	});
 	const theme = useTheme();
-
-	const onSubmit = (values: FormData) => {};
-
-	const result = theme.breakpoints.up('xs');
-	console.log(result);
+	const onSubmit = (values: FormData) => console.log('Values', values);
 
 	return (
 		<div className="ImportTransactions">
 			<div className="TitleWrapper">
 				<Typography variant="h4">Import Transactions</Typography>
 			</div>
-			<form className="ImportForm" onSubmit={handleSubmit(onSubmit)}>
+			<StyledForm
+				breakpoints={theme.breakpoints}
+				className="ImportForm"
+				onSubmit={handleSubmit(onSubmit)}
+			>
 				<Autocomplete
 					name="fileType"
 					control={control}
@@ -62,7 +63,7 @@ export const Import = () => {
 				<Button variant="contained" type="submit">
 					Submit
 				</Button>
-			</form>
+			</StyledForm>
 		</div>
 	);
 };

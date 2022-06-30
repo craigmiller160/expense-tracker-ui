@@ -1,8 +1,7 @@
 import './ImportTransactions.scss';
-import { Button, Input, Typography } from '@mui/material';
+import { Button, Input, Typography, useTheme } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { FileType } from '../../../types/file';
-import { useEffect } from 'react';
 import {
 	Autocomplete,
 	SelectOption
@@ -11,7 +10,7 @@ import { match } from 'ts-pattern';
 
 interface FormData {
 	readonly file?: File;
-	readonly fileType: FileType;
+	readonly fileType: SelectOption<FileType>;
 }
 
 const getFileTypeLabel = (fileType: FileType): string =>
@@ -20,22 +19,27 @@ const getFileTypeLabel = (fileType: FileType): string =>
 		.with(FileType.CHASE_CSV, () => 'Chase (CSV)')
 		.run();
 
-const FILE_TYPES = Object.keys(FileType).map(
-	(key): SelectOption<FileType> => ({
-		value: key as FileType,
-		label: getFileTypeLabel(key as FileType)
-	})
-);
+const FILE_TYPES = Object.keys(FileType)
+	.map(
+		(key): SelectOption<FileType> => ({
+			value: key as FileType,
+			label: getFileTypeLabel(key as FileType)
+		})
+	)
+	.sort((a, b) => a.label.localeCompare(b.label));
 
 export const Import = () => {
-	const { control, reset, handleSubmit } = useForm<FormData>();
-	useEffect(() => {
-		reset({
-			fileType: FileType.CHASE_CSV
-		});
-	}, []);
+	const { control, handleSubmit } = useForm<FormData>({
+		defaultValues: {
+			fileType: FILE_TYPES[0]
+		}
+	});
+	const theme = useTheme();
 
 	const onSubmit = (values: FormData) => {};
+
+	const result = theme.breakpoints.up('xs');
+	console.log(result);
 
 	return (
 		<div className="ImportTransactions">

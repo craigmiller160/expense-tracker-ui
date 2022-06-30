@@ -2,6 +2,7 @@ import { Database, USER_ID } from './Database';
 import * as Option from 'fp-ts/es6/Option';
 import { Server } from 'miragejs/server';
 import { createServer } from 'miragejs';
+import { createOAuthRoutes } from './routes/oauth';
 
 interface ApiServerActions {
 	readonly clearDefaultUser: () => void;
@@ -33,6 +34,7 @@ export const newApiServer = (): ApiServer => {
 	const server: Server = createServer({
 		routes() {
 			this.namespace = '/expense-tracker/api';
+			createOAuthRoutes(database, this);
 		}
 	});
 

@@ -18,17 +18,5 @@
       width: 30%;
       margin: 1rem auto;
     }
-
-    .ImportFormRow {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-around;
-      width: 100%;
-      margin: 1rem auto;
-
-      >* {
-        width: 30%;
-      }
-    }
   }
 }

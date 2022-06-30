@@ -54,6 +54,7 @@ describe('Manage Categories', () => {
 		await waitFor(() =>
 			expect(screen.getByDisplayValue('Abc')).toBeVisible()
 		);
+
 		userEvent.click(screen.getByText('Save'));
 
 		await waitFor(() => expect(screen.queryByText('Abc')).toBeVisible());

@@ -3,6 +3,7 @@ import { renderApp } from '../../../testutils/renderApp';
 import { waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 describe('Manage Categories', () => {
 	let apiServer: ApiServer;
@@ -38,7 +39,15 @@ describe('Manage Categories', () => {
 		await waitFor(() =>
 			expect(screen.queryAllByText('Manage Categories')).toHaveLength(2)
 		);
-		throw new Error();
+		userEvent.click(screen.getByText('Add'));
+		await waitFor(() =>
+			expect(screen.queryByText('New Category')).toBeVisible()
+		);
+		userEvent.type(screen.getByLabelText('CategoryName'), 'Fun');
+		userEvent.click(screen.getByText('Save'));
+
+		await waitFor(() => expect(screen.queryByText('Fun')).toBeVisible());
+		expect(screen.queryByText('New Category')).not.toBeInTheDocument();
 	});
 
 	it('updates category name', async () => {

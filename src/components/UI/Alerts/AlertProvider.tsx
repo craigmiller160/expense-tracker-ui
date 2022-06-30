@@ -3,6 +3,8 @@ import { AlertColor } from '@mui/material';
 import { Updater, useImmer } from 'use-immer';
 import { nanoid } from 'nanoid';
 
+const ALERT_TIMEOUT = 6_000;
+
 export interface AlertData {
 	readonly id: string;
 	readonly severity: AlertColor;
@@ -29,15 +31,20 @@ export const AlertContext = createContext<AlertContextValue>({
 });
 
 const createAddAlert =
-	(setState: Updater<State>): AddAlert =>
-	(severity, message) =>
+	(setState: Updater<State>, removeAlert: RemoveAlert): AddAlert =>
+	(severity, message) => {
+		const id = nanoid();
+		setTimeout(() => {
+			removeAlert(id);
+		}, ALERT_TIMEOUT);
 		setState((draft) => {
 			draft.alerts.push({
-				id: nanoid(),
+				id,
 				severity,
 				message
 			});
 		});
+	};
 
 const createRemoveAlert =
 	(setState: Updater<State>): RemoveAlert =>
@@ -50,12 +57,12 @@ export const AlertProvider = (props: PropsWithChildren) => {
 	const [state, setState] = useImmer<State>({
 		alerts: []
 	});
+	const removeAlert = createRemoveAlert(setState);
 	const value: AlertContextValue = {
 		alerts: state.alerts,
-		addAlert: createAddAlert(setState),
-		removeAlert: createRemoveAlert(setState)
+		addAlert: createAddAlert(setState, removeAlert),
+		removeAlert
 	};
-	// TODO add timeout
 	return (
 		<AlertContext.Provider value={value}>
 			{props.children}

@@ -1,9 +1,9 @@
 import { ApiServer, newApiServer } from '../../../server';
 import { renderApp } from '../../../testutils/renderApp';
-import { waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { typeInInput } from '../../../testutils/testEvents';
 
 describe('Manage Categories', () => {
 	let apiServer: ApiServer;
@@ -44,13 +44,7 @@ describe('Manage Categories', () => {
 			expect(screen.queryByText('New Category')).toBeVisible()
 		);
 		expect(screen.queryByDisplayValue('New Category')).toBeVisible();
-		// TODO clean this up
-		fireEvent.change(screen.getByTestId('name-field'), {
-			target: {
-				// @ts-ignore
-				value: 'Abc'
-			}
-		});
+		typeInInput(screen.getByTestId('name-field'), 'Abc');
 		await waitFor(() =>
 			expect(screen.getByDisplayValue('Abc')).toBeVisible()
 		);

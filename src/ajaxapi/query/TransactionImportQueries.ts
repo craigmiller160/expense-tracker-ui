@@ -18,14 +18,15 @@ export type ImportTransactionsMutation = UseMutateFunction<
 
 export const useImportTransactions = () => {
 	const alertContext = useContext(AlertContext);
-	useMutation<ImportTransactionsResponse, Error, ImportTransactionsParams>(
-		({ type, file }) => importTransactions(type, file),
-		{
-			onSuccess: (data: ImportTransactionsResponse) =>
-				alertContext.addAlert(
-					'success',
-					`Successfully imported ${data.transactionsImported} transactions`
-				)
-		}
-	);
+	return useMutation<
+		ImportTransactionsResponse,
+		Error,
+		ImportTransactionsParams
+	>(({ type, file }) => importTransactions(type, file), {
+		onSuccess: (data: ImportTransactionsResponse) =>
+			alertContext.addAlert(
+				'success',
+				`Successfully imported ${data.transactionsImported} transactions`
+			)
+	});
 };

@@ -1,6 +1,6 @@
 import './ImportTransactions.scss';
-import { Button, Typography, useTheme } from '@mui/material';
-import { useForm } from 'react-hook-form';
+import { Button, LinearProgress, Typography, useTheme } from '@mui/material';
+import { useForm, UseFormReset } from 'react-hook-form';
 import { FileType } from '../../../types/file';
 import {
 	Autocomplete,
@@ -9,9 +9,13 @@ import {
 import { match } from 'ts-pattern';
 import { FileChooser } from '@craigmiller160/react-hook-form-material-ui';
 import { StyledForm } from './StyledForm';
+import {
+	ImportTransactionsMutation,
+	useImportTransactions
+} from '../../../ajaxapi/query/TransactionImportQueries';
 
 interface FormData {
-	readonly file?: File;
+	readonly file: File | null;
 	readonly fileType: SelectOption<FileType>;
 }
 
@@ -30,14 +34,30 @@ const FILE_TYPES = Object.keys(FileType)
 	)
 	.sort((a, b) => a.label.localeCompare(b.label));
 
+const defaultValues: FormData = {
+	file: null,
+	fileType: FILE_TYPES[0]
+};
+
+const createOnSubmit =
+	(
+		importTransactions: ImportTransactionsMutation,
+		reset: UseFormReset<FormData>
+	) =>
+	(values: FormData) => {
+		importTransactions({
+			file: values.file!, // eslint-disable-line @typescript-eslint/no-non-null-assertion
+			type: values.fileType.value
+		});
+	};
+
 export const Import = () => {
-	const { control, handleSubmit } = useForm<FormData>({
-		defaultValues: {
-			fileType: FILE_TYPES[0]
-		}
+	const { control, handleSubmit, reset } = useForm<FormData>({
+		defaultValues
 	});
+	const { mutate, isLoading } = useImportTransactions();
 	const theme = useTheme();
-	const onSubmit = (values: FormData) => console.log('Values', values);
+	const onSubmit = createOnSubmit(mutate, reset);
 
 	return (
 		<div className="ImportTransactions">
@@ -54,13 +74,19 @@ export const Import = () => {
 					control={control}
 					label="File Type"
 					options={FILE_TYPES}
+					disabled={isLoading}
+					rules={{ required: 'File Type is required' }}
 				/>
 				<FileChooser
 					name="file"
 					control={control}
+					disabled={isLoading}
 					rules={{ required: 'File is required' }}
 				/>
-				<Button variant="contained" type="submit">
+				{
+					isLoading && <LinearProgress />
+				}
+				<Button variant="contained" type="submit" disabled={isLoading}>
 					Submit
 				</Button>
 			</StyledForm>

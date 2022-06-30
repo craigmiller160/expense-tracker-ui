@@ -1066,9 +1066,9 @@
     prettier "^2.5.1"
 
 "@craigmiller160/react-hook-form-material-ui@^1.2.0-beta":
-  version "1.2.0-beta.5"
-  resolved "https://craigmiller160.ddns.net:30003/repository/npm-group/@craigmiller160/react-hook-form-material-ui/-/react-hook-form-material-ui-1.2.0-beta.5.tgz#37036a38ea5b3ae85b8a6d617b1fdbee5e635a0a"
-  integrity sha512-0acG+7vt0OhI6Lj6c5prlZTg36wbjxGOKDc+N7clwH7ymHvIN3z4HDpeTu0wH2JF8hQj4jnysLMmhaLjYnBrTw==
+  version "1.2.0-beta.7"
+  resolved "https://craigmiller160.ddns.net:30003/repository/npm-group/@craigmiller160/react-hook-form-material-ui/-/react-hook-form-material-ui-1.2.0-beta.7.tgz#a72a00702527799a3d3ac5432e6ec683ff67cd2f"
+  integrity sha512-5X+ka2hU6+pEWHmUfmn9WXsrivPDJk3rQAcwORDH1ZqM26dXqMnm2ai+AyUx2KkAfLuMPskHccQaXjW5JE5CSA==
 
 "@craigmiller160/ts-functions@^1.4.0":
   version "1.4.0"

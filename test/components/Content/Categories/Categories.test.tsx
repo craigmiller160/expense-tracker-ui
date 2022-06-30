@@ -57,8 +57,10 @@ describe('Manage Categories', () => {
 
 		userEvent.click(screen.getByText('Save'));
 
+		await waitFor(() =>
+			expect(screen.queryByText('New Category')).not.toBeInTheDocument()
+		);
 		await waitFor(() => expect(screen.queryByText('Abc')).toBeVisible());
-		expect(screen.queryByText('New Category')).not.toBeInTheDocument();
 	});
 
 	it('updates category name', async () => {

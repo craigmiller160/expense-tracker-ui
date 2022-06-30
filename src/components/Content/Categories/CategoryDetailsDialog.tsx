@@ -145,7 +145,10 @@ export const CategoryDetailsDialog = (props: Props) => {
 			onClose={props.onClose}
 			actions={Actions}
 		>
-			<div className="CategoryDetailsDialog" data-testid="category-details-form">
+			<div
+				className="CategoryDetailsDialog"
+				data-testid="category-details-form"
+			>
 				<Typography variant="h6">Category Information</Typography>
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<TextField

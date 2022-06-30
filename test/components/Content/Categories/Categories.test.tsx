@@ -103,6 +103,32 @@ describe('Manage Categories', () => {
 		await waitFor(() =>
 			expect(screen.queryAllByText('Manage Categories')).toHaveLength(2)
 		);
-		throw new Error();
+		await waitFor(() =>
+			expect(screen.queryAllByText('Details')).toHaveLength(3)
+		);
+		const firstDetailsButton = screen.getAllByText('Details')[0];
+		userEvent.click(firstDetailsButton);
+
+		await waitFor(() =>
+			expect(screen.queryByText('Category: Entertainment')).toBeVisible()
+		);
+		userEvent.click(screen.getByText('Delete'));
+		await waitFor(() =>
+			expect(screen.queryByText('Confirm')).toBeVisible()
+		);
+		expect(
+			screen.queryByText('Are you sure you want to delete this Category?')
+		).toBeVisible();
+		userEvent.click(screen.getByText('Confirm'));
+
+		await waitFor(() =>
+			expect(
+				screen.queryByText('Category: Entertainment')
+			).not.toBeInTheDocument()
+		);
+		await waitFor(() =>
+			expect(screen.queryAllByText('Details')).toHaveLength(2)
+		);
+		expect(screen.queryByText('Entertainment')).not.toBeInTheDocument();
 	});
 });

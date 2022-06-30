@@ -7,4 +7,28 @@
     // TODO make this style re-usable
     margin-bottom: 2rem;
   }
+
+  .ImportForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+
+    >* {
+      width: 30%;
+      margin: 1rem auto;
+    }
+
+    .ImportFormRow {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      width: 100%;
+      margin: 1rem auto;
+
+      >* {
+        width: 30%;
+      }
+    }
+  }
 }

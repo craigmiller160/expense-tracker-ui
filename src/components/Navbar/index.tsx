@@ -1,7 +1,7 @@
 import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
 import { useDeriveNavbarFromAuthUser } from './useDeriveNavbarFromAuthUser';
 import { Link } from 'react-router-dom';
-import './Navbar.scss';
+import { LinkButton } from './LinkButton';
 
 export const Navbar = () => {
 	const {
@@ -26,21 +26,14 @@ export const Navbar = () => {
 					<Box sx={{ marginRight: '1rem' }} />
 					{isAuthorized && (
 						<>
-							<Button
-								component={Link}
+							<LinkButton
 								to="/expense-tracker/categories"
-								color="inherit"
-							>
-								Manage Categories
-							</Button>
-							<Button
-								component={Link}
+								label="Manage Categories"
+							/>
+							<LinkButton
 								to="/expense-tracker/upload"
-								color="inherit"
-								className="active"
-							>
-								Upload Transactions
-							</Button>
+								label="Upload Transactions"
+							/>
 						</>
 					)}
 					<Box sx={{ flexGrow: 1 }} />

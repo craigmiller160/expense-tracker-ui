@@ -1,0 +1,10 @@
+@import "../../../styles/page";
+
+.TransactionUpload {
+  @include PageRoot;
+
+  .TitleWrapper {
+    // TODO make this style re-usable
+    margin-bottom: 2rem;
+  }
+}

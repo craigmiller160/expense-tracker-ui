@@ -24,13 +24,22 @@ export const Navbar = () => {
 					</Button>
 					<Box sx={{ marginRight: '1rem' }} />
 					{isAuthorized && (
-						<Button
-							component={Link}
-							to="/expense-tracker/categories"
-							color="inherit"
-						>
-							Manage Categories
-						</Button>
+						<>
+							<Button
+								component={Link}
+								to="/expense-tracker/categories"
+								color="inherit"
+							>
+								Manage Categories
+							</Button>
+							<Button
+								component={Link}
+								to="/expense-tracker/categories"
+								color="inherit"
+							>
+								Upload Transactions
+							</Button>
+						</>
 					)}
 					<Box sx={{ flexGrow: 1 }} />
 					{hasCheckedAuthorization && (

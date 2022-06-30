@@ -1,6 +1,7 @@
 import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
 import { useDeriveNavbarFromAuthUser } from './useDeriveNavbarFromAuthUser';
 import { Link } from 'react-router-dom';
+import './Navbar.scss';
 
 export const Navbar = () => {
 	const {
@@ -10,7 +11,7 @@ export const Navbar = () => {
 		hasCheckedAuthorization
 	} = useDeriveNavbarFromAuthUser();
 	return (
-		<Box sx={{ flexGrow: 1 }}>
+		<Box sx={{ flexGrow: 1 }} className="Navbar">
 			<AppBar position="static">
 				<Toolbar>
 					<Button
@@ -36,6 +37,7 @@ export const Navbar = () => {
 								component={Link}
 								to="/expense-tracker/upload"
 								color="inherit"
+								className="active"
 							>
 								Upload Transactions
 							</Button>

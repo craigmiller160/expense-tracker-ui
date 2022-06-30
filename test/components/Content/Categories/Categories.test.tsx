@@ -26,6 +26,9 @@ describe('Manage Categories', () => {
 		await waitFor(() =>
 			expect(screen.queryAllByText('Details')).toHaveLength(3)
 		);
+		expect(screen.queryByText('Groceries')).toBeVisible();
+		expect(screen.queryByText('Restaurants')).toBeVisible();
+		expect(screen.queryByText('Entertainment')).toBeVisible();
 	});
 
 	it('adds new category', async () => {

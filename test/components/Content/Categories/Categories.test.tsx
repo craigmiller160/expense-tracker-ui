@@ -20,12 +20,21 @@ describe('Manage Categories', () => {
 		await waitFor(() =>
 			expect(screen.queryAllByText('Manage Categories')).toHaveLength(2)
 		);
+		expect(screen.queryByText('Name')).toBeVisible();
+		expect(screen.queryByText('Actions')).toBeVisible();
+		expect(screen.queryByText('Add')).toBeVisible();
+		await waitFor(() =>
+			expect(screen.queryAllByText('Details')).toHaveLength(3)
+		);
 	});
 
 	it('adds new category', async () => {
 		renderApp({
 			initialPath: '/expense-tracker/categories'
 		});
+		await waitFor(() =>
+			expect(screen.queryAllByText('Manage Categories')).toHaveLength(2)
+		);
 		throw new Error();
 	});
 
@@ -33,6 +42,9 @@ describe('Manage Categories', () => {
 		renderApp({
 			initialPath: '/expense-tracker/categories'
 		});
+		await waitFor(() =>
+			expect(screen.queryAllByText('Manage Categories')).toHaveLength(2)
+		);
 		throw new Error();
 	});
 
@@ -40,6 +52,9 @@ describe('Manage Categories', () => {
 		renderApp({
 			initialPath: '/expense-tracker/categories'
 		});
+		await waitFor(() =>
+			expect(screen.queryAllByText('Manage Categories')).toHaveLength(2)
+		);
 		throw new Error();
 	});
 });

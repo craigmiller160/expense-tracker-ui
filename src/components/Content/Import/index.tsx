@@ -7,6 +7,7 @@ import {
 	SelectOption
 } from '@craigmiller160/react-hook-form-material-ui';
 import { match } from 'ts-pattern';
+import { FileChooser } from '../../UI/FileChooser';
 
 interface FormData {
 	readonly file?: File;
@@ -53,8 +54,14 @@ export const Import = () => {
 					label="File Type"
 					options={FILE_TYPES}
 				/>
-				<Input type="file" />
-				<Button variant="contained">Submit</Button>
+				<FileChooser
+					name="file"
+					control={control}
+					rules={{ required: 'File is required' }}
+				/>
+				<Button variant="contained" type="submit">
+					Submit
+				</Button>
 			</form>
 		</div>
 	);

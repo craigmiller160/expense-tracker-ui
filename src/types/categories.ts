@@ -1,5 +1,6 @@
-export interface CategoryResponse {
-	readonly id: string;
+import { DbRecord } from './db';
+
+export interface CategoryResponse extends DbRecord {
 	readonly name: string;
 }
 

@@ -1,29 +1,17 @@
-import { ReactElement, Suspense } from 'react';
+import { ReactElement } from 'react';
 import { useGetAuthUser } from '../ajaxapi/query/AuthQueries';
 import { Navigate, RouteObject, useRoutes } from 'react-router';
 import { namedLazy } from '../utils/reactWrappers';
 import { match } from 'ts-pattern';
-
-// TODO need a better fallback
-const Fallback = () => <></>;
+import { LazySuspenseWrapper } from '../components/UI/LazySuspenseWrapper';
 
 const Welcome = namedLazy(
 	() => import('../components/Content/Welcome'),
 	'Welcome'
 );
-const SuspenseWelcome = () => (
-	<Suspense fallback={<Fallback />}>
-		<Welcome />
-	</Suspense>
-);
 const Categories = namedLazy(
 	() => import('../components/Content/Categories'),
 	'Categories'
-);
-const SuspenseCategories = () => (
-	<Suspense fallback={<Fallback />}>
-		<Categories />
-	</Suspense>
 );
 
 interface RouteRules {
@@ -34,7 +22,7 @@ interface RouteRules {
 const createAuthorizedRoutes = (): RouteObject[] => [
 	{
 		path: 'welcome',
-		element: <SuspenseWelcome />
+		element: <LazySuspenseWrapper component={Welcome} />
 	},
 	{
 		path: '',
@@ -42,7 +30,7 @@ const createAuthorizedRoutes = (): RouteObject[] => [
 	},
 	{
 		path: 'categories',
-		element: <SuspenseCategories />
+		element: <LazySuspenseWrapper component={Categories} />
 	},
 	{
 		path: '*',

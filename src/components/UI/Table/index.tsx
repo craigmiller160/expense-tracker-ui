@@ -26,7 +26,12 @@ export const Table = (props: PropsWithChildren<Props>) => (
 					))}
 				</TableRow>
 			</TableHead>
-			{!props.loading && <TableBody>{props.children}</TableBody>}
+			{!props.loading && (
+				<>
+					<TableBody>{props.children}</TableBody>
+					<div />
+				</>
+			)}
 		</MuiTable>
 		{props.loading && <LinearProgress />}
 	</TableContainer>

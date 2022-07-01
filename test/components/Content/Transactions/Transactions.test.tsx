@@ -49,6 +49,11 @@ const validateTransactionElements = (
 	}
 };
 
+const validateNumberOfTransactions = (expectedCount: number) =>
+	expect(screen.queryAllByText(/Transaction \d+/)).toHaveLength(
+		expectedCount
+	);
+
 describe('Transactions', () => {
 	let apiServer: ApiServer;
 	beforeEach(() => {
@@ -78,8 +83,7 @@ describe('Transactions', () => {
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 
-		expect(screen.queryAllByText(/Transaction \d+/)).toHaveLength(25);
-
+		validateNumberOfTransactions(25);
 		validateTransactionElements(0, 24);
 	});
 
@@ -98,7 +102,7 @@ describe('Transactions', () => {
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 
-		expect(screen.queryAllByText(/Transaction \d+/)).toHaveLength(25);
+		validateNumberOfTransactions(25);
 
 		const rowsPerPageSelect = screen
 			.getByTestId('table-pagination')
@@ -116,9 +120,7 @@ describe('Transactions', () => {
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 
-		await waitFor(() =>
-			expect(screen.queryAllByText(/Transaction \d+/)).toHaveLength(10)
-		);
+		await waitFor(() => validateNumberOfTransactions(10));
 	});
 
 	it('can paginate and load the correct data successfully', async () => {

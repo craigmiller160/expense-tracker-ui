@@ -57,6 +57,32 @@ describe('Transaction Import', () => {
 	});
 
 	it('prevents import of improperly filled out form', async () => {
-		throw new Error();
+		renderApp({
+			initialPath: '/expense-tracker/import'
+		});
+		await waitFor(() =>
+			expect(screen.queryByText('Expense Tracker')).toBeVisible()
+		);
+		await waitFor(() =>
+			expect(screen.queryAllByText('Import Transactions')).toHaveLength(2)
+		);
+
+		const autocomplete = screen.getByLabelText('File Type');
+		autocomplete.focus();
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		screen.debug(autocomplete.parentElement!);
+		const clearButton = autocomplete.parentElement?.querySelector(
+			'.MuiAutocomplete-clearIndicator'
+		);
+		expect(clearButton).toBeTruthy();
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		userEvent.click(clearButton!);
+
+		userEvent.click(screen.getByText('Import'));
+
+		await waitFor(() =>
+			expect(screen.queryByText('File is required')).toBeVisible()
+		);
+		expect(screen.queryByText('File Type is required')).toBeVisible();
 	});
 });

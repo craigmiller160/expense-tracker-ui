@@ -19,6 +19,36 @@ const validationMonoid: MonoidT<TryT<unknown>> = {
 			.otherwise(() => try1)
 };
 
+const validateTransactionElements = (
+	startInclusive: number,
+	endInclusive: number
+) => {
+	const result = pipe(
+		RNonEmptyArray.range(startInclusive, endInclusive),
+		RNonEmptyArray.map((index) => `Transaction ${index}`),
+		RNonEmptyArray.map((description) =>
+			pipe(
+				Try.tryCatch(() =>
+					expect(screen.queryByText(description)).toBeVisible()
+				),
+				Either.mapLeft(
+					(ex) =>
+						new Error(
+							`Error validating ${description}. ${ex.message}`,
+							{
+								cause: ex
+							}
+						)
+				)
+			)
+		),
+		Monoid.concatAll(validationMonoid)
+	);
+	if (Either.isLeft<Error>(result)) {
+		throw result.left;
+	}
+};
+
 describe('Transactions', () => {
 	let apiServer: ApiServer;
 	beforeEach(() => {
@@ -50,30 +80,7 @@ describe('Transactions', () => {
 
 		expect(screen.queryAllByText(/Transaction \d+/)).toHaveLength(25);
 
-		const result = pipe(
-			RNonEmptyArray.range(0, 24),
-			RNonEmptyArray.map((index) => `Transaction ${index}`),
-			RNonEmptyArray.map((description) =>
-				pipe(
-					Try.tryCatch(() =>
-						expect(screen.queryByText(description)).toBeVisible()
-					),
-					Either.mapLeft(
-						(ex) =>
-							new Error(
-								`Error validating ${description}. ${ex.message}`,
-								{
-									cause: ex
-								}
-							)
-					)
-				)
-			),
-			Monoid.concatAll(validationMonoid)
-		);
-		if (Either.isLeft<Error>(result)) {
-			throw result.left;
-		}
+		validateTransactionElements(0, 24);
 	});
 
 	it('can change the rows-per-page and automatically re-load the data', async () => {

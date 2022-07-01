@@ -13,7 +13,7 @@ import {
 	ImportTransactionsMutation,
 	useImportTransactions
 } from '../../../ajaxapi/query/TransactionImportQueries';
-import { useEffect, useRef, useState } from 'react';
+import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { PageTitle } from '../../UI/PageTitle';
 
 interface FormData {
@@ -66,14 +66,28 @@ const useTestFile = (reset: UseFormReset<FormData>): boolean => {
 	return isTest;
 };
 
+const createReset =
+	(
+		ref: MutableRefObject<HTMLInputElement | undefined>,
+		reset: UseFormReset<FormData>
+	) =>
+	() => {
+		reset(defaultValues);
+		if (ref.current) {
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-ignore
+			ref.current.value = null;
+		}
+	};
+
 export const Import = () => {
 	const { control, handleSubmit, reset } = useForm<FormData>({
 		defaultValues
 	});
-	const { mutate, isLoading } = useImportTransactions(() =>
-		reset(defaultValues)
-	);
 	const fileInputRef = useRef<HTMLInputElement>();
+	const { mutate, isLoading } = useImportTransactions(
+		createReset(fileInputRef, reset)
+	);
 	const theme = useTheme();
 	const onSubmit = createOnSubmit(mutate);
 	const isTest = useTestFile(reset);

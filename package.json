@@ -41,7 +41,7 @@
   "dependencies": {
     "@craigmiller160/ajax-api": "^1.2.0-beta",
     "@craigmiller160/react-hook-form-material-ui": "^1.2.0-beta",
-    "@craigmiller160/ts-functions": "^1.4.0",
+    "@craigmiller160/ts-functions": "^1.5.0-beta",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "@mui/icons-material": "^5.8.4",

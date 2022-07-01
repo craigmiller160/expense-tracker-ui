@@ -1,4 +1,4 @@
-import { Button, TableCell, TableRow, Typography } from '@mui/material';
+import { Button, TableCell, TableRow } from '@mui/material';
 import './Categories.scss';
 import {
 	CreateCategoryMutation,
@@ -21,6 +21,7 @@ import {
 	NewConfirmDialog,
 	useNewConfirmDialog
 } from '../../UI/ConfirmDialog/ConfirmDialogProvider';
+import { PageTitle } from '../../UI/PageTitle';
 
 const COLUMNS = ['Name', 'Actions'];
 
@@ -139,9 +140,7 @@ export const Categories = () => {
 
 	return (
 		<div className="Categories">
-			<div className="TitleWrapper">
-				<Typography variant="h4">Manage Categories</Typography>
-			</div>
+			<PageTitle title="Manage Categories" />
 			<div className="TableWrapper">
 				<div className="ActionWrapper">
 					<Button

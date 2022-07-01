@@ -5,6 +5,7 @@ import { createServer } from 'miragejs';
 import { createOAuthRoutes } from './routes/oauth';
 import { seedCategories } from './seedData/categories';
 import { createCategoriesRoutes } from './routes/categories';
+import { createImportRoutes } from './routes/import';
 
 interface ApiServerActions {
 	readonly clearDefaultUser: () => void;
@@ -39,6 +40,7 @@ export const newApiServer = (): ApiServer => {
 			this.namespace = '/expense-tracker/api';
 			createOAuthRoutes(database, this);
 			createCategoriesRoutes(database, this);
+			createImportRoutes(database, this);
 		}
 	});
 

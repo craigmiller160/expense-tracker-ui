@@ -1,0 +1,11 @@
+@import "../../../styles/page";
+
+.ImportTransactions {
+  @include PageRoot;
+
+  .ImportForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}

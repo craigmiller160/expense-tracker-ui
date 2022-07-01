@@ -21,7 +21,7 @@ export interface TablePaginationConfig {
 		event: MouseEvent<HTMLButtonElement> | null,
 		page: number
 	) => void;
-	readonly onRowsPerPageChange: (
+	readonly onRecordsPerPageChange: (
 		event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
 	) => void;
 }
@@ -53,7 +53,7 @@ export const Table = (props: PropsWithChildren<Props>) => (
 								rowsPerPage={props.pagination.recordsPerPage}
 								onPageChange={props.pagination.onChangePage}
 								onRowsPerPageChange={
-									props.pagination.onRowsPerPageChange
+									props.pagination.onRecordsPerPageChange
 								}
 							/>
 						)}

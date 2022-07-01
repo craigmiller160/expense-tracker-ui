@@ -36,7 +36,7 @@ const toPagination = (
 					setState((draft) => {
 						draft.pageNumber = pageNumber;
 					}),
-				onRowsPerPageChange: (event) =>
+				onRecordsPerPageChange: (event) =>
 					setState((draft) => {
 						draft.pageSize = parseInt(event.target.value, 10);
 					})

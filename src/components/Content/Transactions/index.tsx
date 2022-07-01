@@ -61,6 +61,13 @@ export const Transactions = () => {
 	return (
 		<div className="ManageTransactions">
 			<PageTitle title="Manage Transactions" />
+			<div className="TableFilters">
+				<span>Start</span>
+				<span>End</span>
+				<span>Sort</span>
+				<span>CategoryType</span>
+				<span>Categories</span>
+			</div>
 			<div className="TableWrapper">
 				<Table
 					columns={COLUMNS}

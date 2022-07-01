@@ -3,6 +3,12 @@
 .ManageTransactions {
   @include PageRoot;
 
+  .TableFilters {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
   .TableWrapper {
     // TODO make re-usable with Categories
     width: 50%;

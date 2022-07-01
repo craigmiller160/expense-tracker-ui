@@ -12,7 +12,6 @@ import { match } from 'ts-pattern';
 import { SortDirection } from '../../../src/types/misc';
 import { Ordering } from 'fp-ts/es6/Ordering';
 import { Ord } from 'fp-ts/es6/Ord';
-import * as Arr from 'fp-ts/es6/Array';
 
 const parseDate = Time.parse(DATE_FORMAT);
 
@@ -50,9 +49,8 @@ const paginateTransactions =
 	(pageNumber: number, pageSize: number) =>
 	(
 		transactions: ReadonlyArray<TransactionResponse>
-	): ReadonlyArray<TransactionResponse> => {
-
-	};
+	): ReadonlyArray<TransactionResponse> =>
+		transactions.slice(pageNumber, pageNumber + pageSize);
 
 export const createTransactionsRoutes = (
 	database: Database,

@@ -16,7 +16,7 @@ const error: ErrorResponse = {
 
 export const createImportRoutes = (database: Database, server: Server) => {
 	server.post('/transaction-import', (schema, request) => {
-		return match(request.params.type as FileType)
+		return match(request.queryParams?.type as FileType)
 			.with(
 				FileType.CHASE_CSV,
 				(): ImportTransactionsResponse => ({

@@ -6,6 +6,7 @@ import { createOAuthRoutes } from './routes/oauth';
 import { seedCategories } from './seedData/categories';
 import { createCategoriesRoutes } from './routes/categories';
 import { createImportRoutes } from './routes/import';
+import { seedTransactions } from './seedData/transactions';
 
 interface ApiServerActions {
 	readonly clearDefaultUser: () => void;
@@ -33,6 +34,7 @@ export const newApiServer = (): ApiServer => {
 			roles: []
 		});
 		seedCategories(draft);
+		seedTransactions(draft);
 	});
 
 	const server: Server = createServer({

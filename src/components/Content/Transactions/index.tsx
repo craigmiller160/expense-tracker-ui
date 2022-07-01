@@ -12,7 +12,7 @@ import { pipe } from 'fp-ts/es6/function';
 import * as Option from 'fp-ts/es6/Option';
 import { Updater, useImmer } from 'use-immer';
 
-const COLUMNS = ['Expense Date', 'Description', 'Amount', 'Category'];
+const COLUMNS = ['Expense Date', 'Description', 'Amount'];
 const DEFAULT_ROWS_PER_PAGE = 25;
 
 interface State {
@@ -72,7 +72,6 @@ export const Transactions = () => {
 							<TableCell>{txn.expenseDate}</TableCell>
 							<TableCell>{txn.description}</TableCell>
 							<TableCell>{txn.amount}</TableCell>
-							<TableCell>{txn.categoryName}</TableCell>
 						</TableRow>
 					))}
 				</Table>

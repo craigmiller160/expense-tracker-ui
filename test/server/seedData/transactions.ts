@@ -6,6 +6,9 @@ import {
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 import { pipe } from 'fp-ts/es6/function';
 import { nanoid } from 'nanoid';
+import * as RNonEmptyArray from 'fp-ts/es6/ReadonlyNonEmptyArray';
+import { MonoidT } from '@craigmiller160/ts-functions/es/types';
+import * as Monoid from 'fp-ts/es6/Monoid';
 
 const newExpenseDate = (index: number): string =>
 	pipe(new Date(), Time.addDays(index), Time.format(DATE_FORMAT));
@@ -18,11 +21,21 @@ const createTransaction = (index: number): TransactionResponse => ({
 	confirmed: false
 });
 
+const transactionDbMonoid: MonoidT<Record<string, TransactionResponse>> = {
+	empty: {},
+	concat: (db1, db2) => ({
+		...db1,
+		...db2
+	})
+};
+
 export const seedTransactions: DataUpdater = (draft) => {
-	draft.transactions = [...Array(100).keys()]
-		.map((index) => createTransaction(index))
-		.reduce((acc, txn) => {
-			acc[txn.id] = txn;
-			return acc;
-		}, {} as Record<string, TransactionResponse>);
+	draft.transactions = pipe(
+		RNonEmptyArray.range(0, 100),
+		RNonEmptyArray.map(createTransaction),
+		RNonEmptyArray.map(
+			(txn): Record<string, TransactionResponse> => ({ [txn.id]: txn })
+		),
+		Monoid.concatAll(transactionDbMonoid)
+	);
 };

@@ -1,16 +1,16 @@
 import {
-	Paper,
-	TableContainer,
-	Table as MuiTable,
-	TableHead,
-	TableRow,
-	TableCell,
-	TableBody,
 	LinearProgress,
+	Paper,
+	Table as MuiTable,
+	TableBody,
+	TableCell,
+	TableContainer,
 	TableFooter,
-	TablePagination
+	TableHead,
+	TablePagination,
+	TableRow
 } from '@mui/material';
-import { MouseEvent, ChangeEvent, PropsWithChildren } from 'react';
+import { ChangeEvent, MouseEvent, PropsWithChildren } from 'react';
 import './Table.scss';
 
 export interface TablePaginationConfig {
@@ -48,6 +48,7 @@ export const Table = (props: PropsWithChildren<Props>) => (
 					<TableFooter>
 						{props.pagination && (
 							<TablePagination
+								data-testid="table-pagination"
 								count={props.pagination.totalRecords}
 								page={props.pagination.currentPage}
 								rowsPerPage={props.pagination.recordsPerPage}
@@ -55,10 +56,6 @@ export const Table = (props: PropsWithChildren<Props>) => (
 								onRowsPerPageChange={
 									props.pagination.onRecordsPerPageChange
 								}
-								SelectProps={{
-									// @ts-ignore
-									'data-testid': 'rows-per-page-select'
-								}}
 							/>
 						)}
 					</TableFooter>

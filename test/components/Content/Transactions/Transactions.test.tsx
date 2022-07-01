@@ -94,7 +94,7 @@ describe('Transactions', () => {
 		expect(screen.queryAllByText(/Transaction \d+/)).toHaveLength(25);
 
 		const rowsPerPageSelect = screen
-			.getByTestId('rows-per-page-select')
+			.getByTestId('table-pagination')
 			.querySelector('div.MuiTablePagination-select');
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		userEvent.click(rowsPerPageSelect!);

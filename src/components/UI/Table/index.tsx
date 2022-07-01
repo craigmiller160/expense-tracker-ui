@@ -45,7 +45,7 @@ export const Table = (props: PropsWithChildren<Props>) => (
 			{!props.loading && (
 				<>
 					<TableBody>{props.children}</TableBody>
-					<TableFooter data-testid="table-footer">
+					<TableFooter>
 						{props.pagination && (
 							<TablePagination
 								count={props.pagination.totalRecords}
@@ -55,6 +55,10 @@ export const Table = (props: PropsWithChildren<Props>) => (
 								onRowsPerPageChange={
 									props.pagination.onRecordsPerPageChange
 								}
+								SelectProps={{
+									// @ts-ignore
+									'data-testid': 'rows-per-page-select'
+								}}
 							/>
 						)}
 					</TableFooter>

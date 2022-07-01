@@ -9,6 +9,7 @@ import { TryT, MonoidT } from '@craigmiller160/ts-functions/es/types';
 import * as Either from 'fp-ts/es6/Either';
 import { match } from 'ts-pattern';
 import * as Monoid from 'fp-ts/es6/Monoid';
+import userEvent from '@testing-library/user-event';
 
 const validationMonoid: MonoidT<TryT<unknown>> = {
 	empty: Either.right(null),
@@ -47,6 +48,8 @@ describe('Transactions', () => {
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 
+		expect(screen.queryAllByText(/Transaction \d+/)).toHaveLength(25);
+
 		const result = pipe(
 			RNonEmptyArray.range(0, 24),
 			RNonEmptyArray.map((index) => `Transaction ${index}`),
@@ -83,7 +86,25 @@ describe('Transactions', () => {
 		await waitFor(() =>
 			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
 		);
-		throw new Error();
+
+		await waitFor(() =>
+			expect(screen.queryByText('Rows per page:')).toBeVisible()
+		);
+
+		expect(screen.queryAllByText(/Transaction \d+/)).toHaveLength(25);
+
+		const rowsPerPageSelect = screen.getByTestId('rows-per-page-select');
+		userEvent.click(rowsPerPageSelect);
+
+		// TODO probably getting an amount value...
+		await waitFor(() => expect(screen.queryByText('10')).toBeVisible());
+		userEvent.click(screen.getByText('10'));
+
+		await waitFor(() =>
+			expect(screen.queryByText('Rows per page:')).toBeVisible()
+		);
+
+		expect(screen.queryAllByText(/Transaction \d+/)).toHaveLength(10);
 	});
 
 	it('can paginate and load the correct data successfully', async () => {

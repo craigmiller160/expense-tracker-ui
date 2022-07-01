@@ -61,7 +61,7 @@ export const Transactions = () => {
 	return (
 		<div className="ManageTransactions">
 			<PageTitle title="Manage Transactions" />
-			<div className="TableWrapper">
+			<div className="TableWrapper" data-testid="transaction-table">
 				<Table
 					columns={COLUMNS}
 					loading={isFetching}

@@ -28,7 +28,7 @@ describe('Transaction Import', () => {
 		userEvent.click(screen.getByText('Import'));
 		await waitFor(() =>
 			expect(
-				screen.getByText(/Successfully imported \d+ transactions/)
+				screen.getByText('Successfully imported 10 transactions')
 			).toBeVisible()
 		);
 	});

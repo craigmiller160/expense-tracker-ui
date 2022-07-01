@@ -107,6 +107,7 @@ describe('Transactions', () => {
 		const rowsPerPageSelect = screen
 			.getByTestId('table-pagination')
 			.querySelector('div.MuiTablePagination-select');
+		expect(rowsPerPageSelect).toBeVisible();
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		userEvent.click(rowsPerPageSelect!);
 
@@ -133,6 +134,29 @@ describe('Transactions', () => {
 		await waitFor(() =>
 			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
 		);
-		throw new Error();
+
+		await waitFor(() =>
+			expect(screen.queryByText('Rows per page:')).toBeVisible()
+		);
+
+		validateNumberOfTransactions(25);
+		validateTransactionElements(0, 24);
+		expect(screen.queryByText(/.*1–25 of 100.*/)).toBeVisible();
+
+		const nextPageButton = screen
+			.getByTestId('table-pagination')
+			.querySelector('button[title="Go to next page"]');
+		expect(nextPageButton).toBeVisible();
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		userEvent.click(nextPageButton!);
+
+		await waitFor(() =>
+			expect(screen.queryByText('Rows per page:')).toBeVisible()
+		);
+		await waitFor(() =>
+			expect(screen.queryByText(/.*26-50 of 100.*/)).toBeVisible()
+		);
+		validateNumberOfTransactions(25);
+		validateTransactionElements(25, 49);
 	});
 });

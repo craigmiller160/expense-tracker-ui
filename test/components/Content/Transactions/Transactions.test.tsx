@@ -1,5 +1,6 @@
 import { ApiServer, newApiServer } from '../../../server';
 import { renderApp } from '../../../testutils/renderApp';
+import { screen, waitFor } from '@testing-library/react';
 
 describe('Transactions', () => {
 	let apiServer: ApiServer;
@@ -15,6 +16,12 @@ describe('Transactions', () => {
 		renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
+		await waitFor(() =>
+			expect(screen.queryByText('Expense Tracker')).toBeVisible()
+		);
+		await waitFor(() =>
+			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
+		);
 		throw new Error();
 	});
 
@@ -22,6 +29,12 @@ describe('Transactions', () => {
 		renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
+		await waitFor(() =>
+			expect(screen.queryByText('Expense Tracker')).toBeVisible()
+		);
+		await waitFor(() =>
+			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
+		);
 		throw new Error();
 	});
 
@@ -29,6 +42,12 @@ describe('Transactions', () => {
 		renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
+		await waitFor(() =>
+			expect(screen.queryByText('Expense Tracker')).toBeVisible()
+		);
+		await waitFor(() =>
+			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
+		);
 		throw new Error();
 	});
 });

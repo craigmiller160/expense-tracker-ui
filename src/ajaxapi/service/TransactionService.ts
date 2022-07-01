@@ -1,11 +1,13 @@
 import {
 	DATE_FORMAT,
-	SearchTransactionsRequest
+	SearchTransactionsRequest,
+	SearchTransactionsResponse
 } from '../../types/transactions';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 import qs from 'qs';
 import { pipe } from 'fp-ts/es6/function';
 import * as Option from 'fp-ts/es6/Option';
+import { expenseTrackerApi, getData } from './AjaxApi';
 
 const formatSearchDate = Time.format(DATE_FORMAT);
 
@@ -29,7 +31,14 @@ export const requestToQuery = (request: SearchTransactionsRequest): string =>
 		)
 	});
 
-// export const searchForTransactions = (
-// 	request: SearchTransactionsRequest
-// ): Promise<SearchTransactionsResponse> => {};
-//
+export const searchForTransactions = (
+	request: SearchTransactionsRequest
+): Promise<SearchTransactionsResponse> => {
+	const query = requestToQuery(request);
+	return expenseTrackerApi
+		.get<SearchTransactionsResponse>({
+			uri: `/transactions?${query}`,
+			errorCustomizer: 'Error searching for transactions'
+		})
+		.then(getData);
+};

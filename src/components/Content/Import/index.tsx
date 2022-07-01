@@ -1,12 +1,12 @@
 import './ImportTransactions.scss';
-import { Button, LinearProgress, Typography, useTheme } from '@mui/material';
+import { Button, LinearProgress, useTheme } from '@mui/material';
 import { useForm, UseFormReset } from 'react-hook-form';
 import { FileType } from '../../../types/file';
 import {
 	Autocomplete,
+	FileChooser,
 	SelectOption
 } from '@craigmiller160/react-hook-form-material-ui';
-import { FileChooser } from '@craigmiller160/react-hook-form-material-ui';
 import { match } from 'ts-pattern';
 import { StyledForm } from './StyledForm';
 import {
@@ -14,6 +14,7 @@ import {
 	useImportTransactions
 } from '../../../ajaxapi/query/TransactionImportQueries';
 import { useEffect, useState } from 'react';
+import { PageTitle } from '../../UI/PageTitle';
 
 interface FormData {
 	readonly file: File | null;
@@ -81,9 +82,7 @@ export const Import = () => {
 
 	return (
 		<div className="ImportTransactions">
-			<div className="TitleWrapper">
-				<Typography variant="h4">Import Transactions</Typography>
-			</div>
+			<PageTitle title="Import Transactions" />
 			<StyledForm
 				breakpoints={theme.breakpoints}
 				className="ImportForm"

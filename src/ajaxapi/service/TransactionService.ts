@@ -13,7 +13,12 @@ export const requestToQuery = (request: SearchTransactionsRequest): string =>
 		startDate: request.startDate
 			? formatSearchDate(request.startDate)
 			: undefined,
-		endDate: request.endDate ? formatSearchDate(request.endDate) : undefined
+		endDate: request.endDate
+			? formatSearchDate(request.endDate)
+			: undefined,
+		categoryIds: request.categoryIds
+			? request.categoryIds.join(',')
+			: undefined
 	});
 
 // export const searchForTransactions = (

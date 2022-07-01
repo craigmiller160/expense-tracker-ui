@@ -31,7 +31,7 @@ const transactionDbMonoid: MonoidT<Record<string, TransactionResponse>> = {
 
 export const seedTransactions: DataUpdater = (draft) => {
 	draft.transactions = pipe(
-		RNonEmptyArray.range(0, 100),
+		RNonEmptyArray.range(0, 99),
 		RNonEmptyArray.map(createTransaction),
 		RNonEmptyArray.map(
 			(txn): Record<string, TransactionResponse> => ({ [txn.id]: txn })

@@ -48,7 +48,7 @@ describe('Transactions', () => {
 		);
 
 		const result = pipe(
-			RNonEmptyArray.range(0, 25),
+			RNonEmptyArray.range(0, 24),
 			RNonEmptyArray.map((index) => `Transaction ${index}`),
 			RNonEmptyArray.map((description) =>
 				pipe(

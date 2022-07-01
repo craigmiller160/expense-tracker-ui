@@ -47,6 +47,10 @@ describe('Transactions', () => {
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 
+		expect(screen.queryByText('Transaction 0')).toBeVisible();
+		expect(screen.queryByText('Transaction 1')).toBeVisible();
+		expect(screen.queryByText('Transaction 2')).toBeVisible();
+
 		const result = pipe(
 			RNonEmptyArray.range(0, 25),
 			RNonEmptyArray.map((index) => `Transaction ${index}`),
@@ -56,7 +60,10 @@ describe('Transactions', () => {
 						expect(screen.queryByText(description)).toBeVisible()
 					),
 					Either.mapLeft(
-						(ex) => new Error(`Error validating ${description}`, ex)
+						(ex) =>
+							new Error(`Error validating ${description}`, {
+								cause: ex
+							})
 					)
 				)
 			),

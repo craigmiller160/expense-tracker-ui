@@ -52,7 +52,7 @@ describe('Transaction Import', () => {
 
 		userEvent.click(screen.getByText('Import'));
 		await waitFor(() =>
-			expect(screen.getByText('Invalid CSV Import')).toBeVisible()
+			expect(screen.getByText('Invalid CSV import')).toBeVisible()
 		);
 	});
 

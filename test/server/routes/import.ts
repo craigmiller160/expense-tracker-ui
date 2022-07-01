@@ -7,10 +7,10 @@ import { ImportTransactionsResponse } from '../../../src/types/import';
 import { ErrorResponse } from '../../../src/types/error';
 
 const error: ErrorResponse = {
-	timestamp: '',
-	path: '',
+	timestamp: '123',
+	path: '/transaction-import',
 	message: 'Invalid CSV import',
-	method: '',
+	method: 'POST',
 	status: 400
 };
 

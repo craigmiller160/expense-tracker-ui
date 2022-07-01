@@ -61,11 +61,16 @@ export const createTransactionsRoutes = (
 			?.sortDirection as SortDirection;
 		const pageNumber = request.queryParams?.pageNumber as number;
 		const pageSize = request.queryParams?.pageSize as number;
-		return pipe(
+		const transactions = pipe(
 			Object.values(database.data.transactions),
 			sortTransactions(sortDirection),
 			paginateTransactions(pageNumber, pageSize)
 		);
+		return {
+			transactions,
+			pageNumber,
+			totalItems: Object.values(database.data.transactions).length
+		};
 	});
 
 	server.put('/transactions/categorize', () => new Response(204));

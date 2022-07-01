@@ -93,18 +93,25 @@ describe('Transactions', () => {
 
 		expect(screen.queryAllByText(/Transaction \d+/)).toHaveLength(25);
 
-		const rowsPerPageSelect = screen.getByTestId('rows-per-page-select');
-		userEvent.click(rowsPerPageSelect);
+		const rowsPerPageSelect = screen
+			.getByTestId('rows-per-page-select')
+			.querySelector('div.MuiTablePagination-select');
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		userEvent.click(rowsPerPageSelect!);
 
-		// TODO probably getting an amount value...
-		await waitFor(() => expect(screen.queryByText('10')).toBeVisible());
-		userEvent.click(screen.getByText('10'));
+		await waitFor(() =>
+			// Must be 2 because there is an Amount = 10
+			expect(screen.queryAllByText('10')).toHaveLength(2)
+		);
+		userEvent.click(screen.getAllByText('10')[1]);
 
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 
-		expect(screen.queryAllByText(/Transaction \d+/)).toHaveLength(10);
+		await waitFor(() =>
+			expect(screen.queryAllByText(/Transaction \d+/)).toHaveLength(10)
+		);
 	});
 
 	it('can paginate and load the correct data successfully', async () => {

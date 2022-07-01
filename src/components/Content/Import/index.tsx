@@ -13,7 +13,7 @@ import {
 	ImportTransactionsMutation,
 	useImportTransactions
 } from '../../../ajaxapi/query/TransactionImportQueries';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 interface FormData {
 	readonly file: File | null;
@@ -48,7 +48,8 @@ const createOnSubmit =
 		});
 	};
 
-const useTestFile = (reset: UseFormReset<FormData>) => {
+const useTestFile = (reset: UseFormReset<FormData>): boolean => {
+	const [isTest, setIsTest] = useState(false);
 	const search = window.location.search;
 	useEffect(() => {
 		if (search.includes('IS_TEST=true')) {
@@ -56,8 +57,12 @@ const useTestFile = (reset: UseFormReset<FormData>) => {
 				...defaultValues,
 				file: new File([], 'Test.txt')
 			});
+			setIsTest(true);
+		} else {
+			setIsTest(false);
 		}
 	}, [search]);
+	return isTest;
 };
 
 export const Import = () => {
@@ -69,7 +74,10 @@ export const Import = () => {
 	);
 	const theme = useTheme();
 	const onSubmit = createOnSubmit(mutate);
-	useTestFile(reset);
+	const isTest = useTestFile(reset);
+	const fileChooserRules = isTest
+		? undefined
+		: { required: 'File Type is required' };
 
 	return (
 		<div className="ImportTransactions">
@@ -87,7 +95,7 @@ export const Import = () => {
 					label="File Type"
 					options={FILE_TYPES}
 					disabled={isLoading}
-					rules={{ required: 'File Type is required' }}
+					rules={fileChooserRules}
 				/>
 				<FileChooser
 					name="file"

@@ -31,7 +31,7 @@ const toPagination = (
 			(values): TablePaginationConfig => ({
 				totalRecords: values.totalItems,
 				recordsPerPage: pageSize,
-				currentPage: values.pageNumber,
+				currentPage: parseInt(`${values.pageNumber}`),
 				onChangePage: (_, pageNumber) =>
 					setState((draft) => {
 						draft.pageNumber = pageNumber;

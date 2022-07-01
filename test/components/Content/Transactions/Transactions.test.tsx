@@ -31,10 +31,8 @@ describe('Transactions', () => {
 		expect(screen.queryByText('Amount')).toBeVisible();
 
 		await waitFor(() =>
-			expect(screen.queryByTestId('table-footer')).toBeInTheDocument()
+			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
-
-		screen.debug(screen.getByTestId('table-footer'));
 
 		pipe(
 			RNonEmptyArray.range(0, 25),

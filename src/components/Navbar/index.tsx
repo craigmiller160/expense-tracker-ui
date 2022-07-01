@@ -27,6 +27,10 @@ export const Navbar = () => {
 					{isAuthorized && (
 						<>
 							<LinkButton
+								to="/expense-tracker/transactions"
+								label="Manage Transactions"
+							/>
+							<LinkButton
 								to="/expense-tracker/categories"
 								label="Manage Categories"
 							/>

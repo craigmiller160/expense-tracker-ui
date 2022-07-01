@@ -1,8 +1,8 @@
 import './Welcome.scss';
-import { Typography } from '@mui/material';
+import { PageTitle } from '../../UI/PageTitle';
 
 export const Welcome = () => (
 	<div className="Welcome">
-		<Typography variant="h4">Welcome to Expense Tracker</Typography>
+		<PageTitle title="Welcome to Expense Tracker" />
 	</div>
 );

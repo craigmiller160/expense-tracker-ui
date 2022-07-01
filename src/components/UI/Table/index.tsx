@@ -45,7 +45,7 @@ export const Table = (props: PropsWithChildren<Props>) => (
 			{!props.loading && (
 				<>
 					<TableBody>{props.children}</TableBody>
-					<TableFooter>
+					<TableFooter data-testid="table-footer">
 						{props.pagination && (
 							<TablePagination
 								count={props.pagination.totalRecords}

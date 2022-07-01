@@ -45,6 +45,12 @@ const sortTransactions =
 			RArray.sort(createSortTransactionOrd(sortDirection))
 		);
 
+const paginateTransactions =
+	(pageNumber: number, pageSize: number) =>
+	(
+		transactions: ReadonlyArray<TransactionResponse>
+	): ReadonlyArray<TransactionResponse> => {};
+
 export const createTransactionsRoutes = (
 	database: Database,
 	server: Server
@@ -52,8 +58,12 @@ export const createTransactionsRoutes = (
 	server.get('/transactions', (schema, request) => {
 		const sortDirection = request.queryParams
 			?.sortDirection as SortDirection;
-		return sortTransactions(sortDirection)(
-			Object.values(database.data.transactions)
+		const pageNumber = request.queryParams?.pageNumber as number;
+		const pageSize = request.queryParams?.pageSize as number;
+		return pipe(
+			Object.values(database.data.transactions),
+			sortTransactions(sortDirection),
+			paginateTransactions(pageNumber, pageSize)
 		);
 	});
 

@@ -1,13 +1,35 @@
 import { PageTitle } from '../../UI/PageTitle';
 import './Transactions.scss';
 import { useSearchForTransactions } from '../../../ajaxapi/query/TransactionQueries';
-import { TransactionSortKey } from '../../../types/transactions';
+import {
+	SearchTransactionsResponse,
+	TransactionSortKey
+} from '../../../types/transactions';
 import { SortDirection } from '../../../types/misc';
-import { Table } from '../../UI/Table';
+import { Table, TablePagination } from '../../UI/Table';
 import { TableCell, TableRow } from '@mui/material';
+import { pipe } from 'fp-ts/es6/function';
+import * as Option from 'fp-ts/es6/Option';
 
 const COLUMNS = ['Expense Date', 'Description', 'Amount', 'Category'];
-const ROWS_PER_PAGE = 20;
+const ROWS_PER_PAGE = 25;
+// TODO how to have configurable rows-per-page?
+
+const toPagination = (
+	data?: SearchTransactionsResponse
+): TablePagination | undefined =>
+	pipe(
+		Option.fromNullable(data),
+		Option.map(
+			(values): TablePagination => ({
+				totalRecords: values.totalItems,
+				recordsPerPage: ROWS_PER_PAGE,
+				currentPage: values.pageNumber,
+				onChangePage: () => {}
+			})
+		),
+		Option.getOrElse((): TablePagination | undefined => undefined)
+	);
 
 export const Transactions = () => {
 	const { data, isFetching } = useSearchForTransactions({
@@ -16,11 +38,18 @@ export const Transactions = () => {
 		sortKey: TransactionSortKey.EXPENSE_DATE,
 		sortDirection: SortDirection.ASC
 	});
+
+	const pagination = toPagination(data);
+
 	return (
 		<div className="ManageTransactions">
 			<PageTitle title="Manage Transactions" />
 			<div className="TableWrapper">
-				<Table columns={COLUMNS} loading={isFetching}>
+				<Table
+					columns={COLUMNS}
+					loading={isFetching}
+					pagination={pagination}
+				>
 					{(data?.transactions ?? []).map((txn) => (
 						<TableRow key={txn.id}>
 							<TableCell>{txn.expenseDate}</TableCell>

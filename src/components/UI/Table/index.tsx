@@ -14,18 +14,20 @@ import { PropsWithChildren } from 'react';
 import './Table.scss';
 import { MouseEvent } from 'react';
 
+export interface TablePagination {
+	readonly totalRecords: number;
+	readonly recordsPerPage: number;
+	readonly currentPage: number;
+	readonly onChangePage: (
+		event: MouseEvent<HTMLButtonElement> | null,
+		page: number
+	) => void;
+}
+
 interface Props {
 	readonly columns: ReadonlyArray<string>;
 	readonly loading?: boolean;
-	readonly pagination?: {
-		readonly totalRecords: number;
-		readonly recordsPerPage: number;
-		readonly currentPage: number;
-		readonly onChangePage: (
-			event: MouseEvent<HTMLButtonElement> | null,
-			page: number
-		) => void;
-	};
+	readonly pagination?: TablePagination;
 }
 
 export const Table = (props: PropsWithChildren<Props>) => (

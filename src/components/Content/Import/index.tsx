@@ -13,7 +13,7 @@ import {
 	ImportTransactionsMutation,
 	useImportTransactions
 } from '../../../ajaxapi/query/TransactionImportQueries';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { PageTitle } from '../../UI/PageTitle';
 
 interface FormData {
@@ -73,6 +73,7 @@ export const Import = () => {
 	const { mutate, isLoading } = useImportTransactions(() =>
 		reset(defaultValues)
 	);
+	const fileInputRef = useRef<HTMLInputElement>();
 	const theme = useTheme();
 	const onSubmit = createOnSubmit(mutate);
 	const isTest = useTestFile(reset);
@@ -100,6 +101,7 @@ export const Import = () => {
 					name="file"
 					testId="transaction-file-chooser"
 					control={control}
+					inputRef={fileInputRef}
 					disabled={isLoading}
 					rules={{ required: 'File is required' }}
 				/>

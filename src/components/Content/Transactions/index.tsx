@@ -7,10 +7,11 @@ import { Table } from '../../UI/Table';
 import { TableCell, TableRow } from '@mui/material';
 
 const COLUMNS = ['Expense Date', 'Description', 'Amount', 'Category'];
+const ROWS_PER_PAGE = 20;
 
 export const Transactions = () => {
 	const { data, isFetching } = useSearchForTransactions({
-		pageSize: 100,
+		pageSize: ROWS_PER_PAGE,
 		pageNumber: 0,
 		sortKey: TransactionSortKey.EXPENSE_DATE,
 		sortDirection: SortDirection.ASC

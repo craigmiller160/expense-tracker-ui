@@ -11,6 +11,7 @@ import { pipe } from 'fp-ts/es6/function';
 import { match } from 'ts-pattern';
 import { SortDirection } from '../../../src/types/misc';
 import { Ordering } from 'fp-ts/es6/Ordering';
+import { Ord } from 'fp-ts/es6/Ord';
 
 const parseDate = Time.parse(DATE_FORMAT);
 
@@ -22,27 +23,38 @@ const compareDates = (
 	const date1 = parseDate(dateString1);
 	const date2 = parseDate(dateString2);
 	return match(sortDirection)
-		.with(SortDirection.ASC, () => Time.compare(date1)(date2) as Ordering)
-		.otherwise(() => Time.compare(date2)(date1) as Ordering);
+		.with(SortDirection.ASC, () => Time.compare(date1)(date2))
+		.otherwise(() => Time.compare(date2)(date1));
 };
 
-const sortTransactions = (
-	transactions: ReadonlyArray<TransactionResponse>,
+const createSortTransactionOrd = (
 	sortDirection: SortDirection
-): ReadonlyArray<TransactionResponse> =>
-	pipe(
-		transactions,
-		RArray.sort<TransactionResponse>((txn1, txn2) =>
-			compareDates(txn1.expenseDate, txn2.expenseDate, sortDirection)
-		)
-	);
+): Ord<TransactionResponse> => ({
+	compare: (txn1, txn2) =>
+		compareDates(txn1.expenseDate, txn2.expenseDate, sortDirection),
+	equals: (txn1, txn2) => txn1.expenseDate === txn2.expenseDate
+});
+
+const sortTransactions =
+	(sortDirection: SortDirection) =>
+	(
+		transactions: ReadonlyArray<TransactionResponse>
+	): ReadonlyArray<TransactionResponse> =>
+		pipe(
+			transactions,
+			RArray.sort(createSortTransactionOrd(sortDirection))
+		);
 
 export const createTransactionsRoutes = (
 	database: Database,
 	server: Server
 ) => {
 	server.get('/transactions', (schema, request) => {
-		database.data.transactions;
+		const sortDirection = request.queryParams
+			?.sortDirection as SortDirection;
+		return sortTransactions(sortDirection)(
+			Object.values(database.data.transactions)
+		);
 	});
 
 	server.put('/transactions/categorize', () => new Response(204));

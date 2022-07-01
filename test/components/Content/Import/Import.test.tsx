@@ -34,7 +34,26 @@ describe('Transaction Import', () => {
 	});
 
 	it('displays error for invalid import', async () => {
-		throw new Error();
+		renderApp({
+			initialPath: '/expense-tracker/import?IS_TEST=true'
+		});
+		await waitFor(() =>
+			expect(screen.queryByText('Expense Tracker')).toBeVisible()
+		);
+		await waitFor(() =>
+			expect(screen.queryAllByText('Import Transactions')).toHaveLength(2)
+		);
+
+		userEvent.click(screen.getByLabelText('File Type'));
+		await waitFor(() =>
+			expect(screen.queryByText('Discover (CSV)')).toBeVisible()
+		);
+		userEvent.click(screen.getByText('Discover (CSV)'));
+
+		userEvent.click(screen.getByText('Import'));
+		await waitFor(() =>
+			expect(screen.getByText('Invalid CSV Import')).toBeVisible()
+		);
 	});
 
 	it('prevents import of improperly filled out form', async () => {

@@ -61,9 +61,12 @@ describe('Transactions', () => {
 					),
 					Either.mapLeft(
 						(ex) =>
-							new Error(`Error validating ${description}`, {
-								cause: ex
-							})
+							new Error(
+								`Error validating ${description}. ${ex.message}`,
+								{
+									cause: ex
+								}
+							)
 					)
 				)
 			),

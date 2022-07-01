@@ -10,11 +10,10 @@ import {
 	TableFooter,
 	TablePagination
 } from '@mui/material';
-import { PropsWithChildren } from 'react';
+import { MouseEvent, ChangeEvent, PropsWithChildren } from 'react';
 import './Table.scss';
-import { MouseEvent } from 'react';
 
-export interface TablePagination {
+export interface TablePaginationConfig {
 	readonly totalRecords: number;
 	readonly recordsPerPage: number;
 	readonly currentPage: number;
@@ -22,12 +21,15 @@ export interface TablePagination {
 		event: MouseEvent<HTMLButtonElement> | null,
 		page: number
 	) => void;
+	readonly onRowsPerPageChange: (
+		event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+	) => void;
 }
 
 interface Props {
 	readonly columns: ReadonlyArray<string>;
 	readonly loading?: boolean;
-	readonly pagination?: TablePagination;
+	readonly pagination?: TablePaginationConfig;
 }
 
 export const Table = (props: PropsWithChildren<Props>) => (
@@ -50,6 +52,7 @@ export const Table = (props: PropsWithChildren<Props>) => (
 								page={props.pagination.currentPage}
 								rowsPerPage={props.pagination.recordsPerPage}
 								onPageChange={props.pagination.onChangePage}
+								onRowsPerPageChange={props.pagination.onRowsPerPageChange}
 							/>
 						)}
 					</TableFooter>

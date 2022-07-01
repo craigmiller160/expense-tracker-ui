@@ -6,7 +6,7 @@ import {
 	TransactionSortKey
 } from '../../../types/transactions';
 import { SortDirection } from '../../../types/misc';
-import { Table, TablePagination } from '../../UI/Table';
+import { Table, TablePaginationConfig } from '../../UI/Table';
 import { TableCell, TableRow } from '@mui/material';
 import { pipe } from 'fp-ts/es6/function';
 import * as Option from 'fp-ts/es6/Option';
@@ -17,18 +17,19 @@ const ROWS_PER_PAGE = 25;
 
 const toPagination = (
 	data?: SearchTransactionsResponse
-): TablePagination | undefined =>
+): TablePaginationConfig | undefined =>
 	pipe(
 		Option.fromNullable(data),
 		Option.map(
-			(values): TablePagination => ({
+			(values): TablePaginationConfig => ({
 				totalRecords: values.totalItems,
 				recordsPerPage: ROWS_PER_PAGE,
 				currentPage: values.pageNumber,
-				onChangePage: () => {}
+				onChangePage: () => {},
+				onRowsPerPageChange: () => {}
 			})
 		),
-		Option.getOrElse((): TablePagination | undefined => undefined)
+		Option.getOrElse((): TablePaginationConfig | undefined => undefined)
 	);
 
 export const Transactions = () => {

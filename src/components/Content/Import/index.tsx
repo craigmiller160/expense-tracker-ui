@@ -1,6 +1,6 @@
 import './ImportTransactions.scss';
 import { Button, LinearProgress, Typography, useTheme } from '@mui/material';
-import { useForm } from 'react-hook-form';
+import { useForm, UseFormReset } from 'react-hook-form';
 import { FileType } from '../../../types/file';
 import {
 	Autocomplete,
@@ -13,6 +13,7 @@ import {
 	ImportTransactionsMutation,
 	useImportTransactions
 } from '../../../ajaxapi/query/TransactionImportQueries';
+import { useEffect } from 'react';
 
 interface FormData {
 	readonly file: File | null;
@@ -47,6 +48,18 @@ const createOnSubmit =
 		});
 	};
 
+const useTestFile = (reset: UseFormReset<FormData>) => {
+	const search = window.location.search;
+	useEffect(() => {
+		if (search.includes('IS_TEST=true')) {
+			reset({
+				...defaultValues,
+				file: new File([], 'Test.txt')
+			});
+		}
+	}, [search]);
+};
+
 export const Import = () => {
 	const { control, handleSubmit, reset } = useForm<FormData>({
 		defaultValues
@@ -56,6 +69,7 @@ export const Import = () => {
 	);
 	const theme = useTheme();
 	const onSubmit = createOnSubmit(mutate);
+	useTestFile(reset);
 
 	return (
 		<div className="ImportTransactions">

@@ -107,6 +107,8 @@ const createDeleteCategory =
 		);
 	};
 
+// TODO move Add button to bottom of table
+
 export const Categories = () => {
 	const [state, setState] = useImmer<State>({
 		selectedCategoryDetails: Option.none

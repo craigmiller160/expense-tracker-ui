@@ -52,7 +52,9 @@ export const Table = (props: PropsWithChildren<Props>) => (
 								page={props.pagination.currentPage}
 								rowsPerPage={props.pagination.recordsPerPage}
 								onPageChange={props.pagination.onChangePage}
-								onRowsPerPageChange={props.pagination.onRowsPerPageChange}
+								onRowsPerPageChange={
+									props.pagination.onRowsPerPageChange
+								}
 							/>
 						)}
 					</TableFooter>

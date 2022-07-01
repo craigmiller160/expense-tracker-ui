@@ -10,12 +10,19 @@ import { Table, TablePaginationConfig } from '../../UI/Table';
 import { TableCell, TableRow } from '@mui/material';
 import { pipe } from 'fp-ts/es6/function';
 import * as Option from 'fp-ts/es6/Option';
+import { Updater, useImmer } from 'use-immer';
 
 const COLUMNS = ['Expense Date', 'Description', 'Amount', 'Category'];
-const ROWS_PER_PAGE = 25;
-// TODO how to have configurable rows-per-page?
+const DEFAULT_ROWS_PER_PAGE = 25;
+
+interface State {
+	readonly pageNumber: number;
+	readonly pageSize: number;
+}
 
 const toPagination = (
+	pageSize: number,
+	setState: Updater<State>,
 	data?: SearchTransactionsResponse
 ): TablePaginationConfig | undefined =>
 	pipe(
@@ -23,24 +30,33 @@ const toPagination = (
 		Option.map(
 			(values): TablePaginationConfig => ({
 				totalRecords: values.totalItems,
-				recordsPerPage: ROWS_PER_PAGE,
+				recordsPerPage: pageSize,
 				currentPage: values.pageNumber,
-				onChangePage: () => {},
-				onRowsPerPageChange: () => {}
+				onChangePage: (_, pageNumber) =>
+					setState((draft) => {
+						draft.pageNumber = pageNumber;
+					}),
+				onRowsPerPageChange: (event) =>
+					setState((draft) => {
+						draft.pageSize = parseInt(event.target.value, 10);
+					})
 			})
 		),
 		Option.getOrElse((): TablePaginationConfig | undefined => undefined)
 	);
 
 export const Transactions = () => {
-	const { data, isFetching } = useSearchForTransactions({
-		pageSize: ROWS_PER_PAGE,
+	const [state, setState] = useImmer<State>({
 		pageNumber: 0,
+		pageSize: DEFAULT_ROWS_PER_PAGE
+	});
+	const { data, isFetching } = useSearchForTransactions({
+		...state,
 		sortKey: TransactionSortKey.EXPENSE_DATE,
 		sortDirection: SortDirection.ASC
 	});
 
-	const pagination = toPagination(data);
+	const pagination = toPagination(state.pageSize, setState, data);
 
 	return (
 		<div className="ManageTransactions">

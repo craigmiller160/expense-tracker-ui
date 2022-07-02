@@ -29,6 +29,7 @@ import * as RArray from 'fp-ts/es6/ReadonlyArray';
 import { useEffect } from 'react';
 import { MonoidT } from '@craigmiller160/ts-functions/es/types';
 import * as Monoid from 'fp-ts/es6/Monoid';
+import * as RNonEmptyArray from 'fp-ts/es6/ReadonlyNonEmptyArray';
 
 const COLUMNS = ['Expense Date', 'Description', 'Amount', 'Category'];
 const DEFAULT_ROWS_PER_PAGE = 25;
@@ -70,7 +71,7 @@ const categoryToSelectOption = (
 	value: category.id
 });
 
-type CategorizationFormData = Record<string, SelectOption<string>>;
+type CategorizationFormData = Record<string, SelectOption<string> | undefined>;
 
 const createOnSetCategorySubmit =
 	(
@@ -88,7 +89,10 @@ const createOnSetCategorySubmit =
 		const transactionsAndCategories = pipe(
 			Object.entries(values),
 			RArray.mapWithIndex(
-				(index, [, selectedOption]): [SelectOption<string>, number] => [
+				(
+					index,
+					[, selectedOption]
+				): [SelectOption<string> | undefined, number] => [
 					selectedOption,
 					index
 				]
@@ -97,7 +101,7 @@ const createOnSetCategorySubmit =
 			RArray.map(
 				([selectedOption, index]): TransactionAndCategory => ({
 					transactionId: transactions[index].id,
-					categoryId: selectedOption.value
+					categoryId: selectedOption!.value
 				})
 			)
 		);
@@ -142,11 +146,23 @@ const setCategoriesFromData = (
 		),
 		Monoid.concatAll(categorizationFormDataMonoid)
 	);
+	console.log('NewValues', newValues);
 	reset({
 		...values,
 		...newValues
 	});
 };
+
+const createDefaultValues = (pageSize: number): CategorizationFormData =>
+	pipe(
+		RNonEmptyArray.range(0, pageSize - 1),
+		RNonEmptyArray.map(
+			(index): CategorizationFormData => ({
+				[`category-${index}`]: undefined
+			})
+		),
+		Monoid.concatAll(categorizationFormDataMonoid)
+	);
 
 export const Transactions = () => {
 	const [state, setState] = useImmer<State>({
@@ -162,7 +178,9 @@ export const Transactions = () => {
 			sortDirection: SortDirection.ASC
 		});
 	const { control, handleSubmit, formState, getValues, reset } =
-		useForm<CategorizationFormData>();
+		useForm<CategorizationFormData>({
+			defaultValues: createDefaultValues(state.pageSize)
+		});
 	const { mutate: categorizeTransactionsMutate } =
 		useCategorizeTransactions();
 

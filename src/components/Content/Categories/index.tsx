@@ -107,8 +107,6 @@ const createDeleteCategory =
 		);
 	};
 
-// TODO move Add button to bottom of table
-
 export const Categories = () => {
 	const [state, setState] = useImmer<State>({
 		selectedCategoryDetails: Option.none
@@ -144,6 +142,9 @@ export const Categories = () => {
 		<div className="Categories">
 			<PageTitle title="Manage Categories" />
 			<div className="TableWrapper">
+				<Table columns={COLUMNS} loading={isLoading}>
+					{Rows}
+				</Table>
 				<div className="ActionWrapper">
 					<Button
 						variant="contained"
@@ -153,9 +154,6 @@ export const Categories = () => {
 						Add
 					</Button>
 				</div>
-				<Table columns={COLUMNS} loading={isLoading}>
-					{Rows}
-				</Table>
 			</div>
 			<CategoryDetailsDialog
 				selectedCategory={state.selectedCategoryDetails}

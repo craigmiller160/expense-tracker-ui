@@ -148,7 +148,6 @@ describe('Transactions', () => {
 			.getByTestId('table-pagination')
 			.querySelector('button[title="Go to next page"]');
 		expect(nextPageButton).toBeVisible();
-		screen.debug(nextPageButton!); // TODO delete this
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		userEvent.click(nextPageButton!);
 
@@ -157,6 +156,7 @@ describe('Transactions', () => {
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
+		screen.debug(screen.getByTestId('table-pagination')); // TODO delete this
 		await waitFor(() =>
 			expect(screen.queryByText(/.*26-50 of 100.*/)).toBeVisible()
 		);

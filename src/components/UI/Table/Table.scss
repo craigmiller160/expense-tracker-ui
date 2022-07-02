@@ -1,5 +1,19 @@
-.MuiTable-root {
-  thead th {
-    font-weight: bold;
+@import "../../../styles/page";
+
+.AppTable {
+  .MuiTable-root {
+    thead th {
+      font-weight: bold;
+    }
+  }
+
+  .ActionWrapper {
+    $spacing: 0.5rem;
+    margin-top: $spacing;
+    @include RightAlign;
+
+    >* {
+      margin-left: $spacing;
+    }
   }
 }

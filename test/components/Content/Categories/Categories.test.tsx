@@ -23,10 +23,10 @@ describe('Manage Categories', () => {
 		);
 		expect(screen.queryByText('Name')).toBeVisible();
 		expect(screen.queryByText('Actions')).toBeVisible();
-		expect(screen.queryByText('Add')).toBeVisible();
 		await waitFor(() =>
 			expect(screen.queryAllByText('Details')).toHaveLength(3)
 		);
+		expect(screen.queryByText('Add')).toBeVisible();
 		expect(screen.queryByText('Groceries')).toBeVisible();
 		expect(screen.queryByText('Restaurants')).toBeVisible();
 		expect(screen.queryByText('Entertainment')).toBeVisible();
@@ -42,6 +42,7 @@ describe('Manage Categories', () => {
 		await waitFor(() =>
 			expect(screen.queryAllByText('Manage Categories')).toHaveLength(2)
 		);
+		await waitFor(() => expect(screen.queryByText('Add')).toBeVisible());
 		userEvent.click(screen.getByText('Add'));
 		await waitFor(() =>
 			expect(screen.queryByText('New Category')).toBeVisible()
@@ -71,6 +72,7 @@ describe('Manage Categories', () => {
 		await waitFor(() =>
 			expect(screen.queryAllByText('Manage Categories')).toHaveLength(2)
 		);
+		await waitFor(() => expect(screen.queryByText('Add')).toBeVisible());
 		userEvent.click(screen.getByText('Add'));
 		await waitFor(() =>
 			expect(screen.queryByText('New Category')).toBeVisible()

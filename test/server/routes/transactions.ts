@@ -2,6 +2,7 @@ import { Database } from '../Database';
 import { Server } from 'miragejs/server';
 import { Response } from 'miragejs';
 import {
+	CategorizeTransactionsRequest,
 	DATE_FORMAT,
 	TransactionResponse
 } from '../../../src/types/transactions';
@@ -76,5 +77,27 @@ export const createTransactionsRoutes = (
 		};
 	});
 
-	server.put('/transactions/categorize', () => new Response(204));
+	server.put('/transactions/categorize', (schema, request) => {
+		const body = JSON.parse(
+			request.requestBody
+		) as CategorizeTransactionsRequest;
+		const newTransactions = body.transactionsAndCategories.map(
+			(txnAndCat) => {
+				const txn = database.data.transactions[txnAndCat.transactionId];
+				const cat = database.data.categories[txnAndCat.categoryId];
+				return {
+					...txn,
+					categoryId: txnAndCat.categoryId,
+					categoryName: cat.name
+				};
+			}
+		);
+		database.updateData((draft) => {
+			newTransactions.forEach((txn) => {
+				draft.transactions[txn.id] = txn;
+			});
+		});
+
+		return new Response(204);
+	});
 };

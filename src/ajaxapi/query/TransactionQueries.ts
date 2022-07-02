@@ -1,9 +1,18 @@
 import {
 	SearchTransactionsRequest,
-	SearchTransactionsResponse
+	SearchTransactionsResponse,
+	TransactionAndCategory
 } from '../../types/transactions';
-import { useQuery } from 'react-query';
-import { searchForTransactions } from '../service/TransactionService';
+import {
+	UseMutateFunction,
+	useMutation,
+	useQuery,
+	useQueryClient
+} from 'react-query';
+import {
+	categorizeTransactions,
+	searchForTransactions
+} from '../service/TransactionService';
 
 export const SEARCH_FOR_TRANSACTIONS =
 	'TransactionQueries_SearchForTransactions';
@@ -19,3 +28,26 @@ export const useSearchForTransactions = (request: SearchTransactionsRequest) =>
 	>([SEARCH_FOR_TRANSACTIONS, request], ({ queryKey: [, req] }) =>
 		searchForTransactions(req)
 	);
+
+interface CategorizeTransactionsParams {
+	readonly transactionsAndCategories: ReadonlyArray<TransactionAndCategory>;
+}
+
+export type CategorizeTransactionsMutation = UseMutateFunction<
+	unknown,
+	Error,
+	CategorizeTransactionsParams
+>;
+
+export const useCategorizeTransactions = () => {
+	const queryClient = useQueryClient();
+	return useMutation<unknown, Error, CategorizeTransactionsParams>(
+		({ transactionsAndCategories }) =>
+			categorizeTransactions(transactionsAndCategories),
+		{
+			onSuccess: () =>
+				// TODO make sure this works with just the string key
+				queryClient.invalidateQueries(SEARCH_FOR_TRANSACTIONS)
+		}
+	);
+};

@@ -1,0 +1,18 @@
+@import "../../../styles/page";
+
+@mixin MaxWidth {
+  width: 100%;
+}
+
+.TransactionsTable {
+  @include MaxWidth;
+
+  >form {
+    @include MaxWidth;
+    @include ColumnAlignCenter;
+  }
+
+  .CategoryCell {
+    width: 20%;
+  }
+}

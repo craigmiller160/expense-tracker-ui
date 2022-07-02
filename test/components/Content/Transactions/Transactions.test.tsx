@@ -78,6 +78,7 @@ describe('Transactions', () => {
 		expect(screen.queryByText('Expense Date')).toBeVisible();
 		expect(screen.queryByText('Description')).toBeVisible();
 		expect(screen.queryByText('Amount')).toBeVisible();
+		expect(screen.queryByText('Category')).toBeVisible();
 
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
@@ -85,6 +86,7 @@ describe('Transactions', () => {
 
 		validateNumberOfTransactions(25);
 		validateTransactionElements(0, 24);
+		expect(screen.queryAllByLabelText('Category')).toHaveLength(25);
 	});
 
 	it('can change the rows-per-page and automatically re-load the data', async () => {
@@ -158,5 +160,60 @@ describe('Transactions', () => {
 		);
 		validateNumberOfTransactions(25);
 		validateTransactionElements(25, 49);
+	});
+
+	it('can set categories on transactions', async () => {
+		renderApp({
+			initialPath: '/expense-tracker/transactions'
+		});
+		await waitFor(() =>
+			expect(screen.queryByText('Expense Tracker')).toBeVisible()
+		);
+		await waitFor(() =>
+			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
+		);
+		await waitFor(() =>
+			expect(screen.queryByText('Rows per page:')).toBeVisible()
+		);
+
+		await userEvent.click(screen.getAllByLabelText('Category')[0]);
+		expect(screen.queryByText('Groceries')).toBeVisible();
+		await userEvent.click(screen.getByText('Groceries'));
+		expect(screen.getAllByLabelText('Category')[0]).toHaveValue(
+			'Groceries'
+		);
+
+		await userEvent.click(screen.getByText('Save'));
+		await waitFor(() =>
+			expect(screen.queryByText('Rows per page:')).toBeVisible()
+		);
+		expect(screen.getAllByLabelText('Category')[0]).toHaveValue(
+			'Groceries'
+		);
+	});
+
+	it('can reset in-progress changes on transactions', async () => {
+		renderApp({
+			initialPath: '/expense-tracker/transactions'
+		});
+		await waitFor(() =>
+			expect(screen.queryByText('Expense Tracker')).toBeVisible()
+		);
+		await waitFor(() =>
+			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
+		);
+		await waitFor(() =>
+			expect(screen.queryByText('Rows per page:')).toBeVisible()
+		);
+
+		await userEvent.click(screen.getAllByLabelText('Category')[0]);
+		expect(screen.queryByText('Groceries')).toBeVisible();
+		await userEvent.click(screen.getByText('Groceries'));
+		expect(screen.getAllByLabelText('Category')[0]).toHaveValue(
+			'Groceries'
+		);
+
+		await userEvent.click(screen.getByText('Reset'));
+		expect(screen.getAllByLabelText('Category')[0]).toHaveValue('');
 	});
 });

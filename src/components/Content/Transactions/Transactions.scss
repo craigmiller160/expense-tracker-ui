@@ -2,4 +2,9 @@
 
 .ManageTransactions {
   @include PageRoot;
+
+  >form {
+    width: 100%;
+    @include ColumnAlignCenter;
+  }
 }

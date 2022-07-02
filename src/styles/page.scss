@@ -1,7 +1,16 @@
-@mixin PageRoot {
+@mixin ColumnAlignCenter {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
 
+@mixin PageRoot {
+  @include ColumnAlignCenter;
   margin: 2rem;
+}
+
+@mixin RightAlign {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 }

@@ -1,27 +1,15 @@
 @import "../../../styles/page";
 
-@mixin TableRightAlign {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-}
-
 .Categories {
   @include PageRoot;
 
   .TableWrapper {
-
-    .ActionWrapper {
-      margin-top: 0.5rem;
-      @include TableRightAlign;
-    }
-
     th:nth-child(2) {
-      @include TableRightAlign;
+      @include RightAlign;
     }
 
     td:nth-child(2) {
-      @include TableRightAlign
+      @include RightAlign
     }
   }
 }

@@ -176,10 +176,10 @@ describe('Transactions', () => {
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 
-		await userEvent.click(screen.getAllByLabelText('Category')[0]);
+		await userEvent.click(screen.getAllByLabelText('Category')[2]);
 		expect(screen.queryByText('Groceries')).toBeVisible();
 		await userEvent.click(screen.getByText('Groceries'));
-		expect(screen.getAllByLabelText('Category')[0]).toHaveValue(
+		expect(screen.getAllByLabelText('Category')[2]).toHaveValue(
 			'Groceries'
 		);
 
@@ -187,7 +187,7 @@ describe('Transactions', () => {
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
-		expect(screen.getAllByLabelText('Category')[0]).toHaveValue(
+		expect(screen.getAllByLabelText('Category')[2]).toHaveValue(
 			'Groceries'
 		);
 	});
@@ -210,14 +210,14 @@ describe('Transactions', () => {
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 
-		await userEvent.click(screen.getAllByLabelText('Category')[0]);
+		await userEvent.click(screen.getAllByLabelText('Category')[2]);
 		expect(screen.queryByText('Groceries')).toBeVisible();
 		await userEvent.click(screen.getByText('Groceries'));
-		expect(screen.getAllByLabelText('Category')[0]).toHaveValue(
+		expect(screen.getAllByLabelText('Category')[2]).toHaveValue(
 			'Groceries'
 		);
 
 		await userEvent.click(screen.getByText('Reset'));
-		expect(screen.getAllByLabelText('Category')[0]).toHaveValue('');
+		expect(screen.getAllByLabelText('Category')[2]).toHaveValue('');
 	});
 });

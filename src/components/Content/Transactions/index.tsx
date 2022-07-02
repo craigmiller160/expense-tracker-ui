@@ -11,6 +11,7 @@ import { TableCell, TableRow } from '@mui/material';
 import { pipe } from 'fp-ts/es6/function';
 import * as Option from 'fp-ts/es6/Option';
 import { Updater, useImmer } from 'use-immer';
+import { FullPageTableWrapper } from '../../UI/Table/FullPageTableWrapper';
 
 const COLUMNS = ['Expense Date', 'Description', 'Amount'];
 const DEFAULT_ROWS_PER_PAGE = 25;
@@ -61,7 +62,7 @@ export const Transactions = () => {
 	return (
 		<div className="ManageTransactions">
 			<PageTitle title="Manage Transactions" />
-			<div className="TableWrapper" data-testid="transaction-table">
+			<FullPageTableWrapper data-testid="transaction-table">
 				<Table
 					columns={COLUMNS}
 					loading={isFetching}
@@ -75,7 +76,7 @@ export const Transactions = () => {
 						</TableRow>
 					))}
 				</Table>
-			</div>
+			</FullPageTableWrapper>
 		</div>
 	);
 };

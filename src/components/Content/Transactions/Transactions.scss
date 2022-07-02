@@ -2,9 +2,4 @@
 
 .ManageTransactions {
   @include PageRoot;
-
-  .TableWrapper {
-    // TODO make re-usable with Categories
-    width: 50%;
-  }
 }

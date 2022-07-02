@@ -52,7 +52,7 @@ export const TransactionTable = (props: Props) => {
 		totalRecords,
 		resetFormToData,
 		fields,
-		form: { control, formState, getValues }
+		form: { control, formState, handleSubmit }
 	} = useHandleTransactionTableData(props.pagination);
 
 	const tablePagination = createTablePagination(
@@ -67,11 +67,11 @@ export const TransactionTable = (props: Props) => {
 		resetFormToData
 	);
 
-	console.log('Values', getValues());
+	const onSubmit = (values: TransactionTableForm) => console.log('Values', values);
 
 	return (
 		<div className="TransactionsTable">
-			<form>
+			<form onSubmit={handleSubmit(onSubmit)}>
 				<FullPageTableWrapper data-testid="transaction-table">
 					<Table
 						columns={COLUMNS}

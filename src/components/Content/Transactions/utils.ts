@@ -1,6 +1,10 @@
 import { SelectOption } from '@craigmiller160/react-hook-form-material-ui';
 import { TablePaginationConfig } from '../../UI/Table';
 import { Updater } from 'use-immer';
+import { TransactionTableForm } from './useHandleTransactionTableData';
+import { TransactionAndCategory } from '../../../types/transactions';
+import * as RArray from 'fp-ts/es6/ReadonlyArray';
+import { pipe } from 'fp-ts/es6/function';
 
 export interface PaginationState {
 	readonly pageNumber: number;
@@ -28,3 +32,17 @@ export const createTablePagination = (
 			draft.pageSize = parseInt(event.target.value, 10);
 		})
 });
+
+export const formToCategorizeRequest = (
+	values: TransactionTableForm
+): ReadonlyArray<TransactionAndCategory> =>
+	pipe(
+		values.transactions,
+		RArray.filter((txn) => txn.category !== null),
+		RArray.map(
+			(txn): TransactionAndCategory => ({
+				transactionId: txn.transactionId,
+				categoryId: txn.category!.value // eslint-disable-line @typescript-eslint/no-non-null-assertion
+			})
+		)
+	);

@@ -18,6 +18,7 @@ import { CategoryOption, PaginationState } from './utils';
 import { match, P } from 'ts-pattern';
 
 export interface TransactionFormValues {
+	readonly transactionId: string;
 	readonly category: CategoryOption | null;
 }
 
@@ -62,6 +63,7 @@ const transactionToCategoryOption = (
 const transactionToFormValues = (
 	transaction: TransactionResponse
 ): TransactionFormValues => ({
+	transactionId: transaction.id,
 	category: transactionToCategoryOption(transaction)
 });
 

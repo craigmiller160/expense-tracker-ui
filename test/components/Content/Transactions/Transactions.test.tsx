@@ -159,4 +159,12 @@ describe('Transactions', () => {
 		validateNumberOfTransactions(25);
 		validateTransactionElements(25, 49);
 	});
+
+	it('can set categories on transactions', async () => {
+		throw new Error();
+	});
+
+	it('can reset in-progress changes on transactions', async () => {
+		throw new Error();
+	});
 });

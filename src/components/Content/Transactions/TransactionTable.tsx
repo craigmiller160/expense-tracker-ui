@@ -18,7 +18,7 @@ import { Updater } from 'use-immer';
 import { CategorizeTransactionsMutation } from '../../../ajaxapi/query/TransactionQueries';
 import { pipe } from 'fp-ts/es6/function';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import CategoryIcon from '@mui/icons-material/Category';
 import { Popover } from '../../UI/Popover';
 
@@ -61,6 +61,9 @@ const createOnSubmit =
 			(_) => ({ transactionsAndCategories: _ }),
 			categorizeTransactions
 		);
+
+const conditionalVisible = (condition: boolean): string | undefined =>
+	condition ? 'visible' : undefined;
 
 export const TransactionTable = (props: Props) => {
 	const {
@@ -119,15 +122,27 @@ export const TransactionTable = (props: Props) => {
 									</TableCell>
 									<TableCell className="FlagsCell">
 										<Popover
-											className="visible"
+											className={conditionalVisible(
+												txn.duplicate
+											)}
 											message="Transaction is a duplicate"
 										>
 											<FileCopyIcon color="warning" />
 										</Popover>
-										<Popover message="Transaction has not been confirmed">
-											<ThumbUpIcon color="warning" />
+										<Popover
+											className={conditionalVisible(
+												!txn.confirmed
+											)}
+											message="Transaction has not been confirmed"
+										>
+											<ThumbDownIcon color="warning" />
 										</Popover>
-										<Popover message="Transaction has not been categorized">
+										<Popover
+											className={conditionalVisible(
+												!txn.categoryId
+											)}
+											message="Transaction has not been categorized"
+										>
 											<CategoryIcon color="warning" />
 										</Popover>
 									</TableCell>

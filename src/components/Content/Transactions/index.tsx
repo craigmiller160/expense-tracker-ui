@@ -1,6 +1,9 @@
 import { PageTitle } from '../../UI/PageTitle';
 import './Transactions.scss';
-import { useSearchForTransactions } from '../../../ajaxapi/query/TransactionQueries';
+import {
+	useCategorizeTransactions,
+	useSearchForTransactions
+} from '../../../ajaxapi/query/TransactionQueries';
 import {
 	SearchTransactionsResponse,
 	TransactionSortKey
@@ -75,6 +78,8 @@ export const Transactions = () => {
 		});
 	const { control, handleSubmit, formState } =
 		useForm<Record<string, SelectOption<string>>>();
+	const { mutate: categorizeTransactionsMutate } =
+		useCategorizeTransactions();
 
 	const pagination = toPagination(state.pageSize, setState, transactionData);
 	const categoryOptions = categoryData?.map(categoryToSelectOption) ?? [];

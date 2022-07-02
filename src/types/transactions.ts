@@ -25,10 +25,11 @@ export interface SearchTransactionsRequest {
 }
 
 export interface TransactionResponse extends DbRecord {
-	readonly expenseDate: string; // TODO can I get this transformed to being a Date?
+	readonly expenseDate: string;
 	readonly description: string;
 	readonly amount: number;
 	readonly confirmed: boolean;
+	readonly duplicate: boolean;
 	readonly categoryId?: string;
 	readonly categoryName?: string;
 }

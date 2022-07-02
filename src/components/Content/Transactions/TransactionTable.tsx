@@ -70,7 +70,7 @@ export const TransactionTable = (props: Props) => {
 		data: { transactions, categories, isFetching },
 		pagination: { currentPage, totalRecords },
 		form: {
-			formReturn: { control, formState, handleSubmit, getValues },
+			formReturn: { control, formState, handleSubmit },
 			fields
 		},
 		actions: { resetFormToData, categorizeTransactions }
@@ -139,9 +139,7 @@ export const TransactionTable = (props: Props) => {
 										</Popover>
 										<Popover
 											className={conditionalVisible(
-												!getValues(
-													`transactions.${index}.category`
-												)
+												!txn.categoryId
 											)}
 											message="Transaction has not been categorized"
 										>

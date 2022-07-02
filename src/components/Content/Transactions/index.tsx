@@ -73,7 +73,8 @@ export const Transactions = () => {
 			sortKey: TransactionSortKey.EXPENSE_DATE,
 			sortDirection: SortDirection.ASC
 		});
-	const { control, handleSubmit } = useForm();
+	const { control, handleSubmit, formState } =
+		useForm<Record<string, SelectOption<string>>>();
 
 	const pagination = toPagination(state.pageSize, setState, transactionData);
 	const categoryOptions = categoryData?.map(categoryToSelectOption) ?? [];
@@ -82,10 +83,19 @@ export const Transactions = () => {
 		console.log('CategorySubmit', values);
 
 	const belowTableActions = [
-		<Button variant="contained" color="secondary">
+		<Button
+			variant="contained"
+			color="secondary"
+			disabled={!formState.isDirty}
+		>
 			Clear
 		</Button>,
-		<Button variant="contained" type="submit" color="success">
+		<Button
+			variant="contained"
+			type="submit"
+			color="success"
+			disabled={!formState.isDirty}
+		>
 			Save
 		</Button>
 	];
@@ -101,24 +111,28 @@ export const Transactions = () => {
 						pagination={pagination}
 						belowTableActions={belowTableActions}
 					>
-						{(transactionData?.transactions ?? []).map((txn) => (
-							<TableRow key={txn.id}>
-								<TableCell>{txn.expenseDate}</TableCell>
-								<TableCell>{txn.description}</TableCell>
-								<TableCell>{txn.amount}</TableCell>
-								<TableCell>
-									{categoryIsFetching && <CircularProgress />}
-									{!categoryIsFetching && (
-										<Autocomplete
-											name=""
-											control={control}
-											label="Category"
-											options={categoryOptions}
-										/>
-									)}
-								</TableCell>
-							</TableRow>
-						))}
+						{(transactionData?.transactions ?? []).map(
+							(txn, index) => (
+								<TableRow key={txn.id}>
+									<TableCell>{txn.expenseDate}</TableCell>
+									<TableCell>{txn.description}</TableCell>
+									<TableCell>{txn.amount}</TableCell>
+									<TableCell>
+										{categoryIsFetching && (
+											<CircularProgress />
+										)}
+										{!categoryIsFetching && (
+											<Autocomplete
+												name={`category-${index}`}
+												control={control}
+												label="Category"
+												options={categoryOptions}
+											/>
+										)}
+									</TableCell>
+								</TableRow>
+							)
+						)}
 					</Table>
 				</FullPageTableWrapper>
 			</form>

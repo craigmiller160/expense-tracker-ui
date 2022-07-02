@@ -20,6 +20,7 @@ import { pipe } from 'fp-ts/es6/function';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import CategoryIcon from '@mui/icons-material/Category';
+import { Popover } from '../../UI/Popover';
 
 const COLUMNS = ['Expense Date', 'Description', 'Amount', 'Category', 'Flags'];
 
@@ -117,7 +118,9 @@ export const TransactionTable = (props: Props) => {
 										/>
 									</TableCell>
 									<TableCell className="FlagsCell">
-										<FileCopyIcon color="warning" />
+										<Popover message="Record is duplicate">
+											<FileCopyIcon color="warning" />
+										</Popover>
 										<ThumbUpIcon color="warning" />
 										<CategoryIcon color="warning" />
 									</TableCell>

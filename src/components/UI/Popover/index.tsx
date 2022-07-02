@@ -2,6 +2,7 @@ import { PropsWithChildren, useRef } from 'react';
 import MuiPopover from '@mui/material/Popover';
 import { useImmer } from 'use-immer';
 import { Typography } from '@mui/material';
+import './Popover.scss';
 
 interface State {
 	readonly open: boolean;
@@ -25,9 +26,25 @@ export const Popover = (props: PropsWithChildren<Props>) => {
 			draft.open = false;
 		});
 	return (
-		<div ref={ref} onMouseEnter={openPopover} onMouseLeave={closePopover}>
+		<div
+			className="AppPopover"
+			ref={ref}
+			onMouseEnter={openPopover}
+			onMouseLeave={closePopover}
+		>
 			{props.children}
-			<MuiPopover open={state.open} anchorEl={ref.current}>
+			<MuiPopover
+				open={state.open}
+				anchorEl={ref.current}
+				anchorOrigin={{
+					vertical: 'bottom',
+					horizontal: 'left'
+				}}
+				transformOrigin={{
+					vertical: 'top',
+					horizontal: 'left'
+				}}
+			>
 				<Typography>{props.message}</Typography>
 			</MuiPopover>
 		</div>

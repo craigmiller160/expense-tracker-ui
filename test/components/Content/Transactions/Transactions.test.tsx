@@ -192,6 +192,10 @@ describe('Transactions', () => {
 		);
 	});
 
+	it('can remove a category from a transaction', async () => {
+		throw new Error();
+	});
+
 	it('can reset in-progress changes on transactions', async () => {
 		renderApp({
 			initialPath: '/expense-tracker/transactions'

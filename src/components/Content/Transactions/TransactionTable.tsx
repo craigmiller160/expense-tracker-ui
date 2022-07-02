@@ -18,6 +18,8 @@ import { Updater } from 'use-immer';
 import { CategorizeTransactionsMutation } from '../../../ajaxapi/query/TransactionQueries';
 import { pipe } from 'fp-ts/es6/function';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import CategoryIcon from '@mui/icons-material/Category';
 
 const COLUMNS = ['Expense Date', 'Description', 'Amount', 'Category', 'Flags'];
 
@@ -116,6 +118,8 @@ export const TransactionTable = (props: Props) => {
 									</TableCell>
 									<TableCell className="FlagsCell">
 										<FileCopyIcon color="warning" />
+										<ThumbUpIcon color="warning" />
+										<CategoryIcon color="warning" />
 									</TableCell>
 								</TableRow>
 							);

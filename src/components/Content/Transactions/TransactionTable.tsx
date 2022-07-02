@@ -118,11 +118,15 @@ export const TransactionTable = (props: Props) => {
 										/>
 									</TableCell>
 									<TableCell className="FlagsCell">
-										<Popover message="Record is duplicate">
+										<Popover message="Transaction is a duplicate">
 											<FileCopyIcon color="warning" />
 										</Popover>
-										<ThumbUpIcon color="warning" />
-										<CategoryIcon color="warning" />
+										<Popover message="Transaction has not been confirmed">
+											<ThumbUpIcon color="warning" />
+										</Popover>
+										<Popover message="Transaction has not been categorized">
+											<CategoryIcon color="warning" />
+										</Popover>
 									</TableCell>
 								</TableRow>
 							);

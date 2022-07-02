@@ -163,7 +163,33 @@ describe('Transactions', () => {
 	});
 
 	it('can set categories on transactions', async () => {
-		throw new Error();
+		renderApp({
+			initialPath: '/expense-tracker/transactions'
+		});
+		await waitFor(() =>
+			expect(screen.queryByText('Expense Tracker')).toBeVisible()
+		);
+		await waitFor(() =>
+			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
+		);
+		await waitFor(() =>
+			expect(screen.queryByText('Rows per page:')).toBeVisible()
+		);
+
+		await userEvent.click(screen.getAllByLabelText('Category')[0]);
+		expect(screen.queryByText('Groceries')).toBeVisible();
+		await userEvent.click(screen.getByText('Groceries'));
+		expect(screen.getAllByLabelText('Category')[0]).toHaveValue(
+			'Groceries'
+		);
+
+		await userEvent.click(screen.getByText('Save'));
+		await waitFor(() =>
+			expect(screen.queryByText('Rows per page:')).toBeVisible()
+		);
+		expect(screen.getAllByLabelText('Category')[0]).toHaveValue(
+			'Groceries'
+		);
 	});
 
 	it('can reset in-progress changes on transactions', async () => {

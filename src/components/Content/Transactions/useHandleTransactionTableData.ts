@@ -7,7 +7,7 @@ import {
 import { SortDirection } from '../../../types/misc';
 import { CategoryResponse } from '../../../types/categories';
 import { useEffect, useMemo } from 'react';
-import { useForm, UseFormReturn } from 'react-hook-form';
+import { useForm, UseFormReset, UseFormReturn } from 'react-hook-form';
 import { CategoryOption, PaginationState } from './utils';
 import { match, P } from 'ts-pattern';
 
@@ -54,6 +54,18 @@ const transactionToFormValues = (
 	category: transactionToCategoryOption(transaction)
 });
 
+const createResetFormToData =
+	(
+		reset: UseFormReset<TransactionTableForm>,
+		transactions: ReadonlyArray<TransactionResponse>
+	) =>
+	() => {
+		const formValues = transactions.map(transactionToFormValues);
+		reset({
+			transactions: formValues
+		});
+	};
+
 export const useHandleTransactionTableData = (
 	pagination: PaginationState
 ): TransactionTableData => {
@@ -72,14 +84,14 @@ export const useHandleTransactionTableData = (
 		[categoryData]
 	);
 
+	const resetFormToData = createResetFormToData(
+		form.reset,
+		transactionData?.transactions ?? []
+	);
+
 	useEffect(() => {
 		if (transactionData) {
-			const formValues = transactionData.transactions.map(
-				transactionToFormValues
-			);
-			form.reset({
-				transactions: formValues
-			});
+			resetFormToData();
 		}
 	}, [transactionData, transactionIsFetching]);
 

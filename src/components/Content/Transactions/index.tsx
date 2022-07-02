@@ -1,11 +1,14 @@
 import { PageTitle } from '../../UI/PageTitle';
 import './Transactions.scss';
 import {
+	CategorizeTransactionsMutation,
 	useCategorizeTransactions,
 	useSearchForTransactions
 } from '../../../ajaxapi/query/TransactionQueries';
 import {
 	SearchTransactionsResponse,
+	TransactionAndCategory,
+	TransactionResponse,
 	TransactionSortKey
 } from '../../../types/transactions';
 import { SortDirection } from '../../../types/misc';
@@ -63,6 +66,40 @@ const categoryToSelectOption = (
 	value: category.id
 });
 
+type CategorizationFormData = Record<string, SelectOption<string>>;
+
+const createOnSetCategorySubmit =
+	(
+		categorizeTransactionsMutate: CategorizeTransactionsMutation,
+		transactions?: ReadonlyArray<TransactionResponse>
+	) =>
+	(values: CategorizationFormData) => {
+		if (!transactions) {
+			console.error(
+				'Attempted to submit categorization without corresponding transaction data'
+			);
+			return;
+		}
+
+		const transactionsAndCategories = Object.entries(values)
+			.map(
+				([, selectedOption], index): [SelectOption<string>, number] => [
+					selectedOption,
+					index
+				]
+			)
+			.filter(([selectedOption]) => selectedOption !== undefined)
+			.map(
+				([selectedOption, index]): TransactionAndCategory => ({
+					transactionId: transactions[index].id,
+					categoryId: selectedOption.value
+				})
+			);
+		categorizeTransactionsMutate({
+			transactionsAndCategories
+		});
+	};
+
 export const Transactions = () => {
 	const [state, setState] = useImmer<State>({
 		pageNumber: 0,
@@ -77,15 +114,17 @@ export const Transactions = () => {
 			sortDirection: SortDirection.ASC
 		});
 	const { control, handleSubmit, formState } =
-		useForm<Record<string, SelectOption<string>>>();
+		useForm<CategorizationFormData>();
 	const { mutate: categorizeTransactionsMutate } =
 		useCategorizeTransactions();
 
 	const pagination = toPagination(state.pageSize, setState, transactionData);
 	const categoryOptions = categoryData?.map(categoryToSelectOption) ?? [];
 
-	const onSetCategorySubmit = (values: any) =>
-		console.log('CategorySubmit', values);
+	const onSetCategorySubmit = createOnSetCategorySubmit(
+		categorizeTransactionsMutate,
+		transactionData?.transactions
+	);
 
 	const belowTableActions = [
 		<Button

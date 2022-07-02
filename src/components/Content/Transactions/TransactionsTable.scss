@@ -11,4 +11,8 @@
     @include MaxWidth;
     @include ColumnAlignCenter;
   }
+
+  .CategoryCell {
+    width: 20%;
+  }
 }

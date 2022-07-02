@@ -9,10 +9,10 @@ import { CategoryResponse } from '../../../types/categories';
 import { useEffect, useMemo } from 'react';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { CategoryOption, PaginationState } from './utils';
+import { match, P } from 'ts-pattern';
 
 export interface TransactionFormValues {
-	// TODO do I want partial or undefined?
-	readonly category: Partial<CategoryOption>;
+	readonly category?: CategoryOption;
 }
 
 export interface TransactionTableForm {
@@ -37,10 +37,16 @@ const categoryToCategoryOption = (
 
 const transactionToCategoryOption = (
 	transaction: TransactionResponse
-): Partial<CategoryOption> => ({
-	label: transaction.categoryName,
-	value: transaction.categoryId
-});
+): CategoryOption | undefined =>
+	match(transaction)
+		.with(
+			{ categoryId: P.not(P.nullish) },
+			(t): CategoryOption => ({
+				value: t.categoryId!, // eslint-disable-line @typescript-eslint/no-non-null-assertion
+				label: t.categoryName! // eslint-disable-line @typescript-eslint/no-non-null-assertion
+			})
+		)
+		.otherwise(() => undefined);
 
 const transactionToFormValues = (
 	transaction: TransactionResponse

@@ -150,17 +150,6 @@ const setCategoriesFromData = (
 	});
 };
 
-const createDefaultValues = (pageSize: number): CategorizationFormData =>
-	pipe(
-		RNonEmptyArray.range(0, pageSize - 1),
-		RNonEmptyArray.map(
-			(index): CategorizationFormData => ({
-				[`category-${index}`]: undefined
-			})
-		),
-		Monoid.concatAll(categorizationFormDataMonoid)
-	);
-
 export const Transactions = () => {
 	const [state, setState] = useImmer<PaginationState>({
 		pageNumber: 0,

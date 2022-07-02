@@ -81,7 +81,7 @@ export const useHandleTransactionTableData = (
 				transactions: formValues
 			});
 		}
-	}, [transactionData]);
+	}, [transactionData, transactionIsFetching]);
 
 	useEffect(() => {
 		if (transactionIsFetching) {
@@ -99,7 +99,7 @@ export const useHandleTransactionTableData = (
 		isFetching:
 			transactionIsFetching ||
 			categoryIsFetching ||
-			form.getValues().transactions.length === 0,
+			form.getValues()?.transactions?.length === 0,
 		form
 	};
 };

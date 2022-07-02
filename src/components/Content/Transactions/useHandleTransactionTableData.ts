@@ -8,10 +8,7 @@ import { SortDirection } from '../../../types/misc';
 import { CategoryResponse } from '../../../types/categories';
 import { useEffect, useMemo } from 'react';
 import { useForm, UseFormReturn } from 'react-hook-form';
-import { PaginationState } from './utils';
-
-class CategoryOption {
-}
+import { CategoryOption, PaginationState } from './utils';
 
 export interface TransactionFormValues {
 	// TODO do I want partial or undefined?
@@ -21,11 +18,6 @@ export interface TransactionFormValues {
 export interface TransactionTableForm {
 	readonly transactions: ReadonlyArray<TransactionFormValues>;
 }
-
-export const createTransactionFormKey = (
-	index: number,
-	field: string
-): string => `transactions.${index}.${field}`;
 
 export interface TransactionTableData {
 	readonly transactions: ReadonlyArray<TransactionResponse>;

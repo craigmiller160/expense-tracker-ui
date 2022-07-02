@@ -5,3 +5,9 @@
 
   margin: 2rem;
 }
+
+@mixin RightAlign {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}

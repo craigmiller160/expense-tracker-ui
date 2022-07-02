@@ -12,6 +12,7 @@ import { pipe } from 'fp-ts/es6/function';
 import * as Option from 'fp-ts/es6/Option';
 import { Updater, useImmer } from 'use-immer';
 import { FullPageTableWrapper } from '../../UI/Table/FullPageTableWrapper';
+import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 
 const COLUMNS = ['Expense Date', 'Description', 'Amount'];
 const DEFAULT_ROWS_PER_PAGE = 25;
@@ -51,13 +52,15 @@ export const Transactions = () => {
 		pageNumber: 0,
 		pageSize: DEFAULT_ROWS_PER_PAGE
 	});
-	const { data, isFetching } = useSearchForTransactions({
-		...state,
-		sortKey: TransactionSortKey.EXPENSE_DATE,
-		sortDirection: SortDirection.ASC
-	});
+	const { data: categoryData, isFetching: categoryIsFetching } = useGetAllCategories();
+	const { data: transactionData, isFetching: transactionIsFetching } =
+		useSearchForTransactions({
+			...state,
+			sortKey: TransactionSortKey.EXPENSE_DATE,
+			sortDirection: SortDirection.ASC
+		});
 
-	const pagination = toPagination(state.pageSize, setState, data);
+	const pagination = toPagination(state.pageSize, setState, transactionData);
 
 	return (
 		<div className="ManageTransactions">
@@ -65,10 +68,10 @@ export const Transactions = () => {
 			<FullPageTableWrapper data-testid="transaction-table">
 				<Table
 					columns={COLUMNS}
-					loading={isFetching}
+					loading={transactionIsFetching}
 					pagination={pagination}
 				>
-					{(data?.transactions ?? []).map((txn) => (
+					{(transactionData?.transactions ?? []).map((txn) => (
 						<TableRow key={txn.id}>
 							<TableCell>{txn.expenseDate}</TableCell>
 							<TableCell>{txn.description}</TableCell>

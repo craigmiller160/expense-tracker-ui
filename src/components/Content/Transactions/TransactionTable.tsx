@@ -105,7 +105,7 @@ export const TransactionTable = (props: Props) => {
 						{fields.map((_, index) => {
 							const txn = transactions[index];
 							if (!txn) {
-								return <></>;
+								return <span key={index}></span>;
 							}
 							return (
 								<TableRow key={txn.id}>

@@ -11,6 +11,7 @@ interface State {
 
 interface Props {
 	readonly message: string;
+	readonly className?: string;
 }
 
 export const Popover = (props: PropsWithChildren<Props>) => {
@@ -25,9 +26,12 @@ export const Popover = (props: PropsWithChildren<Props>) => {
 		setState((draft) => {
 			draft.target = null;
 		});
+	const classes = ['AppPopover', props.className]
+		.filter((c) => c !== undefined)
+		.join(' ');
 	return (
 		<div
-			className="AppPopover"
+			className={classes}
 			onMouseEnter={openPopover}
 			onMouseLeave={closePopover}
 		>

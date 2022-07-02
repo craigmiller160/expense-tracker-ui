@@ -89,6 +89,10 @@ describe('Transactions', () => {
 		expect(screen.queryAllByLabelText('Category')).toHaveLength(25);
 	});
 
+	it('shows the correct icons for transactions', async () => {
+		throw new Error();
+	});
+
 	it('can change the rows-per-page and automatically re-load the data', async () => {
 		renderApp({
 			initialPath: '/expense-tracker/transactions'

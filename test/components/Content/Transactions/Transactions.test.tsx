@@ -5,12 +5,11 @@ import '@testing-library/jest-dom';
 import * as RNonEmptyArray from 'fp-ts/es6/ReadonlyNonEmptyArray';
 import { pipe } from 'fp-ts/es6/function';
 import * as Try from '@craigmiller160/ts-functions/es/Try';
-import { TryT, MonoidT } from '@craigmiller160/ts-functions/es/types';
+import { MonoidT, TryT } from '@craigmiller160/ts-functions/es/types';
 import * as Either from 'fp-ts/es6/Either';
 import { match } from 'ts-pattern';
 import * as Monoid from 'fp-ts/es6/Monoid';
 import userEvent from '@testing-library/user-event';
-import * as Sleep from '@craigmiller160/ts-functions/es/Sleep';
 
 const validationMonoid: MonoidT<TryT<unknown>> = {
 	empty: Either.right(null),
@@ -151,14 +150,11 @@ describe('Transactions', () => {
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		userEvent.click(nextPageButton!);
 
-		await Sleep.sleep(1000);
-
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
-		screen.debug(screen.getByTestId('table-pagination')); // TODO delete this
 		await waitFor(() =>
-			expect(screen.queryByText(/.*26-50 of 100.*/)).toBeVisible()
+			expect(screen.queryByText(/.*26–50 of 100.*/)).toBeVisible()
 		);
 		validateNumberOfTransactions(25);
 		validateTransactionElements(25, 49);

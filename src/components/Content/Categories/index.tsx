@@ -139,22 +139,23 @@ export const Categories = () => {
 		newConfirmDialog
 	);
 
+	const belowTableActions = [
+		<Button variant="contained" color="secondary" onClick={onNewCategory}>
+			Add
+		</Button>
+	];
+
 	return (
 		<div className="Categories">
 			<PageTitle title="Manage Categories" />
 			<FullPageTableWrapper className="TableWrapper">
-				<Table columns={COLUMNS} loading={isLoading}>
+				<Table
+					columns={COLUMNS}
+					loading={isLoading}
+					belowTableActions={belowTableActions}
+				>
 					{Rows}
 				</Table>
-				<div className="ActionWrapper">
-					<Button
-						variant="contained"
-						color="secondary"
-						onClick={onNewCategory}
-					>
-						Add
-					</Button>
-				</div>
 			</FullPageTableWrapper>
 			<CategoryDetailsDialog
 				selectedCategory={state.selectedCategoryDetails}

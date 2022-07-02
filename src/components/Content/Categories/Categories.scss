@@ -4,12 +4,6 @@
   @include PageRoot;
 
   .TableWrapper {
-
-    .ActionWrapper {
-      margin-top: 0.5rem;
-      @include RightAlign;
-    }
-
     th:nth-child(2) {
       @include RightAlign;
     }

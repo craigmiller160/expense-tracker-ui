@@ -49,6 +49,7 @@ export const TransactionTable = (props: Props) => {
 		currentPage,
 		totalRecords,
 		resetFormToData,
+		fields,
 		form: { control, formState }
 	} = useHandleTransactionTableData(props.pagination);
 
@@ -74,21 +75,24 @@ export const TransactionTable = (props: Props) => {
 						pagination={tablePagination}
 						belowTableActions={belowTableActions}
 					>
-						{transactions.map((txn, index) => (
-							<TableRow key={txn.id}>
-								<TableCell>{txn.expenseDate}</TableCell>
-								<TableCell>{txn.description}</TableCell>
-								<TableCell>{txn.amount}</TableCell>
-								<TableCell>
-									<Autocomplete
-										name={`transactions.${index}.category`}
-										control={control}
-										label="Category"
-										options={categories}
-									/>
-								</TableCell>
-							</TableRow>
-						))}
+						{fields.map((_, index) => {
+							const txn = transactions[index];
+							return (
+								<TableRow key={txn.id}>
+									<TableCell>{txn.expenseDate}</TableCell>
+									<TableCell>{txn.description}</TableCell>
+									<TableCell>{txn.amount}</TableCell>
+									<TableCell>
+										<Autocomplete
+											name={`transactions.${index}.category`}
+											control={control}
+											label="Category"
+											options={categories}
+										/>
+									</TableCell>
+								</TableRow>
+							);
+						})}
 					</Table>
 				</FullPageTableWrapper>
 			</form>

@@ -7,7 +7,13 @@ import {
 import { SortDirection } from '../../../types/misc';
 import { CategoryResponse } from '../../../types/categories';
 import { useEffect, useMemo } from 'react';
-import { useForm, UseFormReset, UseFormReturn } from 'react-hook-form';
+import {
+	FieldArrayWithId,
+	useFieldArray,
+	useForm,
+	UseFormReset,
+	UseFormReturn
+} from 'react-hook-form';
 import { CategoryOption, PaginationState } from './utils';
 import { match, P } from 'ts-pattern';
 
@@ -19,6 +25,7 @@ export interface TransactionTableForm {
 	readonly transactions: ReadonlyArray<TransactionFormValues>;
 }
 
+// TODO nest the properties to organize structure
 export interface TransactionTableData {
 	readonly transactions: ReadonlyArray<TransactionResponse>;
 	readonly categories: ReadonlyArray<CategoryOption>;
@@ -27,6 +34,9 @@ export interface TransactionTableData {
 	readonly isFetching: boolean;
 	readonly form: UseFormReturn<TransactionTableForm>;
 	readonly resetFormToData: () => void;
+	readonly fields: ReadonlyArray<
+		FieldArrayWithId<TransactionTableForm, 'transactions', 'id'>
+	>;
 }
 
 const categoryToCategoryOption = (
@@ -79,6 +89,10 @@ export const useHandleTransactionTableData = (
 			sortDirection: SortDirection.ASC
 		});
 	const form = useForm<TransactionTableForm>();
+	const { fields } = useFieldArray({
+		control: form.control,
+		name: 'transactions'
+	});
 
 	const categories = useMemo(
 		() => categoryData?.map(categoryToCategoryOption),
@@ -114,6 +128,7 @@ export const useHandleTransactionTableData = (
 			categoryIsFetching ||
 			form.getValues()?.transactions?.length === 0,
 		form,
-		resetFormToData
+		resetFormToData,
+		fields
 	};
 };

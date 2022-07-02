@@ -26,6 +26,7 @@ export interface TransactionTableData {
 	readonly totalRecords: number;
 	readonly isFetching: boolean;
 	readonly form: UseFormReturn<TransactionTableForm>;
+	readonly resetFormToData: () => void;
 }
 
 const categoryToCategoryOption = (
@@ -112,6 +113,7 @@ export const useHandleTransactionTableData = (
 			transactionIsFetching ||
 			categoryIsFetching ||
 			form.getValues()?.transactions?.length === 0,
-		form
+		form,
+		resetFormToData
 	};
 };

@@ -20,10 +20,16 @@ interface Props {
 }
 
 const createBelowTableActions = (
-	formState: FormState<TransactionTableForm>
+	formState: FormState<TransactionTableForm>,
+	resetFormToData: () => void
 ): ReadonlyArray<ReactNode> => [
-	<Button variant="contained" color="secondary" disabled={!formState.isDirty}>
-		Cancel
+	<Button
+		variant="contained"
+		color="secondary"
+		disabled={!formState.isDirty}
+		onClick={resetFormToData}
+	>
+		Reset
 	</Button>,
 	<Button
 		variant="contained"
@@ -42,6 +48,7 @@ export const TransactionTable = (props: Props) => {
 		isFetching,
 		currentPage,
 		totalRecords,
+		resetFormToData,
 		form: { control, formState }
 	} = useHandleTransactionTableData(props.pagination);
 
@@ -52,7 +59,10 @@ export const TransactionTable = (props: Props) => {
 		props.updatePagination
 	);
 
-	const belowTableActions = createBelowTableActions(formState);
+	const belowTableActions = createBelowTableActions(
+		formState,
+		resetFormToData
+	);
 
 	return (
 		<div className="TransactionsTable">

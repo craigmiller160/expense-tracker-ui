@@ -18,7 +18,8 @@ const createTransaction = (index: number): TransactionResponse => ({
 	expenseDate: newExpenseDate(index),
 	description: `Transaction ${index}`,
 	amount: 10 + index,
-	confirmed: false
+	confirmed: false,
+	duplicate: false
 });
 
 const transactionDbMonoid: MonoidT<Record<string, TransactionResponse>> = {
@@ -38,4 +39,14 @@ export const seedTransactions: DataUpdater = (draft) => {
 		),
 		Monoid.concatAll(transactionDbMonoid)
 	);
+	draft.transactions[0] = {
+		...draft.transactions[0],
+		confirmed: true,
+		categoryId: draft.categories[0].id,
+		categoryName: draft.categories[1].name
+	};
+	draft.transactions[1] = {
+		...draft.transactions[1],
+		duplicate: true
+	};
 };

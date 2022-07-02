@@ -42,7 +42,7 @@ export interface SearchTransactionsResponse {
 
 export interface TransactionAndCategory {
 	readonly transactionId: string;
-	readonly categoryId: string;
+	readonly categoryId: string | null;
 }
 
 export interface CategorizeTransactionsRequest {

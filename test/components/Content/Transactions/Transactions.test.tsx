@@ -78,6 +78,7 @@ describe('Transactions', () => {
 		expect(screen.queryByText('Expense Date')).toBeVisible();
 		expect(screen.queryByText('Description')).toBeVisible();
 		expect(screen.queryByText('Amount')).toBeVisible();
+		expect(screen.queryByText('Category')).toBeVisible();
 
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
@@ -85,6 +86,7 @@ describe('Transactions', () => {
 
 		validateNumberOfTransactions(25);
 		validateTransactionElements(0, 24);
+		expect(screen.queryAllByLabelText('Category')).toHaveLength(25);
 	});
 
 	it('can change the rows-per-page and automatically re-load the data', async () => {

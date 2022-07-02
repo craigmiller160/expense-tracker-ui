@@ -144,6 +144,7 @@ export const useHandleTransactionTableData = (
 		}
 	}, [transactionIsFetching]);
 
+	// This is here so that the icons can be updated in real time to user interaction
 	form.watch();
 
 	return {

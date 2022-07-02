@@ -2,6 +2,7 @@
 
 @mixin MaxWidth {
   width: 100%;
+  max-width: 100%;
 }
 
 .TransactionsTable {
@@ -14,6 +15,11 @@
 
   .CategoryCell {
     width: 20%;
+  }
+
+  td.DescriptionCell {
+    max-width: 20rem;
+    word-wrap: break-word;
   }
 
   .FlagsCell {

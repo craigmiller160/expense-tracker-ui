@@ -108,7 +108,9 @@ export const TransactionTable = (props: Props) => {
 							return (
 								<TableRow key={txn.id}>
 									<TableCell>{txn.expenseDate}</TableCell>
-									<TableCell>{txn.description}</TableCell>
+									<TableCell className="DescriptionCell">
+										{txn.description}
+									</TableCell>
 									<TableCell>
 										{`$${txn.amount.toFixed(2)}`}
 									</TableCell>

@@ -7,7 +7,7 @@ import {
 import { SortDirection } from '../../../types/misc';
 import { CategoryResponse } from '../../../types/categories';
 import { SelectOption } from '@craigmiller160/react-hook-form-material-ui';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useForm, UseFormReturn } from 'react-hook-form';
 
 export type CategoryOption = SelectOption<string>;
@@ -18,15 +18,18 @@ export interface PaginationState {
 }
 
 export interface TransactionFormValues {
-	readonly category: CategoryOption;
+	// TODO do I want partial or undefined?
+	readonly category: Partial<CategoryOption>;
 }
 
 export interface TransactionTableForm {
 	readonly transactions: ReadonlyArray<TransactionFormValues>;
 }
 
-const createTransactionFormKey = (index: number, field: string): string =>
-	`transactions.${index}.${field}`;
+export const createTransactionFormKey = (
+	index: number,
+	field: string
+): string => `transactions.${index}.${field}`;
 
 export interface TransactionTableData {
 	readonly transactions: ReadonlyArray<TransactionResponse>;
@@ -41,6 +44,19 @@ const categoryToCategoryOption = (
 ): CategoryOption => ({
 	label: category.name,
 	value: category.id
+});
+
+const transactionToCategoryOption = (
+	transaction: TransactionResponse
+): Partial<CategoryOption> => ({
+	label: transaction.categoryId,
+	value: transaction.categoryName
+});
+
+const transactionToFormValues = (
+	transaction: TransactionResponse
+): TransactionFormValues => ({
+	category: transactionToCategoryOption(transaction)
 });
 
 export const useHandleTransactionTableData = (
@@ -61,11 +77,33 @@ export const useHandleTransactionTableData = (
 		[categoryData]
 	);
 
+	useEffect(() => {
+		if (transactionData) {
+			const formValues = transactionData.transactions.map(
+				transactionToFormValues
+			);
+			form.reset({
+				transactions: formValues
+			});
+		}
+	}, [transactionData]);
+
+	useEffect(() => {
+		if (transactionIsFetching) {
+			form.reset({
+				transactions: []
+			});
+		}
+	}, [transactionIsFetching]);
+
 	return {
 		transactions: transactionData?.transactions ?? [],
 		categories: categories ?? [],
 		totalRecords: transactionData?.totalItems ?? 0,
-		isFetching: transactionIsFetching || categoryIsFetching,
+		isFetching:
+			transactionIsFetching ||
+			categoryIsFetching ||
+			form.getValues().transactions.length === 0,
 		form
 	};
 };

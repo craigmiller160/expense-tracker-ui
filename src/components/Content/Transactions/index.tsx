@@ -31,6 +31,7 @@ import { MonoidT } from '@craigmiller160/ts-functions/es/types';
 import * as Monoid from 'fp-ts/es6/Monoid';
 import * as RNonEmptyArray from 'fp-ts/es6/ReadonlyNonEmptyArray';
 import { DEFAULT_ROWS_PER_PAGE, PaginationState } from './utils';
+import { TransactionTable } from './TransactionTable';
 
 const COLUMNS = ['Expense Date', 'Description', 'Amount', 'Category'];
 
@@ -165,98 +166,11 @@ export const Transactions = () => {
 		pageNumber: 0,
 		pageSize: DEFAULT_ROWS_PER_PAGE
 	});
-	const { data: categoryData, isFetching: categoryIsFetching } =
-		useGetAllCategories();
-	const { data: transactionData, isFetching: transactionIsFetching } =
-		useSearchForTransactions({
-			...state,
-			sortKey: TransactionSortKey.EXPENSE_DATE,
-			sortDirection: SortDirection.ASC
-		});
-	const { control, handleSubmit, formState, getValues, reset } =
-		useForm<CategorizationFormData>({
-			defaultValues: createDefaultValues(state.pageSize)
-		});
-	const { mutate: categorizeTransactionsMutate } =
-		useCategorizeTransactions();
-
-	const pagination = toPagination(state.pageSize, setState, transactionData);
-	const categoryOptions = categoryData?.map(categoryToSelectOption);
-
-	useEffect(() => {
-		setCategoriesFromData(
-			getValues,
-			reset,
-			transactionData?.transactions,
-			categoryOptions
-		);
-	}, [transactionData, categoryOptions]);
-
-	const onSetCategorySubmit = createOnSetCategorySubmit(
-		categorizeTransactionsMutate,
-		transactionData?.transactions
-	);
-
-	const belowTableActions = [
-		<Button
-			variant="contained"
-			color="secondary"
-			disabled={!formState.isDirty}
-		>
-			Cancel
-		</Button>,
-		<Button
-			variant="contained"
-			type="submit"
-			color="success"
-			disabled={!formState.isDirty}
-		>
-			Save
-		</Button>
-	];
 
 	return (
 		<div className="ManageTransactions">
 			<PageTitle title="Manage Transactions" />
-			<form onSubmit={handleSubmit(onSetCategorySubmit)}>
-				<FullPageTableWrapper data-testid="transaction-table">
-					<Table
-						columns={COLUMNS}
-						loading={transactionIsFetching}
-						pagination={pagination}
-						belowTableActions={belowTableActions}
-					>
-						{(transactionData?.transactions ?? []).map(
-							(txn, index) => (
-								<TableRow key={txn.id}>
-									<TableCell>{txn.expenseDate}</TableCell>
-									<TableCell>{txn.description}</TableCell>
-									<TableCell>{txn.amount}</TableCell>
-									<TableCell>
-										{/*{categoryIsFetching && (*/}
-										{/*	<CircularProgress />*/}
-										{/*)}*/}
-										{/*{!categoryIsFetching && (*/}
-										{/*	<Autocomplete*/}
-										{/*		name={`category-${index}`}*/}
-										{/*		control={control}*/}
-										{/*		label="Category"*/}
-										{/*		options={categoryOptions}*/}
-										{/*	/>*/}
-										{/*)}*/}
-										<Autocomplete
-											name={`category-${index}`}
-											control={control}
-											label="Category"
-											options={categoryOptions ?? []}
-										/>
-									</TableCell>
-								</TableRow>
-							)
-						)}
-					</Table>
-				</FullPageTableWrapper>
-			</form>
+			<TransactionTable pagination={state} updatePagination={setState} />
 		</div>
 	);
 };

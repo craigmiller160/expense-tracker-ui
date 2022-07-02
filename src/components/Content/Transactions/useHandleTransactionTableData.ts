@@ -38,8 +38,8 @@ const categoryToCategoryOption = (
 const transactionToCategoryOption = (
 	transaction: TransactionResponse
 ): Partial<CategoryOption> => ({
-	label: transaction.categoryId,
-	value: transaction.categoryName
+	label: transaction.categoryName,
+	value: transaction.categoryId
 });
 
 const transactionToFormValues = (

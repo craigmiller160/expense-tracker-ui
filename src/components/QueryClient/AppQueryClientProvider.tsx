@@ -113,7 +113,12 @@ export const AppQueryClientProvider = (props: PropsWithChildren) => {
 		}),
 		mutationCache: new MutationCache({
 			onError: createErrorHandler(alertContext, queryErrorSupport)
-		})
+		}),
+		defaultOptions: {
+			queries: {
+				refetchOnWindowFocus: false
+			}
+		}
 	});
 	return (
 		<QueryClientProvider client={queryClient}>

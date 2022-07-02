@@ -15,6 +15,7 @@ export const useGetAuthUser = (): QueryHookResult<
 	GetAuthUserExtra
 > => {
 	const result = useQuery<AuthUser, Error>(GET_AUTH_USER, getAuthUser, {
+		refetchOnWindowFocus: true,
 		retry: false
 	});
 	return {

@@ -28,6 +28,7 @@ export interface TablePaginationConfig {
 
 interface Props {
 	readonly columns: ReadonlyArray<string>;
+	// TODO need a unique key prop for each of these items
 	readonly belowTableActions?: ReadonlyArray<ReactNode>;
 	readonly loading?: boolean;
 	readonly pagination?: TablePaginationConfig;

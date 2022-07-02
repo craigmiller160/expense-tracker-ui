@@ -111,13 +111,14 @@ describe('Transactions', () => {
 			.querySelector('div.MuiTablePagination-select');
 		expect(rowsPerPageSelect).toBeVisible();
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		userEvent.click(rowsPerPageSelect!);
+		await userEvent.click(rowsPerPageSelect!);
 
-		await waitFor(() =>
-			// Must be 2 because there is an Amount = 10
-			expect(screen.queryAllByText('10')).toHaveLength(2)
-		);
-		userEvent.click(screen.getAllByText('10')[1]);
+		const allItemsWith10 = screen.getAllByText('10');
+		if (allItemsWith10.length === 2) {
+			await userEvent.click(screen.getAllByText('10')[1]);
+		} else {
+			await userEvent.click(screen.getAllByText('10')[0]);
+		}
 
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()

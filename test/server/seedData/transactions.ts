@@ -39,14 +39,16 @@ export const seedTransactions: DataUpdater = (draft) => {
 		),
 		Monoid.concatAll(transactionDbMonoid)
 	);
-	draft.transactions[0] = {
-		...draft.transactions[0],
+	const transactions = Object.values(draft.transactions);
+	const categories = Object.values(draft.categories);
+	draft.transactions[transactions[0].id] = {
+		...transactions[0],
 		confirmed: true,
-		categoryId: draft.categories[0].id,
-		categoryName: draft.categories[1].name
+		categoryId: draft.categories[categories[0].id].id,
+		categoryName: draft.categories[categories[0].id].name
 	};
-	draft.transactions[1] = {
-		...draft.transactions[1],
+	draft.transactions[transactions[0].id] = {
+		...transactions[0],
 		duplicate: true
 	};
 };

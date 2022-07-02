@@ -102,7 +102,7 @@ export const TransactionTable = (props: Props) => {
 						pagination={tablePagination}
 						belowTableActions={belowTableActions}
 					>
-						{fields.map((_, index) => {
+						{fields.map((field, index) => {
 							const txn = transactions[index];
 							if (!txn) {
 								return <span key={index}></span>;
@@ -139,7 +139,7 @@ export const TransactionTable = (props: Props) => {
 										</Popover>
 										<Popover
 											className={conditionalVisible(
-												!txn.categoryId
+												!field.category
 											)}
 											message="Transaction has not been categorized"
 										>

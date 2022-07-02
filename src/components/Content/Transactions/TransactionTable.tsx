@@ -67,15 +67,13 @@ const conditionalVisible = (condition: boolean): string | undefined =>
 
 export const TransactionTable = (props: Props) => {
 	const {
-		transactions,
-		categories,
-		isFetching,
-		currentPage,
-		totalRecords,
-		resetFormToData,
-		categorizeTransactions,
-		fields,
-		form: { control, formState, handleSubmit }
+		data: { transactions, categories, isFetching },
+		pagination: { currentPage, totalRecords },
+		form: {
+			formReturn: { control, formState, handleSubmit },
+			fields
+		},
+		actions: { resetFormToData, categorizeTransactions }
 	} = useHandleTransactionTableData(props.pagination);
 
 	const tablePagination = createTablePagination(

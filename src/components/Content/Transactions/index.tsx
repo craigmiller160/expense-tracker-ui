@@ -122,8 +122,9 @@ const setCategoriesFromData = (
 	getValues: UseFormGetValues<CategorizationFormData>,
 	reset: UseFormReset<CategorizationFormData>,
 	transactions?: ReadonlyArray<TransactionResponse>,
-	categories?: ReadonlyArray<CategoryResponse>
+	categories?: ReadonlyArray<SelectOption<string>>
 ) => {
+	console.log('SettingData', transactions, categories);
 	if (!transactions || !categories) {
 		return;
 	}
@@ -184,17 +185,17 @@ export const Transactions = () => {
 	const { mutate: categorizeTransactionsMutate } =
 		useCategorizeTransactions();
 
+	const pagination = toPagination(state.pageSize, setState, transactionData);
+	const categoryOptions = categoryData?.map(categoryToSelectOption);
+
 	useEffect(() => {
 		setCategoriesFromData(
 			getValues,
 			reset,
 			transactionData?.transactions,
-			categoryData
+			categoryOptions
 		);
-	}, [transactionData, categoryData]);
-
-	const pagination = toPagination(state.pageSize, setState, transactionData);
-	const categoryOptions = categoryData?.map(categoryToSelectOption) ?? [];
+	}, [transactionData, categoryOptions]);
 
 	const onSetCategorySubmit = createOnSetCategorySubmit(
 		categorizeTransactionsMutate,
@@ -237,17 +238,23 @@ export const Transactions = () => {
 									<TableCell>{txn.description}</TableCell>
 									<TableCell>{txn.amount}</TableCell>
 									<TableCell>
-										{categoryIsFetching && (
-											<CircularProgress />
-										)}
-										{!categoryIsFetching && (
-											<Autocomplete
-												name={`category-${index}`}
-												control={control}
-												label="Category"
-												options={categoryOptions}
-											/>
-										)}
+										{/*{categoryIsFetching && (*/}
+										{/*	<CircularProgress />*/}
+										{/*)}*/}
+										{/*{!categoryIsFetching && (*/}
+										{/*	<Autocomplete*/}
+										{/*		name={`category-${index}`}*/}
+										{/*		control={control}*/}
+										{/*		label="Category"*/}
+										{/*		options={categoryOptions}*/}
+										{/*	/>*/}
+										{/*)}*/}
+										<Autocomplete
+											name={`category-${index}`}
+											control={control}
+											label="Category"
+											options={categoryOptions ?? []}
+										/>
 									</TableCell>
 								</TableRow>
 							)

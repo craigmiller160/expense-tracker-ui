@@ -8,7 +8,12 @@
   }
 
   .ActionWrapper {
-    margin-top: 0.5rem;
+    $spacing: 0.5rem;
+    margin-top: $spacing;
     @include RightAlign;
+
+    >* {
+      margin-left: $spacing;
+    }
   }
 }

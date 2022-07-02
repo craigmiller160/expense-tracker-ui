@@ -7,7 +7,7 @@ import {
 } from '../../../types/transactions';
 import { SortDirection } from '../../../types/misc';
 import { Table, TablePaginationConfig } from '../../UI/Table';
-import { CircularProgress, TableCell, TableRow } from '@mui/material';
+import { Button, CircularProgress, TableCell, TableRow } from '@mui/material';
 import { pipe } from 'fp-ts/es6/function';
 import * as Option from 'fp-ts/es6/Option';
 import { Updater, useImmer } from 'use-immer';
@@ -63,6 +63,15 @@ export const Transactions = () => {
 
 	const pagination = toPagination(state.pageSize, setState, transactionData);
 
+	const belowTableActions = [
+		<Button variant="contained" color="secondary">
+			Clear
+		</Button>,
+		<Button variant="contained" color="success">
+			Save
+		</Button>
+	];
+
 	return (
 		<div className="ManageTransactions">
 			<PageTitle title="Manage Transactions" />
@@ -71,6 +80,7 @@ export const Transactions = () => {
 					columns={COLUMNS}
 					loading={transactionIsFetching}
 					pagination={pagination}
+					belowTableActions={belowTableActions}
 				>
 					{(transactionData?.transactions ?? []).map((txn) => (
 						<TableRow key={txn.id}>

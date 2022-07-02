@@ -25,6 +25,7 @@ import {
 	SelectOption
 } from '@craigmiller160/react-hook-form-material-ui';
 import { useForm } from 'react-hook-form';
+import * as RArray from 'fp-ts/es6/ReadonlyArray';
 
 const COLUMNS = ['Expense Date', 'Description', 'Amount', 'Category'];
 const DEFAULT_ROWS_PER_PAGE = 25;
@@ -81,20 +82,22 @@ const createOnSetCategorySubmit =
 			return;
 		}
 
-		const transactionsAndCategories = Object.entries(values)
-			.map(
-				([, selectedOption], index): [SelectOption<string>, number] => [
+		const transactionsAndCategories = pipe(
+			Object.entries(values),
+			RArray.mapWithIndex(
+				(index, [, selectedOption]): [SelectOption<string>, number] => [
 					selectedOption,
 					index
 				]
-			)
-			.filter(([selectedOption]) => selectedOption !== undefined)
-			.map(
+			),
+			RArray.filter(([selectedOption]) => selectedOption !== undefined),
+			RArray.map(
 				([selectedOption, index]): TransactionAndCategory => ({
 					transactionId: transactions[index].id,
 					categoryId: selectedOption.value
 				})
-			);
+			)
+		);
 		categorizeTransactionsMutate({
 			transactionsAndCategories
 		});

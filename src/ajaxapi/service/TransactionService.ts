@@ -48,7 +48,7 @@ export const searchForTransactions = (
 export const categorizeTransactions = (
 	transactionsAndCategories: ReadonlyArray<TransactionAndCategory>
 ): Promise<unknown> =>
-	expenseTrackerApi.post<CategorizeTransactionsRequest, unknown>({
+	expenseTrackerApi.put<CategorizeTransactionsRequest, unknown>({
 		uri: '/transactions/categorize',
 		errorCustomizer: 'Error categorizing transactions',
 		body: {

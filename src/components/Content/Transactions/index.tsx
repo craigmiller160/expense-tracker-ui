@@ -14,7 +14,7 @@ import { Updater, useImmer } from 'use-immer';
 import { FullPageTableWrapper } from '../../UI/Table/FullPageTableWrapper';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 
-const COLUMNS = ['Expense Date', 'Description', 'Amount'];
+const COLUMNS = ['Expense Date', 'Description', 'Amount', 'Category'];
 const DEFAULT_ROWS_PER_PAGE = 25;
 
 interface State {
@@ -76,6 +76,7 @@ export const Transactions = () => {
 							<TableCell>{txn.expenseDate}</TableCell>
 							<TableCell>{txn.description}</TableCell>
 							<TableCell>{txn.amount}</TableCell>
+							<TableCell>Category</TableCell>
 						</TableRow>
 					))}
 				</Table>

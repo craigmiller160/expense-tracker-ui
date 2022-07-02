@@ -29,12 +29,8 @@ interface RouteRules {
 
 const createAuthorizedRoutes = (): RouteObject[] => [
 	{
-		path: 'welcome',
-		element: <LazySuspenseWrapper component={Welcome} />
-	},
-	{
 		path: '',
-		element: <Navigate to="welcome" />
+		element: <Navigate to="transactions" />
 	},
 	{
 		path: 'categories',
@@ -50,7 +46,7 @@ const createAuthorizedRoutes = (): RouteObject[] => [
 	},
 	{
 		path: '*',
-		element: <Navigate to="welcome" />
+		element: <Navigate to="transactions" />
 	}
 ];
 

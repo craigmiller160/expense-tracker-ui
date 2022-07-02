@@ -7,7 +7,7 @@ import {
 } from '../../../types/transactions';
 import { SortDirection } from '../../../types/misc';
 import { Table, TablePaginationConfig } from '../../UI/Table';
-import { TableCell, TableRow } from '@mui/material';
+import { CircularProgress, TableCell, TableRow } from '@mui/material';
 import { pipe } from 'fp-ts/es6/function';
 import * as Option from 'fp-ts/es6/Option';
 import { Updater, useImmer } from 'use-immer';
@@ -52,7 +52,8 @@ export const Transactions = () => {
 		pageNumber: 0,
 		pageSize: DEFAULT_ROWS_PER_PAGE
 	});
-	const { data: categoryData, isFetching: categoryIsFetching } = useGetAllCategories();
+	const { data: categoryData, isFetching: categoryIsFetching } =
+		useGetAllCategories();
 	const { data: transactionData, isFetching: transactionIsFetching } =
 		useSearchForTransactions({
 			...state,
@@ -76,7 +77,9 @@ export const Transactions = () => {
 							<TableCell>{txn.expenseDate}</TableCell>
 							<TableCell>{txn.description}</TableCell>
 							<TableCell>{txn.amount}</TableCell>
-							<TableCell>Category</TableCell>
+							<TableCell>
+								{categoryIsFetching && <CircularProgress />}
+							</TableCell>
 						</TableRow>
 					))}
 				</Table>

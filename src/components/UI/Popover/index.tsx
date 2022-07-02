@@ -1,11 +1,12 @@
-import { PropsWithChildren, useRef } from 'react';
+import { PropsWithChildren, MouseEvent } from 'react';
 import MuiPopover from '@mui/material/Popover';
 import { useImmer } from 'use-immer';
 import { Typography } from '@mui/material';
 import './Popover.scss';
+import { castDraft } from 'immer';
 
 interface State {
-	readonly open: boolean;
+	readonly target: HTMLElement | null;
 }
 
 interface Props {
@@ -14,28 +15,29 @@ interface Props {
 
 export const Popover = (props: PropsWithChildren<Props>) => {
 	const [state, setState] = useImmer<State>({
-		open: false
+		target: null
 	});
-	const ref = useRef<HTMLDivElement>(null);
-	const openPopover = () =>
+	const openPopover = (event: MouseEvent<HTMLElement>) =>
 		setState((draft) => {
-			draft.open = true;
+			draft.target = castDraft(event.target as HTMLElement);
 		});
 	const closePopover = () =>
 		setState((draft) => {
-			draft.open = false;
+			draft.target = null;
 		});
 	return (
 		<div
 			className="AppPopover"
-			ref={ref}
 			onMouseEnter={openPopover}
 			onMouseLeave={closePopover}
 		>
 			{props.children}
 			<MuiPopover
-				open={state.open}
-				anchorEl={ref.current}
+				sx={{
+					pointerEvents: 'none'
+				}}
+				open={!!state.target}
+				anchorEl={state.target}
 				anchorOrigin={{
 					vertical: 'bottom',
 					horizontal: 'left'

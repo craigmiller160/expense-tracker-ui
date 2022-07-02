@@ -24,8 +24,11 @@ import {
 	Autocomplete,
 	SelectOption
 } from '@craigmiller160/react-hook-form-material-ui';
-import { useForm } from 'react-hook-form';
+import { useForm, UseFormGetValues, UseFormReset } from 'react-hook-form';
 import * as RArray from 'fp-ts/es6/ReadonlyArray';
+import { useEffect } from 'react';
+import { MonoidT } from '@craigmiller160/ts-functions/es/types';
+import * as Monoid from 'fp-ts/es6/Monoid';
 
 const COLUMNS = ['Expense Date', 'Description', 'Amount', 'Category'];
 const DEFAULT_ROWS_PER_PAGE = 25;
@@ -103,6 +106,48 @@ const createOnSetCategorySubmit =
 		});
 	};
 
+const categorizationFormDataMonoid: MonoidT<CategorizationFormData> = {
+	empty: {},
+	concat: (data1, data2) => ({
+		...data1,
+		...data2
+	})
+};
+
+const setCategoriesFromData = (
+	getValues: UseFormGetValues<CategorizationFormData>,
+	reset: UseFormReset<CategorizationFormData>,
+	transactions?: ReadonlyArray<TransactionResponse>,
+	categories?: ReadonlyArray<CategoryResponse>
+) => {
+	if (!transactions || !categories) {
+		return;
+	}
+	const values = getValues();
+	const newValues = pipe(
+		Object.entries(values),
+		RArray.mapWithIndex((index, [key]): [string, number, boolean] => [
+			key,
+			index,
+			!!transactions[index].categoryId
+		]),
+		RArray.filter(([, , hasCategory]) => hasCategory),
+		RArray.map(
+			([key, index]): CategorizationFormData => ({
+				[key]: {
+					value: transactions[index].categoryId!,
+					label: transactions[index].categoryName!
+				}
+			})
+		),
+		Monoid.concatAll(categorizationFormDataMonoid)
+	);
+	reset({
+		...values,
+		...newValues
+	});
+};
+
 export const Transactions = () => {
 	const [state, setState] = useImmer<State>({
 		pageNumber: 0,
@@ -116,10 +161,19 @@ export const Transactions = () => {
 			sortKey: TransactionSortKey.EXPENSE_DATE,
 			sortDirection: SortDirection.ASC
 		});
-	const { control, handleSubmit, formState } =
+	const { control, handleSubmit, formState, getValues, reset } =
 		useForm<CategorizationFormData>();
 	const { mutate: categorizeTransactionsMutate } =
 		useCategorizeTransactions();
+
+	useEffect(() => {
+		setCategoriesFromData(
+			getValues,
+			reset,
+			transactionData?.transactions,
+			categoryData
+		);
+	}, [transactionData, categoryData]);
 
 	const pagination = toPagination(state.pageSize, setState, transactionData);
 	const categoryOptions = categoryData?.map(categoryToSelectOption) ?? [];
@@ -135,7 +189,7 @@ export const Transactions = () => {
 			color="secondary"
 			disabled={!formState.isDirty}
 		>
-			Clear
+			Cancel
 		</Button>,
 		<Button
 			variant="contained"

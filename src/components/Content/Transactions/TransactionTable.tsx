@@ -17,8 +17,9 @@ import { ReactNode } from 'react';
 import { Updater } from 'use-immer';
 import { CategorizeTransactionsMutation } from '../../../ajaxapi/query/TransactionQueries';
 import { pipe } from 'fp-ts/es6/function';
+import FileCopyIcon from '@mui/icons-material/FileCopy';
 
-const COLUMNS = ['Expense Date', 'Description', 'Amount', 'Category'];
+const COLUMNS = ['Expense Date', 'Description', 'Amount', 'Category', 'Flags'];
 
 interface Props {
 	readonly pagination: PaginationState;
@@ -112,6 +113,9 @@ export const TransactionTable = (props: Props) => {
 											label="Category"
 											options={categories}
 										/>
+									</TableCell>
+									<TableCell>
+										<FileCopyIcon color="warning" />
 									</TableCell>
 								</TableRow>
 							);

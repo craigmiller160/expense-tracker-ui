@@ -38,3 +38,12 @@ export interface SearchTransactionsResponse {
 	readonly totalItems: number;
 	readonly transactions: ReadonlyArray<TransactionResponse>;
 }
+
+export interface TransactionAndCategory {
+	readonly transactionId: string;
+	readonly categoryId: string;
+}
+
+export interface CategorizeTransactionsRequest {
+	readonly transactionsAndCategories: ReadonlyArray<TransactionAndCategory>;
+}

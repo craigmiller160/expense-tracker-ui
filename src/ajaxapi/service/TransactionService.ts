@@ -1,7 +1,9 @@
 import {
+	CategorizeTransactionsRequest,
 	DATE_FORMAT,
 	SearchTransactionsRequest,
-	SearchTransactionsResponse
+	SearchTransactionsResponse,
+	TransactionAndCategory
 } from '../../types/transactions';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 import qs from 'qs';
@@ -42,3 +44,14 @@ export const searchForTransactions = (
 		})
 		.then(getData);
 };
+
+export const categorizeTransactions = (
+	transactionsAndCategories: ReadonlyArray<TransactionAndCategory>
+): Promise<unknown> =>
+	expenseTrackerApi.post<CategorizeTransactionsRequest, unknown>({
+		uri: '/transactions/categorize',
+		errorCustomizer: 'Error categorizing transactions',
+		body: {
+			transactionsAndCategories
+		}
+	});

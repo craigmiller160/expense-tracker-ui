@@ -111,7 +111,9 @@ export const TransactionTable = (props: Props) => {
 								<TableRow key={txn.id}>
 									<TableCell>{txn.expenseDate}</TableCell>
 									<TableCell>{txn.description}</TableCell>
-									<TableCell>{txn.amount}</TableCell>
+									<TableCell>
+										{`$${txn.amount.toFixed(2)}`}
+									</TableCell>
 									<TableCell className="CategoryCell">
 										<Autocomplete
 											name={`transactions.${index}.category`}

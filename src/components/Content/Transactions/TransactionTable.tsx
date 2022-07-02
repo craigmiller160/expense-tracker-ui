@@ -24,6 +24,7 @@ const createBelowTableActions = (
 	resetFormToData: () => void
 ): ReadonlyArray<ReactNode> => [
 	<Button
+		key="reset-button"
 		variant="contained"
 		color="secondary"
 		disabled={!formState.isDirty}
@@ -32,6 +33,7 @@ const createBelowTableActions = (
 		Reset
 	</Button>,
 	<Button
+		key="save-button"
 		variant="contained"
 		type="submit"
 		color="success"
@@ -50,7 +52,7 @@ export const TransactionTable = (props: Props) => {
 		totalRecords,
 		resetFormToData,
 		fields,
-		form: { control, formState }
+		form: { control, formState, getValues }
 	} = useHandleTransactionTableData(props.pagination);
 
 	const tablePagination = createTablePagination(
@@ -64,6 +66,8 @@ export const TransactionTable = (props: Props) => {
 		formState,
 		resetFormToData
 	);
+
+	console.log('Values', getValues());
 
 	return (
 		<div className="TransactionsTable">

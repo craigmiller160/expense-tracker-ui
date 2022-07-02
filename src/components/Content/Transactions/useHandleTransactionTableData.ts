@@ -18,7 +18,7 @@ import { CategoryOption, PaginationState } from './utils';
 import { match, P } from 'ts-pattern';
 
 export interface TransactionFormValues {
-	readonly category?: CategoryOption;
+	readonly category: CategoryOption | null;
 }
 
 export interface TransactionTableForm {
@@ -48,7 +48,7 @@ const categoryToCategoryOption = (
 
 const transactionToCategoryOption = (
 	transaction: TransactionResponse
-): CategoryOption | undefined =>
+): CategoryOption | null =>
 	match(transaction)
 		.with(
 			{ categoryId: P.not(P.nullish) },
@@ -57,7 +57,7 @@ const transactionToCategoryOption = (
 				label: t.categoryName! // eslint-disable-line @typescript-eslint/no-non-null-assertion
 			})
 		)
-		.otherwise(() => undefined);
+		.otherwise(() => null);
 
 const transactionToFormValues = (
 	transaction: TransactionResponse

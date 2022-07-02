@@ -22,6 +22,7 @@ export interface TransactionTableForm {
 export interface TransactionTableData {
 	readonly transactions: ReadonlyArray<TransactionResponse>;
 	readonly categories: ReadonlyArray<CategoryOption>;
+	readonly currentPage: number;
 	readonly totalRecords: number;
 	readonly isFetching: boolean;
 	readonly form: UseFormReturn<TransactionTableForm>;
@@ -87,6 +88,7 @@ export const useHandleTransactionTableData = (
 	return {
 		transactions: transactionData?.transactions ?? [],
 		categories: categories ?? [],
+		currentPage: transactionData?.pageNumber ?? 0,
 		totalRecords: transactionData?.totalItems ?? 0,
 		isFetching:
 			transactionIsFetching ||

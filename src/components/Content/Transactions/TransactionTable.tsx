@@ -1,6 +1,5 @@
-import { PaginationState } from './utils';
+import { createTablePagination, PaginationState } from './utils';
 import {
-	createTransactionFormKey,
 	TransactionTableForm,
 	useHandleTransactionTableData
 } from './useHandleTransactionTableData';
@@ -11,11 +10,13 @@ import { Autocomplete } from '@craigmiller160/react-hook-form-material-ui';
 import { FullPageTableWrapper } from '../../UI/Table/FullPageTableWrapper';
 import { FormState } from 'react-hook-form';
 import { ReactNode } from 'react';
+import { Updater } from 'use-immer';
 
 const COLUMNS = ['Expense Date', 'Description', 'Amount', 'Category'];
 
 interface Props {
 	readonly pagination: PaginationState;
+	readonly updatePagination: Updater<PaginationState>;
 }
 
 const createBelowTableActions = (
@@ -39,8 +40,17 @@ export const TransactionTable = (props: Props) => {
 		transactions,
 		categories,
 		isFetching,
+		currentPage,
+		totalRecords,
 		form: { control, formState }
 	} = useHandleTransactionTableData(props.pagination);
+
+	const tablePagination = createTablePagination(
+		currentPage,
+		props.pagination.pageSize,
+		totalRecords,
+		props.updatePagination
+	);
 
 	const belowTableActions = createBelowTableActions(formState);
 
@@ -51,7 +61,7 @@ export const TransactionTable = (props: Props) => {
 					<Table
 						columns={COLUMNS}
 						loading={isFetching}
-						pagination={pagination}
+						pagination={tablePagination}
 						belowTableActions={belowTableActions}
 					>
 						{transactions.map((txn, index) => (

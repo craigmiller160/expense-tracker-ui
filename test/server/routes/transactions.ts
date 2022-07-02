@@ -50,7 +50,10 @@ const paginateTransactions =
 	(
 		transactions: ReadonlyArray<TransactionResponse>
 	): ReadonlyArray<TransactionResponse> =>
-		transactions.slice(pageNumber, pageNumber + pageSize);
+		transactions.slice(
+			pageNumber * pageSize,
+			pageNumber * pageSize + pageSize
+		);
 
 export const createTransactionsRoutes = (
 	database: Database,
@@ -59,8 +62,8 @@ export const createTransactionsRoutes = (
 	server.get('/transactions', (schema, request) => {
 		const sortDirection = request.queryParams
 			?.sortDirection as SortDirection;
-		const pageNumber = request.queryParams?.pageNumber as number;
-		const pageSize = request.queryParams?.pageSize as number;
+		const pageNumber = parseInt(`${request.queryParams?.pageNumber}`);
+		const pageSize = parseInt(`${request.queryParams?.pageSize}`);
 		const transactions = pipe(
 			Object.values(database.data.transactions),
 			sortTransactions(sortDirection),

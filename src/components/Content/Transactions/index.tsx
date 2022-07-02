@@ -13,6 +13,12 @@ import * as Option from 'fp-ts/es6/Option';
 import { Updater, useImmer } from 'use-immer';
 import { FullPageTableWrapper } from '../../UI/Table/FullPageTableWrapper';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
+import { CategoryResponse } from '../../../types/categories';
+import {
+	Autocomplete,
+	SelectOption
+} from '@craigmiller160/react-hook-form-material-ui';
+import { useForm } from 'react-hook-form';
 
 const COLUMNS = ['Expense Date', 'Description', 'Amount', 'Category'];
 const DEFAULT_ROWS_PER_PAGE = 25;
@@ -47,6 +53,13 @@ const toPagination = (
 		Option.getOrElse((): TablePaginationConfig | undefined => undefined)
 	);
 
+const categoryToSelectOption = (
+	category: CategoryResponse
+): SelectOption<string> => ({
+	label: category.name,
+	value: category.id
+});
+
 export const Transactions = () => {
 	const [state, setState] = useImmer<State>({
 		pageNumber: 0,
@@ -60,14 +73,19 @@ export const Transactions = () => {
 			sortKey: TransactionSortKey.EXPENSE_DATE,
 			sortDirection: SortDirection.ASC
 		});
+	const { control, handleSubmit } = useForm();
 
 	const pagination = toPagination(state.pageSize, setState, transactionData);
+	const categoryOptions = categoryData?.map(categoryToSelectOption) ?? [];
+
+	const onSetCategorySubmit = (values: any) =>
+		console.log('CategorySubmit', values);
 
 	const belowTableActions = [
 		<Button variant="contained" color="secondary">
 			Clear
 		</Button>,
-		<Button variant="contained" color="success">
+		<Button variant="contained" type="submit" color="success">
 			Save
 		</Button>
 	];
@@ -75,25 +93,35 @@ export const Transactions = () => {
 	return (
 		<div className="ManageTransactions">
 			<PageTitle title="Manage Transactions" />
-			<FullPageTableWrapper data-testid="transaction-table">
-				<Table
-					columns={COLUMNS}
-					loading={transactionIsFetching}
-					pagination={pagination}
-					belowTableActions={belowTableActions}
-				>
-					{(transactionData?.transactions ?? []).map((txn) => (
-						<TableRow key={txn.id}>
-							<TableCell>{txn.expenseDate}</TableCell>
-							<TableCell>{txn.description}</TableCell>
-							<TableCell>{txn.amount}</TableCell>
-							<TableCell>
-								{categoryIsFetching && <CircularProgress />}
-							</TableCell>
-						</TableRow>
-					))}
-				</Table>
-			</FullPageTableWrapper>
+			<form onSubmit={handleSubmit(onSetCategorySubmit)}>
+				<FullPageTableWrapper data-testid="transaction-table">
+					<Table
+						columns={COLUMNS}
+						loading={transactionIsFetching}
+						pagination={pagination}
+						belowTableActions={belowTableActions}
+					>
+						{(transactionData?.transactions ?? []).map((txn) => (
+							<TableRow key={txn.id}>
+								<TableCell>{txn.expenseDate}</TableCell>
+								<TableCell>{txn.description}</TableCell>
+								<TableCell>{txn.amount}</TableCell>
+								<TableCell>
+									{categoryIsFetching && <CircularProgress />}
+									{!categoryIsFetching && (
+										<Autocomplete
+											name=""
+											control={control}
+											label="Category"
+											options={categoryOptions}
+										/>
+									)}
+								</TableCell>
+							</TableRow>
+						))}
+					</Table>
+				</FullPageTableWrapper>
+			</form>
 		</div>
 	);
 };

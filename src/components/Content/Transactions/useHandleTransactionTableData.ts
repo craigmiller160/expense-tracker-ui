@@ -6,15 +6,11 @@ import {
 } from '../../../types/transactions';
 import { SortDirection } from '../../../types/misc';
 import { CategoryResponse } from '../../../types/categories';
-import { SelectOption } from '@craigmiller160/react-hook-form-material-ui';
 import { useEffect, useMemo } from 'react';
 import { useForm, UseFormReturn } from 'react-hook-form';
+import { PaginationState } from './utils';
 
-export type CategoryOption = SelectOption<string>;
-
-export interface PaginationState {
-	readonly pageNumber: number;
-	readonly pageSize: number;
+class CategoryOption {
 }
 
 export interface TransactionFormValues {

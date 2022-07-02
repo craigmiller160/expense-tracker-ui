@@ -13,7 +13,7 @@ import {
 } from '../../../types/transactions';
 import { SortDirection } from '../../../types/misc';
 import { Table, TablePaginationConfig } from '../../UI/Table';
-import { Button, CircularProgress, TableCell, TableRow } from '@mui/material';
+import { Button, TableCell, TableRow } from '@mui/material';
 import { pipe } from 'fp-ts/es6/function';
 import * as Option from 'fp-ts/es6/Option';
 import { Updater, useImmer } from 'use-immer';
@@ -30,18 +30,13 @@ import { useEffect } from 'react';
 import { MonoidT } from '@craigmiller160/ts-functions/es/types';
 import * as Monoid from 'fp-ts/es6/Monoid';
 import * as RNonEmptyArray from 'fp-ts/es6/ReadonlyNonEmptyArray';
+import { DEFAULT_ROWS_PER_PAGE, PaginationState } from './utils';
 
 const COLUMNS = ['Expense Date', 'Description', 'Amount', 'Category'];
-const DEFAULT_ROWS_PER_PAGE = 25;
-
-interface State {
-	readonly pageNumber: number;
-	readonly pageSize: number;
-}
 
 const toPagination = (
 	pageSize: number,
-	setState: Updater<State>,
+	setState: Updater<PaginationState>,
 	data?: SearchTransactionsResponse
 ): TablePaginationConfig | undefined =>
 	pipe(
@@ -166,7 +161,7 @@ const createDefaultValues = (pageSize: number): CategorizationFormData =>
 	);
 
 export const Transactions = () => {
-	const [state, setState] = useImmer<State>({
+	const [state, setState] = useImmer<PaginationState>({
 		pageNumber: 0,
 		pageSize: DEFAULT_ROWS_PER_PAGE
 	});

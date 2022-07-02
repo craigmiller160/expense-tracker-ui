@@ -114,7 +114,7 @@ export const TransactionTable = (props: Props) => {
 											options={categories}
 										/>
 									</TableCell>
-									<TableCell>
+									<TableCell className="FlagsCell">
 										<FileCopyIcon color="warning" />
 									</TableCell>
 								</TableRow>

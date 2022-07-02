@@ -90,7 +90,8 @@ export const createTransactionsRoutes = (
 				return {
 					...txn,
 					categoryId: txnAndCat.categoryId ?? undefined,
-					categoryName: cat?.name
+					categoryName: cat?.name,
+					confirmed: txn.confirmed || !!txnAndCat.categoryId
 				};
 			}
 		);

@@ -111,7 +111,10 @@ export const useHandleTransactionTableData = (
 			sortDirection: SortDirection.ASC
 		});
 	const { mutate: categorizeTransactions } = useCategorizeTransactions();
-	const form = useForm<TransactionTableForm>();
+	const form = useForm<TransactionTableForm>({
+		mode: 'onChange',
+		reValidateMode: 'onChange'
+	});
 	const { fields } = useFieldArray({
 		control: form.control,
 		name: 'transactions'
@@ -140,6 +143,8 @@ export const useHandleTransactionTableData = (
 			});
 		}
 	}, [transactionIsFetching]);
+
+	form.watch();
 
 	return {
 		data: {

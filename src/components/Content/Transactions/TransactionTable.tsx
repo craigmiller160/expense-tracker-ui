@@ -1,4 +1,8 @@
-import { createTablePagination, PaginationState } from './utils';
+import {
+	createTablePagination,
+	formToCategorizeRequest,
+	PaginationState
+} from './utils';
 import {
 	TransactionTableForm,
 	useHandleTransactionTableData
@@ -11,6 +15,8 @@ import { FullPageTableWrapper } from '../../UI/Table/FullPageTableWrapper';
 import { FormState } from 'react-hook-form';
 import { ReactNode } from 'react';
 import { Updater } from 'use-immer';
+import { CategorizeTransactionsMutation } from '../../../ajaxapi/query/TransactionQueries';
+import { pipe } from 'fp-ts/es6/function';
 
 const COLUMNS = ['Expense Date', 'Description', 'Amount', 'Category'];
 
@@ -43,6 +49,15 @@ const createBelowTableActions = (
 	</Button>
 ];
 
+const createOnSubmit =
+	(categorizeTransactions: CategorizeTransactionsMutation) =>
+	(values: TransactionTableForm) =>
+		pipe(
+			formToCategorizeRequest(values),
+			(_) => ({ transactionsAndCategories: _ }),
+			categorizeTransactions
+		);
+
 export const TransactionTable = (props: Props) => {
 	const {
 		transactions,
@@ -51,6 +66,7 @@ export const TransactionTable = (props: Props) => {
 		currentPage,
 		totalRecords,
 		resetFormToData,
+		categorizeTransactions,
 		fields,
 		form: { control, formState, handleSubmit }
 	} = useHandleTransactionTableData(props.pagination);
@@ -67,7 +83,7 @@ export const TransactionTable = (props: Props) => {
 		resetFormToData
 	);
 
-	const onSubmit = (values: TransactionTableForm) => console.log('Values', values);
+	const onSubmit = createOnSubmit(categorizeTransactions);
 
 	return (
 		<div className="TransactionsTable">

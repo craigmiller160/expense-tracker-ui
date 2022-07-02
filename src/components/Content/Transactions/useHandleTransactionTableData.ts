@@ -1,5 +1,9 @@
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
-import { useSearchForTransactions } from '../../../ajaxapi/query/TransactionQueries';
+import {
+	CategorizeTransactionsMutation,
+	useCategorizeTransactions,
+	useSearchForTransactions
+} from '../../../ajaxapi/query/TransactionQueries';
 import {
 	TransactionResponse,
 	TransactionSortKey
@@ -38,6 +42,7 @@ export interface TransactionTableData {
 	readonly fields: ReadonlyArray<
 		FieldArrayWithId<TransactionTableForm, 'transactions', 'id'>
 	>;
+	readonly categorizeTransactions: CategorizeTransactionsMutation;
 }
 
 const categoryToCategoryOption = (
@@ -90,6 +95,7 @@ export const useHandleTransactionTableData = (
 			sortKey: TransactionSortKey.EXPENSE_DATE,
 			sortDirection: SortDirection.ASC
 		});
+	const { mutate: categorizeTransactions } = useCategorizeTransactions();
 	const form = useForm<TransactionTableForm>();
 	const { fields } = useFieldArray({
 		control: form.control,
@@ -131,6 +137,7 @@ export const useHandleTransactionTableData = (
 			form.getValues()?.transactions?.length === 0,
 		form,
 		resetFormToData,
-		fields
+		fields,
+		categorizeTransactions
 	};
 };

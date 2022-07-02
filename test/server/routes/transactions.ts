@@ -84,11 +84,13 @@ export const createTransactionsRoutes = (
 		const newTransactions = body.transactionsAndCategories.map(
 			(txnAndCat) => {
 				const txn = database.data.transactions[txnAndCat.transactionId];
-				const cat = database.data.categories[txnAndCat.categoryId];
+				const cat = txnAndCat.categoryId
+					? database.data.categories[txnAndCat.categoryId]
+					: undefined;
 				return {
 					...txn,
-					categoryId: txnAndCat.categoryId,
-					categoryName: cat.name
+					categoryId: txnAndCat.categoryId ?? undefined,
+					categoryName: cat?.name
 				};
 			}
 		);

@@ -17,8 +17,12 @@ import { ReactNode } from 'react';
 import { Updater } from 'use-immer';
 import { CategorizeTransactionsMutation } from '../../../ajaxapi/query/TransactionQueries';
 import { pipe } from 'fp-ts/es6/function';
+import FileCopyIcon from '@mui/icons-material/FileCopy';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import CategoryIcon from '@mui/icons-material/Category';
+import { Popover } from '../../UI/Popover';
 
-const COLUMNS = ['Expense Date', 'Description', 'Amount', 'Category'];
+const COLUMNS = ['Expense Date', 'Description', 'Amount', 'Category', 'Flags'];
 
 interface Props {
 	readonly pagination: PaginationState;
@@ -57,6 +61,9 @@ const createOnSubmit =
 			(_) => ({ transactionsAndCategories: _ }),
 			categorizeTransactions
 		);
+
+const conditionalVisible = (condition: boolean): string | undefined =>
+	condition ? 'visible' : undefined;
 
 export const TransactionTable = (props: Props) => {
 	const {
@@ -98,7 +105,7 @@ export const TransactionTable = (props: Props) => {
 						{fields.map((_, index) => {
 							const txn = transactions[index];
 							if (!txn) {
-								return <></>;
+								return <span key={index}></span>;
 							}
 							return (
 								<TableRow key={txn.id}>
@@ -112,6 +119,32 @@ export const TransactionTable = (props: Props) => {
 											label="Category"
 											options={categories}
 										/>
+									</TableCell>
+									<TableCell className="FlagsCell">
+										<Popover
+											className={conditionalVisible(
+												txn.duplicate
+											)}
+											message="Transaction is a duplicate"
+										>
+											<FileCopyIcon color="warning" />
+										</Popover>
+										<Popover
+											className={conditionalVisible(
+												!txn.confirmed
+											)}
+											message="Transaction has not been confirmed"
+										>
+											<ThumbDownIcon color="warning" />
+										</Popover>
+										<Popover
+											className={conditionalVisible(
+												!txn.categoryId
+											)}
+											message="Transaction has not been categorized"
+										>
+											<CategoryIcon color="warning" />
+										</Popover>
 									</TableCell>
 								</TableRow>
 							);

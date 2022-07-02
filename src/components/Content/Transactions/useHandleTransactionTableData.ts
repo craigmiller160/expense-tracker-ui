@@ -5,6 +5,7 @@ import {
 	useSearchForTransactions
 } from '../../../ajaxapi/query/TransactionQueries';
 import {
+	SearchTransactionsResponse,
 	TransactionResponse,
 	TransactionSortKey
 } from '../../../types/transactions';
@@ -84,6 +85,12 @@ const createResetFormToData =
 		});
 	};
 
+const testNumberOfFormRecords = (
+	form: UseFormReturn<TransactionTableForm>,
+	data?: SearchTransactionsResponse
+): boolean =>
+	form.getValues()?.transactions?.length === 0 && (data?.totalItems ?? 0) > 0;
+
 export const useHandleTransactionTableData = (
 	pagination: PaginationState
 ): TransactionTableData => {
@@ -134,7 +141,7 @@ export const useHandleTransactionTableData = (
 		isFetching:
 			transactionIsFetching ||
 			categoryIsFetching ||
-			form.getValues()?.transactions?.length === 0,
+			testNumberOfFormRecords(form, transactionData),
 		form,
 		resetFormToData,
 		fields,

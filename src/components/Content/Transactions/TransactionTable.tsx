@@ -26,7 +26,7 @@ const COLUMNS = ['Expense Date', 'Description', 'Amount', 'Category', 'Flags'];
 
 interface Props {
 	readonly pagination: PaginationState;
-	readonly updatePagination: Updater<PaginationState>;
+	readonly onPaginationChange: Updater<PaginationState>;
 }
 
 const createBelowTableActions = (
@@ -80,7 +80,7 @@ export const TransactionTable = (props: Props) => {
 		currentPage,
 		props.pagination.pageSize,
 		totalRecords,
-		props.updatePagination
+		props.onPaginationChange
 	);
 
 	const belowTableActions = createBelowTableActions(

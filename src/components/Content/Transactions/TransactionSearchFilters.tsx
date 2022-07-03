@@ -10,18 +10,13 @@ import { Select } from '../../UI/Form/Select';
 import { SortDirection } from '../../../types/misc';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 import { useMemo } from 'react';
-import { categoryToCategoryOption } from './utils';
-import * as Time from '@craigmiller160/ts-functions/es/Time';
+import {
+	categoryToCategoryOption,
+	TransactionSearchForm,
+	transactionSearchFormDefaultValues
+} from './utils';
 import { Paper } from '@mui/material';
 import { DatePicker } from '../../UI/Form/DatePicker';
-
-interface TransactionSearchForm {
-	readonly direction: SortDirection;
-	readonly startDate: Date;
-	readonly endDate: Date;
-	readonly categoryType: TransactionCategoryType;
-	readonly category: SelectOption<string> | null;
-}
 
 const categorizationStatusOptions: ReadonlyArray<
 	SelectOption<TransactionCategoryType>
@@ -36,28 +31,20 @@ const directionOptions: ReadonlyArray<SelectOption<SortDirection>> = [
 	{ value: SortDirection.DESC, label: 'Newest to Oldest' }
 ];
 
-const defaultStartDate = (): Date => Time.subMonths(1)(new Date());
-const defaultEndDate = (): Date => new Date();
-
 interface Props {
-	readonly onSubmit: (values: TransactionSearchForm) => void;
+	readonly onFilterChange: (values: TransactionSearchForm) => void;
 }
 
+// TODO when without category is selected, disable the Category field
 export const TransactionSearchFilters = (props: Props) => {
 	const { data } = useGetAllCategories();
 	const { control, handleSubmit } = useForm<TransactionSearchForm>({
 		mode: 'onBlur',
 		reValidateMode: 'onChange',
-		defaultValues: {
-			categoryType: TransactionCategoryType.ALL,
-			direction: SortDirection.ASC,
-			startDate: defaultStartDate(),
-			endDate: defaultEndDate(),
-			category: null
-		}
+		defaultValues: transactionSearchFormDefaultValues
 	});
 
-	const dynamicSubmit = handleSubmit(props.onSubmit);
+	const dynamicSubmit = handleSubmit(props.onFilterChange);
 
 	const categoryOptions = useMemo(
 		() => data?.map(categoryToCategoryOption),

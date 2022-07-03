@@ -38,11 +38,10 @@ export const formToCategorizeRequest = (
 ): ReadonlyArray<TransactionAndCategory> =>
 	pipe(
 		values.transactions,
-		RArray.filter((txn) => txn.category !== null),
 		RArray.map(
 			(txn): TransactionAndCategory => ({
 				transactionId: txn.transactionId,
-				categoryId: txn.category!.value // eslint-disable-line @typescript-eslint/no-non-null-assertion
+				categoryId: txn.category?.value ?? null
 			})
 		)
 	);

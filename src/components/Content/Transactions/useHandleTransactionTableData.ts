@@ -31,19 +31,26 @@ export interface TransactionTableForm {
 	readonly transactions: ReadonlyArray<TransactionFormValues>;
 }
 
-// TODO nest the properties to organize structure
 export interface TransactionTableData {
-	readonly transactions: ReadonlyArray<TransactionResponse>;
-	readonly categories: ReadonlyArray<CategoryOption>;
-	readonly currentPage: number;
-	readonly totalRecords: number;
-	readonly isFetching: boolean;
-	readonly form: UseFormReturn<TransactionTableForm>;
-	readonly resetFormToData: () => void;
-	readonly fields: ReadonlyArray<
-		FieldArrayWithId<TransactionTableForm, 'transactions', 'id'>
-	>;
-	readonly categorizeTransactions: CategorizeTransactionsMutation;
+	readonly data: {
+		readonly transactions: ReadonlyArray<TransactionResponse>;
+		readonly categories: ReadonlyArray<CategoryOption>;
+		readonly isFetching: boolean;
+	};
+	readonly pagination: {
+		readonly currentPage: number;
+		readonly totalRecords: number;
+	};
+	readonly form: {
+		readonly formReturn: UseFormReturn<TransactionTableForm>;
+		readonly fields: ReadonlyArray<
+			FieldArrayWithId<TransactionTableForm, 'transactions', 'id'>
+		>;
+	};
+	readonly actions: {
+		readonly resetFormToData: () => void;
+		readonly categorizeTransactions: CategorizeTransactionsMutation;
+	};
 }
 
 const categoryToCategoryOption = (
@@ -103,7 +110,10 @@ export const useHandleTransactionTableData = (
 			sortDirection: SortDirection.ASC
 		});
 	const { mutate: categorizeTransactions } = useCategorizeTransactions();
-	const form = useForm<TransactionTableForm>();
+	const form = useForm<TransactionTableForm>({
+		mode: 'onChange',
+		reValidateMode: 'onChange'
+	});
 	const { fields } = useFieldArray({
 		control: form.control,
 		name: 'transactions'
@@ -133,18 +143,29 @@ export const useHandleTransactionTableData = (
 		}
 	}, [transactionIsFetching]);
 
+	// This is here so that the icons can be updated in real time to user interaction
+	form.watch();
+
 	return {
-		transactions: transactionData?.transactions ?? [],
-		categories: categories ?? [],
-		currentPage: transactionData?.pageNumber ?? 0,
-		totalRecords: transactionData?.totalItems ?? 0,
-		isFetching:
-			transactionIsFetching ||
-			categoryIsFetching ||
-			testNumberOfFormRecords(form, transactionData),
-		form,
-		resetFormToData,
-		fields,
-		categorizeTransactions
+		data: {
+			transactions: transactionData?.transactions ?? [],
+			categories: categories ?? [],
+			isFetching:
+				transactionIsFetching ||
+				categoryIsFetching ||
+				testNumberOfFormRecords(form, transactionData)
+		},
+		pagination: {
+			currentPage: transactionData?.pageNumber ?? 0,
+			totalRecords: transactionData?.totalItems ?? 0
+		},
+		form: {
+			formReturn: form,
+			fields
+		},
+		actions: {
+			resetFormToData,
+			categorizeTransactions
+		}
 	};
 };

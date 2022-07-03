@@ -67,15 +67,13 @@ const conditionalVisible = (condition: boolean): string | undefined =>
 
 export const TransactionTable = (props: Props) => {
 	const {
-		transactions,
-		categories,
-		isFetching,
-		currentPage,
-		totalRecords,
-		resetFormToData,
-		categorizeTransactions,
-		fields,
-		form: { control, formState, handleSubmit }
+		data: { transactions, categories, isFetching },
+		pagination: { currentPage, totalRecords },
+		form: {
+			formReturn: { control, formState, handleSubmit, getValues },
+			fields
+		},
+		actions: { resetFormToData, categorizeTransactions }
 	} = useHandleTransactionTableData(props.pagination);
 
 	const tablePagination = createTablePagination(
@@ -102,16 +100,23 @@ export const TransactionTable = (props: Props) => {
 						pagination={tablePagination}
 						belowTableActions={belowTableActions}
 					>
-						{fields.map((_, index) => {
+						{fields.map((field, index) => {
 							const txn = transactions[index];
 							if (!txn) {
 								return <span key={index}></span>;
 							}
 							return (
-								<TableRow key={txn.id}>
+								<TableRow
+									key={txn.id}
+									data-testid="transaction-table-row"
+								>
 									<TableCell>{txn.expenseDate}</TableCell>
-									<TableCell>{txn.description}</TableCell>
-									<TableCell>{txn.amount}</TableCell>
+									<TableCell className="DescriptionCell">
+										{txn.description}
+									</TableCell>
+									<TableCell>
+										{`$${txn.amount.toFixed(2)}`}
+									</TableCell>
 									<TableCell className="CategoryCell">
 										<Autocomplete
 											name={`transactions.${index}.category`}
@@ -126,6 +131,7 @@ export const TransactionTable = (props: Props) => {
 												txn.duplicate
 											)}
 											message="Transaction is a duplicate"
+											data-testid="duplicate-icon"
 										>
 											<FileCopyIcon color="warning" />
 										</Popover>
@@ -134,14 +140,18 @@ export const TransactionTable = (props: Props) => {
 												!txn.confirmed
 											)}
 											message="Transaction has not been confirmed"
+											data-testid="not-confirmed-icon"
 										>
 											<ThumbDownIcon color="warning" />
 										</Popover>
 										<Popover
 											className={conditionalVisible(
-												!txn.categoryId
+												!getValues(
+													`transactions.${index}.category`
+												)
 											)}
 											message="Transaction has not been categorized"
+											data-testid="no-category-icon"
 										>
 											<CategoryIcon color="warning" />
 										</Popover>

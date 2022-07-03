@@ -18,7 +18,8 @@ const createTransaction = (index: number): TransactionResponse => ({
 	expenseDate: newExpenseDate(index),
 	description: `Transaction ${index}`,
 	amount: 10 + index,
-	confirmed: false
+	confirmed: false,
+	duplicate: false
 });
 
 const transactionDbMonoid: MonoidT<Record<string, TransactionResponse>> = {

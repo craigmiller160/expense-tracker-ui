@@ -44,6 +44,8 @@ const defaultEndDate = (): Date => new Date();
 export const TransactionSearchFilters = () => {
 	const { data } = useGetAllCategories();
 	const { control, watch } = useForm<TransactionSearchForm>({
+		mode: 'onChange',
+		reValidateMode: 'onChange',
 		defaultValues: {
 			categoryType: TransactionCategoryType.ALL,
 			direction: SortDirection.ASC,

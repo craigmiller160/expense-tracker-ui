@@ -16,12 +16,19 @@ export const DatePicker = <F extends FieldValues>(props: Props<F>) => (
 	<Controller
 		name={props.name}
 		control={props.control}
-		render={({ field }) => (
+		rules={props.rules}
+		render={({ field, fieldState }) => (
 			<MuiDatePicker
 				{...field}
 				label={props.label}
 				disabled={props.disabled}
-				renderInput={(params) => <MuiTextField {...params} />}
+				renderInput={(params) => (
+					<MuiTextField
+						{...params}
+						error={!!fieldState.error}
+						helperText={fieldState.error?.message ?? ''}
+					/>
+				)}
 			/>
 		)}
 	/>

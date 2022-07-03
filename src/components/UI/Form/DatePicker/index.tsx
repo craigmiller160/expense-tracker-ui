@@ -10,6 +10,7 @@ interface Props<F extends FieldValues> {
 	readonly rules?: Rules<F>;
 }
 
+// TODO try dynamically picking desktop vs mobile
 export const DatePicker = <F extends FieldValues>(props: Props<F>) => (
 	<Controller
 		name={props.name}

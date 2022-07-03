@@ -62,7 +62,7 @@ const useTestFile = (reset: UseFormReset<FormData>): boolean => {
 		} else {
 			setIsTest(false);
 		}
-	}, [search]);
+	}, [search, reset]);
 	return isTest;
 };
 

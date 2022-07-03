@@ -53,6 +53,7 @@ export const TransactionSearchFilters = () => {
 		}
 	});
 
+	// TODO move to hook
 	useEffect(() => {
 		const subscription = watch((data, info) => {
 			console.log('FieldChange', data, info, formState.errors);

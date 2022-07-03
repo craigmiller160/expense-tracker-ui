@@ -1,7 +1,6 @@
-/* eslint-disable */
 import { useForm } from 'react-hook-form';
 import { TextField } from '@craigmiller160/react-hook-form-material-ui';
-import { useEffect } from 'react';
+import { constVoid } from 'fp-ts/es6/function';
 
 interface TransactionSearchForm {
 	readonly direction: any; // TODO fix this for combobox option
@@ -14,19 +13,27 @@ interface TransactionSearchForm {
 export const TransactionSearchFilters = () => {
 	const { control, handleSubmit, watch } = useForm<TransactionSearchForm>();
 
-	const onSubmit = (values: TransactionSearchForm) => console.log('Values', values);
+	const onSubmit = (values: TransactionSearchForm) =>
+		console.log('Values', values);
 
-	useEffect(() => {
-		const subscription = watch(handleSubmit(onSubmit));
-		return () => subscription.unsubscribe();
-	}, [handleSubmit, watch]);
+	watch((data, info) => {
+		console.log('FieldChange', data, info);
+	});
 
 	return (
 		<div>
-			<form>
-				<TextField name="direction" control={control} label="Direction" />
-				<TextField name="startDate" control={control} label="Start Date" />
+			<form onSubmit={constVoid}>
+				<TextField
+					name="direction"
+					control={control}
+					label="Direction"
+				/>
+				<TextField
+					name="startDate"
+					control={control}
+					label="Start Date"
+				/>
 			</form>
 		</div>
-	)
+	);
 };

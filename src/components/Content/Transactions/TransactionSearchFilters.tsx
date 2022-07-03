@@ -15,6 +15,7 @@ import { DesktopDatePicker } from '@mui/x-date-pickers';
 import MuiTextField from '@mui/material/TextField';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 import { Paper } from '@mui/material';
+import { DatePicker } from '../../UI/Form/DatePicker';
 
 interface TransactionSearchForm {
 	readonly direction: SortDirection;
@@ -64,21 +65,17 @@ export const TransactionSearchFilters = () => {
 	return (
 		<Paper className="TransactionSearchFilters">
 			<form onSubmit={constVoid}>
-				<DesktopDatePicker
-					onChange={(value) =>
-						console.log('DateValue', value instanceof Date)
-					}
+				<DatePicker
+					name="startDate"
+					control={control}
 					label="Start Date"
-					value={new Date()}
-					renderInput={(params) => <MuiTextField {...params} />}
+					rules={{ required: 'Start Date is required' }}
 				/>
-				<DesktopDatePicker
-					onChange={(value) =>
-						console.log('DateValue', value instanceof Date)
-					}
+				<DatePicker
+					name="endDate"
+					control={control}
 					label="End Date"
-					value={new Date()}
-					renderInput={(params) => <MuiTextField {...params} />}
+					rules={{ required: 'End Date is required' }}
 				/>
 				<Select
 					name="categoryType"

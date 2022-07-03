@@ -140,7 +140,12 @@ export const Categories = () => {
 	);
 
 	const belowTableActions = [
-		<Button variant="contained" color="secondary" onClick={onNewCategory}>
+		<Button
+			key="add-category-button"
+			variant="contained"
+			color="secondary"
+			onClick={onNewCategory}
+		>
 			Add
 		</Button>
 	];

@@ -1,5 +1,5 @@
 import { Button, Typography } from '@mui/material';
-import { useCallback, useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
 import * as Option from 'fp-ts/es6/Option';
 import { CategoryDetails } from '../../../types/categories';
@@ -121,11 +121,11 @@ export const CategoryDetailsDialog = (props: Props) => {
 	const title = getTitle(props.selectedCategory);
 	const { handleSubmit, control, reset, formState } = useForm<FormData>();
 	const hasCategory = Option.isSome(props.selectedCategory);
-	const resetForm = useCallback(createResetForm(reset), [reset]);
+	const resetForm = useMemo(() => createResetForm(reset), [reset]);
 
 	useEffect(() => {
 		resetForm(props.selectedCategory);
-	}, [hasCategory, resetForm]);
+	}, [props.selectedCategory, resetForm]);
 
 	const onSubmit = (values: FormData) =>
 		props.saveCategory(prepareOutput(props.selectedCategory, values));

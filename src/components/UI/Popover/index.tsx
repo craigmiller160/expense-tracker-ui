@@ -12,6 +12,7 @@ interface State {
 interface Props {
 	readonly message: string;
 	readonly className?: string;
+	readonly 'data-testid'?: string;
 }
 
 export const Popover = (props: PropsWithChildren<Props>) => {
@@ -34,6 +35,7 @@ export const Popover = (props: PropsWithChildren<Props>) => {
 			className={classes}
 			onMouseEnter={openPopover}
 			onMouseLeave={closePopover}
+			data-testid={`${props['data-testid']}`}
 		>
 			{props.children}
 			<MuiPopover

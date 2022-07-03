@@ -140,32 +140,32 @@ describe('Transactions', () => {
 		) => {
 			if (duplicateIcon) {
 				expect(
-					within(row).queryByTestId('duplicate-icon')
-				).toBeVisible();
+					within(row).getByTestId('duplicate-icon').className
+				).toMatch(/visible/);
 			} else {
 				expect(
-					within(row).queryByTestId('duplicate-icon')
-				).not.toBeVisible();
+					within(row).getByTestId('duplicate-icon').className
+				).not.toMatch(/visible/);
 			}
 
 			if (notConfirmedIcon) {
 				expect(
-					within(row).queryByTestId('not-confirmed-icon')
-				).toBeVisible();
+					within(row).getByTestId('not-confirmed-icon').className
+				).toMatch(/visible/);
 			} else {
 				expect(
-					within(row).queryByTestId('not-confirmed-icon')
-				).not.toBeVisible();
+					within(row).getByTestId('not-confirmed-icon').className
+				).not.toMatch(/visible/);
 			}
 
 			if (noCategoryIcon) {
 				expect(
-					within(row).queryByTestId('no-category-icon')
-				).toBeVisible();
+					within(row).getByTestId('no-category-icon').className
+				).toMatch(/visible/);
 			} else {
 				expect(
-					within(row).queryByTestId('no-category-icon')
-				).not.toBeVisible();
+					within(row).getByTestId('no-category-icon').className
+				).not.toMatch(/visible/);
 			}
 		};
 

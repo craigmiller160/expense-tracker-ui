@@ -131,22 +131,18 @@ export const TransactionTable = (props: Props) => {
 												txn.duplicate
 											)}
 											message="Transaction is a duplicate"
+											data-testid="duplicate-icon"
 										>
-											<FileCopyIcon
-												data-testid="duplicate-icon"
-												color="warning"
-											/>
+											<FileCopyIcon color="warning" />
 										</Popover>
 										<Popover
 											className={conditionalVisible(
 												!txn.confirmed
 											)}
 											message="Transaction has not been confirmed"
+											data-testid="not-confirmed-icon"
 										>
-											<ThumbDownIcon
-												data-testid="not-confirmed-icon"
-												color="warning"
-											/>
+											<ThumbDownIcon color="warning" />
 										</Popover>
 										<Popover
 											className={conditionalVisible(
@@ -155,11 +151,9 @@ export const TransactionTable = (props: Props) => {
 												)
 											)}
 											message="Transaction has not been categorized"
+											data-testid="no-category-icon"
 										>
-											<CategoryIcon
-												data-testid="no-cateogory-icon"
-												color="warning"
-											/>
+											<CategoryIcon color="warning" />
 										</Popover>
 									</TableCell>
 								</TableRow>

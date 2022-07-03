@@ -20,6 +20,7 @@ interface Props<F extends FieldValues> {
 	readonly rules?: Rules<F>;
 	readonly label: string;
 	readonly disabled?: boolean;
+	readonly dynamicSubmit?: () => void;
 }
 
 export const Select = <F extends FieldValues>(props: Props<F>) => {
@@ -33,6 +34,10 @@ export const Select = <F extends FieldValues>(props: Props<F>) => {
 					<InputLabel>{props.label}</InputLabel>
 					<MuiSelect
 						{...field}
+						onChange={(event) => {
+							field.onChange(event);
+							props.dynamicSubmit?.();
+						}}
 						label={props.label}
 						error={!!fieldState.error}
 						disabled={props.disabled}

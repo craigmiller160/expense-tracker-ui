@@ -93,6 +93,7 @@ export const TransactionSearchFilters = () => {
 					control={control}
 					label="Categorization Status"
 					options={categorizationStatusOptions}
+					dynamicSubmit={dynamicSubmit}
 				/>
 				<Autocomplete
 					name="category"

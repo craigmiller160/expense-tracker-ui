@@ -44,7 +44,7 @@ export const TransactionSearchFilters = () => {
 	const { data } = useGetAllCategories();
 	const { control, watch, formState, handleSubmit } =
 		useForm<TransactionSearchForm>({
-			mode: 'onChange',
+			mode: 'onBlur',
 			reValidateMode: 'onChange',
 			defaultValues: {
 				categoryType: TransactionCategoryType.ALL,
@@ -76,14 +76,7 @@ export const TransactionSearchFilters = () => {
 					name="startDate"
 					control={control}
 					label="Start Date"
-					rules={{
-						required: 'Start Date is required',
-						validate: (value) => {
-							return isValid(value)
-								? undefined
-								: 'Must be valid date';
-						}
-					}}
+					rules={{ required: 'Start Date is required' }}
 				/>
 				<DatePicker
 					name="endDate"

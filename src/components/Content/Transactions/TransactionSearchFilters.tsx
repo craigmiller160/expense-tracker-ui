@@ -9,12 +9,11 @@ import { TransactionCategoryType } from '../../../types/transactions';
 import { Select } from '../../UI/Form/Select';
 import { SortDirection } from '../../../types/misc';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { categoryToCategoryOption } from './utils';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 import { Paper } from '@mui/material';
 import { DatePicker } from '../../UI/Form/DatePicker';
-import isValid from 'date-fns/isValid/index';
 
 interface TransactionSearchForm {
 	readonly direction: SortDirection;
@@ -42,27 +41,30 @@ const defaultEndDate = (): Date => new Date();
 
 export const TransactionSearchFilters = () => {
 	const { data } = useGetAllCategories();
-	const { control, watch, formState, handleSubmit } =
-		useForm<TransactionSearchForm>({
-			mode: 'onBlur',
-			reValidateMode: 'onChange',
-			defaultValues: {
-				categoryType: TransactionCategoryType.ALL,
-				direction: SortDirection.ASC,
-				startDate: defaultStartDate(),
-				endDate: defaultEndDate(),
-				category: null
-			}
-		});
+	const { control, handleSubmit } = useForm<TransactionSearchForm>({
+		mode: 'onBlur',
+		reValidateMode: 'onChange',
+		defaultValues: {
+			categoryType: TransactionCategoryType.ALL,
+			direction: SortDirection.ASC,
+			startDate: defaultStartDate(),
+			endDate: defaultEndDate(),
+			category: null
+		}
+	});
 
-	// TODO move to hook
-	useEffect(() => {
-		const subscription = watch((data, info) => {
-			console.log('FieldChange', data, info, formState.errors);
-			handleSubmit(() => console.log('Submitting'))();
-		});
-		return subscription.unsubscribe;
-	}, [watch, formState]);
+	// // TODO move to hook
+	// useEffect(() => {
+	// 	const subscription = watch((data, info) => {
+	// 		console.log('FieldChange', data, info, formState.errors);
+	// 		handleSubmit(() => console.log('Submitting'))();
+	// 	});
+	// 	return subscription.unsubscribe;
+	// }, [watch, formState]);
+
+	const dynamicSubmit = handleSubmit((values) =>
+		console.log('Submitting', values)
+	);
 
 	const categoryOptions = useMemo(
 		() => data?.map(categoryToCategoryOption),
@@ -77,12 +79,14 @@ export const TransactionSearchFilters = () => {
 					control={control}
 					label="Start Date"
 					rules={{ required: 'Start Date is required' }}
+					dynamicSubmit={dynamicSubmit}
 				/>
 				<DatePicker
 					name="endDate"
 					control={control}
 					label="End Date"
 					rules={{ required: 'End Date is required' }}
+					dynamicSubmit={dynamicSubmit}
 				/>
 				<Select
 					name="categoryType"

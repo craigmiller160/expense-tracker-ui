@@ -4,7 +4,6 @@ import { Rules } from '@craigmiller160/react-hook-form-material-ui';
 import { DatePicker as MuiDatePicker } from '@mui/x-date-pickers';
 import MuiTextField from '@mui/material/TextField';
 import isValid from 'date-fns/isValid/index';
-import * as Time from '@craigmiller160/ts-functions/es/Time';
 
 interface Props<F extends FieldValues> {
 	readonly name: FieldPath<F>;
@@ -12,6 +11,7 @@ interface Props<F extends FieldValues> {
 	readonly label: string;
 	readonly rules?: Rules<F>;
 	readonly disabled?: boolean;
+	readonly dynamicSubmit?: () => void;
 }
 
 const validate = (value: Date): string | undefined =>
@@ -30,11 +30,21 @@ export const DatePicker = <F extends FieldValues>(props: Props<F>) => {
 			render={({ field, fieldState }) => (
 				<MuiDatePicker
 					{...field}
+					onChange={(date, stringValue) => {
+						field.onChange(date, stringValue);
+						if (stringValue === undefined) {
+							props.dynamicSubmit?.();
+						}
+					}}
 					label={props.label}
 					disabled={props.disabled}
 					renderInput={(params) => (
 						<MuiTextField
 							{...params}
+							onBlur={(event) => {
+								params?.onBlur?.(event);
+								props.dynamicSubmit?.();
+							}}
 							error={!!fieldState.error}
 							helperText={fieldState.error?.message ?? ''}
 						/>

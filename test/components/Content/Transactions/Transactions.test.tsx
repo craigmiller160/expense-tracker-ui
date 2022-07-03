@@ -308,9 +308,21 @@ describe('Transactions', () => {
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 
-		expect(screen.getAllByLabelText('Category')[0]).toHaveValue(
-			categories[0].name
+		const clearButton = screen
+			.getAllByTestId('transaction-table-row')[0]
+			.querySelector('.MuiAutocomplete-clearIndicator');
+		expect(clearButton).toBeTruthy();
+		await userEvent.click(clearButton!); // eslint-disable-line @typescript-eslint/no-non-null-assertion
+
+		await userEvent.click(screen.getByText('Save'));
+
+		await waitFor(() =>
+			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
+
+		const modifiedTransaction =
+			apiServer.database.data.transactions[transactions[0].id];
+		expect(modifiedTransaction.categoryId).toBeUndefined();
 	});
 
 	it('can reset in-progress changes on transactions', async () => {

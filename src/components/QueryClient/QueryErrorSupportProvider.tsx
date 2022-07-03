@@ -1,4 +1,4 @@
-import { createContext, PropsWithChildren } from 'react';
+import { createContext, PropsWithChildren, useCallback } from 'react';
 import { useImmer } from 'use-immer';
 
 interface State {
@@ -22,10 +22,13 @@ export const QueryErrorSupportProvider = (props: PropsWithChildren) => {
 		hasUnauthorizedError: false
 	});
 
-	const setHasUnauthorizedError: SetHasUnauthorizedError = (value) =>
-		setState((draft) => {
-			draft.hasUnauthorizedError = value;
-		});
+	const setHasUnauthorizedError: SetHasUnauthorizedError = useCallback(
+		(value) =>
+			setState((draft) => {
+				draft.hasUnauthorizedError = value;
+			}),
+		[setState]
+	);
 
 	const contextValue: QueryErrorSupportValue = {
 		hasUnauthorizedError: state.hasUnauthorizedError,

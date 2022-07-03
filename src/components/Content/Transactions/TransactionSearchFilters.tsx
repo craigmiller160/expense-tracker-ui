@@ -39,7 +39,11 @@ const directionOptions: ReadonlyArray<SelectOption<SortDirection>> = [
 const defaultStartDate = (): Date => Time.subMonths(1)(new Date());
 const defaultEndDate = (): Date => new Date();
 
-export const TransactionSearchFilters = () => {
+interface Props {
+	readonly onSubmit: (values: TransactionSearchForm) => void;
+}
+
+export const TransactionSearchFilters = (props: Props) => {
 	const { data } = useGetAllCategories();
 	const { control, handleSubmit } = useForm<TransactionSearchForm>({
 		mode: 'onBlur',
@@ -53,18 +57,7 @@ export const TransactionSearchFilters = () => {
 		}
 	});
 
-	// // TODO move to hook
-	// useEffect(() => {
-	// 	const subscription = watch((data, info) => {
-	// 		console.log('FieldChange', data, info, formState.errors);
-	// 		handleSubmit(() => console.log('Submitting'))();
-	// 	});
-	// 	return subscription.unsubscribe;
-	// }, [watch, formState]);
-
-	const dynamicSubmit = handleSubmit((values) =>
-		console.log('Submitting', values)
-	);
+	const dynamicSubmit = handleSubmit(props.onSubmit);
 
 	const categoryOptions = useMemo(
 		() => data?.map(categoryToCategoryOption),

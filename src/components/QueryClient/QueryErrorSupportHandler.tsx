@@ -3,16 +3,18 @@ import { QueryErrorSupportContext } from './QueryErrorSupportProvider';
 import { useGetAuthUser } from '../../ajaxapi/query/AuthQueries';
 
 export const QueryErrorSupportHandler = (props: PropsWithChildren) => {
-	const queryErrorSupport = useContext(QueryErrorSupportContext);
+	const { hasUnauthorizedError, setHasUnauthorizedError } = useContext(
+		QueryErrorSupportContext
+	);
 	const {
 		result: { refetch }
 	} = useGetAuthUser();
 	useEffect(() => {
-		if (queryErrorSupport.hasUnauthorizedError) {
+		if (hasUnauthorizedError) {
 			refetch();
-			queryErrorSupport.setHasUnauthorizedError(false);
+			setHasUnauthorizedError(false);
 		}
-	}, [queryErrorSupport.hasUnauthorizedError]);
+	}, [hasUnauthorizedError, setHasUnauthorizedError, refetch]);
 
 	return <>{props.children}</>;
 };

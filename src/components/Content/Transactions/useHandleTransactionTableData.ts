@@ -124,16 +124,20 @@ export const useHandleTransactionTableData = (
 		[categoryData]
 	);
 
-	const resetFormToData = createResetFormToData(
-		form.reset,
-		transactionData?.transactions ?? []
+	const resetFormToData = useMemo(
+		() =>
+			createResetFormToData(
+				form.reset,
+				transactionData?.transactions ?? []
+			),
+		[form, transactionData]
 	);
 
 	useEffect(() => {
 		if (transactionData) {
 			resetFormToData();
 		}
-	}, [transactionData, transactionIsFetching]);
+	}, [transactionData, resetFormToData, transactionIsFetching]);
 
 	useEffect(() => {
 		if (transactionIsFetching) {
@@ -141,7 +145,7 @@ export const useHandleTransactionTableData = (
 				transactions: []
 			});
 		}
-	}, [transactionIsFetching]);
+	}, [transactionIsFetching, form]);
 
 	// This is here so that the icons can be updated in real time to user interaction
 	form.watch();

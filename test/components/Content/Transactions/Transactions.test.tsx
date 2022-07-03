@@ -295,6 +295,11 @@ describe('Transactions', () => {
 				categoryName: categories[0].name
 			};
 		});
+
+		const preparedTransaction =
+			apiServer.database.data.transactions[transactions[0].id];
+		expect(preparedTransaction.categoryId).toEqual(categories[0].id);
+
 		renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});

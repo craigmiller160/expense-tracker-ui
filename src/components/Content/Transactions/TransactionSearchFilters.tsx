@@ -71,6 +71,14 @@ export const TransactionSearchFilters = () => {
 					value={new Date()}
 					renderInput={(params) => <MuiTextField {...params} />}
 				/>
+				<DesktopDatePicker
+					onChange={(value) =>
+						console.log('DateValue', value instanceof Date)
+					}
+					label="End Date"
+					value={new Date()}
+					renderInput={(params) => <MuiTextField {...params} />}
+				/>
 				<Select
 					name="categoryType"
 					control={control}

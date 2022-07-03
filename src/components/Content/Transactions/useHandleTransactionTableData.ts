@@ -31,7 +31,6 @@ export interface TransactionTableForm {
 	readonly transactions: ReadonlyArray<TransactionFormValues>;
 }
 
-// TODO nest the properties to organize structure
 export interface TransactionTableData {
 	readonly data: {
 		readonly transactions: ReadonlyArray<TransactionResponse>;

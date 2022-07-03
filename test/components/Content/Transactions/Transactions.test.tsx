@@ -13,6 +13,7 @@ import userEvent from '@testing-library/user-event';
 import { searchForTransactions } from '../../../../src/ajaxapi/service/TransactionService';
 import { TransactionSortKey } from '../../../../src/types/transactions';
 import { SortDirection } from '../../../../src/types/misc';
+import { getAllCategories } from '../../../../src/ajaxapi/service/CategoryService';
 
 const validationMonoid: MonoidT<TryT<unknown>> = {
 	empty: Either.right(null),
@@ -280,7 +281,36 @@ describe('Transactions', () => {
 	});
 
 	it('can remove a category from a transaction', async () => {
-		throw new Error();
+		const { transactions } = await searchForTransactions({
+			pageNumber: 0,
+			pageSize: 25,
+			sortKey: TransactionSortKey.EXPENSE_DATE,
+			sortDirection: SortDirection.ASC
+		});
+		const categories = await getAllCategories();
+		apiServer.database.updateData((draft) => {
+			draft.transactions[transactions[0].id] = {
+				...transactions[0],
+				categoryId: categories[0].id,
+				categoryName: categories[0].name
+			};
+		});
+		renderApp({
+			initialPath: '/expense-tracker/transactions'
+		});
+		await waitFor(() =>
+			expect(screen.queryByText('Expense Tracker')).toBeVisible()
+		);
+		await waitFor(() =>
+			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
+		);
+		await waitFor(() =>
+			expect(screen.queryByText('Rows per page:')).toBeVisible()
+		);
+
+		expect(screen.getAllByLabelText('Category')[0]).toHaveValue(
+			categories[0].name
+		);
 	});
 
 	it('can reset in-progress changes on transactions', async () => {

@@ -1,17 +1,23 @@
 import { useForm } from 'react-hook-form';
-import { SelectOption } from '@craigmiller160/react-hook-form-material-ui';
+import {
+	Autocomplete,
+	SelectOption
+} from '@craigmiller160/react-hook-form-material-ui';
 import { constVoid } from 'fp-ts/es6/function';
 import './TransactionSearchFilters.scss';
 import { TransactionCategoryType } from '../../../types/transactions';
 import { Select } from '../../UI/Form/Select';
 import { SortDirection } from '../../../types/misc';
+import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
+import { useMemo } from 'react';
+import { categoryToCategoryOption } from './utils';
 
 interface TransactionSearchForm {
-	readonly direction: any; // TODO fix this for combobox option
+	readonly direction: SortDirection;
 	readonly startDate: any; // TODO need a date picker
 	readonly endDate: any; // TODO need a date picker
-	readonly categoryType: any; // TODO need a combobox
-	readonly categories: any; // TODO need a combobox
+	readonly categoryType: TransactionCategoryType;
+	readonly categories: SelectOption<string>; // TODO need a combobox
 }
 
 const categorizationStatusOptions: ReadonlyArray<
@@ -28,6 +34,7 @@ const directionOptions: ReadonlyArray<SelectOption<SortDirection>> = [
 ];
 
 export const TransactionSearchFilters = () => {
+	const { data } = useGetAllCategories();
 	const { control, watch } = useForm<TransactionSearchForm>({
 		defaultValues: {
 			categoryType: TransactionCategoryType.ALL,
@@ -38,6 +45,11 @@ export const TransactionSearchFilters = () => {
 	watch((data, info) => {
 		console.log('FieldChange', data, info);
 	});
+
+	const categoryOptions = useMemo(
+		() => data?.map(categoryToCategoryOption),
+		[data]
+	);
 
 	return (
 		<div className="TransactionSearchFilters">
@@ -53,6 +65,12 @@ export const TransactionSearchFilters = () => {
 					control={control}
 					label="Categorization Status"
 					options={categorizationStatusOptions}
+				/>
+				<Autocomplete
+					name="categories"
+					control={control}
+					label="Category"
+					options={categoryOptions ?? []}
 				/>
 				<Select
 					name="direction"

@@ -5,6 +5,7 @@ import { TransactionTableForm } from './useHandleTransactionTableData';
 import { TransactionAndCategory } from '../../../types/transactions';
 import * as RArray from 'fp-ts/es6/ReadonlyArray';
 import { pipe } from 'fp-ts/es6/function';
+import { CategoryResponse } from '../../../types/categories';
 
 export interface PaginationState {
 	readonly pageNumber: number;
@@ -45,3 +46,10 @@ export const formToCategorizeRequest = (
 			})
 		)
 	);
+
+export const categoryToCategoryOption = (
+	category: CategoryResponse
+): CategoryOption => ({
+	label: category.name,
+	value: category.id
+});

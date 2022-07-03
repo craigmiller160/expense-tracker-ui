@@ -19,6 +19,7 @@ interface Props<F extends FieldValues> {
 	readonly control: Control<F>;
 	readonly rules?: Rules<F>;
 	readonly label: string;
+	readonly disabled?: boolean;
 }
 
 export const Select = <F extends FieldValues>(props: Props<F>) => {
@@ -34,6 +35,7 @@ export const Select = <F extends FieldValues>(props: Props<F>) => {
 						{...field}
 						label={props.label}
 						error={!!fieldState.error}
+						disabled={props.disabled}
 					>
 						{props.options.map((option) => (
 							<MenuItem key={option.value} value={option.value}>

@@ -19,7 +19,11 @@ import {
 	UseFormReset,
 	UseFormReturn
 } from 'react-hook-form';
-import { CategoryOption, PaginationState } from './utils';
+import {
+	CategoryOption,
+	categoryToCategoryOption,
+	PaginationState
+} from './utils';
 import { match, P } from 'ts-pattern';
 
 export interface TransactionFormValues {
@@ -52,13 +56,6 @@ export interface TransactionTableData {
 		readonly categorizeTransactions: CategorizeTransactionsMutation;
 	};
 }
-
-const categoryToCategoryOption = (
-	category: CategoryResponse
-): CategoryOption => ({
-	label: category.name,
-	value: category.id
-});
 
 const transactionToCategoryOption = (
 	transaction: TransactionResponse

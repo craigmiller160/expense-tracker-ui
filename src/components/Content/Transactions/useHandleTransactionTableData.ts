@@ -10,7 +10,6 @@ import {
 	TransactionSortKey
 } from '../../../types/transactions';
 import { SortDirection } from '../../../types/misc';
-import { CategoryResponse } from '../../../types/categories';
 import { useEffect, useMemo } from 'react';
 import {
 	FieldArrayWithId,

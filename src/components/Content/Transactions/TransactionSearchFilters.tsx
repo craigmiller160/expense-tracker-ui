@@ -14,6 +14,7 @@ import { categoryToCategoryOption } from './utils';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 import { Paper } from '@mui/material';
 import { DatePicker } from '../../UI/Form/DatePicker';
+import isValid from 'date-fns/isValid/index';
 
 interface TransactionSearchForm {
 	readonly direction: SortDirection;
@@ -41,25 +42,27 @@ const defaultEndDate = (): Date => new Date();
 
 export const TransactionSearchFilters = () => {
 	const { data } = useGetAllCategories();
-	const { control, watch, formState } = useForm<TransactionSearchForm>({
-		mode: 'onChange',
-		reValidateMode: 'onChange',
-		defaultValues: {
-			categoryType: TransactionCategoryType.ALL,
-			direction: SortDirection.ASC,
-			startDate: defaultStartDate(),
-			endDate: defaultEndDate(),
-			category: null
-		}
-	});
+	const { control, watch, formState, handleSubmit } =
+		useForm<TransactionSearchForm>({
+			mode: 'onChange',
+			reValidateMode: 'onChange',
+			defaultValues: {
+				categoryType: TransactionCategoryType.ALL,
+				direction: SortDirection.ASC,
+				startDate: defaultStartDate(),
+				endDate: defaultEndDate(),
+				category: null
+			}
+		});
 
 	// TODO move to hook
 	useEffect(() => {
 		const subscription = watch((data, info) => {
 			console.log('FieldChange', data, info, formState.errors);
+			handleSubmit(() => console.log('Submitting'))();
 		});
 		return subscription.unsubscribe;
-	}, [watch]);
+	}, [watch, formState]);
 
 	const categoryOptions = useMemo(
 		() => data?.map(categoryToCategoryOption),
@@ -73,7 +76,14 @@ export const TransactionSearchFilters = () => {
 					name="startDate"
 					control={control}
 					label="Start Date"
-					rules={{ required: 'Start Date is required' }}
+					rules={{
+						required: 'Start Date is required',
+						validate: (value) => {
+							return isValid(value)
+								? undefined
+								: 'Must be valid date';
+						}
+					}}
 				/>
 				<DatePicker
 					name="endDate"

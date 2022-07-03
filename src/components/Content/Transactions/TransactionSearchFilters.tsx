@@ -1,12 +1,10 @@
 import { useForm } from 'react-hook-form';
-import {
-	SelectOption,
-	TextField
-} from '@craigmiller160/react-hook-form-material-ui';
+import { SelectOption } from '@craigmiller160/react-hook-form-material-ui';
 import { constVoid } from 'fp-ts/es6/function';
 import './TransactionSearchFilters.scss';
 import { TransactionCategoryType } from '../../../types/transactions';
 import { Select } from '../../UI/Form/Select';
+import { SortDirection } from '../../../types/misc';
 
 interface TransactionSearchForm {
 	readonly direction: any; // TODO fix this for combobox option
@@ -24,10 +22,16 @@ const categorizationStatusOptions: ReadonlyArray<
 	{ value: TransactionCategoryType.WITHOUT_CATEGORY, label: 'Uncategorized' }
 ];
 
+const directionOptions: ReadonlyArray<SelectOption<SortDirection>> = [
+	{ value: SortDirection.ASC, label: 'Oldest to Newest' },
+	{ value: SortDirection.DESC, label: 'Newest to Oldest' }
+];
+
 export const TransactionSearchFilters = () => {
 	const { control, watch } = useForm<TransactionSearchForm>({
 		defaultValues: {
-			categoryType: TransactionCategoryType.ALL
+			categoryType: TransactionCategoryType.ALL,
+			direction: SortDirection.ASC
 		}
 	});
 
@@ -49,6 +53,12 @@ export const TransactionSearchFilters = () => {
 					control={control}
 					label="Categorization Status"
 					options={categorizationStatusOptions}
+				/>
+				<Select
+					name="direction"
+					options={directionOptions}
+					control={control}
+					label="Order By"
 				/>
 				{/*<TextField*/}
 				{/*	name="categories"*/}

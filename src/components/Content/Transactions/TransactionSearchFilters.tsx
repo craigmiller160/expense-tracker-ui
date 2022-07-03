@@ -13,6 +13,7 @@ import { useMemo } from 'react';
 import { categoryToCategoryOption } from './utils';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
 import MuiTextField from '@mui/material/TextField';
+import * as Time from '@craigmiller160/ts-functions/es/Time';
 
 interface TransactionSearchForm {
 	readonly direction: SortDirection;
@@ -35,12 +36,17 @@ const directionOptions: ReadonlyArray<SelectOption<SortDirection>> = [
 	{ value: SortDirection.DESC, label: 'Newest to Oldest' }
 ];
 
+const defaultStartDate = (): Date => Time.subMonths(1)(new Date());
+const defaultEndDate = (): Date => new Date();
+
 export const TransactionSearchFilters = () => {
 	const { data } = useGetAllCategories();
 	const { control, watch } = useForm<TransactionSearchForm>({
 		defaultValues: {
 			categoryType: TransactionCategoryType.ALL,
-			direction: SortDirection.ASC
+			direction: SortDirection.ASC,
+			startDate: defaultStartDate(),
+			endDate: defaultEndDate()
 		}
 	});
 
@@ -57,7 +63,9 @@ export const TransactionSearchFilters = () => {
 		<div className="TransactionSearchFilters">
 			<form onSubmit={constVoid}>
 				<DesktopDatePicker
-					onChange={(value) => console.log('DateValue', value instanceof Date)}
+					onChange={(value) =>
+						console.log('DateValue', value instanceof Date)
+					}
 					label="Start Date"
 					value={new Date()}
 					renderInput={(params) => <MuiTextField {...params} />}

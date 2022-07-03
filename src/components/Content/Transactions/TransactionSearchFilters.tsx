@@ -100,12 +100,14 @@ export const TransactionSearchFilters = () => {
 					control={control}
 					label="Category"
 					options={categoryOptions ?? []}
+					dynamicSubmit={dynamicSubmit}
 				/>
 				<Select
 					name="direction"
 					options={directionOptions}
 					control={control}
 					label="Order By"
+					dynamicSubmit={dynamicSubmit}
 				/>
 			</form>
 		</Paper>

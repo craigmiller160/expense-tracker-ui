@@ -11,8 +11,6 @@ import { SortDirection } from '../../../types/misc';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 import { useMemo } from 'react';
 import { categoryToCategoryOption } from './utils';
-import { DesktopDatePicker } from '@mui/x-date-pickers';
-import MuiTextField from '@mui/material/TextField';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 import { Paper } from '@mui/material';
 import { DatePicker } from '../../UI/Form/DatePicker';

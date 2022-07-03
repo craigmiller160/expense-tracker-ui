@@ -11,6 +11,8 @@ import { SortDirection } from '../../../types/misc';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 import { useMemo } from 'react';
 import { categoryToCategoryOption } from './utils';
+import { DesktopDatePicker } from '@mui/x-date-pickers';
+import MuiTextField from '@mui/material/TextField';
 
 interface TransactionSearchForm {
 	readonly direction: SortDirection;
@@ -54,12 +56,12 @@ export const TransactionSearchFilters = () => {
 	return (
 		<div className="TransactionSearchFilters">
 			<form onSubmit={constVoid}>
-				{/*<TextField*/}
-				{/*	name="startDate"*/}
-				{/*	control={control}*/}
-				{/*	label="Start Date"*/}
-				{/*/>*/}
-				{/*<TextField name="endDate" control={control} label="End Date" />*/}
+				<DesktopDatePicker
+					onChange={(value) => console.log('DateValue', value instanceof Date)}
+					label="Start Date"
+					value={new Date()}
+					renderInput={(params) => <MuiTextField {...params} />}
+				/>
 				<Select
 					name="categoryType"
 					control={control}

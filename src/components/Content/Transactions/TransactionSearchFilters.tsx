@@ -14,6 +14,7 @@ import { categoryToCategoryOption } from './utils';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
 import MuiTextField from '@mui/material/TextField';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
+import { Paper } from '@mui/material';
 
 interface TransactionSearchForm {
 	readonly direction: SortDirection;
@@ -61,7 +62,7 @@ export const TransactionSearchFilters = () => {
 	);
 
 	return (
-		<div className="TransactionSearchFilters">
+		<Paper className="TransactionSearchFilters">
 			<form onSubmit={constVoid}>
 				<DesktopDatePicker
 					onChange={(value) =>
@@ -97,17 +98,7 @@ export const TransactionSearchFilters = () => {
 					control={control}
 					label="Order By"
 				/>
-				{/*<TextField*/}
-				{/*	name="categories"*/}
-				{/*	control={control}*/}
-				{/*	label="Category"*/}
-				{/*/>*/}
-				{/*<TextField*/}
-				{/*	name="direction"*/}
-				{/*	control={control}*/}
-				{/*	label="Order By"*/}
-				{/*/>*/}
 			</form>
-		</div>
+		</Paper>
 	);
 };

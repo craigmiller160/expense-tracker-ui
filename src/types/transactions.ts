@@ -7,7 +7,8 @@ export enum TransactionSortKey {
 
 export enum TransactionCategoryType {
 	WITH_CATEGORY = 'WITH_CATEGORY',
-	WITHOUT_CATEGORY = 'WITHOUT_CATEGORY'
+	WITHOUT_CATEGORY = 'WITHOUT_CATEGORY',
+	ALL = 'ALL'
 }
 
 export const DATE_FORMAT = 'yyyy-MM-dd';

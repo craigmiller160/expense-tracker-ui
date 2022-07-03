@@ -16,10 +16,10 @@ import MuiTextField from '@mui/material/TextField';
 
 interface TransactionSearchForm {
 	readonly direction: SortDirection;
-	readonly startDate: any; // TODO need a date picker
-	readonly endDate: any; // TODO need a date picker
+	readonly startDate: Date;
+	readonly endDate: Date;
 	readonly categoryType: TransactionCategoryType;
-	readonly categories: SelectOption<string>; // TODO need a combobox
+	readonly categories: SelectOption<string>;
 }
 
 const categorizationStatusOptions: ReadonlyArray<

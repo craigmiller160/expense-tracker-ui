@@ -106,7 +106,10 @@ export const TransactionTable = (props: Props) => {
 								return <span key={index}></span>;
 							}
 							return (
-								<TableRow key={txn.id}>
+								<TableRow
+									key={txn.id}
+									data-testid="transaction-table-row"
+								>
 									<TableCell>{txn.expenseDate}</TableCell>
 									<TableCell className="DescriptionCell">
 										{txn.description}
@@ -129,7 +132,10 @@ export const TransactionTable = (props: Props) => {
 											)}
 											message="Transaction is a duplicate"
 										>
-											<FileCopyIcon color="warning" />
+											<FileCopyIcon
+												data-testid="duplicate-icon"
+												color="warning"
+											/>
 										</Popover>
 										<Popover
 											className={conditionalVisible(
@@ -137,7 +143,10 @@ export const TransactionTable = (props: Props) => {
 											)}
 											message="Transaction has not been confirmed"
 										>
-											<ThumbDownIcon color="warning" />
+											<ThumbDownIcon
+												data-testid="not-confirmed-icon"
+												color="warning"
+											/>
 										</Popover>
 										<Popover
 											className={conditionalVisible(
@@ -147,7 +156,10 @@ export const TransactionTable = (props: Props) => {
 											)}
 											message="Transaction has not been categorized"
 										>
-											<CategoryIcon color="warning" />
+											<CategoryIcon
+												data-testid="no-cateogory-icon"
+												color="warning"
+											/>
 										</Popover>
 									</TableCell>
 								</TableRow>

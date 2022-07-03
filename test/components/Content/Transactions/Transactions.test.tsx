@@ -1,6 +1,6 @@
 import { ApiServer, newApiServer } from '../../../server';
 import { renderApp } from '../../../testutils/renderApp';
-import { screen, waitFor } from '@testing-library/react';
+import { screen, waitFor, within } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import * as RNonEmptyArray from 'fp-ts/es6/ReadonlyNonEmptyArray';
 import { pipe } from 'fp-ts/es6/function';
@@ -10,6 +10,9 @@ import * as Either from 'fp-ts/es6/Either';
 import { match } from 'ts-pattern';
 import * as Monoid from 'fp-ts/es6/Monoid';
 import userEvent from '@testing-library/user-event';
+import { searchForTransactions } from '../../../../src/ajaxapi/service/TransactionService';
+import { TransactionSortKey } from '../../../../src/types/transactions';
+import { SortDirection } from '../../../../src/types/misc';
 
 const validationMonoid: MonoidT<TryT<unknown>> = {
 	empty: Either.right(null),
@@ -90,7 +93,86 @@ describe('Transactions', () => {
 	});
 
 	it('shows the correct icons for transactions', async () => {
-		throw new Error();
+		const { transactions } = await searchForTransactions({
+			pageNumber: 0,
+			pageSize: 25,
+			sortKey: TransactionSortKey.EXPENSE_DATE,
+			sortDirection: SortDirection.ASC
+		});
+		apiServer.database.updateData((draft) => {
+			draft.transactions[transactions[0].id] = {
+				...transactions[0],
+				categoryId: '1',
+				categoryName: 'One'
+			};
+			draft.transactions[transactions[1].id] = {
+				...transactions[1],
+				confirmed: true
+			};
+			draft.transactions[transactions[2].id] = {
+				...transactions[2],
+				duplicate: true,
+				confirmed: true,
+				categoryId: '1',
+				categoryName: 'One'
+			};
+		});
+		renderApp({
+			initialPath: '/expense-tracker/transactions'
+		});
+		await waitFor(() =>
+			expect(screen.queryByText('Expense Tracker')).toBeVisible()
+		);
+		await waitFor(() =>
+			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
+		);
+
+		await waitFor(() =>
+			expect(screen.queryByText('Rows per page:')).toBeVisible()
+		);
+
+		const rows = screen.getAllByTestId('transaction-table-row');
+		const validateRowIcons = (
+			row: HTMLElement,
+			duplicateIcon: boolean,
+			notConfirmedIcon: boolean,
+			noCategoryIcon: boolean
+		) => {
+			if (duplicateIcon) {
+				expect(
+					within(row).queryByTestId('duplicate-icon')
+				).toBeVisible();
+			} else {
+				expect(
+					within(row).queryByTestId('duplicate-icon')
+				).not.toBeVisible();
+			}
+
+			if (notConfirmedIcon) {
+				expect(
+					within(row).queryByTestId('not-confirmed-icon')
+				).toBeVisible();
+			} else {
+				expect(
+					within(row).queryByTestId('not-confirmed-icon')
+				).not.toBeVisible();
+			}
+
+			if (noCategoryIcon) {
+				expect(
+					within(row).queryByTestId('no-category-icon')
+				).toBeVisible();
+			} else {
+				expect(
+					within(row).queryByTestId('no-category-icon')
+				).not.toBeVisible();
+			}
+		};
+
+		validateRowIcons(rows[0], false, true, false);
+		validateRowIcons(rows[1], false, false, true);
+		validateRowIcons(rows[2], true, false, false);
+		validateRowIcons(rows[3], false, true, true);
 	});
 
 	it('can change the rows-per-page and automatically re-load the data', async () => {

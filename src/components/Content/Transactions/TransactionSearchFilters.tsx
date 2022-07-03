@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { TextField } from '@craigmiller160/react-hook-form-material-ui';
 import { constVoid } from 'fp-ts/es6/function';
+import './TransactionSearchFilters.scss';
 
 interface TransactionSearchForm {
 	readonly direction: any; // TODO fix this for combobox option
@@ -21,17 +22,28 @@ export const TransactionSearchFilters = () => {
 	});
 
 	return (
-		<div>
+		<div className="TransactionSearchFilters">
 			<form onSubmit={constVoid}>
-				<TextField
-					name="direction"
-					control={control}
-					label="Direction"
-				/>
 				<TextField
 					name="startDate"
 					control={control}
 					label="Start Date"
+				/>
+				<TextField name="endDate" control={control} label="End Date" />
+				<TextField
+					name="categoryType"
+					control={control}
+					label="With Categories"
+				/>
+				<TextField
+					name="categoryType"
+					control={control}
+					label="Category"
+				/>
+				<TextField
+					name="direction"
+					control={control}
+					label="Order By"
 				/>
 			</form>
 		</div>

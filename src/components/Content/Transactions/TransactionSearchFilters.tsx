@@ -12,10 +12,7 @@ interface TransactionSearchForm {
 }
 
 export const TransactionSearchFilters = () => {
-	const { control, handleSubmit, watch } = useForm<TransactionSearchForm>();
-
-	const onSubmit = (values: TransactionSearchForm) =>
-		console.log('Values', values);
+	const { control, watch } = useForm<TransactionSearchForm>();
 
 	watch((data, info) => {
 		console.log('FieldChange', data, info);

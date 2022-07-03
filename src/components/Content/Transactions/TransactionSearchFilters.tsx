@@ -9,7 +9,7 @@ import { TransactionCategoryType } from '../../../types/transactions';
 import { Select } from '../../UI/Form/Select';
 import { SortDirection } from '../../../types/misc';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { categoryToCategoryOption } from './utils';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 import { Paper } from '@mui/material';
@@ -41,7 +41,7 @@ const defaultEndDate = (): Date => new Date();
 
 export const TransactionSearchFilters = () => {
 	const { data } = useGetAllCategories();
-	const { control, watch } = useForm<TransactionSearchForm>({
+	const { control, watch, formState } = useForm<TransactionSearchForm>({
 		mode: 'onChange',
 		reValidateMode: 'onChange',
 		defaultValues: {
@@ -53,9 +53,12 @@ export const TransactionSearchFilters = () => {
 		}
 	});
 
-	watch((data, info) => {
-		console.log('FieldChange', data, info);
-	});
+	useEffect(() => {
+		const subscription = watch((data, info) => {
+			console.log('FieldChange', data, info, formState.errors);
+		});
+		return subscription.unsubscribe;
+	}, [watch]);
 
 	const categoryOptions = useMemo(
 		() => data?.map(categoryToCategoryOption),

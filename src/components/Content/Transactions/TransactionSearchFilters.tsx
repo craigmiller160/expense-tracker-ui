@@ -20,7 +20,7 @@ interface TransactionSearchForm {
 	readonly startDate: Date;
 	readonly endDate: Date;
 	readonly categoryType: TransactionCategoryType;
-	readonly categories: SelectOption<string>;
+	readonly category: SelectOption<string> | null;
 }
 
 const categorizationStatusOptions: ReadonlyArray<
@@ -46,7 +46,8 @@ export const TransactionSearchFilters = () => {
 			categoryType: TransactionCategoryType.ALL,
 			direction: SortDirection.ASC,
 			startDate: defaultStartDate(),
-			endDate: defaultEndDate()
+			endDate: defaultEndDate(),
+			category: null
 		}
 	});
 
@@ -77,7 +78,7 @@ export const TransactionSearchFilters = () => {
 					options={categorizationStatusOptions}
 				/>
 				<Autocomplete
-					name="categories"
+					name="category"
 					control={control}
 					label="Category"
 					options={categoryOptions ?? []}

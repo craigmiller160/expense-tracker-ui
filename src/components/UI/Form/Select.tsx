@@ -1,3 +1,4 @@
+// TODO move to library
 import { Control, FieldPath, FieldValues } from 'react-hook-form';
 import {
 	SelectOption,
@@ -7,6 +8,7 @@ import { Controller } from 'react-hook-form';
 import {
 	FormControl,
 	FormHelperText,
+	InputLabel,
 	MenuItem,
 	Select as MuiSelect
 } from '@mui/material';
@@ -27,6 +29,7 @@ export const Select = <F extends FieldValues>(props: Props<F>) => {
 			rules={props.rules}
 			render={({ field, fieldState }) => (
 				<FormControl>
+					<InputLabel>{props.label}</InputLabel>
 					<MuiSelect
 						{...field}
 						label={props.label}

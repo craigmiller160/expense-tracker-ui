@@ -1,7 +1,8 @@
 import {
 	createTablePagination,
 	formToCategorizeRequest,
-	PaginationState
+	PaginationState,
+	TransactionSearchForm
 } from './utils';
 import {
 	TransactionTableForm,
@@ -27,6 +28,7 @@ const COLUMNS = ['Expense Date', 'Description', 'Amount', 'Category', 'Flags'];
 interface Props {
 	readonly pagination: PaginationState;
 	readonly onPaginationChange: Updater<PaginationState>;
+	readonly filterValues: TransactionSearchForm;
 }
 
 const createBelowTableActions = (

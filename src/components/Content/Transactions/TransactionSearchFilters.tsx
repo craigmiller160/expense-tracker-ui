@@ -1,18 +1,18 @@
 import { Control } from 'react-hook-form';
 import {
 	Autocomplete,
-	SelectOption
+	SelectOption,
+	Select,
+	DatePicker
 } from '@craigmiller160/react-hook-form-material-ui';
 import { constVoid } from 'fp-ts/es6/function';
 import './TransactionSearchFilters.scss';
 import { TransactionCategoryType } from '../../../types/transactions';
-import { Select } from '../../UI/Form/Select';
 import { SortDirection } from '../../../types/misc';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 import { useMemo } from 'react';
 import { categoryToCategoryOption, TransactionSearchForm } from './utils';
 import { Paper } from '@mui/material';
-import { DatePicker } from '../../UI/Form/DatePicker';
 
 const categorizationStatusOptions: ReadonlyArray<
 	SelectOption<TransactionCategoryType>

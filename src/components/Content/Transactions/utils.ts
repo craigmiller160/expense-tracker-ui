@@ -2,10 +2,7 @@ import { SelectOption } from '@craigmiller160/react-hook-form-material-ui';
 import { TablePaginationConfig } from '../../UI/Table';
 import { Updater } from 'use-immer';
 import { TransactionTableForm } from './useHandleTransactionTableData';
-import {
-	TransactionAndCategory,
-	TransactionCategoryType
-} from '../../../types/transactions';
+import { TransactionAndCategory } from '../../../types/transactions';
 import * as RArray from 'fp-ts/es6/ReadonlyArray';
 import { pipe } from 'fp-ts/es6/function';
 import { CategoryResponse } from '../../../types/categories';
@@ -21,19 +18,23 @@ export interface TransactionSearchForm {
 	readonly direction: SortDirection;
 	readonly startDate: Date;
 	readonly endDate: Date;
-	readonly categoryType: TransactionCategoryType;
 	readonly category: SelectOption<string> | null;
+	readonly isNotConfirmed: boolean;
+	readonly isDuplicate: boolean;
+	readonly isNotCategorized: boolean;
 }
 
 const defaultStartDate = (): Date => Time.subMonths(1)(new Date());
 const defaultEndDate = (): Date => new Date();
 
 export const transactionSearchFormDefaultValues: TransactionSearchForm = {
-	categoryType: TransactionCategoryType.ALL,
 	direction: SortDirection.ASC,
 	startDate: defaultStartDate(),
 	endDate: defaultEndDate(),
-	category: null
+	category: null,
+	isDuplicate: false,
+	isNotCategorized: false,
+	isNotConfirmed: false
 };
 
 export type CategoryOption = SelectOption<string>;

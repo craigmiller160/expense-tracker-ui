@@ -6,11 +6,14 @@
   form {
     width: 100%;
     display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
 
-    >* {
-      width: 15%;
+    .row {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
     }
   }
 }

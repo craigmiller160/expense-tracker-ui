@@ -76,7 +76,7 @@ export const TransactionTable = (props: Props) => {
 			fields
 		},
 		actions: { resetFormToData, categorizeTransactions }
-	} = useHandleTransactionTableData(props.pagination);
+	} = useHandleTransactionTableData(props.pagination, props.filterValues);
 
 	const tablePagination = createTablePagination(
 		currentPage,

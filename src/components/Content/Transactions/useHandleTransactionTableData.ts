@@ -21,7 +21,8 @@ import {
 import {
 	CategoryOption,
 	categoryToCategoryOption,
-	PaginationState
+	PaginationState,
+	TransactionSearchForm
 } from './utils';
 import { match, P } from 'ts-pattern';
 
@@ -95,13 +96,15 @@ const testNumberOfFormRecords = (
 	form.getValues()?.transactions?.length === 0 && (data?.totalItems ?? 0) > 0;
 
 export const useHandleTransactionTableData = (
-	pagination: PaginationState
+	pagination: PaginationState,
+	filterValues: TransactionSearchForm
 ): TransactionTableData => {
 	const { data: categoryData, isFetching: categoryIsFetching } =
 		useGetAllCategories();
 	const { data: transactionData, isFetching: transactionIsFetching } =
 		useSearchForTransactions({
 			...pagination,
+			...filterValues,
 			sortKey: TransactionSortKey.EXPENSE_DATE,
 			sortDirection: SortDirection.ASC
 		});

@@ -95,6 +95,14 @@ const testNumberOfFormRecords = (
 ): boolean =>
 	form.getValues()?.transactions?.length === 0 && (data?.totalItems ?? 0) > 0;
 
+const handleCategoryIds = (
+	categoryId?: string
+): ReadonlyArray<string> | undefined =>
+	match(categoryId)
+		.with(undefined, () => undefined)
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		.otherwise(() => [categoryId!]);
+
 export const useHandleTransactionTableData = (
 	pagination: PaginationState,
 	filterValues: TransactionSearchForm
@@ -105,6 +113,7 @@ export const useHandleTransactionTableData = (
 		useSearchForTransactions({
 			...pagination,
 			...filterValues,
+			categoryIds: handleCategoryIds(filterValues.category?.value),
 			sortKey: TransactionSortKey.EXPENSE_DATE,
 			sortDirection: SortDirection.ASC
 		});

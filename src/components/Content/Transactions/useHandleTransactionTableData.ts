@@ -9,7 +9,6 @@ import {
 	TransactionResponse,
 	TransactionSortKey
 } from '../../../types/transactions';
-import { SortDirection } from '../../../types/misc';
 import { useEffect, useMemo } from 'react';
 import {
 	FieldArrayWithId,
@@ -111,11 +110,14 @@ export const useHandleTransactionTableData = (
 		useGetAllCategories();
 	const { data: transactionData, isFetching: transactionIsFetching } =
 		useSearchForTransactions({
-			...pagination,
-			...filterValues,
-			categoryIds: handleCategoryIds(filterValues.category?.value),
+			pageNumber: pagination.pageNumber,
+			pageSize: pagination.pageSize,
 			sortKey: TransactionSortKey.EXPENSE_DATE,
-			sortDirection: SortDirection.ASC
+			sortDirection: filterValues.direction,
+			categoryIds: handleCategoryIds(filterValues.category?.value),
+			isConfirmed: filterValues.isNotConfirmed ? false : undefined,
+			isDuplicate: filterValues.isDuplicate ? true : undefined,
+			isCategorized: filterValues.isNotCategorized ? false : undefined
 		});
 	const { mutate: categorizeTransactions } = useCategorizeTransactions();
 	const form = useForm<TransactionTableForm>({

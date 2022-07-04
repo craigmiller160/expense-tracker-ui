@@ -9,32 +9,41 @@ import {
 } from './utils';
 import { TransactionTable } from './TransactionTable';
 import { TransactionSearchFilters } from './TransactionSearchFilters';
+import { useForm } from 'react-hook-form';
+import { useCallback, useState } from 'react';
 
-type CombinedPaginationState = PaginationState & TransactionSearchForm;
+// TODO if it works, move to separate file
+type ForceUpdate = () => void;
+const useForceUpdate = (): ForceUpdate => {
+	const [, setState] = useState<number>(0);
+	return useCallback(() => setState((prev) => prev + 1), [setState]);
+};
 
 export const Transactions = () => {
-	const [state, setState] = useImmer<CombinedPaginationState>({
+	const [paginationState, setPaginationState] = useImmer<PaginationState>({
 		pageNumber: 0,
-		pageSize: DEFAULT_ROWS_PER_PAGE,
-		...transactionSearchFormDefaultValues
+		pageSize: DEFAULT_ROWS_PER_PAGE
+	});
+	const forceUpdate = useForceUpdate();
+
+	const { control, handleSubmit } = useForm<TransactionSearchForm>({
+		mode: 'onBlur',
+		reValidateMode: 'onChange',
+		defaultValues: transactionSearchFormDefaultValues
 	});
 
-	const onFilterChange = (values: TransactionSearchForm) =>
-		setState((draft) => {
-			draft.direction = values.direction;
-			draft.startDate = values.startDate;
-			draft.endDate = values.endDate;
-			draft.categoryType = values.categoryType;
-			draft.category = values.category;
-		});
+	const dynamicSubmit = handleSubmit(forceUpdate);
 
 	return (
 		<div className="ManageTransactions">
 			<PageTitle title="Manage Transactions" />
-			<TransactionSearchFilters onFilterChange={onFilterChange} />
+			<TransactionSearchFilters
+				control={control}
+				dynamicSubmit={dynamicSubmit}
+			/>
 			<TransactionTable
-				pagination={state}
-				onPaginationChange={setState}
+				pagination={paginationState}
+				onPaginationChange={setPaginationState}
 			/>
 		</div>
 	);

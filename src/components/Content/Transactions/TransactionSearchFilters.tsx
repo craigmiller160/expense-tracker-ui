@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form';
+import { Control } from 'react-hook-form';
 import {
 	Autocomplete,
 	SelectOption
@@ -10,11 +10,7 @@ import { Select } from '../../UI/Form/Select';
 import { SortDirection } from '../../../types/misc';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 import { useMemo } from 'react';
-import {
-	categoryToCategoryOption,
-	TransactionSearchForm,
-	transactionSearchFormDefaultValues
-} from './utils';
+import { categoryToCategoryOption, TransactionSearchForm } from './utils';
 import { Paper } from '@mui/material';
 import { DatePicker } from '../../UI/Form/DatePicker';
 
@@ -32,19 +28,14 @@ const directionOptions: ReadonlyArray<SelectOption<SortDirection>> = [
 ];
 
 interface Props {
-	readonly onFilterChange: (values: TransactionSearchForm) => void;
+	readonly control: Control<TransactionSearchForm>;
+	readonly dynamicSubmit: () => void;
 }
 
 // TODO when without category is selected, disable the Category field
 export const TransactionSearchFilters = (props: Props) => {
+	const { control, dynamicSubmit } = props;
 	const { data } = useGetAllCategories();
-	const { control, handleSubmit } = useForm<TransactionSearchForm>({
-		mode: 'onBlur',
-		reValidateMode: 'onChange',
-		defaultValues: transactionSearchFormDefaultValues
-	});
-
-	const dynamicSubmit = handleSubmit(props.onFilterChange);
 
 	const categoryOptions = useMemo(
 		() => data?.map(categoryToCategoryOption),

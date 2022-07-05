@@ -40,30 +40,12 @@ const validateTransactionElements = (
 	startInclusive: number,
 	endInclusive: number
 ) => {
-	const result = pipe(
-		RNonEmptyArray.range(startInclusive, endInclusive),
-		RNonEmptyArray.map((index) => `Transaction ${index}`),
-		RNonEmptyArray.map((description) =>
-			pipe(
-				Try.tryCatch(() =>
-					expect(screen.queryByText(description)).toBeVisible()
-				),
-				Either.mapLeft(
-					(ex) =>
-						new Error(
-							`Error validating ${description}. ${ex.message}`,
-							{
-								cause: ex
-							}
-						)
-				)
-			)
-		),
-		Monoid.concatAll(validationMonoid)
-	);
-	if (Either.isLeft<Error>(result)) {
-		throw result.left;
-	}
+	const descriptions = screen.getAllByText(/Transaction \d+/);
+	descriptions.forEach((description) => {
+		const theNumber = description.textContent?.split(' ')[1].trim();
+		expect(parseInt(`${theNumber}`)).toBeGreaterThanOrEqual(startInclusive);
+		expect(parseInt(`${theNumber}`)).toBeLessThanOrEqual(endInclusive);
+	});
 };
 
 const validateNumberOfTransactions = (expectedCount: number) =>

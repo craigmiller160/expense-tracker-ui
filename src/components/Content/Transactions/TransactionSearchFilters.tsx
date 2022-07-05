@@ -78,16 +78,19 @@ export const TransactionSearchFilters = (props: Props) => {
 						control={control}
 						name="isDuplicate"
 						label="Is Duplicate"
+						dynamicSubmit={dynamicSubmit}
 					/>
 					<Checkbox
 						control={control}
 						name="isNotConfirmed"
 						label="Is Not Confirmed"
+						dynamicSubmit={dynamicSubmit}
 					/>
 					<Checkbox
 						control={control}
 						name="isNotCategorized"
 						label="Is Not Categorized"
+						dynamicSubmit={dynamicSubmit}
 					/>
 				</div>
 			</form>

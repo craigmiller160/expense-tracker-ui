@@ -7,6 +7,7 @@ interface Props<F extends FieldValues> {
 	readonly control: Control<F>;
 	readonly name: FieldPath<F>;
 	readonly label: string;
+	readonly dynamicSubmit?: () => void;
 }
 
 export const Checkbox = <F extends FieldValues>(props: Props<F>) => (
@@ -16,7 +17,15 @@ export const Checkbox = <F extends FieldValues>(props: Props<F>) => (
 		render={({ field }) => (
 			<FormControlLabel
 				label={props.label}
-				control={<MuiCheckbox {...field} />}
+				control={
+					<MuiCheckbox
+						{...field}
+						onChange={(event) => {
+							field.onChange(event);
+							props.dynamicSubmit?.();
+						}}
+					/>
+				}
 			/>
 		)}
 	/>

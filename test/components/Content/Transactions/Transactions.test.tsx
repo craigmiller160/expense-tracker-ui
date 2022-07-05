@@ -79,10 +79,43 @@ describe('Transactions', () => {
 			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
 		);
 
-		expect(screen.queryByText('Expense Date')).toBeVisible();
-		expect(screen.queryByText('Description')).toBeVisible();
-		expect(screen.queryByText('Amount')).toBeVisible();
-		expect(screen.queryByText('Category')).toBeVisible();
+		const tableHeader = screen
+			.getByTestId('transaction-table')
+			.querySelector('thead');
+		expect(tableHeader).not.toBeNull();
+
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		expect(within(tableHeader!).queryByText('Expense Date')).toBeVisible();
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		expect(within(tableHeader!).queryByText('Description')).toBeVisible();
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		expect(within(tableHeader!).queryByText('Amount')).toBeVisible();
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		expect(within(tableHeader!).queryByText('Category')).toBeVisible();
+
+		const transactionFilters = screen.getByTestId('transaction-filters');
+
+		expect(
+			within(transactionFilters).queryByLabelText('Start Date')
+		).toBeVisible(); // TODO test value
+		expect(
+			within(transactionFilters).queryByLabelText('End Date')
+		).toBeVisible(); // TODO test value
+		expect(
+			within(transactionFilters).queryByLabelText('Category')
+		).toBeVisible(); // TODO test value
+		expect(
+			within(transactionFilters).queryByLabelText('Order By')
+		).toBeVisible(); // TODO test value
+		expect(
+			within(transactionFilters).queryByLabelText('Is Duplicate')
+		).not.toBeChecked();
+		expect(
+			within(transactionFilters).queryByLabelText('Is Not Confirmed')
+		).not.toBeChecked();
+		expect(
+			within(transactionFilters).queryByLabelText('Is Not Categorized')
+		).not.toBeChecked();
 
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
@@ -90,7 +123,6 @@ describe('Transactions', () => {
 
 		validateNumberOfTransactions(25);
 		validateTransactionElements(0, 24);
-		expect(screen.queryAllByLabelText('Category')).toHaveLength(25);
 	});
 
 	it('shows the correct icons for transactions', async () => {

@@ -58,7 +58,10 @@ export const TransactionSearchFilters = (props: Props) => {
 		createOnIsNotCategorizedChanged(getValues, setValue, onValueHasChanged);
 
 	return (
-		<Paper className="TransactionSearchFilters">
+		<Paper
+			className="TransactionSearchFilters"
+			data-testid="transaction-filters"
+		>
 			<form onSubmit={constVoid}>
 				<div className="row">
 					<DatePicker

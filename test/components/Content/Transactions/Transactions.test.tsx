@@ -21,7 +21,10 @@ import { getAllCategories } from '../../../../src/ajaxapi/service/CategoryServic
 import { Database } from '../../../server/Database';
 import { CategoryResponse } from '../../../../src/types/categories';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
-import { defaultEndDate, defaultStartDate } from '../../../../src/components/Content/Transactions/utils';
+import {
+	defaultEndDate,
+	defaultStartDate
+} from '../../../../src/components/Content/Transactions/utils';
 
 const DATE_PICKER_FORMAT = 'MM/dd/yyyy';
 
@@ -79,9 +82,7 @@ type PrepareData = (
 
 const createPrepareData =
 	(database: Database): PrepareData =>
-	(request, callback) => {
-
-	};
+	(request, callback) => {};
 
 describe('Transactions', () => {
 	let apiServer: ApiServer;
@@ -96,7 +97,7 @@ describe('Transactions', () => {
 	});
 
 	it('loads and displays transactions', async () => {
-		renderApp({
+		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
 		await waitFor(() =>
@@ -177,7 +178,7 @@ describe('Transactions', () => {
 				categoryName: 'One'
 			};
 		});
-		renderApp({
+		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
 		await waitFor(() =>
@@ -236,7 +237,7 @@ describe('Transactions', () => {
 	});
 
 	it('can change the rows-per-page and automatically re-load the data', async () => {
-		renderApp({
+		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
 		await waitFor(() =>
@@ -274,7 +275,7 @@ describe('Transactions', () => {
 	});
 
 	it('can paginate and load the correct data successfully', async () => {
-		renderApp({
+		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
 		await waitFor(() =>
@@ -310,7 +311,7 @@ describe('Transactions', () => {
 	});
 
 	it('can set categories on transactions', async () => {
-		renderApp({
+		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
 		await waitFor(() =>
@@ -359,7 +360,7 @@ describe('Transactions', () => {
 			apiServer.database.data.transactions[transactions[0].id];
 		expect(preparedTransaction.categoryId).toEqual(categories[0].id);
 
-		renderApp({
+		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
 		await waitFor(() =>
@@ -390,7 +391,7 @@ describe('Transactions', () => {
 	});
 
 	it('can reset in-progress changes on transactions', async () => {
-		renderApp({
+		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
 		await waitFor(() =>

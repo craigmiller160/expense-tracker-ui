@@ -11,9 +11,19 @@ import { match } from 'ts-pattern';
 import * as Monoid from 'fp-ts/es6/Monoid';
 import userEvent from '@testing-library/user-event';
 import { searchForTransactions } from '../../../../src/ajaxapi/service/TransactionService';
-import { TransactionSortKey } from '../../../../src/types/transactions';
+import {
+	SearchTransactionsRequest,
+	TransactionResponse,
+	TransactionSortKey
+} from '../../../../src/types/transactions';
 import { SortDirection } from '../../../../src/types/misc';
 import { getAllCategories } from '../../../../src/ajaxapi/service/CategoryService';
+import { Database } from '../../../server/Database';
+import { CategoryResponse } from '../../../../src/types/categories';
+import * as Time from '@craigmiller160/ts-functions/es/Time';
+import { defaultEndDate, defaultStartDate } from '../../../../src/components/Content/Transactions/utils';
+
+const DATE_PICKER_FORMAT = 'MM/dd/yyyy';
 
 const validationMonoid: MonoidT<TryT<unknown>> = {
 	empty: Either.right(null),
@@ -58,10 +68,27 @@ const validateNumberOfTransactions = (expectedCount: number) =>
 		expectedCount
 	);
 
+type PrepareDataCallback = (
+	transactions: ReadonlyArray<TransactionResponse>,
+	categories: ReadonlyArray<CategoryResponse>
+) => ReadonlyArray<TransactionResponse>;
+type PrepareData = (
+	request: SearchTransactionsRequest,
+	callback: PrepareDataCallback
+) => void;
+
+const createPrepareData =
+	(database: Database): PrepareData =>
+	(request, callback) => {
+
+	};
+
 describe('Transactions', () => {
 	let apiServer: ApiServer;
+	let prepareData: PrepareData;
 	beforeEach(() => {
 		apiServer = newApiServer();
+		prepareData = createPrepareData(apiServer.database);
 	});
 
 	afterEach(() => {
@@ -97,10 +124,10 @@ describe('Transactions', () => {
 
 		expect(
 			within(transactionFilters).queryByLabelText('Start Date')
-		).toBeVisible(); // TODO test value
+		).toHaveValue(Time.format(DATE_PICKER_FORMAT)(defaultStartDate()));
 		expect(
 			within(transactionFilters).queryByLabelText('End Date')
-		).toBeVisible(); // TODO test value
+		).toHaveValue(Time.format(DATE_PICKER_FORMAT)(defaultEndDate()));
 		expect(
 			within(transactionFilters).queryByLabelText('Category')
 		).toBeVisible(); // TODO test value

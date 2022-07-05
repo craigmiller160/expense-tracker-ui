@@ -24,8 +24,8 @@ export interface TransactionSearchForm {
 	readonly isNotCategorized: boolean;
 }
 
-const defaultStartDate = (): Date => Time.subMonths(1)(new Date());
-const defaultEndDate = (): Date => new Date();
+export const defaultStartDate = (): Date => Time.subMonths(1)(new Date());
+export const defaultEndDate = (): Date => new Date();
 
 export const transactionSearchFormDefaultValues: TransactionSearchForm = {
 	direction: SortDirection.ASC,

@@ -386,4 +386,35 @@ describe('Transactions', () => {
 		await userEvent.click(screen.getByText('Reset'));
 		expect(screen.getAllByLabelText('Category')[2]).toHaveValue('');
 	});
+
+	describe('filters', () => {
+		it('start date', async () => {
+			throw new Error();
+		});
+
+		it('end date', async () => {
+			throw new Error();
+		});
+
+		it('category', async () => {
+			throw new Error();
+		});
+
+		it('order by', async () => {
+			throw new Error();
+		});
+
+		it('is duplicate', async () => {
+			throw new Error();
+		});
+
+		it('is not confirmed', async () => {
+			throw new Error();
+		});
+
+		it('is not categorized', async () => {
+			// TODO should also clear category selection
+			throw new Error();
+		});
+	});
 });

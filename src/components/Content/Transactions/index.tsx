@@ -26,14 +26,14 @@ export const Transactions = () => {
 	});
 	const { handleSubmit, getValues } = form;
 
-	const dynamicSubmit = handleSubmit(forceUpdate);
+	const onValueHasChanged = handleSubmit(forceUpdate);
 
 	return (
 		<div className="ManageTransactions">
 			<PageTitle title="Manage Transactions" />
 			<TransactionSearchFilters
 				form={form}
-				dynamicSubmit={dynamicSubmit}
+				onValueHasChanged={onValueHasChanged}
 			/>
 			<TransactionTable
 				filterValues={getValues()}

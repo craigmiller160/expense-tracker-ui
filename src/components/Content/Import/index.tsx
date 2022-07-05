@@ -117,6 +117,7 @@ export const Import = () => {
 					control={control}
 					inputRef={fileInputRef}
 					disabled={isLoading}
+					label="Transaction File"
 					rules={{ required: 'File is required' }}
 				/>
 				{isLoading && <LinearProgress />}

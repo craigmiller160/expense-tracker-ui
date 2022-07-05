@@ -3,7 +3,9 @@ import {
 	Autocomplete,
 	DatePicker,
 	Select,
-	SelectOption
+	SelectOption,
+	ValueHasChanged,
+	Checkbox
 } from '@craigmiller160/react-hook-form-material-ui';
 import { constVoid } from 'fp-ts/es6/function';
 import './TransactionSearchFilters.scss';
@@ -12,7 +14,6 @@ import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 import { useMemo } from 'react';
 import { categoryToCategoryOption, TransactionSearchForm } from './utils';
 import { Paper } from '@mui/material';
-import { Checkbox } from '../../UI/Checkbox';
 
 const directionOptions: ReadonlyArray<SelectOption<SortDirection>> = [
 	{ value: SortDirection.ASC, label: 'Oldest to Newest' },
@@ -21,13 +22,13 @@ const directionOptions: ReadonlyArray<SelectOption<SortDirection>> = [
 
 interface Props {
 	readonly form: UseFormReturn<TransactionSearchForm>;
-	readonly dynamicSubmit: () => void;
+	readonly onValueHasChanged: ValueHasChanged;
 }
 
 // TODO when without category is selected, disable the Category field
 export const TransactionSearchFilters = (props: Props) => {
 	const {
-		dynamicSubmit,
+		onValueHasChanged,
 		form: { getValues, control }
 	} = props;
 	const { data } = useGetAllCategories();
@@ -46,14 +47,14 @@ export const TransactionSearchFilters = (props: Props) => {
 						control={control}
 						label="Start Date"
 						rules={{ required: 'Start Date is required' }}
-						dynamicSubmit={dynamicSubmit}
+						onValueHasChanged={onValueHasChanged}
 					/>
 					<DatePicker
 						name="endDate"
 						control={control}
 						label="End Date"
 						rules={{ required: 'End Date is required' }}
-						dynamicSubmit={dynamicSubmit}
+						onValueHasChanged={onValueHasChanged}
 					/>
 				</div>
 				<div className="row">
@@ -62,7 +63,7 @@ export const TransactionSearchFilters = (props: Props) => {
 						control={control}
 						label="Category"
 						options={categoryOptions ?? []}
-						dynamicSubmit={dynamicSubmit}
+						onValueHasChanged={onValueHasChanged}
 						disabled={getValues().isNotCategorized}
 					/>
 					<Select
@@ -70,7 +71,7 @@ export const TransactionSearchFilters = (props: Props) => {
 						options={directionOptions}
 						control={control}
 						label="Order By"
-						dynamicSubmit={dynamicSubmit}
+						dynamicSubmit={onValueHasChanged}
 					/>
 				</div>
 				<div className="row">
@@ -78,19 +79,19 @@ export const TransactionSearchFilters = (props: Props) => {
 						control={control}
 						name="isDuplicate"
 						label="Is Duplicate"
-						dynamicSubmit={dynamicSubmit}
+						onValueHasChanged={onValueHasChanged}
 					/>
 					<Checkbox
 						control={control}
 						name="isNotConfirmed"
 						label="Is Not Confirmed"
-						dynamicSubmit={dynamicSubmit}
+						onValueHasChanged={onValueHasChanged}
 					/>
 					<Checkbox
 						control={control}
 						name="isNotCategorized"
 						label="Is Not Categorized"
-						dynamicSubmit={dynamicSubmit}
+						onValueHasChanged={onValueHasChanged}
 					/>
 				</div>
 			</form>

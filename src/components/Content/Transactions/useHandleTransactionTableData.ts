@@ -114,6 +114,8 @@ export const useHandleTransactionTableData = (
 			pageSize: pagination.pageSize,
 			sortKey: TransactionSortKey.EXPENSE_DATE,
 			sortDirection: filterValues.direction,
+			startDate: filterValues.startDate,
+			endDate: filterValues.endDate,
 			categoryIds: handleCategoryIds(filterValues.category?.value),
 			isConfirmed: filterValues.isNotConfirmed ? false : undefined,
 			isDuplicate: filterValues.isDuplicate ? true : undefined,

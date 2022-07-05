@@ -1,9 +1,9 @@
-import { Control, UseFormGetValues } from 'react-hook-form';
+import { UseFormReturn } from 'react-hook-form';
 import {
 	Autocomplete,
-	SelectOption,
+	DatePicker,
 	Select,
-	DatePicker
+	SelectOption
 } from '@craigmiller160/react-hook-form-material-ui';
 import { constVoid } from 'fp-ts/es6/function';
 import './TransactionSearchFilters.scss';
@@ -20,14 +20,16 @@ const directionOptions: ReadonlyArray<SelectOption<SortDirection>> = [
 ];
 
 interface Props {
-	readonly control: Control<TransactionSearchForm>;
+	readonly form: UseFormReturn<TransactionSearchForm>;
 	readonly dynamicSubmit: () => void;
-	readonly getValues: UseFormGetValues<TransactionSearchForm>;
 }
 
 // TODO when without category is selected, disable the Category field
 export const TransactionSearchFilters = (props: Props) => {
-	const { control, dynamicSubmit, getValues } = props;
+	const {
+		dynamicSubmit,
+		form: { getValues, control }
+	} = props;
 	const { data } = useGetAllCategories();
 
 	const categoryOptions = useMemo(

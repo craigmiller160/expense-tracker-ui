@@ -19,13 +19,12 @@ export const Transactions = () => {
 	});
 	const forceUpdate = useForceUpdate();
 
-	const { control, handleSubmit, getValues } = useForm<TransactionSearchForm>(
-		{
-			mode: 'onBlur',
-			reValidateMode: 'onChange',
-			defaultValues: transactionSearchFormDefaultValues
-		}
-	);
+	const form = useForm<TransactionSearchForm>({
+		mode: 'onBlur',
+		reValidateMode: 'onChange',
+		defaultValues: transactionSearchFormDefaultValues
+	});
+	const { handleSubmit, getValues } = form;
 
 	const dynamicSubmit = handleSubmit(forceUpdate);
 
@@ -33,9 +32,8 @@ export const Transactions = () => {
 		<div className="ManageTransactions">
 			<PageTitle title="Manage Transactions" />
 			<TransactionSearchFilters
-				control={control}
+				form={form}
 				dynamicSubmit={dynamicSubmit}
-				getValues={getValues}
 			/>
 			<TransactionTable
 				filterValues={getValues()}

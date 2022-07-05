@@ -71,7 +71,7 @@ export const TransactionSearchFilters = (props: Props) => {
 						options={directionOptions}
 						control={control}
 						label="Order By"
-						dynamicSubmit={onValueHasChanged}
+						onValueHasChanged={onValueHasChanged}
 					/>
 				</div>
 				<div className="row">

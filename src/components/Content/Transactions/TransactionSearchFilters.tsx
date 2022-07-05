@@ -79,8 +79,16 @@ export const TransactionSearchFilters = (props: Props) => {
 						name="isDuplicate"
 						label="Is Duplicate"
 					/>
-					<p>Is Not Confirmed</p>
-					<p>Is Not Categorized</p>
+					<Checkbox
+						control={control}
+						name="isNotConfirmed"
+						label="Is Not Confirmed"
+					/>
+					<Checkbox
+						control={control}
+						name="isNotCategorized"
+						label="Is Not Categorized"
+					/>
 				</div>
 			</form>
 		</Paper>

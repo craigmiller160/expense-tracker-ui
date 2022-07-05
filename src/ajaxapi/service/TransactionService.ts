@@ -23,13 +23,24 @@ const handleOptionalValue = <T>(
 		Option.getOrElse((): string | undefined => undefined)
 	);
 
+const handleCategoryIds = (
+	isCategorized: boolean | undefined,
+	categoryIds: ReadonlyArray<string> | undefined
+): string | undefined => {
+	if (isCategorized === false) {
+		return undefined;
+	}
+	return handleOptionalValue(categoryIds, (ids) => ids.join(','));
+};
+
 export const requestToQuery = (request: SearchTransactionsRequest): string =>
 	qs.stringify({
 		...request,
 		startDate: handleOptionalValue(request.startDate, formatSearchDate),
 		endDate: handleOptionalValue(request.endDate, formatSearchDate),
-		categoryIds: handleOptionalValue(request.categoryIds, (ids) =>
-			ids.join(',')
+		categoryIds: handleCategoryIds(
+			request.isCategorized,
+			request.categoryIds
 		)
 	});
 

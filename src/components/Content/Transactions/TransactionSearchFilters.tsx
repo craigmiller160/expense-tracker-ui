@@ -29,7 +29,7 @@ interface Props {
 export const TransactionSearchFilters = (props: Props) => {
 	const {
 		onValueHasChanged,
-		form: { getValues, control }
+		form: { getValues, control, setValue }
 	} = props;
 	const { data } = useGetAllCategories();
 
@@ -37,6 +37,13 @@ export const TransactionSearchFilters = (props: Props) => {
 		() => data?.map(categoryToCategoryOption),
 		[data]
 	);
+
+	const onIsNotCategorizedChanged = () => {
+		if (getValues().isNotCategorized) {
+			setValue('category', null);
+		}
+		onValueHasChanged();
+	};
 
 	return (
 		<Paper className="TransactionSearchFilters">
@@ -91,7 +98,7 @@ export const TransactionSearchFilters = (props: Props) => {
 						control={control}
 						name="isNotCategorized"
 						label="Is Not Categorized"
-						onValueHasChanged={onValueHasChanged}
+						onValueHasChanged={onIsNotCategorizedChanged}
 					/>
 				</div>
 			</form>

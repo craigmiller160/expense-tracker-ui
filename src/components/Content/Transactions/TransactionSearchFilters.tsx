@@ -1,4 +1,8 @@
-import { UseFormReturn } from 'react-hook-form';
+import {
+	UseFormGetValues,
+	UseFormReturn,
+	UseFormSetValue
+} from 'react-hook-form';
 import {
 	Autocomplete,
 	DatePicker,
@@ -25,7 +29,19 @@ interface Props {
 	readonly onValueHasChanged: ValueHasChanged;
 }
 
-// TODO when without category is selected, disable the Category field
+const createOnIsNotCategorizedChanged =
+	(
+		getValues: UseFormGetValues<TransactionSearchForm>,
+		setValue: UseFormSetValue<TransactionSearchForm>,
+		onValueHasChanged: ValueHasChanged
+	) =>
+	() => {
+		if (getValues().isNotCategorized) {
+			setValue('category', null);
+		}
+		onValueHasChanged();
+	};
+
 export const TransactionSearchFilters = (props: Props) => {
 	const {
 		onValueHasChanged,
@@ -38,12 +54,8 @@ export const TransactionSearchFilters = (props: Props) => {
 		[data]
 	);
 
-	const onIsNotCategorizedChanged = () => {
-		if (getValues().isNotCategorized) {
-			setValue('category', null);
-		}
-		onValueHasChanged();
-	};
+	const onIsNotCategorizedChanged = () =>
+		createOnIsNotCategorizedChanged(getValues, setValue, onValueHasChanged);
 
 	return (
 		<Paper className="TransactionSearchFilters">

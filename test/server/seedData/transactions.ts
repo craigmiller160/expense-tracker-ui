@@ -11,7 +11,7 @@ import { MonoidT } from '@craigmiller160/ts-functions/es/types';
 import * as Monoid from 'fp-ts/es6/Monoid';
 
 const newExpenseDate = (index: number): string =>
-	pipe(new Date(), Time.addDays(index), Time.format(DATE_FORMAT));
+	pipe(new Date(), Time.subDays(index), Time.format(DATE_FORMAT));
 
 const createTransaction = (index: number): TransactionResponse => ({
 	id: nanoid(),

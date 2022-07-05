@@ -14,9 +14,9 @@ export interface SearchTransactionsRequest {
 	readonly sortDirection: SortDirection;
 	readonly startDate?: Date;
 	readonly endDate?: Date;
-	readonly isConfirmed?: boolean; // TODO need
+	readonly isConfirmed?: boolean;
 	readonly isCategorized?: boolean;
-	readonly isDuplicate?: boolean; // TODO need
+	readonly isDuplicate?: boolean;
 	readonly categoryIds?: ReadonlyArray<string>;
 }
 

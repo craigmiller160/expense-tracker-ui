@@ -66,6 +66,35 @@ const createEndDateFilter =
 		const endDate = parseDate(endDateString);
 		return Time.compare(endDate)(txnDate) >= 0;
 	};
+const createCategoryIdFilter = (categoryIdString?: string) => {
+	if (!categoryIdString) {
+		return () => true;
+	}
+	const categoryIds = categoryIdString.split(',').map((s) => s.trim());
+	return (transaction: TransactionResponse): boolean =>
+		categoryIds.includes(transaction.categoryId ?? '');
+};
+const createIsCategorizedFilter =
+	(isCategorized?: string) =>
+	(transaction: TransactionResponse): boolean =>
+		match(isCategorized)
+			.with(undefined, () => true)
+			.with('true', () => transaction.categoryId !== undefined)
+			.otherwise(() => transaction.categoryId === undefined);
+const createIsConfirmedFilter =
+	(isConfirmed?: string) =>
+	(transaction: TransactionResponse): boolean =>
+		match(isConfirmed)
+			.with(undefined, () => true)
+			.with('true', () => transaction.confirmed === true)
+			.otherwise(() => transaction.confirmed === false);
+const createIsDuplicateFilter =
+	(isDuplicate?: string) =>
+	(transaction: TransactionResponse): boolean =>
+		match(isDuplicate)
+			.with(undefined, () => true)
+			.with('true', () => transaction.duplicate === true)
+			.otherwise(() => transaction.duplicate === false);
 
 export const createTransactionsRoutes = (
 	database: Database,
@@ -83,6 +112,18 @@ export const createTransactionsRoutes = (
 				createStartDateFilter(request.queryParams?.startDate)
 			),
 			RArray.filter(createEndDateFilter(request.queryParams?.endDate)),
+			RArray.filter(
+				createCategoryIdFilter(request.queryParams?.categoryId)
+			),
+			RArray.filter(
+				createIsCategorizedFilter(request.queryParams?.isCategorized)
+			),
+			RArray.filter(
+				createIsConfirmedFilter(request.queryParams?.isConfirmed)
+			),
+			RArray.filter(
+				createIsDuplicateFilter(request.queryParams?.isDuplicate)
+			),
 			paginateTransactions(pageNumber, pageSize)
 		);
 		return {

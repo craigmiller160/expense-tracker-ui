@@ -36,16 +36,6 @@ const createSortTransactionOrd = (
 	equals: (txn1, txn2) => txn1.expenseDate === txn2.expenseDate
 });
 
-const sortTransactions =
-	(sortDirection: SortDirection) =>
-	(
-		transactions: ReadonlyArray<TransactionResponse>
-	): ReadonlyArray<TransactionResponse> =>
-		pipe(
-			transactions,
-			RArray.sort(createSortTransactionOrd(sortDirection))
-		);
-
 const paginateTransactions =
 	(pageNumber: number, pageSize: number) =>
 	(
@@ -55,6 +45,27 @@ const paginateTransactions =
 			pageNumber * pageSize,
 			pageNumber * pageSize + pageSize
 		);
+
+const createStartDateFilter =
+	(startDateString?: string) =>
+	(transaction: TransactionResponse): boolean => {
+		if (!startDateString) {
+			return true;
+		}
+		const txnDate = parseDate(transaction.expenseDate);
+		const startDate = parseDate(startDateString);
+		return Time.compare(startDate)(txnDate) <= 0;
+	};
+const createEndDateFilter =
+	(endDateString?: string) =>
+	(transaction: TransactionResponse): boolean => {
+		if (!endDateString) {
+			return true;
+		}
+		const txnDate = parseDate(transaction.expenseDate);
+		const endDate = parseDate(endDateString);
+		return Time.compare(endDate)(txnDate) >= 0;
+	};
 
 export const createTransactionsRoutes = (
 	database: Database,
@@ -67,7 +78,11 @@ export const createTransactionsRoutes = (
 		const pageSize = parseInt(`${request.queryParams?.pageSize}`);
 		const transactions = pipe(
 			Object.values(database.data.transactions),
-			sortTransactions(sortDirection),
+			RArray.sort(createSortTransactionOrd(sortDirection)),
+			RArray.filter(
+				createStartDateFilter(request.queryParams?.startDate)
+			),
+			RArray.filter(createEndDateFilter(request.queryParams?.endDate)),
 			paginateTransactions(pageNumber, pageSize)
 		);
 		return {

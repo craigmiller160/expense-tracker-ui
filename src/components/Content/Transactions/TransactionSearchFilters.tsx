@@ -24,7 +24,6 @@ interface Props {
 }
 
 // TODO when without category is selected, disable the Category field
-// TODO add the confirmed and duplicate controls
 export const TransactionSearchFilters = (props: Props) => {
 	const { control, dynamicSubmit } = props;
 	const { data } = useGetAllCategories();

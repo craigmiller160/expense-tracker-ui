@@ -35,6 +35,7 @@ export const Transactions = () => {
 			<TransactionSearchFilters
 				control={control}
 				dynamicSubmit={dynamicSubmit}
+				getValues={getValues}
 			/>
 			<TransactionTable
 				filterValues={getValues()}

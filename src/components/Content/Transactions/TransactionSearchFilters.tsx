@@ -12,6 +12,7 @@ import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 import { useMemo } from 'react';
 import { categoryToCategoryOption, TransactionSearchForm } from './utils';
 import { Paper } from '@mui/material';
+import { Checkbox } from '../../UI/Checkbox';
 
 const directionOptions: ReadonlyArray<SelectOption<SortDirection>> = [
 	{ value: SortDirection.ASC, label: 'Oldest to Newest' },
@@ -71,7 +72,11 @@ export const TransactionSearchFilters = (props: Props) => {
 					/>
 				</div>
 				<div className="row">
-					<p>Is Duplicate</p>
+					<Checkbox
+						control={control}
+						name="isDuplicate"
+						label="Is Duplicate"
+					/>
 					<p>Is Not Confirmed</p>
 					<p>Is Not Categorized</p>
 				</div>

@@ -11,6 +11,7 @@ import { TransactionTable } from './TransactionTable';
 import { TransactionSearchFilters } from './TransactionSearchFilters';
 import { useForm, UseFormHandleSubmit } from 'react-hook-form';
 import { ForceUpdate, useForceUpdate } from '../../../utils/useForceUpdate';
+import { NeedsAttentionNotice } from './NeedsAttentionNotice';
 
 const createOnValueHasChanged = (
 	handleSubmit: UseFormHandleSubmit<TransactionSearchForm>,
@@ -54,6 +55,7 @@ export const Transactions = () => {
 				form={form}
 				onValueHasChanged={onValueHasChanged}
 			/>
+			<NeedsAttentionNotice />
 			<TransactionTable
 				filterValues={getValues()}
 				pagination={paginationState}

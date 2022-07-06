@@ -20,9 +20,9 @@ import {
 	getCategoryValueElement,
 	getOrderByValueElement,
 	getRecordRangeText,
-	getTotalDaysInRange
+	getTotalDaysInRange,
+	validateTransactionsInTable
 } from './transactionTestUtils';
-import { validateTransactionsInTable } from '../../../server/routes/transactions';
 
 const DATE_PICKER_FORMAT = 'MM/dd/yyyy';
 

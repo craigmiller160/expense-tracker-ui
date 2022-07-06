@@ -4,21 +4,18 @@ import { Response } from 'miragejs';
 import {
 	CategorizeTransactionsRequest,
 	DATE_FORMAT,
+	NeedsAttentionResponse,
 	TransactionResponse
 } from '../../../src/types/transactions';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 import * as RArray from 'fp-ts/es6/ReadonlyArray';
-import { flow, pipe } from 'fp-ts/es6/function';
+import { pipe } from 'fp-ts/es6/function';
 import { match } from 'ts-pattern';
 import { SortDirection } from '../../../src/types/misc';
 import { Ordering } from 'fp-ts/es6/Ordering';
 import { Ord } from 'fp-ts/es6/Ord';
-import { TestTransactionDescription } from '../../testutils/transactionDataUtils';
-import { TryT } from '@craigmiller160/ts-functions/es/types';
-import * as Try from '@craigmiller160/ts-functions/es/Try';
-import * as Either from 'fp-ts/es6/Either';
-import * as Json from '@craigmiller160/ts-functions/es/Json';
-import { screen } from '@testing-library/react';
+import * as Monoid from 'fp-ts/es6/Monoid';
+import { MonoidT } from '@craigmiller160/ts-functions/es/types';
 
 const parseDate = Time.parse(DATE_FORMAT);
 
@@ -102,6 +99,81 @@ const createIsDuplicateFilter =
 			.with('true', () => transaction.duplicate === true)
 			.otherwise(() => transaction.duplicate === false);
 
+const transactionToNeedsAttention = (
+	transaction: TransactionResponse
+): NeedsAttentionResponse => ({
+	unconfirmed: {
+		count: transaction.confirmed === false ? 1 : 0,
+		oldest: transaction.confirmed === false ? transaction.expenseDate : null
+	},
+	uncategorized: {
+		count: transaction.categoryId ? 0 : 1,
+		oldest: transaction.categoryId ? null : transaction.expenseDate
+	},
+	duplicate: {
+		count: transaction.duplicate ? 1 : 0,
+		oldest: transaction.duplicate ? transaction.expenseDate : null
+	}
+});
+
+const getOldestDate = (
+	dateString1: string | null,
+	dateString2: string | null
+): string | null => {
+	if (dateString1 === null) {
+		return dateString2;
+	}
+
+	if (dateString2 === null) {
+		return null;
+	}
+
+	const date1 = Time.parse(DATE_FORMAT)(dateString1);
+	const date2 = Time.parse(DATE_FORMAT)(dateString2);
+	const comparison = Time.compare(date1)(date2);
+	if (comparison >= 0) {
+		return dateString1;
+	}
+	return dateString2;
+};
+
+const needsAttentionMonoid: MonoidT<NeedsAttentionResponse> = {
+	empty: {
+		unconfirmed: {
+			count: 0,
+			oldest: null
+		},
+		uncategorized: {
+			count: 0,
+			oldest: null
+		},
+		duplicate: {
+			count: 0,
+			oldest: null
+		}
+	},
+	concat: (res1, res2) => ({
+		unconfirmed: {
+			count: res1.unconfirmed.count + res2.unconfirmed.count,
+			oldest: getOldestDate(
+				res1.unconfirmed.oldest,
+				res2.unconfirmed.oldest
+			)
+		},
+		uncategorized: {
+			count: res1.uncategorized.count + res2.uncategorized.count,
+			oldest: getOldestDate(
+				res1.uncategorized.oldest,
+				res2.uncategorized.oldest
+			)
+		},
+		duplicate: {
+			count: res1.duplicate.count + res2.duplicate.count,
+			oldest: getOldestDate(res1.duplicate.oldest, res2.duplicate.oldest)
+		}
+	})
+};
+
 export const createTransactionsRoutes = (
 	database: Database,
 	server: Server
@@ -168,64 +240,12 @@ export const createTransactionsRoutes = (
 
 		return new Response(204);
 	});
-};
 
-type ValidateDescription = (
-	index: number,
-	description: TestTransactionDescription
-) => void;
-
-const validateTransactionDescription =
-	(validateDescription: ValidateDescription) =>
-	(index: number, description: TestTransactionDescription): TryT<unknown> =>
-		pipe(
-			Try.tryCatch(() => validateDescription(index, description)),
-			Either.mapLeft(
-				(ex) =>
-					new Error(
-						`Error validating description ${JSON.stringify(
-							description
-						)}: ${ex.message}`,
-						{
-							cause: ex
-						}
-					)
-			)
+	server.get('/transactions/needs-attention', () => {
+		return pipe(
+			Object.values(database.data.transactions),
+			RArray.map(transactionToNeedsAttention),
+			Monoid.concatAll(needsAttentionMonoid)
 		);
-
-const validateNullableTextAndParse = (
-	descriptionElement: HTMLElement
-): TryT<TestTransactionDescription> => {
-	if (descriptionElement.textContent === null) {
-		return Either.left(
-			new Error('Description text content cannot be null')
-		);
-	}
-	return Json.parseE<TestTransactionDescription>(
-		descriptionElement.textContent
-	);
-};
-
-export const validateTransactionsInTable = (
-	count: number,
-	validateDescription: ValidateDescription
-) => {
-	const descriptions = screen.getAllByTestId('transaction-description');
-	expect(descriptions).toHaveLength(count);
-	const result = pipe(
-		descriptions,
-		RArray.map(validateNullableTextAndParse),
-		Either.sequenceArray,
-		Either.chain(
-			flow(
-				RArray.mapWithIndex(
-					validateTransactionDescription(validateDescription)
-				),
-				Either.sequenceArray
-			)
-		)
-	);
-	if (Either.isLeft(result)) {
-		throw result.left;
-	}
+	});
 };

@@ -44,3 +44,14 @@ export interface TransactionAndCategory {
 export interface CategorizeTransactionsRequest {
 	readonly transactionsAndCategories: ReadonlyArray<TransactionAndCategory>;
 }
+
+export interface CountAndOldest {
+	readonly count: number;
+	readonly oldest: string | null;
+}
+
+export interface NeedsAttentionResponse {
+	readonly unconfirmed: CountAndOldest;
+	readonly uncategorized: CountAndOldest;
+	readonly duplicate: CountAndOldest;
+}

@@ -1,6 +1,7 @@
 import {
 	CategorizeTransactionsRequest,
 	DATE_FORMAT,
+	NeedsAttentionResponse,
 	SearchTransactionsRequest,
 	SearchTransactionsResponse,
 	TransactionAndCategory
@@ -66,3 +67,12 @@ export const categorizeTransactions = (
 			transactionsAndCategories
 		}
 	});
+
+export const getNeedsAttention = (): Promise<NeedsAttentionResponse> =>
+	expenseTrackerApi
+		.get<NeedsAttentionResponse>({
+			uri: '/transactions/needs-attention',
+			errorCustomizer:
+				'Error getting stats on transactions that need attention'
+		})
+		.then(getData);

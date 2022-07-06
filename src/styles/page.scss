@@ -4,6 +4,12 @@
   align-items: center;
 }
 
+@mixin ColumnAlignStart {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
 @mixin PageRoot {
   @include ColumnAlignCenter;
   margin: 2rem;

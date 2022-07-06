@@ -1,4 +1,5 @@
 import {
+	NeedsAttentionResponse,
 	SearchTransactionsRequest,
 	SearchTransactionsResponse,
 	TransactionAndCategory
@@ -11,11 +12,13 @@ import {
 } from 'react-query';
 import {
 	categorizeTransactions,
+	getNeedsAttention,
 	searchForTransactions
 } from '../service/TransactionService';
 
 export const SEARCH_FOR_TRANSACTIONS =
 	'TransactionQueries_SearchForTransactions';
+export const GET_NEEDS_ATTENTION = 'TransactionQueries_GetNeedsAttention';
 
 type SearchForTransactionsKey = [string, SearchTransactionsRequest];
 
@@ -27,6 +30,11 @@ export const useSearchForTransactions = (request: SearchTransactionsRequest) =>
 		SearchForTransactionsKey
 	>([SEARCH_FOR_TRANSACTIONS, request], ({ queryKey: [, req] }) =>
 		searchForTransactions(req)
+	);
+
+export const useGetNeedsAttention = () =>
+	useQuery<NeedsAttentionResponse, Error>(GET_NEEDS_ATTENTION, () =>
+		getNeedsAttention()
 	);
 
 interface CategorizeTransactionsParams {
@@ -46,8 +54,10 @@ export const useCategorizeTransactions = () => {
 			categorizeTransactions(transactionsAndCategories),
 		{
 			onSuccess: () =>
-				// TODO make sure this works with just the string key
-				queryClient.invalidateQueries(SEARCH_FOR_TRANSACTIONS)
+				Promise.all([
+					queryClient.invalidateQueries(SEARCH_FOR_TRANSACTIONS),
+					queryClient.invalidateQueries(GET_NEEDS_ATTENTION)
+				])
 		}
 	);
 };

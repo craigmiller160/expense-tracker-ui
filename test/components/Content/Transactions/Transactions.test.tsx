@@ -19,7 +19,10 @@ import {
 import * as Json from '@craigmiller160/ts-functions/es/Json';
 import { flow, pipe } from 'fp-ts/es6/function';
 import * as RArray from 'fp-ts/es6/ReadonlyArray';
-import { TestTransactionDescription } from '../../../server/createTransaction';
+import {
+	createTransaction,
+	TestTransactionDescription
+} from '../../../server/createTransaction';
 import * as Try from '@craigmiller160/ts-functions/es/Try';
 import { TryT } from '@craigmiller160/ts-functions/es/types';
 import {
@@ -572,6 +575,22 @@ describe('Transactions', () => {
 		});
 
 		it('category', async () => {
+			const { transactions } = await searchForTransactions({
+				startDate: defaultStartDate(),
+				endDate: defaultEndDate(),
+				pageNumber: 0,
+				pageSize: 25,
+				sortKey: TransactionSortKey.EXPENSE_DATE,
+				sortDirection: SortDirection.ASC
+			});
+			const categories = await getAllCategories();
+			apiServer.database.updateData((draft) => {
+				draft.transactions[transactions[0].id] = createTransaction({
+					...transactions[0],
+					categoryId: categories[0].id,
+					categoryName: categories[0].name
+				});
+			});
 			await renderApp({
 				initialPath: '/expense-tracker/transactions'
 			});
@@ -586,7 +605,21 @@ describe('Transactions', () => {
 			await waitFor(() =>
 				expect(screen.queryByText('Rows per page:')).toBeVisible()
 			);
-			throw new Error();
+
+			const filters = screen.getByTestId('transaction-filters');
+
+			await userEvent.click(within(filters).getByLabelText('Category'));
+			expect(screen.getAllByText(categories[0].name)).toHaveLength(1);
+			await userEvent.click(screen.getByText(categories[0].name));
+			await Sleep.immediate();
+			await waitFor(() =>
+				expect(screen.queryByText('Rows per page:')).toBeVisible()
+			);
+
+			validateTransactionsInTable(1, (description) => {
+				expect(description.categoryId).toEqual(categories[0].id);
+				expect(description.categoryName).toEqual(categories[0].name);
+			});
 		});
 
 		it('order by', async () => {

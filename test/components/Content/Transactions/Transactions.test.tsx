@@ -604,6 +604,23 @@ describe('Transactions', () => {
 			await waitFor(() =>
 				expect(screen.queryByText('Rows per page:')).toBeVisible()
 			);
+
+			const dates = screen.getAllByTestId('transaction-expense-date');
+			expect(dates.length).toEqual(25);
+
+			const expectedFirstDate = pipe(
+				defaultStartDate(),
+				Time.format(DATE_FORMAT)
+			);
+			const expectedLastDate = pipe(
+				defaultStartDate(),
+				Time.addDays(24),
+				Time.format(DATE_FORMAT)
+			);
+
+			expect(dates[0]).toHaveTextContent(expectedFirstDate);
+			expect(dates[24]).toHaveTextContent(expectedLastDate);
+
 			throw new Error();
 		});
 

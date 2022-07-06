@@ -112,7 +112,9 @@ export const TransactionTable = (props: Props) => {
 									key={txn.id}
 									data-testid="transaction-table-row"
 								>
-									<TableCell>{txn.expenseDate}</TableCell>
+									<TableCell data-testid="transaction-expense-date">
+										{txn.expenseDate}
+									</TableCell>
 									<TableCell
 										className="DescriptionCell"
 										data-testid="transaction-description"

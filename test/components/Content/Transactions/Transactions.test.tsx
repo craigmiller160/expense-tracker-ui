@@ -27,6 +27,7 @@ import {
 	getCategoryValueElement,
 	getOrderByValueElement,
 	getRecordRangeText,
+	getTotalDaysInRange,
 	selectDate
 } from './transactionTestUtils';
 
@@ -334,8 +335,10 @@ describe('Transactions', () => {
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 
-		const totalDaysInRange =
-			Time.differenceInDays(defaultEndDate())(defaultStartDate()) + 1;
+		const totalDaysInRange = getTotalDaysInRange(
+			defaultStartDate(),
+			defaultEndDate()
+		);
 
 		validateTransactionsInTable(25, (description) => {
 			const expenseDate = pipe(
@@ -504,6 +507,14 @@ describe('Transactions', () => {
 			await waitFor(() =>
 				expect(screen.queryByText('Rows per page:')).toBeVisible()
 			);
+
+			const totalDaysInRange = getTotalDaysInRange(
+				defaultStartDate(),
+				defaultEndDate()
+			);
+
+			expect(getRecordRangeText()).toEqual(`1-25 of ${totalDaysInRange}`);
+
 			const dateToSelect = pipe(
 				defaultStartDate(),
 				Time.subDays(1),
@@ -514,7 +525,9 @@ describe('Transactions', () => {
 				expect(screen.queryByText('Rows per page:')).toBeVisible()
 			);
 
-			throw new Error();
+			expect(getRecordRangeText()).toEqual(
+				`1-25 of ${totalDaysInRange + 1}`
+			);
 		});
 
 		it('end date', async () => {

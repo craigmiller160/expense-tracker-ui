@@ -1,5 +1,6 @@
 import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import * as Time from '@craigmiller160/ts-functions/es/Time';
 
 export const getOrderByValueElement = (): HTMLElement | null | undefined => {
 	const transactionFilters = screen.getByTestId('transaction-filters');
@@ -44,3 +45,6 @@ export const getRecordRangeText = (): string | undefined =>
 		.queryByText(/.*\d+–\d+ of \d+.*/)
 		?.textContent?.trim()
 		?.replace('–', '-');
+
+export const getTotalDaysInRange = (startDate: Date, endDate: Date): number =>
+	Time.differenceInDays(endDate)(startDate) + 1;

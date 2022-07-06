@@ -20,7 +20,6 @@ import {
 } from '../../../../src/types/transactions';
 import { SortDirection } from '../../../../src/types/misc';
 import { getAllCategories } from '../../../../src/ajaxapi/service/CategoryService';
-import { createTransaction } from '../../../server/createTransaction';
 import userEvent from '@testing-library/user-event';
 import { validateTransactionsInTable } from '../../../server/routes/transactions';
 import { ApiServer, newApiServer } from '../../../server';
@@ -28,7 +27,8 @@ import '@testing-library/jest-dom';
 import * as RArray from 'fp-ts/es6/ReadonlyArray';
 import {
 	transactionRecordMonoid,
-	transactionToRecord
+	transactionToRecord,
+	createTransaction
 } from '../../../testutils/transactionDataUtils';
 import * as Monoid from 'fp-ts/es6/Monoid';
 

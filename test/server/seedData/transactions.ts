@@ -7,10 +7,10 @@ import * as Time from '@craigmiller160/ts-functions/es/Time';
 import { pipe } from 'fp-ts/es6/function';
 import * as RNonEmptyArray from 'fp-ts/es6/ReadonlyNonEmptyArray';
 import * as Monoid from 'fp-ts/es6/Monoid';
-import { createTransaction } from '../createTransaction';
 import {
 	transactionRecordMonoid,
-	transactionToRecord
+	transactionToRecord,
+	createTransaction
 } from '../../testutils/transactionDataUtils';
 
 const newExpenseDate = (index: number): string =>

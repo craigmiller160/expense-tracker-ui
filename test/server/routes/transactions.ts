@@ -13,7 +13,7 @@ import { match } from 'ts-pattern';
 import { SortDirection } from '../../../src/types/misc';
 import { Ordering } from 'fp-ts/es6/Ordering';
 import { Ord } from 'fp-ts/es6/Ord';
-import { TestTransactionDescription } from '../createTransaction';
+import { TestTransactionDescription } from '../../testutils/transactionDataUtils';
 import { TryT } from '@craigmiller160/ts-functions/es/types';
 import * as Try from '@craigmiller160/ts-functions/es/Try';
 import * as Either from 'fp-ts/es6/Either';

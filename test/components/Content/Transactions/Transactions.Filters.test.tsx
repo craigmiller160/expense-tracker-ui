@@ -2,6 +2,7 @@ import { renderApp } from '../../../testutils/renderApp';
 import { screen, waitFor, within } from '@testing-library/react';
 import {
 	ARIA_LABEL_FORMAT,
+	getCategoryValueElement,
 	getRecordRangeText,
 	getTotalDaysInRange,
 	selectDate
@@ -308,6 +309,16 @@ describe('Transactions Filters', () => {
 			expect(description.categoryName).toEqual(categories[0].name);
 		});
 
-		// TODO should also clear category selection
+		await userEvent.click(screen.getByLabelText('Is Not Categorized'));
+		await Sleep.immediate();
+		await waitFor(() =>
+			expect(screen.queryByText('Rows per page:')).toBeVisible()
+		);
+		expect(getCategoryValueElement()).toHaveTextContent('');
+
+		validateTransactionsInTable(1, (index, description) => {
+			expect(description.categoryId).toBeUndefined();
+			expect(description.categoryName).toBeUndefined();
+		});
 	});
 });

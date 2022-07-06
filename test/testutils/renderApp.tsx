@@ -12,7 +12,7 @@ export const renderApp = (config?: RenderConfig): Promise<RenderResult> => {
 	window.history.replaceState({}, '', config?.initialPath ?? '/');
 	const result = render(<App />);
 	return pipe(
-		Sleep.sleep(1000),
+		Sleep.immediate,
 		Task.map(() => result)
 	)();
 };

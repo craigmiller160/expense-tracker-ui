@@ -1098,9 +1098,9 @@
   integrity sha512-3RgD/EyYh4SXZmNOtxX454Z7mxU9f864ELXNJ5Eexd5aHu/gi7oyDdWlcvJ+5VfFs7efpOEtK1SgbSYcrYekCA==
 
 "@craigmiller160/ts-functions@^1.5.0-beta":
-  version "1.5.0-beta.3"
-  resolved "https://craigmiller160.ddns.net:30003/repository/npm-group/@craigmiller160/ts-functions/-/ts-functions-1.5.0-beta.3.tgz#d13dbd68d18bb45c2ea9369204ff8b1ad2220f93"
-  integrity sha512-laTqDq0XUFFif4SX7y5HjGKCNky4AbraZrWWkREbSd+90Z4plZPvDHrI+xh4DRYpVN7CIYaVlJMfWURm4dWMkA==
+  version "1.5.0-beta.4"
+  resolved "https://craigmiller160.ddns.net:30003/repository/npm-group/@craigmiller160/ts-functions/-/ts-functions-1.5.0-beta.4.tgz#8547918c7fdb5d9acb0feb6380346f524286a47f"
+  integrity sha512-lEr9RtvNeNNS1M5/A/bVxA4RPDIZjbIQtUe2RmbNSJAh3DWu/uwZ/Gz9CUj+Y84FIytwUDA9sXqWc76nR8Y6pg==
 
 "@date-io/core@^2.14.0":
   version "2.14.0"

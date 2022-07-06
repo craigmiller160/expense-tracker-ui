@@ -30,6 +30,7 @@ import {
 	getTotalDaysInRange,
 	selectDate
 } from './transactionTestUtils';
+import * as Sleep from '@craigmiller160/ts-functions/es/Sleep';
 
 const DATE_PICKER_FORMAT = 'MM/dd/yyyy';
 
@@ -521,6 +522,7 @@ describe('Transactions', () => {
 				Time.format(ARIA_LABEL_FORMAT)
 			);
 			await selectDate('Start Date', dateToSelect);
+			await Sleep.sleep(50)();
 			await waitFor(() =>
 				expect(screen.queryByText('Rows per page:')).toBeVisible()
 			);

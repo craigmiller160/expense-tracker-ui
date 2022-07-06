@@ -185,6 +185,8 @@ describe('Transactions', () => {
 
 	it('shows the correct icons for transactions', async () => {
 		const { transactions } = await searchForTransactions({
+			startDate: defaultStartDate(),
+			endDate: defaultEndDate(),
 			pageNumber: 0,
 			pageSize: 25,
 			sortKey: TransactionSortKey.EXPENSE_DATE,

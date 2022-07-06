@@ -283,7 +283,18 @@ describe('Transactions', () => {
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 
-		// validateNumberOfTransactions(25);
+		validateTransactionsInTable(25, (description) => {
+			const expenseDate = pipe(
+				parseExpenseDate(description.expenseDate),
+				setToMidnight
+			);
+			const startDate = setToMidnight(defaultStartDate());
+			const endDate = setToMidnight(defaultEndDate());
+			expect(Time.compare(expenseDate)(startDate)).toBeGreaterThanOrEqual(
+				0
+			);
+			expect(Time.compare(expenseDate)(endDate)).toBeLessThanOrEqual(0);
+		});
 
 		const rowsPerPageSelect = screen
 			.getByTestId('table-pagination')
@@ -303,8 +314,18 @@ describe('Transactions', () => {
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 
-		// await waitFor(() => validateNumberOfTransactions(10));
-		throw new Error();
+		validateTransactionsInTable(10, (description) => {
+			const expenseDate = pipe(
+				parseExpenseDate(description.expenseDate),
+				setToMidnight
+			);
+			const startDate = setToMidnight(defaultStartDate());
+			const endDate = setToMidnight(defaultEndDate());
+			expect(Time.compare(expenseDate)(startDate)).toBeGreaterThanOrEqual(
+				0
+			);
+			expect(Time.compare(expenseDate)(endDate)).toBeLessThanOrEqual(0);
+		});
 	});
 
 	it('can paginate and load the correct data successfully', async () => {
@@ -322,8 +343,18 @@ describe('Transactions', () => {
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 
-		// validateNumberOfTransactions(25);
-		// validateTransactionElements(0, 24);
+		validateTransactionsInTable(25, (description) => {
+			const expenseDate = pipe(
+				parseExpenseDate(description.expenseDate),
+				setToMidnight
+			);
+			const startDate = setToMidnight(defaultStartDate());
+			const endDate = setToMidnight(defaultEndDate());
+			expect(Time.compare(expenseDate)(startDate)).toBeGreaterThanOrEqual(
+				0
+			);
+			expect(Time.compare(expenseDate)(endDate)).toBeLessThanOrEqual(0);
+		});
 		expect(screen.queryByText(/.*1–25 of 100.*/)).toBeVisible();
 
 		const nextPageButton = screen
@@ -339,9 +370,18 @@ describe('Transactions', () => {
 		await waitFor(() =>
 			expect(screen.queryByText(/.*26–50 of 100.*/)).toBeVisible()
 		);
-		// validateNumberOfTransactions(25);
-		// validateTransactionElements(25, 49);
-		throw new Error();
+		validateTransactionsInTable(6, (description) => {
+			const expenseDate = pipe(
+				parseExpenseDate(description.expenseDate),
+				setToMidnight
+			);
+			const startDate = setToMidnight(defaultStartDate());
+			const endDate = setToMidnight(defaultEndDate());
+			expect(Time.compare(expenseDate)(startDate)).toBeGreaterThanOrEqual(
+				0
+			);
+			expect(Time.compare(expenseDate)(endDate)).toBeLessThanOrEqual(0);
+		});
 	});
 
 	it('can set categories on transactions', async () => {

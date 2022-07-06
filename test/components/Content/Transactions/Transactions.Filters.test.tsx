@@ -152,7 +152,7 @@ describe('Transactions Filters', () => {
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 
-		validateTransactionsInTable(1, (description) => {
+		validateTransactionsInTable(1, (index, description) => {
 			expect(description.categoryId).toEqual(categories[0].id);
 			expect(description.categoryName).toEqual(categories[0].name);
 		});
@@ -293,9 +293,14 @@ describe('Transactions Filters', () => {
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
-		validateTransactionsInTable(25, (description) => {
-			expect(description.categoryId).toEqual(categories[0].id);
-			expect(description.categoryName).toEqual(categories[0].name);
+		validateTransactionsInTable(25, (index, description) => {
+			if (index === 0) {
+				expect(description.categoryId).toBeUndefined();
+				expect(description.categoryName).toBeUndefined();
+			} else {
+				expect(description.categoryId).toEqual(categories[0].id);
+				expect(description.categoryName).toEqual(categories[0].name);
+			}
 		});
 
 		// TODO should also clear category selection

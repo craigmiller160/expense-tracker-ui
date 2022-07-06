@@ -99,7 +99,7 @@ describe('Transactions Table', () => {
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 
-		validateTransactionsInTable(25, (description) => {
+		validateTransactionsInTable(25, (index, description) => {
 			const expenseDate = pipe(
 				parseExpenseDate(description.expenseDate),
 				setToMidnight
@@ -213,7 +213,7 @@ describe('Transactions Table', () => {
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 
-		validateTransactionsInTable(25, (description) => {
+		validateTransactionsInTable(25, (index, description) => {
 			const expenseDate = pipe(
 				parseExpenseDate(description.expenseDate),
 				setToMidnight
@@ -244,7 +244,7 @@ describe('Transactions Table', () => {
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 
-		validateTransactionsInTable(10, (description) => {
+		validateTransactionsInTable(10, (index, description) => {
 			const expenseDate = pipe(
 				parseExpenseDate(description.expenseDate),
 				setToMidnight
@@ -278,7 +278,7 @@ describe('Transactions Table', () => {
 			defaultEndDate()
 		);
 
-		validateTransactionsInTable(25, (description) => {
+		validateTransactionsInTable(25, (index, description) => {
 			const expenseDate = pipe(
 				parseExpenseDate(description.expenseDate),
 				setToMidnight
@@ -308,7 +308,7 @@ describe('Transactions Table', () => {
 		expect(getRecordRangeText()).toEqual(
 			`26-${totalDaysInRange} of ${totalDaysInRange}`
 		);
-		validateTransactionsInTable(6, (description) => {
+		validateTransactionsInTable(6, (index, description) => {
 			const expenseDate = pipe(
 				parseExpenseDate(description.expenseDate),
 				setToMidnight

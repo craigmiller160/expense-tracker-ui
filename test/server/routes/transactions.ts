@@ -170,13 +170,16 @@ export const createTransactionsRoutes = (
 	});
 };
 
-type ValidateDescription = (description: TestTransactionDescription) => void;
+type ValidateDescription = (
+	index: number,
+	description: TestTransactionDescription
+) => void;
 
 const validateTransactionDescription =
 	(validateDescription: ValidateDescription) =>
-	(description: TestTransactionDescription): TryT<unknown> =>
+	(index: number, description: TestTransactionDescription): TryT<unknown> =>
 		pipe(
-			Try.tryCatch(() => validateDescription(description)),
+			Try.tryCatch(() => validateDescription(index, description)),
 			Either.mapLeft(
 				(ex) =>
 					new Error(
@@ -215,7 +218,9 @@ export const validateTransactionsInTable = (
 		Either.sequenceArray,
 		Either.chain(
 			flow(
-				RArray.map(validateTransactionDescription(validateDescription)),
+				RArray.mapWithIndex(
+					validateTransactionDescription(validateDescription)
+				),
 				Either.sequenceArray
 			)
 		)

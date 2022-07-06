@@ -4,6 +4,7 @@ import { Response } from 'miragejs';
 import {
 	CategorizeTransactionsRequest,
 	DATE_FORMAT,
+	NeedsAttentionResponse,
 	TransactionResponse
 } from '../../../src/types/transactions';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
@@ -13,6 +14,8 @@ import { match } from 'ts-pattern';
 import { SortDirection } from '../../../src/types/misc';
 import { Ordering } from 'fp-ts/es6/Ordering';
 import { Ord } from 'fp-ts/es6/Ord';
+import * as Monoid from 'fp-ts/es6/Monoid';
+import { MonoidT } from '@craigmiller160/ts-functions/es/types';
 
 const parseDate = Time.parse(DATE_FORMAT);
 
@@ -96,6 +99,65 @@ const createIsDuplicateFilter =
 			.with('true', () => transaction.duplicate === true)
 			.otherwise(() => transaction.duplicate === false);
 
+const transactionToNeedsAttention = (
+	transaction: TransactionResponse
+): NeedsAttentionResponse => ({
+	unconfirmed: {
+		count: transaction.confirmed === false ? 1 : 0,
+		oldest: transaction.confirmed === false ? transaction.expenseDate : null
+	},
+	uncategorized: {
+		count: transaction.categoryId ? 0 : 1,
+		oldest: transaction.categoryId ? null : transaction.expenseDate
+	},
+	duplicate: {
+		count: transaction.duplicate ? 1 : 0,
+		oldest: transaction.duplicate ? transaction.expenseDate : null
+	}
+});
+
+const getOldestDate = (
+	dateString1: string | null,
+	dateString2: string | null
+): string | null => {};
+
+const needsAttentionMonoid: MonoidT<NeedsAttentionResponse> = {
+	empty: {
+		unconfirmed: {
+			count: 0,
+			oldest: null
+		},
+		uncategorized: {
+			count: 0,
+			oldest: null
+		},
+		duplicate: {
+			count: 0,
+			oldest: null
+		}
+	},
+	concat: (res1, res2) => ({
+		unconfirmed: {
+			count: res1.unconfirmed.count + res2.unconfirmed.count,
+			oldest: getOldestDate(
+				res1.unconfirmed.oldest,
+				res2.unconfirmed.oldest
+			)
+		},
+		uncategorized: {
+			count: res1.uncategorized.count + res2.uncategorized.count,
+			oldest: getOldestDate(
+				res1.uncategorized.oldest,
+				res2.uncategorized.oldest
+			)
+		},
+		duplicate: {
+			count: res1.duplicate.count + res2.duplicate.count,
+			oldest: getOldestDate(res1.duplicate.oldest, res2.duplicate.oldest)
+		}
+	})
+};
+
 export const createTransactionsRoutes = (
 	database: Database,
 	server: Server
@@ -161,5 +223,9 @@ export const createTransactionsRoutes = (
 		});
 
 		return new Response(204);
+	});
+
+	server.get('/transactions/needs-attention', () => {
+		return null;
 	});
 };

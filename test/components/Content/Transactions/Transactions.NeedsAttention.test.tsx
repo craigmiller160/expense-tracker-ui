@@ -16,4 +16,8 @@ describe('Transactions Needs Attention', () => {
 	it('has all', async () => {
 		throw new Error();
 	});
+
+	it('has none', async () => {
+		throw new Error();
+	});
 });

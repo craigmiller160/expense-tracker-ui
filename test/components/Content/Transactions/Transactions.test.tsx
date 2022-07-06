@@ -2,16 +2,13 @@ import { ApiServer, newApiServer } from '../../../server';
 import { renderApp } from '../../../testutils/renderApp';
 import { screen, waitFor, within } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import * as RNonEmptyArray from 'fp-ts/es6/ReadonlyNonEmptyArray';
-import { pipe } from 'fp-ts/es6/function';
-import * as Try from '@craigmiller160/ts-functions/es/Try';
 import { MonoidT, TryT } from '@craigmiller160/ts-functions/es/types';
 import * as Either from 'fp-ts/es6/Either';
 import { match } from 'ts-pattern';
-import * as Monoid from 'fp-ts/es6/Monoid';
 import userEvent from '@testing-library/user-event';
 import { searchForTransactions } from '../../../../src/ajaxapi/service/TransactionService';
 import {
+	DATE_FORMAT,
 	SearchTransactionsRequest,
 	TransactionResponse,
 	TransactionSortKey
@@ -25,6 +22,10 @@ import {
 	defaultEndDate,
 	defaultStartDate
 } from '../../../../src/components/Content/Transactions/utils';
+import * as Json from '@craigmiller160/ts-functions/es/Json';
+import { pipe } from 'fp-ts/es6/function';
+import * as RArray from 'fp-ts/es6/ReadonlyArray';
+import { TestTransactionDescription } from '../../../server/createTransaction';
 
 const DATE_PICKER_FORMAT = 'MM/dd/yyyy';
 
@@ -47,11 +48,6 @@ const validateTransactionElements = (
 		expect(parseInt(`${theNumber}`)).toBeLessThanOrEqual(endInclusive);
 	});
 };
-
-const validateNumberOfTransactions = (expectedCount: number) =>
-	expect(screen.queryAllByText(/Transaction \d+/)).toHaveLength(
-		expectedCount
-	);
 
 type PrepareDataCallback = (
 	transactions: ReadonlyArray<TransactionResponse>,
@@ -131,8 +127,35 @@ describe('Transactions', () => {
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 
-		validateNumberOfTransactions(25);
-		validateTransactionElements(0, 24);
+		const descriptions = screen.getAllByTestId('transaction-description');
+		expect(descriptions).toHaveLength(25);
+		pipe(
+			descriptions,
+			RArray.filter((_) => _ !== null),
+			RArray.map((_) =>
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+				Json.parseE<TestTransactionDescription>(_.textContent!)
+			),
+			Either.sequenceArray,
+			Either.map((parsedDescriptions) => {
+				return pipe(
+					parsedDescriptions,
+					RArray.map((description) => {
+						expect(
+							Time.compare(
+								Time.parse(DATE_FORMAT)(description.expenseDate)
+							)(defaultStartDate())
+						).toBeGreaterThanOrEqual(0);
+						expect(
+							Time.compare(
+								Time.parse(DATE_FORMAT)(description.expenseDate)
+							)
+						).toBeLessThanOrEqual(defaultEndDate());
+						return null;
+					})
+				);
+			})
+		);
 	});
 
 	it('shows the correct icons for transactions', async () => {

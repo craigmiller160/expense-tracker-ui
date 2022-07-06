@@ -17,11 +17,53 @@ import {
 	defaultStartDate
 } from '../../../../src/components/Content/Transactions/utils';
 import * as Json from '@craigmiller160/ts-functions/es/Json';
-import { pipe } from 'fp-ts/es6/function';
+import { flow, pipe } from 'fp-ts/es6/function';
 import * as RArray from 'fp-ts/es6/ReadonlyArray';
 import { TestTransactionDescription } from '../../../server/createTransaction';
+import * as Try from '@craigmiller160/ts-functions/es/Try';
 
 const DATE_PICKER_FORMAT = 'MM/dd/yyyy';
+
+const validateTransactionsInTable = (
+	count: number,
+	validateDescription: (description: TestTransactionDescription) => void
+) => {
+	const descriptions = screen.getAllByTestId('transaction-description');
+	expect(descriptions).toHaveLength(count);
+	const result = pipe(
+		descriptions,
+		RArray.filter((_) => _ !== null),
+		RArray.map((_) =>
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			Json.parseE<TestTransactionDescription>(_.textContent!)
+		),
+		Either.sequenceArray,
+		Either.chain(
+			flow(
+				RArray.map((description) =>
+					pipe(
+						Try.tryCatch(() => validateDescription(description)),
+						Either.mapLeft(
+							(ex) =>
+								new Error(
+									`Error validating description ${JSON.stringify(
+										description
+									)}: ${ex.message}`,
+									{
+										cause: ex
+									}
+								)
+						)
+					)
+				),
+				Either.sequenceArray
+			)
+		)
+	);
+	if (Either.isLeft(result)) {
+		throw result.left;
+	}
+};
 
 describe('Transactions', () => {
 	let apiServer: ApiServer;
@@ -86,35 +128,18 @@ describe('Transactions', () => {
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 
-		const descriptions = screen.getAllByTestId('transaction-description');
-		expect(descriptions).toHaveLength(25);
-		pipe(
-			descriptions,
-			RArray.filter((_) => _ !== null),
-			RArray.map((_) =>
-				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-				Json.parseE<TestTransactionDescription>(_.textContent!)
-			),
-			Either.sequenceArray,
-			Either.map((parsedDescriptions) => {
-				return pipe(
-					parsedDescriptions,
-					RArray.map((description) => {
-						expect(
-							Time.compare(
-								Time.parse(DATE_FORMAT)(description.expenseDate)
-							)(defaultStartDate())
-						).toBeGreaterThanOrEqual(0);
-						expect(
-							Time.compare(
-								Time.parse(DATE_FORMAT)(description.expenseDate)
-							)(defaultEndDate())
-						).toBeLessThanOrEqual(0);
-						return null;
-					})
-				);
-			})
-		);
+		validateTransactionsInTable(25, (description) => {
+			expect(
+				Time.compare(Time.parse(DATE_FORMAT)(description.expenseDate))(
+					defaultStartDate()
+				)
+			).toBeGreaterThanOrEqual(0);
+			expect(
+				Time.compare(Time.parse(DATE_FORMAT)(description.expenseDate))(
+					defaultEndDate()
+				)
+			).toBeLessThanOrEqual(0);
+		});
 	});
 
 	it('shows the correct icons for transactions', async () => {

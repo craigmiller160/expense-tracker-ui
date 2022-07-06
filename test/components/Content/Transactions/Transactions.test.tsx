@@ -638,8 +638,11 @@ describe('Transactions', () => {
 				Time.format(DATE_FORMAT)
 			);
 
-			expect(dates[0]).toHaveTextContent(newExpectedFirstDate);
-			expect(dates[24]).toHaveTextContent(newExpectedLastDate);
+			const newDates = screen.getAllByTestId('transaction-expense-date');
+			expect(newDates.length).toEqual(25);
+
+			expect(newDates[0]).toHaveTextContent(newExpectedFirstDate);
+			expect(newDates[24]).toHaveTextContent(newExpectedLastDate);
 		});
 
 		it('is duplicate', async () => {

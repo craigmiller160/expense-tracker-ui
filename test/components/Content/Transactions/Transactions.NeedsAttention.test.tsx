@@ -50,7 +50,7 @@ const createPrepareData =
 				RArray.map((index) =>
 					createTransaction({
 						amount: 10 + index,
-						confirmed: flags?.notConfirmed ?? true,
+						confirmed: !(flags?.notConfirmed ?? false),
 						duplicate: flags?.duplicate ?? false,
 						categoryId:
 							flags?.notCategorized ?? false

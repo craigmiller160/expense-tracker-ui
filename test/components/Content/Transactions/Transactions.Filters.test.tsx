@@ -230,6 +230,31 @@ describe('Transactions Filters', () => {
 	});
 
 	it('is not confirmed', async () => {
+		const { transactions } = await searchForTransactions({
+			startDate: defaultStartDate(),
+			endDate: defaultEndDate(),
+			pageNumber: 0,
+			pageSize: 25,
+			sortKey: TransactionSortKey.EXPENSE_DATE,
+			sortDirection: SortDirection.ASC
+		});
+		apiServer.database.updateData((draft) => {
+			draft.transactions = pipe(
+				Object.values(draft.transactions),
+				RArray.filter(
+					(transaction) => transaction.id !== transactions[0].id
+				),
+				RArray.map((transaction) =>
+					createTransaction({
+						...transaction,
+						confirmed: true
+					})
+				),
+				RArray.map(transactionToRecord),
+				Monoid.concatAll(transactionRecordMonoid)
+			);
+			draft.transactions[transactions[0].id] = transactions[0];
+		});
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
@@ -242,7 +267,20 @@ describe('Transactions Filters', () => {
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
-		throw new Error();
+		validateTransactionsInTable(25, (index, description) => {
+			expect(description.confirmed).toEqual(index !== 0);
+		});
+
+		await userEvent.click(screen.getByLabelText('Is Not Confirmed'));
+		expect(screen.getByLabelText('Is Not Confirmed')).toBeChecked();
+		await Sleep.immediate();
+		await waitFor(() =>
+			expect(screen.queryByText('Rows per page:')).toBeVisible()
+		);
+
+		validateTransactionsInTable(1, (index, description) => {
+			expect(description.confirmed).toEqual(false);
+		});
 	});
 
 	it('is not categorized', async () => {

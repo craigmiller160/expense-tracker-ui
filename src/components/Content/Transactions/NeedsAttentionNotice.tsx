@@ -51,7 +51,10 @@ export const NeedsAttentionNotice = () => {
 	}
 
 	return (
-		<Paper className="NeedsAttentionNotice">
+		<Paper
+			className="NeedsAttentionNotice"
+			data-testid="needs-attention-notice"
+		>
 			<div className="Header">
 				<Typography variant="h6">
 					Transactions Need Attention

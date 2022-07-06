@@ -1,6 +1,6 @@
 import { ApiServer, newApiServer } from '../../../server';
 import { renderApp } from '../../../testutils/renderApp';
-import { screen, waitFor } from '@testing-library/react';
+import { screen, waitFor, within } from '@testing-library/react';
 import { Database } from '../../../server/Database';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 import { pipe } from 'fp-ts/es6/function';
@@ -13,12 +13,11 @@ import {
 	transactionRecordMonoid,
 	transactionToRecord
 } from '../../../testutils/transactionDataUtils';
+import '@testing-library/jest-dom';
 
-const oldestDate = pipe(
-	new Date(),
-	Time.subDays(100),
-	Time.format(DATE_FORMAT)
-);
+const oldestDate = pipe(new Date(), Time.subDays(100));
+const oldestDateResponseFormat = Time.format(DATE_FORMAT)(oldestDate);
+const oldestDateDisplayFormat = Time.format('MM/dd/yyyy')(oldestDate);
 
 interface Flags {
 	readonly notConfirmed: boolean;
@@ -37,7 +36,7 @@ const createPrepareData =
 				RArray.map((transaction) =>
 					createTransaction({
 						...transaction,
-						confirmed: false,
+						confirmed: true,
 						duplicate: false,
 						categoryId: firstCategory.id,
 						categoryName: firstCategory.name
@@ -61,7 +60,7 @@ const createPrepareData =
 							flags?.notCategorized ?? false
 								? undefined
 								: firstCategory.name,
-						expenseDate: oldestDate
+						expenseDate: oldestDateResponseFormat
 					})
 				),
 				RArray.map(transactionToRecord),
@@ -87,6 +86,7 @@ describe('Transactions Needs Attention', () => {
 	});
 
 	it('has duplicates', async () => {
+		prepareData({ duplicate: true });
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
@@ -101,7 +101,20 @@ describe('Transactions Needs Attention', () => {
 				screen.queryByText('Transactions Need Attention')
 			).toBeVisible()
 		);
-		throw new Error();
+		const needsAttentionNotice = screen.getByTestId(
+			'needs-attention-notice'
+		);
+		expect(
+			within(needsAttentionNotice).queryByText(/.*Uncategorized.*/)
+		).not.toBeInTheDocument();
+		expect(
+			within(needsAttentionNotice).queryByText(/.*Unconfirmed.*/)
+		).not.toBeInTheDocument();
+		expect(
+			within(needsAttentionNotice).getByText(/.*Duplicates.*/)
+		).toHaveTextContent(
+			`Duplicates - Count: 3, Oldest: ${oldestDateDisplayFormat}`
+		);
 	});
 
 	it('has unconfirmed', async () => {

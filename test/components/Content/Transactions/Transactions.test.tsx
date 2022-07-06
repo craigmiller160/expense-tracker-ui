@@ -522,7 +522,7 @@ describe('Transactions', () => {
 				Time.format(ARIA_LABEL_FORMAT)
 			);
 			await selectDate('Start Date', dateToSelect);
-			await Sleep.sleep(50)();
+			await Sleep.immediate()();
 			await waitFor(() =>
 				expect(screen.queryByText('Rows per page:')).toBeVisible()
 			);

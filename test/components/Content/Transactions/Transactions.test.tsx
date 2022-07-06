@@ -22,6 +22,13 @@ import * as RArray from 'fp-ts/es6/ReadonlyArray';
 import { TestTransactionDescription } from '../../../server/createTransaction';
 import * as Try from '@craigmiller160/ts-functions/es/Try';
 import { TryT } from '@craigmiller160/ts-functions/es/types';
+import {
+	ARIA_LABEL_FORMAT,
+	getCategoryValueElement,
+	getOrderByValueElement,
+	getRecordRangeText,
+	selectDate
+} from './transactionTestUtils';
 
 const DATE_PICKER_FORMAT = 'MM/dd/yyyy';
 
@@ -86,22 +93,6 @@ const validateTransactionsInTable = (
 	if (Either.isLeft(result)) {
 		throw result.left;
 	}
-};
-
-const getOrderByValueElement = (): HTMLElement | null | undefined => {
-	const transactionFilters = screen.getByTestId('transaction-filters');
-	const orderByLabel = within(transactionFilters).getByLabelText('Order By');
-	return orderByLabel?.parentElement?.querySelector(
-		'.MuiOutlinedInput-input'
-	);
-};
-
-const getCategoryValueElement = (): HTMLElement | null | undefined => {
-	const transactionFilters = screen.getByTestId('transaction-filters');
-	const categoryLabel = within(transactionFilters).getByLabelText('Category');
-	return categoryLabel?.parentElement?.querySelector(
-		'.MuiOutlinedInput-input'
-	);
 };
 
 describe('Transactions', () => {
@@ -358,13 +349,7 @@ describe('Transactions', () => {
 			);
 			expect(Time.compare(expenseDate)(endDate)).toBeLessThanOrEqual(0);
 		});
-		expect(screen.queryByText(/.*1–25 of \d+.*/)).toBeVisible();
-		expect(
-			screen
-				.getByText(/.*1–25 of \d+.*/)
-				.textContent?.trim()
-				?.replace('–', '-')
-		).toEqual(`1-25 of ${totalDaysInRange}`);
+		expect(getRecordRangeText()).toEqual(`1-25 of ${totalDaysInRange}`);
 
 		const nextPageButton = screen
 			.getByTestId('table-pagination')
@@ -379,12 +364,9 @@ describe('Transactions', () => {
 		await waitFor(() =>
 			expect(screen.queryByText(/.*26–\d+ of \d.*/)).toBeVisible()
 		);
-		expect(
-			screen
-				.getByText(/.*26–\d+ of \d+.*/)
-				.textContent?.trim()
-				?.replace('–', '-')
-		).toEqual(`26-${totalDaysInRange} of ${totalDaysInRange}`);
+		expect(getRecordRangeText()).toEqual(
+			`26-${totalDaysInRange} of ${totalDaysInRange}`
+		);
 		validateTransactionsInTable(6, (description) => {
 			const expenseDate = pipe(
 				parseExpenseDate(description.expenseDate),
@@ -522,6 +504,16 @@ describe('Transactions', () => {
 			await waitFor(() =>
 				expect(screen.queryByText('Rows per page:')).toBeVisible()
 			);
+			const dateToSelect = pipe(
+				defaultStartDate(),
+				Time.subDays(1),
+				Time.format(ARIA_LABEL_FORMAT)
+			);
+			await selectDate(0, dateToSelect);
+			await waitFor(() =>
+				expect(screen.queryByText('Rows per page:')).toBeVisible()
+			);
+
 			throw new Error();
 		});
 

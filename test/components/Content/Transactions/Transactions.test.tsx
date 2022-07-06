@@ -21,6 +21,7 @@ import { flow, pipe } from 'fp-ts/es6/function';
 import * as RArray from 'fp-ts/es6/ReadonlyArray';
 import { TestTransactionDescription } from '../../../server/createTransaction';
 import * as Try from '@craigmiller160/ts-functions/es/Try';
+import { TryT } from '@craigmiller160/ts-functions/es/types';
 
 const DATE_PICKER_FORMAT = 'MM/dd/yyyy';
 
@@ -32,9 +33,29 @@ const setToMidnight = Time.set({
 	milliseconds: 0
 });
 
+type ValidateDescription = (description: TestTransactionDescription) => void;
+
+const validateTransactionDescription =
+	(validateDescription: ValidateDescription) =>
+	(description: TestTransactionDescription): TryT<unknown> =>
+		pipe(
+			Try.tryCatch(() => validateDescription(description)),
+			Either.mapLeft(
+				(ex) =>
+					new Error(
+						`Error validating description ${JSON.stringify(
+							description
+						)}: ${ex.message}`,
+						{
+							cause: ex
+						}
+					)
+			)
+		);
+
 const validateTransactionsInTable = (
 	count: number,
-	validateDescription: (description: TestTransactionDescription) => void
+	validateDescription: ValidateDescription
 ) => {
 	const descriptions = screen.getAllByTestId('transaction-description');
 	expect(descriptions).toHaveLength(count);
@@ -48,22 +69,7 @@ const validateTransactionsInTable = (
 		Either.sequenceArray,
 		Either.chain(
 			flow(
-				RArray.map((description) =>
-					pipe(
-						Try.tryCatch(() => validateDescription(description)),
-						Either.mapLeft(
-							(ex) =>
-								new Error(
-									`Error validating description ${JSON.stringify(
-										description
-									)}: ${ex.message}`,
-									{
-										cause: ex
-									}
-								)
-						)
-					)
-				),
+				RArray.map(validateTransactionDescription(validateDescription)),
 				Either.sequenceArray
 			)
 		)

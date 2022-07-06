@@ -5,7 +5,8 @@ import {
 	getCategoryValueElement,
 	getRecordRangeText,
 	getTotalDaysInRange,
-	selectDate
+	selectDate,
+	validateTransactionsInTable
 } from './transactionTestUtils';
 import {
 	defaultEndDate,
@@ -22,7 +23,6 @@ import {
 import { SortDirection } from '../../../../src/types/misc';
 import { getAllCategories } from '../../../../src/ajaxapi/service/CategoryService';
 import userEvent from '@testing-library/user-event';
-import { validateTransactionsInTable } from '../../../server/routes/transactions';
 import { ApiServer, newApiServer } from '../../../server';
 import '@testing-library/jest-dom';
 import * as RArray from 'fp-ts/es6/ReadonlyArray';

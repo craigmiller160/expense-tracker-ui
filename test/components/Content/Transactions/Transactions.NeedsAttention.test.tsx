@@ -24,6 +24,11 @@ describe('Transactions Needs Attention', () => {
 		await waitFor(() =>
 			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
 		);
+		await waitFor(() =>
+			expect(
+				screen.queryByText('Transactions Need Attention')
+			).toBeVisible()
+		);
 		throw new Error();
 	});
 
@@ -36,6 +41,11 @@ describe('Transactions Needs Attention', () => {
 		);
 		await waitFor(() =>
 			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
+		);
+		await waitFor(() =>
+			expect(
+				screen.queryByText('Transactions Need Attention')
+			).toBeVisible()
 		);
 		throw new Error();
 	});
@@ -50,6 +60,11 @@ describe('Transactions Needs Attention', () => {
 		await waitFor(() =>
 			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
 		);
+		await waitFor(() =>
+			expect(
+				screen.queryByText('Transactions Need Attention')
+			).toBeVisible()
+		);
 		throw new Error();
 	});
 
@@ -62,6 +77,11 @@ describe('Transactions Needs Attention', () => {
 		);
 		await waitFor(() =>
 			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
+		);
+		await waitFor(() =>
+			expect(
+				screen.queryByText('Transactions Need Attention')
+			).toBeVisible()
 		);
 		throw new Error();
 	});

@@ -14,6 +14,7 @@ import {
 	transactionToRecord
 } from '../../../testutils/transactionDataUtils';
 import '@testing-library/jest-dom';
+import * as Sleep from '@craigmiller160/ts-functions/es/Sleep';
 
 const oldestDate = pipe(new Date(), Time.subDays(100));
 const oldestDateResponseFormat = Time.format(DATE_FORMAT)(oldestDate);
@@ -182,6 +183,11 @@ describe('Transactions Needs Attention', () => {
 	});
 
 	it('has all', async () => {
+		prepareData({
+			duplicate: true,
+			notCategorized: true,
+			notConfirmed: true
+		});
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
@@ -196,10 +202,28 @@ describe('Transactions Needs Attention', () => {
 				screen.queryByText('Transactions Need Attention')
 			).toBeVisible()
 		);
-		throw new Error();
+		const needsAttentionNotice = screen.getByTestId(
+			'needs-attention-notice'
+		);
+		expect(
+			within(needsAttentionNotice).queryByText(/.*Uncategorized.*/)
+		).toHaveTextContent(
+			`Uncategorized - Count: 3, Oldest: ${oldestDateDisplayFormat}`
+		);
+		expect(
+			within(needsAttentionNotice).queryByText(/.*Unconfirmed.*/)
+		).toHaveTextContent(
+			`Unconfirmed - Count: 3, Oldest: ${oldestDateDisplayFormat}`
+		);
+		expect(
+			within(needsAttentionNotice).getByText(/.*Duplicates.*/)
+		).toHaveTextContent(
+			`Duplicates - Count: 3, Oldest: ${oldestDateDisplayFormat}`
+		);
 	});
 
 	it('has none', async () => {
+		prepareData();
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
@@ -209,6 +233,10 @@ describe('Transactions Needs Attention', () => {
 		await waitFor(() =>
 			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
 		);
-		throw new Error();
+		await Sleep.sleep(200)();
+
+		expect(
+			screen.queryByText('Transactions Need Attention')
+		).not.toBeInTheDocument();
 	});
 });

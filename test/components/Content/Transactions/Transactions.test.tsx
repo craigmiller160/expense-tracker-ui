@@ -621,7 +621,25 @@ describe('Transactions', () => {
 			expect(dates[0]).toHaveTextContent(expectedFirstDate);
 			expect(dates[24]).toHaveTextContent(expectedLastDate);
 
-			throw new Error();
+			await userEvent.click(screen.getByLabelText('Order By'));
+			await userEvent.click(screen.getByText('Newest to Oldest'));
+			await Sleep.immediate();
+			await waitFor(() =>
+				expect(screen.queryByText('Rows per page:')).toBeVisible()
+			);
+
+			const newExpectedFirstDate = pipe(
+				defaultEndDate(),
+				Time.format(DATE_FORMAT)
+			);
+			const newExpectedLastDate = pipe(
+				defaultEndDate(),
+				Time.subDays(24),
+				Time.format(DATE_FORMAT)
+			);
+
+			expect(dates[0]).toHaveTextContent(newExpectedFirstDate);
+			expect(dates[24]).toHaveTextContent(newExpectedLastDate);
 		});
 
 		it('is duplicate', async () => {

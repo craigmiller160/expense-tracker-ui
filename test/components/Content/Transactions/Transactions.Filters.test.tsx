@@ -214,6 +214,20 @@ describe('Transactions Filters', () => {
 	});
 
 	it('is duplicate', async () => {
+		const { transactions } = await searchForTransactions({
+			startDate: defaultStartDate(),
+			endDate: defaultEndDate(),
+			pageNumber: 0,
+			pageSize: 25,
+			sortKey: TransactionSortKey.EXPENSE_DATE,
+			sortDirection: SortDirection.ASC
+		});
+		apiServer.database.updateData((draft) => {
+			draft.transactions[transactions[0].id] = createTransaction({
+				...transactions[0],
+				duplicate: true
+			});
+		});
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
@@ -226,7 +240,21 @@ describe('Transactions Filters', () => {
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
-		throw new Error();
+
+		validateTransactionsInTable(25, (index, description) => {
+			expect(description.duplicate).toEqual(index === 0);
+		});
+
+		await userEvent.click(screen.getByLabelText('Is Duplicate'));
+		expect(screen.getByLabelText('Is Duplicate')).toBeChecked();
+		await Sleep.immediate();
+		await waitFor(() =>
+			expect(screen.queryByText('Rows per page:')).toBeVisible()
+		);
+
+		validateTransactionsInTable(1, (index, description) => {
+			expect(description.duplicate).toEqual(true);
+		});
 	});
 
 	it('is not confirmed', async () => {

@@ -2,7 +2,6 @@ import { ApiServer, newApiServer } from '../../../server';
 import { renderApp } from '../../../testutils/renderApp';
 import { screen, waitFor, within } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import * as Either from 'fp-ts/es6/Either';
 import userEvent from '@testing-library/user-event';
 import { searchForTransactions } from '../../../../src/ajaxapi/service/TransactionService';
 import {
@@ -16,15 +15,8 @@ import {
 	defaultEndDate,
 	defaultStartDate
 } from '../../../../src/components/Content/Transactions/utils';
-import * as Json from '@craigmiller160/ts-functions/es/Json';
-import { flow, pipe } from 'fp-ts/es6/function';
-import * as RArray from 'fp-ts/es6/ReadonlyArray';
-import {
-	createTransaction,
-	TestTransactionDescription
-} from '../../../server/createTransaction';
-import * as Try from '@craigmiller160/ts-functions/es/Try';
-import { TryT } from '@craigmiller160/ts-functions/es/types';
+import { pipe } from 'fp-ts/es6/function';
+import { createTransaction } from '../../../server/createTransaction';
 import {
 	ARIA_LABEL_FORMAT,
 	getCategoryValueElement,
@@ -34,6 +26,7 @@ import {
 	selectDate
 } from './transactionTestUtils';
 import * as Sleep from '@craigmiller160/ts-functions/es/Sleep';
+import { validateTransactionsInTable } from '../../../server/routes/transactions';
 
 const DATE_PICKER_FORMAT = 'MM/dd/yyyy';
 
@@ -44,61 +37,6 @@ const setToMidnight = Time.set({
 	seconds: 0,
 	milliseconds: 0
 });
-
-type ValidateDescription = (description: TestTransactionDescription) => void;
-
-const validateTransactionDescription =
-	(validateDescription: ValidateDescription) =>
-	(description: TestTransactionDescription): TryT<unknown> =>
-		pipe(
-			Try.tryCatch(() => validateDescription(description)),
-			Either.mapLeft(
-				(ex) =>
-					new Error(
-						`Error validating description ${JSON.stringify(
-							description
-						)}: ${ex.message}`,
-						{
-							cause: ex
-						}
-					)
-			)
-		);
-
-const validateNullableTextAndParse = (
-	descriptionElement: HTMLElement
-): TryT<TestTransactionDescription> => {
-	if (descriptionElement.textContent === null) {
-		return Either.left(
-			new Error('Description text content cannot be null')
-		);
-	}
-	return Json.parseE<TestTransactionDescription>(
-		descriptionElement.textContent
-	);
-};
-
-const validateTransactionsInTable = (
-	count: number,
-	validateDescription: ValidateDescription
-) => {
-	const descriptions = screen.getAllByTestId('transaction-description');
-	expect(descriptions).toHaveLength(count);
-	const result = pipe(
-		descriptions,
-		RArray.map(validateNullableTextAndParse),
-		Either.sequenceArray,
-		Either.chain(
-			flow(
-				RArray.map(validateTransactionDescription(validateDescription)),
-				Either.sequenceArray
-			)
-		)
-	);
-	if (Either.isLeft(result)) {
-		throw result.left;
-	}
-};
 
 describe('Transactions', () => {
 	let apiServer: ApiServer;

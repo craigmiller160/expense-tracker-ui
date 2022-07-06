@@ -8,11 +8,17 @@ import {
 } from '../../../src/types/transactions';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 import * as RArray from 'fp-ts/es6/ReadonlyArray';
-import { pipe } from 'fp-ts/es6/function';
+import { flow, pipe } from 'fp-ts/es6/function';
 import { match } from 'ts-pattern';
 import { SortDirection } from '../../../src/types/misc';
 import { Ordering } from 'fp-ts/es6/Ordering';
 import { Ord } from 'fp-ts/es6/Ord';
+import { TestTransactionDescription } from '../createTransaction';
+import { TryT } from '@craigmiller160/ts-functions/es/types';
+import * as Try from '@craigmiller160/ts-functions/es/Try';
+import * as Either from 'fp-ts/es6/Either';
+import * as Json from '@craigmiller160/ts-functions/es/Json';
+import { screen } from '@testing-library/react';
 
 const parseDate = Time.parse(DATE_FORMAT);
 
@@ -162,4 +168,59 @@ export const createTransactionsRoutes = (
 
 		return new Response(204);
 	});
+};
+
+type ValidateDescription = (description: TestTransactionDescription) => void;
+
+const validateTransactionDescription =
+	(validateDescription: ValidateDescription) =>
+	(description: TestTransactionDescription): TryT<unknown> =>
+		pipe(
+			Try.tryCatch(() => validateDescription(description)),
+			Either.mapLeft(
+				(ex) =>
+					new Error(
+						`Error validating description ${JSON.stringify(
+							description
+						)}: ${ex.message}`,
+						{
+							cause: ex
+						}
+					)
+			)
+		);
+
+const validateNullableTextAndParse = (
+	descriptionElement: HTMLElement
+): TryT<TestTransactionDescription> => {
+	if (descriptionElement.textContent === null) {
+		return Either.left(
+			new Error('Description text content cannot be null')
+		);
+	}
+	return Json.parseE<TestTransactionDescription>(
+		descriptionElement.textContent
+	);
+};
+
+export const validateTransactionsInTable = (
+	count: number,
+	validateDescription: ValidateDescription
+) => {
+	const descriptions = screen.getAllByTestId('transaction-description');
+	expect(descriptions).toHaveLength(count);
+	const result = pipe(
+		descriptions,
+		RArray.map(validateNullableTextAndParse),
+		Either.sequenceArray,
+		Either.chain(
+			flow(
+				RArray.map(validateTransactionDescription(validateDescription)),
+				Either.sequenceArray
+			)
+		)
+	);
+	if (Either.isLeft(result)) {
+		throw result.left;
+	}
 };

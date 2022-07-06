@@ -118,6 +118,7 @@ describe('Transactions Needs Attention', () => {
 	});
 
 	it('has unconfirmed', async () => {
+		prepareData({ notConfirmed: true });
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
@@ -132,10 +133,24 @@ describe('Transactions Needs Attention', () => {
 				screen.queryByText('Transactions Need Attention')
 			).toBeVisible()
 		);
-		throw new Error();
+		const needsAttentionNotice = screen.getByTestId(
+			'needs-attention-notice'
+		);
+		expect(
+			within(needsAttentionNotice).queryByText(/.*Uncategorized.*/)
+		).not.toBeInTheDocument();
+		expect(
+			within(needsAttentionNotice).queryByText(/.*Duplicates.*/)
+		).not.toBeInTheDocument();
+		expect(
+			within(needsAttentionNotice).getByText(/.*Unconfirmed.*/)
+		).toHaveTextContent(
+			`Unconfirmed - Count: 3, Oldest: ${oldestDateDisplayFormat}`
+		);
 	});
 
 	it('has uncategorized', async () => {
+		prepareData({ notCategorized: true });
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
@@ -150,7 +165,20 @@ describe('Transactions Needs Attention', () => {
 				screen.queryByText('Transactions Need Attention')
 			).toBeVisible()
 		);
-		throw new Error();
+		const needsAttentionNotice = screen.getByTestId(
+			'needs-attention-notice'
+		);
+		expect(
+			within(needsAttentionNotice).queryByText(/.*Unconfirmed.*/)
+		).not.toBeInTheDocument();
+		expect(
+			within(needsAttentionNotice).queryByText(/.*Duplicates.*/)
+		).not.toBeInTheDocument();
+		expect(
+			within(needsAttentionNotice).getByText(/.*Uncategorized.*/)
+		).toHaveTextContent(
+			`Uncategorized - Count: 3, Oldest: ${oldestDateDisplayFormat}`
+		);
 	});
 
 	it('has all', async () => {

@@ -24,6 +24,7 @@ import { createTransaction } from '../../../server/createTransaction';
 import userEvent from '@testing-library/user-event';
 import { validateTransactionsInTable } from '../../../server/routes/transactions';
 import { ApiServer, newApiServer } from '../../../server';
+import '@testing-library/jest-dom';
 
 describe('Transactions Filters', () => {
 	let apiServer: ApiServer;

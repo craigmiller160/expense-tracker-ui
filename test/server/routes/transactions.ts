@@ -16,6 +16,7 @@ import { Ordering } from 'fp-ts/es6/Ordering';
 import { Ord } from 'fp-ts/es6/Ord';
 import * as Monoid from 'fp-ts/es6/Monoid';
 import { MonoidT } from '@craigmiller160/ts-functions/es/types';
+import * as Option from 'fp-ts/es6/Option';
 
 const parseDate = Time.parse(DATE_FORMAT);
 
@@ -119,7 +120,23 @@ const transactionToNeedsAttention = (
 const getOldestDate = (
 	dateString1: string | null,
 	dateString2: string | null
-): string | null => {};
+): string | null => {
+	if (dateString1 === null) {
+		return dateString2;
+	}
+
+	if (dateString2 === null) {
+		return null;
+	}
+
+	const date1 = Time.parse(DATE_FORMAT)(dateString1);
+	const date2 = Time.parse(DATE_FORMAT)(dateString2);
+	const comparison = Time.compare(date1)(date2);
+	if (comparison >= 0) {
+		return dateString1;
+	}
+	return dateString2;
+};
 
 const needsAttentionMonoid: MonoidT<NeedsAttentionResponse> = {
 	empty: {

@@ -1,9 +1,6 @@
 import { requestToQuery } from '../../../src/ajaxapi/service/TransactionService';
 import { SortDirection } from '../../../src/types/misc';
-import {
-	TransactionCategoryType,
-	TransactionSortKey
-} from '../../../src/types/transactions';
+import { TransactionSortKey } from '../../../src/types/transactions';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 
 describe('TransactionService', () => {
@@ -38,12 +35,13 @@ describe('TransactionService', () => {
 				sortKey: TransactionSortKey.EXPENSE_DATE,
 				startDate,
 				endDate,
-				confirmed: true,
-				categoryType: TransactionCategoryType.WITH_CATEGORY,
+				isConfirmed: true,
+				isCategorized: true,
+				isDuplicate: false,
 				categoryIds: ['1', '2']
 			});
 			expect(result).toEqual(
-				'pageNumber=1&pageSize=10&sortDirection=ASC&sortKey=EXPENSE_DATE&startDate=2022-01-01&endDate=2022-01-02&confirmed=true&categoryType=WITH_CATEGORY&categoryIds=1%2C2'
+				'pageNumber=1&pageSize=10&sortDirection=ASC&sortKey=EXPENSE_DATE&startDate=2022-01-01&endDate=2022-01-02&isConfirmed=true&isCategorized=true&isDuplicate=false&categoryIds=1%2C2'
 			);
 		});
 	});

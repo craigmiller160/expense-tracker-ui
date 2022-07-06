@@ -1,14 +1,125 @@
-/* eslint-disable */
-import { useForm } from 'react-hook-form';
+import {
+	UseFormGetValues,
+	UseFormReturn,
+	UseFormSetValue
+} from 'react-hook-form';
+import {
+	Autocomplete,
+	DatePicker,
+	Select,
+	SelectOption,
+	ValueHasChanged,
+	Checkbox
+} from '@craigmiller160/react-hook-form-material-ui';
+import { constVoid } from 'fp-ts/es6/function';
+import './TransactionSearchFilters.scss';
+import { SortDirection } from '../../../types/misc';
+import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
+import { useMemo } from 'react';
+import { categoryToCategoryOption, TransactionSearchForm } from './utils';
+import { Paper } from '@mui/material';
 
-interface TransactionSearchForm {
-	readonly direction: any; // TODO fix this for combobox option
-	readonly startDate: any; // TODO need a date picker
-	readonly endDate: any; // TODO need a date picker
-	readonly categoryType: any; // TODO need a combobox
-	readonly categories: any; // TODO need a combobox
+const directionOptions: ReadonlyArray<SelectOption<SortDirection>> = [
+	{ value: SortDirection.ASC, label: 'Oldest to Newest' },
+	{ value: SortDirection.DESC, label: 'Newest to Oldest' }
+];
+
+interface Props {
+	readonly form: UseFormReturn<TransactionSearchForm>;
+	readonly onValueHasChanged: ValueHasChanged;
 }
 
-export const TransactionSearchFilters = () => {
-	const form = useForm<TransactionSearchForm>();
+const createOnIsNotCategorizedChanged =
+	(
+		getValues: UseFormGetValues<TransactionSearchForm>,
+		setValue: UseFormSetValue<TransactionSearchForm>,
+		onValueHasChanged: ValueHasChanged
+	) =>
+	() => {
+		if (getValues().isNotCategorized) {
+			setValue('category', null);
+		}
+		onValueHasChanged();
+	};
+
+export const TransactionSearchFilters = (props: Props) => {
+	const {
+		onValueHasChanged,
+		form: { getValues, control, setValue }
+	} = props;
+	const { data } = useGetAllCategories();
+
+	const categoryOptions = useMemo(
+		() => data?.map(categoryToCategoryOption),
+		[data]
+	);
+
+	const onIsNotCategorizedChanged = createOnIsNotCategorizedChanged(
+		getValues,
+		setValue,
+		onValueHasChanged
+	);
+
+	return (
+		<Paper
+			className="TransactionSearchFilters"
+			data-testid="transaction-filters"
+		>
+			<form onSubmit={constVoid}>
+				<div className="row">
+					<DatePicker
+						name="startDate"
+						control={control}
+						label="Start Date"
+						rules={{ required: 'Start Date is required' }}
+						onValueHasChanged={onValueHasChanged}
+					/>
+					<DatePicker
+						name="endDate"
+						control={control}
+						label="End Date"
+						rules={{ required: 'End Date is required' }}
+						onValueHasChanged={onValueHasChanged}
+					/>
+				</div>
+				<div className="row">
+					<Autocomplete
+						name="category"
+						control={control}
+						label="Category"
+						options={categoryOptions ?? []}
+						onValueHasChanged={onValueHasChanged}
+						disabled={getValues().isNotCategorized}
+					/>
+					<Select
+						name="direction"
+						options={directionOptions}
+						control={control}
+						label="Order By"
+						onValueHasChanged={onValueHasChanged}
+					/>
+				</div>
+				<div className="row">
+					<Checkbox
+						control={control}
+						name="isDuplicate"
+						label="Is Duplicate"
+						onValueHasChanged={onValueHasChanged}
+					/>
+					<Checkbox
+						control={control}
+						name="isNotConfirmed"
+						label="Is Not Confirmed"
+						onValueHasChanged={onValueHasChanged}
+					/>
+					<Checkbox
+						control={control}
+						name="isNotCategorized"
+						label="Is Not Categorized"
+						onValueHasChanged={onIsNotCategorizedChanged}
+					/>
+				</div>
+			</form>
+		</Paper>
+	);
 };

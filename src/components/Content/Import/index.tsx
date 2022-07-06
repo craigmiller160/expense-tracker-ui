@@ -18,7 +18,7 @@ import { PageTitle } from '../../UI/PageTitle';
 
 interface FormData {
 	readonly file: File | null;
-	readonly fileType: SelectOption<FileType>;
+	readonly fileType: SelectOption<FileType> | null;
 }
 
 const getFileTypeLabel = (fileType: FileType): string =>
@@ -43,10 +43,12 @@ const defaultValues: FormData = {
 
 const createOnSubmit =
 	(importTransactions: ImportTransactionsMutation) => (values: FormData) => {
-		importTransactions({
-			file: values.file!, // eslint-disable-line @typescript-eslint/no-non-null-assertion
-			type: values.fileType.value
-		});
+		if (values.file && values.fileType?.value) {
+			importTransactions({
+				file: values.file,
+				type: values.fileType.value
+			});
+		}
 	};
 
 const useTestFile = (reset: UseFormReset<FormData>): boolean => {
@@ -117,6 +119,7 @@ export const Import = () => {
 					control={control}
 					inputRef={fileInputRef}
 					disabled={isLoading}
+					label="Transaction File"
 					rules={{ required: 'File is required' }}
 				/>
 				{isLoading && <LinearProgress />}

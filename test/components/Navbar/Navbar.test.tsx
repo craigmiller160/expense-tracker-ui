@@ -14,7 +14,7 @@ describe('Navbar', () => {
 	});
 	it('renders before authentication', async () => {
 		apiServer.actions.clearDefaultUser();
-		renderApp();
+		await renderApp();
 		await waitFor(() => expect(screen.queryByText('Login')).toBeVisible());
 		expect(screen.queryByText('Expense Tracker')).toBeVisible();
 		expect(screen.queryByText('Logout')).not.toBeInTheDocument();
@@ -22,7 +22,7 @@ describe('Navbar', () => {
 	});
 
 	it('renders after authentication', async () => {
-		renderApp();
+		await renderApp();
 		await waitFor(() => expect(screen.queryByText('Logout')).toBeVisible());
 		expect(screen.queryByText('Expense Tracker')).toBeVisible();
 		expect(screen.queryByText('Login')).not.toBeInTheDocument();

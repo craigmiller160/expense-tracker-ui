@@ -2,63 +2,39 @@ import { ApiServer, newApiServer } from '../../../server';
 import { renderApp } from '../../../testutils/renderApp';
 import { screen, waitFor, within } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import * as RNonEmptyArray from 'fp-ts/es6/ReadonlyNonEmptyArray';
-import { pipe } from 'fp-ts/es6/function';
-import * as Try from '@craigmiller160/ts-functions/es/Try';
-import { MonoidT, TryT } from '@craigmiller160/ts-functions/es/types';
-import * as Either from 'fp-ts/es6/Either';
-import { match } from 'ts-pattern';
-import * as Monoid from 'fp-ts/es6/Monoid';
 import userEvent from '@testing-library/user-event';
 import { searchForTransactions } from '../../../../src/ajaxapi/service/TransactionService';
-import { TransactionSortKey } from '../../../../src/types/transactions';
+import {
+	DATE_FORMAT,
+	TransactionSortKey
+} from '../../../../src/types/transactions';
 import { SortDirection } from '../../../../src/types/misc';
 import { getAllCategories } from '../../../../src/ajaxapi/service/CategoryService';
+import * as Time from '@craigmiller160/ts-functions/es/Time';
+import {
+	defaultEndDate,
+	defaultStartDate
+} from '../../../../src/components/Content/Transactions/utils';
+import { pipe } from 'fp-ts/es6/function';
+import {
+	getCategoryValueElement,
+	getOrderByValueElement,
+	getRecordRangeText,
+	getTotalDaysInRange
+} from './transactionTestUtils';
+import { validateTransactionsInTable } from '../../../server/routes/transactions';
 
-const validationMonoid: MonoidT<TryT<unknown>> = {
-	empty: Either.right(null),
-	concat: (try1, try2) =>
-		match(try1)
-			.when(Either.isRight, () => try2)
-			.otherwise(() => try1)
-};
+const DATE_PICKER_FORMAT = 'MM/dd/yyyy';
 
-const validateTransactionElements = (
-	startInclusive: number,
-	endInclusive: number
-) => {
-	const result = pipe(
-		RNonEmptyArray.range(startInclusive, endInclusive),
-		RNonEmptyArray.map((index) => `Transaction ${index}`),
-		RNonEmptyArray.map((description) =>
-			pipe(
-				Try.tryCatch(() =>
-					expect(screen.queryByText(description)).toBeVisible()
-				),
-				Either.mapLeft(
-					(ex) =>
-						new Error(
-							`Error validating ${description}. ${ex.message}`,
-							{
-								cause: ex
-							}
-						)
-				)
-			)
-		),
-		Monoid.concatAll(validationMonoid)
-	);
-	if (Either.isLeft<Error>(result)) {
-		throw result.left;
-	}
-};
+const parseExpenseDate = Time.parse(DATE_FORMAT);
+const setToMidnight = Time.set({
+	hours: 0,
+	minutes: 0,
+	seconds: 0,
+	milliseconds: 0
+});
 
-const validateNumberOfTransactions = (expectedCount: number) =>
-	expect(screen.queryAllByText(/Transaction \d+/)).toHaveLength(
-		expectedCount
-	);
-
-describe('Transactions', () => {
+describe('Transactions Table', () => {
 	let apiServer: ApiServer;
 	beforeEach(() => {
 		apiServer = newApiServer();
@@ -69,7 +45,7 @@ describe('Transactions', () => {
 	});
 
 	it('loads and displays transactions', async () => {
-		renderApp({
+		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
 		await waitFor(() =>
@@ -79,22 +55,68 @@ describe('Transactions', () => {
 			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
 		);
 
-		expect(screen.queryByText('Expense Date')).toBeVisible();
-		expect(screen.queryByText('Description')).toBeVisible();
-		expect(screen.queryByText('Amount')).toBeVisible();
-		expect(screen.queryByText('Category')).toBeVisible();
+		const tableHeader = screen
+			.getByTestId('transaction-table')
+			.querySelector('thead');
+		expect(tableHeader).not.toBeNull();
+
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		expect(within(tableHeader!).queryByText('Expense Date')).toBeVisible();
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		expect(within(tableHeader!).queryByText('Description')).toBeVisible();
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		expect(within(tableHeader!).queryByText('Amount')).toBeVisible();
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		expect(within(tableHeader!).queryByText('Category')).toBeVisible();
+
+		const transactionFilters = screen.getByTestId('transaction-filters');
+
+		expect(
+			within(transactionFilters).queryByLabelText('Start Date')
+		).toHaveValue(Time.format(DATE_PICKER_FORMAT)(defaultStartDate()));
+		expect(
+			within(transactionFilters).queryByLabelText('End Date')
+		).toHaveValue(Time.format(DATE_PICKER_FORMAT)(defaultEndDate()));
+		expect(
+			within(transactionFilters).queryByLabelText('Category')
+		).toBeVisible();
+		expect(getCategoryValueElement()).toHaveTextContent('');
+		expect(
+			within(transactionFilters).queryByLabelText('Order By')
+		).toBeVisible();
+		expect(getOrderByValueElement()).toHaveTextContent('Oldest to Newest');
+		expect(
+			within(transactionFilters).queryByLabelText('Is Duplicate')
+		).not.toBeChecked();
+		expect(
+			within(transactionFilters).queryByLabelText('Is Not Confirmed')
+		).not.toBeChecked();
+		expect(
+			within(transactionFilters).queryByLabelText('Is Not Categorized')
+		).not.toBeChecked();
 
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 
-		validateNumberOfTransactions(25);
-		validateTransactionElements(0, 24);
-		expect(screen.queryAllByLabelText('Category')).toHaveLength(25);
+		validateTransactionsInTable(25, (index, description) => {
+			const expenseDate = pipe(
+				parseExpenseDate(description.expenseDate),
+				setToMidnight
+			);
+			const startDate = setToMidnight(defaultStartDate());
+			const endDate = setToMidnight(defaultEndDate());
+			expect(Time.compare(expenseDate)(startDate)).toBeGreaterThanOrEqual(
+				0
+			);
+			expect(Time.compare(expenseDate)(endDate)).toBeLessThanOrEqual(0);
+		});
 	});
 
 	it('shows the correct icons for transactions', async () => {
 		const { transactions } = await searchForTransactions({
+			startDate: defaultStartDate(),
+			endDate: defaultEndDate(),
 			pageNumber: 0,
 			pageSize: 25,
 			sortKey: TransactionSortKey.EXPENSE_DATE,
@@ -118,7 +140,7 @@ describe('Transactions', () => {
 				categoryName: 'One'
 			};
 		});
-		renderApp({
+		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
 		await waitFor(() =>
@@ -177,7 +199,7 @@ describe('Transactions', () => {
 	});
 
 	it('can change the rows-per-page and automatically re-load the data', async () => {
-		renderApp({
+		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
 		await waitFor(() =>
@@ -191,7 +213,18 @@ describe('Transactions', () => {
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 
-		validateNumberOfTransactions(25);
+		validateTransactionsInTable(25, (index, description) => {
+			const expenseDate = pipe(
+				parseExpenseDate(description.expenseDate),
+				setToMidnight
+			);
+			const startDate = setToMidnight(defaultStartDate());
+			const endDate = setToMidnight(defaultEndDate());
+			expect(Time.compare(expenseDate)(startDate)).toBeGreaterThanOrEqual(
+				0
+			);
+			expect(Time.compare(expenseDate)(endDate)).toBeLessThanOrEqual(0);
+		});
 
 		const rowsPerPageSelect = screen
 			.getByTestId('table-pagination')
@@ -211,11 +244,22 @@ describe('Transactions', () => {
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 
-		await waitFor(() => validateNumberOfTransactions(10));
+		validateTransactionsInTable(10, (index, description) => {
+			const expenseDate = pipe(
+				parseExpenseDate(description.expenseDate),
+				setToMidnight
+			);
+			const startDate = setToMidnight(defaultStartDate());
+			const endDate = setToMidnight(defaultEndDate());
+			expect(Time.compare(expenseDate)(startDate)).toBeGreaterThanOrEqual(
+				0
+			);
+			expect(Time.compare(expenseDate)(endDate)).toBeLessThanOrEqual(0);
+		});
 	});
 
 	it('can paginate and load the correct data successfully', async () => {
-		renderApp({
+		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
 		await waitFor(() =>
@@ -229,29 +273,57 @@ describe('Transactions', () => {
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 
-		validateNumberOfTransactions(25);
-		validateTransactionElements(0, 24);
-		expect(screen.queryByText(/.*1–25 of 100.*/)).toBeVisible();
+		const totalDaysInRange = getTotalDaysInRange(
+			defaultStartDate(),
+			defaultEndDate()
+		);
+
+		validateTransactionsInTable(25, (index, description) => {
+			const expenseDate = pipe(
+				parseExpenseDate(description.expenseDate),
+				setToMidnight
+			);
+			const startDate = setToMidnight(defaultStartDate());
+			const endDate = setToMidnight(defaultEndDate());
+			expect(Time.compare(expenseDate)(startDate)).toBeGreaterThanOrEqual(
+				0
+			);
+			expect(Time.compare(expenseDate)(endDate)).toBeLessThanOrEqual(0);
+		});
+		expect(getRecordRangeText()).toEqual(`1-25 of ${totalDaysInRange}`);
 
 		const nextPageButton = screen
 			.getByTestId('table-pagination')
 			.querySelector('button[title="Go to next page"]');
 		expect(nextPageButton).toBeVisible();
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		userEvent.click(nextPageButton!);
+		await userEvent.click(nextPageButton!);
 
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 		await waitFor(() =>
-			expect(screen.queryByText(/.*26–50 of 100.*/)).toBeVisible()
+			expect(screen.queryByText(/.*26–\d+ of \d.*/)).toBeVisible()
 		);
-		validateNumberOfTransactions(25);
-		validateTransactionElements(25, 49);
+		expect(getRecordRangeText()).toEqual(
+			`26-${totalDaysInRange} of ${totalDaysInRange}`
+		);
+		validateTransactionsInTable(6, (index, description) => {
+			const expenseDate = pipe(
+				parseExpenseDate(description.expenseDate),
+				setToMidnight
+			);
+			const startDate = setToMidnight(defaultStartDate());
+			const endDate = setToMidnight(defaultEndDate());
+			expect(Time.compare(expenseDate)(startDate)).toBeGreaterThanOrEqual(
+				0
+			);
+			expect(Time.compare(expenseDate)(endDate)).toBeLessThanOrEqual(0);
+		});
 	});
 
 	it('can set categories on transactions', async () => {
-		renderApp({
+		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
 		await waitFor(() =>
@@ -282,6 +354,8 @@ describe('Transactions', () => {
 
 	it('can remove a category from a transaction', async () => {
 		const { transactions } = await searchForTransactions({
+			startDate: defaultStartDate(),
+			endDate: defaultEndDate(),
 			pageNumber: 0,
 			pageSize: 25,
 			sortKey: TransactionSortKey.EXPENSE_DATE,
@@ -300,7 +374,7 @@ describe('Transactions', () => {
 			apiServer.database.data.transactions[transactions[0].id];
 		expect(preparedTransaction.categoryId).toEqual(categories[0].id);
 
-		renderApp({
+		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
 		await waitFor(() =>
@@ -331,7 +405,7 @@ describe('Transactions', () => {
 	});
 
 	it('can reset in-progress changes on transactions', async () => {
-		renderApp({
+		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
 		await waitFor(() =>

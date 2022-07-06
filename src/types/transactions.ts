@@ -5,11 +5,6 @@ export enum TransactionSortKey {
 	EXPENSE_DATE = 'EXPENSE_DATE'
 }
 
-export enum TransactionCategoryType {
-	WITH_CATEGORY = 'WITH_CATEGORY',
-	WITHOUT_CATEGORY = 'WITHOUT_CATEGORY'
-}
-
 export const DATE_FORMAT = 'yyyy-MM-dd';
 
 export interface SearchTransactionsRequest {
@@ -19,8 +14,9 @@ export interface SearchTransactionsRequest {
 	readonly sortDirection: SortDirection;
 	readonly startDate?: Date;
 	readonly endDate?: Date;
-	readonly confirmed?: boolean;
-	readonly categoryType?: TransactionCategoryType;
+	readonly isConfirmed?: boolean;
+	readonly isCategorized?: boolean;
+	readonly isDuplicate?: boolean;
 	readonly categoryIds?: ReadonlyArray<string>;
 }
 

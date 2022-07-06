@@ -15,7 +15,7 @@ describe('Transaction Import', () => {
 	});
 
 	it('imports file successfully', async () => {
-		renderApp({
+		await renderApp({
 			initialPath: '/expense-tracker/import?IS_TEST=true'
 		});
 		await waitFor(() =>
@@ -34,7 +34,7 @@ describe('Transaction Import', () => {
 	});
 
 	it('displays error for invalid import', async () => {
-		renderApp({
+		await renderApp({
 			initialPath: '/expense-tracker/import?IS_TEST=true'
 		});
 		await waitFor(() =>
@@ -57,7 +57,7 @@ describe('Transaction Import', () => {
 	});
 
 	it('prevents import of improperly filled out form', async () => {
-		renderApp({
+		await renderApp({
 			initialPath: '/expense-tracker/import'
 		});
 		await waitFor(() =>

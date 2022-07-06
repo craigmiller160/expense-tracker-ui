@@ -1,7 +1,8 @@
 import {
 	createTablePagination,
 	formToCategorizeRequest,
-	PaginationState
+	PaginationState,
+	TransactionSearchForm
 } from './utils';
 import {
 	TransactionTableForm,
@@ -26,7 +27,8 @@ const COLUMNS = ['Expense Date', 'Description', 'Amount', 'Category', 'Flags'];
 
 interface Props {
 	readonly pagination: PaginationState;
-	readonly updatePagination: Updater<PaginationState>;
+	readonly onPaginationChange: Updater<PaginationState>;
+	readonly filterValues: TransactionSearchForm;
 }
 
 const createBelowTableActions = (
@@ -74,13 +76,13 @@ export const TransactionTable = (props: Props) => {
 			fields
 		},
 		actions: { resetFormToData, categorizeTransactions }
-	} = useHandleTransactionTableData(props.pagination);
+	} = useHandleTransactionTableData(props.pagination, props.filterValues);
 
 	const tablePagination = createTablePagination(
 		currentPage,
 		props.pagination.pageSize,
 		totalRecords,
-		props.updatePagination
+		props.onPaginationChange
 	);
 
 	const belowTableActions = createBelowTableActions(
@@ -110,8 +112,13 @@ export const TransactionTable = (props: Props) => {
 									key={txn.id}
 									data-testid="transaction-table-row"
 								>
-									<TableCell>{txn.expenseDate}</TableCell>
-									<TableCell className="DescriptionCell">
+									<TableCell data-testid="transaction-expense-date">
+										{txn.expenseDate}
+									</TableCell>
+									<TableCell
+										className="DescriptionCell"
+										data-testid="transaction-description"
+									>
 										{txn.description}
 									</TableCell>
 									<TableCell>

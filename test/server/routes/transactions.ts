@@ -8,11 +8,17 @@ import {
 } from '../../../src/types/transactions';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 import * as RArray from 'fp-ts/es6/ReadonlyArray';
-import { pipe } from 'fp-ts/es6/function';
+import { flow, pipe } from 'fp-ts/es6/function';
 import { match } from 'ts-pattern';
 import { SortDirection } from '../../../src/types/misc';
 import { Ordering } from 'fp-ts/es6/Ordering';
 import { Ord } from 'fp-ts/es6/Ord';
+import { TestTransactionDescription } from '../../testutils/transactionDataUtils';
+import { TryT } from '@craigmiller160/ts-functions/es/types';
+import * as Try from '@craigmiller160/ts-functions/es/Try';
+import * as Either from 'fp-ts/es6/Either';
+import * as Json from '@craigmiller160/ts-functions/es/Json';
+import { screen } from '@testing-library/react';
 
 const parseDate = Time.parse(DATE_FORMAT);
 
@@ -36,16 +42,6 @@ const createSortTransactionOrd = (
 	equals: (txn1, txn2) => txn1.expenseDate === txn2.expenseDate
 });
 
-const sortTransactions =
-	(sortDirection: SortDirection) =>
-	(
-		transactions: ReadonlyArray<TransactionResponse>
-	): ReadonlyArray<TransactionResponse> =>
-		pipe(
-			transactions,
-			RArray.sort(createSortTransactionOrd(sortDirection))
-		);
-
 const paginateTransactions =
 	(pageNumber: number, pageSize: number) =>
 	(
@@ -55,6 +51,56 @@ const paginateTransactions =
 			pageNumber * pageSize,
 			pageNumber * pageSize + pageSize
 		);
+
+const createStartDateFilter =
+	(startDateString?: string) =>
+	(transaction: TransactionResponse): boolean => {
+		if (!startDateString) {
+			return true;
+		}
+		const txnDate = parseDate(transaction.expenseDate);
+		const startDate = parseDate(startDateString);
+		return Time.compare(startDate)(txnDate) <= 0;
+	};
+const createEndDateFilter =
+	(endDateString?: string) =>
+	(transaction: TransactionResponse): boolean => {
+		if (!endDateString) {
+			return true;
+		}
+		const txnDate = parseDate(transaction.expenseDate);
+		const endDate = parseDate(endDateString);
+		return Time.compare(endDate)(txnDate) >= 0;
+	};
+const createCategoryIdFilter = (categoryIdString?: string) => {
+	if (!categoryIdString) {
+		return () => true;
+	}
+	const categoryIds = categoryIdString.split(',').map((s) => s.trim());
+	return (transaction: TransactionResponse): boolean =>
+		categoryIds.includes(transaction.categoryId ?? '');
+};
+const createIsCategorizedFilter =
+	(isCategorized?: string) =>
+	(transaction: TransactionResponse): boolean =>
+		match(isCategorized)
+			.with(undefined, () => true)
+			.with('true', () => transaction.categoryId !== undefined)
+			.otherwise(() => transaction.categoryId === undefined);
+const createIsConfirmedFilter =
+	(isConfirmed?: string) =>
+	(transaction: TransactionResponse): boolean =>
+		match(isConfirmed)
+			.with(undefined, () => true)
+			.with('true', () => transaction.confirmed === true)
+			.otherwise(() => transaction.confirmed === false);
+const createIsDuplicateFilter =
+	(isDuplicate?: string) =>
+	(transaction: TransactionResponse): boolean =>
+		match(isDuplicate)
+			.with(undefined, () => true)
+			.with('true', () => transaction.duplicate === true)
+			.otherwise(() => transaction.duplicate === false);
 
 export const createTransactionsRoutes = (
 	database: Database,
@@ -67,13 +113,32 @@ export const createTransactionsRoutes = (
 		const pageSize = parseInt(`${request.queryParams?.pageSize}`);
 		const transactions = pipe(
 			Object.values(database.data.transactions),
-			sortTransactions(sortDirection),
-			paginateTransactions(pageNumber, pageSize)
+			RArray.sort(createSortTransactionOrd(sortDirection)),
+			RArray.filter(
+				createStartDateFilter(request.queryParams?.startDate)
+			),
+			RArray.filter(createEndDateFilter(request.queryParams?.endDate)),
+			RArray.filter(
+				createCategoryIdFilter(request.queryParams?.categoryIds)
+			),
+			RArray.filter(
+				createIsCategorizedFilter(request.queryParams?.isCategorized)
+			),
+			RArray.filter(
+				createIsConfirmedFilter(request.queryParams?.isConfirmed)
+			),
+			RArray.filter(
+				createIsDuplicateFilter(request.queryParams?.isDuplicate)
+			)
 		);
-		return {
-			transactions,
+		const paginatedTransactions = paginateTransactions(
 			pageNumber,
-			totalItems: Object.values(database.data.transactions).length
+			pageSize
+		)(transactions);
+		return {
+			transactions: paginatedTransactions,
+			pageNumber,
+			totalItems: transactions.length
 		};
 	});
 
@@ -103,4 +168,64 @@ export const createTransactionsRoutes = (
 
 		return new Response(204);
 	});
+};
+
+type ValidateDescription = (
+	index: number,
+	description: TestTransactionDescription
+) => void;
+
+const validateTransactionDescription =
+	(validateDescription: ValidateDescription) =>
+	(index: number, description: TestTransactionDescription): TryT<unknown> =>
+		pipe(
+			Try.tryCatch(() => validateDescription(index, description)),
+			Either.mapLeft(
+				(ex) =>
+					new Error(
+						`Error validating description ${JSON.stringify(
+							description
+						)}: ${ex.message}`,
+						{
+							cause: ex
+						}
+					)
+			)
+		);
+
+const validateNullableTextAndParse = (
+	descriptionElement: HTMLElement
+): TryT<TestTransactionDescription> => {
+	if (descriptionElement.textContent === null) {
+		return Either.left(
+			new Error('Description text content cannot be null')
+		);
+	}
+	return Json.parseE<TestTransactionDescription>(
+		descriptionElement.textContent
+	);
+};
+
+export const validateTransactionsInTable = (
+	count: number,
+	validateDescription: ValidateDescription
+) => {
+	const descriptions = screen.getAllByTestId('transaction-description');
+	expect(descriptions).toHaveLength(count);
+	const result = pipe(
+		descriptions,
+		RArray.map(validateNullableTextAndParse),
+		Either.sequenceArray,
+		Either.chain(
+			flow(
+				RArray.mapWithIndex(
+					validateTransactionDescription(validateDescription)
+				),
+				Either.sequenceArray
+			)
+		)
+	);
+	if (Either.isLeft(result)) {
+		throw result.left;
+	}
 };

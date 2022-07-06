@@ -9,8 +9,6 @@ import {
 	TransactionResponse,
 	TransactionSortKey
 } from '../../../types/transactions';
-import { SortDirection } from '../../../types/misc';
-import { CategoryResponse } from '../../../types/categories';
 import { useEffect, useMemo } from 'react';
 import {
 	FieldArrayWithId,
@@ -19,7 +17,12 @@ import {
 	UseFormReset,
 	UseFormReturn
 } from 'react-hook-form';
-import { CategoryOption, PaginationState } from './utils';
+import {
+	CategoryOption,
+	categoryToCategoryOption,
+	PaginationState,
+	TransactionSearchForm
+} from './utils';
 import { match, P } from 'ts-pattern';
 
 export interface TransactionFormValues {
@@ -52,13 +55,6 @@ export interface TransactionTableData {
 		readonly categorizeTransactions: CategorizeTransactionsMutation;
 	};
 }
-
-const categoryToCategoryOption = (
-	category: CategoryResponse
-): CategoryOption => ({
-	label: category.name,
-	value: category.id
-});
 
 const transactionToCategoryOption = (
 	transaction: TransactionResponse
@@ -98,16 +94,32 @@ const testNumberOfFormRecords = (
 ): boolean =>
 	form.getValues()?.transactions?.length === 0 && (data?.totalItems ?? 0) > 0;
 
+const handleCategoryIds = (
+	categoryId?: string
+): ReadonlyArray<string> | undefined =>
+	match(categoryId)
+		.with(undefined, () => undefined)
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		.otherwise(() => [categoryId!]);
+
 export const useHandleTransactionTableData = (
-	pagination: PaginationState
+	pagination: PaginationState,
+	filterValues: TransactionSearchForm
 ): TransactionTableData => {
 	const { data: categoryData, isFetching: categoryIsFetching } =
 		useGetAllCategories();
 	const { data: transactionData, isFetching: transactionIsFetching } =
 		useSearchForTransactions({
-			...pagination,
+			pageNumber: pagination.pageNumber,
+			pageSize: pagination.pageSize,
 			sortKey: TransactionSortKey.EXPENSE_DATE,
-			sortDirection: SortDirection.ASC
+			sortDirection: filterValues.direction,
+			startDate: filterValues.startDate,
+			endDate: filterValues.endDate,
+			categoryIds: handleCategoryIds(filterValues.category?.value),
+			isConfirmed: filterValues.isNotConfirmed ? false : undefined,
+			isDuplicate: filterValues.isDuplicate ? true : undefined,
+			isCategorized: filterValues.isNotCategorized ? false : undefined
 		});
 	const { mutate: categorizeTransactions } = useCategorizeTransactions();
 	const form = useForm<TransactionTableForm>({

@@ -15,7 +15,7 @@ describe('Manage Categories', () => {
 		apiServer.server.shutdown();
 	});
 	it('displays all categories on sever', async () => {
-		renderApp({
+		await renderApp({
 			initialPath: '/expense-tracker/categories'
 		});
 		await waitFor(() =>
@@ -33,7 +33,7 @@ describe('Manage Categories', () => {
 	});
 
 	it('adds new category', async () => {
-		renderApp({
+		await renderApp({
 			initialPath: '/expense-tracker/categories'
 		});
 		await waitFor(() =>
@@ -63,7 +63,7 @@ describe('Manage Categories', () => {
 	});
 
 	it('will not save category without name', async () => {
-		renderApp({
+		await renderApp({
 			initialPath: '/expense-tracker/categories'
 		});
 		await waitFor(() =>
@@ -92,7 +92,7 @@ describe('Manage Categories', () => {
 	});
 
 	it('updates category name', async () => {
-		renderApp({
+		await renderApp({
 			initialPath: '/expense-tracker/categories'
 		});
 		await waitFor(() =>
@@ -124,7 +124,7 @@ describe('Manage Categories', () => {
 	});
 
 	it('deletes category', async () => {
-		renderApp({
+		await renderApp({
 			initialPath: '/expense-tracker/categories'
 		});
 		await waitFor(() =>

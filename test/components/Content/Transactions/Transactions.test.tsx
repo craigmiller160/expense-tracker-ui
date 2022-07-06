@@ -355,7 +355,7 @@ describe('Transactions', () => {
 			);
 			expect(Time.compare(expenseDate)(endDate)).toBeLessThanOrEqual(0);
 		});
-		expect(screen.queryByText(/.*1–25 of 100.*/)).toBeVisible();
+		expect(screen.queryByText(/.*1–25 of 31.*/)).toBeVisible();
 
 		const nextPageButton = screen
 			.getByTestId('table-pagination')
@@ -368,7 +368,7 @@ describe('Transactions', () => {
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 		await waitFor(() =>
-			expect(screen.queryByText(/.*26–50 of 100.*/)).toBeVisible()
+			expect(screen.queryByText(/.*26–31 of 31.*/)).toBeVisible()
 		);
 		validateTransactionsInTable(6, (description) => {
 			const expenseDate = pipe(

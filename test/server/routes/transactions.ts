@@ -123,13 +123,16 @@ export const createTransactionsRoutes = (
 			),
 			RArray.filter(
 				createIsDuplicateFilter(request.queryParams?.isDuplicate)
-			),
-			paginateTransactions(pageNumber, pageSize)
+			)
 		);
-		return {
-			transactions,
+		const paginatedTransactions = paginateTransactions(
 			pageNumber,
-			totalItems: Object.values(database.data.transactions).length
+			pageSize
+		)(transactions);
+		return {
+			transactions: paginatedTransactions,
+			pageNumber,
+			totalItems: transactions.length
 		};
 	});
 

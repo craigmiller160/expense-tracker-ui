@@ -134,9 +134,13 @@ describe('Transactions', () => {
 		expect(
 			within(transactionFilters).queryByLabelText('Category')
 		).toBeVisible(); // TODO test value
-		expect(
-			within(transactionFilters).queryByLabelText('Order By')
-		).toBeVisible(); // TODO test value
+		const orderByLabel =
+			within(transactionFilters).queryByLabelText('Order By');
+		expect(orderByLabel).toBeVisible();
+		const inputWithValue = orderByLabel?.parentElement?.querySelector(
+			'.MuiOutlinedInput-input'
+		);
+		expect(inputWithValue).toHaveTextContent('Oldest to Newest');
 		expect(
 			within(transactionFilters).queryByLabelText('Is Duplicate')
 		).not.toBeChecked();

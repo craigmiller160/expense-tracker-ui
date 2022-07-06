@@ -25,6 +25,12 @@ import userEvent from '@testing-library/user-event';
 import { validateTransactionsInTable } from '../../../server/routes/transactions';
 import { ApiServer, newApiServer } from '../../../server';
 import '@testing-library/jest-dom';
+import * as RArray from 'fp-ts/es6/ReadonlyArray';
+import {
+	transactionRecordMonoid,
+	transactionToRecord
+} from '../../../testutils/transactionDataUtils';
+import * as Monoid from 'fp-ts/es6/Monoid';
 
 describe('Transactions Filters', () => {
 	let apiServer: ApiServer;
@@ -239,6 +245,33 @@ describe('Transactions Filters', () => {
 	});
 
 	it('is not categorized', async () => {
+		const { transactions } = await searchForTransactions({
+			startDate: defaultStartDate(),
+			endDate: defaultEndDate(),
+			pageNumber: 0,
+			pageSize: 25,
+			sortKey: TransactionSortKey.EXPENSE_DATE,
+			sortDirection: SortDirection.ASC
+		});
+		const categories = await getAllCategories();
+		apiServer.database.updateData((draft) => {
+			draft.transactions = pipe(
+				Object.values(draft.transactions),
+				RArray.map((transaction) =>
+					createTransaction({
+						...transaction,
+						categoryId: categories[0].id,
+						categoryName: categories[0].name
+					})
+				),
+				RArray.filter(
+					(transaction) => transaction.id !== transactions[0].id
+				),
+				RArray.map(transactionToRecord),
+				Monoid.concatAll(transactionRecordMonoid)
+			);
+			draft.transactions[transactions[0].id] = transactions[0];
+		});
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});

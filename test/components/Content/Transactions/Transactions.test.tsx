@@ -53,6 +53,19 @@ const validateTransactionDescription =
 			)
 		);
 
+const validateNullableTextAndParse = (
+	descriptionElement: HTMLElement
+): TryT<TestTransactionDescription> => {
+	if (descriptionElement.textContent === null) {
+		return Either.left(
+			new Error('Description text content cannot be null')
+		);
+	}
+	return Json.parseE<TestTransactionDescription>(
+		descriptionElement.textContent
+	);
+};
+
 const validateTransactionsInTable = (
 	count: number,
 	validateDescription: ValidateDescription
@@ -61,11 +74,7 @@ const validateTransactionsInTable = (
 	expect(descriptions).toHaveLength(count);
 	const result = pipe(
 		descriptions,
-		RArray.filter((_) => _ !== null),
-		RArray.map((_) =>
-			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-			Json.parseE<TestTransactionDescription>(_.textContent!)
-		),
+		RArray.map(validateNullableTextAndParse),
 		Either.sequenceArray,
 		Either.chain(
 			flow(

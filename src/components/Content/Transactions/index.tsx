@@ -12,6 +12,7 @@ import { TransactionSearchFilters } from './TransactionSearchFilters';
 import { useForm } from 'react-hook-form';
 import { useForceUpdate } from '../../../utils/useForceUpdate';
 
+// TODO when the form changes, reset to page 0
 export const Transactions = () => {
 	const [paginationState, setPaginationState] = useImmer<PaginationState>({
 		pageNumber: 0,

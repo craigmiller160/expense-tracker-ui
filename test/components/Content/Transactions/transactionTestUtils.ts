@@ -25,6 +25,12 @@ export const selectDate = async (
 	ariaFormattedDateString: string
 ) => {
 	const transactionFilters = screen.getByTestId('transaction-filters');
+	console.log(
+		'BUTTONS',
+		transactionFilters.querySelectorAll(
+			'button[aria-label = "Choose date"]'
+		).length
+	);
 	await userEvent.click(
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		transactionFilters.querySelectorAll(

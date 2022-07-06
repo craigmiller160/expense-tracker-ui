@@ -88,6 +88,22 @@ const validateTransactionsInTable = (
 	}
 };
 
+const getOrderByValueElement = (): HTMLElement | null | undefined => {
+	const transactionFilters = screen.getByTestId('transaction-filters');
+	const orderByLabel = within(transactionFilters).getByLabelText('Order By');
+	return orderByLabel?.parentElement?.querySelector(
+		'.MuiOutlinedInput-input'
+	);
+};
+
+const getCategoryValueElement = (): HTMLElement | null | undefined => {
+	const transactionFilters = screen.getByTestId('transaction-filters');
+	const categoryLabel = within(transactionFilters).getByLabelText('Category');
+	return categoryLabel?.parentElement?.querySelector(
+		'.MuiOutlinedInput-input'
+	);
+};
+
 describe('Transactions', () => {
 	let apiServer: ApiServer;
 	beforeEach(() => {
@@ -133,14 +149,12 @@ describe('Transactions', () => {
 		).toHaveValue(Time.format(DATE_PICKER_FORMAT)(defaultEndDate()));
 		expect(
 			within(transactionFilters).queryByLabelText('Category')
-		).toBeVisible(); // TODO test value
-		const orderByLabel =
-			within(transactionFilters).queryByLabelText('Order By');
-		expect(orderByLabel).toBeVisible();
-		const inputWithValue = orderByLabel?.parentElement?.querySelector(
-			'.MuiOutlinedInput-input'
-		);
-		expect(inputWithValue).toHaveTextContent('Oldest to Newest');
+		).toBeVisible();
+		expect(getCategoryValueElement()).toHaveTextContent('');
+		expect(
+			within(transactionFilters).queryByLabelText('Order By')
+		).toBeVisible();
+		expect(getOrderByValueElement()).toHaveTextContent('Oldest to Newest');
 		expect(
 			within(transactionFilters).queryByLabelText('Is Duplicate')
 		).not.toBeChecked();

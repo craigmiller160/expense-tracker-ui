@@ -1,6 +1,6 @@
 import { PageTitle } from '../../UI/PageTitle';
 import './Transactions.scss';
-import { useImmer } from 'use-immer';
+import { Updater, useImmer } from 'use-immer';
 import {
 	DEFAULT_ROWS_PER_PAGE,
 	PaginationState,
@@ -9,8 +9,23 @@ import {
 } from './utils';
 import { TransactionTable } from './TransactionTable';
 import { TransactionSearchFilters } from './TransactionSearchFilters';
-import { useForm } from 'react-hook-form';
-import { useForceUpdate } from '../../../utils/useForceUpdate';
+import { useForm, UseFormHandleSubmit } from 'react-hook-form';
+import { ForceUpdate, useForceUpdate } from '../../../utils/useForceUpdate';
+
+const createOnValueHasChanged = (
+	handleSubmit: UseFormHandleSubmit<TransactionSearchForm>,
+	setPaginationState: Updater<PaginationState>,
+	forceUpdate: ForceUpdate
+) =>
+	handleSubmit(() =>
+		setPaginationState((draft) => {
+			if (draft.pageNumber === 0) {
+				forceUpdate();
+			} else {
+				draft.pageNumber = 0;
+			}
+		})
+	);
 
 export const Transactions = () => {
 	const [paginationState, setPaginationState] = useImmer<PaginationState>({
@@ -26,14 +41,10 @@ export const Transactions = () => {
 	});
 	const { handleSubmit, getValues } = form;
 
-	const onValueHasChanged = handleSubmit(() =>
-		setPaginationState((draft) => {
-			if (draft.pageNumber === 0) {
-				forceUpdate();
-			} else {
-				draft.pageNumber = 0;
-			}
-		})
+	const onValueHasChanged = createOnValueHasChanged(
+		handleSubmit,
+		setPaginationState,
+		forceUpdate
 	);
 
 	return (

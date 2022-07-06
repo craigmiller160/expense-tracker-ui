@@ -54,8 +54,11 @@ export const TransactionSearchFilters = (props: Props) => {
 		[data]
 	);
 
-	const onIsNotCategorizedChanged = () =>
-		createOnIsNotCategorizedChanged(getValues, setValue, onValueHasChanged);
+	const onIsNotCategorizedChanged = createOnIsNotCategorizedChanged(
+		getValues,
+		setValue,
+		onValueHasChanged
+	);
 
 	return (
 		<Paper

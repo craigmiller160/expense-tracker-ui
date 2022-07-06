@@ -547,7 +547,28 @@ describe('Transactions', () => {
 			await waitFor(() =>
 				expect(screen.queryByText('Rows per page:')).toBeVisible()
 			);
-			throw new Error();
+
+			const totalDaysInRange = getTotalDaysInRange(
+				defaultStartDate(),
+				defaultEndDate()
+			);
+
+			expect(getRecordRangeText()).toEqual(`1-25 of ${totalDaysInRange}`);
+
+			const dateToSelect = pipe(
+				defaultEndDate(),
+				Time.subDays(1),
+				Time.format(ARIA_LABEL_FORMAT)
+			);
+			await selectDate('End Date', dateToSelect);
+			await Sleep.immediate();
+			await waitFor(() =>
+				expect(screen.queryByText('Rows per page:')).toBeVisible()
+			);
+
+			expect(getRecordRangeText()).toEqual(
+				`1-25 of ${totalDaysInRange - 1}`
+			);
 		});
 
 		it('category', async () => {

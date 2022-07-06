@@ -12,7 +12,6 @@ import { TransactionSearchFilters } from './TransactionSearchFilters';
 import { useForm } from 'react-hook-form';
 import { useForceUpdate } from '../../../utils/useForceUpdate';
 
-// TODO when the form changes, reset to page 0
 export const Transactions = () => {
 	const [paginationState, setPaginationState] = useImmer<PaginationState>({
 		pageNumber: 0,
@@ -27,7 +26,15 @@ export const Transactions = () => {
 	});
 	const { handleSubmit, getValues } = form;
 
-	const onValueHasChanged = handleSubmit(forceUpdate);
+	const onValueHasChanged = handleSubmit(() =>
+		setPaginationState((draft) => {
+			if (draft.pageNumber === 0) {
+				forceUpdate();
+			} else {
+				draft.pageNumber = 0;
+			}
+		})
+	);
 
 	return (
 		<div className="ManageTransactions">

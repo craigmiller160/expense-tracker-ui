@@ -24,6 +24,14 @@ import * as Try from '@craigmiller160/ts-functions/es/Try';
 
 const DATE_PICKER_FORMAT = 'MM/dd/yyyy';
 
+const parseExpenseDate = Time.parse(DATE_FORMAT);
+const setToMidnight = Time.set({
+	hours: 0,
+	minutes: 0,
+	seconds: 0,
+	milliseconds: 0
+});
+
 const validateTransactionsInTable = (
 	count: number,
 	validateDescription: (description: TestTransactionDescription) => void
@@ -129,16 +137,16 @@ describe('Transactions', () => {
 		);
 
 		validateTransactionsInTable(25, (description) => {
-			expect(
-				Time.compare(Time.parse(DATE_FORMAT)(description.expenseDate))(
-					defaultStartDate()
-				)
-			).toBeGreaterThanOrEqual(0);
-			expect(
-				Time.compare(Time.parse(DATE_FORMAT)(description.expenseDate))(
-					defaultEndDate()
-				)
-			).toBeLessThanOrEqual(0);
+			const expenseDate = pipe(
+				parseExpenseDate(description.expenseDate),
+				setToMidnight
+			);
+			const startDate = setToMidnight(defaultStartDate());
+			const endDate = setToMidnight(defaultEndDate());
+			expect(Time.compare(expenseDate)(startDate)).toBeGreaterThanOrEqual(
+				0
+			);
+			expect(Time.compare(expenseDate)(endDate)).toBeLessThanOrEqual(0);
 		});
 	});
 

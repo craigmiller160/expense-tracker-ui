@@ -343,6 +343,9 @@ describe('Transactions', () => {
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 
+		const totalDaysInRange =
+			Time.differenceInDays(defaultEndDate())(defaultStartDate()) + 1;
+
 		validateTransactionsInTable(25, (description) => {
 			const expenseDate = pipe(
 				parseExpenseDate(description.expenseDate),
@@ -355,7 +358,13 @@ describe('Transactions', () => {
 			);
 			expect(Time.compare(expenseDate)(endDate)).toBeLessThanOrEqual(0);
 		});
-		expect(screen.queryByText(/.*1–25 of 31.*/)).toBeVisible();
+		expect(screen.queryByText(/.*1–25 of \d+.*/)).toBeVisible();
+		expect(
+			screen
+				.getByText(/.*1–25 of \d+.*/)
+				.textContent?.trim()
+				?.replace('–', '-')
+		).toEqual(`1-25 of ${totalDaysInRange}`);
 
 		const nextPageButton = screen
 			.getByTestId('table-pagination')
@@ -368,8 +377,14 @@ describe('Transactions', () => {
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 		await waitFor(() =>
-			expect(screen.queryByText(/.*26–31 of 31.*/)).toBeVisible()
+			expect(screen.queryByText(/.*26–\d+ of \d.*/)).toBeVisible()
 		);
+		expect(
+			screen
+				.getByText(/.*26–\d+ of \d+.*/)
+				.textContent?.trim()
+				?.replace('–', '-')
+		).toEqual(`26-${totalDaysInRange} of ${totalDaysInRange}`);
 		validateTransactionsInTable(6, (description) => {
 			const expenseDate = pipe(
 				parseExpenseDate(description.expenseDate),

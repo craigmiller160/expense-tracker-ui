@@ -149,8 +149,8 @@ describe('Transactions', () => {
 						expect(
 							Time.compare(
 								Time.parse(DATE_FORMAT)(description.expenseDate)
-							)
-						).toBeLessThanOrEqual(defaultEndDate());
+							)(defaultEndDate())
+						).toBeLessThanOrEqual(0);
 						return null;
 					})
 				);

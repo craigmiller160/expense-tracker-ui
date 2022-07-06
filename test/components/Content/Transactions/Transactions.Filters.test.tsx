@@ -310,6 +310,7 @@ describe('Transactions Filters', () => {
 		});
 
 		await userEvent.click(screen.getByLabelText('Is Not Categorized'));
+		expect(screen.getByLabelText('Is Not Categorized')).toBeChecked();
 		await Sleep.immediate();
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()

@@ -1,12 +1,36 @@
 import { Paper, Typography } from '@mui/material';
 import './NeedsAttentionNotice.scss';
 import { useGetNeedsAttention } from '../../../ajaxapi/query/TransactionQueries';
-import { NeedsAttentionResponse } from '../../../types/transactions';
+import {
+	CountAndOldest,
+	NeedsAttentionResponse
+} from '../../../types/transactions';
 
 const doItemsNeedAttention = (data?: NeedsAttentionResponse): boolean =>
 	(data?.unconfirmed?.count ?? 0) > 0 ||
 	(data?.uncategorized?.count ?? 0) > 0 ||
 	(data?.duplicate?.count ?? 0) > 0;
+
+interface AttentionItemProps {
+	readonly countAndOldest: CountAndOldest;
+	readonly label: string;
+}
+
+// TODO format the date
+const AttentionItem = (props: AttentionItemProps) => {
+	if (props.countAndOldest.count === 0) {
+		return <></>;
+	}
+
+	return (
+		<li>
+			<Typography variant="body1">
+				{props.label} - Count: {props.countAndOldest.count}, Oldest:{' '}
+				{props.countAndOldest.oldest}
+			</Typography>
+		</li>
+	);
+};
 
 export const NeedsAttentionNotice = () => {
 	const { data, status } = useGetNeedsAttention();
@@ -21,6 +45,20 @@ export const NeedsAttentionNotice = () => {
 					Transactions Need Attention
 				</Typography>
 			</div>
+			<ul className="Items">
+				<AttentionItem
+					countAndOldest={data.duplicate}
+					label="Duplicates"
+				/>
+				<AttentionItem
+					countAndOldest={data.unconfirmed}
+					label="Unconfirmed"
+				/>
+				<AttentionItem
+					countAndOldest={data.uncategorized}
+					label="Uncategorized"
+				/>
+			</ul>
 		</Paper>
 	);
 };

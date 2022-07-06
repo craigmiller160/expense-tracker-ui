@@ -4,9 +4,14 @@
   width: 50%;
   margin: 1rem auto;
   color: red;
+  padding: 1rem;
 
   .Header {
     @include ColumnAlignCenter;
     font-weight: bold;
+  }
+
+  .Items {
+    @include ColumnAlignStart;
   }
 }

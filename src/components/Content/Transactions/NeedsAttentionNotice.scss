@@ -3,5 +3,10 @@
 .NeedsAttentionNotice {
   width: 50%;
   margin: 1rem auto;
-  @include ColumnAlignCenter;
+  color: red;
+
+  .Header {
+    @include ColumnAlignCenter;
+    font-weight: bold;
+  }
 }

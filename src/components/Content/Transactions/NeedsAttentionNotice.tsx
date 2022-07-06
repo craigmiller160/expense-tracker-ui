@@ -1,4 +1,4 @@
-import { Paper } from '@mui/material';
+import { Paper, Typography } from '@mui/material';
 import './NeedsAttentionNotice.scss';
 import { useGetNeedsAttention } from '../../../ajaxapi/query/TransactionQueries';
 import { NeedsAttentionResponse } from '../../../types/transactions';
@@ -16,7 +16,11 @@ export const NeedsAttentionNotice = () => {
 
 	return (
 		<Paper className="NeedsAttentionNotice">
-			<h3>Hello World</h3>
+			<div className="Header">
+				<Typography variant="h6">
+					Transactions Need Attention
+				</Typography>
+			</div>
 		</Paper>
 	);
 };

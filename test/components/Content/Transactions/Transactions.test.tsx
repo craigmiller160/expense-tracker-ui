@@ -611,7 +611,7 @@ describe('Transactions', () => {
 			await userEvent.click(within(filters).getByLabelText('Category'));
 			expect(screen.getAllByText(categories[0].name)).toHaveLength(1);
 			await userEvent.click(screen.getByText(categories[0].name));
-			await Sleep.sleep(100)(); // TODO change back to immediate
+			await Sleep.immediate();
 			await waitFor(() =>
 				expect(screen.queryByText('Rows per page:')).toBeVisible()
 			);

@@ -2,21 +2,15 @@ import { ApiServer, newApiServer } from '../../../server';
 import { renderApp } from '../../../testutils/renderApp';
 import { screen, waitFor, within } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { MonoidT, TryT } from '@craigmiller160/ts-functions/es/types';
 import * as Either from 'fp-ts/es6/Either';
-import { match } from 'ts-pattern';
 import userEvent from '@testing-library/user-event';
 import { searchForTransactions } from '../../../../src/ajaxapi/service/TransactionService';
 import {
 	DATE_FORMAT,
-	SearchTransactionsRequest,
-	TransactionResponse,
 	TransactionSortKey
 } from '../../../../src/types/transactions';
 import { SortDirection } from '../../../../src/types/misc';
 import { getAllCategories } from '../../../../src/ajaxapi/service/CategoryService';
-import { Database } from '../../../server/Database';
-import { CategoryResponse } from '../../../../src/types/categories';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 import {
 	defaultEndDate,
@@ -28,14 +22,6 @@ import * as RArray from 'fp-ts/es6/ReadonlyArray';
 import { TestTransactionDescription } from '../../../server/createTransaction';
 
 const DATE_PICKER_FORMAT = 'MM/dd/yyyy';
-
-const validationMonoid: MonoidT<TryT<unknown>> = {
-	empty: Either.right(null),
-	concat: (try1, try2) =>
-		match(try1)
-			.when(Either.isRight, () => try2)
-			.otherwise(() => try1)
-};
 
 const validateTransactionElements = (
 	startInclusive: number,
@@ -49,25 +35,10 @@ const validateTransactionElements = (
 	});
 };
 
-type PrepareDataCallback = (
-	transactions: ReadonlyArray<TransactionResponse>,
-	categories: ReadonlyArray<CategoryResponse>
-) => ReadonlyArray<TransactionResponse>;
-type PrepareData = (
-	request: SearchTransactionsRequest,
-	callback: PrepareDataCallback
-) => void;
-
-const createPrepareData =
-	(database: Database): PrepareData =>
-	(request, callback) => {};
-
 describe('Transactions', () => {
 	let apiServer: ApiServer;
-	let prepareData: PrepareData;
 	beforeEach(() => {
 		apiServer = newApiServer();
-		prepareData = createPrepareData(apiServer.database);
 	});
 
 	afterEach(() => {
@@ -256,7 +227,7 @@ describe('Transactions', () => {
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 
-		validateNumberOfTransactions(25);
+		// validateNumberOfTransactions(25);
 
 		const rowsPerPageSelect = screen
 			.getByTestId('table-pagination')
@@ -276,7 +247,8 @@ describe('Transactions', () => {
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 
-		await waitFor(() => validateNumberOfTransactions(10));
+		// await waitFor(() => validateNumberOfTransactions(10));
+		throw new Error();
 	});
 
 	it('can paginate and load the correct data successfully', async () => {
@@ -294,7 +266,7 @@ describe('Transactions', () => {
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 
-		validateNumberOfTransactions(25);
+		// validateNumberOfTransactions(25);
 		validateTransactionElements(0, 24);
 		expect(screen.queryByText(/.*1–25 of 100.*/)).toBeVisible();
 
@@ -303,7 +275,7 @@ describe('Transactions', () => {
 			.querySelector('button[title="Go to next page"]');
 		expect(nextPageButton).toBeVisible();
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		userEvent.click(nextPageButton!);
+		await userEvent.click(nextPageButton!);
 
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
@@ -311,8 +283,9 @@ describe('Transactions', () => {
 		await waitFor(() =>
 			expect(screen.queryByText(/.*26–50 of 100.*/)).toBeVisible()
 		);
-		validateNumberOfTransactions(25);
-		validateTransactionElements(25, 49);
+		// validateNumberOfTransactions(25);
+		// validateTransactionElements(25, 49);
+		throw new Error();
 	});
 
 	it('can set categories on transactions', async () => {

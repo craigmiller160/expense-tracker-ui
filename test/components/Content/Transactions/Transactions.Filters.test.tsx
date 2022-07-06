@@ -284,6 +284,20 @@ describe('Transactions Filters', () => {
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
+
+		const filters = screen.getByTestId('transaction-filters');
+		await userEvent.click(within(filters).getByLabelText('Category'));
+		expect(screen.getAllByText(categories[0].name)).toHaveLength(1);
+		await userEvent.click(screen.getByText(categories[0].name));
+		await Sleep.immediate();
+		await waitFor(() =>
+			expect(screen.queryByText('Rows per page:')).toBeVisible()
+		);
+		validateTransactionsInTable(25, (description) => {
+			expect(description.categoryId).toEqual(categories[0].id);
+			expect(description.categoryName).toEqual(categories[0].name);
+		});
+
 		// TODO should also clear category selection
 		throw new Error();
 	});

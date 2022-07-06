@@ -520,7 +520,7 @@ describe('Transactions', () => {
 				Time.subDays(1),
 				Time.format(ARIA_LABEL_FORMAT)
 			);
-			await selectDate(0, dateToSelect);
+			await selectDate('Start Date', dateToSelect);
 			await waitFor(() =>
 				expect(screen.queryByText('Rows per page:')).toBeVisible()
 			);

@@ -21,21 +21,18 @@ export const getCategoryValueElement = (): HTMLElement | null | undefined => {
 export const ARIA_LABEL_FORMAT = 'MMM d, yyyy';
 
 export const selectDate = async (
-	datePickerIndex: number,
+	datePickerLabel: string,
 	ariaFormattedDateString: string
 ) => {
-	const transactionFilters = screen.getByTestId('transaction-filters');
-	console.log(
-		'BUTTONS',
-		transactionFilters.querySelectorAll(
-			'button[aria-label = "Choose date"]'
-		).length
-	);
+	const datePickerLabelElement = screen.getByLabelText(datePickerLabel);
+	const openPickerButton =
+		datePickerLabelElement.parentElement?.querySelector(
+			'div.MuiInputAdornment-root > button'
+		);
+	expect(openPickerButton).toBeTruthy();
 	await userEvent.click(
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		transactionFilters.querySelectorAll(
-			'button[aria-label = "Choose date"]'
-		)[datePickerIndex]!
+		openPickerButton!
 	);
 	const popupDialog = screen.getByRole('dialog');
 	const selectedDateButton = popupDialog.querySelector(

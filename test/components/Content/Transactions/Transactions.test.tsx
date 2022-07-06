@@ -431,6 +431,8 @@ describe('Transactions', () => {
 
 	it('can remove a category from a transaction', async () => {
 		const { transactions } = await searchForTransactions({
+			startDate: defaultStartDate(),
+			endDate: defaultEndDate(),
 			pageNumber: 0,
 			pageSize: 25,
 			sortKey: TransactionSortKey.EXPENSE_DATE,

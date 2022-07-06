@@ -16,7 +16,6 @@ import { Ordering } from 'fp-ts/es6/Ordering';
 import { Ord } from 'fp-ts/es6/Ord';
 import * as Monoid from 'fp-ts/es6/Monoid';
 import { MonoidT } from '@craigmiller160/ts-functions/es/types';
-import * as Option from 'fp-ts/es6/Option';
 
 const parseDate = Time.parse(DATE_FORMAT);
 
@@ -243,6 +242,10 @@ export const createTransactionsRoutes = (
 	});
 
 	server.get('/transactions/needs-attention', () => {
-		return null;
+		return pipe(
+			Object.values(database.data.transactions),
+			RArray.map(transactionToNeedsAttention),
+			Monoid.concatAll(needsAttentionMonoid)
+		);
 	});
 };

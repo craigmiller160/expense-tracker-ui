@@ -23,18 +23,6 @@ import { TestTransactionDescription } from '../../../server/createTransaction';
 
 const DATE_PICKER_FORMAT = 'MM/dd/yyyy';
 
-const validateTransactionElements = (
-	startInclusive: number,
-	endInclusive: number
-) => {
-	const descriptions = screen.getAllByText(/Transaction \d+/);
-	descriptions.forEach((description) => {
-		const theNumber = description.textContent?.split(' ')[1].trim();
-		expect(parseInt(`${theNumber}`)).toBeGreaterThanOrEqual(startInclusive);
-		expect(parseInt(`${theNumber}`)).toBeLessThanOrEqual(endInclusive);
-	});
-};
-
 describe('Transactions', () => {
 	let apiServer: ApiServer;
 	beforeEach(() => {
@@ -267,7 +255,7 @@ describe('Transactions', () => {
 		);
 
 		// validateNumberOfTransactions(25);
-		validateTransactionElements(0, 24);
+		// validateTransactionElements(0, 24);
 		expect(screen.queryByText(/.*1–25 of 100.*/)).toBeVisible();
 
 		const nextPageButton = screen

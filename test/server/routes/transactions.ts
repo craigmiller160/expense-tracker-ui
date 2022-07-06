@@ -113,7 +113,7 @@ export const createTransactionsRoutes = (
 			),
 			RArray.filter(createEndDateFilter(request.queryParams?.endDate)),
 			RArray.filter(
-				createCategoryIdFilter(request.queryParams?.categoryId)
+				createCategoryIdFilter(request.queryParams?.categoryIds)
 			),
 			RArray.filter(
 				createIsCategorizedFilter(request.queryParams?.isCategorized)

@@ -508,30 +508,128 @@ describe('Transactions', () => {
 
 	describe('filters', () => {
 		it('start date', async () => {
+			await renderApp({
+				initialPath: '/expense-tracker/transactions'
+			});
+			await waitFor(() =>
+				expect(screen.queryByText('Expense Tracker')).toBeVisible()
+			);
+			await waitFor(() =>
+				expect(
+					screen.queryAllByText('Manage Transactions')
+				).toHaveLength(2)
+			);
+			await waitFor(() =>
+				expect(screen.queryByText('Rows per page:')).toBeVisible()
+			);
 			throw new Error();
 		});
 
 		it('end date', async () => {
+			await renderApp({
+				initialPath: '/expense-tracker/transactions'
+			});
+			await waitFor(() =>
+				expect(screen.queryByText('Expense Tracker')).toBeVisible()
+			);
+			await waitFor(() =>
+				expect(
+					screen.queryAllByText('Manage Transactions')
+				).toHaveLength(2)
+			);
+			await waitFor(() =>
+				expect(screen.queryByText('Rows per page:')).toBeVisible()
+			);
 			throw new Error();
 		});
 
 		it('category', async () => {
+			await renderApp({
+				initialPath: '/expense-tracker/transactions'
+			});
+			await waitFor(() =>
+				expect(screen.queryByText('Expense Tracker')).toBeVisible()
+			);
+			await waitFor(() =>
+				expect(
+					screen.queryAllByText('Manage Transactions')
+				).toHaveLength(2)
+			);
+			await waitFor(() =>
+				expect(screen.queryByText('Rows per page:')).toBeVisible()
+			);
 			throw new Error();
 		});
 
 		it('order by', async () => {
+			await renderApp({
+				initialPath: '/expense-tracker/transactions'
+			});
+			await waitFor(() =>
+				expect(screen.queryByText('Expense Tracker')).toBeVisible()
+			);
+			await waitFor(() =>
+				expect(
+					screen.queryAllByText('Manage Transactions')
+				).toHaveLength(2)
+			);
+			await waitFor(() =>
+				expect(screen.queryByText('Rows per page:')).toBeVisible()
+			);
 			throw new Error();
 		});
 
 		it('is duplicate', async () => {
+			await renderApp({
+				initialPath: '/expense-tracker/transactions'
+			});
+			await waitFor(() =>
+				expect(screen.queryByText('Expense Tracker')).toBeVisible()
+			);
+			await waitFor(() =>
+				expect(
+					screen.queryAllByText('Manage Transactions')
+				).toHaveLength(2)
+			);
+			await waitFor(() =>
+				expect(screen.queryByText('Rows per page:')).toBeVisible()
+			);
 			throw new Error();
 		});
 
 		it('is not confirmed', async () => {
+			await renderApp({
+				initialPath: '/expense-tracker/transactions'
+			});
+			await waitFor(() =>
+				expect(screen.queryByText('Expense Tracker')).toBeVisible()
+			);
+			await waitFor(() =>
+				expect(
+					screen.queryAllByText('Manage Transactions')
+				).toHaveLength(2)
+			);
+			await waitFor(() =>
+				expect(screen.queryByText('Rows per page:')).toBeVisible()
+			);
 			throw new Error();
 		});
 
 		it('is not categorized', async () => {
+			await renderApp({
+				initialPath: '/expense-tracker/transactions'
+			});
+			await waitFor(() =>
+				expect(screen.queryByText('Expense Tracker')).toBeVisible()
+			);
+			await waitFor(() =>
+				expect(
+					screen.queryAllByText('Manage Transactions')
+				).toHaveLength(2)
+			);
+			await waitFor(() =>
+				expect(screen.queryByText('Rows per page:')).toBeVisible()
+			);
 			// TODO should also clear category selection
 			throw new Error();
 		});

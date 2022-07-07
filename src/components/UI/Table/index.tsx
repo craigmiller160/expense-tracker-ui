@@ -28,6 +28,7 @@ export interface TablePaginationConfig {
 
 interface Props {
 	readonly columns: ReadonlyArray<string>;
+	readonly aboveTableActions?: ReadonlyArray<ReactNode>;
 	readonly belowTableActions?: ReadonlyArray<ReactNode>;
 	readonly loading?: boolean;
 	readonly pagination?: TablePaginationConfig;
@@ -37,6 +38,9 @@ interface Props {
 export const Table = (props: PropsWithChildren<Props>) => (
 	<div className="AppTable" data-testid={props['data-testid']}>
 		<TableContainer component={Paper}>
+			{!props.loading && (
+				<div className="ActionWrapper">{props.aboveTableActions}</div>
+			)}
 			<MuiTable>
 				<TableHead>
 					<TableRow>

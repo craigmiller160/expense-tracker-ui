@@ -36,6 +36,7 @@ export interface TransactionFormValues {
 }
 
 export interface TransactionTableForm {
+	readonly editMode: boolean;
 	readonly transactions: ReadonlyArray<TransactionFormValues>;
 }
 
@@ -129,7 +130,10 @@ export const useHandleTransactionTableData = (
 	const { mutate: categorizeTransactions } = useCategorizeTransactions();
 	const form = useForm<TransactionTableForm>({
 		mode: 'onChange',
-		reValidateMode: 'onChange'
+		reValidateMode: 'onChange',
+		defaultValues: {
+			editMode: false
+		}
 	});
 	const { fields } = useFieldArray({
 		control: form.control,

@@ -68,9 +68,9 @@ export const Table = (props: PropsWithChildren<Props>) => (
 				)}
 			</MuiTable>
 			{props.loading && <LinearProgress />}
+			{!props.loading && (
+				<div className="ActionWrapper">{props.belowTableActions}</div>
+			)}
 		</TableContainer>
-		{!props.loading && (
-			<div className="ActionWrapper">{props.belowTableActions}</div>
-		)}
 	</div>
 );

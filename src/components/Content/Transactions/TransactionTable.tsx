@@ -34,32 +34,43 @@ interface Props {
 }
 
 const createAboveTableActions = (control: Control<TransactionTableForm>) => [
-	<Switch key="editModeSwitch" control={control} name="editMode" label="Edit Mode" />
+	<Switch
+		key="editModeSwitch"
+		control={control}
+		name="editMode"
+		label="Edit Mode"
+	/>
 ];
 
 const createBelowTableActions = (
 	formState: FormState<TransactionTableForm>,
-	resetFormToData: () => void
-): ReadonlyArray<ReactNode> => [
-	<Button
-		key="reset-button"
-		variant="contained"
-		color="secondary"
-		disabled={!formState.isDirty}
-		onClick={resetFormToData}
-	>
-		Reset
-	</Button>,
-	<Button
-		key="save-button"
-		variant="contained"
-		type="submit"
-		color="success"
-		disabled={!formState.isDirty}
-	>
-		Save
-	</Button>
-];
+	resetFormToData: () => void,
+	editMode: boolean
+): ReadonlyArray<ReactNode> => {
+	if (!editMode) {
+		return [];
+	}
+	return [
+		<Button
+			key="reset-button"
+			variant="contained"
+			color="secondary"
+			disabled={!formState.isDirty}
+			onClick={resetFormToData}
+		>
+			Reset
+		</Button>,
+		<Button
+			key="save-button"
+			variant="contained"
+			type="submit"
+			color="success"
+			disabled={!formState.isDirty}
+		>
+			Save
+		</Button>
+	];
+};
 
 const createOnSubmit =
 	(categorizeTransactions: CategorizeTransactionsMutation) =>
@@ -94,12 +105,11 @@ export const TransactionTable = (props: Props) => {
 	const aboveTableActions = createAboveTableActions(control);
 	const belowTableActions = createBelowTableActions(
 		formState,
-		resetFormToData
+		resetFormToData,
+		getValues().editMode
 	);
 
 	const onSubmit = createOnSubmit(categorizeTransactions);
-
-	console.log('Values', getValues());
 
 	return (
 		<div className="TransactionsTable">
@@ -135,13 +145,15 @@ export const TransactionTable = (props: Props) => {
 									{`$${txn.amount.toFixed(2)}`}
 								</TableCell>
 								<TableCell className="CategoryCell">
-									{/*<Autocomplete*/}
-									{/*	name={`transactions.${index}.category`}*/}
-									{/*	control={control}*/}
-									{/*	label="Category"*/}
-									{/*	options={categories}*/}
-									{/*/>*/}
-									{txn.categoryName}
+									{getValues().editMode && (
+										<Autocomplete
+											name={`transactions.${index}.category`}
+											control={control}
+											label="Category"
+											options={categories}
+										/>
+									)}
+									{!getValues().editMode && txn.categoryName}
 								</TableCell>
 								<TableCell className="FlagsCell">
 									<Popover

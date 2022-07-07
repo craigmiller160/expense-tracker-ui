@@ -111,6 +111,8 @@ export const TransactionTable = (props: Props) => {
 
 	const onSubmit = createOnSubmit(categorizeTransactions);
 
+	const editClass = getValues().editMode ? 'edit' : '';
+
 	return (
 		<div className="TransactionsTable">
 			<form onSubmit={handleSubmit(onSubmit)}>
@@ -144,7 +146,9 @@ export const TransactionTable = (props: Props) => {
 								<TableCell>
 									{`$${txn.amount.toFixed(2)}`}
 								</TableCell>
-								<TableCell className="CategoryCell">
+								<TableCell
+									className={`CategoryCell ${editClass}`}
+								>
 									{getValues().editMode && (
 										<Autocomplete
 											name={`transactions.${index}.category`}

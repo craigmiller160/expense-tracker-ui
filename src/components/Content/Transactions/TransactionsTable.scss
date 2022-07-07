@@ -14,7 +14,9 @@
   }
 
   .CategoryCell {
-    width: 20%;
+    &.edit {
+      width: 30%;
+    }
   }
 
   td.DescriptionCell {

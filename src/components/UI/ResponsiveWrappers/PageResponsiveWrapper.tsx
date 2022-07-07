@@ -2,8 +2,6 @@ import styled from '@emotion/styled';
 import { Theme, useTheme } from '@mui/material';
 import { PropsWithChildren } from 'react';
 
-// TODO add PageRoot styles here
-
 interface Props {
 	readonly className?: string;
 	readonly 'data-testid'?: string;

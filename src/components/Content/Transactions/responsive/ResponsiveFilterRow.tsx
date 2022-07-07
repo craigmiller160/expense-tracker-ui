@@ -5,12 +5,28 @@ import { addThemeToWrapper } from '../../../UI/ResponsiveWrappers/addThemeToWrap
 const InnerDiv = styled.div<InnerDivProps>`
 	width: 100%;
 	display: flex;
-	flex-direction: row;
-	justify-content: space-around;
-	margin: 0.5rem auto;
 
-	> * {
-		width: 20%;
+	${({ theme }) => theme.breakpoints.up('xs')} {
+		flex-direction: column;
+		> * {
+			width: 100%;
+			margin: 0.5rem auto;
+		}
+	}
+
+	${({ theme }) => theme.breakpoints.up('sm')} {
+		flex-direction: row;
+		justify-content: space-around;
+		margin: 0.5rem auto;
+		> * {
+			width: 30%;
+		}
+	}
+
+	${({ theme }) => theme.breakpoints.up('xl')} {
+		> * {
+			width: 20%;
+		}
 	}
 `;
 

@@ -3,27 +3,9 @@ import { useTheme } from '@mui/material';
 import { PropsWithChildren } from 'react';
 import { InnerDivProps, WrapperOuterProps } from './utils';
 
-const InnerDiv = styled.div<InnerDivProps>`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	margin: 0 auto;
-	padding: 2rem;
+const InnerDiv = styled.div<InnerDivProps>``;
 
-	${({ theme }) => theme.breakpoints.up('xl')} {
-		width: 60%;
-	}
-
-	${({ theme }) => theme.breakpoints.up('lg')} {
-		width: 70%;
-	}
-
-	${({ theme }) => theme.breakpoints.down('lg')} {
-		width: 100%;
-	}
-`;
-
-export const PageResponsiveWrapper = (
+export const SlideDialogResponsiveWrapper = (
 	props: PropsWithChildren<WrapperOuterProps>
 ) => {
 	const theme = useTheme();

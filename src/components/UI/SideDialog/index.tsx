@@ -19,6 +19,7 @@ import {
 import { TransitionProps } from '@mui/material/transitions';
 import CloseIcon from '@mui/icons-material/Close';
 import './SideDialog.scss';
+import { SlideDialogResponsiveWrapper } from '../ResponsiveWrappers/SlideDialogResponsiveWrapper';
 
 const Transition = forwardRef(function Transition(
 	props: TransitionProps & {
@@ -54,30 +55,34 @@ const NoForm = (props: PropsWithChildren<FormProps>) => (
 export const SideDialog = (props: PropsWithChildren<Props>) => {
 	const Form = props.formSubmit ? DialogForm : NoForm;
 	return (
-		<Dialog
-			fullScreen
-			onClose={props.onClose}
-			open={props.open}
-			TransitionComponent={Transition}
-			className="SideDialog"
-		>
-			<Form formSubmit={props.formSubmit}>
-				<AppBar sx={{ position: 'relative' }}>
-					<Toolbar>
-						<Typography variant="h6">{props.title}</Typography>
-						<Box sx={{ flexGrow: 1 }} />
-						<IconButton
-							edge="start"
-							color="inherit"
-							onClick={props.onClose}
-						>
-							<CloseIcon />
-						</IconButton>
-					</Toolbar>
-				</AppBar>
-				<DialogContent className="Body">{props.children}</DialogContent>
-				<DialogActions>{props.actions}</DialogActions>
-			</Form>
-		</Dialog>
+		<SlideDialogResponsiveWrapper>
+			<Dialog
+				fullScreen
+				onClose={props.onClose}
+				open={props.open}
+				TransitionComponent={Transition}
+				className="SideDialog"
+			>
+				<Form formSubmit={props.formSubmit}>
+					<AppBar sx={{ position: 'relative' }}>
+						<Toolbar>
+							<Typography variant="h6">{props.title}</Typography>
+							<Box sx={{ flexGrow: 1 }} />
+							<IconButton
+								edge="start"
+								color="inherit"
+								onClick={props.onClose}
+							>
+								<CloseIcon />
+							</IconButton>
+						</Toolbar>
+					</AppBar>
+					<DialogContent className="Body">
+						{props.children}
+					</DialogContent>
+					<DialogActions>{props.actions}</DialogActions>
+				</Form>
+			</Dialog>
+		</SlideDialogResponsiveWrapper>
 	);
 };

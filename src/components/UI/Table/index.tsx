@@ -31,10 +31,11 @@ interface Props {
 	readonly belowTableActions?: ReadonlyArray<ReactNode>;
 	readonly loading?: boolean;
 	readonly pagination?: TablePaginationConfig;
+	readonly 'data-testid'?: string;
 }
 
 export const Table = (props: PropsWithChildren<Props>) => (
-	<div className="AppTable">
+	<div className="AppTable" data-testid={props['data-testid']}>
 		<TableContainer component={Paper}>
 			<MuiTable>
 				<TableHead>

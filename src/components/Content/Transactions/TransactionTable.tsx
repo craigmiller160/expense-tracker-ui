@@ -12,7 +12,6 @@ import './TransactionsTable.scss';
 import { Table } from '../../UI/Table';
 import { Button, TableCell, TableRow } from '@mui/material';
 import { Autocomplete } from '@craigmiller160/react-hook-form-material-ui';
-import { FullPageTableWrapper } from '../../UI/Table/FullPageTableWrapper';
 import { FormState } from 'react-hook-form';
 import { ReactNode } from 'react';
 import { Updater } from 'use-immer';
@@ -95,79 +94,78 @@ export const TransactionTable = (props: Props) => {
 	return (
 		<div className="TransactionsTable">
 			<form onSubmit={handleSubmit(onSubmit)}>
-				<FullPageTableWrapper data-testid="transaction-table">
-					<Table
-						columns={COLUMNS}
-						loading={isFetching}
-						pagination={tablePagination}
-						belowTableActions={belowTableActions}
-					>
-						{fields.map((field, index) => {
-							const txn = transactions[index];
-							if (!txn) {
-								return <span key={index}></span>;
-							}
-							return (
-								<TableRow
-									key={txn.id}
-									data-testid="transaction-table-row"
+				<Table
+					columns={COLUMNS}
+					loading={isFetching}
+					pagination={tablePagination}
+					belowTableActions={belowTableActions}
+					data-testid="transactions-table"
+				>
+					{fields.map((field, index) => {
+						const txn = transactions[index];
+						if (!txn) {
+							return <span key={index}></span>;
+						}
+						return (
+							<TableRow
+								key={txn.id}
+								data-testid="transaction-table-row"
+							>
+								<TableCell data-testid="transaction-expense-date">
+									{txn.expenseDate}
+								</TableCell>
+								<TableCell
+									className="DescriptionCell"
+									data-testid="transaction-description"
 								>
-									<TableCell data-testid="transaction-expense-date">
-										{txn.expenseDate}
-									</TableCell>
-									<TableCell
-										className="DescriptionCell"
-										data-testid="transaction-description"
+									{txn.description}
+								</TableCell>
+								<TableCell>
+									{`$${txn.amount.toFixed(2)}`}
+								</TableCell>
+								<TableCell className="CategoryCell">
+									<Autocomplete
+										name={`transactions.${index}.category`}
+										control={control}
+										label="Category"
+										options={categories}
+									/>
+								</TableCell>
+								<TableCell className="FlagsCell">
+									<Popover
+										className={conditionalVisible(
+											txn.duplicate
+										)}
+										message="Transaction is a duplicate"
+										data-testid="duplicate-icon"
 									>
-										{txn.description}
-									</TableCell>
-									<TableCell>
-										{`$${txn.amount.toFixed(2)}`}
-									</TableCell>
-									<TableCell className="CategoryCell">
-										<Autocomplete
-											name={`transactions.${index}.category`}
-											control={control}
-											label="Category"
-											options={categories}
-										/>
-									</TableCell>
-									<TableCell className="FlagsCell">
-										<Popover
-											className={conditionalVisible(
-												txn.duplicate
-											)}
-											message="Transaction is a duplicate"
-											data-testid="duplicate-icon"
-										>
-											<FileCopyIcon color="warning" />
-										</Popover>
-										<Popover
-											className={conditionalVisible(
-												!txn.confirmed
-											)}
-											message="Transaction has not been confirmed"
-											data-testid="not-confirmed-icon"
-										>
-											<ThumbDownIcon color="warning" />
-										</Popover>
-										<Popover
-											className={conditionalVisible(
-												!getValues(
-													`transactions.${index}.category`
-												)
-											)}
-											message="Transaction has not been categorized"
-											data-testid="no-category-icon"
-										>
-											<CategoryIcon color="warning" />
-										</Popover>
-									</TableCell>
-								</TableRow>
-							);
-						})}
-					</Table>
-				</FullPageTableWrapper>
+										<FileCopyIcon color="warning" />
+									</Popover>
+									<Popover
+										className={conditionalVisible(
+											!txn.confirmed
+										)}
+										message="Transaction has not been confirmed"
+										data-testid="not-confirmed-icon"
+									>
+										<ThumbDownIcon color="warning" />
+									</Popover>
+									<Popover
+										className={conditionalVisible(
+											!getValues(
+												`transactions.${index}.category`
+											)
+										)}
+										message="Transaction has not been categorized"
+										data-testid="no-category-icon"
+									>
+										<CategoryIcon color="warning" />
+									</Popover>
+								</TableCell>
+							</TableRow>
+						);
+					})}
+				</Table>
 			</form>
 		</div>
 	);

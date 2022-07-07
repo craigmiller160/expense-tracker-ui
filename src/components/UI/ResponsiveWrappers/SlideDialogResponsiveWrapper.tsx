@@ -3,7 +3,13 @@ import { useTheme } from '@mui/material';
 import { PropsWithChildren } from 'react';
 import { InnerDivProps, WrapperOuterProps } from './utils';
 
-const InnerDiv = styled.div<InnerDivProps>``;
+// TODO delete if unused
+
+const InnerDiv = styled.div<InnerDivProps>`
+	& > .SlideDialog {
+		width: 100%;
+	}
+`;
 
 export const SlideDialogResponsiveWrapper = (
 	props: PropsWithChildren<WrapperOuterProps>

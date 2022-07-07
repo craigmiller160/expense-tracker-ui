@@ -9,7 +9,13 @@ export const StyledForm = styled.form<StyledFormProps>`
 	width: 100%;
 	> * {
 		margin: 1rem auto;
-		width: 100%;
+		width: 50%;
+	}
+
+	${({ breakpoints }) => breakpoints.only('xs')} {
+		> * {
+			width: 100%;
+		}
 	}
 
 	${({ breakpoints }) => breakpoints.up('md')} {

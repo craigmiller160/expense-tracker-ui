@@ -1,11 +1,15 @@
 @import "../../../styles/page";
 
 .ImportTransactions {
-  @include PageRoot;
+  .ImportFormContainer {
+    width: 100%;
+    padding: 1rem;
 
-  .ImportForm {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    .ImportForm {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
   }
 }

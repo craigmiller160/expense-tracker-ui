@@ -22,6 +22,7 @@ import {
 	useNewConfirmDialog
 } from '../../UI/ConfirmDialog/ConfirmDialogProvider';
 import { PageTitle } from '../../UI/PageTitle';
+import { PageResponsiveWrapper } from '../../UI/ResponsiveWrappers/PageResponsiveWrapper';
 
 const COLUMNS = ['Name', 'Actions'];
 
@@ -150,7 +151,7 @@ export const Categories = () => {
 	];
 
 	return (
-		<div className="Categories">
+		<PageResponsiveWrapper className="Categories">
 			<PageTitle title="Manage Categories" />
 			<div className="TableWrapper">
 				<Table
@@ -167,6 +168,6 @@ export const Categories = () => {
 				saveCategory={saveCategory}
 				deleteCategory={deleteCategory}
 			/>
-		</div>
+		</PageResponsiveWrapper>
 	);
 };

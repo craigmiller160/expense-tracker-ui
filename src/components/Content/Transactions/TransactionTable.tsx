@@ -160,35 +160,37 @@ export const TransactionTable = (props: Props) => {
 									{!getValues().editMode && txn.categoryName}
 								</TableCell>
 								<TableCell className="FlagsCell">
-									<Popover
-										className={conditionalVisible(
-											txn.duplicate
-										)}
-										message="Transaction is a duplicate"
-										data-testid="duplicate-icon"
-									>
-										<FileCopyIcon color="warning" />
-									</Popover>
-									<Popover
-										className={conditionalVisible(
-											!txn.confirmed
-										)}
-										message="Transaction has not been confirmed"
-										data-testid="not-confirmed-icon"
-									>
-										<ThumbDownIcon color="warning" />
-									</Popover>
-									<Popover
-										className={conditionalVisible(
-											!getValues(
-												`transactions.${index}.category`
-											)
-										)}
-										message="Transaction has not been categorized"
-										data-testid="no-category-icon"
-									>
-										<CategoryIcon color="warning" />
-									</Popover>
+									<div className="FlagsContainer">
+										<Popover
+											className={conditionalVisible(
+												txn.duplicate
+											)}
+											message="Transaction is a duplicate"
+											data-testid="duplicate-icon"
+										>
+											<FileCopyIcon color="warning" />
+										</Popover>
+										<Popover
+											className={conditionalVisible(
+												!txn.confirmed
+											)}
+											message="Transaction has not been confirmed"
+											data-testid="not-confirmed-icon"
+										>
+											<ThumbDownIcon color="warning" />
+										</Popover>
+										<Popover
+											className={conditionalVisible(
+												!getValues(
+													`transactions.${index}.category`
+												)
+											)}
+											message="Transaction has not been categorized"
+											data-testid="no-category-icon"
+										>
+											<CategoryIcon color="warning" />
+										</Popover>
+									</div>
 								</TableCell>
 							</TableRow>
 						);

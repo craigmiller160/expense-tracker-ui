@@ -23,15 +23,4 @@
     max-width: 20rem;
     word-wrap: break-word;
   }
-
-  .FlagsCell {
-    .FlagsContainer {
-      >* {
-        margin: 0 0.2rem;
-        &:not(.visible) {
-          visibility: hidden;
-        }
-      }
-    }
-  }
 }

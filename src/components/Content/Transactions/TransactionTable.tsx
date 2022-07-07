@@ -24,6 +24,7 @@ import FileCopyIcon from '@mui/icons-material/FileCopy';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import CategoryIcon from '@mui/icons-material/Category';
 import { Popover } from '../../UI/Popover';
+import { ResponsiveFlagsContainer } from './responsive/ResponsiveFlagsContainer';
 
 const COLUMNS = ['Expense Date', 'Description', 'Amount', 'Category', 'Flags'];
 
@@ -160,7 +161,7 @@ export const TransactionTable = (props: Props) => {
 									{!getValues().editMode && txn.categoryName}
 								</TableCell>
 								<TableCell className="FlagsCell">
-									<div className="FlagsContainer">
+									<ResponsiveFlagsContainer>
 										<Popover
 											className={conditionalVisible(
 												txn.duplicate
@@ -190,7 +191,7 @@ export const TransactionTable = (props: Props) => {
 										>
 											<CategoryIcon color="warning" />
 										</Popover>
-									</div>
+									</ResponsiveFlagsContainer>
 								</TableCell>
 							</TableRow>
 						);

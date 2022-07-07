@@ -10,7 +10,7 @@ const InnerDiv = styled.div<InnerDivProps>`
 		flex-direction: column;
 		> * {
 			width: 100%;
-			margin: 0.5rem auto;
+			margin: 0.5rem auto !important;
 		}
 	}
 

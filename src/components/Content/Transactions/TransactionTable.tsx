@@ -124,12 +124,13 @@ export const TransactionTable = (props: Props) => {
 									{`$${txn.amount.toFixed(2)}`}
 								</TableCell>
 								<TableCell className="CategoryCell">
-									<Autocomplete
-										name={`transactions.${index}.category`}
-										control={control}
-										label="Category"
-										options={categories}
-									/>
+									{/*<Autocomplete*/}
+									{/*	name={`transactions.${index}.category`}*/}
+									{/*	control={control}*/}
+									{/*	label="Category"*/}
+									{/*	options={categories}*/}
+									{/*/>*/}
+									{txn.categoryName}
 								</TableCell>
 								<TableCell className="FlagsCell">
 									<Popover

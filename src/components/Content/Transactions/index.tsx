@@ -12,6 +12,7 @@ import { TransactionSearchFilters } from './TransactionSearchFilters';
 import { useForm, UseFormHandleSubmit } from 'react-hook-form';
 import { ForceUpdate, useForceUpdate } from '../../../utils/useForceUpdate';
 import { NeedsAttentionNotice } from './NeedsAttentionNotice';
+import { PageResponsiveWrapper } from '../../UI/ResponsiveWrappers/PageResponsiveWrapper';
 
 const createOnValueHasChanged = (
 	handleSubmit: UseFormHandleSubmit<TransactionSearchForm>,
@@ -49,7 +50,7 @@ export const Transactions = () => {
 	);
 
 	return (
-		<div className="ManageTransactions">
+		<PageResponsiveWrapper className="ManageTransactions">
 			<PageTitle title="Manage Transactions" />
 			<TransactionSearchFilters
 				form={form}
@@ -61,6 +62,6 @@ export const Transactions = () => {
 				pagination={paginationState}
 				onPaginationChange={setPaginationState}
 			/>
-		</div>
+		</PageResponsiveWrapper>
 	);
 };

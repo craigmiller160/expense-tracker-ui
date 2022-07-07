@@ -90,7 +90,8 @@ const createResetFormToData =
 	() => {
 		const formValues = transactions.map(transactionToFormValues);
 		reset({
-			transactions: formValues
+			transactions: formValues,
+			editMode: false
 		});
 	};
 

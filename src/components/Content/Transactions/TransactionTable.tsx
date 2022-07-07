@@ -11,8 +11,11 @@ import {
 import './TransactionsTable.scss';
 import { Table } from '../../UI/Table';
 import { Button, TableCell, TableRow } from '@mui/material';
-import { Autocomplete } from '@craigmiller160/react-hook-form-material-ui';
-import { FormState } from 'react-hook-form';
+import {
+	Autocomplete,
+	Switch
+} from '@craigmiller160/react-hook-form-material-ui';
+import { Control, FormState } from 'react-hook-form';
 import { ReactNode } from 'react';
 import { Updater } from 'use-immer';
 import { CategorizeTransactionsMutation } from '../../../ajaxapi/query/TransactionQueries';
@@ -29,6 +32,10 @@ interface Props {
 	readonly onPaginationChange: Updater<PaginationState>;
 	readonly filterValues: TransactionSearchForm;
 }
+
+const createAboveTableActions = (control: Control<TransactionTableForm>) => [
+	<Switch key="editModeSwitch" control={control} name="editMode" label="Edit Mode" />
+];
 
 const createBelowTableActions = (
 	formState: FormState<TransactionTableForm>,
@@ -84,12 +91,15 @@ export const TransactionTable = (props: Props) => {
 		props.onPaginationChange
 	);
 
+	const aboveTableActions = createAboveTableActions(control);
 	const belowTableActions = createBelowTableActions(
 		formState,
 		resetFormToData
 	);
 
 	const onSubmit = createOnSubmit(categorizeTransactions);
+
+	console.log('Values', getValues());
 
 	return (
 		<div className="TransactionsTable">
@@ -98,6 +108,7 @@ export const TransactionTable = (props: Props) => {
 					columns={COLUMNS}
 					loading={isFetching}
 					pagination={tablePagination}
+					aboveTableActions={aboveTableActions}
 					belowTableActions={belowTableActions}
 					data-testid="transactions-table"
 				>

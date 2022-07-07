@@ -2,8 +2,10 @@
 
 .Categories {
   @include PageRoot;
+  width: 100%;
 
   .TableWrapper {
+    width: 100%;
     th:nth-child(2) {
       @include RightAlign;
     }

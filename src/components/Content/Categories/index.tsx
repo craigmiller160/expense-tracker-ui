@@ -22,7 +22,6 @@ import {
 	useNewConfirmDialog
 } from '../../UI/ConfirmDialog/ConfirmDialogProvider';
 import { PageTitle } from '../../UI/PageTitle';
-import { FullPageTableWrapper } from '../../UI/Table/FullPageTableWrapper';
 
 const COLUMNS = ['Name', 'Actions'];
 
@@ -153,7 +152,7 @@ export const Categories = () => {
 	return (
 		<div className="Categories">
 			<PageTitle title="Manage Categories" />
-			<FullPageTableWrapper className="TableWrapper">
+			<div className="TableWrapper">
 				<Table
 					columns={COLUMNS}
 					loading={isLoading}
@@ -161,7 +160,7 @@ export const Categories = () => {
 				>
 					{Rows}
 				</Table>
-			</FullPageTableWrapper>
+			</div>
 			<CategoryDetailsDialog
 				selectedCategory={state.selectedCategoryDetails}
 				onClose={() => updateSelectedCategoryDetails(Option.none)}

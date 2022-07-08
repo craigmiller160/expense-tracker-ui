@@ -6,7 +6,7 @@ const InnerDiv = styled.div<InnerDivProps>`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin: 0 auto;
+	margin: 5rem auto 0 auto;
 	padding: 2rem;
 
 	${({ theme }) => theme.breakpoints.up('xl')} {

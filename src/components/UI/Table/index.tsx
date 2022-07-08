@@ -27,7 +27,7 @@ export interface TablePaginationConfig {
 }
 
 interface Props {
-	readonly columns: ReadonlyArray<string>;
+	readonly columns: ReadonlyArray<string | ReactNode>;
 	readonly aboveTableActions?: ReadonlyArray<ReactNode>;
 	readonly belowTableActions?: ReadonlyArray<ReactNode>;
 	readonly loading?: boolean;
@@ -44,8 +44,8 @@ export const Table = (props: PropsWithChildren<Props>) => (
 			<MuiTable>
 				<TableHead>
 					<TableRow>
-						{props.columns.map((col) => (
-							<TableCell key={col}>{col}</TableCell>
+						{props.columns.map((col, index) => (
+							<TableCell key={index}>{col}</TableCell>
 						))}
 					</TableRow>
 				</TableHead>

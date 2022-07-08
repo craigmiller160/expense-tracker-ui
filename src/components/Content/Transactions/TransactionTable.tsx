@@ -27,9 +27,18 @@ import { Popover } from '../../UI/Popover';
 import { ResponsiveFlagsContainer } from './responsive/ResponsiveFlagsContainer';
 import { useIsAtLeastBreakpoint } from '../../../utils/useIsAtLeastBreakpoint';
 
-const COLUMNS = ['Expense Date', 'Description', 'Amount', 'Category', 'Flags'];
+const COLUMNS: ReadonlyArray<string | ReactNode> = [
+	'Expense Date',
+	'Description',
+	'Amount',
+	'Category',
+	'Flags'
+];
 
-const EDIT_MODE_COLUMNS = ['Confirmed', ...COLUMNS];
+const EDIT_MODE_COLUMNS: ReadonlyArray<string | ReactNode> = [
+	'Confirmed',
+	...COLUMNS
+];
 
 interface Props {
 	readonly pagination: PaginationState;

@@ -59,7 +59,7 @@ export const SideDialog = (props: PropsWithChildren<Props>) => {
 			onClose={props.onClose}
 			open={props.open}
 			TransitionComponent={Transition}
-			className="SideDialog"
+			className="SlideDialog"
 		>
 			<Form formSubmit={props.formSubmit}>
 				<AppBar sx={{ position: 'relative' }}>

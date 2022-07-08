@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import './Navbar.scss';
 import { DesktopNavItems } from './DesktopNavItems';
 import { useIsExactlyBreakpoint } from '../../utils/useIsExactlyBreakpoint';
+import { MobileNavItems } from './MobileNavItems';
 
 export const Navbar = () => {
 	const isMobile = useIsExactlyBreakpoint('xs');
@@ -20,6 +21,7 @@ export const Navbar = () => {
 							Expense Tracker
 						</Typography>
 					</Button>
+					{isMobile && <MobileNavItems />}
 					{!isMobile && <DesktopNavItems />}
 				</Toolbar>
 			</AppBar>

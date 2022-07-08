@@ -2,7 +2,7 @@ import { MouseEvent } from 'react';
 import { useDeriveNavbarFromAuthUser } from './useDeriveNavbarFromAuthUser';
 import { useImmer } from 'use-immer';
 import { castDraft } from 'immer';
-import { Button, Menu, MenuItem } from '@mui/material';
+import { Box, Button, Menu, MenuItem } from '@mui/material';
 import './MobileNavItems.scss';
 
 type OpenMenu = (event: MouseEvent<HTMLButtonElement>) => void;
@@ -50,16 +50,18 @@ export const MobileNavItems = () => {
 
 	return (
 		<div className="MobileNavItems">
-			<Button
-				id="mobile-nav-items-button"
-				aria-controls={open ? 'basic-menu' : undefined}
-				aria-haspopup="true"
-				aria-expanded={open ? 'true' : undefined}
-				onClick={openMenu}
-				color="inherit"
-			>
-				Testing 123
-			</Button>
+			{isAuthorized && (
+				<Button
+					id="mobile-nav-items-button"
+					aria-controls={open ? 'basic-menu' : undefined}
+					aria-haspopup="true"
+					aria-expanded={open ? 'true' : undefined}
+					onClick={openMenu}
+					color="inherit"
+				>
+					Testing 123
+				</Button>
+			)}
 			<Menu
 				open={open}
 				anchorEl={anchor}
@@ -72,6 +74,7 @@ export const MobileNavItems = () => {
 				<MenuItem onClick={closeMenu}>My account</MenuItem>
 				<MenuItem onClick={closeMenu}>Logout</MenuItem>
 			</Menu>
+			{!isAuthorized && <Box sx={{ flexGrow: 1 }} />}
 			{hasCheckedAuthorization && (
 				<Button color="inherit" onClick={authButtonAction}>
 					{authButtonText}

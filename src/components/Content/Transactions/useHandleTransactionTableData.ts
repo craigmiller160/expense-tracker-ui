@@ -32,6 +32,7 @@ const formatDisplayDate = (dateString: string) =>
 
 export interface TransactionFormValues {
 	readonly transactionId: string;
+	readonly confirmed: boolean;
 	readonly category: CategoryOption | null;
 }
 
@@ -78,7 +79,8 @@ const transactionToFormValues = (
 	transaction: TransactionResponse
 ): TransactionFormValues => ({
 	transactionId: transaction.id,
-	category: transactionToCategoryOption(transaction)
+	category: transactionToCategoryOption(transaction),
+	confirmed: transaction.confirmed
 });
 
 const createResetFormToData =

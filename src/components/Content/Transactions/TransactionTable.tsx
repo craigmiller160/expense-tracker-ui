@@ -15,7 +15,7 @@ import {
 	Autocomplete,
 	Checkbox
 } from '@craigmiller160/react-hook-form-material-ui';
-import { FormState } from 'react-hook-form';
+import { Control, FormState } from 'react-hook-form';
 import { ReactNode } from 'react';
 import { Updater } from 'use-immer';
 import { CategorizeTransactionsMutation } from '../../../ajaxapi/query/TransactionQueries';
@@ -35,8 +35,15 @@ const COLUMNS: ReadonlyArray<string | ReactNode> = [
 	'Flags'
 ];
 
-const EDIT_MODE_COLUMNS: ReadonlyArray<string | ReactNode> = [
-	'Confirmed',
+const createEditModeColumns = (
+	control: Control<TransactionTableForm>
+): ReadonlyArray<string | ReactNode> => [
+	<Checkbox
+		key="confirmAll"
+		control={control}
+		name="confirmAll"
+		label="Confirm"
+	/>,
 	...COLUMNS
 ];
 
@@ -118,11 +125,13 @@ export const TransactionTable = (props: Props) => {
 
 	const editClass = editMode ? 'edit' : '';
 
+	const editModeColumns = createEditModeColumns(control);
+
 	return (
 		<div className="TransactionsTable">
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<Table
-					columns={editMode ? EDIT_MODE_COLUMNS : COLUMNS}
+					columns={editMode ? editModeColumns : COLUMNS}
 					loading={isFetching}
 					pagination={tablePagination}
 					belowTableActions={belowTableActions}

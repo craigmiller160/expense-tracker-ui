@@ -37,6 +37,7 @@ export interface TransactionFormValues {
 }
 
 export interface TransactionTableForm {
+	readonly confirmAll: boolean;
 	readonly transactions: ReadonlyArray<TransactionFormValues>;
 }
 
@@ -91,6 +92,7 @@ const createResetFormToData =
 	() => {
 		const formValues = transactions.map(transactionToFormValues);
 		reset({
+			confirmAll: false,
 			transactions: formValues
 		});
 	};
@@ -131,7 +133,10 @@ export const useHandleTransactionTableData = (
 	const { mutate: categorizeTransactions } = useCategorizeTransactions();
 	const form = useForm<TransactionTableForm>({
 		mode: 'onChange',
-		reValidateMode: 'onChange'
+		reValidateMode: 'onChange',
+		defaultValues: {
+			confirmAll: false
+		}
 	});
 	const { fields } = useFieldArray({
 		control: form.control,
@@ -161,6 +166,7 @@ export const useHandleTransactionTableData = (
 	useEffect(() => {
 		if (transactionIsFetching) {
 			form.reset({
+				confirmAll: false,
 				transactions: []
 			});
 		}

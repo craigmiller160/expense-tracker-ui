@@ -11,11 +11,8 @@ import {
 import './TransactionsTable.scss';
 import { Table } from '../../UI/Table';
 import { Button, TableCell, TableRow } from '@mui/material';
-import {
-	Autocomplete,
-	Switch
-} from '@craigmiller160/react-hook-form-material-ui';
-import { Control, FormState } from 'react-hook-form';
+import { Autocomplete } from '@craigmiller160/react-hook-form-material-ui';
+import { FormState } from 'react-hook-form';
 import { ReactNode } from 'react';
 import { Updater } from 'use-immer';
 import { CategorizeTransactionsMutation } from '../../../ajaxapi/query/TransactionQueries';
@@ -25,6 +22,7 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import CategoryIcon from '@mui/icons-material/Category';
 import { Popover } from '../../UI/Popover';
 import { ResponsiveFlagsContainer } from './responsive/ResponsiveFlagsContainer';
+import { useIsAtLeastBreakpoint } from '../../../utils/useIsAtLeastBreakpoint';
 
 const COLUMNS = ['Expense Date', 'Description', 'Amount', 'Category', 'Flags'];
 
@@ -33,15 +31,6 @@ interface Props {
 	readonly onPaginationChange: Updater<PaginationState>;
 	readonly filterValues: TransactionSearchForm;
 }
-
-const createAboveTableActions = (control: Control<TransactionTableForm>) => [
-	<Switch
-		key="editModeSwitch"
-		control={control}
-		name="editMode"
-		label="Edit Mode"
-	/>
-];
 
 const createBelowTableActions = (
 	formState: FormState<TransactionTableForm>,
@@ -102,17 +91,17 @@ export const TransactionTable = (props: Props) => {
 		totalRecords,
 		props.onPaginationChange
 	);
+	const editMode = useIsAtLeastBreakpoint('sm');
 
-	const aboveTableActions = createAboveTableActions(control);
 	const belowTableActions = createBelowTableActions(
 		formState,
 		resetFormToData,
-		getValues().editMode
+		editMode
 	);
 
 	const onSubmit = createOnSubmit(categorizeTransactions);
 
-	const editClass = getValues().editMode ? 'edit' : '';
+	const editClass = editMode ? 'edit' : '';
 
 	return (
 		<div className="TransactionsTable">
@@ -121,7 +110,6 @@ export const TransactionTable = (props: Props) => {
 					columns={COLUMNS}
 					loading={isFetching}
 					pagination={tablePagination}
-					aboveTableActions={aboveTableActions}
 					belowTableActions={belowTableActions}
 					data-testid="transactions-table"
 				>
@@ -150,7 +138,7 @@ export const TransactionTable = (props: Props) => {
 								<TableCell
 									className={`CategoryCell ${editClass}`}
 								>
-									{getValues().editMode && (
+									{editMode && (
 										<Autocomplete
 											name={`transactions.${index}.category`}
 											control={control}
@@ -158,7 +146,7 @@ export const TransactionTable = (props: Props) => {
 											options={categories}
 										/>
 									)}
-									{!getValues().editMode && txn.categoryName}
+									{!editMode && txn.categoryName}
 								</TableCell>
 								<TableCell className="FlagsCell">
 									<ResponsiveFlagsContainer>

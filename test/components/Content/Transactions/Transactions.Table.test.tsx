@@ -120,7 +120,7 @@ describe('Transactions Table', () => {
 			pageNumber: 0,
 			pageSize: 25,
 			sortKey: TransactionSortKey.EXPENSE_DATE,
-			sortDirection: SortDirection.ASC
+			sortDirection: SortDirection.DESC
 		});
 		apiServer.database.updateData((draft) => {
 			draft.transactions[transactions[0].id] = {
@@ -359,7 +359,7 @@ describe('Transactions Table', () => {
 			pageNumber: 0,
 			pageSize: 25,
 			sortKey: TransactionSortKey.EXPENSE_DATE,
-			sortDirection: SortDirection.ASC
+			sortDirection: SortDirection.DESC
 		});
 		const categories = await getAllCategories();
 		apiServer.database.updateData((draft) => {

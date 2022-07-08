@@ -56,7 +56,7 @@ describe('Transactions Table', () => {
 		);
 
 		const tableHeader = screen
-			.getByTestId('transaction-table')
+			.getByTestId('transactions-table')
 			.querySelector('thead');
 		expect(tableHeader).not.toBeNull();
 
@@ -84,7 +84,7 @@ describe('Transactions Table', () => {
 		expect(
 			within(transactionFilters).queryByLabelText('Order By')
 		).toBeVisible();
-		expect(getOrderByValueElement()).toHaveTextContent('Oldest to Newest');
+		expect(getOrderByValueElement()).toHaveTextContent('Newest to Oldest');
 		expect(
 			within(transactionFilters).queryByLabelText('Is Duplicate')
 		).not.toBeChecked();

@@ -16,10 +16,7 @@ import { pipe } from 'fp-ts/es6/function';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 import * as Sleep from '@craigmiller160/ts-functions/es/Sleep';
 import { searchForTransactions } from '../../../../src/ajaxapi/service/TransactionService';
-import {
-	DATE_FORMAT,
-	TransactionSortKey
-} from '../../../../src/types/transactions';
+import { TransactionSortKey } from '../../../../src/types/transactions';
 import { SortDirection } from '../../../../src/types/misc';
 import { getAllCategories } from '../../../../src/ajaxapi/service/CategoryService';
 import userEvent from '@testing-library/user-event';
@@ -27,11 +24,13 @@ import { ApiServer, newApiServer } from '../../../server';
 import '@testing-library/jest-dom';
 import * as RArray from 'fp-ts/es6/ReadonlyArray';
 import {
+	createTransaction,
 	transactionRecordMonoid,
-	transactionToRecord,
-	createTransaction
+	transactionToRecord
 } from '../../../testutils/transactionDataUtils';
 import * as Monoid from 'fp-ts/es6/Monoid';
+
+const DISPLAY_DATE_FORMAT = 'MM/dd/yyyy';
 
 describe('Transactions Filters', () => {
 	let apiServer: ApiServer;
@@ -178,12 +177,12 @@ describe('Transactions Filters', () => {
 
 		const expectedFirstDate = pipe(
 			defaultStartDate(),
-			Time.format(DATE_FORMAT)
+			Time.format(DISPLAY_DATE_FORMAT)
 		);
 		const expectedLastDate = pipe(
 			defaultStartDate(),
 			Time.addDays(24),
-			Time.format(DATE_FORMAT)
+			Time.format(DISPLAY_DATE_FORMAT)
 		);
 
 		expect(dates[0]).toHaveTextContent(expectedFirstDate);
@@ -198,12 +197,12 @@ describe('Transactions Filters', () => {
 
 		const newExpectedFirstDate = pipe(
 			defaultEndDate(),
-			Time.format(DATE_FORMAT)
+			Time.format(DISPLAY_DATE_FORMAT)
 		);
 		const newExpectedLastDate = pipe(
 			defaultEndDate(),
 			Time.subDays(24),
-			Time.format(DATE_FORMAT)
+			Time.format(DISPLAY_DATE_FORMAT)
 		);
 
 		const newDates = screen.getAllByTestId('transaction-expense-date');

@@ -11,7 +11,10 @@ import {
 import './TransactionsTable.scss';
 import { Table } from '../../UI/Table';
 import { Button, TableCell, TableRow } from '@mui/material';
-import { Autocomplete } from '@craigmiller160/react-hook-form-material-ui';
+import {
+	Autocomplete,
+	Checkbox
+} from '@craigmiller160/react-hook-form-material-ui';
 import { FormState } from 'react-hook-form';
 import { ReactNode } from 'react';
 import { Updater } from 'use-immer';
@@ -24,7 +27,14 @@ import { Popover } from '../../UI/Popover';
 import { ResponsiveFlagsContainer } from './responsive/ResponsiveFlagsContainer';
 import { useIsAtLeastBreakpoint } from '../../../utils/useIsAtLeastBreakpoint';
 
-const COLUMNS = ['Expense Date', 'Description', 'Amount', 'Category', 'Flags'];
+const COLUMNS = [
+	'Confirmed',
+	'Expense Date',
+	'Description',
+	'Amount',
+	'Category',
+	'Flags'
+];
 
 interface Props {
 	readonly pagination: PaginationState;
@@ -124,6 +134,15 @@ export const TransactionTable = (props: Props) => {
 								key={txn.id}
 								data-testid="transaction-table-row"
 							>
+								<TableCell className="ConfirmedCell">
+									{!txn.confirmed && (
+										<Checkbox
+											control={control}
+											name={`transactions.${index}.confirmed`}
+											label=""
+										/>
+									)}
+								</TableCell>
 								<TableCell data-testid="transaction-expense-date">
 									{txn.expenseDate}
 								</TableCell>

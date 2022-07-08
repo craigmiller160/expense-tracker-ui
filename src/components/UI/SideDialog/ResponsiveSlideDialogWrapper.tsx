@@ -4,7 +4,7 @@ import { PropsWithChildren } from 'react';
 import { Paper, useTheme } from '@mui/material';
 
 const InnerDiv = styled.div<InnerDivProps>`
-	width: 30%;
+	width: 30% !important;
 	min-height: 100%;
 
 	> .MuiPaper-root {

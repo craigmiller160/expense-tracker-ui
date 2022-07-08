@@ -5,7 +5,16 @@ import { castDraft } from 'immer';
 import { Box, Button, Menu, MenuItem } from '@mui/material';
 import './MobileNavItems.scss';
 import { useLocation } from 'react-router';
-import { NavbarItem } from './items';
+import {
+	IMPORT_TRANSACTIONS_LABEL,
+	IMPORT_TRANSACTIONS_TO,
+	MANAGE_CATEGORIES_LABEL,
+	MANAGE_CATEGORIES_TO,
+	MANAGE_TRANSACTIONS_LABEL,
+	MANAGE_TRANSACTIONS_TO,
+	NAVBAR_ITEMS,
+	NavbarItem
+} from './items';
 import { match } from 'ts-pattern';
 
 type OpenMenu = (event: MouseEvent<HTMLButtonElement>) => void;
@@ -52,7 +61,27 @@ const useMenuControls = (): UseMenuControlsReturn => {
 	};
 };
 
-const findCurrentLabel = (pathname: string): string => match(pathname);
+const pathStartsWith =
+	(prefix: string) =>
+	(path: string): boolean =>
+		path.startsWith(prefix);
+
+const findCurrentLabel = (pathname: string): string =>
+	match(pathname)
+		.when(
+			pathStartsWith(MANAGE_TRANSACTIONS_TO),
+			() => MANAGE_TRANSACTIONS_LABEL
+		)
+		.when(
+			pathStartsWith(MANAGE_CATEGORIES_TO),
+			() => MANAGE_CATEGORIES_LABEL
+		)
+		.when(
+			pathStartsWith(IMPORT_TRANSACTIONS_TO),
+			() => IMPORT_TRANSACTIONS_LABEL
+		)
+		.with('/', () => MANAGE_TRANSACTIONS_LABEL)
+		.run();
 
 const useMenuNavigation = (closeMenu: CloseMenu): UseMenuNavigationReturn => {
 	const location = useLocation();

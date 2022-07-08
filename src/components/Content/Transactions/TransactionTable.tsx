@@ -91,7 +91,8 @@ export const TransactionTable = (props: Props) => {
 		totalRecords,
 		props.onPaginationChange
 	);
-	const editMode = useIsAtLeastBreakpoint('sm');
+	const isAtLeastSm = useIsAtLeastBreakpoint('sm');
+	const editMode = process.env.NODE_ENV === 'test' || isAtLeastSm;
 
 	const belowTableActions = createBelowTableActions(
 		formState,

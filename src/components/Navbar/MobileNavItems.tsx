@@ -1,12 +1,16 @@
-import { MouseEvent } from 'react';
+import { MouseEvent, useEffect } from 'react';
 import { useDeriveNavbarFromAuthUser } from './useDeriveNavbarFromAuthUser';
 import { useImmer } from 'use-immer';
 import { castDraft } from 'immer';
 import { Box, Button, Menu, MenuItem } from '@mui/material';
 import './MobileNavItems.scss';
+import { useLocation } from 'react-router';
+import { NavbarItem } from './items';
+import { match } from 'ts-pattern';
 
 type OpenMenu = (event: MouseEvent<HTMLButtonElement>) => void;
 type CloseMenu = () => void;
+type SelectNavItem = (item: NavbarItem) => () => void;
 
 interface UseMenuControlsReturn {
 	readonly open: boolean;
@@ -17,6 +21,15 @@ interface UseMenuControlsReturn {
 
 interface UseMenuControlsState {
 	readonly anchor?: HTMLElement;
+}
+
+interface UseMenuNavigationState {
+	readonly currentLabel: string;
+}
+
+interface UseMenuNavigationReturn {
+	readonly currentLabel: string;
+	readonly selectNavItem: SelectNavItem;
 }
 
 const useMenuControls = (): UseMenuControlsReturn => {
@@ -39,8 +52,24 @@ const useMenuControls = (): UseMenuControlsReturn => {
 	};
 };
 
-const useMenuNavigation = (closeMenu: CloseMenu) => {
+const findCurrentLabel = (pathname: string): string => match(pathname);
 
+const useMenuNavigation = (closeMenu: CloseMenu): UseMenuNavigationReturn => {
+	const location = useLocation();
+	const [state, setState] = useImmer<UseMenuNavigationState>({
+		currentLabel: ''
+	});
+
+	useEffect(() => {
+		setState((draft) => {
+			draft.currentLabel = findCurrentLabel(location.pathname);
+		});
+	}, [location.pathname, setState]);
+
+	return {
+		currentLabel: state.currentLabel,
+		selectNavItem: () => () => {}
+	};
 };
 
 export const MobileNavItems = () => {

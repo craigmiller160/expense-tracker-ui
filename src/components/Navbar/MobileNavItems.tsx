@@ -4,7 +4,7 @@ import { useImmer } from 'use-immer';
 import { castDraft } from 'immer';
 import { Box, Button, Menu, MenuItem } from '@mui/material';
 import './MobileNavItems.scss';
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import {
 	IMPORT_TRANSACTIONS_LABEL,
 	IMPORT_TRANSACTIONS_TO,
@@ -85,6 +85,7 @@ const findCurrentLabel = (pathname: string): string =>
 
 const useMenuNavigation = (closeMenu: CloseMenu): UseMenuNavigationReturn => {
 	const location = useLocation();
+	const navigate = useNavigate();
 	const [state, setState] = useImmer<UseMenuNavigationState>({
 		currentLabel: ''
 	});
@@ -95,9 +96,14 @@ const useMenuNavigation = (closeMenu: CloseMenu): UseMenuNavigationReturn => {
 		});
 	}, [location.pathname, setState]);
 
+	const selectNavItem: SelectNavItem = (item) => () => {
+		navigate(item.to);
+		closeMenu();
+	};
+
 	return {
 		currentLabel: state.currentLabel,
-		selectNavItem: () => () => {}
+		selectNavItem
 	};
 };
 
@@ -109,6 +115,7 @@ export const MobileNavItems = () => {
 		hasCheckedAuthorization
 	} = useDeriveNavbarFromAuthUser();
 	const { open, anchor, openMenu, closeMenu } = useMenuControls();
+	const { currentLabel, selectNavItem } = useMenuNavigation(closeMenu);
 
 	return (
 		<div className="MobileNavItems">
@@ -121,7 +128,7 @@ export const MobileNavItems = () => {
 					onClick={openMenu}
 					color="inherit"
 				>
-					Testing 123
+					{currentLabel}
 				</Button>
 			)}
 			<Menu
@@ -132,9 +139,11 @@ export const MobileNavItems = () => {
 					'aria-labelledby': 'mobile-nav-items-button'
 				}}
 			>
-				<MenuItem onClick={closeMenu}>Profile</MenuItem>
-				<MenuItem onClick={closeMenu}>My account</MenuItem>
-				<MenuItem onClick={closeMenu}>Logout</MenuItem>
+				{NAVBAR_ITEMS.map((item) => (
+					<MenuItem key={item.to} onClick={selectNavItem(item)}>
+						{item.label}
+					</MenuItem>
+				))}
 			</Menu>
 			{!isAuthorized && <Box sx={{ flexGrow: 1 }} />}
 			{hasCheckedAuthorization && (

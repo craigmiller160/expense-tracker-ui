@@ -219,7 +219,7 @@ describe('Transactions Filters', () => {
 			pageNumber: 0,
 			pageSize: 25,
 			sortKey: TransactionSortKey.EXPENSE_DATE,
-			sortDirection: SortDirection.ASC
+			sortDirection: SortDirection.DESC
 		});
 		apiServer.database.updateData((draft) => {
 			draft.transactions[transactions[0].id] = createTransaction({
@@ -263,7 +263,7 @@ describe('Transactions Filters', () => {
 			pageNumber: 0,
 			pageSize: 25,
 			sortKey: TransactionSortKey.EXPENSE_DATE,
-			sortDirection: SortDirection.ASC
+			sortDirection: SortDirection.DESC
 		});
 		apiServer.database.updateData((draft) => {
 			draft.transactions = pipe(
@@ -317,7 +317,7 @@ describe('Transactions Filters', () => {
 			pageNumber: 0,
 			pageSize: 25,
 			sortKey: TransactionSortKey.EXPENSE_DATE,
-			sortDirection: SortDirection.ASC
+			sortDirection: SortDirection.DESC
 		});
 		const categories = await getAllCategories();
 		apiServer.database.updateData((draft) => {

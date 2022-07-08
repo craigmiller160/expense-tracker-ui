@@ -2,6 +2,7 @@ import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
 import { useDeriveNavbarFromAuthUser } from './useDeriveNavbarFromAuthUser';
 import { Link } from 'react-router-dom';
 import { LinkButton } from './LinkButton';
+import './Navbar.scss';
 
 export const Navbar = () => {
 	const {
@@ -11,8 +12,8 @@ export const Navbar = () => {
 		hasCheckedAuthorization
 	} = useDeriveNavbarFromAuthUser();
 	return (
-		<Box sx={{ flexGrow: 1 }} className="Navbar">
-			<AppBar position="static">
+		<Box sx={{ flexGrow: 1, display: 'flex' }} className="Navbar">
+			<AppBar position="static" component="nav">
 				<Toolbar>
 					<Button
 						component={Link}

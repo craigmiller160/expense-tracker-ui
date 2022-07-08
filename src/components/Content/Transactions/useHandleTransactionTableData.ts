@@ -24,6 +24,11 @@ import {
 	TransactionSearchForm
 } from './utils';
 import { match, P } from 'ts-pattern';
+import * as Time from '@craigmiller160/ts-functions/es/Time';
+import { pipe } from 'fp-ts/es6/function';
+
+const formatDisplayDate = (dateString: string) =>
+	pipe(dateString, Time.parse('yyyy-MM-dd'), Time.format('MM/dd/yyyy'));
 
 export interface TransactionFormValues {
 	readonly transactionId: string;
@@ -162,9 +167,18 @@ export const useHandleTransactionTableData = (
 	// This is here so that the icons can be updated in real time to user interaction
 	form.watch();
 
+	const transactions = useMemo(
+		() =>
+			transactionData?.transactions.map((txn) => ({
+				...txn,
+				expenseDate: formatDisplayDate(txn.expenseDate)
+			})),
+		[transactionData]
+	);
+
 	return {
 		data: {
-			transactions: transactionData?.transactions ?? [],
+			transactions: transactions ?? [],
 			categories: categories ?? [],
 			isFetching:
 				transactionIsFetching ||

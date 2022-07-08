@@ -16,10 +16,7 @@ import { pipe } from 'fp-ts/es6/function';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 import * as Sleep from '@craigmiller160/ts-functions/es/Sleep';
 import { searchForTransactions } from '../../../../src/ajaxapi/service/TransactionService';
-import {
-	DATE_FORMAT,
-	TransactionSortKey
-} from '../../../../src/types/transactions';
+import { TransactionSortKey } from '../../../../src/types/transactions';
 import { SortDirection } from '../../../../src/types/misc';
 import { getAllCategories } from '../../../../src/ajaxapi/service/CategoryService';
 import userEvent from '@testing-library/user-event';
@@ -27,11 +24,13 @@ import { ApiServer, newApiServer } from '../../../server';
 import '@testing-library/jest-dom';
 import * as RArray from 'fp-ts/es6/ReadonlyArray';
 import {
+	createTransaction,
 	transactionRecordMonoid,
-	transactionToRecord,
-	createTransaction
+	transactionToRecord
 } from '../../../testutils/transactionDataUtils';
 import * as Monoid from 'fp-ts/es6/Monoid';
+
+const DISPLAY_DATE_FORMAT = 'MM/dd/yyyy';
 
 describe('Transactions Filters', () => {
 	let apiServer: ApiServer;
@@ -177,33 +176,33 @@ describe('Transactions Filters', () => {
 		expect(dates.length).toEqual(25);
 
 		const expectedFirstDate = pipe(
-			defaultStartDate(),
-			Time.format(DATE_FORMAT)
+			defaultEndDate(),
+			Time.format(DISPLAY_DATE_FORMAT)
 		);
 		const expectedLastDate = pipe(
-			defaultStartDate(),
-			Time.addDays(24),
-			Time.format(DATE_FORMAT)
+			defaultEndDate(),
+			Time.subDays(24),
+			Time.format(DISPLAY_DATE_FORMAT)
 		);
 
 		expect(dates[0]).toHaveTextContent(expectedFirstDate);
 		expect(dates[24]).toHaveTextContent(expectedLastDate);
 
 		await userEvent.click(screen.getByLabelText('Order By'));
-		await userEvent.click(screen.getByText('Newest to Oldest'));
+		await userEvent.click(screen.getByText('Oldest to Newest'));
 		await Sleep.immediate();
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 
 		const newExpectedFirstDate = pipe(
-			defaultEndDate(),
-			Time.format(DATE_FORMAT)
+			defaultStartDate(),
+			Time.format(DISPLAY_DATE_FORMAT)
 		);
 		const newExpectedLastDate = pipe(
-			defaultEndDate(),
-			Time.subDays(24),
-			Time.format(DATE_FORMAT)
+			defaultStartDate(),
+			Time.addDays(24),
+			Time.format(DISPLAY_DATE_FORMAT)
 		);
 
 		const newDates = screen.getAllByTestId('transaction-expense-date');
@@ -220,7 +219,7 @@ describe('Transactions Filters', () => {
 			pageNumber: 0,
 			pageSize: 25,
 			sortKey: TransactionSortKey.EXPENSE_DATE,
-			sortDirection: SortDirection.ASC
+			sortDirection: SortDirection.DESC
 		});
 		apiServer.database.updateData((draft) => {
 			draft.transactions[transactions[0].id] = createTransaction({
@@ -264,7 +263,7 @@ describe('Transactions Filters', () => {
 			pageNumber: 0,
 			pageSize: 25,
 			sortKey: TransactionSortKey.EXPENSE_DATE,
-			sortDirection: SortDirection.ASC
+			sortDirection: SortDirection.DESC
 		});
 		apiServer.database.updateData((draft) => {
 			draft.transactions = pipe(
@@ -318,7 +317,7 @@ describe('Transactions Filters', () => {
 			pageNumber: 0,
 			pageSize: 25,
 			sortKey: TransactionSortKey.EXPENSE_DATE,
-			sortDirection: SortDirection.ASC
+			sortDirection: SortDirection.DESC
 		});
 		const categories = await getAllCategories();
 		apiServer.database.updateData((draft) => {

@@ -12,7 +12,6 @@ import './TransactionsTable.scss';
 import { Table } from '../../UI/Table';
 import { Button, TableCell, TableRow } from '@mui/material';
 import { Autocomplete } from '@craigmiller160/react-hook-form-material-ui';
-import { FullPageTableWrapper } from '../../UI/Table/FullPageTableWrapper';
 import { FormState } from 'react-hook-form';
 import { ReactNode } from 'react';
 import { Updater } from 'use-immer';
@@ -22,6 +21,8 @@ import FileCopyIcon from '@mui/icons-material/FileCopy';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import CategoryIcon from '@mui/icons-material/Category';
 import { Popover } from '../../UI/Popover';
+import { ResponsiveFlagsContainer } from './responsive/ResponsiveFlagsContainer';
+import { useIsAtLeastBreakpoint } from '../../../utils/useIsAtLeastBreakpoint';
 
 const COLUMNS = ['Expense Date', 'Description', 'Amount', 'Category', 'Flags'];
 
@@ -33,27 +34,33 @@ interface Props {
 
 const createBelowTableActions = (
 	formState: FormState<TransactionTableForm>,
-	resetFormToData: () => void
-): ReadonlyArray<ReactNode> => [
-	<Button
-		key="reset-button"
-		variant="contained"
-		color="secondary"
-		disabled={!formState.isDirty}
-		onClick={resetFormToData}
-	>
-		Reset
-	</Button>,
-	<Button
-		key="save-button"
-		variant="contained"
-		type="submit"
-		color="success"
-		disabled={!formState.isDirty}
-	>
-		Save
-	</Button>
-];
+	resetFormToData: () => void,
+	editMode: boolean
+): ReadonlyArray<ReactNode> => {
+	if (!editMode) {
+		return [];
+	}
+	return [
+		<Button
+			key="reset-button"
+			variant="contained"
+			color="secondary"
+			disabled={!formState.isDirty}
+			onClick={resetFormToData}
+		>
+			Reset
+		</Button>,
+		<Button
+			key="save-button"
+			variant="contained"
+			type="submit"
+			color="success"
+			disabled={!formState.isDirty}
+		>
+			Save
+		</Button>
+	];
+};
 
 const createOnSubmit =
 	(categorizeTransactions: CategorizeTransactionsMutation) =>
@@ -84,55 +91,66 @@ export const TransactionTable = (props: Props) => {
 		totalRecords,
 		props.onPaginationChange
 	);
+	const isAtLeastSm = useIsAtLeastBreakpoint('sm');
+	const editMode = process.env.NODE_ENV === 'test' || isAtLeastSm;
 
 	const belowTableActions = createBelowTableActions(
 		formState,
-		resetFormToData
+		resetFormToData,
+		editMode
 	);
 
 	const onSubmit = createOnSubmit(categorizeTransactions);
 
+	const editClass = editMode ? 'edit' : '';
+
 	return (
 		<div className="TransactionsTable">
 			<form onSubmit={handleSubmit(onSubmit)}>
-				<FullPageTableWrapper data-testid="transaction-table">
-					<Table
-						columns={COLUMNS}
-						loading={isFetching}
-						pagination={tablePagination}
-						belowTableActions={belowTableActions}
-					>
-						{fields.map((field, index) => {
-							const txn = transactions[index];
-							if (!txn) {
-								return <span key={index}></span>;
-							}
-							return (
-								<TableRow
-									key={txn.id}
-									data-testid="transaction-table-row"
+				<Table
+					columns={COLUMNS}
+					loading={isFetching}
+					pagination={tablePagination}
+					belowTableActions={belowTableActions}
+					data-testid="transactions-table"
+				>
+					{fields.map((field, index) => {
+						const txn = transactions[index];
+						if (!txn) {
+							return <span key={index}></span>;
+						}
+						return (
+							<TableRow
+								key={txn.id}
+								data-testid="transaction-table-row"
+							>
+								<TableCell data-testid="transaction-expense-date">
+									{txn.expenseDate}
+								</TableCell>
+								<TableCell
+									className="DescriptionCell"
+									data-testid="transaction-description"
 								>
-									<TableCell data-testid="transaction-expense-date">
-										{txn.expenseDate}
-									</TableCell>
-									<TableCell
-										className="DescriptionCell"
-										data-testid="transaction-description"
-									>
-										{txn.description}
-									</TableCell>
-									<TableCell>
-										{`$${txn.amount.toFixed(2)}`}
-									</TableCell>
-									<TableCell className="CategoryCell">
+									{txn.description}
+								</TableCell>
+								<TableCell>
+									{`$${txn.amount.toFixed(2)}`}
+								</TableCell>
+								<TableCell
+									className={`CategoryCell ${editClass}`}
+								>
+									{editMode && (
 										<Autocomplete
 											name={`transactions.${index}.category`}
 											control={control}
 											label="Category"
 											options={categories}
 										/>
-									</TableCell>
-									<TableCell className="FlagsCell">
+									)}
+									{!editMode && txn.categoryName}
+								</TableCell>
+								<TableCell className="FlagsCell">
+									<ResponsiveFlagsContainer>
 										<Popover
 											className={conditionalVisible(
 												txn.duplicate
@@ -162,12 +180,12 @@ export const TransactionTable = (props: Props) => {
 										>
 											<CategoryIcon color="warning" />
 										</Popover>
-									</TableCell>
-								</TableRow>
-							);
-						})}
-					</Table>
-				</FullPageTableWrapper>
+									</ResponsiveFlagsContainer>
+								</TableCell>
+							</TableRow>
+						);
+					})}
+				</Table>
 			</form>
 		</div>
 	);

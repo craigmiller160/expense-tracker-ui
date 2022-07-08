@@ -1,9 +1,8 @@
 @import "../../../styles/page";
 
 .Categories {
-  @include PageRoot;
-
   .TableWrapper {
+    width: 100%;
     th:nth-child(2) {
       @include RightAlign;
     }

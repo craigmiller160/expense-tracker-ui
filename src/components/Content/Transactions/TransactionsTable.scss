@@ -14,20 +14,13 @@
   }
 
   .CategoryCell {
-    width: 20%;
+    &.edit {
+      width: 30%;
+    }
   }
 
   td.DescriptionCell {
     max-width: 20rem;
     word-wrap: break-word;
-  }
-
-  .FlagsCell {
-    >* {
-      margin: 0 0.2rem;
-      &:not(.visible) {
-        visibility: hidden;
-      }
-    }
   }
 }

@@ -1,5 +1,5 @@
 import './ImportTransactions.scss';
-import { Button, LinearProgress, useTheme } from '@mui/material';
+import { Button, LinearProgress, Paper, useTheme } from '@mui/material';
 import { useForm, UseFormReset } from 'react-hook-form';
 import { FileType } from '../../../types/file';
 import {
@@ -15,6 +15,7 @@ import {
 } from '../../../ajaxapi/query/TransactionImportQueries';
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { PageTitle } from '../../UI/PageTitle';
+import { PageResponsiveWrapper } from '../../UI/ResponsiveWrappers/PageResponsiveWrapper';
 
 interface FormData {
 	readonly file: File | null;
@@ -98,35 +99,41 @@ export const Import = () => {
 		: { required: 'File Type is required' };
 
 	return (
-		<div className="ImportTransactions">
+		<PageResponsiveWrapper className="ImportTransactions">
 			<PageTitle title="Import Transactions" />
-			<StyledForm
-				breakpoints={theme.breakpoints}
-				className="ImportForm"
-				onSubmit={handleSubmit(onSubmit)}
-			>
-				<Autocomplete
-					name="fileType"
-					control={control}
-					label="File Type"
-					options={FILE_TYPES}
-					disabled={isLoading}
-					rules={fileChooserRules}
-				/>
-				<FileChooser
-					name="file"
-					testId="transaction-file-chooser"
-					control={control}
-					inputRef={fileInputRef}
-					disabled={isLoading}
-					label="Transaction File"
-					rules={{ required: 'File is required' }}
-				/>
-				{isLoading && <LinearProgress />}
-				<Button variant="contained" type="submit" disabled={isLoading}>
-					Import
-				</Button>
-			</StyledForm>
-		</div>
+			<Paper className="ImportFormContainer">
+				<StyledForm
+					breakpoints={theme.breakpoints}
+					className="ImportForm"
+					onSubmit={handleSubmit(onSubmit)}
+				>
+					<Autocomplete
+						name="fileType"
+						control={control}
+						label="File Type"
+						options={FILE_TYPES}
+						disabled={isLoading}
+						rules={fileChooserRules}
+					/>
+					<FileChooser
+						name="file"
+						testId="transaction-file-chooser"
+						control={control}
+						inputRef={fileInputRef}
+						disabled={isLoading}
+						label="Transaction File"
+						rules={{ required: 'File is required' }}
+					/>
+					{isLoading && <LinearProgress />}
+					<Button
+						variant="contained"
+						type="submit"
+						disabled={isLoading}
+					>
+						Import
+					</Button>
+				</StyledForm>
+			</Paper>
+		</PageResponsiveWrapper>
 	);
 };

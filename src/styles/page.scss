@@ -12,7 +12,7 @@
 
 @mixin PageRoot {
   @include ColumnAlignCenter;
-  margin: 2rem;
+  padding: 2rem;
 }
 
 @mixin RightAlign {

@@ -28,14 +28,19 @@ export interface TablePaginationConfig {
 
 interface Props {
 	readonly columns: ReadonlyArray<string>;
+	readonly aboveTableActions?: ReadonlyArray<ReactNode>;
 	readonly belowTableActions?: ReadonlyArray<ReactNode>;
 	readonly loading?: boolean;
 	readonly pagination?: TablePaginationConfig;
+	readonly 'data-testid'?: string;
 }
 
 export const Table = (props: PropsWithChildren<Props>) => (
-	<div className="AppTable">
+	<div className="AppTable" data-testid={props['data-testid']}>
 		<TableContainer component={Paper}>
+			{!props.loading && (
+				<div className="ActionWrapper">{props.aboveTableActions}</div>
+			)}
 			<MuiTable>
 				<TableHead>
 					<TableRow>
@@ -67,9 +72,9 @@ export const Table = (props: PropsWithChildren<Props>) => (
 				)}
 			</MuiTable>
 			{props.loading && <LinearProgress />}
+			{!props.loading && (
+				<div className="ActionWrapper">{props.belowTableActions}</div>
+			)}
 		</TableContainer>
-		{!props.loading && (
-			<div className="ActionWrapper">{props.belowTableActions}</div>
-		)}
 	</div>
 );

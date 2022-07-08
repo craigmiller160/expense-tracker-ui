@@ -19,6 +19,7 @@ import {
 import { TransitionProps } from '@mui/material/transitions';
 import CloseIcon from '@mui/icons-material/Close';
 import './SideDialog.scss';
+import { ResponsiveSlideDialogWrapper } from './ResponsiveSlideDialogWrapper';
 
 const Transition = forwardRef(function Transition(
 	props: TransitionProps & {
@@ -59,7 +60,8 @@ export const SideDialog = (props: PropsWithChildren<Props>) => {
 			onClose={props.onClose}
 			open={props.open}
 			TransitionComponent={Transition}
-			className="SideDialog"
+			PaperComponent={ResponsiveSlideDialogWrapper}
+			className="SlideDialog"
 		>
 			<Form formSubmit={props.formSubmit}>
 				<AppBar sx={{ position: 'relative' }}>

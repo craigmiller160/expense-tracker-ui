@@ -21,8 +21,8 @@ import { Paper } from '@mui/material';
 import { ResponsiveFilterRow } from './responsive/ResponsiveFilterRow';
 
 const directionOptions: ReadonlyArray<SelectOption<SortDirection>> = [
-	{ value: SortDirection.ASC, label: 'Oldest to Newest' },
-	{ value: SortDirection.DESC, label: 'Newest to Oldest' }
+	{ value: SortDirection.DESC, label: 'Newest to Oldest' },
+	{ value: SortDirection.ASC, label: 'Oldest to Newest' }
 ];
 
 interface Props {

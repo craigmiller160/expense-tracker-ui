@@ -28,7 +28,7 @@ export const defaultStartDate = (): Date => Time.subMonths(1)(new Date());
 export const defaultEndDate = (): Date => new Date();
 
 export const transactionSearchFormDefaultValues: TransactionSearchForm = {
-	direction: SortDirection.ASC,
+	direction: SortDirection.DESC,
 	startDate: defaultStartDate(),
 	endDate: defaultEndDate(),
 	category: null,

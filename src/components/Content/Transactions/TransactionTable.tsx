@@ -44,6 +44,7 @@ const createEditModeColumns = (
 		control={control}
 		name="confirmAll"
 		label="Confirm All"
+		labelPlacement="top"
 	/>,
 	...COLUMNS
 ];
@@ -155,6 +156,7 @@ export const TransactionTable = (props: Props) => {
 												control={control}
 												name={`transactions.${index}.confirmed`}
 												label=""
+												labelPlacement="top"
 											/>
 										)}
 									</TableCell>

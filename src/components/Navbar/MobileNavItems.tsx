@@ -39,6 +39,10 @@ const useMenuControls = (): UseMenuControlsReturn => {
 	};
 };
 
+const useMenuNavigation = (closeMenu: CloseMenu) => {
+
+};
+
 export const MobileNavItems = () => {
 	const {
 		authButtonText,

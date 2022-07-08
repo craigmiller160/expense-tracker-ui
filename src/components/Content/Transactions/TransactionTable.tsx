@@ -27,14 +27,9 @@ import { Popover } from '../../UI/Popover';
 import { ResponsiveFlagsContainer } from './responsive/ResponsiveFlagsContainer';
 import { useIsAtLeastBreakpoint } from '../../../utils/useIsAtLeastBreakpoint';
 
-const COLUMNS = [
-	'Confirmed',
-	'Expense Date',
-	'Description',
-	'Amount',
-	'Category',
-	'Flags'
-];
+const COLUMNS = ['Expense Date', 'Description', 'Amount', 'Category', 'Flags'];
+
+const EDIT_MODE_COLUMNS = ['Confirmed', ...COLUMNS];
 
 interface Props {
 	readonly pagination: PaginationState;
@@ -118,7 +113,7 @@ export const TransactionTable = (props: Props) => {
 		<div className="TransactionsTable">
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<Table
-					columns={COLUMNS}
+					columns={editMode ? EDIT_MODE_COLUMNS : COLUMNS}
 					loading={isFetching}
 					pagination={tablePagination}
 					belowTableActions={belowTableActions}
@@ -134,15 +129,17 @@ export const TransactionTable = (props: Props) => {
 								key={txn.id}
 								data-testid="transaction-table-row"
 							>
-								<TableCell className="ConfirmedCell">
-									{!txn.confirmed && (
-										<Checkbox
-											control={control}
-											name={`transactions.${index}.confirmed`}
-											label=""
-										/>
-									)}
-								</TableCell>
+								{editMode && (
+									<TableCell className="ConfirmedCell">
+										{!txn.confirmed && (
+											<Checkbox
+												control={control}
+												name={`transactions.${index}.confirmed`}
+												label=""
+											/>
+										)}
+									</TableCell>
+								)}
 								<TableCell data-testid="transaction-expense-date">
 									{txn.expenseDate}
 								</TableCell>

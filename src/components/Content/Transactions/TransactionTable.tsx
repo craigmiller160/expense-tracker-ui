@@ -43,7 +43,7 @@ const createEditModeColumns = (
 		key="confirmAll"
 		control={control}
 		name="confirmAll"
-		label="Confirm"
+		label="Confirm All"
 	/>,
 	...COLUMNS
 ];

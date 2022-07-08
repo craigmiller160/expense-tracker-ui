@@ -2,7 +2,8 @@ import { MouseEvent } from 'react';
 import { useDeriveNavbarFromAuthUser } from './useDeriveNavbarFromAuthUser';
 import { useImmer } from 'use-immer';
 import { castDraft } from 'immer';
-import { Box, Button, Menu, MenuItem } from '@mui/material';
+import { Button, Menu, MenuItem } from '@mui/material';
+import './MobileNavItems.scss';
 
 type OpenMenu = (event: MouseEvent<HTMLButtonElement>) => void;
 type CloseMenu = () => void;
@@ -48,8 +49,7 @@ export const MobileNavItems = () => {
 	const { open, anchor, openMenu, closeMenu } = useMenuControls();
 
 	return (
-		<>
-			<Box sx={{ flexGrow: 1 }} />
+		<div className="MobileNavItems">
 			<Button
 				id="mobile-nav-items-button"
 				aria-controls={open ? 'basic-menu' : undefined}
@@ -72,6 +72,11 @@ export const MobileNavItems = () => {
 				<MenuItem onClick={closeMenu}>My account</MenuItem>
 				<MenuItem onClick={closeMenu}>Logout</MenuItem>
 			</Menu>
-		</>
+			{hasCheckedAuthorization && (
+				<Button color="inherit" onClick={authButtonAction}>
+					{authButtonText}
+				</Button>
+			)}
+		</div>
 	);
 };

@@ -18,7 +18,7 @@ export const Navbar = () => {
 						color="inherit"
 					>
 						<Typography variant="h6" component="div">
-							Expense Tracker
+							Expense<br />Tracker
 						</Typography>
 					</Button>
 					{isMobile && <MobileNavItems />}

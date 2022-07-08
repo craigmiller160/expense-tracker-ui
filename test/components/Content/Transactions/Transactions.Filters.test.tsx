@@ -176,12 +176,12 @@ describe('Transactions Filters', () => {
 		expect(dates.length).toEqual(25);
 
 		const expectedFirstDate = pipe(
-			defaultStartDate(),
+			defaultEndDate(),
 			Time.format(DISPLAY_DATE_FORMAT)
 		);
 		const expectedLastDate = pipe(
-			defaultStartDate(),
-			Time.addDays(24),
+			defaultEndDate(),
+			Time.subDays(24),
 			Time.format(DISPLAY_DATE_FORMAT)
 		);
 
@@ -189,19 +189,19 @@ describe('Transactions Filters', () => {
 		expect(dates[24]).toHaveTextContent(expectedLastDate);
 
 		await userEvent.click(screen.getByLabelText('Order By'));
-		await userEvent.click(screen.getByText('Newest to Oldest'));
+		await userEvent.click(screen.getByText('Oldest to Newest'));
 		await Sleep.immediate();
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 
 		const newExpectedFirstDate = pipe(
-			defaultEndDate(),
+			defaultStartDate(),
 			Time.format(DISPLAY_DATE_FORMAT)
 		);
 		const newExpectedLastDate = pipe(
-			defaultEndDate(),
-			Time.subDays(24),
+			defaultStartDate(),
+			Time.addDays(24),
 			Time.format(DISPLAY_DATE_FORMAT)
 		);
 

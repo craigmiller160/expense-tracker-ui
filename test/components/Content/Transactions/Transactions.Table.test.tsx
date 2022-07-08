@@ -404,6 +404,10 @@ describe('Transactions Table', () => {
 		expect(modifiedTransaction.categoryId).toBeUndefined();
 	});
 
+	it('can confirm transactions', async () => {
+		throw new Error();
+	});
+
 	it('can reset in-progress changes on transactions', async () => {
 		// TODO add confirmed checkbox to this
 		await renderApp({

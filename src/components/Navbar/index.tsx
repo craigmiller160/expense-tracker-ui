@@ -8,6 +8,7 @@ import { MobileNavItems } from './MobileNavItems';
 export const Navbar = () => {
 	const isMobile = useIsExactlyBreakpoint('xs');
 	const toolbarClass = isMobile ? 'MobileToolbar' : '';
+	const titleSpace = isMobile ? <br /> : ' ';
 	return (
 		<Box sx={{ flexGrow: 1, display: 'flex' }} className="Navbar">
 			<AppBar position="static" component="nav">
@@ -18,7 +19,9 @@ export const Navbar = () => {
 						color="inherit"
 					>
 						<Typography variant="h6" component="div">
-							Expense<br />Tracker
+							Expense
+							{titleSpace}
+							Tracker
 						</Typography>
 					</Button>
 					{isMobile && <MobileNavItems />}

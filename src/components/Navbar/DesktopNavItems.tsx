@@ -1,6 +1,7 @@
 import { Box, Button } from '@mui/material';
 import { LinkButton } from './LinkButton';
 import { useDeriveNavbarFromAuthUser } from './useDeriveNavbarFromAuthUser';
+import { NAVBAR_ITEMS } from './items';
 
 export const DesktopNavItems = () => {
 	const {
@@ -14,18 +15,13 @@ export const DesktopNavItems = () => {
 			<Box sx={{ marginRight: '1rem' }} />
 			{isAuthorized && (
 				<>
-					<LinkButton
-						to="/expense-tracker/transactions"
-						label="Manage Transactions"
-					/>
-					<LinkButton
-						to="/expense-tracker/categories"
-						label="Manage Categories"
-					/>
-					<LinkButton
-						to="/expense-tracker/import"
-						label="Import Transactions"
-					/>
+					{NAVBAR_ITEMS.map((item) => (
+						<LinkButton
+							key={item.to}
+							to={item.to}
+							label={item.label}
+						/>
+					))}
 				</>
 			)}
 			<Box sx={{ flexGrow: 1 }} />

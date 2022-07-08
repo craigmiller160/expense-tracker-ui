@@ -18,7 +18,7 @@ export const ResponsiveSlideDialogWrapper = (
 	const theme = useTheme();
 	return (
 		<InnerDiv
-			id="Hello"
+			id="SlideDialogWrapper"
 			theme={theme}
 			className={props.className}
 			data-testid={props['data-testid']}

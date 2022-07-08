@@ -39,6 +39,7 @@ const createEditModeColumns = (
 	control: Control<TransactionTableForm>
 ): ReadonlyArray<string | ReactNode> => [
 	<Checkbox
+		className="ConfirmAllCheckbox"
 		key="confirmAll"
 		control={control}
 		name="confirmAll"
@@ -128,7 +129,7 @@ export const TransactionTable = (props: Props) => {
 	const editModeColumns = createEditModeColumns(control);
 
 	return (
-		<div className="TransactionsTable">
+		<div className={`TransactionsTable ${editClass}`}>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<Table
 					columns={editMode ? editModeColumns : COLUMNS}

@@ -13,6 +13,20 @@
     @include ColumnAlignCenter;
   }
 
+  &.edit {
+    thead {
+      th:nth-child(1) {
+        text-align: center;
+      }
+    }
+  }
+
+  .ConfirmAllCheckbox {
+    .MuiFormControlLabel-label {
+      font-size: 10rem
+    }
+  }
+
   .ConfirmedCell {
     text-align: center;
   }

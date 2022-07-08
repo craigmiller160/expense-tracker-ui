@@ -4,11 +4,22 @@ import { PropsWithChildren } from 'react';
 import { Paper, useTheme } from '@mui/material';
 
 const InnerDiv = styled.div<InnerDivProps>`
-	width: 30% !important;
 	min-height: 100%;
 
 	> .MuiPaper-root {
 		min-height: 100%;
+	}
+
+	${({ theme }) => theme.breakpoints.up('xl')} {
+		width: 30% !important;
+	}
+
+	${({ theme }) => theme.breakpoints.up('lg')} {
+		width: 35% !important;
+	}
+
+	${({ theme }) => theme.breakpoints.up('md')} {
+		width: 40% !important;
 	}
 `;
 

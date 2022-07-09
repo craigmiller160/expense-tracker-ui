@@ -57,8 +57,8 @@ export interface NeedsAttentionResponse {
 }
 
 export interface TransactionToUpdate {
-	readonly id: string;
-	readonly categoryId?: string;
+	readonly transactionId: string;
+	readonly categoryId: string | null;
 	readonly confirmed: boolean;
 }
 

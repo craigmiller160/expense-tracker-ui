@@ -113,7 +113,7 @@ describe('Transactions Table', () => {
 		});
 	});
 
-	it('shows the correct icons for transactions', async () => {
+	it('shows the correct flags for transactions', async () => {
 		const { transactions } = await searchForTransactions({
 			startDate: defaultStartDate(),
 			endDate: defaultEndDate(),
@@ -196,6 +196,10 @@ describe('Transactions Table', () => {
 		validateRowIcons(rows[1], false, false, true);
 		validateRowIcons(rows[2], true, false, false);
 		validateRowIcons(rows[3], false, true, true);
+	});
+
+	it('dynamically changes icons on user interaction', async () => {
+		throw new Error();
 	});
 
 	it('can change the rows-per-page and automatically re-load the data', async () => {

@@ -322,7 +322,8 @@ describe('Transactions Table', () => {
 		});
 	});
 
-	it('can set categories on transactions', async () => {
+	it('can set categories and confirm transactions', async () => {
+		// TODO add confirmation to this
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
@@ -402,10 +403,6 @@ describe('Transactions Table', () => {
 		const modifiedTransaction =
 			apiServer.database.data.transactions[transactions[0].id];
 		expect(modifiedTransaction.categoryId).toBeUndefined();
-	});
-
-	it('can confirm transactions', async () => {
-		throw new Error();
 	});
 
 	it('can reset in-progress changes on transactions', async () => {

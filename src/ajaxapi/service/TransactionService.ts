@@ -5,6 +5,7 @@ import {
 	SearchTransactionsRequest,
 	SearchTransactionsResponse,
 	TransactionAndCategory,
+	TransactionToUpdate,
 	UpdateTransactionsRequest
 } from '../../types/transactions';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
@@ -70,15 +71,13 @@ export const categorizeTransactions = (
 	});
 
 export const updateTransactions = (
-	categorize: ReadonlyArray<TransactionAndCategory>,
-	confirm: ReadonlyArray<string>
+	transactions: ReadonlyArray<TransactionToUpdate>
 ) =>
 	expenseTrackerApi.put<UpdateTransactionsRequest, unknown>({
 		uri: '/transactions',
 		errorCustomizer: 'Error updating transactions',
 		body: {
-			categorize,
-			confirm
+			transactions
 		}
 	});
 

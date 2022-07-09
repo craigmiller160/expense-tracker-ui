@@ -2,7 +2,8 @@ import {
 	NeedsAttentionResponse,
 	SearchTransactionsRequest,
 	SearchTransactionsResponse,
-	TransactionAndCategory
+	TransactionAndCategory,
+	TransactionToUpdate
 } from '../../types/transactions';
 import {
 	QueryClient,
@@ -67,8 +68,7 @@ export const useCategorizeTransactions = () => {
 };
 
 interface UpdateTransactionsParams {
-	readonly categorize: ReadonlyArray<TransactionAndCategory>;
-	readonly confirm: ReadonlyArray<string>;
+	readonly transactions: ReadonlyArray<TransactionToUpdate>;
 }
 
 export type UpdateTransactionsMutation = UseMutateFunction<
@@ -80,7 +80,7 @@ export type UpdateTransactionsMutation = UseMutateFunction<
 export const useUpdateTransactions = () => {
 	const queryClient = useQueryClient();
 	return useMutation<unknown, Error, UpdateTransactionsParams>(
-		({ categorize, confirm }) => updateTransactions(categorize, confirm),
+		({ transactions }) => updateTransactions(transactions),
 		{
 			onSuccess: () => invalidateTransactionQueries(queryClient)
 		}

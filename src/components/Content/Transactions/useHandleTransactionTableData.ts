@@ -111,6 +111,28 @@ const handleCategoryIds = (
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		.otherwise(() => [categoryId!]);
 
+const handleConfirmAll = (form: UseFormReturn<TransactionTableForm>) => {
+	const allValues = form.getValues();
+	form.reset(
+		{
+			...allValues,
+			transactions: allValues.transactions.map(
+				(txn: TransactionFormValues): TransactionFormValues => ({
+					...txn,
+					confirmed: allValues.confirmAll
+				})
+			)
+		},
+		{
+			keepDefaultValues: true,
+			keepErrors: true,
+			keepDirty: true,
+			keepTouched: true,
+			keepIsValid: true
+		}
+	);
+};
+
 export const useHandleTransactionTableData = (
 	pagination: PaginationState,
 	filterValues: TransactionSearchForm
@@ -174,29 +196,8 @@ export const useHandleTransactionTableData = (
 
 	// This is here so that the icons can be updated in real time to user interaction
 	form.watch((values, info) => {
-		// TODO move into separate function
 		if (info.name === 'confirmAll') {
-			const allValues = form.getValues();
-			form.reset(
-				{
-					...allValues,
-					transactions: allValues.transactions.map(
-						(
-							txn: TransactionFormValues
-						): TransactionFormValues => ({
-							...txn,
-							confirmed: allValues.confirmAll
-						})
-					)
-				},
-				{
-					keepDefaultValues: true,
-					keepErrors: true,
-					keepDirty: true,
-					keepTouched: true,
-					keepIsValid: true
-				}
-			);
+			handleConfirmAll(form);
 		}
 	});
 

@@ -11,6 +11,7 @@ import {
 } from '../../../types/transactions';
 import { useEffect, useMemo } from 'react';
 import {
+	DeepPartial,
 	FieldArrayWithId,
 	useFieldArray,
 	useForm,
@@ -173,7 +174,22 @@ export const useHandleTransactionTableData = (
 	}, [transactionIsFetching, form]);
 
 	// This is here so that the icons can be updated in real time to user interaction
-	form.watch();
+	form.watch((values, info) => {
+		// TODO move into separate function
+		if (info.name === 'confirmAll') {
+			form.reset({
+				confirmAll: values.confirmAll,
+				transactions: values.transactions?.map(
+					(
+						txn: DeepPartial<TransactionResponse>
+					): TransactionResponse => ({
+						...txn,
+						confirmed: values.confirmAll ?? false
+					})
+				)
+			});
+		}
+	});
 
 	const transactions = useMemo(
 		() =>

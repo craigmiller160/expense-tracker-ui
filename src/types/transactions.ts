@@ -55,3 +55,8 @@ export interface NeedsAttentionResponse {
 	readonly uncategorized: CountAndOldest;
 	readonly duplicate: CountAndOldest;
 }
+
+export interface UpdateTransactionsRequest {
+	readonly categorize: ReadonlyArray<TransactionAndCategory>;
+	readonly confirm: ReadonlyArray<string>;
+}

@@ -351,6 +351,8 @@ describe('Transactions Table', () => {
 		expect(screen.getAllByLabelText('Category')[2]).toHaveValue(
 			'Groceries'
 		);
+
+		throw new Error();
 	});
 
 	it('can remove a category from a transaction', async () => {
@@ -405,6 +407,10 @@ describe('Transactions Table', () => {
 		expect(modifiedTransaction.categoryId).toBeUndefined();
 	});
 
+	it('confirm all checkbox works', async () => {
+		throw new Error();
+	});
+
 	it('can reset in-progress changes on transactions', async () => {
 		// TODO add confirmed checkbox to this
 		await renderApp({
@@ -429,5 +435,6 @@ describe('Transactions Table', () => {
 
 		await userEvent.click(screen.getByText('Reset'));
 		expect(screen.getAllByLabelText('Category')[2]).toHaveValue('');
+		throw new Error();
 	});
 });

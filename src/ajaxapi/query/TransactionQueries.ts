@@ -79,7 +79,7 @@ export type UpdateTransactionsMutation = UseMutateFunction<
 
 export const useUpdateTransactions = () => {
 	const queryClient = useQueryClient();
-	useMutation<unknown, Error, UpdateTransactionsParams>(
+	return useMutation<unknown, Error, UpdateTransactionsParams>(
 		({ categorize, confirm }) => updateTransactions(categorize, confirm),
 		{
 			onSuccess: () => invalidateTransactionQueries(queryClient)

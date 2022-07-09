@@ -59,7 +59,7 @@ export const createTablePagination = (
 		})
 });
 
-export const formToCategorizeRequest = (
+export const formToUpdateRequest = (
 	values: TransactionTableForm
 ): ReadonlyArray<TransactionAndCategory> =>
 	pipe(

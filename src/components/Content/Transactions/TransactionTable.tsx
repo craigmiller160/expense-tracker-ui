@@ -1,6 +1,6 @@
 import {
 	createTablePagination,
-	formToCategorizeRequest,
+	formToUpdateRequest,
 	PaginationState,
 	TransactionSearchForm
 } from './utils';
@@ -18,7 +18,10 @@ import {
 import { Control, FormState } from 'react-hook-form';
 import { ReactNode } from 'react';
 import { Updater } from 'use-immer';
-import { CategorizeTransactionsMutation } from '../../../ajaxapi/query/TransactionQueries';
+import {
+	CategorizeTransactionsMutation,
+	UpdateTransactionsMutation
+} from '../../../ajaxapi/query/TransactionQueries';
 import { pipe } from 'fp-ts/es6/function';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
@@ -86,12 +89,12 @@ const createBelowTableActions = (
 };
 
 const createOnSubmit =
-	(categorizeTransactions: CategorizeTransactionsMutation) =>
+	(updateTransactions: UpdateTransactionsMutation) =>
 	(values: TransactionTableForm) =>
 		pipe(
-			formToCategorizeRequest(values),
+			formToUpdateRequest(values),
 			(_) => ({ transactionsAndCategories: _ }),
-			categorizeTransactions
+			updateTransactions
 		);
 
 const conditionalVisible = (condition: boolean): string | undefined =>
@@ -105,7 +108,7 @@ export const TransactionTable = (props: Props) => {
 			formReturn: { control, formState, handleSubmit, getValues },
 			fields
 		},
-		actions: { resetFormToData, categorizeTransactions }
+		actions: { resetFormToData, updateTransactions }
 	} = useHandleTransactionTableData(props.pagination, props.filterValues);
 
 	const tablePagination = createTablePagination(
@@ -123,7 +126,7 @@ export const TransactionTable = (props: Props) => {
 		editMode
 	);
 
-	const onSubmit = createOnSubmit(categorizeTransactions);
+	const onSubmit = createOnSubmit(updateTransactions);
 
 	const editClass = editMode ? 'edit' : '';
 

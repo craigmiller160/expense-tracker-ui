@@ -1,28 +1,13 @@
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 import {
-	CategorizeTransactionsMutation,
-	useCategorizeTransactions,
-	useSearchForTransactions
+	UpdateTransactionsMutation,
+	useSearchForTransactions,
+	useUpdateTransactions
 } from '../../../ajaxapi/query/TransactionQueries';
-import {
-	SearchTransactionsResponse,
-	TransactionResponse,
-	TransactionSortKey
-} from '../../../types/transactions';
+import { SearchTransactionsResponse, TransactionResponse, TransactionSortKey } from '../../../types/transactions';
 import { useEffect, useMemo } from 'react';
-import {
-	FieldArrayWithId,
-	useFieldArray,
-	useForm,
-	UseFormReset,
-	UseFormReturn
-} from 'react-hook-form';
-import {
-	CategoryOption,
-	categoryToCategoryOption,
-	PaginationState,
-	TransactionSearchForm
-} from './utils';
+import { FieldArrayWithId, useFieldArray, useForm, UseFormReset, UseFormReturn } from 'react-hook-form';
+import { CategoryOption, categoryToCategoryOption, PaginationState, TransactionSearchForm } from './utils';
 import { match, P } from 'ts-pattern';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 import { pipe } from 'fp-ts/es6/function';
@@ -59,7 +44,7 @@ export interface TransactionTableData {
 	};
 	readonly actions: {
 		readonly resetFormToData: () => void;
-		readonly categorizeTransactions: CategorizeTransactionsMutation;
+		readonly updateTransactions: UpdateTransactionsMutation;
 	};
 }
 
@@ -152,7 +137,7 @@ export const useHandleTransactionTableData = (
 			isDuplicate: filterValues.isDuplicate ? true : undefined,
 			isCategorized: filterValues.isNotCategorized ? false : undefined
 		});
-	const { mutate: categorizeTransactions } = useCategorizeTransactions();
+	const { mutate: updateTransactions } = useUpdateTransactions();
 	const form = useForm<TransactionTableForm>({
 		mode: 'onChange',
 		reValidateMode: 'onChange',
@@ -229,7 +214,7 @@ export const useHandleTransactionTableData = (
 		},
 		actions: {
 			resetFormToData,
-			categorizeTransactions
+			updateTransactions
 		}
 	};
 };

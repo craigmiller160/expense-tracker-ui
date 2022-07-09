@@ -255,18 +255,17 @@ export const createTransactionsRoutes = (
 			request.requestBody
 		) as UpdateTransactionsRequest;
 		database.updateData((draft) => {
-			body.categorize.forEach(({ transactionId, categoryId }) => {
-				draft.transactions[transactionId].categoryId =
-					categoryId ?? undefined;
-				if (categoryId) {
-					draft.transactions[transactionId].categoryName =
-						draft.categories[categoryId].name;
+			body.transactions.forEach(
+				({ transactionId, categoryId, confirmed }) => {
+					draft.transactions[transactionId].categoryId =
+						categoryId ?? undefined;
+					if (categoryId) {
+						draft.transactions[transactionId].categoryName =
+							draft.categories[categoryId].name;
+					}
+					draft.transactions[transactionId].confirmed = confirmed;
 				}
-			});
-
-			body.confirm.forEach((transactionId) => {
-				draft.transactions[transactionId].confirmed = true;
-			});
+			);
 		});
 
 		return new Response(204);

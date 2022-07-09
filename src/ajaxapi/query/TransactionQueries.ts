@@ -5,6 +5,7 @@ import {
 	TransactionAndCategory
 } from '../../types/transactions';
 import {
+	QueryClient,
 	UseMutateFunction,
 	useMutation,
 	useQuery,
@@ -13,12 +14,19 @@ import {
 import {
 	categorizeTransactions,
 	getNeedsAttention,
-	searchForTransactions
+	searchForTransactions,
+	updateTransactions
 } from '../service/TransactionService';
 
 export const SEARCH_FOR_TRANSACTIONS =
 	'TransactionQueries_SearchForTransactions';
 export const GET_NEEDS_ATTENTION = 'TransactionQueries_GetNeedsAttention';
+
+const invalidateTransactionQueries = (queryClient: QueryClient) =>
+	Promise.all([
+		queryClient.invalidateQueries(SEARCH_FOR_TRANSACTIONS),
+		queryClient.invalidateQueries(GET_NEEDS_ATTENTION)
+	]);
 
 type SearchForTransactionsKey = [string, SearchTransactionsRequest];
 
@@ -53,11 +61,28 @@ export const useCategorizeTransactions = () => {
 		({ transactionsAndCategories }) =>
 			categorizeTransactions(transactionsAndCategories),
 		{
-			onSuccess: () =>
-				Promise.all([
-					queryClient.invalidateQueries(SEARCH_FOR_TRANSACTIONS),
-					queryClient.invalidateQueries(GET_NEEDS_ATTENTION)
-				])
+			onSuccess: () => invalidateTransactionQueries(queryClient)
+		}
+	);
+};
+
+interface UpdateTransactionsParams {
+	readonly categorize: ReadonlyArray<TransactionAndCategory>;
+	readonly confirm: ReadonlyArray<string>;
+}
+
+export type UpdateTransactionsMutation = UseMutateFunction<
+	unknown,
+	Error,
+	UpdateTransactionsParams
+>;
+
+export const useUpdateTransactions = () => {
+	const queryClient = useQueryClient();
+	useMutation<unknown, Error, UpdateTransactionsParams>(
+		({ categorize, confirm }) => updateTransactions(categorize, confirm),
+		{
+			onSuccess: () => invalidateTransactionQueries(queryClient)
 		}
 	);
 };

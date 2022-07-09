@@ -11,7 +11,6 @@ import {
 } from '../../../types/transactions';
 import { useEffect, useMemo } from 'react';
 import {
-	DeepPartial,
 	FieldArrayWithId,
 	useFieldArray,
 	useForm,
@@ -177,17 +176,27 @@ export const useHandleTransactionTableData = (
 	form.watch((values, info) => {
 		// TODO move into separate function
 		if (info.name === 'confirmAll') {
-			form.reset({
-				confirmAll: values.confirmAll,
-				transactions: values.transactions?.map(
-					(
-						txn: DeepPartial<TransactionResponse>
-					): TransactionResponse => ({
-						...txn,
-						confirmed: values.confirmAll ?? false
-					})
-				)
-			});
+			const allValues = form.getValues();
+			form.reset(
+				{
+					...allValues,
+					transactions: allValues.transactions.map(
+						(
+							txn: TransactionFormValues
+						): TransactionFormValues => ({
+							...txn,
+							confirmed: allValues.confirmAll
+						})
+					)
+				},
+				{
+					keepDefaultValues: true,
+					keepErrors: true,
+					keepDirty: true,
+					keepTouched: true,
+					keepIsValid: true
+				}
+			);
 		}
 	});
 

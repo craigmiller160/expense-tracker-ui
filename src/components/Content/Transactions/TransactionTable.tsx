@@ -199,7 +199,9 @@ export const TransactionTable = (props: Props) => {
 										</Popover>
 										<Popover
 											className={conditionalVisible(
-												!txn.confirmed
+												!getValues(
+													`transactions.${index}.confirmed`
+												)
 											)}
 											message="Transaction has not been confirmed"
 											data-testid="not-confirmed-icon"

@@ -56,7 +56,12 @@ export interface NeedsAttentionResponse {
 	readonly duplicate: CountAndOldest;
 }
 
+export interface TransactionToUpdate {
+	readonly id: string;
+	readonly categoryId?: string;
+	readonly confirmed: boolean;
+}
+
 export interface UpdateTransactionsRequest {
-	readonly categorize: ReadonlyArray<TransactionAndCategory>;
-	readonly confirm: ReadonlyArray<string>;
+	readonly transactions: ReadonlyArray<TransactionToUpdate>;
 }

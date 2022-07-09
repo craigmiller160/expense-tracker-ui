@@ -18,10 +18,7 @@ import {
 import { Control, FormState } from 'react-hook-form';
 import { ReactNode } from 'react';
 import { Updater } from 'use-immer';
-import {
-	CategorizeTransactionsMutation,
-	UpdateTransactionsMutation
-} from '../../../ajaxapi/query/TransactionQueries';
+import { UpdateTransactionsMutation } from '../../../ajaxapi/query/TransactionQueries';
 import { pipe } from 'fp-ts/es6/function';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
@@ -93,7 +90,7 @@ const createOnSubmit =
 	(values: TransactionTableForm) =>
 		pipe(
 			formToUpdateRequest(values),
-			(_) => ({ transactionsAndCategories: _ }),
+			(_) => ({ transactions: _ }),
 			updateTransactions
 		);
 

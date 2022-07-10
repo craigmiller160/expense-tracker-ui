@@ -411,7 +411,11 @@ describe('Transactions Table', () => {
 		expect(modifiedTransaction.categoryId).toBeUndefined();
 	});
 
-	it('confirm all checkbox works', async () => {
+	it('confirm checkboxes are only present for unconfirmed transactions', async () => {
+		throw new Error();
+	});
+
+	it('confirm all checkbox works and can be reset', async () => {
 		throw new Error();
 	});
 

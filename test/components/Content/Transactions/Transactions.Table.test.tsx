@@ -361,7 +361,6 @@ describe('Transactions Table', () => {
 	});
 
 	it('can set categories and confirm transactions', async () => {
-		// TODO add confirmation to this
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
@@ -375,22 +374,36 @@ describe('Transactions Table', () => {
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 
-		await userEvent.click(screen.getAllByLabelText('Category')[2]);
+		const row = screen.getAllByTestId('transaction-table-row')[0];
+		const rowCategorySelect = within(row).getByLabelText('Category');
+
+		await userEvent.click(rowCategorySelect);
 		expect(screen.queryByText('Groceries')).toBeVisible();
 		await userEvent.click(screen.getByText('Groceries'));
-		expect(screen.getAllByLabelText('Category')[2]).toHaveValue(
-			'Groceries'
+		expect(rowCategorySelect).toHaveValue('Groceries');
+
+		const notConfirmedConfirmCheckbox = within(row).getByTestId(
+			'confirm-transaction-checkbox'
 		);
+		await userEvent.click(notConfirmedConfirmCheckbox);
+		expect(
+			notConfirmedConfirmCheckbox.querySelector('input')
+		).toBeChecked();
 
 		await userEvent.click(screen.getByText('Save'));
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
-		expect(screen.getAllByLabelText('Category')[2]).toHaveValue(
+
+		const rowAfterSave = screen.getAllByTestId('transaction-table-row')[0];
+
+		expect(within(rowAfterSave).getByLabelText('Category')).toHaveValue(
 			'Groceries'
 		);
 
-		throw new Error();
+		expect(
+			within(rowAfterSave).queryByTestId('confirm-transaction-checkbox')
+		).not.toBeInTheDocument();
 	});
 
 	it('can remove a category from a transaction', async () => {

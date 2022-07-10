@@ -441,8 +441,15 @@ describe('Transactions Table', () => {
 			'Groceries'
 		);
 
+		const firstRow = screen.getAllByTestId('transaction-table-row')[0];
+		const confirmCheckbox = within(firstRow).getByTestId(
+			'confirm-transaction-checkbox'
+		);
+		await userEvent.click(confirmCheckbox);
+		expect(confirmCheckbox).toBeChecked();
+
 		await userEvent.click(screen.getByText('Reset'));
 		expect(screen.getAllByLabelText('Category')[2]).toHaveValue('');
-		throw new Error();
+		expect(confirmCheckbox).not.toBeChecked();
 	});
 });

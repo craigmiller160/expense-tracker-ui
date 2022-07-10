@@ -160,47 +160,59 @@ describe('Transactions Table', () => {
 			duplicateRow,
 			notConfirmedNoCategoryRow
 		] = screen.getAllByTestId('transaction-table-row');
-		const validateRowIcons = (
+		const validateRowIcons = async (
 			row: HTMLElement,
 			duplicateIcon: boolean,
 			notConfirmedIcon: boolean,
 			noCategoryIcon: boolean
 		) => {
 			if (duplicateIcon) {
-				expect(
-					within(row).getByTestId('duplicate-icon').className
-				).toMatch(/visible/);
+				await waitFor(() =>
+					expect(
+						within(row).getByTestId('duplicate-icon').className
+					).toMatch(/visible/)
+				);
 			} else {
-				expect(
-					within(row).getByTestId('duplicate-icon').className
-				).not.toMatch(/visible/);
+				await waitFor(() =>
+					expect(
+						within(row).getByTestId('duplicate-icon').className
+					).not.toMatch(/visible/)
+				);
 			}
 
 			if (notConfirmedIcon) {
-				expect(
-					within(row).getByTestId('not-confirmed-icon').className
-				).toMatch(/visible/);
+				await waitFor(() =>
+					expect(
+						within(row).getByTestId('not-confirmed-icon').className
+					).toMatch(/visible/)
+				);
 			} else {
-				expect(
-					within(row).getByTestId('not-confirmed-icon').className
-				).not.toMatch(/visible/);
+				await waitFor(() =>
+					expect(
+						within(row).getByTestId('not-confirmed-icon').className
+					).not.toMatch(/visible/)
+				);
 			}
 
 			if (noCategoryIcon) {
-				expect(
-					within(row).getByTestId('no-category-icon').className
-				).toMatch(/visible/);
+				await waitFor(() =>
+					expect(
+						within(row).getByTestId('no-category-icon').className
+					).toMatch(/visible/)
+				);
 			} else {
-				expect(
-					within(row).getByTestId('no-category-icon').className
-				).not.toMatch(/visible/);
+				await waitFor(() =>
+					expect(
+						within(row).getByTestId('no-category-icon').className
+					).not.toMatch(/visible/)
+				);
 			}
 		};
 
-		validateRowIcons(notConfirmedRow, false, true, false);
-		validateRowIcons(noCategoryRow, false, false, true);
-		validateRowIcons(duplicateRow, true, false, false);
-		validateRowIcons(notConfirmedNoCategoryRow, false, true, true);
+		await validateRowIcons(notConfirmedRow, false, true, false);
+		await validateRowIcons(noCategoryRow, false, false, true);
+		await validateRowIcons(duplicateRow, true, false, false);
+		await validateRowIcons(notConfirmedNoCategoryRow, false, true, true);
 
 		const notConfirmedConfirmCheckbox = within(notConfirmedRow).getByTestId(
 			'confirm-transaction-checkbox'
@@ -209,16 +221,16 @@ describe('Transactions Table', () => {
 		expect(
 			notConfirmedConfirmCheckbox.querySelector('input')
 		).toBeChecked();
-		validateRowIcons(notConfirmedRow, false, false, false);
+		await validateRowIcons(notConfirmedRow, false, false, false);
 
-		const noCategorySelect = within(noCategoryRow).getByTestId(
-			'transaction-category-select'
-		);
+		const noCategorySelect =
+			within(noCategoryRow).getByLabelText('Category');
 		await userEvent.click(noCategorySelect);
 		await userEvent.click(
 			within(screen.getByRole('presentation')).getByText('Entertainment')
 		);
-		validateRowIcons(noCategoryRow, false, false, false);
+		expect(noCategorySelect).toHaveValue('Entertainment');
+		await validateRowIcons(noCategoryRow, false, false, false);
 	});
 
 	it('can change the rows-per-page and automatically re-load the data', async () => {

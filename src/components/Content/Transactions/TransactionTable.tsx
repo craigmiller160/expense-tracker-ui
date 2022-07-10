@@ -153,6 +153,7 @@ export const TransactionTable = (props: Props) => {
 									<TableCell className="ConfirmedCell">
 										{!txn.confirmed && (
 											<Checkbox
+												testId="confirm-transaction-checkbox"
 												control={control}
 												name={`transactions.${index}.confirmed`}
 												label=""

@@ -215,7 +215,9 @@ describe('Transactions Table', () => {
 			'transaction-category-select'
 		);
 		await userEvent.click(noCategorySelect);
-		await userEvent.click(screen.getByText('Entertainment'));
+		await userEvent.click(
+			within(screen.getByRole('presentation')).getByText('Entertainment')
+		);
 		validateRowIcons(noCategoryRow, false, false, false);
 	});
 

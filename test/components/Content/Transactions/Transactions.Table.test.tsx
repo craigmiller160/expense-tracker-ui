@@ -23,7 +23,6 @@ import {
 	getTotalDaysInRange,
 	validateTransactionsInTable
 } from './transactionTestUtils';
-import * as Sleep from '@craigmiller160/ts-functions/es/Sleep';
 
 const DATE_PICKER_FORMAT = 'MM/dd/yyyy';
 
@@ -123,11 +122,12 @@ describe('Transactions Table', () => {
 			sortKey: TransactionSortKey.EXPENSE_DATE,
 			sortDirection: SortDirection.DESC
 		});
+		const categories = await getAllCategories();
 		apiServer.database.updateData((draft) => {
 			draft.transactions[transactions[0].id] = {
 				...transactions[0],
-				categoryId: '1',
-				categoryName: 'One'
+				categoryId: categories[0].id,
+				categoryName: categories[0].name
 			};
 			draft.transactions[transactions[1].id] = {
 				...transactions[1],
@@ -137,8 +137,8 @@ describe('Transactions Table', () => {
 				...transactions[2],
 				duplicate: true,
 				confirmed: true,
-				categoryId: '1',
-				categoryName: 'One'
+				categoryId: categories[0].id,
+				categoryName: categories[0].name
 			};
 		});
 		await renderApp({
@@ -226,12 +226,12 @@ describe('Transactions Table', () => {
 
 		const noCategorySelect =
 			within(noCategoryRow).getByLabelText('Category');
+		expect(noCategorySelect).toHaveValue('');
 		await userEvent.click(noCategorySelect);
 		await userEvent.click(
 			within(screen.getByRole('presentation')).getByText('Entertainment')
 		);
 		expect(noCategorySelect).toHaveValue('Entertainment');
-		await Sleep.sleep(50);
 		await validateRowIcons(noCategoryRow, false, false, false);
 	});
 

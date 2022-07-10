@@ -420,7 +420,6 @@ describe('Transactions Table', () => {
 	});
 
 	it('can reset in-progress changes on transactions', async () => {
-		// TODO add confirmed checkbox to this
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});

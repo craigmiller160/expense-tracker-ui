@@ -445,10 +445,10 @@ describe('Transactions Table', () => {
 			'confirm-transaction-checkbox'
 		);
 		await userEvent.click(confirmCheckbox);
-		expect(confirmCheckbox).toBeChecked();
+		expect(confirmCheckbox.querySelector('input')).toBeChecked();
 
 		await userEvent.click(screen.getByText('Reset'));
 		expect(screen.getAllByLabelText('Category')[2]).toHaveValue('');
-		expect(confirmCheckbox).not.toBeChecked();
+		expect(confirmCheckbox.querySelector('input')).not.toBeChecked();
 	});
 });

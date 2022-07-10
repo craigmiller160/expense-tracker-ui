@@ -113,7 +113,7 @@ describe('Transactions Table', () => {
 		});
 	});
 
-	it('shows the correct flags for transactions', async () => {
+	it('shows the correct flags for transactions, and can dynamically change them', async () => {
 		const { transactions } = await searchForTransactions({
 			startDate: defaultStartDate(),
 			endDate: defaultEndDate(),
@@ -154,7 +154,12 @@ describe('Transactions Table', () => {
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 
-		const rows = screen.getAllByTestId('transaction-table-row');
+		const [
+			notConfirmedRow,
+			noCategoryRow,
+			duplicateRow,
+			notConfirmedNoCategoryRow
+		] = screen.getAllByTestId('transaction-table-row');
 		const validateRowIcons = (
 			row: HTMLElement,
 			duplicateIcon: boolean,
@@ -192,14 +197,26 @@ describe('Transactions Table', () => {
 			}
 		};
 
-		validateRowIcons(rows[0], false, true, false);
-		validateRowIcons(rows[1], false, false, true);
-		validateRowIcons(rows[2], true, false, false);
-		validateRowIcons(rows[3], false, true, true);
-	});
+		validateRowIcons(notConfirmedRow, false, true, false);
+		validateRowIcons(noCategoryRow, false, false, true);
+		validateRowIcons(duplicateRow, true, false, false);
+		validateRowIcons(notConfirmedNoCategoryRow, false, true, true);
 
-	it('dynamically changes icons on user interaction', async () => {
-		throw new Error();
+		const notConfirmedConfirmCheckbox = within(notConfirmedRow).getByTestId(
+			'confirm-transaction-checkbox'
+		);
+		await userEvent.click(notConfirmedConfirmCheckbox);
+		expect(
+			notConfirmedConfirmCheckbox.querySelector('input')
+		).toBeChecked();
+		validateRowIcons(notConfirmedRow, false, false, false);
+
+		const noCategorySelect = within(noCategoryRow).getByTestId(
+			'transaction-category-select'
+		);
+		await userEvent.click(noCategorySelect);
+		await userEvent.click(screen.getByText('Entertainment'));
+		validateRowIcons(noCategoryRow, false, false, false);
 	});
 
 	it('can change the rows-per-page and automatically re-load the data', async () => {

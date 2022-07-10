@@ -179,6 +179,7 @@ export const TransactionTable = (props: Props) => {
 								>
 									{editMode && (
 										<Autocomplete
+											testId="transaction-category-select"
 											name={`transactions.${index}.category`}
 											control={control}
 											label="Category"

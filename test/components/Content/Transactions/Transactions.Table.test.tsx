@@ -23,6 +23,7 @@ import {
 	getTotalDaysInRange,
 	validateTransactionsInTable
 } from './transactionTestUtils';
+import * as Sleep from '@craigmiller160/ts-functions/es/Sleep';
 
 const DATE_PICKER_FORMAT = 'MM/dd/yyyy';
 
@@ -230,6 +231,7 @@ describe('Transactions Table', () => {
 			within(screen.getByRole('presentation')).getByText('Entertainment')
 		);
 		expect(noCategorySelect).toHaveValue('Entertainment');
+		await Sleep.sleep(50);
 		await validateRowIcons(noCategoryRow, false, false, false);
 	});
 

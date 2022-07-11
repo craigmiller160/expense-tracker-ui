@@ -403,8 +403,10 @@ describe('Transactions Table', () => {
 
 		const rowAfterSave = screen.getAllByTestId('transaction-table-row')[0];
 
-		expect(within(rowAfterSave).getByLabelText('Category')).toHaveValue(
-			'Groceries'
+		await waitFor(() =>
+			expect(within(rowAfterSave).getByLabelText('Category')).toHaveValue(
+				'Groceries'
+			)
 		);
 
 		expect(

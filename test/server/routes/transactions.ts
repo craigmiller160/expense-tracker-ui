@@ -5,7 +5,8 @@ import {
 	CategorizeTransactionsRequest,
 	DATE_FORMAT,
 	NeedsAttentionResponse,
-	TransactionResponse
+	TransactionResponse,
+	UpdateTransactionsRequest
 } from '../../../src/types/transactions';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 import * as RArray from 'fp-ts/es6/ReadonlyArray';
@@ -247,5 +248,27 @@ export const createTransactionsRoutes = (
 			RArray.map(transactionToNeedsAttention),
 			Monoid.concatAll(needsAttentionMonoid)
 		);
+	});
+
+	server.put('/transactions', (schema, request) => {
+		const body = JSON.parse(
+			request.requestBody
+		) as UpdateTransactionsRequest;
+		database.updateData((draft) => {
+			body.transactions.forEach(
+				({ transactionId, categoryId, confirmed }) => {
+					draft.transactions[transactionId] = {
+						...draft.transactions[transactionId],
+						categoryId: categoryId ?? undefined,
+						categoryName: categoryId
+							? draft.categories[categoryId].name
+							: undefined,
+						confirmed
+					};
+				}
+			);
+		});
+
+		return new Response(204);
 	});
 };

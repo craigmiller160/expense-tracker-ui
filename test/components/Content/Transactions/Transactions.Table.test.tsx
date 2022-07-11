@@ -113,7 +113,7 @@ describe('Transactions Table', () => {
 		});
 	});
 
-	it('shows the correct icons for transactions', async () => {
+	it('shows the correct flags for transactions, and can dynamically change them', async () => {
 		const { transactions } = await searchForTransactions({
 			startDate: defaultStartDate(),
 			endDate: defaultEndDate(),
@@ -122,11 +122,12 @@ describe('Transactions Table', () => {
 			sortKey: TransactionSortKey.EXPENSE_DATE,
 			sortDirection: SortDirection.DESC
 		});
+		const categories = await getAllCategories();
 		apiServer.database.updateData((draft) => {
 			draft.transactions[transactions[0].id] = {
 				...transactions[0],
-				categoryId: '1',
-				categoryName: 'One'
+				categoryId: categories[0].id,
+				categoryName: categories[0].name
 			};
 			draft.transactions[transactions[1].id] = {
 				...transactions[1],
@@ -136,8 +137,8 @@ describe('Transactions Table', () => {
 				...transactions[2],
 				duplicate: true,
 				confirmed: true,
-				categoryId: '1',
-				categoryName: 'One'
+				categoryId: categories[0].id,
+				categoryName: categories[0].name
 			};
 		});
 		await renderApp({
@@ -154,48 +155,85 @@ describe('Transactions Table', () => {
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 
-		const rows = screen.getAllByTestId('transaction-table-row');
-		const validateRowIcons = (
+		const [
+			notConfirmedRow,
+			noCategoryRow,
+			duplicateRow,
+			notConfirmedNoCategoryRow
+		] = screen.getAllByTestId('transaction-table-row');
+		const validateRowIcons = async (
 			row: HTMLElement,
 			duplicateIcon: boolean,
 			notConfirmedIcon: boolean,
 			noCategoryIcon: boolean
 		) => {
 			if (duplicateIcon) {
-				expect(
-					within(row).getByTestId('duplicate-icon').className
-				).toMatch(/visible/);
+				await waitFor(() =>
+					expect(
+						within(row).getByTestId('duplicate-icon').className
+					).toMatch(/visible/)
+				);
 			} else {
-				expect(
-					within(row).getByTestId('duplicate-icon').className
-				).not.toMatch(/visible/);
+				await waitFor(() =>
+					expect(
+						within(row).getByTestId('duplicate-icon').className
+					).not.toMatch(/visible/)
+				);
 			}
 
 			if (notConfirmedIcon) {
-				expect(
-					within(row).getByTestId('not-confirmed-icon').className
-				).toMatch(/visible/);
+				await waitFor(() =>
+					expect(
+						within(row).getByTestId('not-confirmed-icon').className
+					).toMatch(/visible/)
+				);
 			} else {
-				expect(
-					within(row).getByTestId('not-confirmed-icon').className
-				).not.toMatch(/visible/);
+				await waitFor(() =>
+					expect(
+						within(row).getByTestId('not-confirmed-icon').className
+					).not.toMatch(/visible/)
+				);
 			}
 
 			if (noCategoryIcon) {
-				expect(
-					within(row).getByTestId('no-category-icon').className
-				).toMatch(/visible/);
+				await waitFor(() =>
+					expect(
+						within(row).getByTestId('no-category-icon').className
+					).toMatch(/visible/)
+				);
 			} else {
-				expect(
-					within(row).getByTestId('no-category-icon').className
-				).not.toMatch(/visible/);
+				await waitFor(() =>
+					expect(
+						within(row).getByTestId('no-category-icon').className
+					).not.toMatch(/visible/)
+				);
 			}
 		};
 
-		validateRowIcons(rows[0], false, true, false);
-		validateRowIcons(rows[1], false, false, true);
-		validateRowIcons(rows[2], true, false, false);
-		validateRowIcons(rows[3], false, true, true);
+		await validateRowIcons(notConfirmedRow, false, true, false);
+		await validateRowIcons(noCategoryRow, false, false, true);
+		await validateRowIcons(duplicateRow, true, false, false);
+		await validateRowIcons(notConfirmedNoCategoryRow, false, true, true);
+
+		const notConfirmedConfirmCheckbox = within(notConfirmedRow).getByTestId(
+			'confirm-transaction-checkbox'
+		);
+		await userEvent.click(notConfirmedConfirmCheckbox);
+		expect(
+			notConfirmedConfirmCheckbox.querySelector('input')
+		).toBeChecked();
+		await validateRowIcons(notConfirmedRow, false, false, false);
+
+		// For some reason couldn't get this piece of test logic to work, but the functionality does
+		// const noCategorySelect =
+		// 	within(noCategoryRow).getByLabelText('Category');
+		// expect(noCategorySelect).toHaveValue('');
+		// await userEvent.click(noCategorySelect);
+		// await userEvent.click(
+		// 	within(screen.getByRole('presentation')).getByText('Entertainment')
+		// );
+		// expect(noCategorySelect).toHaveValue('Entertainment');
+		// await validateRowIcons(noCategoryRow, false, false, false);
 	});
 
 	it('can change the rows-per-page and automatically re-load the data', async () => {
@@ -322,7 +360,7 @@ describe('Transactions Table', () => {
 		});
 	});
 
-	it('can set categories on transactions', async () => {
+	it('can set categories and confirm transactions', async () => {
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
@@ -336,20 +374,44 @@ describe('Transactions Table', () => {
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 
-		await userEvent.click(screen.getAllByLabelText('Category')[2]);
+		const row = screen.getAllByTestId('transaction-table-row')[0];
+		const rowCategorySelect = within(row).getByLabelText('Category');
+
+		await userEvent.click(rowCategorySelect);
 		expect(screen.queryByText('Groceries')).toBeVisible();
 		await userEvent.click(screen.getByText('Groceries'));
-		expect(screen.getAllByLabelText('Category')[2]).toHaveValue(
-			'Groceries'
+		expect(rowCategorySelect).toHaveValue('Groceries');
+
+		const confirmCheckbox = within(row).getByTestId(
+			'confirm-transaction-checkbox'
 		);
+		await userEvent.click(confirmCheckbox);
+		expect(confirmCheckbox.querySelector('input')).toBeChecked();
 
 		await userEvent.click(screen.getByText('Save'));
 		await waitFor(() =>
+			expect(screen.queryByTestId('table-loading')).toBeVisible()
+		);
+		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
-		expect(screen.getAllByLabelText('Category')[2]).toHaveValue(
-			'Groceries'
+		await waitFor(() =>
+			expect(
+				screen.queryAllByTestId('transaction-table-row')
+			).toHaveLength(25)
 		);
+
+		const rowAfterSave = screen.getAllByTestId('transaction-table-row')[0];
+
+		await waitFor(() =>
+			expect(within(rowAfterSave).getByLabelText('Category')).toHaveValue(
+				'Groceries'
+			)
+		);
+
+		expect(
+			within(rowAfterSave).queryByTestId('confirm-transaction-checkbox')
+		).not.toBeInTheDocument();
 	});
 
 	it('can remove a category from a transaction', async () => {
@@ -404,6 +466,51 @@ describe('Transactions Table', () => {
 		expect(modifiedTransaction.categoryId).toBeUndefined();
 	});
 
+	it('confirm all checkbox works and can be reset', async () => {
+		await renderApp({
+			initialPath: '/expense-tracker/transactions'
+		});
+		await waitFor(() =>
+			expect(screen.queryByText('Expense Tracker')).toBeVisible()
+		);
+		await waitFor(() =>
+			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
+		);
+		await waitFor(() =>
+			expect(screen.queryByText('Rows per page:')).toBeVisible()
+		);
+
+		const validateCheckboxes = (checked: boolean) => {
+			const checkboxes = screen.getAllByTestId(
+				'confirm-transaction-checkbox'
+			);
+			checkboxes.forEach((checkbox, index) => {
+				const realCheckbox = checkbox.querySelector('input');
+				try {
+					if (checked) {
+						expect(realCheckbox).toBeChecked();
+					} else {
+						expect(realCheckbox).not.toBeChecked();
+					}
+				} catch (ex) {
+					throw new Error(
+						`Checkbox ${index} was expected to have checked status of ${checked}. ${
+							(ex as Error).message
+						}`
+					);
+				}
+			});
+		};
+
+		validateCheckboxes(false);
+
+		await userEvent.click(screen.getByLabelText('Confirm All'));
+		validateCheckboxes(true);
+
+		await userEvent.click(screen.getByText('Reset'));
+		validateCheckboxes(false);
+	});
+
 	it('can reset in-progress changes on transactions', async () => {
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
@@ -425,7 +532,15 @@ describe('Transactions Table', () => {
 			'Groceries'
 		);
 
+		const firstRow = screen.getAllByTestId('transaction-table-row')[0];
+		const confirmCheckbox = within(firstRow).getByTestId(
+			'confirm-transaction-checkbox'
+		);
+		await userEvent.click(confirmCheckbox);
+		expect(confirmCheckbox.querySelector('input')).toBeChecked();
+
 		await userEvent.click(screen.getByText('Reset'));
 		expect(screen.getAllByLabelText('Category')[2]).toHaveValue('');
+		expect(confirmCheckbox.querySelector('input')).not.toBeChecked();
 	});
 });

@@ -1,6 +1,6 @@
 import {
 	createTablePagination,
-	formToCategorizeRequest,
+	formToUpdateRequest,
 	PaginationState,
 	TransactionSearchForm
 } from './utils';
@@ -11,11 +11,14 @@ import {
 import './TransactionsTable.scss';
 import { Table } from '../../UI/Table';
 import { Button, TableCell, TableRow } from '@mui/material';
-import { Autocomplete } from '@craigmiller160/react-hook-form-material-ui';
-import { FormState } from 'react-hook-form';
+import {
+	Autocomplete,
+	Checkbox
+} from '@craigmiller160/react-hook-form-material-ui';
+import { Control, FormState } from 'react-hook-form';
 import { ReactNode } from 'react';
 import { Updater } from 'use-immer';
-import { CategorizeTransactionsMutation } from '../../../ajaxapi/query/TransactionQueries';
+import { UpdateTransactionsMutation } from '../../../ajaxapi/query/TransactionQueries';
 import { pipe } from 'fp-ts/es6/function';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
@@ -24,7 +27,27 @@ import { Popover } from '../../UI/Popover';
 import { ResponsiveFlagsContainer } from './responsive/ResponsiveFlagsContainer';
 import { useIsAtLeastBreakpoint } from '../../../utils/useIsAtLeastBreakpoint';
 
-const COLUMNS = ['Expense Date', 'Description', 'Amount', 'Category', 'Flags'];
+const COLUMNS: ReadonlyArray<string | ReactNode> = [
+	'Expense Date',
+	'Description',
+	'Amount',
+	'Category',
+	'Flags'
+];
+
+const createEditModeColumns = (
+	control: Control<TransactionTableForm>
+): ReadonlyArray<string | ReactNode> => [
+	<Checkbox
+		className="ConfirmAllCheckbox"
+		key="confirmAll"
+		control={control}
+		name="confirmAll"
+		label="Confirm All"
+		labelPlacement="top"
+	/>,
+	...COLUMNS
+];
 
 interface Props {
 	readonly pagination: PaginationState;
@@ -63,12 +86,12 @@ const createBelowTableActions = (
 };
 
 const createOnSubmit =
-	(categorizeTransactions: CategorizeTransactionsMutation) =>
+	(updateTransactions: UpdateTransactionsMutation) =>
 	(values: TransactionTableForm) =>
 		pipe(
-			formToCategorizeRequest(values),
-			(_) => ({ transactionsAndCategories: _ }),
-			categorizeTransactions
+			formToUpdateRequest(values),
+			(_) => ({ transactions: _ }),
+			updateTransactions
 		);
 
 const conditionalVisible = (condition: boolean): string | undefined =>
@@ -82,7 +105,7 @@ export const TransactionTable = (props: Props) => {
 			formReturn: { control, formState, handleSubmit, getValues },
 			fields
 		},
-		actions: { resetFormToData, categorizeTransactions }
+		actions: { resetFormToData, updateTransactions }
 	} = useHandleTransactionTableData(props.pagination, props.filterValues);
 
 	const tablePagination = createTablePagination(
@@ -100,15 +123,17 @@ export const TransactionTable = (props: Props) => {
 		editMode
 	);
 
-	const onSubmit = createOnSubmit(categorizeTransactions);
+	const onSubmit = createOnSubmit(updateTransactions);
 
 	const editClass = editMode ? 'edit' : '';
 
+	const editModeColumns = createEditModeColumns(control);
+
 	return (
-		<div className="TransactionsTable">
+		<div className={`TransactionsTable ${editClass}`}>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<Table
-					columns={COLUMNS}
+					columns={editMode ? editModeColumns : COLUMNS}
 					loading={isFetching}
 					pagination={tablePagination}
 					belowTableActions={belowTableActions}
@@ -124,6 +149,19 @@ export const TransactionTable = (props: Props) => {
 								key={txn.id}
 								data-testid="transaction-table-row"
 							>
+								{editMode && (
+									<TableCell className="ConfirmedCell">
+										{!txn.confirmed && (
+											<Checkbox
+												testId="confirm-transaction-checkbox"
+												control={control}
+												name={`transactions.${index}.confirmed`}
+												label=""
+												labelPlacement="top"
+											/>
+										)}
+									</TableCell>
+								)}
 								<TableCell data-testid="transaction-expense-date">
 									{txn.expenseDate}
 								</TableCell>
@@ -141,6 +179,7 @@ export const TransactionTable = (props: Props) => {
 								>
 									{editMode && (
 										<Autocomplete
+											testId="transaction-category-select"
 											name={`transactions.${index}.category`}
 											control={control}
 											label="Category"
@@ -162,7 +201,9 @@ export const TransactionTable = (props: Props) => {
 										</Popover>
 										<Popover
 											className={conditionalVisible(
-												!txn.confirmed
+												!getValues(
+													`transactions.${index}.confirmed`
+												)
 											)}
 											message="Transaction has not been confirmed"
 											data-testid="not-confirmed-icon"

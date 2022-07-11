@@ -55,3 +55,13 @@ export interface NeedsAttentionResponse {
 	readonly uncategorized: CountAndOldest;
 	readonly duplicate: CountAndOldest;
 }
+
+export interface TransactionToUpdate {
+	readonly transactionId: string;
+	readonly categoryId: string | null;
+	readonly confirmed: boolean;
+}
+
+export interface UpdateTransactionsRequest {
+	readonly transactions: ReadonlyArray<TransactionToUpdate>;
+}

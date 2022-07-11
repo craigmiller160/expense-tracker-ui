@@ -1,8 +1,8 @@
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 import {
-	CategorizeTransactionsMutation,
-	useCategorizeTransactions,
-	useSearchForTransactions
+	UpdateTransactionsMutation,
+	useSearchForTransactions,
+	useUpdateTransactions
 } from '../../../ajaxapi/query/TransactionQueries';
 import {
 	SearchTransactionsResponse,
@@ -32,10 +32,12 @@ const formatDisplayDate = (dateString: string) =>
 
 export interface TransactionFormValues {
 	readonly transactionId: string;
+	readonly confirmed: boolean;
 	readonly category: CategoryOption | null;
 }
 
 export interface TransactionTableForm {
+	readonly confirmAll: boolean;
 	readonly transactions: ReadonlyArray<TransactionFormValues>;
 }
 
@@ -57,7 +59,7 @@ export interface TransactionTableData {
 	};
 	readonly actions: {
 		readonly resetFormToData: () => void;
-		readonly categorizeTransactions: CategorizeTransactionsMutation;
+		readonly updateTransactions: UpdateTransactionsMutation;
 	};
 }
 
@@ -78,7 +80,8 @@ const transactionToFormValues = (
 	transaction: TransactionResponse
 ): TransactionFormValues => ({
 	transactionId: transaction.id,
-	category: transactionToCategoryOption(transaction)
+	category: transactionToCategoryOption(transaction),
+	confirmed: transaction.confirmed
 });
 
 const createResetFormToData =
@@ -89,6 +92,7 @@ const createResetFormToData =
 	() => {
 		const formValues = transactions.map(transactionToFormValues);
 		reset({
+			confirmAll: false,
 			transactions: formValues
 		});
 	};
@@ -106,6 +110,28 @@ const handleCategoryIds = (
 		.with(undefined, () => undefined)
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		.otherwise(() => [categoryId!]);
+
+const handleConfirmAll = (form: UseFormReturn<TransactionTableForm>) => {
+	const allValues = form.getValues();
+	form.reset(
+		{
+			...allValues,
+			transactions: allValues.transactions.map(
+				(txn: TransactionFormValues): TransactionFormValues => ({
+					...txn,
+					confirmed: allValues.confirmAll
+				})
+			)
+		},
+		{
+			keepDefaultValues: true,
+			keepErrors: true,
+			keepDirty: true,
+			keepTouched: true,
+			keepIsValid: true
+		}
+	);
+};
 
 export const useHandleTransactionTableData = (
 	pagination: PaginationState,
@@ -126,10 +152,13 @@ export const useHandleTransactionTableData = (
 			isDuplicate: filterValues.isDuplicate ? true : undefined,
 			isCategorized: filterValues.isNotCategorized ? false : undefined
 		});
-	const { mutate: categorizeTransactions } = useCategorizeTransactions();
+	const { mutate: updateTransactions } = useUpdateTransactions();
 	const form = useForm<TransactionTableForm>({
 		mode: 'onChange',
-		reValidateMode: 'onChange'
+		reValidateMode: 'onChange',
+		defaultValues: {
+			confirmAll: false
+		}
 	});
 	const { fields } = useFieldArray({
 		control: form.control,
@@ -159,13 +188,18 @@ export const useHandleTransactionTableData = (
 	useEffect(() => {
 		if (transactionIsFetching) {
 			form.reset({
+				confirmAll: false,
 				transactions: []
 			});
 		}
 	}, [transactionIsFetching, form]);
 
 	// This is here so that the icons can be updated in real time to user interaction
-	form.watch();
+	form.watch((values, info) => {
+		if (info.name === 'confirmAll') {
+			handleConfirmAll(form);
+		}
+	});
 
 	const transactions = useMemo(
 		() =>
@@ -195,7 +229,7 @@ export const useHandleTransactionTableData = (
 		},
 		actions: {
 			resetFormToData,
-			categorizeTransactions
+			updateTransactions
 		}
 	};
 };

@@ -2,7 +2,7 @@ import { SelectOption } from '@craigmiller160/react-hook-form-material-ui';
 import { TablePaginationConfig } from '../../UI/Table';
 import { Updater } from 'use-immer';
 import { TransactionTableForm } from './useHandleTransactionTableData';
-import { TransactionAndCategory } from '../../../types/transactions';
+import { TransactionToUpdate } from '../../../types/transactions';
 import * as RArray from 'fp-ts/es6/ReadonlyArray';
 import { pipe } from 'fp-ts/es6/function';
 import { CategoryResponse } from '../../../types/categories';
@@ -59,15 +59,16 @@ export const createTablePagination = (
 		})
 });
 
-export const formToCategorizeRequest = (
+export const formToUpdateRequest = (
 	values: TransactionTableForm
-): ReadonlyArray<TransactionAndCategory> =>
+): ReadonlyArray<TransactionToUpdate> =>
 	pipe(
 		values.transactions,
 		RArray.map(
-			(txn): TransactionAndCategory => ({
+			(txn): TransactionToUpdate => ({
 				transactionId: txn.transactionId,
-				categoryId: txn.category?.value ?? null
+				categoryId: txn.category?.value ?? null,
+				confirmed: txn.confirmed
 			})
 		)
 	);

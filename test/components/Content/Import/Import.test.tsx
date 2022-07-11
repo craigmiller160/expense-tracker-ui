@@ -1,19 +1,9 @@
-import { ApiServer, newApiServer } from '../../../server';
 import { renderApp } from '../../../testutils/renderApp';
 import { screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 
 describe('Transaction Import', () => {
-	let apiServer: ApiServer;
-	beforeEach(() => {
-		apiServer = newApiServer();
-	});
-
-	afterEach(() => {
-		apiServer.server.shutdown();
-	});
-
 	it('imports file successfully', async () => {
 		await renderApp({
 			initialPath: '/expense-tracker/import?IS_TEST=true'

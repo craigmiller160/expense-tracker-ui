@@ -1,4 +1,3 @@
-import { ApiServer, newApiServer } from '../../../server';
 import { renderApp } from '../../../testutils/renderApp';
 import { screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
@@ -6,14 +5,6 @@ import userEvent from '@testing-library/user-event';
 import { typeInInput } from '../../../testutils/testEvents';
 
 describe('Manage Categories', () => {
-	let apiServer: ApiServer;
-	beforeEach(() => {
-		apiServer = newApiServer();
-	});
-
-	afterEach(() => {
-		apiServer.server.shutdown();
-	});
 	it('displays all categories on sever', async () => {
 		await renderApp({
 			initialPath: '/expense-tracker/categories'

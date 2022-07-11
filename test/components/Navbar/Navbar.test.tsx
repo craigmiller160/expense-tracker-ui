@@ -1,17 +1,8 @@
-import { ApiServer, newApiServer } from '../../server';
 import { renderApp } from '../../testutils/renderApp';
 import '@testing-library/jest-dom';
 import { screen, waitFor } from '@testing-library/react';
 
 describe('Navbar', () => {
-	let apiServer: ApiServer;
-	beforeEach(() => {
-		apiServer = newApiServer();
-	});
-
-	afterEach(() => {
-		apiServer.server.shutdown();
-	});
 	it('renders before authentication', async () => {
 		apiServer.actions.clearDefaultUser();
 		await renderApp();

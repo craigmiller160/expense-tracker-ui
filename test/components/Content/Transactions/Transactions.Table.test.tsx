@@ -389,7 +389,9 @@ describe('Transactions Table', () => {
 		expect(confirmCheckbox.querySelector('input')).toBeChecked();
 
 		await userEvent.click(screen.getByText('Save'));
-		await waitFor(() => expect(screen.queryByTestId('table-loading')));
+		await waitFor(() =>
+			expect(screen.queryByTestId('table-loading')).toBeVisible()
+		);
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);

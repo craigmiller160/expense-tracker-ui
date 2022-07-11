@@ -4,10 +4,25 @@ import {
 	useSearchForTransactions,
 	useUpdateTransactions
 } from '../../../ajaxapi/query/TransactionQueries';
-import { SearchTransactionsResponse, TransactionResponse, TransactionSortKey } from '../../../types/transactions';
+import {
+	SearchTransactionsResponse,
+	TransactionResponse,
+	TransactionSortKey
+} from '../../../types/transactions';
 import { useEffect, useMemo } from 'react';
-import { FieldArrayWithId, useFieldArray, useForm, UseFormReset, UseFormReturn } from 'react-hook-form';
-import { CategoryOption, categoryToCategoryOption, PaginationState, TransactionSearchForm } from './utils';
+import {
+	FieldArrayWithId,
+	useFieldArray,
+	useForm,
+	UseFormReset,
+	UseFormReturn
+} from 'react-hook-form';
+import {
+	CategoryOption,
+	categoryToCategoryOption,
+	PaginationState,
+	TransactionSearchForm
+} from './utils';
 import { match, P } from 'ts-pattern';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 import { pipe } from 'fp-ts/es6/function';

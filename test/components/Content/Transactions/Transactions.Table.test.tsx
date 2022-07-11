@@ -467,7 +467,48 @@ describe('Transactions Table', () => {
 	});
 
 	it('confirm all checkbox works and can be reset', async () => {
-		throw new Error();
+		await renderApp({
+			initialPath: '/expense-tracker/transactions'
+		});
+		await waitFor(() =>
+			expect(screen.queryByText('Expense Tracker')).toBeVisible()
+		);
+		await waitFor(() =>
+			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
+		);
+		await waitFor(() =>
+			expect(screen.queryByText('Rows per page:')).toBeVisible()
+		);
+
+		const validateCheckboxes = (checked: boolean) => {
+			const checkboxes = screen.getAllByTestId(
+				'confirm-transaction-checkbox'
+			);
+			checkboxes.forEach((checkbox, index) => {
+				const realCheckbox = checkbox.querySelector('input');
+				try {
+					if (checked) {
+						expect(realCheckbox).toBeChecked();
+					} else {
+						expect(realCheckbox).not.toBeChecked();
+					}
+				} catch (ex) {
+					throw new Error(
+						`Checkbox ${index} was expected to have checked status of ${checked}. ${
+							(ex as Error).message
+						}`
+					);
+				}
+			});
+		};
+
+		validateCheckboxes(false);
+
+		await userEvent.click(screen.getByLabelText('Confirm All'));
+		validateCheckboxes(true);
+
+		await userEvent.click(screen.getByText('Reset'));
+		validateCheckboxes(false);
 	});
 
 	it('can reset in-progress changes on transactions', async () => {

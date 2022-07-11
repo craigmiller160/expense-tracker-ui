@@ -71,7 +71,7 @@ export const Table = (props: PropsWithChildren<Props>) => (
 					</>
 				)}
 			</MuiTable>
-			{props.loading && <LinearProgress />}
+			{props.loading && <LinearProgress data-testid="table-loading" />}
 			{!props.loading && (
 				<div className="ActionWrapper">{props.belowTableActions}</div>
 			)}

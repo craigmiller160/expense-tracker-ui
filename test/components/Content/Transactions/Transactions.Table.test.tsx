@@ -382,17 +382,21 @@ describe('Transactions Table', () => {
 		await userEvent.click(screen.getByText('Groceries'));
 		expect(rowCategorySelect).toHaveValue('Groceries');
 
-		const notConfirmedConfirmCheckbox = within(row).getByTestId(
+		const confirmCheckbox = within(row).getByTestId(
 			'confirm-transaction-checkbox'
 		);
-		await userEvent.click(notConfirmedConfirmCheckbox);
-		expect(
-			notConfirmedConfirmCheckbox.querySelector('input')
-		).toBeChecked();
+		await userEvent.click(confirmCheckbox);
+		expect(confirmCheckbox.querySelector('input')).toBeChecked();
 
 		await userEvent.click(screen.getByText('Save'));
+		await waitFor(() => expect(screen.queryByTestId('table-loading')));
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
+		);
+		await waitFor(() =>
+			expect(
+				screen.queryAllByTestId('transaction-table-row')
+			).toHaveLength(25)
 		);
 
 		const rowAfterSave = screen.getAllByTestId('transaction-table-row')[0];

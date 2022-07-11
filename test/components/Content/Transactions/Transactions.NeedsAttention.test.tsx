@@ -1,4 +1,4 @@
-import { ApiServer, newApiServer } from '../../../server';
+import { apiServer } from '../../../server';
 import { renderApp } from '../../../testutils/renderApp';
 import { screen, waitFor, within } from '@testing-library/react';
 import { Database } from '../../../server/Database';
@@ -75,15 +75,9 @@ const createPrepareData =
 	};
 
 describe('Transactions Needs Attention', () => {
-	let apiServer: ApiServer;
 	let prepareData: PrepareData;
 	beforeEach(() => {
-		apiServer = newApiServer();
 		prepareData = createPrepareData(apiServer.database);
-	});
-
-	afterEach(() => {
-		apiServer.server.shutdown();
 	});
 
 	it('has duplicates', async () => {

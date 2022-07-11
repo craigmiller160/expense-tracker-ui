@@ -20,8 +20,8 @@ import { TransactionSortKey } from '../../../../src/types/transactions';
 import { SortDirection } from '../../../../src/types/misc';
 import { getAllCategories } from '../../../../src/ajaxapi/service/CategoryService';
 import userEvent from '@testing-library/user-event';
-import { ApiServer, newApiServer } from '../../../server';
 import '@testing-library/jest-dom';
+import { apiServer } from '../../../server';
 import * as RArray from 'fp-ts/es6/ReadonlyArray';
 import {
 	createTransaction,
@@ -33,15 +33,6 @@ import * as Monoid from 'fp-ts/es6/Monoid';
 const DISPLAY_DATE_FORMAT = 'MM/dd/yyyy';
 
 describe('Transactions Filters', () => {
-	let apiServer: ApiServer;
-	beforeEach(() => {
-		apiServer = newApiServer();
-	});
-
-	afterEach(() => {
-		apiServer.server.shutdown();
-	});
-
 	it('start date', async () => {
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'

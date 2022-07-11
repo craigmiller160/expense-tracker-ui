@@ -1,8 +1,10 @@
 import { PropsWithChildren } from 'react';
 import { constVoid } from 'fp-ts/es6/function';
+import { apiServer } from './server';
 
 beforeEach(() => {
 	process.env.DEBUG_PRINT_LIMIT = '1000000000';
+	apiServer.actions.setInitialData();
 });
 
 jest.mock('react', () => {

@@ -1,4 +1,4 @@
-import { ApiServer, newApiServer } from '../../../server';
+import { apiServer } from '../../../server';
 import { renderApp } from '../../../testutils/renderApp';
 import { screen, waitFor, within } from '@testing-library/react';
 import '@testing-library/jest-dom';
@@ -35,15 +35,6 @@ const setToMidnight = Time.set({
 });
 
 describe('Transactions Table', () => {
-	let apiServer: ApiServer;
-	beforeEach(() => {
-		apiServer = newApiServer();
-	});
-
-	afterEach(() => {
-		apiServer.server.shutdown();
-	});
-
 	it('loads and displays transactions', async () => {
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'

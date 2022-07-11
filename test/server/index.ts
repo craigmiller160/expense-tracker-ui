@@ -47,7 +47,8 @@ const server: Server = createServer({
 		createCategoriesRoutes(database, this);
 		createImportRoutes(database, this);
 		createTransactionsRoutes(database, this);
-	}
+	},
+	timing: 0
 });
 
 export const apiServer: ApiServer = {

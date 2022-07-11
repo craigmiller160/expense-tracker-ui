@@ -257,13 +257,14 @@ export const createTransactionsRoutes = (
 		database.updateData((draft) => {
 			body.transactions.forEach(
 				({ transactionId, categoryId, confirmed }) => {
-					draft.transactions[transactionId].categoryId =
-						categoryId ?? undefined;
-					if (categoryId) {
-						draft.transactions[transactionId].categoryName =
-							draft.categories[categoryId].name;
-					}
-					draft.transactions[transactionId].confirmed = confirmed;
+					draft.transactions[transactionId] = {
+						...draft.transactions[transactionId],
+						categoryId: categoryId ?? undefined,
+						categoryName: categoryId
+							? draft.categories[categoryId].name
+							: undefined,
+						confirmed
+					};
 				}
 			);
 		});

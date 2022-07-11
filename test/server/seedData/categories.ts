@@ -8,6 +8,7 @@ const createCategory = (name: string): CategoryResponse => ({
 });
 
 export const seedCategories: DataUpdater = (draft) => {
+	draft.categories = {};
 	const category1 = createCategory('Groceries');
 	const category2 = createCategory('Restaurants');
 	const category3 = createCategory('Entertainment');

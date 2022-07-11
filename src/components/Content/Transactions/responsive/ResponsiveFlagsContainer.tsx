@@ -17,9 +17,6 @@ const InnerDiv = styled.div<InnerDivProps>`
 
 	> * {
 		margin: 0 0.2rem;
-		&:not(.visible) {
-			visibility: hidden;
-		}
 	}
 `;
 

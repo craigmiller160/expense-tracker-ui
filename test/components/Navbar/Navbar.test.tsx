@@ -1,6 +1,7 @@
 import { renderApp } from '../../testutils/renderApp';
 import '@testing-library/jest-dom';
 import { screen, waitFor } from '@testing-library/react';
+import { apiServer } from '../../server';
 
 describe('Navbar', () => {
 	it('renders before authentication', async () => {

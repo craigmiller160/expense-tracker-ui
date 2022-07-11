@@ -11,6 +11,7 @@ import { createTransactionsRoutes } from './routes/transactions';
 
 interface ApiServerActions {
 	readonly clearDefaultUser: () => void;
+	readonly setInitialData: () => void;
 }
 
 export interface ApiServer {
@@ -24,8 +25,7 @@ const createClearDefaultUser = (database: Database) => () =>
 		draft.authUser = Option.none;
 	});
 
-export const newApiServer = (): ApiServer => {
-	const database = new Database();
+const createSetInitialData = (database: Database) => () =>
 	database.updateData((draft) => {
 		draft.authUser = Option.some({
 			userId: USER_ID,
@@ -38,21 +38,23 @@ export const newApiServer = (): ApiServer => {
 		seedTransactions(draft);
 	});
 
-	const server: Server = createServer({
-		routes() {
-			this.namespace = '/expense-tracker/api';
-			createOAuthRoutes(database, this);
-			createCategoriesRoutes(database, this);
-			createImportRoutes(database, this);
-			createTransactionsRoutes(database, this);
-		}
-	});
+const database = new Database();
 
-	return {
-		server,
-		database,
-		actions: {
-			clearDefaultUser: createClearDefaultUser(database)
-		}
-	};
+const server: Server = createServer({
+	routes() {
+		this.namespace = '/expense-tracker/api';
+		createOAuthRoutes(database, this);
+		createCategoriesRoutes(database, this);
+		createImportRoutes(database, this);
+		createTransactionsRoutes(database, this);
+	}
+});
+
+export const apiServer: ApiServer = {
+	server,
+	database,
+	actions: {
+		clearDefaultUser: createClearDefaultUser(database),
+		setInitialData: createSetInitialData(database)
+	}
 };

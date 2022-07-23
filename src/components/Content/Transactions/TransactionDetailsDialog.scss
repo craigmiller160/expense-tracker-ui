@@ -1,7 +1,10 @@
 @import "../../../styles/dialog";
 
 .TransactionDetailsDialog {
+  width: 100%;
+
   .Flags {
+    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-around;

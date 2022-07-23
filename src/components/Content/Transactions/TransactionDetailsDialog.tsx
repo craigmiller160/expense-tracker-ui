@@ -3,9 +3,12 @@ import { TransactionResponse } from '../../../types/transactions';
 import { SideDialog } from '../../UI/SideDialog';
 import * as Option from 'fp-ts/es6/Option';
 import { Button } from '@mui/material';
-import { pipe } from 'fp-ts/es6/function';
+import { flow, pipe } from 'fp-ts/es6/function';
 import './TransactionDetailsDialog.scss';
 import { useForm } from 'react-hook-form';
+import { DuplicateIcon } from './icons/DuplicateIcon';
+import { NotConfirmedIcon } from './icons/NotConfirmedIcon';
+import { NotCategorizedIcon } from './icons/NotCategorizedIcon';
 
 interface FormData {}
 
@@ -40,19 +43,27 @@ const TransactionDetailsDialogActions = (props: DialogActionsProps) => (
 	</div>
 );
 
+const getId: (txn: OptionT<TransactionResponse>) => string = flow(
+	Option.map((txn) => txn.id),
+	Option.getOrElse(() => '')
+);
+const getDuplicate: (txn: OptionT<TransactionResponse>) => boolean =
+	Option.exists((txn) => txn.duplicate);
+const getNotConfirmed: (txn: OptionT<TransactionResponse>) => boolean =
+	Option.exists((txn) => !txn.confirmed);
+const getNotCategorized: (txn: OptionT<TransactionResponse>) => boolean =
+	Option.exists((txn) => !txn.categoryId);
+
 export const TransactionDetailsDialog = (props: Props) => {
 	// TODO need to make sure the flags change with user interaction
 	const hasTransaction = Option.isSome(props.selectedTransaction);
-	const id = pipe(
-		props.selectedTransaction,
-		Option.map((txn) => txn.id),
-		Option.getOrElse(() => '')
-	);
 	const { handleSubmit, control, reset, formState } = useForm<FormData>();
 
 	const Actions = (
 		<TransactionDetailsDialogActions
-			deleteTransaction={() => props.deleteTransaction(id)}
+			deleteTransaction={() =>
+				props.deleteTransaction(getId(props.selectedTransaction))
+			}
 		/>
 	);
 
@@ -67,7 +78,21 @@ export const TransactionDetailsDialog = (props: Props) => {
 			formSubmit={handleSubmit(onSubmit)}
 		>
 			<div className="TransactionDetailsDialog">
-				<div className="Flags"></div>
+				<div className="Flags">
+					<DuplicateIcon
+						isDuplicate={getDuplicate(props.selectedTransaction)}
+					/>
+					<NotConfirmedIcon
+						isNotConfirmed={getNotConfirmed(
+							props.selectedTransaction
+						)}
+					/>
+					<NotCategorizedIcon
+						isNotCategorized={getNotConfirmed(
+							props.selectedTransaction
+						)}
+					/>
+				</div>
 			</div>
 		</SideDialog>
 	);

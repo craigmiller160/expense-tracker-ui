@@ -24,6 +24,7 @@ import { useIsAtLeastBreakpoint } from '../../../utils/useIsAtLeastBreakpoint';
 import { DuplicateIcon } from './icons/DuplicateIcon';
 import { NotConfirmedIcon } from './icons/NotConfirmedIcon';
 import { NotCategorizedIcon } from './icons/NotCategorizedIcon';
+import { TransactionResponse } from '../../../types/transactions';
 
 const COLUMNS: ReadonlyArray<string | ReactNode> = [
 	'Expense Date',
@@ -51,6 +52,7 @@ interface Props {
 	readonly pagination: PaginationState;
 	readonly onPaginationChange: Updater<PaginationState>;
 	readonly filterValues: TransactionSearchForm;
+	readonly openDetailsDialog: (transaction: TransactionResponse) => void;
 }
 
 const createBelowTableActions = (
@@ -203,7 +205,14 @@ export const TransactionTable = (props: Props) => {
 											}
 										/>
 									</div>
-									<Button variant="contained">Details</Button>
+									<Button
+										variant="contained"
+										onClick={() =>
+											props.openDetailsDialog(txn)
+										}
+									>
+										Details
+									</Button>
 								</TableCell>
 							</TableRow>
 						);

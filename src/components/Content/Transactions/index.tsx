@@ -56,6 +56,7 @@ export const Transactions = () => {
 
 	const {
 		selectedTransaction,
+		openDetailsDialog,
 		closeDetailsDialog,
 		saveTransaction,
 		deleteTransaction
@@ -73,6 +74,7 @@ export const Transactions = () => {
 				filterValues={getValues()}
 				pagination={paginationState}
 				onPaginationChange={setPaginationState}
+				openDetailsDialog={openDetailsDialog}
 			/>
 			<TransactionDetailsDialog
 				selectedTransaction={selectedTransaction}

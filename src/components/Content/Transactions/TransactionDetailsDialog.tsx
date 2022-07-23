@@ -5,6 +5,9 @@ import * as Option from 'fp-ts/es6/Option';
 import { Button } from '@mui/material';
 import { pipe } from 'fp-ts/es6/function';
 import './TransactionDetailsDialog.scss';
+import { useForm } from 'react-hook-form';
+
+interface FormData {}
 
 interface Props {
 	readonly selectedTransaction: OptionT<TransactionResponse>;
@@ -38,13 +41,13 @@ const TransactionDetailsDialogActions = (props: DialogActionsProps) => (
 );
 
 export const TransactionDetailsDialog = (props: Props) => {
-	// TODO consider different transaction details
 	const hasTransaction = Option.isSome(props.selectedTransaction);
 	const id = pipe(
 		props.selectedTransaction,
 		Option.map((txn) => txn.id),
 		Option.getOrElse(() => '')
 	);
+	const { handleSubmit, control, reset, formState } = useForm<FormData>();
 
 	const Actions = (
 		<TransactionDetailsDialogActions
@@ -52,12 +55,15 @@ export const TransactionDetailsDialog = (props: Props) => {
 		/>
 	);
 
+	const onSubmit = (values: FormData) => {};
+
 	return (
 		<SideDialog
 			open={hasTransaction}
 			onClose={props.onClose}
 			title="Transaction Details"
 			actions={Actions}
+			formSubmit={handleSubmit(onSubmit)}
 		>
 			<h1>Details Go Here</h1>
 		</SideDialog>

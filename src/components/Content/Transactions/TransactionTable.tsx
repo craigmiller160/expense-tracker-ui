@@ -31,7 +31,8 @@ const COLUMNS: ReadonlyArray<string | ReactNode> = [
 	'Description',
 	'Amount',
 	'Category',
-	'Flags'
+	'Flags',
+	'Details'
 ];
 
 const createEditModeColumns = (
@@ -185,26 +186,26 @@ export const TransactionTable = (props: Props) => {
 									)}
 									{!editMode && txn.categoryName}
 								</TableCell>
-								<TableCell className="DetailsCell">
-									<div className="flags">
-										<DuplicateIcon
-											isDuplicate={txn.duplicate}
-										/>
-										<NotConfirmedIcon
-											isNotConfirmed={
-												!getValues(
-													`transactions.${index}.confirmed`
-												)
-											}
-										/>
-										<NotCategorizedIcon
-											isNotCategorized={
-												!getValues(
-													`transactions.${index}.category`
-												)
-											}
-										/>
-									</div>
+								<TableCell className="FlagsCell">
+									<DuplicateIcon
+										isDuplicate={txn.duplicate}
+									/>
+									<NotConfirmedIcon
+										isNotConfirmed={
+											!getValues(
+												`transactions.${index}.confirmed`
+											)
+										}
+									/>
+									<NotCategorizedIcon
+										isNotCategorized={
+											!getValues(
+												`transactions.${index}.category`
+											)
+										}
+									/>
+								</TableCell>
+								<TableCell>
 									<Button
 										variant="contained"
 										onClick={() =>

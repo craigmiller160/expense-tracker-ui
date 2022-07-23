@@ -1,25 +1,15 @@
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
-import { Popover } from '../../../UI/Popover';
-import './TransactionIcon.scss';
+import { TransactionIcon } from './TransactionIcon';
 
 interface Props {
 	readonly isNotConfirmed: boolean;
 }
 
-const conditionalVisible = (condition: boolean): string =>
-	condition ? 'visible' : '';
-
-export const NotConfirmedIcon = (props: Props) => {
-	const className = `TransactionIcon ${conditionalVisible(
-		props.isNotConfirmed
-	)}`;
-	return (
-		<Popover
-			className={className}
-			message="Transaction has not been confirmed"
-			data-testid="not-confirmed-icon"
-		>
-			<ThumbDownIcon color="warning" />
-		</Popover>
-	);
-};
+export const NotConfirmedIcon = (props: Props) => (
+	<TransactionIcon
+		isVisible={props.isNotConfirmed}
+		icon={<ThumbDownIcon color="warning" />}
+		testId="not-confirmed-icon"
+		message="Transaction has not been confirmed"
+	/>
+);

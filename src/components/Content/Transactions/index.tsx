@@ -54,7 +54,12 @@ export const Transactions = () => {
 		forceUpdate
 	);
 
-	const { selectedTransaction } = useTransactionDetailsDialogActions();
+	const {
+		selectedTransaction,
+		closeDetailsDialog,
+		saveTransaction,
+		deleteTransaction
+	} = useTransactionDetailsDialogActions();
 
 	return (
 		<PageResponsiveWrapper className="ManageTransactions">
@@ -71,9 +76,9 @@ export const Transactions = () => {
 			/>
 			<TransactionDetailsDialog
 				selectedTransaction={selectedTransaction}
-				onClose={}
-				saveTransaction={}
-				deleteTransaction={}
+				onClose={closeDetailsDialog}
+				saveTransaction={saveTransaction}
+				deleteTransaction={deleteTransaction}
 			/>
 		</PageResponsiveWrapper>
 	);

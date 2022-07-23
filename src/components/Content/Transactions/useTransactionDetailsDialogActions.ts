@@ -9,6 +9,9 @@ interface TransactionDetailsDialogState {
 
 interface TransactionDetailsDialogActions {
 	readonly selectedTransaction: OptionT<TransactionResponse>;
+	readonly closeDetailsDialog: () => void;
+	readonly saveTransaction: (transaction: TransactionResponse) => void;
+	readonly deleteTransaction: (id: string) => void;
 }
 
 export const useTransactionDetailsDialogActions =
@@ -18,7 +21,18 @@ export const useTransactionDetailsDialogActions =
 				selectedTransaction: Option.none
 			});
 
+		const closeDetailsDialog = () =>
+			setDetailsDialogState((draft) => {
+				draft.selectedTransaction = Option.none;
+			});
+
+		const saveTransaction = () => {};
+		const deleteTransaction = () => {};
+
 		return {
-			selectedTransaction: detailsDialogState.selectedTransaction
+			selectedTransaction: detailsDialogState.selectedTransaction,
+			closeDetailsDialog,
+			saveTransaction,
+			deleteTransaction
 		};
 	};

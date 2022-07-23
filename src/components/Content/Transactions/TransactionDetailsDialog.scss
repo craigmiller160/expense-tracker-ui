@@ -8,6 +8,22 @@
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    margin-bottom: 1rem;
+  }
+
+  .Info {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+    >:nth-child(1), >:nth-child(3) {
+      width: 10%;
+    }
+
+    >:nth-child(2) {
+      width: 15%;
+    }
   }
 }
 

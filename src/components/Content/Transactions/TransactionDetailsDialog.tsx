@@ -2,13 +2,14 @@ import { OptionT } from '@craigmiller160/ts-functions/es/types';
 import { TransactionResponse } from '../../../types/transactions';
 import { SideDialog } from '../../UI/SideDialog';
 import * as Option from 'fp-ts/es6/Option';
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import { flow, pipe } from 'fp-ts/es6/function';
 import './TransactionDetailsDialog.scss';
 import { useForm } from 'react-hook-form';
 import { DuplicateIcon } from './icons/DuplicateIcon';
 import { NotConfirmedIcon } from './icons/NotConfirmedIcon';
 import { NotCategorizedIcon } from './icons/NotCategorizedIcon';
+import { formatCurrency } from '../../../utils/formatCurrency';
 
 interface FormData {}
 
@@ -53,6 +54,19 @@ const getNotConfirmed: (txn: OptionT<TransactionResponse>) => boolean =
 	Option.exists((txn) => !txn.confirmed);
 const getNotCategorized: (txn: OptionT<TransactionResponse>) => boolean =
 	Option.exists((txn) => !txn.categoryId);
+const getDate: (txn: OptionT<TransactionResponse>) => string = flow(
+	Option.map((txn) => txn.expenseDate),
+	Option.getOrElse(() => '')
+);
+const getDescription: (txn: OptionT<TransactionResponse>) => string = flow(
+	Option.map((txn) => txn.description),
+	Option.getOrElse(() => '')
+);
+const getAmount: (txn: OptionT<TransactionResponse>) => string = flow(
+	Option.map((txn) => txn.amount),
+	Option.map(formatCurrency),
+	Option.getOrElse(() => '')
+);
 
 export const TransactionDetailsDialog = (props: Props) => {
 	// TODO need to make sure the flags change with user interaction
@@ -92,6 +106,17 @@ export const TransactionDetailsDialog = (props: Props) => {
 							props.selectedTransaction
 						)}
 					/>
+				</div>
+				<div className="Info">
+					<Typography variant="h6">
+						{getDate(props.selectedTransaction)}
+					</Typography>
+					<Typography variant="h6">
+						{getDescription(props.selectedTransaction)}
+					</Typography>
+					<Typography variant="h6">
+						{getAmount(props.selectedTransaction)}
+					</Typography>
 				</div>
 			</div>
 		</SideDialog>

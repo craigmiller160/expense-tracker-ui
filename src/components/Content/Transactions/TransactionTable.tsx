@@ -25,6 +25,7 @@ import { DuplicateIcon } from './icons/DuplicateIcon';
 import { NotConfirmedIcon } from './icons/NotConfirmedIcon';
 import { NotCategorizedIcon } from './icons/NotCategorizedIcon';
 import { TransactionResponse } from '../../../types/transactions';
+import { formatCurrency } from '../../../utils/formatCurrency';
 
 const COLUMNS: ReadonlyArray<string | ReactNode> = [
 	'Expense Date',
@@ -170,7 +171,7 @@ export const TransactionTable = (props: Props) => {
 									{txn.description}
 								</TableCell>
 								<TableCell>
-									{`$${txn.amount.toFixed(2)}`}
+									{formatCurrency(txn.amount)}
 								</TableCell>
 								<TableCell
 									className={`CategoryCell ${editClass}`}

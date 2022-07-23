@@ -20,7 +20,6 @@ import { ReactNode } from 'react';
 import { Updater } from 'use-immer';
 import { UpdateTransactionsMutation } from '../../../ajaxapi/query/TransactionQueries';
 import { pipe } from 'fp-ts/es6/function';
-import { ResponsiveFlagsContainer } from './responsive/ResponsiveFlagsContainer';
 import { useIsAtLeastBreakpoint } from '../../../utils/useIsAtLeastBreakpoint';
 import { DuplicateIcon } from './icons/DuplicateIcon';
 import { NotConfirmedIcon } from './icons/NotConfirmedIcon';
@@ -184,8 +183,8 @@ export const TransactionTable = (props: Props) => {
 									)}
 									{!editMode && txn.categoryName}
 								</TableCell>
-								<TableCell className="FlagsCell">
-									<ResponsiveFlagsContainer>
+								<TableCell className="DetailsCell">
+									<div className="flags">
 										<DuplicateIcon
 											isDuplicate={txn.duplicate}
 										/>
@@ -203,7 +202,12 @@ export const TransactionTable = (props: Props) => {
 												)
 											}
 										/>
-									</ResponsiveFlagsContainer>
+									</div>
+									<div className="button">
+										<Button variant="contained">
+											Details
+										</Button>
+									</div>
 								</TableCell>
 							</TableRow>
 						);

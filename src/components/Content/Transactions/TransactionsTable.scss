@@ -43,4 +43,19 @@
     max-width: 20rem;
     word-wrap: break-word;
   }
+
+  .DetailsCell {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    >* {
+      margin: 0 0.2rem;
+    }
+
+    >.flags {
+      display: flex;
+      flex-direction: column;
+    }
+  }
 }

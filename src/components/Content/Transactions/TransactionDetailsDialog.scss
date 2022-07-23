@@ -1,5 +1,9 @@
 @import "../../../styles/dialog";
 
+@mixin Section {
+  margin: 2rem auto;
+}
+
 .TransactionDetailsDialog {
   width: 100%;
 
@@ -16,10 +20,10 @@
   }
 
   .Info {
+    @include Section;
     width: 100%;
     display: flex;
     flex-direction: column;
-    margin: 2rem auto;
 
     .InfoRow {
       width: 70%;
@@ -35,6 +39,10 @@
         text-align: right;
       }
     }
+  }
+
+  .Controls {
+    @include Section;
   }
 }
 

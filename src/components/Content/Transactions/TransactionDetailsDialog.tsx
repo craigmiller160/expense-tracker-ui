@@ -135,6 +135,9 @@ export const TransactionDetailsDialog = (props: Props) => {
 					</div>
 				</div>
 				<hr />
+				<div className="Controls">
+					<h3>Confirmed Checkbox and Category Select Go Here</h3>
+				</div>
 			</div>
 		</SideDialog>
 	);

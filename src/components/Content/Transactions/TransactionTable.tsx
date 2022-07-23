@@ -203,11 +203,7 @@ export const TransactionTable = (props: Props) => {
 											}
 										/>
 									</div>
-									<div className="button">
-										<Button variant="contained">
-											Details
-										</Button>
-									</div>
+									<Button variant="contained">Details</Button>
 								</TableCell>
 							</TableRow>
 						);

@@ -108,15 +108,30 @@ export const TransactionDetailsDialog = (props: Props) => {
 					/>
 				</div>
 				<div className="Info">
-					<Typography variant="h6">
-						{getDate(props.selectedTransaction)}
-					</Typography>
-					<Typography variant="h6">
-						{getDescription(props.selectedTransaction)}
-					</Typography>
-					<Typography variant="h6">
-						{getAmount(props.selectedTransaction)}
-					</Typography>
+					<div className="InfoRow">
+						<Typography variant="h6">
+							<strong>Expense Date</strong>
+						</Typography>
+						<Typography variant="h6">
+							{getDate(props.selectedTransaction)}
+						</Typography>
+					</div>
+					<div className="InfoRow">
+						<Typography variant="h6">
+							<strong>Description</strong>
+						</Typography>
+						<Typography variant="h6">
+							{getDescription(props.selectedTransaction)}
+						</Typography>
+					</div>
+					<div className="InfoRow">
+						<Typography variant="h6">
+							<strong>Amount</strong>
+						</Typography>
+						<Typography variant="h6">
+							{getAmount(props.selectedTransaction)}
+						</Typography>
+					</div>
 				</div>
 			</div>
 		</SideDialog>

@@ -13,6 +13,11 @@ import { useForm, UseFormHandleSubmit } from 'react-hook-form';
 import { ForceUpdate, useForceUpdate } from '../../../utils/useForceUpdate';
 import { NeedsAttentionNotice } from './NeedsAttentionNotice';
 import { PageResponsiveWrapper } from '../../UI/ResponsiveWrappers/PageResponsiveWrapper';
+import { OptionT } from '@craigmiller160/ts-functions/es/types';
+import { TransactionResponse } from '../../../types/transactions';
+import * as Option from 'fp-ts/es6/Option';
+import { TransactionDetailsDialog } from './TransactionDetailsDialog';
+import { useTransactionDetailsDialogActions } from './useTransactionDetailsDialogActions';
 
 const createOnValueHasChanged = (
 	handleSubmit: UseFormHandleSubmit<TransactionSearchForm>,
@@ -49,6 +54,8 @@ export const Transactions = () => {
 		forceUpdate
 	);
 
+	const { selectedTransaction } = useTransactionDetailsDialogActions();
+
 	return (
 		<PageResponsiveWrapper className="ManageTransactions">
 			<PageTitle title="Manage Transactions" />
@@ -61,6 +68,12 @@ export const Transactions = () => {
 				filterValues={getValues()}
 				pagination={paginationState}
 				onPaginationChange={setPaginationState}
+			/>
+			<TransactionDetailsDialog
+				selectedTransaction={selectedTransaction}
+				onClose={}
+				saveTransaction={}
+				deleteTransaction={}
 			/>
 		</PageResponsiveWrapper>
 	);

@@ -11,6 +11,8 @@ import { NotConfirmedIcon } from './icons/NotConfirmedIcon';
 import { NotCategorizedIcon } from './icons/NotCategorizedIcon';
 import { formatCurrency } from '../../../utils/formatCurrency';
 
+// TODO be sure to test this in mobile view, needs some layout tweaks
+
 interface FormData {}
 
 interface Props {

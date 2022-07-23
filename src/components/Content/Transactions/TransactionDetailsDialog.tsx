@@ -41,6 +41,7 @@ const TransactionDetailsDialogActions = (props: DialogActionsProps) => (
 );
 
 export const TransactionDetailsDialog = (props: Props) => {
+	// TODO need to make sure the flags change with user interaction
 	const hasTransaction = Option.isSome(props.selectedTransaction);
 	const id = pipe(
 		props.selectedTransaction,
@@ -65,7 +66,9 @@ export const TransactionDetailsDialog = (props: Props) => {
 			actions={Actions}
 			formSubmit={handleSubmit(onSubmit)}
 		>
-			<h1>Details Go Here</h1>
+			<div className="TransactionDetailsDialog">
+				<div className="Flags"></div>
+			</div>
 		</SideDialog>
 	);
 };

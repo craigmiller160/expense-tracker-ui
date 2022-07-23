@@ -6,10 +6,12 @@ describe('Transaction Details Dialog', () => {
 	});
 
 	it('can confirm transaction', async () => {
+		// TODO don't forget to verify flag change
 		throw new Error();
 	});
 
 	it('can categorize transaction', async () => {
+		// TODO don't forget to verify flag change
 		throw new Error();
 	});
 

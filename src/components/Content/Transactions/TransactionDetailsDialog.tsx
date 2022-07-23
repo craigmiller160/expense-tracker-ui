@@ -107,6 +107,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 						)}
 					/>
 				</div>
+				<hr />
 				<div className="Info">
 					<div className="InfoRow">
 						<Typography variant="h6">
@@ -133,6 +134,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 						</Typography>
 					</div>
 				</div>
+				<hr />
 			</div>
 		</SideDialog>
 	);

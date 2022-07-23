@@ -14,13 +14,6 @@ const InnerDiv = styled.div<InnerDivProps>`
 		flex-direction: row;
 		justify-content: center;
 	}
-
-	> * {
-		margin: 0 0.2rem;
-		&:not(.visible) {
-			visibility: hidden;
-		}
-	}
 `;
 
 export const ResponsiveFlagsContainer = addThemeToWrapper(InnerDiv);

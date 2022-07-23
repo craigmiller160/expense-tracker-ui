@@ -20,12 +20,12 @@ import { ReactNode } from 'react';
 import { Updater } from 'use-immer';
 import { UpdateTransactionsMutation } from '../../../ajaxapi/query/TransactionQueries';
 import { pipe } from 'fp-ts/es6/function';
-import FileCopyIcon from '@mui/icons-material/FileCopy';
-import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import CategoryIcon from '@mui/icons-material/Category';
 import { Popover } from '../../UI/Popover';
 import { ResponsiveFlagsContainer } from './responsive/ResponsiveFlagsContainer';
 import { useIsAtLeastBreakpoint } from '../../../utils/useIsAtLeastBreakpoint';
+import { DuplicateIcon } from './icons/DuplicateIcon';
+import { NotConfirmedIcon } from './icons/NotConfirmedIcon';
 
 const COLUMNS: ReadonlyArray<string | ReactNode> = [
 	'Expense Date',
@@ -190,26 +190,16 @@ export const TransactionTable = (props: Props) => {
 								</TableCell>
 								<TableCell className="FlagsCell">
 									<ResponsiveFlagsContainer>
-										<Popover
-											className={conditionalVisible(
-												txn.duplicate
-											)}
-											message="Transaction is a duplicate"
-											data-testid="duplicate-icon"
-										>
-											<FileCopyIcon color="warning" />
-										</Popover>
-										<Popover
-											className={conditionalVisible(
+										<DuplicateIcon
+											isDuplicate={txn.duplicate}
+										/>
+										<NotConfirmedIcon
+											isNotConfirmed={
 												!getValues(
 													`transactions.${index}.confirmed`
 												)
-											)}
-											message="Transaction has not been confirmed"
-											data-testid="not-confirmed-icon"
-										>
-											<ThumbDownIcon color="warning" />
-										</Popover>
+											}
+										/>
 										<Popover
 											className={conditionalVisible(
 												!getValues(

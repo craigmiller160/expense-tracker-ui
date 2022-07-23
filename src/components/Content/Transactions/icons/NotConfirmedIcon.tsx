@@ -1,5 +1,6 @@
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import { Popover } from '../../../UI/Popover';
+import './TransactionIcon.scss';
 
 interface Props {
 	readonly isNotConfirmed: boolean;

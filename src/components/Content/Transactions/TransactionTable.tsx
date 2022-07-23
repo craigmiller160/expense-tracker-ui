@@ -20,12 +20,11 @@ import { ReactNode } from 'react';
 import { Updater } from 'use-immer';
 import { UpdateTransactionsMutation } from '../../../ajaxapi/query/TransactionQueries';
 import { pipe } from 'fp-ts/es6/function';
-import CategoryIcon from '@mui/icons-material/Category';
-import { Popover } from '../../UI/Popover';
 import { ResponsiveFlagsContainer } from './responsive/ResponsiveFlagsContainer';
 import { useIsAtLeastBreakpoint } from '../../../utils/useIsAtLeastBreakpoint';
 import { DuplicateIcon } from './icons/DuplicateIcon';
 import { NotConfirmedIcon } from './icons/NotConfirmedIcon';
+import { NotCategorizedIcon } from './icons/NotCategorizedIcon';
 
 const COLUMNS: ReadonlyArray<string | ReactNode> = [
 	'Expense Date',
@@ -93,9 +92,6 @@ const createOnSubmit =
 			(_) => ({ transactions: _ }),
 			updateTransactions
 		);
-
-const conditionalVisible = (condition: boolean): string | undefined =>
-	condition ? 'visible' : undefined;
 
 export const TransactionTable = (props: Props) => {
 	const {
@@ -200,17 +196,13 @@ export const TransactionTable = (props: Props) => {
 												)
 											}
 										/>
-										<Popover
-											className={conditionalVisible(
+										<NotCategorizedIcon
+											isNotCategorized={
 												!getValues(
 													`transactions.${index}.category`
 												)
-											)}
-											message="Transaction has not been categorized"
-											data-testid="no-category-icon"
-										>
-											<CategoryIcon color="warning" />
-										</Popover>
+											}
+										/>
 									</ResponsiveFlagsContainer>
 								</TableCell>
 							</TableRow>

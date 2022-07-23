@@ -208,6 +208,7 @@ export const TransactionTable = (props: Props) => {
 								<TableCell>
 									<Button
 										variant="contained"
+										color="info"
 										onClick={() =>
 											props.openDetailsDialog(txn)
 										}

@@ -75,7 +75,7 @@ export const useHandleTransactionDetailsDialogData = (
 			isConfirmed: transactionValues.isConfirmed,
 			category: transactionValues.category
 		});
-	}, [transactionValues.id, form.reset()]);
+	}, [transactionValues.id, form.reset]);
 
 	return {
 		transactionValues,

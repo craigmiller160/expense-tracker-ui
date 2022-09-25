@@ -19,12 +19,12 @@ import {
 } from 'react-hook-form';
 import {
 	CategoryOption,
-	categoryToCategoryOption,
 	PaginationState,
-	TransactionSearchForm, transactionToCategoryOption,
+	TransactionSearchForm,
+	transactionToCategoryOption,
 	useCategoriesToCategoryOptions
 } from './utils';
-import { match, P } from 'ts-pattern';
+import { match } from 'ts-pattern';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 import { pipe } from 'fp-ts/es6/function';
 

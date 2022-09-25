@@ -45,10 +45,12 @@ export const useTransactionDetailsDialogActions =
 				draft.selectedTransaction = Option.none;
 			});
 
-		const saveTransaction = (transaction: TransactionToUpdate) =>
+		const saveTransaction = (transaction: TransactionToUpdate) => {
+			closeDetailsDialog();
 			updateTransactionsMutate({
 				transactions: [transaction]
 			});
+		};
 		const deleteTransaction = (nullableId: string | null) => {
 			const idsToDelete = pipe(
 				Option.fromNullable(nullableId),

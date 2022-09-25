@@ -109,7 +109,11 @@ const useGetCategoryComponent = (control: Control<FormData>) => {
 		useGetAllCategories();
 	const categoryOptions = useCategoriesToCategoryOptions(categoryData);
 	if (categoryIsFetching) {
-		return <CircularProgress />;
+		return (
+			<div className="CategorySpinner">
+				<CircularProgress />
+			</div>
+		)
 	}
 
 	return (

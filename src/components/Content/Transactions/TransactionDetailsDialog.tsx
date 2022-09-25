@@ -2,16 +2,20 @@ import { OptionT } from '@craigmiller160/ts-functions/es/types';
 import { TransactionResponse } from '../../../types/transactions';
 import { SideDialog } from '../../UI/SideDialog';
 import * as Option from 'fp-ts/es6/Option';
-import { Button, Typography } from '@mui/material';
+import { Button, FormControl, Typography } from '@mui/material';
 import { flow, pipe } from 'fp-ts/es6/function';
 import './TransactionDetailsDialog.scss';
-import { useForm } from 'react-hook-form';
+import { Control, useForm } from 'react-hook-form';
 import { DuplicateIcon } from './icons/DuplicateIcon';
 import { NotConfirmedIcon } from './icons/NotConfirmedIcon';
 import { NotCategorizedIcon } from './icons/NotCategorizedIcon';
 import { formatCurrency } from '../../../utils/formatCurrency';
-import { Checkbox } from '@craigmiller160/react-hook-form-material-ui';
-import { CategoryOption } from './utils';
+import {
+	Autocomplete,
+	Checkbox
+} from '@craigmiller160/react-hook-form-material-ui';
+import { CategoryOption, useCategoriesToCategoryOptions } from './utils';
+import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 
 // TODO be sure to test this in mobile view, needs some layout tweaks
 
@@ -99,9 +103,27 @@ const getValuesFromSelectedTransaction = (
 		)
 	);
 
+// TODO need response type
+const useGetCategoryComponent = (control: Control<FormData>) => {
+	const { data: categoryData, isFetching: categoryIsFetching } =
+		useGetAllCategories();
+	const categoryOptions = useCategoriesToCategoryOptions(categoryData);
+
+	return (
+		<Autocomplete
+			testId="transaction-category-select"
+			name="category"
+			control={control}
+			label="Category"
+			options={categoryOptions}
+		/>
+	);
+};
+
 export const TransactionDetailsDialog = (props: Props) => {
 	// TODO need to make sure the flags change with user interaction
-	const { hasTransaction, ...defaultValues } = getValuesFromSelectedTransaction(props.selectedTransaction);
+	const { hasTransaction, ...defaultValues } =
+		getValuesFromSelectedTransaction(props.selectedTransaction);
 	// TODO set default values based on selected transaction
 	const { handleSubmit, control, reset, formState } = useForm<FormData>({
 		defaultValues: {

@@ -8,6 +8,7 @@ import { pipe } from 'fp-ts/es6/function';
 import { CategoryResponse } from '../../../types/categories';
 import { SortDirection } from '../../../types/misc';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
+import { useMemo } from 'react';
 
 export interface PaginationState {
 	readonly pageNumber: number;
@@ -79,3 +80,11 @@ export const categoryToCategoryOption = (
 	label: category.name,
 	value: category.id
 });
+
+export const useCategoriesToCategoryOptions = (
+	categories: CategoryResponse[] | undefined
+): CategoryOption[] =>
+	useMemo(
+		() => categories?.map(categoryToCategoryOption) ?? [],
+		[categories]
+	);

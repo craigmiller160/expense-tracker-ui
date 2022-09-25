@@ -21,7 +21,7 @@ import {
 	CategoryOption,
 	categoryToCategoryOption,
 	PaginationState,
-	TransactionSearchForm
+	TransactionSearchForm, useCategoriesToCategoryOptions
 } from './utils';
 import { match, P } from 'ts-pattern';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
@@ -165,10 +165,7 @@ export const useHandleTransactionTableData = (
 		name: 'transactions'
 	});
 
-	const categories = useMemo(
-		() => categoryData?.map(categoryToCategoryOption),
-		[categoryData]
-	);
+	const categories = useCategoriesToCategoryOptions(categoryData);
 
 	const resetFormToData = useMemo(
 		() =>
@@ -213,7 +210,7 @@ export const useHandleTransactionTableData = (
 	return {
 		data: {
 			transactions: transactions ?? [],
-			categories: categories ?? [],
+			categories,
 			isFetching:
 				transactionIsFetching ||
 				categoryIsFetching ||

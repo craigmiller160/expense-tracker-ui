@@ -63,7 +63,7 @@ export const searchForTransactions = (
 export const categorizeTransactions = (
 	transactionsAndCategories: ReadonlyArray<TransactionAndCategory>
 ): Promise<unknown> =>
-	expenseTrackerApi.put<CategorizeTransactionsRequest, unknown>({
+	expenseTrackerApi.put<unknown, CategorizeTransactionsRequest>({
 		uri: '/transactions/categorize',
 		errorCustomizer: 'Error categorizing transactions',
 		body: {
@@ -74,7 +74,7 @@ export const categorizeTransactions = (
 export const updateTransactions = (
 	transactions: ReadonlyArray<TransactionToUpdate>
 ): Promise<unknown> =>
-	expenseTrackerApi.put<UpdateTransactionsRequest, unknown>({
+	expenseTrackerApi.put<unknown, UpdateTransactionsRequest>({
 		uri: '/transactions',
 		errorCustomizer: 'Error updating transactions',
 		body: {
@@ -85,7 +85,7 @@ export const updateTransactions = (
 export const deleteTransactions = (
 	idsToDelete: ReadonlyArray<string>
 ): Promise<unknown> =>
-	expenseTrackerApi.put<DeleteTransactionsRequest, unknown>({
+	expenseTrackerApi.delete<unknown, DeleteTransactionsRequest>({
 		uri: '/transactions',
 		errorCustomizer: 'Error deleting transactions',
 		body: {

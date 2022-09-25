@@ -9,6 +9,7 @@ import {
 	QueryClient,
 	UseMutateFunction,
 	useMutation,
+	UseMutationResult,
 	useQuery,
 	useQueryClient
 } from 'react-query';
@@ -77,7 +78,11 @@ export type UpdateTransactionsMutation = UseMutateFunction<
 	UpdateTransactionsParams
 >;
 
-export const useUpdateTransactions = () => {
+export const useUpdateTransactions = (): UseMutationResult<
+	unknown,
+	Error,
+	UpdateTransactionsParams
+> => {
 	const queryClient = useQueryClient();
 	return useMutation<unknown, Error, UpdateTransactionsParams>(
 		({ transactions }) => updateTransactions(transactions),

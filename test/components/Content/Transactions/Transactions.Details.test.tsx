@@ -79,7 +79,12 @@ describe('Transaction Details Dialog', () => {
 		expect(
 			within(transactionDialog).getByTestId('no-category-icon').className
 		).toMatch(/visible/);
-		// TODO check controls
+
+		const checkbox = within(transactionDialog).getByTestId(
+			'confirm-transaction-checkbox'
+		);
+		expect(checkbox.querySelector('input')).not.toBeChecked();
+		// TODO try and figure out category
 	});
 
 	it('shows current transaction information for confirmed & categorized', async () => {

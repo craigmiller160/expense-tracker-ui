@@ -115,6 +115,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 			title="Transaction Details"
 			actions={Actions}
 			formSubmit={handleSubmit(onSubmit)}
+			data-testid="transaction-details-dialog"
 		>
 			<div className="TransactionDetailsDialog">
 				<div className="Flags">

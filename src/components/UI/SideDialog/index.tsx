@@ -36,6 +36,7 @@ interface Props {
 	readonly onClose: () => void;
 	readonly actions?: ReactNode;
 	readonly formSubmit?: () => void;
+	readonly 'data-testid'?: string;
 }
 
 interface FormProps {
@@ -62,6 +63,7 @@ export const SideDialog = (props: PropsWithChildren<Props>) => {
 			TransitionComponent={Transition}
 			PaperComponent={ResponsiveSlideDialogWrapper}
 			className="SlideDialog"
+			data-testid={props['data-testid']}
 		>
 			<Form formSubmit={props.formSubmit}>
 				<AppBar sx={{ position: 'relative' }}>

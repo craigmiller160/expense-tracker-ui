@@ -2,6 +2,9 @@ import { renderApp } from '../../../testutils/renderApp';
 import { screen, waitFor, within } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
+import { searchForTransactions } from '../../../../src/ajaxapi/service/TransactionService';
+import { TransactionSortKey } from '../../../../src/types/transactions';
+import { SortDirection } from '../../../../src/types/misc';
 
 const testButton =
 	(isDisabled: boolean) => (detailsButton: HTMLElement, index: number) => {
@@ -20,7 +23,41 @@ const testButton =
 
 describe('Transaction Details Dialog', () => {
 	it('shows current transaction information for unconfirmed and uncategorized', async () => {
-		throw new Error();
+		await renderApp({
+			initialPath: '/expense-tracker/transactions'
+		});
+		await waitFor(() =>
+			expect(screen.queryByText('Expense Tracker')).toBeVisible()
+		);
+		await waitFor(() =>
+			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
+		);
+		await waitFor(() =>
+			expect(screen.queryByText('Rows per page:')).toBeVisible()
+		);
+
+		const transaction = (
+			await searchForTransactions({
+				pageNumber: 0,
+				pageSize: 1,
+				sortKey: TransactionSortKey.EXPENSE_DATE,
+				sortDirection: SortDirection.ASC
+			})
+		).transactions[0];
+
+		const row = screen.getAllByTestId('transaction-table-row')[0];
+		const detailsButton = within(row).getByText('Details');
+		await userEvent.click(detailsButton);
+
+		const transactionDialog = screen.getByTestId(
+			'transaction-details-dialog'
+		);
+		within(transactionDialog).getByText('Transaction Details');
+		within(transactionDialog).getByText('Expense Date');
+		within(transactionDialog).getByText('Amount');
+		within(transactionDialog).getByText(transaction.expenseDate);
+		within(transactionDialog).getByText(transaction.description);
+		within(transactionDialog).getByText(transaction.amount);
 	});
 
 	it('shows current transaction information for confirmed & categorized', async () => {

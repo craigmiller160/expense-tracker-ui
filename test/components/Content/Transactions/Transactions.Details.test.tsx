@@ -1,7 +1,11 @@
 export {};
 
 describe('Transaction Details Dialog', () => {
-	it('shows current transaction information', async () => {
+	it('shows current transaction information for unconfirmed and uncategorized', async () => {
+		throw new Error();
+	});
+
+	it('shows current transaction information for confirmed & categorized', async () => {
 		throw new Error();
 	});
 

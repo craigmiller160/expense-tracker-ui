@@ -5,7 +5,11 @@ import {
 } from '../../../types/transactions';
 import { useImmer } from 'use-immer';
 import * as Option from 'fp-ts/es6/Option';
-import { useUpdateTransactions } from '../../../ajaxapi/query/TransactionQueries';
+import {
+	useDeleteTransactions,
+	useUpdateTransactions
+} from '../../../ajaxapi/query/TransactionQueries';
+import { pipe } from 'fp-ts/es6/function';
 
 interface TransactionDetailsDialogState {
 	readonly selectedTransaction: OptionT<TransactionResponse>;
@@ -25,7 +29,8 @@ export const useTransactionDetailsDialogActions =
 			useImmer<TransactionDetailsDialogState>({
 				selectedTransaction: Option.none
 			});
-		const { mutate } = useUpdateTransactions();
+		const { mutate: updateTransactionsMutate } = useUpdateTransactions();
+		const { mutate: deleteTransactionsMutate } = useDeleteTransactions();
 
 		const openDetailsDialog = (transaction: TransactionResponse) =>
 			setDetailsDialogState((draft) => {
@@ -38,10 +43,21 @@ export const useTransactionDetailsDialogActions =
 			});
 
 		const saveTransaction = (transaction: TransactionToUpdate) =>
-			mutate({
+			updateTransactionsMutate({
 				transactions: [transaction]
 			});
-		const deleteTransaction = () => {};
+		const deleteTransaction = (nullableId: string | null) => {
+			const idsToDelete = pipe(
+				Option.fromNullable(nullableId),
+				Option.fold(
+					() => [],
+					(id) => [id]
+				)
+			);
+			deleteTransactionsMutate({
+				idsToDelete
+			});
+		};
 
 		return {
 			selectedTransaction: detailsDialogState.selectedTransaction,

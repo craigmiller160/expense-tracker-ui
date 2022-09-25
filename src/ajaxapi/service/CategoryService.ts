@@ -10,7 +10,7 @@ export const getAllCategories = (): Promise<ReadonlyArray<CategoryResponse>> =>
 		.then(getData);
 
 export const updateCategory = (id: string, name: string): Promise<unknown> =>
-	expenseTrackerApi.put<CategoryRequest, unknown>({
+	expenseTrackerApi.put<unknown, CategoryRequest>({
 		uri: `/categories/${id}`,
 		errorCustomizer: `Error updating category ${id}`,
 		body: {
@@ -20,7 +20,7 @@ export const updateCategory = (id: string, name: string): Promise<unknown> =>
 
 export const createCategory = (name: string): Promise<CategoryResponse> =>
 	expenseTrackerApi
-		.post<CategoryRequest, CategoryResponse>({
+		.post<CategoryResponse, CategoryRequest>({
 			uri: '/categories',
 			errorCustomizer: 'Error adding category',
 			body: {

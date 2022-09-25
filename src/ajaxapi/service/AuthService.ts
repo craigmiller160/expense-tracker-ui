@@ -18,7 +18,7 @@ export const getAuthUser = (): Promise<AuthUser> =>
 
 export const login = (): Promise<AuthCodeLogin> =>
 	expenseTrackerApi
-		.post<void, AuthCodeLogin>({
+		.post<AuthCodeLogin, void>({
 			uri: '/oauth/authcode/login',
 			errorCustomizer: 'Error getting login URI'
 		})

@@ -6,7 +6,7 @@ export const importTransactions = (type: FileType, file: File) => {
 	const form = new FormData();
 	form.append('file', file, file.name);
 	return expenseTrackerApi
-		.post<FormData, ImportTransactionsResponse>({
+		.post<ImportTransactionsResponse, FormData>({
 			uri: `transaction-import?type=${type}`,
 			errorCustomizer: 'Error importing transaction',
 			body: form

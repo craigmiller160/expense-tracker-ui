@@ -23,7 +23,7 @@ describe('Transaction Details Dialog', () => {
 		throw new Error();
 	});
 
-	it('does not clear existing changes in table when saving or deleting', async () => {
+	it('cannot open details dialog when table form is dirty', async () => {
 		throw new Error();
 	});
 });

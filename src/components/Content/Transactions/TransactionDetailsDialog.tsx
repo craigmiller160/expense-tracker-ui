@@ -33,6 +33,7 @@ interface Props {
 
 interface DialogActionsProps {
 	readonly deleteTransaction: () => void;
+	readonly enableSaveButton: boolean;
 }
 
 const TransactionDetailsDialogActions = (props: DialogActionsProps) => (
@@ -40,7 +41,7 @@ const TransactionDetailsDialogActions = (props: DialogActionsProps) => (
 		<Button
 			variant="contained"
 			color="success"
-			disabled={true}
+			disabled={!props.enableSaveButton}
 			type="submit"
 		>
 			Save
@@ -83,7 +84,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 	// TODO need to make sure the flags change with user interaction
 	const {
 		transactionValues,
-		form: { control, handleSubmit, getValues }
+		form: { control, handleSubmit, getValues, formState }
 	} = useHandleTransactionDetailsDialogData(props.selectedTransaction);
 	const CategoryComponent = useGetCategoryComponent(control);
 
@@ -92,6 +93,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 			deleteTransaction={() =>
 				props.deleteTransaction(transactionValues.id)
 			}
+			enableSaveButton={formState.isDirty}
 		/>
 	);
 

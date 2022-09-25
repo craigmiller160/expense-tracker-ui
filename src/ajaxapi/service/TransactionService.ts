@@ -1,6 +1,7 @@
 import {
 	CategorizeTransactionsRequest,
-	DATE_FORMAT, DeleteTransactionsRequest,
+	DATE_FORMAT,
+	DeleteTransactionsRequest,
 	NeedsAttentionResponse,
 	SearchTransactionsRequest,
 	SearchTransactionsResponse,

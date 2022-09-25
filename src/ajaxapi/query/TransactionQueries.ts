@@ -16,6 +16,7 @@ import {
 } from 'react-query';
 import {
 	categorizeTransactions,
+	deleteTransactions,
 	getNeedsAttention,
 	searchForTransactions,
 	updateTransactions
@@ -90,6 +91,20 @@ export const useUpdateTransactions = (): UseMutationResult<
 	const queryClient = useQueryClient();
 	return useMutation<unknown, Error, UpdateTransactionsParams>(
 		({ transactions }) => updateTransactions(transactions),
+		{
+			onSuccess: () => invalidateTransactionQueries(queryClient)
+		}
+	);
+};
+
+type DeleteTransactionsParams = {
+	idsToDelete: ReadonlyArray<string>;
+};
+
+export const useDeleteTransactions = () => {
+	const queryClient = useQueryClient();
+	return useMutation<unknown, Error, DeleteTransactionsParams>(
+		({ idsToDelete }) => deleteTransactions(idsToDelete),
 		{
 			onSuccess: () => invalidateTransactionQueries(queryClient)
 		}

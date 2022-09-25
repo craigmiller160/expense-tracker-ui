@@ -81,7 +81,6 @@ const useGetCategoryComponent = (
 };
 
 export const TransactionDetailsDialog = (props: Props) => {
-	// TODO need to make sure the flags change with user interaction
 	const {
 		transactionValues,
 		form: { control, handleSubmit, getValues, formState }

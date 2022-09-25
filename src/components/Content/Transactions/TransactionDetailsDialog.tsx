@@ -215,20 +215,15 @@ export const TransactionDetailsDialog = (props: Props) => {
 				</div>
 				<hr />
 				<div className="Controls">
-					<form onSubmit={handleSubmit(onSubmit)}>
-						{/* TODO definitely need test for invisibility here */}
-						<Checkbox
-							testId="confirm-transaction-checkbox"
-							control={control}
-							className={
-								defaultValues.isConfirmed ? 'invisible' : ''
-							}
-							name="isConfirmed"
-							label="Confirmed"
-							labelPlacement="end"
-						/>
-						{CategoryComponent}
-					</form>
+					<Checkbox
+						testId="confirm-transaction-checkbox"
+						control={control}
+						className={defaultValues.isConfirmed ? 'invisible' : ''}
+						name="isConfirmed"
+						label="Confirmed"
+						labelPlacement="end"
+					/>
+					{CategoryComponent}
 				</div>
 			</div>
 		</SideDialog>

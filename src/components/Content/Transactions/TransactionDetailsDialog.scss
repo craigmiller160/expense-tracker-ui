@@ -43,16 +43,14 @@
 
   .Controls {
     @include Section;
-    form {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-around;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 
-      >* {
-        width: 33%;
-        &.invisible {
-          visibility: hidden;
-        }
+    >* {
+      width: 33%;
+      &.invisible {
+        visibility: hidden;
       }
     }
   }

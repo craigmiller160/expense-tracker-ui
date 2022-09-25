@@ -5,6 +5,8 @@ import userEvent from '@testing-library/user-event';
 import { searchForTransactions } from '../../../../src/ajaxapi/service/TransactionService';
 import { TransactionSortKey } from '../../../../src/types/transactions';
 import { SortDirection } from '../../../../src/types/misc';
+import { formatDisplayDate } from '../../../../src/components/Content/Transactions/useHandleTransactionTableData';
+import { formatCurrency } from '../../../../src/utils/formatCurrency';
 
 const testButton =
 	(isDisabled: boolean) => (detailsButton: HTMLElement, index: number) => {
@@ -55,9 +57,12 @@ describe('Transaction Details Dialog', () => {
 		within(transactionDialog).getByText('Transaction Details');
 		within(transactionDialog).getByText('Expense Date');
 		within(transactionDialog).getByText('Amount');
-		within(transactionDialog).getByText(transaction.expenseDate);
+		within(transactionDialog).getByText(
+			formatDisplayDate(transaction.expenseDate)
+		);
 		within(transactionDialog).getByText(transaction.description);
-		within(transactionDialog).getByText(transaction.amount);
+		within(transactionDialog).getByText(formatCurrency(transaction.amount));
+		// TODO check controls and flags
 	});
 
 	it('shows current transaction information for confirmed & categorized', async () => {

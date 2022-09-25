@@ -28,7 +28,7 @@ import { match } from 'ts-pattern';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 import { pipe } from 'fp-ts/es6/function';
 
-const formatDisplayDate = (dateString: string) =>
+export const formatDisplayDate = (dateString: string) =>
 	pipe(dateString, Time.parse('yyyy-MM-dd'), Time.format('MM/dd/yyyy'));
 
 export interface TransactionFormValues {

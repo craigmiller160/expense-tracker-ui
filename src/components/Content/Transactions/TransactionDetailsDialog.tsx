@@ -116,7 +116,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 						isDuplicate={transactionValues.isDuplicate}
 					/>
 					<NotConfirmedIcon
-						isNotConfirmed={getValues().isConfirmed}
+						isNotConfirmed={!getValues().isConfirmed}
 					/>
 					<NotCategorizedIcon
 						isNotCategorized={getValues().category === null}

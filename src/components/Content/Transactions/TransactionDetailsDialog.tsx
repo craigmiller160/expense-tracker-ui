@@ -25,6 +25,7 @@ import {
 	useCategoriesToCategoryOptions
 } from './utils';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
+import { useEffect, useMemo } from 'react';
 
 // TODO be sure to test this in mobile view, needs some layout tweaks
 
@@ -89,18 +90,20 @@ const getAmount: (txn: OptionT<TransactionResponse>) => string = flow(
 );
 
 type TransactionValues = {
+	readonly id: string | null;
 	readonly hasTransaction: boolean;
 	readonly isConfirmed: boolean;
 	readonly category: CategoryOption | null;
 };
 
-const getValuesFromSelectedTransaction = (
+const useValuesFromSelectedTransaction = (
 	selectedTransaction: OptionT<TransactionResponse>
 ): TransactionValues =>
 	pipe(
 		selectedTransaction,
 		Option.map(
 			(transaction): TransactionValues => ({
+				id: transaction.id,
 				hasTransaction: true,
 				isConfirmed: transaction.confirmed,
 				category: transactionToCategoryOption(transaction)
@@ -108,6 +111,7 @@ const getValuesFromSelectedTransaction = (
 		),
 		Option.getOrElse(
 			(): TransactionValues => ({
+				id: null,
 				hasTransaction: false,
 				isConfirmed: false,
 				category: null
@@ -130,7 +134,6 @@ const useGetCategoryComponent = (control: Control<FormData>) => {
 
 	return (
 		<Autocomplete
-			testId="transaction-category-select"
 			name="category"
 			control={control}
 			label="Category"
@@ -142,7 +145,7 @@ const useGetCategoryComponent = (control: Control<FormData>) => {
 export const TransactionDetailsDialog = (props: Props) => {
 	// TODO need to make sure the flags change with user interaction
 	const { hasTransaction, ...defaultValues } =
-		getValuesFromSelectedTransaction(props.selectedTransaction);
+		useValuesFromSelectedTransaction(props.selectedTransaction);
 	// TODO set default values based on selected transaction
 	const { handleSubmit, control, reset, formState } = useForm<FormData>({
 		defaultValues: {
@@ -150,6 +153,12 @@ export const TransactionDetailsDialog = (props: Props) => {
 			category: defaultValues.category
 		}
 	});
+	useEffect(() => {
+		reset({
+			isConfirmed: defaultValues.isConfirmed,
+			category: defaultValues.category
+		});
+	}, [defaultValues.id, reset]);
 	const CategoryComponent = useGetCategoryComponent(control);
 
 	const Actions = (

@@ -26,13 +26,12 @@ import {
 } from './utils';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 import { ReactNode, useEffect, useMemo } from 'react';
+import {
+	TransactionDetailsFormData,
+	useHandleTransactionDetailsDialogData
+} from './useHandleTransactionDetailsDialogData';
 
 // TODO be sure to test this in mobile view, needs some layout tweaks
-
-interface FormData {
-	readonly isConfirmed: boolean;
-	readonly category: CategoryOption | null;
-}
 
 interface Props {
 	readonly selectedTransaction: OptionT<TransactionResponse>;
@@ -89,37 +88,9 @@ const getAmount: (txn: OptionT<TransactionResponse>) => string = flow(
 	Option.getOrElse(() => '')
 );
 
-type TransactionValues = {
-	readonly id: string | null;
-	readonly isConfirmed: boolean;
-	readonly isDuplicate: boolean;
-	readonly category: CategoryOption | null;
-};
-
-const useValuesFromSelectedTransaction = (
-	selectedTransaction: OptionT<TransactionResponse>
-): TransactionValues =>
-	pipe(
-		selectedTransaction,
-		Option.map(
-			(transaction): TransactionValues => ({
-				id: transaction.id,
-				isConfirmed: transaction.confirmed,
-				isDuplicate: transaction.duplicate,
-				category: transactionToCategoryOption(transaction)
-			})
-		),
-		Option.getOrElse(
-			(): TransactionValues => ({
-				id: null,
-				isConfirmed: false,
-				isDuplicate: false,
-				category: null
-			})
-		)
-	);
-
-const useGetCategoryComponent = (control: Control<FormData>): ReactNode => {
+const useGetCategoryComponent = (
+	control: Control<TransactionDetailsFormData>
+): ReactNode => {
 	const { data: categoryData, isFetching: categoryIsFetching } =
 		useGetAllCategories();
 	const categoryOptions = useCategoriesToCategoryOptions(categoryData);
@@ -143,22 +114,10 @@ const useGetCategoryComponent = (control: Control<FormData>): ReactNode => {
 
 export const TransactionDetailsDialog = (props: Props) => {
 	// TODO need to make sure the flags change with user interaction
-	const defaultValues = useValuesFromSelectedTransaction(
-		props.selectedTransaction
-	);
-	const { handleSubmit, control, reset, formState, getValues } =
-		useForm<FormData>({
-			defaultValues: {
-				isConfirmed: defaultValues.isConfirmed,
-				category: defaultValues.category
-			}
-		});
-	useEffect(() => {
-		reset({
-			isConfirmed: defaultValues.isConfirmed,
-			category: defaultValues.category
-		});
-	}, [defaultValues.id, reset]);
+	const {
+		transactionValues,
+		form: { control, handleSubmit, getValues }
+	} = useHandleTransactionDetailsDialogData(props.selectedTransaction);
 	const CategoryComponent = useGetCategoryComponent(control);
 
 	const Actions = (
@@ -169,11 +128,11 @@ export const TransactionDetailsDialog = (props: Props) => {
 		/>
 	);
 
-	const onSubmit = (values: FormData) => {};
+	const onSubmit = (values: TransactionDetailsFormData) => {};
 
 	return (
 		<SideDialog
-			open={defaultValues.id !== null}
+			open={transactionValues.id !== null}
 			onClose={props.onClose}
 			title="Transaction Details"
 			actions={Actions}
@@ -181,7 +140,9 @@ export const TransactionDetailsDialog = (props: Props) => {
 		>
 			<div className="TransactionDetailsDialog">
 				<div className="Flags">
-					<DuplicateIcon isDuplicate={defaultValues.isDuplicate} />
+					<DuplicateIcon
+						isDuplicate={transactionValues.isDuplicate}
+					/>
 					<NotConfirmedIcon
 						isNotConfirmed={getValues().isConfirmed}
 					/>
@@ -221,7 +182,9 @@ export const TransactionDetailsDialog = (props: Props) => {
 					<Checkbox
 						testId="confirm-transaction-checkbox"
 						control={control}
-						className={defaultValues.isConfirmed ? 'invisible' : ''}
+						className={
+							transactionValues.isConfirmed ? 'invisible' : ''
+						}
 						name="isConfirmed"
 						label="Confirmed"
 						labelPlacement="end"

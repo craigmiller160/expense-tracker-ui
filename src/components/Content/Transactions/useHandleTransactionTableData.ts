@@ -21,7 +21,7 @@ import {
 	CategoryOption,
 	categoryToCategoryOption,
 	PaginationState,
-	TransactionSearchForm,
+	TransactionSearchForm, transactionToCategoryOption,
 	useCategoriesToCategoryOptions
 } from './utils';
 import { match, P } from 'ts-pattern';
@@ -63,19 +63,6 @@ export interface TransactionTableData {
 		readonly updateTransactions: UpdateTransactionsMutation;
 	};
 }
-
-const transactionToCategoryOption = (
-	transaction: TransactionResponse
-): CategoryOption | null =>
-	match(transaction)
-		.with(
-			{ categoryId: P.not(P.nullish) },
-			(t): CategoryOption => ({
-				value: t.categoryId!, // eslint-disable-line @typescript-eslint/no-non-null-assertion
-				label: t.categoryName! // eslint-disable-line @typescript-eslint/no-non-null-assertion
-			})
-		)
-		.otherwise(() => null);
 
 const transactionToFormValues = (
 	transaction: TransactionResponse

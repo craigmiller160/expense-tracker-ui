@@ -19,7 +19,11 @@ import {
 	Autocomplete,
 	Checkbox
 } from '@craigmiller160/react-hook-form-material-ui';
-import { CategoryOption, useCategoriesToCategoryOptions } from './utils';
+import {
+	CategoryOption,
+	transactionToCategoryOption,
+	useCategoriesToCategoryOptions
+} from './utils';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 
 // TODO be sure to test this in mobile view, needs some layout tweaks
@@ -87,6 +91,7 @@ const getAmount: (txn: OptionT<TransactionResponse>) => string = flow(
 type TransactionValues = {
 	readonly hasTransaction: boolean;
 	readonly isConfirmed: boolean;
+	readonly category: CategoryOption | null;
 };
 
 const getValuesFromSelectedTransaction = (
@@ -97,13 +102,15 @@ const getValuesFromSelectedTransaction = (
 		Option.map(
 			(transaction): TransactionValues => ({
 				hasTransaction: true,
-				isConfirmed: transaction.confirmed
+				isConfirmed: transaction.confirmed,
+				category: transactionToCategoryOption(transaction)
 			})
 		),
 		Option.getOrElse(
 			(): TransactionValues => ({
 				hasTransaction: false,
-				isConfirmed: false
+				isConfirmed: false,
+				category: null
 			})
 		)
 	);
@@ -139,7 +146,8 @@ export const TransactionDetailsDialog = (props: Props) => {
 	// TODO set default values based on selected transaction
 	const { handleSubmit, control, reset, formState } = useForm<FormData>({
 		defaultValues: {
-			isConfirmed: defaultValues.isConfirmed
+			isConfirmed: defaultValues.isConfirmed,
+			category: defaultValues.category
 		}
 	});
 	const CategoryComponent = useGetCategoryComponent(control);

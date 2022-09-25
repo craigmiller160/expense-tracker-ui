@@ -1,5 +1,5 @@
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
-import { TransactionResponse } from '../../../types/transactions';
+import { TransactionResponse, TransactionToUpdate } from '../../../types/transactions';
 import { useImmer } from 'use-immer';
 import * as Option from 'fp-ts/es6/Option';
 
@@ -11,7 +11,7 @@ interface TransactionDetailsDialogActions {
 	readonly selectedTransaction: OptionT<TransactionResponse>;
 	readonly openDetailsDialog: (transaction: TransactionResponse) => void;
 	readonly closeDetailsDialog: () => void;
-	readonly saveTransaction: (transaction: TransactionResponse) => void;
+	readonly saveTransaction: (transaction: TransactionToUpdate) => void;
 	readonly deleteTransaction: (id: string | null) => void;
 }
 

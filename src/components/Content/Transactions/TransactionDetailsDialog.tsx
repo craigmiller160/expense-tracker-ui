@@ -1,5 +1,8 @@
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
-import { TransactionResponse } from '../../../types/transactions';
+import {
+	TransactionResponse,
+	TransactionToUpdate
+} from '../../../types/transactions';
 import { SideDialog } from '../../UI/SideDialog';
 import { Button, CircularProgress, Typography } from '@mui/material';
 import './TransactionDetailsDialog.scss';
@@ -24,7 +27,7 @@ import {
 interface Props {
 	readonly selectedTransaction: OptionT<TransactionResponse>;
 	readonly onClose: () => void;
-	readonly saveTransaction: (transaction: TransactionResponse) => void;
+	readonly saveTransaction: (transaction: TransactionToUpdate) => void;
 	readonly deleteTransaction: (id: string | null) => void;
 }
 
@@ -92,7 +95,12 @@ export const TransactionDetailsDialog = (props: Props) => {
 		/>
 	);
 
-	const onSubmit = (values: TransactionDetailsFormData) => {};
+	const onSubmit = (values: TransactionDetailsFormData) =>
+		props.saveTransaction({
+			transactionId: transactionValues.id ?? '',
+			categoryId: values.category?.value ?? null,
+			confirmed: values.isConfirmed
+		});
 
 	return (
 		<SideDialog

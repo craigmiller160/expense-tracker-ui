@@ -2,7 +2,12 @@ import { OptionT } from '@craigmiller160/ts-functions/es/types';
 import { TransactionResponse } from '../../../types/transactions';
 import { SideDialog } from '../../UI/SideDialog';
 import * as Option from 'fp-ts/es6/Option';
-import { Button, CircularProgress, FormControl, Typography } from '@mui/material';
+import {
+	Button,
+	CircularProgress,
+	FormControl,
+	Typography
+} from '@mui/material';
 import { flow, pipe } from 'fp-ts/es6/function';
 import './TransactionDetailsDialog.scss';
 import { Control, useForm } from 'react-hook-form';
@@ -203,10 +208,13 @@ export const TransactionDetailsDialog = (props: Props) => {
 				<hr />
 				<div className="Controls">
 					<form onSubmit={handleSubmit(onSubmit)}>
-						{/* TODO hide the checkbox if already confirmed */}
+						{/* TODO definitely need test for invisibility here */}
 						<Checkbox
 							testId="confirm-transaction-checkbox"
 							control={control}
+							className={
+								defaultValues.isConfirmed ? 'invisible' : ''
+							}
 							name="isConfirmed"
 							label="Confirmed"
 							labelPlacement="end"

@@ -208,6 +208,7 @@ export const TransactionTable = (props: Props) => {
 									<Button
 										variant="contained"
 										color="info"
+										disabled={formState.isDirty}
 										onClick={() =>
 											props.openDetailsDialog(txn)
 										}

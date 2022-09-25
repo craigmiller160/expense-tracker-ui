@@ -60,10 +60,12 @@ export const useTransactionDetailsDialogActions =
 			newConfirmDialog(
 				'Delete Transaction',
 				'Are you sure you want to delete this transaction?',
-				() =>
+				() => {
+					closeDetailsDialog();
 					deleteTransactionsMutate({
 						idsToDelete
-					})
+					});
+				}
 			);
 		};
 

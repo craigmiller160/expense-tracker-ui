@@ -998,9 +998,9 @@
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
 "@craigmiller160/ajax-api@^1.2.0-beta":
-  version "1.2.0-beta.2"
-  resolved "https://craigmiller160.ddns.net:30003/repository/npm-group/@craigmiller160/ajax-api/-/ajax-api-1.2.0-beta.2.tgz#ec57e1d6bc171a77d2758756c8a5cf92ffd4bf89"
-  integrity sha512-LQUrcgYD/yLeS+XijMFC3PWTw+VqhiFn7j2yQprCXYdIuDPmMwubX3rxcTP8sHyURJneSptsAtbutN+txRufTQ==
+  version "1.2.0-beta.3.1"
+  resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@craigmiller160/ajax-api/-/ajax-api-1.2.0-beta.3.1.tgz#7d8105a4acf25c8b2cce07697e75c13277f2fd8f"
+  integrity sha512-P8Hu26XFrofn4WC19aUTDxM6K44BCoaOtXxfHjAbpew9TeTj5JrXkZxPc8ua9RtneFS+s8bgU43sr5cA5nOeIA==
   dependencies:
     axios "^0.26.0"
 
@@ -2186,7 +2186,7 @@ axe-core@^4.4.2:
 
 axios@^0.26.0:
   version "0.26.1"
-  resolved "https://craigmiller160.ddns.net:30003/repository/npm-group/axios/-/axios-0.26.1.tgz#1ede41c51fcf51bbbd6fd43669caaa4f0495aaa9"
+  resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/axios/-/axios-0.26.1.tgz#1ede41c51fcf51bbbd6fd43669caaa4f0495aaa9"
   integrity sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==
   dependencies:
     follow-redirects "^1.14.8"
@@ -3353,9 +3353,9 @@ flatted@^3.1.0:
   integrity sha512-WIWGi2L3DyTUvUrwRKgGi9TwxQMUEqPOPQBVi71R96jZXJdFskXEmf54BoZaS1kknGODoIGASGEzBUYdyMCBJg==
 
 follow-redirects@^1.14.8:
-  version "1.15.1"
-  resolved "https://craigmiller160.ddns.net:30003/repository/npm-group/follow-redirects/-/follow-redirects-1.15.1.tgz#0ca6a452306c9b276e4d3127483e29575e207ad5"
-  integrity sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==
+  version "1.15.2"
+  resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/follow-redirects/-/follow-redirects-1.15.2.tgz#b460864144ba63f2681096f274c4e57026da2c13"
+  integrity sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==
 
 form-data@^3.0.0:
   version "3.0.1"

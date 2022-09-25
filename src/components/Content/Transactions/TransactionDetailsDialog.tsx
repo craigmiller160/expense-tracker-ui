@@ -10,10 +10,15 @@ import { DuplicateIcon } from './icons/DuplicateIcon';
 import { NotConfirmedIcon } from './icons/NotConfirmedIcon';
 import { NotCategorizedIcon } from './icons/NotCategorizedIcon';
 import { formatCurrency } from '../../../utils/formatCurrency';
+import { Checkbox } from '@craigmiller160/react-hook-form-material-ui';
+import { CategoryOption } from './utils';
 
 // TODO be sure to test this in mobile view, needs some layout tweaks
 
-interface FormData {}
+interface FormData {
+	readonly isConfirmed: boolean;
+	readonly category: CategoryOption | null;
+}
 
 interface Props {
 	readonly selectedTransaction: OptionT<TransactionResponse>;
@@ -70,10 +75,39 @@ const getAmount: (txn: OptionT<TransactionResponse>) => string = flow(
 	Option.getOrElse(() => '')
 );
 
+type TransactionValues = {
+	readonly hasTransaction: boolean;
+	readonly isConfirmed: boolean;
+};
+
+const getValuesFromSelectedTransaction = (
+	selectedTransaction: OptionT<TransactionResponse>
+): TransactionValues =>
+	pipe(
+		selectedTransaction,
+		Option.map(
+			(transaction): TransactionValues => ({
+				hasTransaction: true,
+				isConfirmed: transaction.confirmed
+			})
+		),
+		Option.getOrElse(
+			(): TransactionValues => ({
+				hasTransaction: false,
+				isConfirmed: false
+			})
+		)
+	);
+
 export const TransactionDetailsDialog = (props: Props) => {
 	// TODO need to make sure the flags change with user interaction
-	const hasTransaction = Option.isSome(props.selectedTransaction);
-	const { handleSubmit, control, reset, formState } = useForm<FormData>();
+	const { hasTransaction, ...defaultValues } = getValuesFromSelectedTransaction(props.selectedTransaction);
+	// TODO set default values based on selected transaction
+	const { handleSubmit, control, reset, formState } = useForm<FormData>({
+		defaultValues: {
+			isConfirmed: defaultValues.isConfirmed
+		}
+	});
 
 	const Actions = (
 		<TransactionDetailsDialogActions
@@ -138,6 +172,16 @@ export const TransactionDetailsDialog = (props: Props) => {
 				</div>
 				<hr />
 				<div className="Controls">
+					<form onSubmit={handleSubmit(onSubmit)}>
+						{/* TODO hide the checkbox if already confirmed */}
+						<Checkbox
+							testId="confirm-transaction-checkbox"
+							control={control}
+							name="isConfirmed"
+							label=""
+							labelPlacement="top"
+						/>
+					</form>
 					<h3>Confirmed Checkbox and Category Select Go Here</h3>
 				</div>
 			</div>

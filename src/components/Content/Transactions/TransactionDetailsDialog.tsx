@@ -92,6 +92,7 @@ const getAmount: (txn: OptionT<TransactionResponse>) => string = flow(
 type TransactionValues = {
 	readonly id: string | null;
 	readonly isConfirmed: boolean;
+	readonly isDuplicate: boolean;
 	readonly category: CategoryOption | null;
 };
 
@@ -104,6 +105,7 @@ const useValuesFromSelectedTransaction = (
 			(transaction): TransactionValues => ({
 				id: transaction.id,
 				isConfirmed: transaction.confirmed,
+				isDuplicate: transaction.duplicate,
 				category: transactionToCategoryOption(transaction)
 			})
 		),
@@ -111,6 +113,7 @@ const useValuesFromSelectedTransaction = (
 			(): TransactionValues => ({
 				id: null,
 				isConfirmed: false,
+				isDuplicate: false,
 				category: null
 			})
 		)
@@ -140,15 +143,16 @@ const useGetCategoryComponent = (control: Control<FormData>): ReactNode => {
 
 export const TransactionDetailsDialog = (props: Props) => {
 	// TODO need to make sure the flags change with user interaction
-	const defaultValues =
-		useValuesFromSelectedTransaction(props.selectedTransaction);
-	// TODO set default values based on selected transaction
-	const { handleSubmit, control, reset, formState } = useForm<FormData>({
-		defaultValues: {
-			isConfirmed: defaultValues.isConfirmed,
-			category: defaultValues.category
-		}
-	});
+	const defaultValues = useValuesFromSelectedTransaction(
+		props.selectedTransaction
+	);
+	const { handleSubmit, control, reset, formState, getValues } =
+		useForm<FormData>({
+			defaultValues: {
+				isConfirmed: defaultValues.isConfirmed,
+				category: defaultValues.category
+			}
+		});
 	useEffect(() => {
 		reset({
 			isConfirmed: defaultValues.isConfirmed,
@@ -177,18 +181,12 @@ export const TransactionDetailsDialog = (props: Props) => {
 		>
 			<div className="TransactionDetailsDialog">
 				<div className="Flags">
-					<DuplicateIcon
-						isDuplicate={getDuplicate(props.selectedTransaction)}
-					/>
+					<DuplicateIcon isDuplicate={defaultValues.isDuplicate} />
 					<NotConfirmedIcon
-						isNotConfirmed={getNotConfirmed(
-							props.selectedTransaction
-						)}
+						isNotConfirmed={getValues().isConfirmed}
 					/>
 					<NotCategorizedIcon
-						isNotCategorized={getNotCategorized(
-							props.selectedTransaction
-						)}
+						isNotCategorized={getValues().category === null}
 					/>
 				</div>
 				<hr />

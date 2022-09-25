@@ -179,12 +179,15 @@ export const useHandleTransactionTableData = (
 		}
 	}, [transactionIsFetching, form]);
 
-	// This is here so that the icons can be updated in real time to user interaction
-	form.watch((values, info) => {
-		if (info.name === 'confirmAll') {
-			handleConfirmAll(form);
-		}
-	});
+	useEffect(() => {
+		// TODO use watch() with specific keys in other places
+		const subscription = form.watch((values, info) => {
+			if (info.name === 'confirmAll') {
+				handleConfirmAll(form);
+			}
+		});
+		return subscription.unsubscribe;
+	}, [form]);
 
 	const transactions = useMemo(
 		() =>

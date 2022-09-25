@@ -89,7 +89,6 @@ export const useHandleTransactionDetailsDialogData = (
 			category: transactionValues.category
 		});
 	}, [transactionValues, reset]);
-	// TODO double check that the above doesn't trigger a render loop, look for console errors
 
 	return {
 		transactionValues,

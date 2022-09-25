@@ -83,7 +83,7 @@ const useGetCategoryComponent = (
 export const TransactionDetailsDialog = (props: Props) => {
 	const {
 		transactionValues,
-		form: { control, handleSubmit, getValues, formState }
+		form: { control, handleSubmit, formState, watch }
 	} = useHandleTransactionDetailsDialogData(props.selectedTransaction);
 	const CategoryComponent = useGetCategoryComponent(control);
 
@@ -103,6 +103,11 @@ export const TransactionDetailsDialog = (props: Props) => {
 			confirmed: values.isConfirmed
 		});
 
+	const [watchedIsConfirmed, watchedCategory] = watch([
+		'isConfirmed',
+		'category'
+	]);
+
 	return (
 		<SideDialog
 			open={transactionValues.id !== null}
@@ -116,11 +121,9 @@ export const TransactionDetailsDialog = (props: Props) => {
 					<DuplicateIcon
 						isDuplicate={transactionValues.isDuplicate}
 					/>
-					<NotConfirmedIcon
-						isNotConfirmed={!getValues().isConfirmed}
-					/>
+					<NotConfirmedIcon isNotConfirmed={!watchedIsConfirmed} />
 					<NotCategorizedIcon
-						isNotCategorized={getValues().category === null}
+						isNotCategorized={watchedCategory === null}
 					/>
 				</div>
 				<hr />

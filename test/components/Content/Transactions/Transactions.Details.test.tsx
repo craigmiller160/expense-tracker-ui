@@ -68,7 +68,18 @@ describe('Transaction Details Dialog', () => {
 		);
 		within(transactionDialog).getByText(transaction.description);
 		within(transactionDialog).getByText(formatCurrency(transaction.amount));
-		// TODO check controls and flags
+
+		expect(
+			within(transactionDialog).getByTestId('duplicate-icon').className
+		).not.toMatch(/visible/);
+		expect(
+			within(transactionDialog).getByTestId('not-confirmed-icon')
+				.className
+		).toMatch(/visible/);
+		expect(
+			within(transactionDialog).getByTestId('no-category-icon').className
+		).toMatch(/visible/);
+		// TODO check controls
 	});
 
 	it('shows current transaction information for confirmed & categorized', async () => {

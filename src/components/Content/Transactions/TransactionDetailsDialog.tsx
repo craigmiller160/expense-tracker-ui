@@ -104,7 +104,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 						)}
 					/>
 					<NotCategorizedIcon
-						isNotCategorized={getNotConfirmed(
+						isNotCategorized={getNotCategorized(
 							props.selectedTransaction
 						)}
 					/>

@@ -48,8 +48,8 @@
       flex-direction: row;
       justify-content: space-around;
 
-      * {
-        flex-grow: 0.5;
+      >* {
+        width: 33%;
       }
     }
   }

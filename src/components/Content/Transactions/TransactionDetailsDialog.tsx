@@ -113,7 +113,7 @@ const useGetCategoryComponent = (control: Control<FormData>) => {
 			<div className="CategorySpinner">
 				<CircularProgress />
 			</div>
-		)
+		);
 	}
 
 	return (
@@ -209,7 +209,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 							control={control}
 							name="isConfirmed"
 							label="Confirmed"
-							labelPlacement="start"
+							labelPlacement="end"
 						/>
 						{CategoryComponent}
 					</form>

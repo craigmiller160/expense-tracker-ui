@@ -12,7 +12,7 @@ interface TransactionDetailsDialogActions {
 	readonly openDetailsDialog: (transaction: TransactionResponse) => void;
 	readonly closeDetailsDialog: () => void;
 	readonly saveTransaction: (transaction: TransactionResponse) => void;
-	readonly deleteTransaction: (id: string) => void;
+	readonly deleteTransaction: (id: string | null) => void;
 }
 
 export const useTransactionDetailsDialogActions =

@@ -204,12 +204,11 @@ export const TransactionDetailsDialog = (props: Props) => {
 							testId="confirm-transaction-checkbox"
 							control={control}
 							name="isConfirmed"
-							label=""
-							labelPlacement="top"
+							label="Confirmed"
+							labelPlacement="start"
 						/>
 						{CategoryComponent}
 					</form>
-					<h3>Confirmed Checkbox and Category Select Go Here</h3>
 				</div>
 			</div>
 		</SideDialog>

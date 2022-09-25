@@ -1,31 +1,19 @@
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
 import { TransactionResponse } from '../../../types/transactions';
 import { SideDialog } from '../../UI/SideDialog';
-import * as Option from 'fp-ts/es6/Option';
-import {
-	Button,
-	CircularProgress,
-	FormControl,
-	Typography
-} from '@mui/material';
-import { flow, pipe } from 'fp-ts/es6/function';
+import { Button, CircularProgress, Typography } from '@mui/material';
 import './TransactionDetailsDialog.scss';
-import { Control, useForm } from 'react-hook-form';
+import { Control } from 'react-hook-form';
 import { DuplicateIcon } from './icons/DuplicateIcon';
 import { NotConfirmedIcon } from './icons/NotConfirmedIcon';
 import { NotCategorizedIcon } from './icons/NotCategorizedIcon';
-import { formatCurrency } from '../../../utils/formatCurrency';
 import {
 	Autocomplete,
 	Checkbox
 } from '@craigmiller160/react-hook-form-material-ui';
-import {
-	CategoryOption,
-	transactionToCategoryOption,
-	useCategoriesToCategoryOptions
-} from './utils';
+import { useCategoriesToCategoryOptions } from './utils';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
-import { ReactNode, useEffect, useMemo } from 'react';
+import { ReactNode } from 'react';
 import {
 	TransactionDetailsFormData,
 	useHandleTransactionDetailsDialogData
@@ -37,7 +25,7 @@ interface Props {
 	readonly selectedTransaction: OptionT<TransactionResponse>;
 	readonly onClose: () => void;
 	readonly saveTransaction: (transaction: TransactionResponse) => void;
-	readonly deleteTransaction: (id: string) => void;
+	readonly deleteTransaction: (id: string | null) => void;
 }
 
 interface DialogActionsProps {
@@ -62,30 +50,6 @@ const TransactionDetailsDialogActions = (props: DialogActionsProps) => (
 			Delete
 		</Button>
 	</div>
-);
-
-const getId: (txn: OptionT<TransactionResponse>) => string = flow(
-	Option.map((txn) => txn.id),
-	Option.getOrElse(() => '')
-);
-const getDuplicate: (txn: OptionT<TransactionResponse>) => boolean =
-	Option.exists((txn) => txn.duplicate);
-const getNotConfirmed: (txn: OptionT<TransactionResponse>) => boolean =
-	Option.exists((txn) => !txn.confirmed);
-const getNotCategorized: (txn: OptionT<TransactionResponse>) => boolean =
-	Option.exists((txn) => !txn.categoryId);
-const getDate: (txn: OptionT<TransactionResponse>) => string = flow(
-	Option.map((txn) => txn.expenseDate),
-	Option.getOrElse(() => '')
-);
-const getDescription: (txn: OptionT<TransactionResponse>) => string = flow(
-	Option.map((txn) => txn.description),
-	Option.getOrElse(() => '')
-);
-const getAmount: (txn: OptionT<TransactionResponse>) => string = flow(
-	Option.map((txn) => txn.amount),
-	Option.map(formatCurrency),
-	Option.getOrElse(() => '')
 );
 
 const useGetCategoryComponent = (
@@ -123,7 +87,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 	const Actions = (
 		<TransactionDetailsDialogActions
 			deleteTransaction={() =>
-				props.deleteTransaction(getId(props.selectedTransaction))
+				props.deleteTransaction(transactionValues.id)
 			}
 		/>
 	);
@@ -157,7 +121,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 							<strong>Expense Date</strong>
 						</Typography>
 						<Typography variant="h6">
-							{getDate(props.selectedTransaction)}
+							{transactionValues.expenseDate}
 						</Typography>
 					</div>
 					<div className="InfoRow">
@@ -165,7 +129,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 							<strong>Description</strong>
 						</Typography>
 						<Typography variant="h6">
-							{getDescription(props.selectedTransaction)}
+							{transactionValues.description}
 						</Typography>
 					</div>
 					<div className="InfoRow">
@@ -173,7 +137,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 							<strong>Amount</strong>
 						</Typography>
 						<Typography variant="h6">
-							{getAmount(props.selectedTransaction)}
+							{transactionValues.amount}
 						</Typography>
 					</div>
 				</div>

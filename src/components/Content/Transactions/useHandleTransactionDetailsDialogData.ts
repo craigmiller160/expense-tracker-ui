@@ -5,6 +5,7 @@ import * as Option from 'fp-ts/es6/Option';
 import { CategoryOption, transactionToCategoryOption } from './utils';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { useEffect } from 'react';
+import { formatCurrency } from '../../../utils/formatCurrency';
 
 export type TransactionDetailsFormData = {
 	readonly isConfirmed: boolean;
@@ -16,6 +17,9 @@ export type TransactionValues = {
 	readonly isConfirmed: boolean;
 	readonly isDuplicate: boolean;
 	readonly category: CategoryOption | null;
+	readonly expenseDate: string | null;
+	readonly description: string | null;
+	readonly amount: string | null;
 };
 
 export type TransactionDetailsDialogData = {
@@ -33,7 +37,11 @@ const useValuesFromSelectedTransaction = (
 				id: transaction.id,
 				isConfirmed: transaction.confirmed,
 				isDuplicate: transaction.duplicate,
-				category: transactionToCategoryOption(transaction)
+				category: transactionToCategoryOption(transaction),
+				// TODO do I format the date in the table?
+				expenseDate: transaction.expenseDate,
+				description: transaction.description,
+				amount: formatCurrency(transaction.amount)
 			})
 		),
 		Option.getOrElse(
@@ -41,7 +49,10 @@ const useValuesFromSelectedTransaction = (
 				id: null,
 				isConfirmed: false,
 				isDuplicate: false,
-				category: null
+				category: null,
+				expenseDate: null,
+				description: null,
+				amount: null
 			})
 		)
 	);

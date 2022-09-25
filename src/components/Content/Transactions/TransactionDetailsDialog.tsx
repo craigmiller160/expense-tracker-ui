@@ -25,7 +25,7 @@ import {
 	useCategoriesToCategoryOptions
 } from './utils';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
-import { useEffect, useMemo } from 'react';
+import { ReactNode, useEffect, useMemo } from 'react';
 
 // TODO be sure to test this in mobile view, needs some layout tweaks
 
@@ -91,7 +91,6 @@ const getAmount: (txn: OptionT<TransactionResponse>) => string = flow(
 
 type TransactionValues = {
 	readonly id: string | null;
-	readonly hasTransaction: boolean;
 	readonly isConfirmed: boolean;
 	readonly category: CategoryOption | null;
 };
@@ -104,7 +103,6 @@ const useValuesFromSelectedTransaction = (
 		Option.map(
 			(transaction): TransactionValues => ({
 				id: transaction.id,
-				hasTransaction: true,
 				isConfirmed: transaction.confirmed,
 				category: transactionToCategoryOption(transaction)
 			})
@@ -112,15 +110,13 @@ const useValuesFromSelectedTransaction = (
 		Option.getOrElse(
 			(): TransactionValues => ({
 				id: null,
-				hasTransaction: false,
 				isConfirmed: false,
 				category: null
 			})
 		)
 	);
 
-// TODO need response type
-const useGetCategoryComponent = (control: Control<FormData>) => {
+const useGetCategoryComponent = (control: Control<FormData>): ReactNode => {
 	const { data: categoryData, isFetching: categoryIsFetching } =
 		useGetAllCategories();
 	const categoryOptions = useCategoriesToCategoryOptions(categoryData);
@@ -144,7 +140,7 @@ const useGetCategoryComponent = (control: Control<FormData>) => {
 
 export const TransactionDetailsDialog = (props: Props) => {
 	// TODO need to make sure the flags change with user interaction
-	const { hasTransaction, ...defaultValues } =
+	const defaultValues =
 		useValuesFromSelectedTransaction(props.selectedTransaction);
 	// TODO set default values based on selected transaction
 	const { handleSubmit, control, reset, formState } = useForm<FormData>({
@@ -173,7 +169,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 
 	return (
 		<SideDialog
-			open={hasTransaction}
+			open={defaultValues.id !== null}
 			onClose={props.onClose}
 			title="Transaction Details"
 			actions={Actions}

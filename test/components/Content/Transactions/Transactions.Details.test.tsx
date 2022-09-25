@@ -22,4 +22,8 @@ describe('Transaction Details Dialog', () => {
 	it('can delete transaction', async () => {
 		throw new Error();
 	});
+
+	it('does not clear existing changes in table when saving or deleting', async () => {
+		throw new Error();
+	});
 });

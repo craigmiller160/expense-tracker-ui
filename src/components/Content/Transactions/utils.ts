@@ -82,7 +82,7 @@ export const categoryToCategoryOption = (
 });
 
 export const useCategoriesToCategoryOptions = (
-	categories: CategoryResponse[] | undefined
+	categories: ReadonlyArray<CategoryResponse> | undefined
 ): CategoryOption[] =>
 	useMemo(
 		() => categories?.map(categoryToCategoryOption) ?? [],

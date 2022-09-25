@@ -2,7 +2,7 @@ import { OptionT } from '@craigmiller160/ts-functions/es/types';
 import { TransactionResponse } from '../../../types/transactions';
 import { SideDialog } from '../../UI/SideDialog';
 import * as Option from 'fp-ts/es6/Option';
-import { Button, FormControl, Typography } from '@mui/material';
+import { Button, CircularProgress, FormControl, Typography } from '@mui/material';
 import { flow, pipe } from 'fp-ts/es6/function';
 import './TransactionDetailsDialog.scss';
 import { Control, useForm } from 'react-hook-form';
@@ -108,6 +108,9 @@ const useGetCategoryComponent = (control: Control<FormData>) => {
 	const { data: categoryData, isFetching: categoryIsFetching } =
 		useGetAllCategories();
 	const categoryOptions = useCategoriesToCategoryOptions(categoryData);
+	if (categoryIsFetching) {
+		return <CircularProgress />;
+	}
 
 	return (
 		<Autocomplete
@@ -130,6 +133,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 			isConfirmed: defaultValues.isConfirmed
 		}
 	});
+	const CategoryComponent = useGetCategoryComponent(control);
 
 	const Actions = (
 		<TransactionDetailsDialogActions
@@ -203,6 +207,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 							label=""
 							labelPlacement="top"
 						/>
+						{CategoryComponent}
 					</form>
 					<h3>Confirmed Checkbox and Category Select Go Here</h3>
 				</div>

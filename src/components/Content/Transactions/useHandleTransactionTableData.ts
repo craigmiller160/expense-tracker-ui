@@ -21,7 +21,8 @@ import {
 	CategoryOption,
 	categoryToCategoryOption,
 	PaginationState,
-	TransactionSearchForm, useCategoriesToCategoryOptions
+	TransactionSearchForm,
+	useCategoriesToCategoryOptions
 } from './utils';
 import { match, P } from 'ts-pattern';
 import * as Time from '@craigmiller160/ts-functions/es/Time';

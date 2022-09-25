@@ -101,7 +101,7 @@ export const TransactionTable = (props: Props) => {
 		data: { transactions, categories, isFetching },
 		pagination: { currentPage, totalRecords },
 		form: {
-			formReturn: { control, formState, handleSubmit, getValues },
+			formReturn: { control, formState, handleSubmit, watch },
 			fields
 		},
 		actions: { resetFormToData, updateTransactions }
@@ -127,6 +127,7 @@ export const TransactionTable = (props: Props) => {
 	const editClass = editMode ? 'edit' : '';
 
 	const editModeColumns = createEditModeColumns(control);
+	const watchedTransactions = watch('transactions');
 
 	return (
 		<div className={`TransactionsTable ${editClass}`}>
@@ -193,16 +194,13 @@ export const TransactionTable = (props: Props) => {
 									/>
 									<NotConfirmedIcon
 										isNotConfirmed={
-											!getValues(
-												`transactions.${index}.confirmed`
-											)
+											!watchedTransactions[index]
+												.confirmed
 										}
 									/>
 									<NotCategorizedIcon
 										isNotCategorized={
-											!getValues(
-												`transactions.${index}.category`
-											)
+											!watchedTransactions[index].category
 										}
 									/>
 								</TableCell>

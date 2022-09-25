@@ -1,6 +1,6 @@
 import {
 	CategorizeTransactionsRequest,
-	DATE_FORMAT,
+	DATE_FORMAT, DeleteTransactionsRequest,
 	NeedsAttentionResponse,
 	SearchTransactionsRequest,
 	SearchTransactionsResponse,
@@ -72,12 +72,23 @@ export const categorizeTransactions = (
 
 export const updateTransactions = (
 	transactions: ReadonlyArray<TransactionToUpdate>
-) =>
+): Promise<unknown> =>
 	expenseTrackerApi.put<UpdateTransactionsRequest, unknown>({
 		uri: '/transactions',
 		errorCustomizer: 'Error updating transactions',
 		body: {
 			transactions
+		}
+	});
+
+export const deleteTransactions = (
+	idsToDelete: ReadonlyArray<string>
+): Promise<unknown> =>
+	expenseTrackerApi.put<DeleteTransactionsRequest, unknown>({
+		uri: '/transactions',
+		errorCustomizer: 'Error deleting transactions',
+		body: {
+			ids: idsToDelete
 		}
 	});
 

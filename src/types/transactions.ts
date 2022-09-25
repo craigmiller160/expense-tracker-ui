@@ -65,3 +65,7 @@ export interface TransactionToUpdate {
 export interface UpdateTransactionsRequest {
 	readonly transactions: ReadonlyArray<TransactionToUpdate>;
 }
+
+export type DeleteTransactionsRequest = {
+	readonly ids: ReadonlyArray<string>;
+};

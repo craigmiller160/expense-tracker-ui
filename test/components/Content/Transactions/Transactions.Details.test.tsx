@@ -7,6 +7,10 @@ import { TransactionSortKey } from '../../../../src/types/transactions';
 import { SortDirection } from '../../../../src/types/misc';
 import { formatDisplayDate } from '../../../../src/components/Content/Transactions/useHandleTransactionTableData';
 import { formatCurrency } from '../../../../src/utils/formatCurrency';
+import {
+	defaultEndDate,
+	defaultStartDate
+} from '../../../../src/components/Content/Transactions/utils';
 
 const testButton =
 	(isDisabled: boolean) => (detailsButton: HTMLElement, index: number) => {
@@ -38,14 +42,16 @@ describe('Transaction Details Dialog', () => {
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 
-		const transaction = (
-			await searchForTransactions({
-				pageNumber: 0,
-				pageSize: 1,
-				sortKey: TransactionSortKey.EXPENSE_DATE,
-				sortDirection: SortDirection.ASC
-			})
-		).transactions[0];
+		const {
+			transactions: [transaction]
+		} = await searchForTransactions({
+			startDate: defaultStartDate(),
+			endDate: defaultEndDate(),
+			pageNumber: 0,
+			pageSize: 25,
+			sortKey: TransactionSortKey.EXPENSE_DATE,
+			sortDirection: SortDirection.DESC
+		});
 
 		const row = screen.getAllByTestId('transaction-table-row')[0];
 		const detailsButton = within(row).getByText('Details');

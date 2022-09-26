@@ -194,8 +194,37 @@ describe('Transaction Details Dialog', () => {
 	});
 
 	it('can categorize transaction', async () => {
-		// TODO don't forget to verify flag change
-		throw new Error();
+		await renderApp({
+			initialPath: '/expense-tracker/transactions'
+		});
+		await waitFor(() =>
+			expect(screen.queryByText('Expense Tracker')).toBeVisible()
+		);
+		await waitFor(() =>
+			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
+		);
+		await waitFor(() =>
+			expect(screen.queryByText('Rows per page:')).toBeVisible()
+		);
+
+		const row = screen.getAllByTestId('transaction-table-row')[0];
+		const detailsButton = within(row).getByText('Details');
+		await userEvent.click(detailsButton);
+
+		const transactionDialog = screen.getByTestId(
+			'transaction-details-dialog'
+		);
+
+		const categorySelect =
+			within(transactionDialog).getByLabelText('Category');
+		await userEvent.click(categorySelect);
+		expect(screen.queryByText('Groceries')).toBeVisible();
+		await userEvent.click(screen.getByText('Groceries'));
+		expect(categorySelect).toHaveValue('Groceries');
+
+		expect(
+			within(transactionDialog).getByTestId('no-category-icon').className
+		).not.toMatch(/visible/);
 	});
 
 	it('can delete transaction', async () => {

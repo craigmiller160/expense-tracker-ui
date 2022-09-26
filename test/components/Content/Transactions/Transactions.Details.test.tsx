@@ -232,7 +232,7 @@ describe('Transaction Details Dialog', () => {
 			{ text: 'Expense Tracker' },
 			{ text: 'Manage Transactions', occurs: 2 },
 			{ text: 'Rows per page:' }
-		]);
+		])();
 		const row = screen.getAllByTestId('transaction-table-row')[0];
 		const confirmCheckbox = within(row).getByTestId(
 			'confirm-transaction-checkbox'

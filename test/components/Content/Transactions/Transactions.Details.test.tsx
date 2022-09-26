@@ -11,6 +11,8 @@ import {
 	defaultEndDate,
 	defaultStartDate
 } from '../../../../src/components/Content/Transactions/utils';
+import { apiServer } from '../../../server';
+import { getAllCategories } from '../../../../src/ajaxapi/service/CategoryService';
 
 const testButton =
 	(isDisabled: boolean) => (detailsButton: HTMLElement, index: number) => {
@@ -88,7 +90,68 @@ describe('Transaction Details Dialog', () => {
 	});
 
 	it('shows current transaction information for confirmed & categorized', async () => {
-		throw new Error();
+		const {
+			transactions: [transaction]
+		} = await searchForTransactions({
+			startDate: defaultStartDate(),
+			endDate: defaultEndDate(),
+			pageNumber: 0,
+			pageSize: 25,
+			sortKey: TransactionSortKey.EXPENSE_DATE,
+			sortDirection: SortDirection.DESC
+		});
+		const [category] = await getAllCategories();
+		apiServer.database.updateData((data) => {
+			data.transactions[transaction.id].confirmed = true;
+			data.transactions[transaction.id].categoryId = category.id;
+			data.transactions[transaction.id].categoryName = category.name;
+		});
+
+		await renderApp({
+			initialPath: '/expense-tracker/transactions'
+		});
+		await waitFor(() =>
+			expect(screen.queryByText('Expense Tracker')).toBeVisible()
+		);
+		await waitFor(() =>
+			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
+		);
+		await waitFor(() =>
+			expect(screen.queryByText('Rows per page:')).toBeVisible()
+		);
+
+		const row = screen.getAllByTestId('transaction-table-row')[0];
+		const detailsButton = within(row).getByText('Details');
+		await userEvent.click(detailsButton);
+
+		const transactionDialog = screen.getByTestId(
+			'transaction-details-dialog'
+		);
+		within(transactionDialog).getByText('Transaction Details');
+		within(transactionDialog).getByText('Expense Date');
+		within(transactionDialog).getByText('Amount');
+		within(transactionDialog).getByText(
+			formatDisplayDate(transaction.expenseDate)
+		);
+		within(transactionDialog).getByText(transaction.description);
+		within(transactionDialog).getByText(formatCurrency(transaction.amount));
+
+		expect(
+			within(transactionDialog).getByTestId('duplicate-icon').className
+		).not.toMatch(/visible/);
+		expect(
+			within(transactionDialog).getByTestId('not-confirmed-icon')
+				.className
+		).toMatch(/visible/);
+		expect(
+			within(transactionDialog).getByTestId('no-category-icon').className
+		).toMatch(/visible/);
+
+		const checkbox = within(transactionDialog).getByTestId(
+			'confirm-transaction-checkbox'
+		);
+		expect(checkbox.querySelector('input')).toBeChecked();
+		// TODO try and figure out category
 	});
 
 	it('can confirm transaction', async () => {

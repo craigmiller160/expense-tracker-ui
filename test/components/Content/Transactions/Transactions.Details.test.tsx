@@ -13,8 +13,9 @@ import {
 } from '../../../../src/components/Content/Transactions/utils';
 import { apiServer } from '../../../server';
 import { getAllCategories } from '../../../../src/ajaxapi/service/CategoryService';
-import { materialUiSelect } from '../../../testutils/dom-actions';
+import { materialUiSelect } from '../../../testutils/dom-actions/material-ui-select';
 import { transactionIcon } from '../../../testutils/dom-actions/transaction-icon';
+import { waitForVisibility } from '../../../testutils/dom-actions/wait-for-visibility';
 
 const testButton =
 	(isDisabled: boolean) => (detailsButton: HTMLElement, index: number) => {
@@ -227,15 +228,11 @@ describe('Transaction Details Dialog', () => {
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
-		await waitFor(() =>
-			expect(screen.queryByText('Expense Tracker')).toBeVisible()
-		);
-		await waitFor(() =>
-			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
-		);
-		await waitFor(() =>
-			expect(screen.queryByText('Rows per page:')).toBeVisible()
-		);
+		await waitForVisibility([
+			{ text: 'Expense Tracker' },
+			{ text: 'Manage Transactions', occurs: 2 },
+			{ text: 'Rows per page:' }
+		]);
 		const row = screen.getAllByTestId('transaction-table-row')[0];
 		const confirmCheckbox = within(row).getByTestId(
 			'confirm-transaction-checkbox'

@@ -336,18 +336,24 @@ describe('Transactions Table', () => {
 		expect(getRecordRangeText()).toEqual(
 			`26-${totalDaysInRange} of ${totalDaysInRange}`
 		);
-		validateTransactionsInTable(6, (index, description) => {
-			const expenseDate = pipe(
-				parseExpenseDate(description.expenseDate),
-				setToMidnight
-			);
-			const startDate = setToMidnight(defaultStartDate());
-			const endDate = setToMidnight(defaultEndDate());
-			expect(Time.compare(expenseDate)(startDate)).toBeGreaterThanOrEqual(
-				0
-			);
-			expect(Time.compare(expenseDate)(endDate)).toBeLessThanOrEqual(0);
-		});
+		const expectedSecondPageCount = totalDaysInRange - 25;
+		validateTransactionsInTable(
+			expectedSecondPageCount,
+			(index, description) => {
+				const expenseDate = pipe(
+					parseExpenseDate(description.expenseDate),
+					setToMidnight
+				);
+				const startDate = setToMidnight(defaultStartDate());
+				const endDate = setToMidnight(defaultEndDate());
+				expect(
+					Time.compare(expenseDate)(startDate)
+				).toBeGreaterThanOrEqual(0);
+				expect(Time.compare(expenseDate)(endDate)).toBeLessThanOrEqual(
+					0
+				);
+			}
+		);
 	});
 
 	it('can set categories and confirm transactions', async () => {

@@ -2,10 +2,15 @@ import './TransactionIcon.scss';
 import { Popover } from '../../../UI/Popover';
 import { ReactNode } from 'react';
 
+export type TransactionIconTestId =
+	| 'no-category-icon'
+	| 'not-confirmed-icon'
+	| 'duplicate-icon';
+
 interface Props {
 	readonly isVisible: boolean;
 	readonly icon: ReactNode;
-	readonly testId: string;
+	readonly testId: TransactionIconTestId;
 	readonly message: string;
 }
 

@@ -1,7 +1,6 @@
-import { pipe } from 'fp-ts/es6/function';
-import * as Option from 'fp-ts/es6/Option';
-import { screen, within } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { getSelectorParent } from './utils';
 
 type HasValueFn = (value: string) => void;
 type SelectItemFn = (itemLabel: string) => Promise<void>;
@@ -14,13 +13,7 @@ export const materialUiSelect = (
 	labelText: string,
 	root?: HTMLElement
 ): MaterialUiSelect => {
-	const select = pipe(
-		Option.fromNullable(root),
-		Option.fold(
-			() => screen.getByLabelText(labelText),
-			(r) => within(r).getByLabelText(labelText)
-		)
-	);
+	const select = getSelectorParent(root).getByLabelText(labelText);
 	const hasValue: HasValueFn = expect(select).toHaveValue;
 	const selectItem: SelectItemFn = async (itemLabel) => {
 		await userEvent.click(select);

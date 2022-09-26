@@ -13,6 +13,7 @@ import {
 } from '../../../../src/components/Content/Transactions/utils';
 import { apiServer } from '../../../server';
 import { getAllCategories } from '../../../../src/ajaxapi/service/CategoryService';
+import { materialUiSelect } from '../../../testutils/dom-actions';
 
 const testButton =
 	(isDisabled: boolean) => (detailsButton: HTMLElement, index: number) => {
@@ -215,12 +216,9 @@ describe('Transaction Details Dialog', () => {
 			'transaction-details-dialog'
 		);
 
-		const categorySelect =
-			within(transactionDialog).getByLabelText('Category');
-		await userEvent.click(categorySelect);
-		expect(screen.queryByText('Groceries')).toBeVisible();
-		await userEvent.click(screen.getByText('Groceries'));
-		expect(categorySelect).toHaveValue('Groceries');
+		const categorySelect = materialUiSelect('Category', transactionDialog);
+		await categorySelect.selectItem('Groceries');
+		categorySelect.hasValue('Groceries');
 
 		expect(
 			within(transactionDialog).getByTestId('no-category-icon').className

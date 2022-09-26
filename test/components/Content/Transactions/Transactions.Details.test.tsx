@@ -142,15 +142,18 @@ describe('Transaction Details Dialog', () => {
 		expect(
 			within(transactionDialog).getByTestId('not-confirmed-icon')
 				.className
-		).toMatch(/visible/);
+		).not.toMatch(/visible/);
 		expect(
 			within(transactionDialog).getByTestId('no-category-icon').className
-		).toMatch(/visible/);
+		).not.toMatch(/visible/);
 
 		const checkbox = within(transactionDialog).getByTestId(
 			'confirm-transaction-checkbox'
 		);
 		expect(checkbox.querySelector('input')).toBeChecked();
+
+		const categorySelect = within(transactionDialog).getByLabelText('Category');
+		console.log(categorySelect);
 		// TODO try and figure out category
 	});
 

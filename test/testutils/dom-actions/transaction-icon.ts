@@ -4,7 +4,7 @@ import { getSelectorParent } from './utils';
 type NoArgVoidFn = () => void;
 export type TransactionIcon = {
 	isVisible: NoArgVoidFn;
-	isInvisible: NoArgVoidFn;
+	isNotVisible: NoArgVoidFn;
 };
 
 export const transactionIcon = (
@@ -13,9 +13,9 @@ export const transactionIcon = (
 ): TransactionIcon => {
 	const icon = getSelectorParent(root).getByTestId(testId);
 	const isVisible = () => expect(icon.className).toMatch(/visible/);
-	const isInvisible = () => expect(icon.className).not.toMatch(/visible/);
+	const isNotVisible = () => expect(icon.className).not.toMatch(/visible/);
 	return {
 		isVisible,
-		isInvisible
+		isNotVisible
 	};
 };

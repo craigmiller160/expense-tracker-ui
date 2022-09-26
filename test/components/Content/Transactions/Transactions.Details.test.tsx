@@ -14,6 +14,7 @@ import {
 import { apiServer } from '../../../server';
 import { getAllCategories } from '../../../../src/ajaxapi/service/CategoryService';
 import { materialUiSelect } from '../../../testutils/dom-actions';
+import { transactionIcon } from '../../../testutils/dom-actions/transaction-icon';
 
 const testButton =
 	(isDisabled: boolean) => (detailsButton: HTMLElement, index: number) => {
@@ -140,16 +141,9 @@ describe('Transaction Details Dialog', () => {
 		within(transactionDialog).getByText(transaction.description);
 		within(transactionDialog).getByText(formatCurrency(transaction.amount));
 
-		expect(
-			within(transactionDialog).getByTestId('duplicate-icon').className
-		).not.toMatch(/visible/);
-		expect(
-			within(transactionDialog).getByTestId('not-confirmed-icon')
-				.className
-		).not.toMatch(/visible/);
-		expect(
-			within(transactionDialog).getByTestId('no-category-icon').className
-		).not.toMatch(/visible/);
+		transactionIcon('duplicate-icon', transactionDialog).isNotVisible();
+		transactionIcon('not-confirmed-icon', transactionDialog).isNotVisible();
+		transactionIcon('no-category-icon', transactionDialog).isNotVisible();
 
 		const checkbox = within(transactionDialog).getByTestId(
 			'confirm-transaction-checkbox'

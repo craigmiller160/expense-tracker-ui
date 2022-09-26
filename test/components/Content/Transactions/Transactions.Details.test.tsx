@@ -86,7 +86,10 @@ describe('Transaction Details Dialog', () => {
 			'confirm-transaction-checkbox'
 		);
 		expect(checkbox.querySelector('input')).not.toBeChecked();
-		// TODO try and figure out category
+
+		const categorySelect =
+			within(transactionDialog).getByLabelText('Category');
+		expect(categorySelect).toHaveValue('');
 	});
 
 	it('shows current transaction information for confirmed & categorized', async () => {
@@ -152,9 +155,9 @@ describe('Transaction Details Dialog', () => {
 		);
 		expect(checkbox.querySelector('input')).toBeChecked();
 
-		const categorySelect = within(transactionDialog).getByLabelText('Category');
-		console.log(categorySelect);
-		// TODO try and figure out category
+		const categorySelect =
+			within(transactionDialog).getByLabelText('Category');
+		expect(categorySelect).toHaveValue(category.name);
 	});
 
 	it('can confirm transaction', async () => {

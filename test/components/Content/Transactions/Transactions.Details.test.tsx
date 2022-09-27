@@ -1,5 +1,5 @@
 import { renderApp } from '../../../testutils/renderApp';
-import { screen, within } from '@testing-library/react';
+import { screen, waitFor, within } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import { searchForTransactions } from '../../../../src/ajaxapi/service/TransactionService';
@@ -175,6 +175,7 @@ describe('Transaction Details Dialog', () => {
 		checkbox.click();
 		checkbox.isChecked();
 		transactionIcon('not-confirmed-icon', transactionDialog).isNotVisible();
+		// TODO validate saving
 	});
 
 	it('can categorize transaction', async () => {
@@ -200,10 +201,63 @@ describe('Transaction Details Dialog', () => {
 		categorySelect.hasValue('Groceries');
 
 		transactionIcon('no-category-icon', transactionDialog).isNotVisible();
+		// TODO validate saving
 	});
 
 	it('can delete transaction', async () => {
-		throw new Error();
+		const {
+			transactions: [transaction]
+		} = await searchForTransactions({
+			startDate: defaultStartDate(),
+			endDate: defaultEndDate(),
+			pageNumber: 0,
+			pageSize: 25,
+			sortKey: TransactionSortKey.EXPENSE_DATE,
+			sortDirection: SortDirection.DESC
+		});
+
+		await renderApp({
+			initialPath: '/expense-tracker/transactions'
+		});
+		await waitForVisibility([
+			{ text: 'Expense Tracker' },
+			{ text: 'Manage Transactions', occurs: 2 },
+			{ text: 'Rows per page:' }
+		]);
+
+		expect(screen.queryByText(transaction.description)).toBeInTheDocument();
+
+		const row = screen.getAllByTestId('transaction-table-row')[0];
+		const detailsButton = within(row).getByText('Details');
+		await userEvent.click(detailsButton);
+
+		const transactionDialog = screen.getByTestId(
+			'transaction-details-dialog'
+		);
+
+		const deleteButton = within(transactionDialog).getByText('Delete');
+		await userEvent.click(deleteButton);
+
+		const confirmDialog = screen.getByTestId('confirm-dialog');
+		const confirmButton = within(confirmDialog).getByText('Confirm');
+		await userEvent.click(confirmButton);
+
+		// Confirming description is not here twice to handle the loading pause
+		await waitFor(() =>
+			expect(
+				screen.queryByText(transaction.description)
+			).not.toBeInTheDocument()
+		);
+		await waitFor(() =>
+			expect(screen.getAllByTestId('transaction-table-row')).toHaveLength(
+				25
+			)
+		);
+		await waitFor(() =>
+			expect(
+				screen.queryByText(transaction.description)
+			).not.toBeInTheDocument()
+		);
 	});
 
 	it('cannot open details dialog when table form is dirty', async () => {

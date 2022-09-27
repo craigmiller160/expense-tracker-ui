@@ -168,6 +168,10 @@ describe('Transaction Details Dialog', () => {
 		const detailsButton = within(row).getByText('Details');
 		await userEvent.click(detailsButton);
 
+		expect(
+			within(row).queryByTestId('confirm-transaction-checkbox')
+		).toBeInTheDocument();
+
 		const transactionDialog = screen.getByTestId(
 			'transaction-details-dialog'
 		);
@@ -180,10 +184,31 @@ describe('Transaction Details Dialog', () => {
 		checkbox.click();
 		checkbox.isChecked();
 		transactionIcon('not-confirmed-icon', transactionDialog).isNotVisible();
-		// TODO validate saving
+
+		await waitForElementToBeRemoved(() =>
+			screen.queryByText(transaction.description)
+		);
+		await waitFor(() =>
+			expect(screen.getAllByTestId('transaction-table-row')).toHaveLength(
+				25
+			)
+		);
+		expect(
+			within(row).queryByTestId('confirm-transaction-checkbox')
+		).not.toBeInTheDocument();
 	});
 
 	it('can categorize transaction', async () => {
+		const {
+			transactions: [transaction]
+		} = await searchForTransactions({
+			startDate: defaultStartDate(),
+			endDate: defaultEndDate(),
+			pageNumber: 0,
+			pageSize: 25,
+			sortKey: TransactionSortKey.EXPENSE_DATE,
+			sortDirection: SortDirection.DESC
+		});
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
@@ -206,7 +231,7 @@ describe('Transaction Details Dialog', () => {
 		categorySelect.hasValue('Groceries');
 
 		transactionIcon('no-category-icon', transactionDialog).isNotVisible();
-		// TODO validate saving
+		// TODO confirm saving
 	});
 
 	it('can delete transaction', async () => {

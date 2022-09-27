@@ -64,27 +64,29 @@ describe('Transaction Details Dialog', () => {
 		const transactionDialog = screen.getByTestId(
 			'transaction-details-dialog'
 		);
-		within(transactionDialog).getByText('Transaction Details');
-		within(transactionDialog).getByText('Expense Date');
-		within(transactionDialog).getByText('Amount');
-		within(transactionDialog).getByText(
-			formatDisplayDate(transaction.expenseDate)
+		textExists(
+			[
+				{ text: 'Transaction Details' },
+				{ text: 'Expense Date' },
+				{ text: 'Amount' },
+				{ text: formatDisplayDate(transaction.expenseDate) },
+				{ text: transaction.description },
+				{ text: formatCurrency(transaction.amount) }
+			],
+			transactionDialog
 		);
-		within(transactionDialog).getByText(transaction.description);
-		within(transactionDialog).getByText(formatCurrency(transaction.amount));
 
-		transactionIcon('duplicate-icon').isNotVisible();
-		transactionIcon('not-confirmed-icon').isVisible();
-		transactionIcon('no-category-icon').isVisible();
+		transactionIcon('duplicate-icon', transactionDialog).isNotVisible();
+		transactionIcon('not-confirmed-icon', transactionDialog).isVisible();
+		transactionIcon('no-category-icon', transactionDialog).isVisible();
 
-		const checkbox = within(transactionDialog).getByTestId(
-			'confirm-transaction-checkbox'
-		);
-		expect(checkbox.querySelector('input')).not.toBeChecked();
+		materialUiCheckbox({
+			selector: 'confirm-transaction-checkbox',
+			type: 'testid',
+			root: transactionDialog
+		}).isNotChecked();
 
-		const categorySelect =
-			within(transactionDialog).getByLabelText('Category');
-		expect(categorySelect).toHaveValue('');
+		materialUiSelect('Category', transactionDialog).hasValue('');
 	});
 
 	it('shows current transaction information for confirmed & categorized', async () => {
@@ -165,12 +167,14 @@ describe('Transaction Details Dialog', () => {
 			'transaction-details-dialog'
 		);
 
-		const checkbox = within(transactionDialog).getByTestId(
-			'confirm-transaction-checkbox'
-		);
-		await userEvent.click(checkbox);
-		expect(checkbox.querySelector('input')).toBeChecked();
-		transactionIcon('not-confirmed-icon').isNotVisible();
+		const checkbox = materialUiCheckbox({
+			selector: 'confirm-transaction-checkbox',
+			type: 'testid',
+			root: transactionDialog
+		});
+		checkbox.click();
+		checkbox.isChecked();
+		transactionIcon('not-confirmed-icon', transactionDialog).isNotVisible();
 	});
 
 	it('can categorize transaction', async () => {
@@ -195,7 +199,7 @@ describe('Transaction Details Dialog', () => {
 		await categorySelect.selectItem('Groceries');
 		categorySelect.hasValue('Groceries');
 
-		transactionIcon('no-category-icon').isNotVisible();
+		transactionIcon('no-category-icon', transactionDialog).isNotVisible();
 	});
 
 	it('can delete transaction', async () => {

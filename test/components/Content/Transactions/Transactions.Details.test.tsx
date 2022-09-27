@@ -195,6 +195,8 @@ describe('Transaction Details Dialog', () => {
 		await checkbox.isChecked();
 		transactionIcon('not-confirmed-icon', transactionDialog).isNotVisible();
 
+		await userEvent.click(within(transactionDialog).getByText('Save'));
+
 		await waitForElementToBeRemoved(() =>
 			screen.queryByText(transaction.description)
 		);

@@ -155,6 +155,16 @@ describe('Transaction Details Dialog', () => {
 	});
 
 	it('can confirm transaction', async () => {
+		const {
+			transactions: [transaction]
+		} = await searchForTransactions({
+			startDate: defaultStartDate(),
+			endDate: defaultEndDate(),
+			pageNumber: 0,
+			pageSize: 25,
+			sortKey: TransactionSortKey.EXPENSE_DATE,
+			sortDirection: SortDirection.DESC
+		});
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
@@ -182,7 +192,7 @@ describe('Transaction Details Dialog', () => {
 			root: transactionDialog
 		});
 		checkbox.click();
-		checkbox.isChecked();
+		await checkbox.isChecked();
 		transactionIcon('not-confirmed-icon', transactionDialog).isNotVisible();
 
 		await waitForElementToBeRemoved(() =>

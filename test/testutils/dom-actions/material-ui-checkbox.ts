@@ -1,6 +1,7 @@
 import { getSelectorParent } from './utils';
 import { match } from 'ts-pattern';
 import userEvent from '@testing-library/user-event';
+import { waitFor } from '@testing-library/react';
 
 type SelectorType = 'testid' | 'label';
 
@@ -11,10 +12,11 @@ type Selector = {
 };
 
 type NoArgVoidFn = () => void;
+type NoArgVoidPromiseFn = () => Promise<void>;
 export type MaterialUiCheckbox = {
 	click: NoArgVoidFn;
-	isChecked: NoArgVoidFn;
-	isNotChecked: NoArgVoidFn;
+	isChecked: NoArgVoidPromiseFn;
+	isNotChecked: NoArgVoidPromiseFn;
 };
 
 export const materialUiCheckbox = (selector: Selector): MaterialUiCheckbox => {
@@ -25,9 +27,10 @@ export const materialUiCheckbox = (selector: Selector): MaterialUiCheckbox => {
 	const checkboxInput = checkbox.querySelector('input');
 
 	const click: NoArgVoidFn = () => userEvent.click(checkbox);
-	const isChecked: NoArgVoidFn = () => expect(checkboxInput).toBeChecked();
-	const isNotChecked: NoArgVoidFn = () =>
-		expect(checkboxInput).not.toBeChecked();
+	const isChecked: NoArgVoidPromiseFn = () =>
+		waitFor(() => expect(checkboxInput).toBeChecked());
+	const isNotChecked: NoArgVoidPromiseFn = () =>
+		waitFor(() => expect(checkboxInput).not.toBeChecked());
 	return {
 		click,
 		isChecked,

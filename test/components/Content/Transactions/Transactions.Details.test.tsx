@@ -144,7 +144,7 @@ describe('Transaction Details Dialog', () => {
 		});
 		checkbox.isChecked();
 
-		materialUiSelect('Category').hasValue(category.name);
+		materialUiSelect('Category', transactionDialog).hasValue(category.name);
 	});
 
 	it('can confirm transaction', async () => {

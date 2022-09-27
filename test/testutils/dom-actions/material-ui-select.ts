@@ -1,8 +1,8 @@
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { getSelectorParent } from './utils';
 
-type HasValueFn = (value: string) => void;
+type HasValueFn = (value: string) => Promise<void>;
 type SelectItemFn = (itemLabel: string) => Promise<void>;
 export type MaterialUiSelect = {
 	readonly hasValue: HasValueFn;
@@ -14,7 +14,8 @@ export const materialUiSelect = (
 	root?: HTMLElement
 ): MaterialUiSelect => {
 	const select = getSelectorParent(root).getByLabelText(labelText);
-	const hasValue: HasValueFn = expect(select).toHaveValue;
+	const hasValue: HasValueFn = (value) =>
+		waitFor(() => expect(select).toHaveValue(value));
 	const selectItem: SelectItemFn = async (itemLabel) => {
 		await userEvent.click(select);
 		expect(screen.queryByText(itemLabel)).toBeVisible();

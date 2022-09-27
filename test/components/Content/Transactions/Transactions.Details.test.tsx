@@ -211,16 +211,6 @@ describe('Transaction Details Dialog', () => {
 	});
 
 	it('can categorize transaction', async () => {
-		const {
-			transactions: [transaction]
-		} = await searchForTransactions({
-			startDate: defaultStartDate(),
-			endDate: defaultEndDate(),
-			pageNumber: 0,
-			pageSize: 25,
-			sortKey: TransactionSortKey.EXPENSE_DATE,
-			sortDirection: SortDirection.DESC
-		});
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
@@ -253,15 +243,13 @@ describe('Transaction Details Dialog', () => {
 		await waitForElementToBeRemoved(() =>
 			screen.queryByTestId('transaction-details-dialog')
 		);
-		await waitForElementToBeRemoved(() =>
-			screen.queryByText(transaction.description)
-		);
+		await waitFor(() => screen.queryByTestId('table-loading'));
 		await waitFor(() =>
 			expect(screen.getAllByTestId('transaction-table-row')).toHaveLength(
 				25
 			)
 		);
-		materialUiSelect('Category', row).hasValue('Groceries');
+		await materialUiSelect('Category', row).hasValue('Groceries');
 	});
 
 	it('can delete transaction', async () => {

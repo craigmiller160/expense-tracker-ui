@@ -1,5 +1,10 @@
 import { renderApp } from '../../../testutils/renderApp';
-import { screen, waitFor, within } from '@testing-library/react';
+import {
+	screen,
+	waitFor,
+	waitForElementToBeRemoved,
+	within
+} from '@testing-library/react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import { searchForTransactions } from '../../../../src/ajaxapi/service/TransactionService';
@@ -243,10 +248,8 @@ describe('Transaction Details Dialog', () => {
 		await userEvent.click(confirmButton);
 
 		// Confirming description is not here twice to handle the loading pause
-		await waitFor(() =>
-			expect(
-				screen.queryByText(transaction.description)
-			).not.toBeInTheDocument()
+		await waitForElementToBeRemoved(() =>
+			screen.queryByText(transaction.description)
 		);
 		await waitFor(() =>
 			expect(screen.getAllByTestId('transaction-table-row')).toHaveLength(

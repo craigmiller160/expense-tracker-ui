@@ -251,6 +251,9 @@ describe('Transaction Details Dialog', () => {
 		await userEvent.click(within(transactionDialog).getByText('Save'));
 
 		await waitForElementToBeRemoved(() =>
+			screen.queryByTestId('transaction-details-dialog')
+		);
+		await waitForElementToBeRemoved(() =>
 			screen.queryByText(transaction.description)
 		);
 		await waitFor(() =>

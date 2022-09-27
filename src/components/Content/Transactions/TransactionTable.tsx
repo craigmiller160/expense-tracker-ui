@@ -20,7 +20,7 @@ import { ReactNode } from 'react';
 import { Updater } from 'use-immer';
 import { UpdateTransactionsMutation } from '../../../ajaxapi/query/TransactionQueries';
 import { pipe } from 'fp-ts/es6/function';
-import { useIsAtLeastBreakpoint } from '../../../utils/useIsAtLeastBreakpoint';
+import { useIsAtLeastBreakpoint } from '../../../utils/breakpointHooks';
 import { DuplicateIcon } from './icons/DuplicateIcon';
 import { NotConfirmedIcon } from './icons/NotConfirmedIcon';
 import { NotCategorizedIcon } from './icons/NotCategorizedIcon';

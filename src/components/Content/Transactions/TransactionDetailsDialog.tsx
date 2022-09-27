@@ -21,8 +21,7 @@ import {
 	TransactionDetailsFormData,
 	useHandleTransactionDetailsDialogData
 } from './useHandleTransactionDetailsDialogData';
-
-// TODO be sure to test this in mobile view, needs some layout tweaks
+import { useIsAtMaxBreakpoint } from '../../../utils/breakpointHooks';
 
 interface Props {
 	readonly selectedTransaction: OptionT<TransactionResponse>;
@@ -108,6 +107,9 @@ export const TransactionDetailsDialog = (props: Props) => {
 		'category'
 	]);
 
+	const isAtMaxSm = useIsAtMaxBreakpoint('md');
+	const controlsClassName = `Controls ${isAtMaxSm ? 'small' : ''}`;
+
 	return (
 		<SideDialog
 			open={transactionValues.id !== null}
@@ -155,7 +157,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 					</div>
 				</div>
 				<hr />
-				<div className="Controls">
+				<div className={controlsClassName}>
 					<Checkbox
 						testId="confirm-transaction-checkbox"
 						control={control}

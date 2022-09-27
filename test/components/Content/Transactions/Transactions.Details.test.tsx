@@ -230,12 +230,7 @@ describe('Transaction Details Dialog', () => {
 
 		const categorySelect = materialUiSelect('Category', transactionDialog);
 		await categorySelect.selectItem('Groceries');
-		categorySelect.hasValue('Groceries');
-		// TODO if this works, integrate into wrapper
-		await userEvent.click(
-			within(transactionDialog).getByText('Transaction Details')
-		);
-		categorySelect.hasValue('Groceries');
+		await categorySelect.hasValue('Groceries');
 
 		transactionIcon('no-category-icon', transactionDialog).isNotVisible();
 		await userEvent.click(within(transactionDialog).getByText('Save'));
@@ -249,7 +244,12 @@ describe('Transaction Details Dialog', () => {
 				25
 			)
 		);
-		await materialUiSelect('Category', row).hasValue('Groceries');
+		const rowAfterReload = screen.getAllByTestId(
+			'transaction-table-row'
+		)[0];
+		await materialUiSelect('Category', rowAfterReload).hasValue(
+			'Groceries'
+		);
 	});
 
 	it('can delete transaction', async () => {

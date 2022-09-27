@@ -1,5 +1,5 @@
 import { renderApp } from '../../../testutils/renderApp';
-import { screen, waitFor, within } from '@testing-library/react';
+import { screen, within } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import { searchForTransactions } from '../../../../src/ajaxapi/service/TransactionService';
@@ -38,15 +38,11 @@ describe('Transaction Details Dialog', () => {
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
-		await waitFor(() =>
-			expect(screen.queryByText('Expense Tracker')).toBeVisible()
-		);
-		await waitFor(() =>
-			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
-		);
-		await waitFor(() =>
-			expect(screen.queryByText('Rows per page:')).toBeVisible()
-		);
+		await waitForVisibility([
+			{ text: 'Expense Tracker' },
+			{ text: 'Manage Transactions', occurs: 2 },
+			{ text: 'Rows per page:' }
+		]);
 
 		const {
 			transactions: [transaction]
@@ -75,16 +71,9 @@ describe('Transaction Details Dialog', () => {
 		within(transactionDialog).getByText(transaction.description);
 		within(transactionDialog).getByText(formatCurrency(transaction.amount));
 
-		expect(
-			within(transactionDialog).getByTestId('duplicate-icon').className
-		).not.toMatch(/visible/);
-		expect(
-			within(transactionDialog).getByTestId('not-confirmed-icon')
-				.className
-		).toMatch(/visible/);
-		expect(
-			within(transactionDialog).getByTestId('no-category-icon').className
-		).toMatch(/visible/);
+		transactionIcon('duplicate-icon').isNotVisible();
+		transactionIcon('not-confirmed-icon').isVisible();
+		transactionIcon('no-category-icon').isVisible();
 
 		const checkbox = within(transactionDialog).getByTestId(
 			'confirm-transaction-checkbox'
@@ -117,15 +106,11 @@ describe('Transaction Details Dialog', () => {
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
-		await waitFor(() =>
-			expect(screen.queryByText('Expense Tracker')).toBeVisible()
-		);
-		await waitFor(() =>
-			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
-		);
-		await waitFor(() =>
-			expect(screen.queryByText('Rows per page:')).toBeVisible()
-		);
+		await waitForVisibility([
+			{ text: 'Expense Tracker' },
+			{ text: 'Manage Transactions', occurs: 2 },
+			{ text: 'Rows per page:' }
+		]);
 
 		const row = screen.getAllByTestId('transaction-table-row')[0];
 		const detailsButton = within(row).getByText('Details');
@@ -161,15 +146,11 @@ describe('Transaction Details Dialog', () => {
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
-		await waitFor(() =>
-			expect(screen.queryByText('Expense Tracker')).toBeVisible()
-		);
-		await waitFor(() =>
-			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
-		);
-		await waitFor(() =>
-			expect(screen.queryByText('Rows per page:')).toBeVisible()
-		);
+		await waitForVisibility([
+			{ text: 'Expense Tracker' },
+			{ text: 'Manage Transactions', occurs: 2 },
+			{ text: 'Rows per page:' }
+		]);
 
 		const row = screen.getAllByTestId('transaction-table-row')[0];
 		const detailsButton = within(row).getByText('Details');
@@ -184,25 +165,18 @@ describe('Transaction Details Dialog', () => {
 		);
 		await userEvent.click(checkbox);
 		expect(checkbox.querySelector('input')).toBeChecked();
-		expect(
-			within(transactionDialog).getByTestId('not-confirmed-icon')
-				.className
-		).not.toMatch(/visible/);
+		transactionIcon('not-confirmed-icon').isNotVisible();
 	});
 
 	it('can categorize transaction', async () => {
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
-		await waitFor(() =>
-			expect(screen.queryByText('Expense Tracker')).toBeVisible()
-		);
-		await waitFor(() =>
-			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
-		);
-		await waitFor(() =>
-			expect(screen.queryByText('Rows per page:')).toBeVisible()
-		);
+		await waitForVisibility([
+			{ text: 'Expense Tracker' },
+			{ text: 'Manage Transactions', occurs: 2 },
+			{ text: 'Rows per page:' }
+		]);
 
 		const row = screen.getAllByTestId('transaction-table-row')[0];
 		const detailsButton = within(row).getByText('Details');
@@ -216,9 +190,7 @@ describe('Transaction Details Dialog', () => {
 		await categorySelect.selectItem('Groceries');
 		categorySelect.hasValue('Groceries');
 
-		expect(
-			within(transactionDialog).getByTestId('no-category-icon').className
-		).not.toMatch(/visible/);
+		transactionIcon('no-category-icon').isNotVisible();
 	});
 
 	it('can delete transaction', async () => {

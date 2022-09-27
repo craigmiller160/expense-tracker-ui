@@ -85,7 +85,7 @@ describe('Transaction Details Dialog', () => {
 		transactionIcon('not-confirmed-icon', transactionDialog).isVisible();
 		transactionIcon('no-category-icon', transactionDialog).isVisible();
 
-		materialUiCheckbox({
+		await materialUiCheckbox({
 			selector: 'confirm-transaction-checkbox',
 			type: 'testid',
 			root: transactionDialog
@@ -243,7 +243,17 @@ describe('Transaction Details Dialog', () => {
 		categorySelect.hasValue('Groceries');
 
 		transactionIcon('no-category-icon', transactionDialog).isNotVisible();
-		// TODO confirm saving
+		await userEvent.click(within(transactionDialog).getByText('Save'));
+
+		await waitForElementToBeRemoved(() =>
+			screen.queryByText(transaction.description)
+		);
+		await waitFor(() =>
+			expect(screen.getAllByTestId('transaction-table-row')).toHaveLength(
+				25
+			)
+		);
+		materialUiSelect('Category', row).hasValue('Groceries');
 	});
 
 	it('can delete transaction', async () => {

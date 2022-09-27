@@ -241,6 +241,11 @@ describe('Transaction Details Dialog', () => {
 		const categorySelect = materialUiSelect('Category', transactionDialog);
 		await categorySelect.selectItem('Groceries');
 		categorySelect.hasValue('Groceries');
+		// TODO if this works, integrate into wrapper
+		await userEvent.click(
+			within(transactionDialog).getByText('Transaction Details')
+		);
+		categorySelect.hasValue('Groceries');
 
 		transactionIcon('no-category-icon', transactionDialog).isNotVisible();
 		await userEvent.click(within(transactionDialog).getByText('Save'));

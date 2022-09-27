@@ -54,23 +54,17 @@ const checkVisibilityForAllElements = (
 		Monoid.concatAll(visibilityTestMonoid)
 	);
 
-export const waitForVisibility = (
+export const waitForVisibility = async (
 	allItems: ReadonlyArray<Item>
-): TaskTryT<void> => {
-	return pipe(
+): Promise<void> => {
+	const taskResult = await pipe(
 		allItems,
 		RArray.map(waitForItem),
 		Monoid.concatAll(waitForTaskMonoid),
 		TaskEither.chainEitherK(checkVisibilityForAllElements)
-	);
+	)();
 
-	// Imperative is necessary to enforce ordering of async behavior
-	// for (let i = 0; i < allItems.length; i++) {
-	// 	const foundItems = await waitFor(() => {
-	// 		const items = screen.queryAllByText(allItems[i].text);
-	// 		expect(items).toHaveLength(allItems[i].occurs ?? 1);
-	// 		return items;
-	// 	});
-	// 	foundItems.forEach((item) => expect(item).toBeVisible());
-	// }
+	Either.mapLeft((ex) => {
+		throw ex;
+	})(taskResult);
 };

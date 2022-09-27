@@ -16,6 +16,7 @@ import { getAllCategories } from '../../../../src/ajaxapi/service/CategoryServic
 import { materialUiSelect } from '../../../testutils/dom-actions/material-ui-select';
 import { transactionIcon } from '../../../testutils/dom-actions/transaction-icon';
 import { waitForVisibility } from '../../../testutils/dom-actions/wait-for-visibility';
+import '@relmify/jest-fp-ts';
 
 const testButton =
 	(isDisabled: boolean) => (detailsButton: HTMLElement, index: number) => {
@@ -232,7 +233,7 @@ describe('Transaction Details Dialog', () => {
 			{ text: 'Expense Tracker' },
 			{ text: 'Manage Transactions', occurs: 2 },
 			{ text: 'Rows per page:' }
-		])();
+		]);
 		const row = screen.getAllByTestId('transaction-table-row')[0];
 		const confirmCheckbox = within(row).getByTestId(
 			'confirm-transaction-checkbox'

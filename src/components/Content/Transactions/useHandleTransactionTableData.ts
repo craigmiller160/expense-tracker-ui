@@ -1,6 +1,7 @@
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 import {
 	UpdateTransactionsMutation,
+	useDeleteTransactions,
 	useSearchForTransactions,
 	useUpdateTransactions
 } from '../../../ajaxapi/query/TransactionQueries';
@@ -140,7 +141,9 @@ export const useHandleTransactionTableData = (
 			isDuplicate: filterValues.isDuplicate ? true : undefined,
 			isCategorized: filterValues.isNotCategorized ? false : undefined
 		});
-	const { mutate: updateTransactions } = useUpdateTransactions();
+	const { mutate: updateTransactions, isLoading: updateIsLoading } =
+		useUpdateTransactions();
+	const { isLoading: deleteIsLoading } = useDeleteTransactions();
 	const form = useForm<TransactionTableForm>({
 		mode: 'onChange',
 		reValidateMode: 'onChange',
@@ -180,7 +183,6 @@ export const useHandleTransactionTableData = (
 	}, [transactionIsFetching, form]);
 
 	useEffect(() => {
-		// TODO use watch() with specific keys in other places
 		const subscription = form.watch((values, info) => {
 			if (info.name === 'confirmAll') {
 				handleConfirmAll(form);
@@ -205,7 +207,9 @@ export const useHandleTransactionTableData = (
 			isFetching:
 				transactionIsFetching ||
 				categoryIsFetching ||
-				testNumberOfFormRecords(form, transactionData)
+				testNumberOfFormRecords(form, transactionData) ||
+				updateIsLoading ||
+				deleteIsLoading
 		},
 		pagination: {
 			currentPage: transactionData?.pageNumber ?? 0,

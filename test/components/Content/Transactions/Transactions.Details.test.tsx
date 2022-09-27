@@ -17,6 +17,7 @@ import { materialUiSelect } from '../../../testutils/dom-actions/material-ui-sel
 import { transactionIcon } from '../../../testutils/dom-actions/transaction-icon';
 import { waitForVisibility } from '../../../testutils/dom-actions/wait-for-visibility';
 import '@relmify/jest-fp-ts';
+import { materialUiCheckbox } from '../../../testutils/dom-actions/material-ui-checkbox';
 
 const testButton =
 	(isDisabled: boolean) => (detailsButton: HTMLElement, index: number) => {
@@ -132,14 +133,14 @@ describe('Transaction Details Dialog', () => {
 		transactionIcon('not-confirmed-icon', transactionDialog).isNotVisible();
 		transactionIcon('no-category-icon', transactionDialog).isNotVisible();
 
-		const checkbox = within(transactionDialog).getByTestId(
-			'confirm-transaction-checkbox'
-		);
-		expect(checkbox.querySelector('input')).toBeChecked();
+		const checkbox = materialUiCheckbox({
+			selector: 'confirm-transaction-checkbox',
+			type: 'testid',
+			root: transactionDialog
+		});
+		checkbox.isChecked();
 
-		const categorySelect =
-			within(transactionDialog).getByLabelText('Category');
-		expect(categorySelect).toHaveValue(category.name);
+		materialUiSelect('Category').hasValue(category.name);
 	});
 
 	it('can confirm transaction', async () => {

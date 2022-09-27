@@ -17,7 +17,11 @@ export const ConfirmDialog = () => {
 	};
 
 	return (
-		<Dialog open={dialogContext.open} onClose={dialogContext.onClose}>
+		<Dialog
+			data-testid="confirm-dialog"
+			open={dialogContext.open}
+			onClose={dialogContext.onClose}
+		>
 			<DialogTitle>{dialogContext.title}</DialogTitle>
 			<DialogContent>{dialogContext.message}</DialogContent>
 			<DialogActions>

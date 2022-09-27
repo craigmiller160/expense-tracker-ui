@@ -2,12 +2,17 @@ import { SelectOption } from '@craigmiller160/react-hook-form-material-ui';
 import { TablePaginationConfig } from '../../UI/Table';
 import { Updater } from 'use-immer';
 import { TransactionTableForm } from './useHandleTransactionTableData';
-import { TransactionToUpdate } from '../../../types/transactions';
+import {
+	TransactionResponse,
+	TransactionToUpdate
+} from '../../../types/transactions';
 import * as RArray from 'fp-ts/es6/ReadonlyArray';
 import { pipe } from 'fp-ts/es6/function';
 import { CategoryResponse } from '../../../types/categories';
 import { SortDirection } from '../../../types/misc';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
+import { useMemo } from 'react';
+import { match, P } from 'ts-pattern';
 
 export interface PaginationState {
 	readonly pageNumber: number;
@@ -79,3 +84,24 @@ export const categoryToCategoryOption = (
 	label: category.name,
 	value: category.id
 });
+
+export const useCategoriesToCategoryOptions = (
+	categories: ReadonlyArray<CategoryResponse> | undefined
+): CategoryOption[] =>
+	useMemo(
+		() => categories?.map(categoryToCategoryOption) ?? [],
+		[categories]
+	);
+
+export const transactionToCategoryOption = (
+	transaction: TransactionResponse
+): CategoryOption | null =>
+	match(transaction)
+		.with(
+			{ categoryId: P.not(P.nullish) },
+			(t): CategoryOption => ({
+				value: t.categoryId!, // eslint-disable-line @typescript-eslint/no-non-null-assertion
+				label: t.categoryName! // eslint-disable-line @typescript-eslint/no-non-null-assertion
+			})
+		)
+		.otherwise(() => null);

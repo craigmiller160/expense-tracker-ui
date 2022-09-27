@@ -9,11 +9,14 @@ import {
 	QueryClient,
 	UseMutateFunction,
 	useMutation,
+	UseMutationResult,
 	useQuery,
-	useQueryClient
+	useQueryClient,
+	UseQueryResult
 } from 'react-query';
 import {
 	categorizeTransactions,
+	deleteTransactions,
 	getNeedsAttention,
 	searchForTransactions,
 	updateTransactions
@@ -31,7 +34,9 @@ const invalidateTransactionQueries = (queryClient: QueryClient) =>
 
 type SearchForTransactionsKey = [string, SearchTransactionsRequest];
 
-export const useSearchForTransactions = (request: SearchTransactionsRequest) =>
+export const useSearchForTransactions = (
+	request: SearchTransactionsRequest
+): UseQueryResult<SearchTransactionsResponse, Error> =>
 	useQuery<
 		SearchTransactionsResponse,
 		Error,
@@ -41,7 +46,10 @@ export const useSearchForTransactions = (request: SearchTransactionsRequest) =>
 		searchForTransactions(req)
 	);
 
-export const useGetNeedsAttention = () =>
+export const useGetNeedsAttention = (): UseQueryResult<
+	NeedsAttentionResponse,
+	Error
+> =>
 	useQuery<NeedsAttentionResponse, Error>(GET_NEEDS_ATTENTION, () =>
 		getNeedsAttention()
 	);
@@ -50,13 +58,11 @@ interface CategorizeTransactionsParams {
 	readonly transactionsAndCategories: ReadonlyArray<TransactionAndCategory>;
 }
 
-export type CategorizeTransactionsMutation = UseMutateFunction<
+export const useCategorizeTransactions = (): UseMutationResult<
 	unknown,
 	Error,
 	CategorizeTransactionsParams
->;
-
-export const useCategorizeTransactions = () => {
+> => {
 	const queryClient = useQueryClient();
 	return useMutation<unknown, Error, CategorizeTransactionsParams>(
 		({ transactionsAndCategories }) =>
@@ -77,10 +83,28 @@ export type UpdateTransactionsMutation = UseMutateFunction<
 	UpdateTransactionsParams
 >;
 
-export const useUpdateTransactions = () => {
+export const useUpdateTransactions = (): UseMutationResult<
+	unknown,
+	Error,
+	UpdateTransactionsParams
+> => {
 	const queryClient = useQueryClient();
 	return useMutation<unknown, Error, UpdateTransactionsParams>(
 		({ transactions }) => updateTransactions(transactions),
+		{
+			onSuccess: () => invalidateTransactionQueries(queryClient)
+		}
+	);
+};
+
+type DeleteTransactionsParams = {
+	idsToDelete: ReadonlyArray<string>;
+};
+
+export const useDeleteTransactions = () => {
+	const queryClient = useQueryClient();
+	return useMutation<unknown, Error, DeleteTransactionsParams>(
+		({ idsToDelete }) => deleteTransactions(idsToDelete),
 		{
 			onSuccess: () => invalidateTransactionQueries(queryClient)
 		}

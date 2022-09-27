@@ -19,15 +19,16 @@ import {
 } from 'react-hook-form';
 import {
 	CategoryOption,
-	categoryToCategoryOption,
 	PaginationState,
-	TransactionSearchForm
+	TransactionSearchForm,
+	transactionToCategoryOption,
+	useCategoriesToCategoryOptions
 } from './utils';
-import { match, P } from 'ts-pattern';
+import { match } from 'ts-pattern';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 import { pipe } from 'fp-ts/es6/function';
 
-const formatDisplayDate = (dateString: string) =>
+export const formatDisplayDate = (dateString: string) =>
 	pipe(dateString, Time.parse('yyyy-MM-dd'), Time.format('MM/dd/yyyy'));
 
 export interface TransactionFormValues {
@@ -62,19 +63,6 @@ export interface TransactionTableData {
 		readonly updateTransactions: UpdateTransactionsMutation;
 	};
 }
-
-const transactionToCategoryOption = (
-	transaction: TransactionResponse
-): CategoryOption | null =>
-	match(transaction)
-		.with(
-			{ categoryId: P.not(P.nullish) },
-			(t): CategoryOption => ({
-				value: t.categoryId!, // eslint-disable-line @typescript-eslint/no-non-null-assertion
-				label: t.categoryName! // eslint-disable-line @typescript-eslint/no-non-null-assertion
-			})
-		)
-		.otherwise(() => null);
 
 const transactionToFormValues = (
 	transaction: TransactionResponse
@@ -165,10 +153,7 @@ export const useHandleTransactionTableData = (
 		name: 'transactions'
 	});
 
-	const categories = useMemo(
-		() => categoryData?.map(categoryToCategoryOption),
-		[categoryData]
-	);
+	const categories = useCategoriesToCategoryOptions(categoryData);
 
 	const resetFormToData = useMemo(
 		() =>
@@ -194,12 +179,15 @@ export const useHandleTransactionTableData = (
 		}
 	}, [transactionIsFetching, form]);
 
-	// This is here so that the icons can be updated in real time to user interaction
-	form.watch((values, info) => {
-		if (info.name === 'confirmAll') {
-			handleConfirmAll(form);
-		}
-	});
+	useEffect(() => {
+		// TODO use watch() with specific keys in other places
+		const subscription = form.watch((values, info) => {
+			if (info.name === 'confirmAll') {
+				handleConfirmAll(form);
+			}
+		});
+		return subscription.unsubscribe;
+	}, [form]);
 
 	const transactions = useMemo(
 		() =>
@@ -213,7 +201,7 @@ export const useHandleTransactionTableData = (
 	return {
 		data: {
 			transactions: transactions ?? [],
-			categories: categories ?? [],
+			categories,
 			isFetching:
 				transactionIsFetching ||
 				categoryIsFetching ||

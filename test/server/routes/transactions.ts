@@ -4,6 +4,7 @@ import { Response } from 'miragejs';
 import {
 	CategorizeTransactionsRequest,
 	DATE_FORMAT,
+	DeleteTransactionsRequest,
 	NeedsAttentionResponse,
 	TransactionResponse,
 	UpdateTransactionsRequest
@@ -269,6 +270,18 @@ export const createTransactionsRoutes = (
 			);
 		});
 
+		return new Response(204);
+	});
+
+	server.delete('/transactions', (schema, request) => {
+		const body = JSON.parse(
+			request.requestBody
+		) as DeleteTransactionsRequest;
+		database.updateData((draft) => {
+			body.ids.forEach((id) => {
+				delete draft.transactions[id];
+			});
+		});
 		return new Response(204);
 	});
 };

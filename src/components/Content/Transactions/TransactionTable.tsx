@@ -20,19 +20,20 @@ import { ReactNode } from 'react';
 import { Updater } from 'use-immer';
 import { UpdateTransactionsMutation } from '../../../ajaxapi/query/TransactionQueries';
 import { pipe } from 'fp-ts/es6/function';
-import FileCopyIcon from '@mui/icons-material/FileCopy';
-import ThumbDownIcon from '@mui/icons-material/ThumbDown';
-import CategoryIcon from '@mui/icons-material/Category';
-import { Popover } from '../../UI/Popover';
-import { ResponsiveFlagsContainer } from './responsive/ResponsiveFlagsContainer';
-import { useIsAtLeastBreakpoint } from '../../../utils/useIsAtLeastBreakpoint';
+import { useIsAtLeastBreakpoint } from '../../../utils/breakpointHooks';
+import { DuplicateIcon } from './icons/DuplicateIcon';
+import { NotConfirmedIcon } from './icons/NotConfirmedIcon';
+import { NotCategorizedIcon } from './icons/NotCategorizedIcon';
+import { TransactionResponse } from '../../../types/transactions';
+import { formatCurrency } from '../../../utils/formatCurrency';
 
 const COLUMNS: ReadonlyArray<string | ReactNode> = [
 	'Expense Date',
 	'Description',
 	'Amount',
 	'Category',
-	'Flags'
+	'Flags',
+	'Details'
 ];
 
 const createEditModeColumns = (
@@ -53,6 +54,7 @@ interface Props {
 	readonly pagination: PaginationState;
 	readonly onPaginationChange: Updater<PaginationState>;
 	readonly filterValues: TransactionSearchForm;
+	readonly openDetailsDialog: (transaction: TransactionResponse) => void;
 }
 
 const createBelowTableActions = (
@@ -94,15 +96,12 @@ const createOnSubmit =
 			updateTransactions
 		);
 
-const conditionalVisible = (condition: boolean): string | undefined =>
-	condition ? 'visible' : undefined;
-
 export const TransactionTable = (props: Props) => {
 	const {
 		data: { transactions, categories, isFetching },
 		pagination: { currentPage, totalRecords },
 		form: {
-			formReturn: { control, formState, handleSubmit, getValues },
+			formReturn: { control, formState, handleSubmit, watch },
 			fields
 		},
 		actions: { resetFormToData, updateTransactions }
@@ -128,6 +127,7 @@ export const TransactionTable = (props: Props) => {
 	const editClass = editMode ? 'edit' : '';
 
 	const editModeColumns = createEditModeColumns(control);
+	const watchedTransactions = watch('transactions');
 
 	return (
 		<div className={`TransactionsTable ${editClass}`}>
@@ -172,7 +172,7 @@ export const TransactionTable = (props: Props) => {
 									{txn.description}
 								</TableCell>
 								<TableCell>
-									{`$${txn.amount.toFixed(2)}`}
+									{formatCurrency(txn.amount)}
 								</TableCell>
 								<TableCell
 									className={`CategoryCell ${editClass}`}
@@ -189,39 +189,32 @@ export const TransactionTable = (props: Props) => {
 									{!editMode && txn.categoryName}
 								</TableCell>
 								<TableCell className="FlagsCell">
-									<ResponsiveFlagsContainer>
-										<Popover
-											className={conditionalVisible(
-												txn.duplicate
-											)}
-											message="Transaction is a duplicate"
-											data-testid="duplicate-icon"
-										>
-											<FileCopyIcon color="warning" />
-										</Popover>
-										<Popover
-											className={conditionalVisible(
-												!getValues(
-													`transactions.${index}.confirmed`
-												)
-											)}
-											message="Transaction has not been confirmed"
-											data-testid="not-confirmed-icon"
-										>
-											<ThumbDownIcon color="warning" />
-										</Popover>
-										<Popover
-											className={conditionalVisible(
-												!getValues(
-													`transactions.${index}.category`
-												)
-											)}
-											message="Transaction has not been categorized"
-											data-testid="no-category-icon"
-										>
-											<CategoryIcon color="warning" />
-										</Popover>
-									</ResponsiveFlagsContainer>
+									<DuplicateIcon
+										isDuplicate={txn.duplicate}
+									/>
+									<NotConfirmedIcon
+										isNotConfirmed={
+											!watchedTransactions[index]
+												.confirmed
+										}
+									/>
+									<NotCategorizedIcon
+										isNotCategorized={
+											!watchedTransactions[index].category
+										}
+									/>
+								</TableCell>
+								<TableCell>
+									<Button
+										variant="contained"
+										color="info"
+										disabled={formState.isDirty}
+										onClick={() =>
+											props.openDetailsDialog(txn)
+										}
+									>
+										Details
+									</Button>
 								</TableCell>
 							</TableRow>
 						);

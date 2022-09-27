@@ -215,16 +215,15 @@ describe('Transactions Table', () => {
 		).toBeChecked();
 		await validateRowIcons(notConfirmedRow, false, false, false);
 
-		// For some reason couldn't get this piece of test logic to work, but the functionality does
-		// const noCategorySelect =
-		// 	within(noCategoryRow).getByLabelText('Category');
-		// expect(noCategorySelect).toHaveValue('');
-		// await userEvent.click(noCategorySelect);
-		// await userEvent.click(
-		// 	within(screen.getByRole('presentation')).getByText('Entertainment')
-		// );
-		// expect(noCategorySelect).toHaveValue('Entertainment');
-		// await validateRowIcons(noCategoryRow, false, false, false);
+		const noCategorySelect =
+			within(noCategoryRow).getByLabelText('Category');
+		expect(noCategorySelect).toHaveValue('');
+		await userEvent.click(noCategorySelect);
+		await userEvent.click(
+			within(screen.getByRole('presentation')).getByText('Entertainment')
+		);
+		expect(noCategorySelect).toHaveValue('Entertainment');
+		await validateRowIcons(noCategoryRow, false, false, false);
 	});
 
 	it('can change the rows-per-page and automatically re-load the data', async () => {
@@ -337,18 +336,24 @@ describe('Transactions Table', () => {
 		expect(getRecordRangeText()).toEqual(
 			`26-${totalDaysInRange} of ${totalDaysInRange}`
 		);
-		validateTransactionsInTable(6, (index, description) => {
-			const expenseDate = pipe(
-				parseExpenseDate(description.expenseDate),
-				setToMidnight
-			);
-			const startDate = setToMidnight(defaultStartDate());
-			const endDate = setToMidnight(defaultEndDate());
-			expect(Time.compare(expenseDate)(startDate)).toBeGreaterThanOrEqual(
-				0
-			);
-			expect(Time.compare(expenseDate)(endDate)).toBeLessThanOrEqual(0);
-		});
+		const expectedSecondPageCount = totalDaysInRange - 25;
+		validateTransactionsInTable(
+			expectedSecondPageCount,
+			(index, description) => {
+				const expenseDate = pipe(
+					parseExpenseDate(description.expenseDate),
+					setToMidnight
+				);
+				const startDate = setToMidnight(defaultStartDate());
+				const endDate = setToMidnight(defaultEndDate());
+				expect(
+					Time.compare(expenseDate)(startDate)
+				).toBeGreaterThanOrEqual(0);
+				expect(Time.compare(expenseDate)(endDate)).toBeLessThanOrEqual(
+					0
+				);
+			}
+		);
 	});
 
 	it('can set categories and confirm transactions', async () => {

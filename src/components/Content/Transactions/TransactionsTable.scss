@@ -43,4 +43,9 @@
     max-width: 20rem;
     word-wrap: break-word;
   }
+
+  .FlagsCell {
+    display: flex;
+    flex-direction: column;
+  }
 }

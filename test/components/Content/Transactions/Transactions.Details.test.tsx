@@ -18,6 +18,7 @@ import { transactionIcon } from '../../../testutils/dom-actions/transaction-icon
 import { waitForVisibility } from '../../../testutils/dom-actions/wait-for-visibility';
 import '@relmify/jest-fp-ts';
 import { materialUiCheckbox } from '../../../testutils/dom-actions/material-ui-checkbox';
+import { textExists } from '../../../testutils/dom-actions/text-exists';
 
 const testButton =
 	(isDisabled: boolean) => (detailsButton: HTMLElement, index: number) => {
@@ -120,14 +121,17 @@ describe('Transaction Details Dialog', () => {
 		const transactionDialog = screen.getByTestId(
 			'transaction-details-dialog'
 		);
-		within(transactionDialog).getByText('Transaction Details');
-		within(transactionDialog).getByText('Expense Date');
-		within(transactionDialog).getByText('Amount');
-		within(transactionDialog).getByText(
-			formatDisplayDate(transaction.expenseDate)
+		textExists(
+			[
+				{ text: 'Transaction Details' },
+				{ text: 'Expense Date' },
+				{ text: 'Amount' },
+				{ text: formatDisplayDate(transaction.expenseDate) },
+				{ text: transaction.description },
+				{ text: formatCurrency(transaction.amount) }
+			],
+			transactionDialog
 		);
-		within(transactionDialog).getByText(transaction.description);
-		within(transactionDialog).getByText(formatCurrency(transaction.amount));
 
 		transactionIcon('duplicate-icon', transactionDialog).isNotVisible();
 		transactionIcon('not-confirmed-icon', transactionDialog).isNotVisible();

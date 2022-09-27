@@ -6,6 +6,7 @@ type SelectorParent = {
 	readonly getByTestId: (testId: string) => HTMLElement;
 	readonly getByLabelText: (labelText: string) => HTMLElement;
 	readonly getByText: (text: string) => HTMLElement;
+	readonly getAllByText: (text: string) => ReadonlyArray<HTMLElement>;
 };
 
 export const getSelectorParent = (customRoot?: HTMLElement): SelectorParent =>

@@ -15,7 +15,8 @@ const formatDisplayDate = Time.format('MM/dd/yyyy');
 const doItemsNeedAttention = (data?: NeedsAttentionResponse): boolean =>
 	(data?.unconfirmed?.count ?? 0) > 0 ||
 	(data?.uncategorized?.count ?? 0) > 0 ||
-	(data?.duplicate?.count ?? 0) > 0;
+	(data?.duplicate?.count ?? 0) > 0 ||
+	(data?.possibleRefund?.count ?? 0) > 0;
 
 interface AttentionItemProps {
 	readonly countAndOldest: CountAndOldest;
@@ -72,6 +73,10 @@ export const NeedsAttentionNotice = () => {
 				<AttentionItem
 					countAndOldest={data.uncategorized}
 					label="Uncategorized"
+				/>
+				<AttentionItem
+					countAndOldest={data.possibleRefund}
+					label="Possible Refunds"
 				/>
 			</ul>
 		</Paper>

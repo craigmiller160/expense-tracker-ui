@@ -24,6 +24,7 @@ interface Flags {
 	readonly notConfirmed: boolean;
 	readonly duplicate: boolean;
 	readonly notCategorized: boolean;
+	readonly possibleRefund: boolean;
 }
 type PrepareData = (flags?: Partial<Flags>) => void;
 
@@ -50,7 +51,10 @@ const createPrepareData =
 				RNonEmptyArray.range(0, 2),
 				RArray.map((index) =>
 					createTransaction({
-						amount: 10 + index,
+						amount:
+							flags?.possibleRefund ?? false
+								? 10 + index
+								: (10 + index) * -1,
 						confirmed: !(flags?.notConfirmed ?? false),
 						duplicate: flags?.duplicate ?? false,
 						categoryId:
@@ -110,6 +114,44 @@ describe('Transactions Needs Attention', () => {
 		).toHaveTextContent(
 			`Duplicates - Count: 3, Oldest: ${oldestDateDisplayFormat}`
 		);
+		expect(
+			within(needsAttentionNotice).queryByText(/.*Possible Refund.*/)
+		).not.toBeInTheDocument();
+	});
+
+	it('has possible refunds', async () => {
+		prepareData({ possibleRefund: true });
+		await renderApp({
+			initialPath: '/expense-tracker/transactions'
+		});
+		await waitFor(() =>
+			expect(screen.queryByText('Expense Tracker')).toBeVisible()
+		);
+		await waitFor(() =>
+			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
+		);
+		await waitFor(() =>
+			expect(
+				screen.queryByText('Transactions Need Attention')
+			).toBeVisible()
+		);
+		const needsAttentionNotice = screen.getByTestId(
+			'needs-attention-notice'
+		);
+		expect(
+			within(needsAttentionNotice).queryByText(/.*Uncategorized.*/)
+		).not.toBeInTheDocument();
+		expect(
+			within(needsAttentionNotice).queryByText(/.*Duplicates.*/)
+		).not.toBeInTheDocument();
+		expect(
+			within(needsAttentionNotice).getByText(/.*Possible Refund.*/)
+		).toHaveTextContent(
+			`Possible Refunds - Count: 3, Oldest: ${oldestDateDisplayFormat}`
+		);
+		expect(
+			within(needsAttentionNotice).queryByText(/.*Unconfirmed.*/)
+		).not.toBeInTheDocument();
 	});
 
 	it('has unconfirmed', async () => {
@@ -142,6 +184,9 @@ describe('Transactions Needs Attention', () => {
 		).toHaveTextContent(
 			`Unconfirmed - Count: 3, Oldest: ${oldestDateDisplayFormat}`
 		);
+		expect(
+			within(needsAttentionNotice).queryByText(/.*Possible Refund.*/)
+		).not.toBeInTheDocument();
 	});
 
 	it('has uncategorized', async () => {
@@ -174,13 +219,17 @@ describe('Transactions Needs Attention', () => {
 		).toHaveTextContent(
 			`Uncategorized - Count: 3, Oldest: ${oldestDateDisplayFormat}`
 		);
+		expect(
+			within(needsAttentionNotice).queryByText(/.*Possible Refund.*/)
+		).not.toBeInTheDocument();
 	});
 
 	it('has all', async () => {
 		prepareData({
 			duplicate: true,
 			notCategorized: true,
-			notConfirmed: true
+			notConfirmed: true,
+			possibleRefund: true
 		});
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
@@ -213,6 +262,11 @@ describe('Transactions Needs Attention', () => {
 			within(needsAttentionNotice).getByText(/.*Duplicates.*/)
 		).toHaveTextContent(
 			`Duplicates - Count: 3, Oldest: ${oldestDateDisplayFormat}`
+		);
+		expect(
+			within(needsAttentionNotice).getByText(/.*Possible Refund.*/)
+		).toHaveTextContent(
+			`Possible Refunds - Count: 3, Oldest: ${oldestDateDisplayFormat}`
 		);
 	});
 

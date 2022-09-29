@@ -76,7 +76,7 @@ export const NeedsAttentionNotice = () => {
 				/>
 				<AttentionItem
 					countAndOldest={data.possibleRefund}
-					label="Possible Refund"
+					label="Possible Refunds"
 				/>
 			</ul>
 		</Paper>

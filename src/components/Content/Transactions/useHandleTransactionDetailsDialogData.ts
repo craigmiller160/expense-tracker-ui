@@ -5,7 +5,6 @@ import * as Option from 'fp-ts/es6/Option';
 import { CategoryOption, transactionToCategoryOption } from './utils';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { useEffect, useMemo } from 'react';
-import { formatCurrency } from '../../../utils/formatCurrency';
 
 export type TransactionDetailsFormData = {
 	readonly confirmed: boolean;
@@ -19,7 +18,7 @@ export type TransactionValues = {
 	readonly category: CategoryOption | null;
 	readonly expenseDate: string | null;
 	readonly description: string | null;
-	readonly amount: string;
+	readonly amount: number;
 };
 
 export type TransactionDetailsDialogData = {
@@ -48,7 +47,7 @@ const useValuesFromSelectedTransaction = (
 						category: transactionToCategoryOption(transaction),
 						expenseDate: transaction.expenseDate,
 						description: transaction.description,
-						amount: formatCurrency(transaction.amount)
+						amount: transaction.amount
 					})
 				),
 				Option.getOrElse(
@@ -59,7 +58,7 @@ const useValuesFromSelectedTransaction = (
 						category: null,
 						expenseDate: null,
 						description: null,
-						amount: ''
+						amount: 0
 					})
 				)
 			),

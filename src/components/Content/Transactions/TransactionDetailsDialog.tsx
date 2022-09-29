@@ -23,6 +23,7 @@ import {
 } from './useHandleTransactionDetailsDialogData';
 import { useIsAtMaxBreakpoint } from '../../../utils/breakpointHooks';
 import { PossibleRefundIcon } from './icons/PossibleRefundIcon';
+import { formatCurrency } from '../../../utils/formatCurrency';
 
 interface Props {
 	readonly selectedTransaction: OptionT<TransactionResponse>;
@@ -147,7 +148,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 							<strong>Amount</strong>
 						</Typography>
 						<Typography variant="h6">
-							{transactionValues.amount}
+							{formatCurrency(transactionValues.amount)}
 						</Typography>
 					</div>
 				</div>

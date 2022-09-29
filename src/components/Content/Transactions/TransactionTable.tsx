@@ -188,25 +188,27 @@ export const TransactionTable = (props: Props) => {
 									)}
 									{!editMode && txn.categoryName}
 								</TableCell>
-								<TableCell className="FlagsCell">
-									<div className="FlagRow">
-										<NotConfirmedIcon
-											isNotConfirmed={
-												!watchedTransactions[index]
-													.confirmed
-											}
-										/>
-										<DuplicateIcon
-											isDuplicate={txn.duplicate}
-										/>
-									</div>
-									<div className="FlagRow">
-										<NotCategorizedIcon
-											isNotCategorized={
-												!watchedTransactions[index]
-													.category
-											}
-										/>
+								<TableCell>
+									<div className="FlagsWrapper">
+										<div className="FlagRow">
+											<NotConfirmedIcon
+												isNotConfirmed={
+													!watchedTransactions[index]
+														.confirmed
+												}
+											/>
+											<DuplicateIcon
+												isDuplicate={txn.duplicate}
+											/>
+										</div>
+										<div className="FlagRow">
+											<NotCategorizedIcon
+												isNotCategorized={
+													!watchedTransactions[index]
+														.category
+												}
+											/>
+										</div>
 									</div>
 								</TableCell>
 								<TableCell>

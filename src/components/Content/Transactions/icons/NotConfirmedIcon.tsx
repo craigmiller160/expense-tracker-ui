@@ -14,6 +14,6 @@ export const NotConfirmedIcon = (props: Props) => (
 		isVisible={!props.transaction.confirmed}
 		icon={<ThumbDownIcon color="warning" />}
 		testId="not-confirmed-icon"
-		message="Transaction has not been confirmed"
+		message="Transaction has not been confirmed. Please check that all transaction settings are correct and then confirm."
 	/>
 );

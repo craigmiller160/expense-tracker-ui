@@ -14,6 +14,6 @@ export const PossibleRefundIcon = (props: Props) => (
 		isVisible={props.transaction.amount > 0}
 		icon={<MonetizationOnIcon color="warning" />}
 		testId="possible-refund-icon"
-		message="Transaction is a possible refund"
+		message="Transaction is a possible refund. Please adjust other relevant transactions, if necessary, and then delete it."
 	/>
 );

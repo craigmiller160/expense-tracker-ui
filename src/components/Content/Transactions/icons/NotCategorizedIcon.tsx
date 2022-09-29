@@ -15,6 +15,6 @@ export const NotCategorizedIcon = (props: Props) => (
 		isVisible={props.transaction.category === null}
 		icon={<CategoryIcon color="warning" />}
 		testId="no-category-icon"
-		message="Transaction has not been categorized"
+		message="Transaction has not been categorized. Please assign a category to this transaction."
 	/>
 );

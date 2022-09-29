@@ -14,6 +14,6 @@ export const DuplicateIcon = (props: Props) => (
 		isVisible={props.transaction.duplicate}
 		icon={<FileCopyIcon color="warning" />}
 		testId="duplicate-icon"
-		message="Transaction is a duplicate"
+		message="Transaction is a duplicate. Please either mark as not a duplicate or remove one of the duplicated transactions."
 	/>
 );

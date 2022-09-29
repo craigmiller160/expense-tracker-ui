@@ -23,6 +23,8 @@ import {
 	getTotalDaysInRange,
 	validateTransactionsInTable
 } from './transactionTestUtils';
+import { waitForVisibility } from '../../../testutils/dom-actions/wait-for-visibility';
+import { transactionIcon } from '../../../testutils/dom-actions/transaction-icon';
 
 const DATE_PICKER_FORMAT = 'MM/dd/yyyy';
 
@@ -357,7 +359,33 @@ describe('Transactions Table', () => {
 	});
 
 	it('shows the icon for possible refund transactions', async () => {
-		throw new Error();
+		const {
+			transactions: [transaction]
+		} = await searchForTransactions({
+			startDate: defaultStartDate(),
+			endDate: defaultEndDate(),
+			pageNumber: 0,
+			pageSize: 25,
+			sortKey: TransactionSortKey.EXPENSE_DATE,
+			sortDirection: SortDirection.DESC
+		});
+		apiServer.database.updateData((draft) => {
+			draft.transactions[transaction.id].amount = transaction.amount * -1;
+		});
+
+		await renderApp({
+			initialPath: '/expense-tracker/transactions'
+		});
+		await waitForVisibility([
+			{ text: 'Expense Tracker' },
+			{ text: 'Manage Transactions', occurs: 2 },
+			{ text: 'Rows per page:' }
+		]);
+
+		const allRows = screen.getAllByTestId('transaction-table-row');
+
+		transactionIcon('possible-refund-icon', allRows[0]).isVisible();
+		transactionIcon('possible-refund-icon', allRows[1]).isNotVisible();
 	});
 
 	it('can set categories and confirm transactions', async () => {

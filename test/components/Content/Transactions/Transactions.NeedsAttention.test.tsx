@@ -114,6 +114,9 @@ describe('Transactions Needs Attention', () => {
 		).toHaveTextContent(
 			`Duplicates - Count: 3, Oldest: ${oldestDateDisplayFormat}`
 		);
+		expect(
+			within(needsAttentionNotice).queryByText(/.*Possible Refund.*/)
+		).not.toBeInTheDocument();
 	});
 
 	it('has possible refunds', async () => {
@@ -150,6 +153,9 @@ describe('Transactions Needs Attention', () => {
 		).toHaveTextContent(
 			`Unconfirmed - Count: 3, Oldest: ${oldestDateDisplayFormat}`
 		);
+		expect(
+			within(needsAttentionNotice).queryByText(/.*Possible Refund.*/)
+		).not.toBeInTheDocument();
 	});
 
 	it('has uncategorized', async () => {
@@ -182,6 +188,9 @@ describe('Transactions Needs Attention', () => {
 		).toHaveTextContent(
 			`Uncategorized - Count: 3, Oldest: ${oldestDateDisplayFormat}`
 		);
+		expect(
+			within(needsAttentionNotice).queryByText(/.*Possible Refund.*/)
+		).not.toBeInTheDocument();
 	});
 
 	it('has all', async () => {

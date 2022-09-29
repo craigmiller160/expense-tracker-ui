@@ -147,7 +147,7 @@ describe('Transactions Needs Attention', () => {
 		expect(
 			within(needsAttentionNotice).getByText(/.*Possible Refund.*/)
 		).toHaveTextContent(
-			`Unconfirmed - Count: 1, Oldest: ${oldestDateDisplayFormat}`
+			`Possible Refunds - Count: 3, Oldest: ${oldestDateDisplayFormat}`
 		);
 		expect(
 			within(needsAttentionNotice).queryByText(/.*Unconfirmed.*/)
@@ -228,7 +228,8 @@ describe('Transactions Needs Attention', () => {
 		prepareData({
 			duplicate: true,
 			notCategorized: true,
-			notConfirmed: true
+			notConfirmed: true,
+			possibleRefund: true
 		});
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
@@ -261,6 +262,11 @@ describe('Transactions Needs Attention', () => {
 			within(needsAttentionNotice).getByText(/.*Duplicates.*/)
 		).toHaveTextContent(
 			`Duplicates - Count: 3, Oldest: ${oldestDateDisplayFormat}`
+		);
+		expect(
+			within(needsAttentionNotice).getByText(/.*Possible Refund.*/)
+		).toHaveTextContent(
+			`Possible Refunds - Count: 3, Oldest: ${oldestDateDisplayFormat}`
 		);
 	});
 

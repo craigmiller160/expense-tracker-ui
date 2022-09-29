@@ -192,9 +192,8 @@ export const TransactionTable = (props: Props) => {
 									<div className="FlagsWrapper">
 										<div className="FlagRow">
 											<NotConfirmedIcon
-												isNotConfirmed={
-													!watchedTransactions[index]
-														.confirmed
+												transaction={
+													watchedTransactions[index]
 												}
 											/>
 											<DuplicateIcon transaction={txn} />

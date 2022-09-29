@@ -119,9 +119,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 			<div className="TransactionDetailsDialog">
 				<div className="Flags">
 					<DuplicateIcon transaction={transactionValues} />
-					<NotConfirmedIcon
-						isNotConfirmed={!watchedTransaction.isConfirmed}
-					/>
+					<NotConfirmedIcon transaction={watchedTransaction} />
 					<NotCategorizedIcon transaction={watchedTransaction} />
 				</div>
 				<hr />

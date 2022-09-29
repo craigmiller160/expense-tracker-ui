@@ -1,13 +1,17 @@
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import { TransactionIcon } from './TransactionIcon';
 
+type PartialTransactionForm = {
+	readonly confirmed: boolean;
+};
+
 interface Props {
-	readonly isNotConfirmed: boolean;
+	readonly transaction: PartialTransactionForm;
 }
 
 export const NotConfirmedIcon = (props: Props) => (
 	<TransactionIcon
-		isVisible={props.isNotConfirmed}
+		isVisible={!props.transaction.confirmed}
 		icon={<ThumbDownIcon color="warning" />}
 		testId="not-confirmed-icon"
 		message="Transaction has not been confirmed"

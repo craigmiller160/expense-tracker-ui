@@ -115,6 +115,10 @@ const transactionToNeedsAttention = (
 	duplicate: {
 		count: transaction.duplicate ? 1 : 0,
 		oldest: transaction.duplicate ? transaction.expenseDate : null
+	},
+	possibleRefund: {
+		count: transaction.amount > 0 ? 1 : 0,
+		oldest: transaction.amount > 0 ? transaction.expenseDate : null
 	}
 });
 
@@ -152,6 +156,10 @@ const needsAttentionMonoid: MonoidT<NeedsAttentionResponse> = {
 		duplicate: {
 			count: 0,
 			oldest: null
+		},
+		possibleRefund: {
+			count: 0,
+			oldest: null
 		}
 	},
 	concat: (res1, res2) => ({
@@ -172,6 +180,13 @@ const needsAttentionMonoid: MonoidT<NeedsAttentionResponse> = {
 		duplicate: {
 			count: res1.duplicate.count + res2.duplicate.count,
 			oldest: getOldestDate(res1.duplicate.oldest, res2.duplicate.oldest)
+		},
+		possibleRefund: {
+			count: res1.possibleRefund.count + res2.possibleRefund.count,
+			oldest: getOldestDate(
+				res1.possibleRefund.oldest,
+				res2.possibleRefund.oldest
+			)
 		}
 	})
 };

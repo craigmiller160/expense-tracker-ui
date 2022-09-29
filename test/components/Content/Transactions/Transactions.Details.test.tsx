@@ -252,6 +252,10 @@ describe('Transaction Details Dialog', () => {
 		);
 	});
 
+	it('shows the icon for possible refund transactions', async () => {
+		throw new Error();
+	});
+
 	it('can delete transaction', async () => {
 		const {
 			transactions: [transaction]

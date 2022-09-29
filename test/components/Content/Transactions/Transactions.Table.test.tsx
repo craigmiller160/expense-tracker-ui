@@ -356,6 +356,10 @@ describe('Transactions Table', () => {
 		);
 	});
 
+	it('shows the icon for possible refund transactions', async () => {
+		throw new Error();
+	});
+
 	it('can set categories and confirm transactions', async () => {
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'

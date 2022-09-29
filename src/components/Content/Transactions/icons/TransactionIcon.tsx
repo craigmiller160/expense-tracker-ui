@@ -5,7 +5,8 @@ import { ReactNode } from 'react';
 export type TransactionIconTestId =
 	| 'no-category-icon'
 	| 'not-confirmed-icon'
-	| 'duplicate-icon';
+	| 'duplicate-icon'
+	| 'possible-refund-icon';
 
 interface Props {
 	readonly isVisible: boolean;

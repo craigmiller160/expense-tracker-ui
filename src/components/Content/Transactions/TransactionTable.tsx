@@ -197,9 +197,7 @@ export const TransactionTable = (props: Props) => {
 														.confirmed
 												}
 											/>
-											<DuplicateIcon
-												isDuplicate={txn.duplicate}
-											/>
+											<DuplicateIcon transaction={txn} />
 										</div>
 										<div className="FlagRow">
 											<NotCategorizedIcon

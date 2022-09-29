@@ -285,7 +285,9 @@ describe('Transaction Details Dialog', () => {
 		);
 		transactionIcon('possible-refund-icon', transactionDialog1).isVisible();
 
-		// TODO how to close???
+		await userEvent.click(
+			within(transactionDialog1).getByTestId('CloseIcon')
+		);
 
 		const detailsButton2 = within(allRows[1]).getByText('Details');
 		await userEvent.click(detailsButton2);

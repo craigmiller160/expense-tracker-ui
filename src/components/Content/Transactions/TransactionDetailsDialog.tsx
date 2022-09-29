@@ -102,10 +102,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 			confirmed: values.isConfirmed
 		});
 
-	const [watchedIsConfirmed, watchedCategory] = watch([
-		'isConfirmed',
-		'category'
-	]);
+	const watchedTransaction = watch();
 
 	const isAtMaxSm = useIsAtMaxBreakpoint('md');
 	const controlsClassName = `Controls ${isAtMaxSm ? 'small' : ''}`;
@@ -121,12 +118,12 @@ export const TransactionDetailsDialog = (props: Props) => {
 		>
 			<div className="TransactionDetailsDialog">
 				<div className="Flags">
-					<DuplicateIcon
-						isDuplicate={transactionValues.isDuplicate}
+					<DuplicateIcon transaction={transactionValues} />
+					<NotConfirmedIcon
+						isNotConfirmed={!watchedTransaction.isConfirmed}
 					/>
-					<NotConfirmedIcon isNotConfirmed={!watchedIsConfirmed} />
 					<NotCategorizedIcon
-						isNotCategorized={watchedCategory === null}
+						isNotCategorized={watchedTransaction.category === null}
 					/>
 				</div>
 				<hr />
@@ -162,7 +159,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 						testId="confirm-transaction-checkbox"
 						control={control}
 						className={
-							transactionValues.isConfirmed ? 'invisible' : ''
+							transactionValues.confirmed ? 'invisible' : ''
 						}
 						name="isConfirmed"
 						label="Confirmed"

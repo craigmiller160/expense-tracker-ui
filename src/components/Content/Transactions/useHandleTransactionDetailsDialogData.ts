@@ -14,8 +14,8 @@ export type TransactionDetailsFormData = {
 
 export type TransactionValues = {
 	readonly id: string | null;
-	readonly isConfirmed: boolean;
-	readonly isDuplicate: boolean;
+	readonly confirmed: boolean;
+	readonly duplicate: boolean;
 	readonly category: CategoryOption | null;
 	readonly expenseDate: string | null;
 	readonly description: string | null;
@@ -43,10 +43,9 @@ const useValuesFromSelectedTransaction = (
 				Option.map(
 					(transaction): TransactionValues => ({
 						id: transaction.id,
-						isConfirmed: transaction.confirmed,
-						isDuplicate: transaction.duplicate,
+						confirmed: transaction.confirmed,
+						duplicate: transaction.duplicate,
 						category: transactionToCategoryOption(transaction),
-						// TODO do I format the date in the table?
 						expenseDate: transaction.expenseDate,
 						description: transaction.description,
 						amount: formatCurrency(transaction.amount)
@@ -55,8 +54,8 @@ const useValuesFromSelectedTransaction = (
 				Option.getOrElse(
 					(): TransactionValues => ({
 						id: null,
-						isConfirmed: false,
-						isDuplicate: false,
+						confirmed: false,
+						duplicate: false,
 						category: null,
 						expenseDate: null,
 						description: null,
@@ -76,7 +75,7 @@ export const useHandleTransactionDetailsDialogData = (
 
 	const form = useForm<TransactionDetailsFormData>({
 		defaultValues: {
-			isConfirmed: transactionValues.isConfirmed,
+			isConfirmed: transactionValues.confirmed,
 			category: transactionValues.category
 		}
 	});
@@ -85,7 +84,7 @@ export const useHandleTransactionDetailsDialogData = (
 
 	useEffect(() => {
 		reset({
-			isConfirmed: transactionValues.isConfirmed,
+			isConfirmed: transactionValues.confirmed,
 			category: transactionValues.category
 		});
 	}, [transactionValues, reset]);

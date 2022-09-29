@@ -120,7 +120,38 @@ describe('Transactions Needs Attention', () => {
 	});
 
 	it('has possible refunds', async () => {
-		throw new Error();
+		prepareData({ possibleRefund: true });
+		await renderApp({
+			initialPath: '/expense-tracker/transactions'
+		});
+		await waitFor(() =>
+			expect(screen.queryByText('Expense Tracker')).toBeVisible()
+		);
+		await waitFor(() =>
+			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
+		);
+		await waitFor(() =>
+			expect(
+				screen.queryByText('Transactions Need Attention')
+			).toBeVisible()
+		);
+		const needsAttentionNotice = screen.getByTestId(
+			'needs-attention-notice'
+		);
+		expect(
+			within(needsAttentionNotice).queryByText(/.*Uncategorized.*/)
+		).not.toBeInTheDocument();
+		expect(
+			within(needsAttentionNotice).queryByText(/.*Duplicates.*/)
+		).not.toBeInTheDocument();
+		expect(
+			within(needsAttentionNotice).getByText(/.*Possible Refund.*/)
+		).toHaveTextContent(
+			`Unconfirmed - Count: 1, Oldest: ${oldestDateDisplayFormat}`
+		);
+		expect(
+			within(needsAttentionNotice).queryByText(/.*Unconfirmed.*/)
+		).not.toBeInTheDocument();
 	});
 
 	it('has unconfirmed', async () => {

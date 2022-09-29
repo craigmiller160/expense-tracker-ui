@@ -19,7 +19,7 @@ export type TransactionValues = {
 	readonly category: CategoryOption | null;
 	readonly expenseDate: string | null;
 	readonly description: string | null;
-	readonly amount: string | null;
+	readonly amount: string;
 };
 
 export type TransactionDetailsDialogData = {
@@ -59,7 +59,7 @@ const useValuesFromSelectedTransaction = (
 						category: null,
 						expenseDate: null,
 						description: null,
-						amount: null
+						amount: ''
 					})
 				)
 			),

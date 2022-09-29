@@ -2,7 +2,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import { TransactionIcon } from './TransactionIcon';
 
 type PartialTransaction = {
-	readonly amount: number;
+	readonly amount: number | string;
 };
 
 type Props = {

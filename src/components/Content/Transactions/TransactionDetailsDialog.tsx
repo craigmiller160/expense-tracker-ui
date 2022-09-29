@@ -22,6 +22,7 @@ import {
 	useHandleTransactionDetailsDialogData
 } from './useHandleTransactionDetailsDialogData';
 import { useIsAtMaxBreakpoint } from '../../../utils/breakpointHooks';
+import { PossibleRefundIcon } from './icons/PossibleRefundIcon';
 
 interface Props {
 	readonly selectedTransaction: OptionT<TransactionResponse>;
@@ -121,6 +122,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 					<DuplicateIcon transaction={transactionValues} />
 					<NotConfirmedIcon transaction={watchedTransaction} />
 					<NotCategorizedIcon transaction={watchedTransaction} />
+					<PossibleRefundIcon transaction={transactionValues} />
 				</div>
 				<hr />
 				<div className="Info">

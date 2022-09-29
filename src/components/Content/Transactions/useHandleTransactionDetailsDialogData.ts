@@ -5,21 +5,20 @@ import * as Option from 'fp-ts/es6/Option';
 import { CategoryOption, transactionToCategoryOption } from './utils';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { useEffect, useMemo } from 'react';
-import { formatCurrency } from '../../../utils/formatCurrency';
 
 export type TransactionDetailsFormData = {
-	readonly isConfirmed: boolean;
+	readonly confirmed: boolean;
 	readonly category: CategoryOption | null;
 };
 
 export type TransactionValues = {
 	readonly id: string | null;
-	readonly isConfirmed: boolean;
-	readonly isDuplicate: boolean;
+	readonly confirmed: boolean;
+	readonly duplicate: boolean;
 	readonly category: CategoryOption | null;
 	readonly expenseDate: string | null;
 	readonly description: string | null;
-	readonly amount: string | null;
+	readonly amount: number;
 };
 
 export type TransactionDetailsDialogData = {
@@ -43,24 +42,23 @@ const useValuesFromSelectedTransaction = (
 				Option.map(
 					(transaction): TransactionValues => ({
 						id: transaction.id,
-						isConfirmed: transaction.confirmed,
-						isDuplicate: transaction.duplicate,
+						confirmed: transaction.confirmed,
+						duplicate: transaction.duplicate,
 						category: transactionToCategoryOption(transaction),
-						// TODO do I format the date in the table?
 						expenseDate: transaction.expenseDate,
 						description: transaction.description,
-						amount: formatCurrency(transaction.amount)
+						amount: transaction.amount
 					})
 				),
 				Option.getOrElse(
 					(): TransactionValues => ({
 						id: null,
-						isConfirmed: false,
-						isDuplicate: false,
+						confirmed: false,
+						duplicate: false,
 						category: null,
 						expenseDate: null,
 						description: null,
-						amount: null
+						amount: 0
 					})
 				)
 			),
@@ -76,7 +74,7 @@ export const useHandleTransactionDetailsDialogData = (
 
 	const form = useForm<TransactionDetailsFormData>({
 		defaultValues: {
-			isConfirmed: transactionValues.isConfirmed,
+			confirmed: transactionValues.confirmed,
 			category: transactionValues.category
 		}
 	});
@@ -85,7 +83,7 @@ export const useHandleTransactionDetailsDialogData = (
 
 	useEffect(() => {
 		reset({
-			isConfirmed: transactionValues.isConfirmed,
+			confirmed: transactionValues.confirmed,
 			category: transactionValues.category
 		});
 	}, [transactionValues, reset]);

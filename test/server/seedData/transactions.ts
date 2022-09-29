@@ -19,7 +19,7 @@ const newExpenseDate = (index: number): string =>
 const createTransactionFromIndex = (index: number): TransactionResponse =>
 	createTransaction({
 		expenseDate: newExpenseDate(index),
-		amount: 10 + index,
+		amount: (10 + index) * -1,
 		confirmed: false,
 		duplicate: false
 	});

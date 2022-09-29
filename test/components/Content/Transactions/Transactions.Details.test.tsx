@@ -252,6 +252,54 @@ describe('Transaction Details Dialog', () => {
 		);
 	});
 
+	it('shows the icon for possible refund transactions', async () => {
+		const {
+			transactions: [transaction]
+		} = await searchForTransactions({
+			startDate: defaultStartDate(),
+			endDate: defaultEndDate(),
+			pageNumber: 0,
+			pageSize: 25,
+			sortKey: TransactionSortKey.EXPENSE_DATE,
+			sortDirection: SortDirection.DESC
+		});
+		apiServer.database.updateData((draft) => {
+			draft.transactions[transaction.id].amount = transaction.amount * -1;
+		});
+
+		await renderApp({
+			initialPath: '/expense-tracker/transactions'
+		});
+		await waitForVisibility([
+			{ text: 'Expense Tracker' },
+			{ text: 'Manage Transactions', occurs: 2 },
+			{ text: 'Rows per page:' }
+		]);
+
+		const allRows = screen.getAllByTestId('transaction-table-row');
+
+		const detailsButton1 = within(allRows[0]).getByText('Details');
+		await userEvent.click(detailsButton1);
+		const transactionDialog1 = screen.getByTestId(
+			'transaction-details-dialog'
+		);
+		transactionIcon('possible-refund-icon', transactionDialog1).isVisible();
+
+		await userEvent.click(
+			within(transactionDialog1).getByTestId('CloseIcon')
+		);
+
+		const detailsButton2 = within(allRows[1]).getByText('Details');
+		await userEvent.click(detailsButton2);
+		const transactionDialog2 = screen.getByTestId(
+			'transaction-details-dialog'
+		);
+		transactionIcon(
+			'possible-refund-icon',
+			transactionDialog2
+		).isNotVisible();
+	});
+
 	it('can delete transaction', async () => {
 		const {
 			transactions: [transaction]

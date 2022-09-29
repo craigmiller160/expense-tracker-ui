@@ -22,6 +22,8 @@ import {
 	useHandleTransactionDetailsDialogData
 } from './useHandleTransactionDetailsDialogData';
 import { useIsAtMaxBreakpoint } from '../../../utils/breakpointHooks';
+import { PossibleRefundIcon } from './icons/PossibleRefundIcon';
+import { formatCurrency } from '../../../utils/formatCurrency';
 
 interface Props {
 	readonly selectedTransaction: OptionT<TransactionResponse>;
@@ -99,13 +101,10 @@ export const TransactionDetailsDialog = (props: Props) => {
 		props.saveTransaction({
 			transactionId: transactionValues.id ?? '',
 			categoryId: values.category?.value ?? null,
-			confirmed: values.isConfirmed
+			confirmed: values.confirmed
 		});
 
-	const [watchedIsConfirmed, watchedCategory] = watch([
-		'isConfirmed',
-		'category'
-	]);
+	const watchedTransaction = watch();
 
 	const isAtMaxSm = useIsAtMaxBreakpoint('md');
 	const controlsClassName = `Controls ${isAtMaxSm ? 'small' : ''}`;
@@ -121,13 +120,10 @@ export const TransactionDetailsDialog = (props: Props) => {
 		>
 			<div className="TransactionDetailsDialog">
 				<div className="Flags">
-					<DuplicateIcon
-						isDuplicate={transactionValues.isDuplicate}
-					/>
-					<NotConfirmedIcon isNotConfirmed={!watchedIsConfirmed} />
-					<NotCategorizedIcon
-						isNotCategorized={watchedCategory === null}
-					/>
+					<DuplicateIcon transaction={transactionValues} />
+					<NotConfirmedIcon transaction={watchedTransaction} />
+					<NotCategorizedIcon transaction={watchedTransaction} />
+					<PossibleRefundIcon transaction={transactionValues} />
 				</div>
 				<hr />
 				<div className="Info">
@@ -152,7 +148,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 							<strong>Amount</strong>
 						</Typography>
 						<Typography variant="h6">
-							{transactionValues.amount}
+							{formatCurrency(transactionValues.amount)}
 						</Typography>
 					</div>
 				</div>
@@ -162,9 +158,9 @@ export const TransactionDetailsDialog = (props: Props) => {
 						testId="confirm-transaction-checkbox"
 						control={control}
 						className={
-							transactionValues.isConfirmed ? 'invisible' : ''
+							transactionValues.confirmed ? 'invisible' : ''
 						}
-						name="isConfirmed"
+						name="confirmed"
 						label="Confirmed"
 						labelPlacement="end"
 					/>

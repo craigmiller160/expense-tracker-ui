@@ -26,6 +26,7 @@ import { NotConfirmedIcon } from './icons/NotConfirmedIcon';
 import { NotCategorizedIcon } from './icons/NotCategorizedIcon';
 import { TransactionResponse } from '../../../types/transactions';
 import { formatCurrency } from '../../../utils/formatCurrency';
+import { PossibleRefundIcon } from './icons/PossibleRefundIcon';
 
 const COLUMNS: ReadonlyArray<string | ReactNode> = [
 	'Expense Date',
@@ -188,21 +189,27 @@ export const TransactionTable = (props: Props) => {
 									)}
 									{!editMode && txn.categoryName}
 								</TableCell>
-								<TableCell className="FlagsCell">
-									<DuplicateIcon
-										isDuplicate={txn.duplicate}
-									/>
-									<NotConfirmedIcon
-										isNotConfirmed={
-											!watchedTransactions[index]
-												.confirmed
-										}
-									/>
-									<NotCategorizedIcon
-										isNotCategorized={
-											!watchedTransactions[index].category
-										}
-									/>
+								<TableCell>
+									<div className="FlagsWrapper">
+										<div className="FlagRow">
+											<NotConfirmedIcon
+												transaction={
+													watchedTransactions[index]
+												}
+											/>
+											<DuplicateIcon transaction={txn} />
+										</div>
+										<div className="FlagRow">
+											<NotCategorizedIcon
+												transaction={
+													watchedTransactions[index]
+												}
+											/>
+											<PossibleRefundIcon
+												transaction={txn}
+											/>
+										</div>
+									</div>
 								</TableCell>
 								<TableCell>
 									<Button

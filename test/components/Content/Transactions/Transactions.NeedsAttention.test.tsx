@@ -112,6 +112,10 @@ describe('Transactions Needs Attention', () => {
 		);
 	});
 
+	it('has possible refunds', async () => {
+		throw new Error();
+	});
+
 	it('has unconfirmed', async () => {
 		prepareData({ notConfirmed: true });
 		await renderApp({

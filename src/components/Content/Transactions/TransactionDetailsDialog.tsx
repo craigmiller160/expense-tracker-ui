@@ -122,9 +122,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 					<NotConfirmedIcon
 						isNotConfirmed={!watchedTransaction.isConfirmed}
 					/>
-					<NotCategorizedIcon
-						isNotCategorized={watchedTransaction.category === null}
-					/>
+					<NotCategorizedIcon transaction={watchedTransaction} />
 				</div>
 				<hr />
 				<div className="Info">

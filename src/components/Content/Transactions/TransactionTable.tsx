@@ -201,9 +201,8 @@ export const TransactionTable = (props: Props) => {
 										</div>
 										<div className="FlagRow">
 											<NotCategorizedIcon
-												isNotCategorized={
-													!watchedTransactions[index]
-														.category
+												transaction={
+													watchedTransactions[index]
 												}
 											/>
 										</div>

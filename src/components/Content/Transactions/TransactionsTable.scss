@@ -47,5 +47,10 @@
   .FlagsCell {
     display: flex;
     flex-direction: column;
+
+    .FlagRow {
+      display: flex;
+      flex-direction: row;
+    }
   }
 }

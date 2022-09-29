@@ -99,7 +99,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 		props.saveTransaction({
 			transactionId: transactionValues.id ?? '',
 			categoryId: values.category?.value ?? null,
-			confirmed: values.isConfirmed
+			confirmed: values.confirmed
 		});
 
 	const watchedTransaction = watch();
@@ -157,7 +157,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 						className={
 							transactionValues.confirmed ? 'invisible' : ''
 						}
-						name="isConfirmed"
+						name="confirmed"
 						label="Confirmed"
 						labelPlacement="end"
 					/>

@@ -8,7 +8,7 @@ import { useEffect, useMemo } from 'react';
 import { formatCurrency } from '../../../utils/formatCurrency';
 
 export type TransactionDetailsFormData = {
-	readonly isConfirmed: boolean;
+	readonly confirmed: boolean;
 	readonly category: CategoryOption | null;
 };
 
@@ -75,7 +75,7 @@ export const useHandleTransactionDetailsDialogData = (
 
 	const form = useForm<TransactionDetailsFormData>({
 		defaultValues: {
-			isConfirmed: transactionValues.confirmed,
+			confirmed: transactionValues.confirmed,
 			category: transactionValues.category
 		}
 	});
@@ -84,7 +84,7 @@ export const useHandleTransactionDetailsDialogData = (
 
 	useEffect(() => {
 		reset({
-			isConfirmed: transactionValues.confirmed,
+			confirmed: transactionValues.confirmed,
 			category: transactionValues.category
 		});
 	}, [transactionValues, reset]);

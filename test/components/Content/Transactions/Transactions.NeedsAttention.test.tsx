@@ -24,6 +24,7 @@ interface Flags {
 	readonly notConfirmed: boolean;
 	readonly duplicate: boolean;
 	readonly notCategorized: boolean;
+	readonly possibleRefund: boolean;
 }
 type PrepareData = (flags?: Partial<Flags>) => void;
 
@@ -50,7 +51,10 @@ const createPrepareData =
 				RNonEmptyArray.range(0, 2),
 				RArray.map((index) =>
 					createTransaction({
-						amount: 10 + index,
+						amount:
+							flags?.possibleRefund ?? false
+								? 10 + index
+								: (10 + index) * -1,
 						confirmed: !(flags?.notConfirmed ?? false),
 						duplicate: flags?.duplicate ?? false,
 						categoryId:

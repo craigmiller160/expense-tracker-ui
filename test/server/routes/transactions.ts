@@ -101,6 +101,14 @@ const createIsDuplicateFilter =
 			.with('true', () => transaction.duplicate === true)
 			.otherwise(() => transaction.duplicate === false);
 
+const createIsPossibleRefundFilter =
+	(isPossibleRefund?: string) =>
+	(transaction: TransactionResponse): boolean =>
+		match(isPossibleRefund)
+			.with(undefined, () => true)
+			.with('true', () => transaction.amount > 0)
+			.otherwise(() => transaction.amount <= 0);
+
 const transactionToNeedsAttention = (
 	transaction: TransactionResponse
 ): NeedsAttentionResponse => ({
@@ -218,6 +226,11 @@ export const createTransactionsRoutes = (
 			),
 			RArray.filter(
 				createIsDuplicateFilter(request.queryParams?.isDuplicate)
+			),
+			RArray.filter(
+				createIsPossibleRefundFilter(
+					request.queryParams?.isPossibleRefund
+				)
 			)
 		);
 		const paginatedTransactions = paginateTransactions(

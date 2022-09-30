@@ -4,7 +4,7 @@ import {
 	TransactionToUpdate
 } from '../../../types/transactions';
 import { SideDialog } from '../../UI/SideDialog';
-import { Button, CircularProgress, Typography } from '@mui/material';
+import { Button, CircularProgress } from '@mui/material';
 import './TransactionDetailsDialog.scss';
 import { Control } from 'react-hook-form';
 import { DuplicateIcon } from './icons/DuplicateIcon';
@@ -14,6 +14,7 @@ import * as Option from 'fp-ts/es6/Option';
 import {
 	Autocomplete,
 	Checkbox,
+	DatePicker,
 	TextField
 } from '@craigmiller160/react-hook-form-material-ui';
 import { useCategoriesToCategoryOptions } from './utils';
@@ -129,12 +130,12 @@ export const TransactionDetailsDialog = (props: Props) => {
 				<hr />
 				<div className="Info">
 					<div className="InfoRow">
-						<Typography variant="h6">
-							<strong>Expense Date</strong>
-						</Typography>
-						<Typography variant="h6">
-							{transactionValues.expenseDate}
-						</Typography>
+						<DatePicker
+							control={control}
+							name="expenseDate"
+							label="Expense Date"
+							rules={{ required: 'Expense Date is required' }}
+						/>
 					</div>
 					<div className="InfoRow">
 						<TextField
@@ -142,6 +143,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 							name="description"
 							label="Description"
 							multiline
+							rules={{ required: 'Description is required' }}
 						/>
 					</div>
 					<div className="InfoRow">
@@ -150,6 +152,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 							name="amount"
 							label="Amount ($)"
 							type="number"
+							rules={{ required: 'Amount is required' }}
 						/>
 					</div>
 				</div>

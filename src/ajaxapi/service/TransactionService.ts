@@ -7,6 +7,7 @@ import {
 	SearchTransactionsResponse,
 	TransactionAndCategory,
 	TransactionToUpdate,
+	UpdateTransactionDetailsRequest,
 	UpdateTransactionsRequest
 } from '../../types/transactions';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
@@ -84,14 +85,16 @@ export const updateTransactions = (
 
 export const deleteTransactions = (
 	idsToDelete: ReadonlyArray<string>
-): Promise<unknown> =>
-	expenseTrackerApi.delete<unknown, DeleteTransactionsRequest>({
-		uri: '/transactions',
-		errorCustomizer: 'Error deleting transactions',
-		body: {
-			ids: idsToDelete
-		}
-	});
+): Promise<void> =>
+	expenseTrackerApi
+		.delete<void, DeleteTransactionsRequest>({
+			uri: '/transactions',
+			errorCustomizer: 'Error deleting transactions',
+			body: {
+				ids: idsToDelete
+			}
+		})
+		.then(getData);
 
 export const getNeedsAttention = (): Promise<NeedsAttentionResponse> =>
 	expenseTrackerApi
@@ -99,5 +102,16 @@ export const getNeedsAttention = (): Promise<NeedsAttentionResponse> =>
 			uri: '/transactions/needs-attention',
 			errorCustomizer:
 				'Error getting stats on transactions that need attention'
+		})
+		.then(getData);
+
+export const updateTransactionDetails = (
+	request: UpdateTransactionDetailsRequest
+): Promise<void> =>
+	expenseTrackerApi
+		.put<void, UpdateTransactionDetailsRequest>({
+			uri: `/transactions/${request.transactionId}/details`,
+			errorCustomizer: 'Error updating transaction details',
+			body: request
 		})
 		.then(getData);

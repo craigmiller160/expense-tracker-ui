@@ -11,6 +11,7 @@ import * as Try from '@craigmiller160/ts-functions/es/Try';
 export type Item = {
 	readonly text: string;
 	readonly occurs?: number;
+	readonly timeout?: number;
 };
 
 const waitForTaskMonoid: MonoidT<TaskTryT<ReadonlyArray<HTMLElement>>> = {
@@ -35,11 +36,16 @@ const visibilityTestMonoid: MonoidT<TryT<void>> = {
 
 const waitForItem = (item: Item): TaskTryT<ReadonlyArray<HTMLElement>> =>
 	TaskTry.tryCatch(() =>
-		waitFor(() => {
-			const items = screen.queryAllByText(item.text);
-			expect(items).toHaveLength(item.occurs ?? 1);
-			return items;
-		})
+		waitFor(
+			() => {
+				const items = screen.queryAllByText(item.text);
+				expect(items).toHaveLength(item.occurs ?? 1);
+				return items;
+			},
+			{
+				timeout: item.timeout ?? 3000
+			}
+		)
 	);
 
 const checkVisibility = (element: HTMLElement): TryT<void> =>

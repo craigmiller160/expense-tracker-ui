@@ -15,6 +15,7 @@ import {
 } from '../../../testutils/transactionDataUtils';
 import '@testing-library/jest-dom';
 import * as Sleep from '@craigmiller160/ts-functions/es/Sleep';
+import { waitForVisibility } from '../../../testutils/dom-actions/wait-for-visibility';
 
 const oldestDate = pipe(new Date(), Time.subDays(100));
 const oldestDateResponseFormat = Time.format(DATE_FORMAT)(oldestDate);
@@ -159,17 +160,11 @@ describe('Transactions Needs Attention', () => {
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
-		await waitFor(() =>
-			expect(screen.queryByText('Expense Tracker')).toBeVisible()
-		);
-		await waitFor(() =>
-			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
-		);
-		await waitFor(() =>
-			expect(
-				screen.queryByText('Transactions Need Attention')
-			).toBeVisible()
-		);
+		await waitForVisibility([
+			{ text: 'Expense Tracker' },
+			{ text: 'Manage Transactions', occurs: 2 },
+			{ text: 'Transactions Need Attention' }
+		]);
 		const needsAttentionNotice = screen.getByTestId(
 			'needs-attention-notice'
 		);

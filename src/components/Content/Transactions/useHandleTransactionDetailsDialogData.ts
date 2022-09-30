@@ -10,6 +10,7 @@ import * as Time from '@craigmiller160/ts-functions/es/Time';
 const parseDate = Time.parse('yyyy-MM-dd');
 
 export type TransactionDetailsFormData = {
+	readonly id: string;
 	readonly confirmed: boolean;
 	readonly category: CategoryOption | null;
 	readonly amount: number;
@@ -24,6 +25,7 @@ const createSetInitialFormValues =
 			transaction,
 			Option.map((txn) => {
 				reset({
+					id: txn.id,
 					confirmed: txn.confirmed,
 					category: transactionToCategoryOption(txn),
 					description: txn.description,

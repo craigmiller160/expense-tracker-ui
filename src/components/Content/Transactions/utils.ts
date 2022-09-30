@@ -110,7 +110,8 @@ export const transactionToCategoryOption = (
 		.otherwise(() => null);
 
 export const formatAmountValue = (value: string): string => {
-	const parts = value.split('.');
+	const numericValue = value.replace(/[a-zA-z]/g, '');
+	const parts = numericValue.split('.');
 	const decimal = pipe(
 		Option.fromNullable(parts[1]),
 		Option.map((decimal) => decimal.padEnd(2, '0').substring(0, 2)),

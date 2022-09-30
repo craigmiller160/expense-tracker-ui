@@ -29,6 +29,8 @@ import {
 	transactionToRecord
 } from '../../../testutils/transactionDataUtils';
 import * as Monoid from 'fp-ts/es6/Monoid';
+import { waitForVisibility } from '../../../testutils/dom-actions/wait-for-visibility';
+import { materialUiCheckbox } from '../../../testutils/dom-actions/material-ui-checkbox';
 
 const DISPLAY_DATE_FORMAT = 'MM/dd/yyyy';
 
@@ -104,7 +106,44 @@ describe('Transactions Filters', () => {
 	});
 
 	it('is possible refund', async () => {
-		throw new Error();
+		const { transactions } = await searchForTransactions({
+			startDate: defaultStartDate(),
+			endDate: defaultEndDate(),
+			pageNumber: 0,
+			pageSize: 25,
+			sortKey: TransactionSortKey.EXPENSE_DATE,
+			sortDirection: SortDirection.ASC
+		});
+		apiServer.database.updateData((draft) => {
+			draft.transactions[transactions[0].id] = createTransaction({
+				...transactions[0],
+				amount: transactions[0].amount * -1
+			});
+		});
+
+		await renderApp({
+			initialPath: '/expense-tracker/transactions'
+		});
+
+		await waitForVisibility([
+			{ text: 'Expense Tracker' },
+			{ text: 'Manage Transactions', occurs: 2 },
+			{ text: 'Rows per page:' }
+		]);
+
+		materialUiCheckbox({
+			type: 'label',
+			selector: 'Is Possible Refund'
+		}).click();
+
+		await Sleep.immediate();
+		await waitFor(() =>
+			expect(screen.queryByText('Rows per page:')).toBeVisible()
+		);
+
+		validateTransactionsInTable(1, (index, description) => {
+			expect(description.amount).toEqual(transactions[0].amount * -1);
+		});
 	});
 
 	it('category', async () => {

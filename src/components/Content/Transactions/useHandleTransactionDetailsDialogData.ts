@@ -5,10 +5,16 @@ import * as Option from 'fp-ts/es6/Option';
 import { CategoryOption, transactionToCategoryOption } from './utils';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { useEffect, useMemo } from 'react';
+import * as Time from '@craigmiller160/ts-functions/es/Time';
+
+const parseDate = Time.parse('yyyy-MM-dd');
 
 export type TransactionDetailsFormData = {
 	readonly confirmed: boolean;
 	readonly category: CategoryOption | null;
+	readonly expenseDate: Date;
+	readonly description: string;
+	readonly amount: number;
 };
 
 export type TransactionValues = {
@@ -72,19 +78,17 @@ export const useHandleTransactionDetailsDialogData = (
 	const transactionValues =
 		useValuesFromSelectedTransaction(selectedTransaction);
 
-	const form = useForm<TransactionDetailsFormData>({
-		defaultValues: {
-			confirmed: transactionValues.confirmed,
-			category: transactionValues.category
-		}
-	});
+	const form = useForm<TransactionDetailsFormData>();
 
 	const { reset } = form;
 
 	useEffect(() => {
 		reset({
 			confirmed: transactionValues.confirmed,
-			category: transactionValues.category
+			category: transactionValues.category,
+			description: transactionValues.description,
+			amount: transactionValues.amount,
+			expenseDate: parseDate(transactionValues.expenseDate)
 		});
 	}, [transactionValues, reset]);
 

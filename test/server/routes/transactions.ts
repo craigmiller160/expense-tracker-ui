@@ -7,6 +7,7 @@ import {
 	DeleteTransactionsRequest,
 	NeedsAttentionResponse,
 	TransactionResponse,
+	UpdateTransactionDetailsRequest,
 	UpdateTransactionsRequest
 } from '../../../src/types/transactions';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
@@ -309,6 +310,32 @@ export const createTransactionsRoutes = (
 			body.ids.forEach((id) => {
 				delete draft.transactions[id];
 			});
+		});
+		return new Response(204);
+	});
+
+	server.put('/transactions/:id/details', (schema, request) => {
+		const id = request.params.id as string;
+		const requestBody = JSON.parse(
+			request.requestBody
+		) as UpdateTransactionDetailsRequest;
+		database.updateData((draft) => {
+			const existing = draft.transactions[id];
+			if (existing) {
+				draft.transactions[id] = {
+					...existing,
+					confirmed: requestBody.confirmed,
+					expenseDate: requestBody.expenseDate,
+					description: requestBody.description,
+					amount: requestBody.amount,
+					categoryId: requestBody.categoryId
+				};
+
+				if (requestBody.categoryId) {
+					const category = draft.categories[requestBody.categoryId];
+					draft.transactions[id].categoryName = category.name;
+				}
+			}
 		});
 		return new Response(204);
 	});

@@ -162,7 +162,6 @@ export const TransactionDetailsDialog = (props: Props) => {
 							control={control}
 							name="amount"
 							label="Amount ($)"
-							type="number"
 							rules={{ required: 'Amount is required' }}
 							onBlurTransform={formatAmountValue}
 						/>

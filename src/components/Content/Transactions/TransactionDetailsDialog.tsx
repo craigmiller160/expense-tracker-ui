@@ -1,8 +1,5 @@
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
-import {
-	TransactionResponse,
-	UpdateTransactionDetailsRequest
-} from '../../../types/transactions';
+import { TransactionResponse, UpdateTransactionDetailsRequest } from '../../../types/transactions';
 import { SideDialog } from '../../UI/SideDialog';
 import { Button, CircularProgress } from '@mui/material';
 import './TransactionDetailsDialog.scss';
@@ -11,13 +8,8 @@ import { DuplicateIcon } from './icons/DuplicateIcon';
 import { NotConfirmedIcon } from './icons/NotConfirmedIcon';
 import { NotCategorizedIcon } from './icons/NotCategorizedIcon';
 import * as Option from 'fp-ts/es6/Option';
-import {
-	Autocomplete,
-	Checkbox,
-	DatePicker,
-	TextField
-} from '@craigmiller160/react-hook-form-material-ui';
-import { useCategoriesToCategoryOptions } from './utils';
+import { Autocomplete, Checkbox, DatePicker, TextField } from '@craigmiller160/react-hook-form-material-ui';
+import { formatAmountValue, useCategoriesToCategoryOptions } from './utils';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 import { ReactNode } from 'react';
 import {
@@ -27,7 +19,6 @@ import {
 import { useIsAtMaxBreakpoint } from '../../../utils/breakpointHooks';
 import { PossibleRefundIcon } from './icons/PossibleRefundIcon';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
-import { identity, pipe } from 'fp-ts/es6/function';
 
 const formatDate = Time.format('yyyy-MM-dd');
 
@@ -87,17 +78,6 @@ const useGetCategoryComponent = (
 			options={categoryOptions}
 		/>
 	);
-};
-
-// TODO write unit tests for this
-export const formatAmountValue = (value: string): string => {
-	const parts = value.split('.');
-	const decimal = pipe(
-		Option.fromNullable(parts[1]),
-		Option.map((decimal) => decimal.padEnd(2, '0').substring(0, 2)),
-		Option.fold(() => '00', identity)
-	);
-	return `${parts[0]}.${decimal}`;
 };
 
 export const TransactionDetailsDialog = (props: Props) => {

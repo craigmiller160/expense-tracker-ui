@@ -103,6 +103,10 @@ describe('Transactions Filters', () => {
 		expect(getRecordRangeText()).toEqual(`1-25 of ${totalDaysInRange - 1}`);
 	});
 
+	it('is possible refund', async () => {
+		throw new Error();
+	});
+
 	it('category', async () => {
 		const { transactions } = await searchForTransactions({
 			startDate: defaultStartDate(),

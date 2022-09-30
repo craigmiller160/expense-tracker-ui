@@ -7,7 +7,7 @@ import { useForm, UseFormReturn } from 'react-hook-form';
 import { useEffect, useMemo } from 'react';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 
-const parseDate = Time.parse('yyyy-MM-dd');
+const parseDate = Time.parse('MM/dd/yyyy');
 
 export type TransactionDetailsFormData = {
 	readonly confirmed: boolean;

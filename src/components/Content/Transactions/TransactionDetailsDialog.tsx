@@ -140,19 +140,19 @@ export const TransactionDetailsDialog = (props: Props) => {
 					<div className="InfoRow">
 						<TextField
 							control={control}
-							name="description"
-							label="Description"
-							multiline
-							rules={{ required: 'Description is required' }}
+							name="amount"
+							label="Amount ($)"
+							type="number"
+							rules={{ required: 'Amount is required' }}
 						/>
 					</div>
 					<div className="InfoRow">
 						<TextField
 							control={control}
-							name="amount"
-							label="Amount ($)"
-							type="number"
-							rules={{ required: 'Amount is required' }}
+							name="description"
+							label="Description"
+							multiline
+							rules={{ required: 'Description is required' }}
 						/>
 					</div>
 				</div>

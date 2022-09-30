@@ -10,9 +10,11 @@ import { Control } from 'react-hook-form';
 import { DuplicateIcon } from './icons/DuplicateIcon';
 import { NotConfirmedIcon } from './icons/NotConfirmedIcon';
 import { NotCategorizedIcon } from './icons/NotCategorizedIcon';
+import * as Option from 'fp-ts/es6/Option';
 import {
 	Autocomplete,
-	Checkbox
+	Checkbox,
+	TextField
 } from '@craigmiller160/react-hook-form-material-ui';
 import { useCategoriesToCategoryOptions } from './utils';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
@@ -111,7 +113,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 
 	return (
 		<SideDialog
-			open={transactionValues.id !== null}
+			open={Option.isSome(props.selectedTransaction)}
 			onClose={props.onClose}
 			title="Transaction Details"
 			actions={Actions}
@@ -136,12 +138,12 @@ export const TransactionDetailsDialog = (props: Props) => {
 						</Typography>
 					</div>
 					<div className="InfoRow">
-						<Typography variant="h6">
-							<strong>Description</strong>
-						</Typography>
-						<Typography variant="h6">
-							{transactionValues.description}
-						</Typography>
+						<TextField
+							control={control}
+							name="description"
+							label="Description"
+							multiline
+						/>
 					</div>
 					<div className="InfoRow">
 						<Typography variant="h6">

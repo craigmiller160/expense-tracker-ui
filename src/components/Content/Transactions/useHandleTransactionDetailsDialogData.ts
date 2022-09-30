@@ -12,12 +12,12 @@ export type TransactionDetailsFormData = {
 };
 
 export type TransactionValues = {
-	readonly id: string | null;
+	readonly id: string;
 	readonly confirmed: boolean;
 	readonly duplicate: boolean;
 	readonly category: CategoryOption | null;
-	readonly expenseDate: string | null;
-	readonly description: string | null;
+	readonly expenseDate: string;
+	readonly description: string;
 	readonly amount: number;
 };
 
@@ -52,12 +52,12 @@ const useValuesFromSelectedTransaction = (
 				),
 				Option.getOrElse(
 					(): TransactionValues => ({
-						id: null,
+						id: '',
 						confirmed: false,
 						duplicate: false,
 						category: null,
-						expenseDate: null,
-						description: null,
+						expenseDate: '',
+						description: '',
 						amount: 0
 					})
 				)

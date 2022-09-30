@@ -52,7 +52,6 @@ export const searchForTransactions = (
 	request: SearchTransactionsRequest
 ): Promise<SearchTransactionsResponse> => {
 	const query = requestToQuery(request);
-	console.log('Query', query);
 	return expenseTrackerApi
 		.get<SearchTransactionsResponse>({
 			uri: `/transactions?${query}`,

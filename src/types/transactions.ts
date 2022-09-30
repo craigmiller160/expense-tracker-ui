@@ -17,6 +17,7 @@ export interface SearchTransactionsRequest {
 	readonly isConfirmed?: boolean;
 	readonly isCategorized?: boolean;
 	readonly isDuplicate?: boolean;
+	readonly isPossibleRefund?: boolean;
 	readonly categoryIds?: ReadonlyArray<string>;
 }
 

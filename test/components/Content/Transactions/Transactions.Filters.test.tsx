@@ -1,5 +1,10 @@
 import { renderApp } from '../../../testutils/renderApp';
-import { screen, waitFor, within } from '@testing-library/react';
+import {
+	screen,
+	waitFor,
+	waitForElementToBeRemoved,
+	within
+} from '@testing-library/react';
 import {
 	ARIA_LABEL_FORMAT,
 	getCategoryValueElement,
@@ -136,7 +141,9 @@ describe('Transactions Filters', () => {
 			selector: 'Is Possible Refund'
 		}).click();
 
-		await Sleep.immediate();
+		await waitForElementToBeRemoved(() =>
+			screen.queryByText('Rows per page:')
+		);
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);

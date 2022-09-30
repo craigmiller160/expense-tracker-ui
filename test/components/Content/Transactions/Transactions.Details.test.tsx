@@ -210,6 +210,10 @@ describe('Transaction Details Dialog', () => {
 		).not.toBeInTheDocument();
 	});
 
+	it('can update transaction information', async () => {
+		throw new Error();
+	});
+
 	it('can categorize transaction', async () => {
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'

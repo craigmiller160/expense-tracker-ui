@@ -1,5 +1,8 @@
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
-import { TransactionResponse, UpdateTransactionDetailsRequest } from '../../../types/transactions';
+import {
+	TransactionResponse,
+	UpdateTransactionDetailsRequest
+} from '../../../types/transactions';
 import { SideDialog } from '../../UI/SideDialog';
 import { Button, CircularProgress } from '@mui/material';
 import './TransactionDetailsDialog.scss';
@@ -8,7 +11,12 @@ import { DuplicateIcon } from './icons/DuplicateIcon';
 import { NotConfirmedIcon } from './icons/NotConfirmedIcon';
 import { NotCategorizedIcon } from './icons/NotCategorizedIcon';
 import * as Option from 'fp-ts/es6/Option';
-import { Autocomplete, Checkbox, DatePicker, TextField } from '@craigmiller160/react-hook-form-material-ui';
+import {
+	Autocomplete,
+	Checkbox,
+	DatePicker,
+	TextField
+} from '@craigmiller160/react-hook-form-material-ui';
 import { formatAmountValue, useCategoriesToCategoryOptions } from './utils';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 import { ReactNode } from 'react';

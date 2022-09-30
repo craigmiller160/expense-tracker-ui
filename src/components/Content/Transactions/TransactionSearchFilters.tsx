@@ -119,6 +119,12 @@ export const TransactionSearchFilters = (props: Props) => {
 						label="Is Not Categorized"
 						onValueHasChanged={onIsNotCategorizedChanged}
 					/>
+					<Checkbox
+						control={control}
+						name="isPossibleRefund"
+						label="Is Possible Refund"
+						onValueHasChanged={onValueHasChanged}
+					/>
 				</ResponsiveFilterRow>
 			</form>
 		</Paper>

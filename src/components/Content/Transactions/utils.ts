@@ -27,6 +27,7 @@ export interface TransactionSearchForm {
 	readonly isNotConfirmed: boolean;
 	readonly isDuplicate: boolean;
 	readonly isNotCategorized: boolean;
+	readonly isPossibleRefund: boolean;
 }
 
 export const defaultStartDate = (): Date => Time.subMonths(1)(new Date());
@@ -39,7 +40,8 @@ export const transactionSearchFormDefaultValues: TransactionSearchForm = {
 	category: null,
 	isDuplicate: false,
 	isNotCategorized: false,
-	isNotConfirmed: false
+	isNotConfirmed: false,
+	isPossibleRefund: false
 };
 
 export type CategoryOption = SelectOption<string>;

@@ -118,7 +118,7 @@ type UpdateTransactionDetailsParams = {
 };
 export const useUpdateTransactionDetails = () => {
 	const queryClient = useQueryClient();
-	useMutation<void, Error, UpdateTransactionDetailsParams>(
+	return useMutation<void, Error, UpdateTransactionDetailsParams>(
 		({ request }) => updateTransactionDetails(request),
 		{
 			onSuccess: () => invalidateTransactionQueries(queryClient)

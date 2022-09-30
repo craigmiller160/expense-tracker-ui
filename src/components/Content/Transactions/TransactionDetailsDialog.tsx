@@ -27,6 +27,7 @@ import {
 import { useIsAtMaxBreakpoint } from '../../../utils/breakpointHooks';
 import { PossibleRefundIcon } from './icons/PossibleRefundIcon';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
+import { identity, pipe } from 'fp-ts/es6/function';
 
 const formatDate = Time.format('yyyy-MM-dd');
 
@@ -88,6 +89,17 @@ const useGetCategoryComponent = (
 	);
 };
 
+// TODO write unit tests for this
+export const formatAmountValue = (value: string): string => {
+	const parts = value.split('.');
+	const decimal = pipe(
+		Option.fromNullable(parts[1]),
+		Option.map((decimal) => decimal.padEnd(2, '0').substring(0, 2)),
+		Option.fold(() => '00', identity)
+	);
+	return `${parts[0]}.${decimal}`;
+};
+
 export const TransactionDetailsDialog = (props: Props) => {
 	const {
 		transactionValues,
@@ -109,7 +121,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 			transactionId: transactionValues.id ?? '',
 			categoryId: values.category?.value,
 			expenseDate: formatDate(values.expenseDate),
-			amount: values.amount,
+			amount: parseFloat(values.amount),
 			description: values.description,
 			confirmed: values.confirmed
 		});
@@ -152,6 +164,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 							label="Amount ($)"
 							type="number"
 							rules={{ required: 'Amount is required' }}
+							onBlurTransform={formatAmountValue}
 						/>
 					</div>
 					<div className="InfoRow">

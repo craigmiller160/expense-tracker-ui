@@ -14,7 +14,7 @@ export type TransactionDetailsFormData = {
 	readonly category: CategoryOption | null;
 	readonly expenseDate: Date;
 	readonly description: string;
-	readonly amount: number;
+	readonly amount: string;
 };
 
 export type TransactionValues = {
@@ -87,7 +87,7 @@ export const useHandleTransactionDetailsDialogData = (
 			confirmed: transactionValues.confirmed,
 			category: transactionValues.category,
 			description: transactionValues.description,
-			amount: transactionValues.amount,
+			amount: transactionValues.amount.toFixed(2),
 			expenseDate: parseDate(transactionValues.expenseDate)
 		});
 	}, [transactionValues, reset]);

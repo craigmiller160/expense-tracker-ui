@@ -82,20 +82,24 @@ const useGetCategoryComponent = (
 };
 
 export const TransactionDetailsDialog = (props: Props) => {
-	const { control, handleSubmit, formState, watch, getValues } =
-		useHandleTransactionDetailsDialogData(props.selectedTransaction);
+	const {
+		transactionValues,
+		form: { control, handleSubmit, formState, watch }
+	} = useHandleTransactionDetailsDialogData(props.selectedTransaction);
 	const CategoryComponent = useGetCategoryComponent(control);
 
 	const Actions = (
 		<TransactionDetailsDialogActions
-			deleteTransaction={() => props.deleteTransaction(getValues().id)}
+			deleteTransaction={() =>
+				props.deleteTransaction(transactionValues.id)
+			}
 			enableSaveButton={formState.isDirty}
 		/>
 	);
 
 	const onSubmit = (values: TransactionDetailsFormData) =>
 		props.saveTransaction({
-			transactionId: values.id,
+			transactionId: transactionValues.id ?? '',
 			categoryId: values.category?.value ?? null,
 			confirmed: values.confirmed
 		});

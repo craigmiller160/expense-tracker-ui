@@ -148,7 +148,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 						<TextField
 							control={control}
 							name="amount"
-							label="Amount"
+							label="Amount ($)"
 							type="number"
 						/>
 					</div>

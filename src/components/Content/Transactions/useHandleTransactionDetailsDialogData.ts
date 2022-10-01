@@ -79,7 +79,7 @@ export const useHandleTransactionDetailsDialogData = (
 		useValuesFromSelectedTransaction(selectedTransaction);
 
 	const form = useForm<TransactionDetailsFormData>({
-		mode: 'onBlur',
+		mode: 'onChange',
 		reValidateMode: 'onChange'
 	});
 

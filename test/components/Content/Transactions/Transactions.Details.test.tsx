@@ -297,6 +297,7 @@ describe('Transaction Details Dialog', () => {
 		await waitForElementToBeRemoved(() =>
 			screen.queryByTestId('transaction-details-dialog')
 		);
+		await waitFor(() => screen.queryByTestId('table-loading'));
 		await waitFor(() =>
 			expect(screen.getAllByTestId('transaction-table-row')).toHaveLength(
 				25

@@ -206,16 +206,6 @@ describe('Transaction Details Dialog', () => {
 	});
 
 	it('can confirm transaction', async () => {
-		const {
-			transactions: [transaction]
-		} = await searchForTransactions({
-			startDate: defaultStartDate(),
-			endDate: defaultEndDate(),
-			pageNumber: 0,
-			pageSize: 25,
-			sortKey: TransactionSortKey.EXPENSE_DATE,
-			sortDirection: SortDirection.DESC
-		});
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
@@ -249,7 +239,7 @@ describe('Transaction Details Dialog', () => {
 		await userEvent.click(within(transactionDialog).getByText('Save'));
 
 		await waitForElementToBeRemoved(() =>
-			screen.queryByText(transaction.description)
+			screen.queryByTestId('transaction-details-dialog')
 		);
 		await waitFor(() =>
 			expect(screen.getAllByTestId('transaction-table-row')).toHaveLength(
@@ -262,6 +252,17 @@ describe('Transaction Details Dialog', () => {
 	});
 
 	it('can update transaction information', async () => {
+
+		const {
+			transactions: [transaction]
+		} = await searchForTransactions({
+			startDate: defaultStartDate(),
+			endDate: defaultEndDate(),
+			pageNumber: 0,
+			pageSize: 25,
+			sortKey: TransactionSortKey.EXPENSE_DATE,
+			sortDirection: SortDirection.DESC
+		});
 		throw new Error();
 	});
 

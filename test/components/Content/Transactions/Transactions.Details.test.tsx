@@ -41,26 +41,22 @@ const testButton =
 const createTestFormValidation =
 	(dialog: HTMLElement) =>
 	async (labelText: string, errorMessage: string, updatedValue: string) => {
-		// TODO do I need to keep getting form control?
+		const formControl = within(dialog).getByLabelText(labelText);
+		const saveButton = within(dialog).getByText('Save');
 
-		await userEvent.clear(within(dialog).getByLabelText(labelText));
-		expect(within(dialog).getByLabelText(labelText)).toHaveValue('');
+		await userEvent.clear(formControl);
+		expect(formControl).toHaveValue('');
 		await waitFor(() =>
 			expect(within(dialog).getByText(errorMessage)).toBeVisible()
 		);
-		expect(within(dialog).getByText('Save')).toBeDisabled();
+		expect(saveButton).toBeDisabled();
 
-		await userEvent.type(
-			within(dialog).getByLabelText(labelText),
-			updatedValue
-		);
-		expect(within(dialog).getByLabelText(labelText)).toHaveValue(
-			updatedValue
-		);
+		await userEvent.type(formControl, updatedValue);
+		expect(formControl).toHaveValue(updatedValue);
 		expect(
 			within(dialog).queryByText(errorMessage)
 		).not.toBeInTheDocument();
-		expect(within(dialog).getByText('Save')).toBeEnabled();
+		expect(saveButton).toBeEnabled();
 	};
 
 describe('Transaction Details Dialog', () => {

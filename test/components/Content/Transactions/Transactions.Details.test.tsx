@@ -38,6 +38,31 @@ const testButton =
 		}
 	};
 
+const createTestFormValidation =
+	(dialog: HTMLElement) =>
+	async (labelText: string, errorMessage: string, updatedValue: string) => {
+		// TODO do I need to keep getting form control?
+
+		await userEvent.clear(within(dialog).getByLabelText(labelText));
+		expect(within(dialog).getByLabelText(labelText)).toHaveValue('');
+		await waitFor(() =>
+			expect(within(dialog).getByText(errorMessage)).toBeVisible()
+		);
+		expect(within(dialog).getByText('Save')).toBeDisabled();
+
+		await userEvent.type(
+			within(dialog).getByLabelText(labelText),
+			updatedValue
+		);
+		expect(within(dialog).getByLabelText(labelText)).toHaveValue(
+			updatedValue
+		);
+		expect(
+			within(dialog).queryByText(errorMessage)
+		).not.toBeInTheDocument();
+		expect(within(dialog).getByText('Save')).toBeEnabled();
+	};
+
 describe('Transaction Details Dialog', () => {
 	it('shows current transaction information for unconfirmed and uncategorized', async () => {
 		await renderApp({
@@ -153,7 +178,29 @@ describe('Transaction Details Dialog', () => {
 	});
 
 	it('input field validation rules work', async () => {
-		throw new Error();
+		await renderApp({
+			initialPath: '/expense-tracker/transactions'
+		});
+		await waitForVisibility([
+			{ text: 'Expense Tracker' },
+			{ text: 'Manage Transactions', occurs: 2 },
+			{ text: 'Rows per page:' }
+		]);
+
+		const row = screen.getAllByTestId('transaction-table-row')[0];
+		const detailsButton = within(row).getByText('Details');
+		await userEvent.click(detailsButton);
+
+		const transactionDialog = screen.getByTestId(
+			'transaction-details-dialog'
+		);
+
+		const testFormValidation = createTestFormValidation(transactionDialog);
+		await testFormValidation(
+			'Expense Date',
+			'Expense Date is required',
+			'01/01/2022'
+		);
 	});
 
 	it('can confirm transaction', async () => {

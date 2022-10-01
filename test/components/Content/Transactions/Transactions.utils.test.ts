@@ -27,5 +27,10 @@ describe('Transaction utils', () => {
 			const result = formatAmountValue('100abc');
 			expect(result).toEqual('100.00');
 		});
+
+		it('[blank]', () => {
+			const result = formatAmountValue('');
+			expect(result).toEqual('');
+		});
 	});
 });

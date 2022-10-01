@@ -81,6 +81,8 @@ describe('Transaction Details Dialog', () => {
 		transactionIcon('not-confirmed-icon', transactionDialog).isVisible();
 		transactionIcon('no-category-icon', transactionDialog).isVisible();
 
+		expect(within(transactionDialog).getByText('Save')).toBeDisabled();
+
 		await materialUiCheckbox({
 			selector: 'confirm-transaction-checkbox',
 			type: 'testid',
@@ -137,6 +139,8 @@ describe('Transaction Details Dialog', () => {
 		transactionIcon('duplicate-icon', transactionDialog).isNotVisible();
 		transactionIcon('not-confirmed-icon', transactionDialog).isNotVisible();
 		transactionIcon('no-category-icon', transactionDialog).isNotVisible();
+
+		expect(within(transactionDialog).getByText('Save')).toBeDisabled();
 
 		const checkbox = materialUiCheckbox({
 			selector: 'confirm-transaction-checkbox',

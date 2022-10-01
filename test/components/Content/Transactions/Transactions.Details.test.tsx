@@ -91,7 +91,7 @@ describe('Transaction Details Dialog', () => {
 			root: transactionDialog
 		}).isNotChecked();
 
-		materialUiSelect('Category', transactionDialog).hasValue('');
+		await materialUiSelect('Category', transactionDialog).hasValue('');
 	});
 
 	it('shows current transaction information for confirmed & categorized', async () => {

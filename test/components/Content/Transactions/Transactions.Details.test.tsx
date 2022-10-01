@@ -11,7 +11,6 @@ import { searchForTransactions } from '../../../../src/ajaxapi/service/Transacti
 import { TransactionSortKey } from '../../../../src/types/transactions';
 import { SortDirection } from '../../../../src/types/misc';
 import { formatDisplayDate } from '../../../../src/components/Content/Transactions/useHandleTransactionTableData';
-import { formatCurrency } from '../../../../src/utils/formatCurrency';
 import {
 	defaultEndDate,
 	defaultStartDate
@@ -23,7 +22,6 @@ import { transactionIcon } from '../../../testutils/dom-actions/transaction-icon
 import { waitForVisibility } from '../../../testutils/dom-actions/wait-for-visibility';
 import '@relmify/jest-fp-ts';
 import { materialUiCheckbox } from '../../../testutils/dom-actions/material-ui-checkbox';
-import { textExists } from '../../../testutils/dom-actions/text-exists';
 
 const testButton =
 	(isDisabled: boolean) => (detailsButton: HTMLElement, index: number) => {
@@ -126,17 +124,15 @@ describe('Transaction Details Dialog', () => {
 		const transactionDialog = screen.getByTestId(
 			'transaction-details-dialog'
 		);
-		textExists(
-			[
-				{ text: 'Transaction Details' },
-				{ text: 'Expense Date' },
-				{ text: 'Amount' },
-				{ text: formatDisplayDate(transaction.expenseDate) },
-				{ text: transaction.description },
-				{ text: formatCurrency(transaction.amount) }
-			],
-			transactionDialog
-		);
+		expect(
+			within(transactionDialog).getByLabelText('Expense Date')
+		).toHaveValue(formatDisplayDate(transaction.expenseDate));
+		expect(
+			within(transactionDialog).getByLabelText('Amount ($)')
+		).toHaveValue(transaction.amount.toFixed(2));
+		expect(
+			within(transactionDialog).getByLabelText('Description')
+		).toHaveValue(transaction.description);
 
 		transactionIcon('duplicate-icon', transactionDialog).isNotVisible();
 		transactionIcon('not-confirmed-icon', transactionDialog).isNotVisible();

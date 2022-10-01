@@ -1,20 +1,23 @@
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
 import {
 	TransactionResponse,
-	TransactionToUpdate
+	UpdateTransactionDetailsRequest
 } from '../../../types/transactions';
 import { SideDialog } from '../../UI/SideDialog';
-import { Button, CircularProgress, Typography } from '@mui/material';
+import { Button, CircularProgress } from '@mui/material';
 import './TransactionDetailsDialog.scss';
 import { Control } from 'react-hook-form';
 import { DuplicateIcon } from './icons/DuplicateIcon';
 import { NotConfirmedIcon } from './icons/NotConfirmedIcon';
 import { NotCategorizedIcon } from './icons/NotCategorizedIcon';
+import * as Option from 'fp-ts/es6/Option';
 import {
 	Autocomplete,
-	Checkbox
+	Checkbox,
+	DatePicker,
+	TextField
 } from '@craigmiller160/react-hook-form-material-ui';
-import { useCategoriesToCategoryOptions } from './utils';
+import { formatAmountValue, useCategoriesToCategoryOptions } from './utils';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 import { ReactNode } from 'react';
 import {
@@ -23,12 +26,16 @@ import {
 } from './useHandleTransactionDetailsDialogData';
 import { useIsAtMaxBreakpoint } from '../../../utils/breakpointHooks';
 import { PossibleRefundIcon } from './icons/PossibleRefundIcon';
-import { formatCurrency } from '../../../utils/formatCurrency';
+import * as Time from '@craigmiller160/ts-functions/es/Time';
+
+const formatDate = Time.format('yyyy-MM-dd');
 
 interface Props {
 	readonly selectedTransaction: OptionT<TransactionResponse>;
 	readonly onClose: () => void;
-	readonly saveTransaction: (transaction: TransactionToUpdate) => void;
+	readonly saveTransaction: (
+		transaction: UpdateTransactionDetailsRequest
+	) => void;
 	readonly deleteTransaction: (id: string | null) => void;
 }
 
@@ -88,19 +95,24 @@ export const TransactionDetailsDialog = (props: Props) => {
 	} = useHandleTransactionDetailsDialogData(props.selectedTransaction);
 	const CategoryComponent = useGetCategoryComponent(control);
 
+	const { isDirty, isValid } = formState;
+
 	const Actions = (
 		<TransactionDetailsDialogActions
 			deleteTransaction={() =>
 				props.deleteTransaction(transactionValues.id)
 			}
-			enableSaveButton={formState.isDirty}
+			enableSaveButton={isDirty && isValid}
 		/>
 	);
 
 	const onSubmit = (values: TransactionDetailsFormData) =>
 		props.saveTransaction({
 			transactionId: transactionValues.id ?? '',
-			categoryId: values.category?.value ?? null,
+			categoryId: values.category?.value,
+			expenseDate: formatDate(values.expenseDate),
+			amount: parseFloat(values.amount),
+			description: values.description,
 			confirmed: values.confirmed
 		});
 
@@ -111,7 +123,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 
 	return (
 		<SideDialog
-			open={transactionValues.id !== null}
+			open={Option.isSome(props.selectedTransaction)}
 			onClose={props.onClose}
 			title="Transaction Details"
 			actions={Actions}
@@ -128,28 +140,30 @@ export const TransactionDetailsDialog = (props: Props) => {
 				<hr />
 				<div className="Info">
 					<div className="InfoRow">
-						<Typography variant="h6">
-							<strong>Expense Date</strong>
-						</Typography>
-						<Typography variant="h6">
-							{transactionValues.expenseDate}
-						</Typography>
+						<DatePicker
+							control={control}
+							name="expenseDate"
+							label="Expense Date"
+							rules={{ required: 'Expense Date is required' }}
+						/>
 					</div>
 					<div className="InfoRow">
-						<Typography variant="h6">
-							<strong>Description</strong>
-						</Typography>
-						<Typography variant="h6">
-							{transactionValues.description}
-						</Typography>
+						<TextField
+							control={control}
+							name="amount"
+							label="Amount ($)"
+							rules={{ required: 'Amount is required' }}
+							onBlurTransform={formatAmountValue}
+						/>
 					</div>
 					<div className="InfoRow">
-						<Typography variant="h6">
-							<strong>Amount</strong>
-						</Typography>
-						<Typography variant="h6">
-							{formatCurrency(transactionValues.amount)}
-						</Typography>
+						<TextField
+							control={control}
+							name="description"
+							label="Description"
+							multiline
+							rules={{ required: 'Description is required' }}
+						/>
 					</div>
 				</div>
 				<hr />

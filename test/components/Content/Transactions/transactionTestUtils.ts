@@ -25,29 +25,14 @@ export const getCategoryValueElement = (): HTMLElement | null | undefined => {
 	);
 };
 
-export const ARIA_LABEL_FORMAT = 'MMM d, yyyy';
-
 export const selectDate = async (
 	datePickerLabel: string,
-	ariaFormattedDateString: string
+	dateString: string
 ) => {
-	const datePickerLabelElement = screen.getByLabelText(datePickerLabel);
-	const openPickerButton =
-		datePickerLabelElement.parentElement?.querySelector(
-			'div.MuiInputAdornment-root > button'
-		);
-	expect(openPickerButton).toBeTruthy();
-	await userEvent.click(
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		openPickerButton!
-	);
-	const popupDialog = screen.getByRole('dialog');
-	const selectedDateButton = popupDialog.querySelector(
-		`button[aria-label = "${ariaFormattedDateString}"]`
-	);
-	expect(selectedDateButton).not.toBeNull();
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-	await userEvent.click(selectedDateButton!);
+	const datePickerElement = screen.getByLabelText(datePickerLabel);
+	await userEvent.clear(datePickerElement);
+	await userEvent.type(datePickerElement, dateString);
+	expect(datePickerElement).toHaveValue(dateString);
 };
 
 export const getRecordRangeText = (): string | undefined =>

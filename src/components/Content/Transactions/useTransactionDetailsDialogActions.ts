@@ -1,13 +1,13 @@
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
 import {
 	TransactionResponse,
-	TransactionToUpdate
+	UpdateTransactionDetailsRequest
 } from '../../../types/transactions';
 import { useImmer } from 'use-immer';
 import * as Option from 'fp-ts/es6/Option';
 import {
 	useDeleteTransactions,
-	useUpdateTransactions
+	useUpdateTransactionDetails
 } from '../../../ajaxapi/query/TransactionQueries';
 import { pipe } from 'fp-ts/es6/function';
 import { useContext } from 'react';
@@ -21,7 +21,9 @@ interface TransactionDetailsDialogActions {
 	readonly selectedTransaction: OptionT<TransactionResponse>;
 	readonly openDetailsDialog: (transaction: TransactionResponse) => void;
 	readonly closeDetailsDialog: () => void;
-	readonly saveTransaction: (transaction: TransactionToUpdate) => void;
+	readonly saveTransaction: (
+		transaction: UpdateTransactionDetailsRequest
+	) => void;
 	readonly deleteTransaction: (id: string | null) => void;
 }
 
@@ -32,7 +34,8 @@ export const useTransactionDetailsDialogActions =
 			useImmer<TransactionDetailsDialogState>({
 				selectedTransaction: Option.none
 			});
-		const { mutate: updateTransactionsMutate } = useUpdateTransactions();
+		const { mutate: updateTransactionsMutate } =
+			useUpdateTransactionDetails();
 		const { mutate: deleteTransactionsMutate } = useDeleteTransactions();
 
 		const openDetailsDialog = (transaction: TransactionResponse) =>
@@ -45,10 +48,10 @@ export const useTransactionDetailsDialogActions =
 				draft.selectedTransaction = Option.none;
 			});
 
-		const saveTransaction = (transaction: TransactionToUpdate) => {
+		const saveTransaction = (request: UpdateTransactionDetailsRequest) => {
 			closeDetailsDialog();
 			updateTransactionsMutate({
-				transactions: [transaction]
+				request
 			});
 		};
 		const deleteTransaction = (nullableId: string | null) => {

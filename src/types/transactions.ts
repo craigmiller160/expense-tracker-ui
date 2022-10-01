@@ -71,3 +71,12 @@ export interface UpdateTransactionsRequest {
 export type DeleteTransactionsRequest = {
 	readonly ids: ReadonlyArray<string>;
 };
+
+export type UpdateTransactionDetailsRequest = {
+	readonly transactionId: string;
+	readonly confirmed: boolean;
+	readonly expenseDate: string;
+	readonly description: string;
+	readonly amount: number;
+	readonly categoryId?: string;
+};

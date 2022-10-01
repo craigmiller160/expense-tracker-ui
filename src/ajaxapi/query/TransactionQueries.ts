@@ -3,7 +3,8 @@ import {
 	SearchTransactionsRequest,
 	SearchTransactionsResponse,
 	TransactionAndCategory,
-	TransactionToUpdate
+	TransactionToUpdate,
+	UpdateTransactionDetailsRequest
 } from '../../types/transactions';
 import {
 	QueryClient,
@@ -19,6 +20,7 @@ import {
 	deleteTransactions,
 	getNeedsAttention,
 	searchForTransactions,
+	updateTransactionDetails,
 	updateTransactions
 } from '../service/TransactionService';
 
@@ -98,13 +100,26 @@ export const useUpdateTransactions = (): UseMutationResult<
 };
 
 type DeleteTransactionsParams = {
-	idsToDelete: ReadonlyArray<string>;
+	readonly idsToDelete: ReadonlyArray<string>;
 };
 
 export const useDeleteTransactions = () => {
 	const queryClient = useQueryClient();
-	return useMutation<unknown, Error, DeleteTransactionsParams>(
+	return useMutation<void, Error, DeleteTransactionsParams>(
 		({ idsToDelete }) => deleteTransactions(idsToDelete),
+		{
+			onSuccess: () => invalidateTransactionQueries(queryClient)
+		}
+	);
+};
+
+type UpdateTransactionDetailsParams = {
+	readonly request: UpdateTransactionDetailsRequest;
+};
+export const useUpdateTransactionDetails = () => {
+	const queryClient = useQueryClient();
+	return useMutation<void, Error, UpdateTransactionDetailsParams>(
+		({ request }) => updateTransactionDetails(request),
 		{
 			onSuccess: () => invalidateTransactionQueries(queryClient)
 		}

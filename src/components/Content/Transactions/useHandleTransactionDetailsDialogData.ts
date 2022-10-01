@@ -5,19 +5,25 @@ import * as Option from 'fp-ts/es6/Option';
 import { CategoryOption, transactionToCategoryOption } from './utils';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { useEffect, useMemo } from 'react';
+import * as Time from '@craigmiller160/ts-functions/es/Time';
+
+const parseDate = Time.parse('MM/dd/yyyy');
 
 export type TransactionDetailsFormData = {
 	readonly confirmed: boolean;
 	readonly category: CategoryOption | null;
+	readonly expenseDate: Date;
+	readonly description: string;
+	readonly amount: string;
 };
 
 export type TransactionValues = {
-	readonly id: string | null;
+	readonly id: string;
 	readonly confirmed: boolean;
 	readonly duplicate: boolean;
 	readonly category: CategoryOption | null;
-	readonly expenseDate: string | null;
-	readonly description: string | null;
+	readonly expenseDate: string;
+	readonly description: string;
 	readonly amount: number;
 };
 
@@ -52,12 +58,12 @@ const useValuesFromSelectedTransaction = (
 				),
 				Option.getOrElse(
 					(): TransactionValues => ({
-						id: null,
+						id: '',
 						confirmed: false,
 						duplicate: false,
 						category: null,
-						expenseDate: null,
-						description: null,
+						expenseDate: '',
+						description: '',
 						amount: 0
 					})
 				)
@@ -73,10 +79,8 @@ export const useHandleTransactionDetailsDialogData = (
 		useValuesFromSelectedTransaction(selectedTransaction);
 
 	const form = useForm<TransactionDetailsFormData>({
-		defaultValues: {
-			confirmed: transactionValues.confirmed,
-			category: transactionValues.category
-		}
+		mode: 'onChange',
+		reValidateMode: 'onChange'
 	});
 
 	const { reset } = form;
@@ -84,7 +88,10 @@ export const useHandleTransactionDetailsDialogData = (
 	useEffect(() => {
 		reset({
 			confirmed: transactionValues.confirmed,
-			category: transactionValues.category
+			category: transactionValues.category,
+			description: transactionValues.description,
+			amount: transactionValues.amount.toFixed(2),
+			expenseDate: parseDate(transactionValues.expenseDate)
 		});
 	}, [transactionValues, reset]);
 

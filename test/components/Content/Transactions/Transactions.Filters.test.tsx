@@ -6,7 +6,6 @@ import {
 	within
 } from '@testing-library/react';
 import {
-	ARIA_LABEL_FORMAT,
 	getCategoryValueElement,
 	getRecordRangeText,
 	getTotalDaysInRange,
@@ -44,15 +43,11 @@ describe('Transactions Filters', () => {
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
-		await waitFor(() =>
-			expect(screen.queryByText('Expense Tracker')).toBeVisible()
-		);
-		await waitFor(() =>
-			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
-		);
-		await waitFor(() =>
-			expect(screen.queryByText('Rows per page:')).toBeVisible()
-		);
+		await waitForVisibility([
+			{ text: 'Expense Tracker' },
+			{ text: 'Manage Transactions', occurs: 2 },
+			{ text: 'Rows per page:' }
+		]);
 
 		const totalDaysInRange = getTotalDaysInRange(
 			defaultStartDate(),
@@ -64,9 +59,10 @@ describe('Transactions Filters', () => {
 		const dateToSelect = pipe(
 			defaultStartDate(),
 			Time.subDays(1),
-			Time.format(ARIA_LABEL_FORMAT)
+			Time.format('MM/dd/yyyy')
 		);
-		await selectDate('Start Date', dateToSelect); // TODO bad implementation
+		await selectDate('Start Date', dateToSelect);
+		await userEvent.click(screen.getAllByText('Manage Transactions')[1]);
 		await Sleep.immediate();
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
@@ -79,15 +75,11 @@ describe('Transactions Filters', () => {
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
-		await waitFor(() =>
-			expect(screen.queryByText('Expense Tracker')).toBeVisible()
-		);
-		await waitFor(() =>
-			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
-		);
-		await waitFor(() =>
-			expect(screen.queryByText('Rows per page:')).toBeVisible()
-		);
+		await waitForVisibility([
+			{ text: 'Expense Tracker' },
+			{ text: 'Manage Transactions', occurs: 2 },
+			{ text: 'Rows per page:' }
+		]);
 
 		const totalDaysInRange = getTotalDaysInRange(
 			defaultStartDate(),
@@ -99,9 +91,10 @@ describe('Transactions Filters', () => {
 		const dateToSelect = pipe(
 			defaultEndDate(),
 			Time.subDays(1),
-			Time.format(ARIA_LABEL_FORMAT)
+			Time.format('MM/dd/yyyy')
 		);
-		await selectDate('End Date', dateToSelect); // TODO bad implementation
+		await selectDate('End Date', dateToSelect);
+		await userEvent.click(screen.getAllByText('Manage Transactions')[1]);
 		await Sleep.immediate();
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()

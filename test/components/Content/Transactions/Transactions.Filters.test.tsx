@@ -66,7 +66,7 @@ describe('Transactions Filters', () => {
 			Time.subDays(1),
 			Time.format(ARIA_LABEL_FORMAT)
 		);
-		await selectDate('Start Date', dateToSelect);
+		await selectDate('Start Date', dateToSelect); // TODO bad implementation
 		await Sleep.immediate();
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
@@ -101,7 +101,7 @@ describe('Transactions Filters', () => {
 			Time.subDays(1),
 			Time.format(ARIA_LABEL_FORMAT)
 		);
-		await selectDate('End Date', dateToSelect);
+		await selectDate('End Date', dateToSelect); // TODO bad implementation
 		await Sleep.immediate();
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()

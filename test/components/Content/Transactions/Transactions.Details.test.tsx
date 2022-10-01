@@ -197,6 +197,12 @@ describe('Transaction Details Dialog', () => {
 			'Expense Date is required',
 			'01/01/2022'
 		);
+		await testFormValidation('Amount ($)', 'Amount is required', '10.00');
+		await testFormValidation(
+			'Description',
+			'Description is required',
+			'Hello World'
+		);
 	});
 
 	it('can confirm transaction', async () => {

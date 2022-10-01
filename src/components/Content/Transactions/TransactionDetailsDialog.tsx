@@ -95,12 +95,14 @@ export const TransactionDetailsDialog = (props: Props) => {
 	} = useHandleTransactionDetailsDialogData(props.selectedTransaction);
 	const CategoryComponent = useGetCategoryComponent(control);
 
+	const { isDirty, isValid } = formState;
+
 	const Actions = (
 		<TransactionDetailsDialogActions
 			deleteTransaction={() =>
 				props.deleteTransaction(transactionValues.id)
 			}
-			enableSaveButton={formState.isDirty && formState.isValid}
+			enableSaveButton={isDirty && isValid}
 		/>
 	);
 

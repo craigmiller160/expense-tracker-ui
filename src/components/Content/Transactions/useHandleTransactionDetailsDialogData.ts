@@ -79,7 +79,8 @@ export const useHandleTransactionDetailsDialogData = (
 		useValuesFromSelectedTransaction(selectedTransaction);
 
 	const form = useForm<TransactionDetailsFormData>({
-		mode: 'onChange'
+		mode: 'onBlur',
+		reValidateMode: 'onChange'
 	});
 
 	const { reset } = form;

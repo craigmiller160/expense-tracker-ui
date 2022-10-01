@@ -100,7 +100,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 			deleteTransaction={() =>
 				props.deleteTransaction(transactionValues.id)
 			}
-			enableSaveButton={formState.isDirty}
+			enableSaveButton={formState.isDirty && formState.isValid}
 		/>
 	);
 

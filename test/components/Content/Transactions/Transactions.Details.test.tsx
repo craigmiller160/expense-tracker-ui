@@ -252,7 +252,6 @@ describe('Transaction Details Dialog', () => {
 	});
 
 	it('can update transaction information', async () => {
-
 		const {
 			transactions: [transaction]
 		} = await searchForTransactions({
@@ -263,7 +262,57 @@ describe('Transaction Details Dialog', () => {
 			sortKey: TransactionSortKey.EXPENSE_DATE,
 			sortDirection: SortDirection.DESC
 		});
-		throw new Error();
+
+		await renderApp({
+			initialPath: '/expense-tracker/transactions'
+		});
+		await waitForVisibility([
+			{ text: 'Expense Tracker' },
+			{ text: 'Manage Transactions', occurs: 2 },
+			{ text: 'Rows per page:' }
+		]);
+
+		const row = screen.getAllByTestId('transaction-table-row')[0];
+		const detailsButton = within(row).getByText('Details');
+		await userEvent.click(detailsButton);
+
+		const transactionDialog = screen.getByTestId(
+			'transaction-details-dialog'
+		);
+
+		await userEvent.type(
+			within(transactionDialog).getByLabelText('Expense Date'),
+			'01/01/2022'
+		);
+		await userEvent.type(
+			within(transactionDialog).getByLabelText('Amount ($)'),
+			'145.22'
+		);
+		await userEvent.type(
+			within(transactionDialog).getByLabelText('Description'),
+			'Hello World'
+		);
+		await userEvent.click(within(transactionDialog).getByText('Save'));
+
+		await waitForElementToBeRemoved(() =>
+			screen.queryByTestId('transaction-details-dialog')
+		);
+		await waitFor(() =>
+			expect(screen.getAllByTestId('transaction-table-row')).toHaveLength(
+				25
+			)
+		);
+
+		const matchingTransaction =
+			apiServer.database.data.transactions[transaction.id];
+		expect(matchingTransaction).not.toBeUndefined();
+		expect(matchingTransaction).toEqual(
+			expect.objectContaining({
+				expenseDate: '2022-01-01',
+				description: 'Hello World',
+				amount: 145.22
+			})
+		);
 	});
 
 	it('can categorize transaction', async () => {

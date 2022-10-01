@@ -59,6 +59,14 @@ const createTestFormValidation =
 		expect(saveButton).toBeEnabled();
 	};
 
+const createReplaceFieldValue =
+	(dialog: HTMLElement) => async (labelText: string, newValue: string) => {
+		const control = within(dialog).getByLabelText(labelText);
+		await userEvent.clear(control);
+		await userEvent.type(control, newValue);
+		expect(control).toHaveValue(newValue);
+	};
+
 describe('Transaction Details Dialog', () => {
 	it('shows current transaction information for unconfirmed and uncategorized', async () => {
 		await renderApp({
@@ -280,18 +288,10 @@ describe('Transaction Details Dialog', () => {
 			'transaction-details-dialog'
 		);
 
-		await userEvent.type(
-			within(transactionDialog).getByLabelText('Expense Date'),
-			'01/01/2022'
-		);
-		await userEvent.type(
-			within(transactionDialog).getByLabelText('Amount ($)'),
-			'145.22'
-		);
-		await userEvent.type(
-			within(transactionDialog).getByLabelText('Description'),
-			'Hello World'
-		);
+		const replaceFieldValue = createReplaceFieldValue(transactionDialog);
+		await replaceFieldValue('Expense Date', '01/01/2022');
+		await replaceFieldValue('Amount ($)', '145.22');
+		await replaceFieldValue('Description', 'Hello World');
 		await userEvent.click(within(transactionDialog).getByText('Save'));
 
 		await waitForElementToBeRemoved(() =>

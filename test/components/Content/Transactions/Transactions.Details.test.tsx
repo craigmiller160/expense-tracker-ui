@@ -148,6 +148,10 @@ describe('Transaction Details Dialog', () => {
 		materialUiSelect('Category', transactionDialog).hasValue(category.name);
 	});
 
+	it('input field validation rules work', async () => {
+		throw new Error();
+	});
+
 	it('can confirm transaction', async () => {
 		const {
 			transactions: [transaction]

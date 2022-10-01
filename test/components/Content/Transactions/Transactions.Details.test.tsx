@@ -69,17 +69,15 @@ describe('Transaction Details Dialog', () => {
 		const transactionDialog = screen.getByTestId(
 			'transaction-details-dialog'
 		);
-		textExists(
-			[
-				{ text: 'Transaction Details' },
-				{ text: 'Expense Date' },
-				{ text: 'Amount' },
-				{ text: formatDisplayDate(transaction.expenseDate) },
-				{ text: transaction.description },
-				{ text: formatCurrency(transaction.amount) }
-			],
-			transactionDialog
-		);
+		expect(
+			within(transactionDialog).getByLabelText('Expense Date')
+		).toHaveValue(formatDisplayDate(transaction.expenseDate));
+		expect(
+			within(transactionDialog).getByLabelText('Amount ($)')
+		).toHaveValue(transaction.amount.toFixed(2));
+		expect(
+			within(transactionDialog).getByLabelText('Description')
+		).toHaveValue(transaction.description);
 
 		transactionIcon('duplicate-icon', transactionDialog).isNotVisible();
 		transactionIcon('not-confirmed-icon', transactionDialog).isVisible();

@@ -170,16 +170,18 @@ export const TransactionDetailsDialog = (props: Props) => {
 				</div>
 				<hr />
 				<div className={controlsClassName}>
-					<Checkbox
-						testId="confirm-transaction-checkbox"
-						control={control}
-						className={
-							transactionValues.confirmed ? 'invisible' : ''
-						}
-						name="confirmed"
-						label="Confirmed"
-						labelPlacement="end"
-					/>
+					{isEditExisting && (
+						<Checkbox
+							testId="confirm-transaction-checkbox"
+							control={control}
+							className={
+								transactionValues.confirmed ? 'invisible' : ''
+							}
+							name="confirmed"
+							label="Confirmed"
+							labelPlacement="end"
+						/>
+					)}
 					{CategoryComponent}
 				</div>
 			</div>

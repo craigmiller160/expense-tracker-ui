@@ -56,7 +56,8 @@ export const Transactions = () => {
 		openDetailsDialog,
 		closeDetailsDialog,
 		saveTransaction,
-		deleteTransaction
+		deleteTransaction,
+		dialogIsOpen
 	} = useTransactionDetailsDialogActions();
 
 	return (
@@ -74,6 +75,7 @@ export const Transactions = () => {
 				openDetailsDialog={openDetailsDialog}
 			/>
 			<TransactionDetailsDialog
+				open={dialogIsOpen}
 				selectedTransaction={selectedTransaction}
 				onClose={closeDetailsDialog}
 				saveTransaction={saveTransaction}

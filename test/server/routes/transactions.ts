@@ -3,42 +3,33 @@ import { Server } from 'miragejs/server';
 import { Response } from 'miragejs';
 import {
 	CategorizeTransactionsRequest,
-	DATE_FORMAT,
+	CreateTransactionRequest,
 	DeleteTransactionsRequest,
 	NeedsAttentionResponse,
 	TransactionResponse,
 	UpdateTransactionDetailsRequest,
 	UpdateTransactionsRequest
 } from '../../../src/types/transactions';
-import * as Time from '@craigmiller160/ts-functions/es/Time';
 import * as RArray from 'fp-ts/es6/ReadonlyArray';
 import { pipe } from 'fp-ts/es6/function';
 import { match } from 'ts-pattern';
 import { SortDirection } from '../../../src/types/misc';
-import { Ordering } from 'fp-ts/es6/Ordering';
 import { Ord } from 'fp-ts/es6/Ord';
 import * as Monoid from 'fp-ts/es6/Monoid';
 import { MonoidT } from '@craigmiller160/ts-functions/es/types';
-
-const parseDate = Time.parse(DATE_FORMAT);
-
-const compareDates = (
-	dateString1: string,
-	dateString2: string,
-	sortDirection: SortDirection
-): Ordering => {
-	const date1 = parseDate(dateString1);
-	const date2 = parseDate(dateString2);
-	return match(sortDirection)
-		.with(SortDirection.ASC, () => Time.compare(date1)(date2))
-		.otherwise(() => Time.compare(date2)(date1));
-};
+import { nanoid } from 'nanoid';
+import { CategoryResponse } from '../../../src/types/categories';
+import {
+	compareServerDates,
+	parseServerDate
+} from '../../../src/utils/dateTimeUtils';
+import * as Time from '@craigmiller160/ts-functions/es/Time';
 
 const createSortTransactionOrd = (
 	sortDirection: SortDirection
 ): Ord<TransactionResponse> => ({
 	compare: (txn1, txn2) =>
-		compareDates(txn1.expenseDate, txn2.expenseDate, sortDirection),
+		compareServerDates(txn1.expenseDate, txn2.expenseDate, sortDirection),
 	equals: (txn1, txn2) => txn1.expenseDate === txn2.expenseDate
 });
 
@@ -58,8 +49,8 @@ const createStartDateFilter =
 		if (!startDateString) {
 			return true;
 		}
-		const txnDate = parseDate(transaction.expenseDate);
-		const startDate = parseDate(startDateString);
+		const txnDate = parseServerDate(transaction.expenseDate);
+		const startDate = parseServerDate(startDateString);
 		return Time.compare(startDate)(txnDate) <= 0;
 	};
 const createEndDateFilter =
@@ -68,8 +59,8 @@ const createEndDateFilter =
 		if (!endDateString) {
 			return true;
 		}
-		const txnDate = parseDate(transaction.expenseDate);
-		const endDate = parseDate(endDateString);
+		const txnDate = parseServerDate(transaction.expenseDate);
+		const endDate = parseServerDate(endDateString);
 		return Time.compare(endDate)(txnDate) >= 0;
 	};
 const createCategoryIdFilter = (categoryIdString?: string) => {
@@ -143,8 +134,8 @@ const getOldestDate = (
 		return null;
 	}
 
-	const date1 = Time.parse(DATE_FORMAT)(dateString1);
-	const date2 = Time.parse(DATE_FORMAT)(dateString2);
+	const date1 = parseServerDate(dateString1);
+	const date2 = parseServerDate(dateString2);
 	const comparison = Time.compare(date1)(date2);
 	if (comparison >= 0) {
 		return dateString1;
@@ -338,5 +329,28 @@ export const createTransactionsRoutes = (
 			}
 		});
 		return new Response(204);
+	});
+
+	server.post('/transactions', (schema, request) => {
+		const requestBody = JSON.parse(
+			request.requestBody
+		) as CreateTransactionRequest;
+
+		const id = nanoid();
+		const category: CategoryResponse | undefined =
+			database.data.categories[requestBody.categoryId ?? ''];
+		database.updateData((draft) => {
+			draft.transactions[id] = {
+				id,
+				categoryId: category?.id,
+				categoryName: category?.name,
+				description: requestBody.description,
+				amount: requestBody.amount,
+				confirmed: true,
+				duplicate: false,
+				expenseDate: requestBody.expenseDate
+			};
+		});
+		return database.data.transactions[id];
 	});
 };

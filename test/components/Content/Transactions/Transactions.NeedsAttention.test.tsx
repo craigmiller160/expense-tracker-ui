@@ -2,9 +2,7 @@ import { apiServer } from '../../../server';
 import { renderApp } from '../../../testutils/renderApp';
 import { screen, waitFor, within } from '@testing-library/react';
 import { Database } from '../../../server/Database';
-import * as Time from '@craigmiller160/ts-functions/es/Time';
 import { pipe } from 'fp-ts/es6/function';
-import { DATE_FORMAT } from '../../../../src/types/transactions';
 import * as RArray from 'fp-ts/es6/ReadonlyArray';
 import * as RNonEmptyArray from 'fp-ts/es6/ReadonlyNonEmptyArray';
 import * as Monoid from 'fp-ts/es6/Monoid';
@@ -16,10 +14,15 @@ import {
 import '@testing-library/jest-dom';
 import * as Sleep from '@craigmiller160/ts-functions/es/Sleep';
 import { waitForVisibility } from '../../../testutils/dom-actions/wait-for-visibility';
+import {
+	formatDisplayDate,
+	formatServerDate
+} from '../../../../src/utils/dateTimeUtils';
+import * as Time from '@craigmiller160/ts-functions/es/Time';
 
 const oldestDate = pipe(new Date(), Time.subDays(100));
-const oldestDateResponseFormat = Time.format(DATE_FORMAT)(oldestDate);
-const oldestDateDisplayFormat = Time.format('MM/dd/yyyy')(oldestDate);
+const oldestDateResponseFormat = formatServerDate(oldestDate);
+const oldestDateDisplayFormat = formatDisplayDate(oldestDate);
 
 interface Flags {
 	readonly notConfirmed: boolean;
@@ -90,17 +93,11 @@ describe('Transactions Needs Attention', () => {
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
-		await waitFor(() =>
-			expect(screen.queryByText('Expense Tracker')).toBeVisible()
-		);
-		await waitFor(() =>
-			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
-		);
-		await waitFor(() =>
-			expect(
-				screen.queryByText('Transactions Need Attention')
-			).toBeVisible()
-		);
+		await waitForVisibility([
+			{ text: 'Expense Tracker' },
+			{ text: 'Manage Transactions', occurs: 2, timeout: 3000 },
+			{ text: 'Transactions Need Attention' }
+		]);
 		const needsAttentionNotice = screen.getByTestId(
 			'needs-attention-notice'
 		);

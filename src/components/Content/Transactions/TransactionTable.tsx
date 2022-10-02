@@ -55,8 +55,23 @@ interface Props {
 	readonly pagination: PaginationState;
 	readonly onPaginationChange: Updater<PaginationState>;
 	readonly filterValues: TransactionSearchForm;
-	readonly openDetailsDialog: (transaction: TransactionResponse) => void;
+	readonly openDetailsDialog: (transaction?: TransactionResponse) => void;
 }
+
+const createAboveTableActions = (
+	openDetailsDialog: () => void
+): ReadonlyArray<ReactNode> => {
+	return [
+		<Button
+			key="add-transaction"
+			variant="contained"
+			color="primary"
+			onClick={() => openDetailsDialog()}
+		>
+			Add Transaction
+		</Button>
+	];
+};
 
 const createBelowTableActions = (
 	formState: FormState<TransactionTableForm>,
@@ -117,6 +132,7 @@ export const TransactionTable = (props: Props) => {
 	const isAtLeastSm = useIsAtLeastBreakpoint('sm');
 	const editMode = process.env.NODE_ENV === 'test' || isAtLeastSm;
 
+	const aboveTableActions = createAboveTableActions(props.openDetailsDialog);
 	const belowTableActions = createBelowTableActions(
 		formState,
 		resetFormToData,
@@ -137,6 +153,7 @@ export const TransactionTable = (props: Props) => {
 					columns={editMode ? editModeColumns : COLUMNS}
 					loading={isFetching}
 					pagination={tablePagination}
+					aboveTableActions={aboveTableActions}
 					belowTableActions={belowTableActions}
 					data-testid="transactions-table"
 				>

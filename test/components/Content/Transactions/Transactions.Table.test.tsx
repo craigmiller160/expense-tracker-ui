@@ -4,10 +4,7 @@ import { screen, waitFor, within } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import { searchForTransactions } from '../../../../src/ajaxapi/service/TransactionService';
-import {
-	DATE_FORMAT,
-	TransactionSortKey
-} from '../../../../src/types/transactions';
+import { TransactionSortKey } from '../../../../src/types/transactions';
 import { SortDirection } from '../../../../src/types/misc';
 import { getAllCategories } from '../../../../src/ajaxapi/service/CategoryService';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
@@ -25,10 +22,11 @@ import {
 } from './transactionTestUtils';
 import { waitForVisibility } from '../../../testutils/dom-actions/wait-for-visibility';
 import { transactionIcon } from '../../../testutils/dom-actions/transaction-icon';
+import {
+	formatDisplayDate,
+	parseServerDate
+} from '../../../../src/utils/dateTimeUtils';
 
-const DATE_PICKER_FORMAT = 'MM/dd/yyyy';
-
-const parseExpenseDate = Time.parse(DATE_FORMAT);
 const setToMidnight = Time.set({
 	hours: 0,
 	minutes: 0,
@@ -66,10 +64,10 @@ describe('Transactions Table', () => {
 
 		expect(
 			within(transactionFilters).queryByLabelText('Start Date')
-		).toHaveValue(Time.format(DATE_PICKER_FORMAT)(defaultStartDate()));
+		).toHaveValue(formatDisplayDate(defaultStartDate()));
 		expect(
 			within(transactionFilters).queryByLabelText('End Date')
-		).toHaveValue(Time.format(DATE_PICKER_FORMAT)(defaultEndDate()));
+		).toHaveValue(formatDisplayDate(defaultEndDate()));
 		expect(
 			within(transactionFilters).queryByLabelText('Category')
 		).toBeVisible();
@@ -94,7 +92,7 @@ describe('Transactions Table', () => {
 
 		validateTransactionsInTable(25, (index, description) => {
 			const expenseDate = pipe(
-				parseExpenseDate(description.expenseDate),
+				parseServerDate(description.expenseDate),
 				setToMidnight
 			);
 			const startDate = setToMidnight(defaultStartDate());
@@ -245,7 +243,7 @@ describe('Transactions Table', () => {
 
 		validateTransactionsInTable(25, (index, description) => {
 			const expenseDate = pipe(
-				parseExpenseDate(description.expenseDate),
+				parseServerDate(description.expenseDate),
 				setToMidnight
 			);
 			const startDate = setToMidnight(defaultStartDate());
@@ -276,7 +274,7 @@ describe('Transactions Table', () => {
 
 		validateTransactionsInTable(10, (index, description) => {
 			const expenseDate = pipe(
-				parseExpenseDate(description.expenseDate),
+				parseServerDate(description.expenseDate),
 				setToMidnight
 			);
 			const startDate = setToMidnight(defaultStartDate());
@@ -292,16 +290,11 @@ describe('Transactions Table', () => {
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
-		await waitFor(() =>
-			expect(screen.queryByText('Expense Tracker')).toBeVisible()
-		);
-		await waitFor(() =>
-			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
-		);
-
-		await waitFor(() =>
-			expect(screen.queryByText('Rows per page:')).toBeVisible()
-		);
+		await waitForVisibility([
+			{ text: 'Expense Tracker' },
+			{ text: 'Manage Transactions', occurs: 2, timeout: 3000 },
+			{ text: 'Rows per page:' }
+		]);
 
 		const totalDaysInRange = getTotalDaysInRange(
 			defaultStartDate(),
@@ -310,7 +303,7 @@ describe('Transactions Table', () => {
 
 		validateTransactionsInTable(25, (index, description) => {
 			const expenseDate = pipe(
-				parseExpenseDate(description.expenseDate),
+				parseServerDate(description.expenseDate),
 				setToMidnight
 			);
 			const startDate = setToMidnight(defaultStartDate());
@@ -343,7 +336,7 @@ describe('Transactions Table', () => {
 			expectedSecondPageCount,
 			(index, description) => {
 				const expenseDate = pipe(
-					parseExpenseDate(description.expenseDate),
+					parseServerDate(description.expenseDate),
 					setToMidnight
 				);
 				const startDate = setToMidnight(defaultStartDate());
@@ -543,15 +536,11 @@ describe('Transactions Table', () => {
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
-		await waitFor(() =>
-			expect(screen.queryByText('Expense Tracker')).toBeVisible()
-		);
-		await waitFor(() =>
-			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
-		);
-		await waitFor(() =>
-			expect(screen.queryByText('Rows per page:')).toBeVisible()
-		);
+		await waitForVisibility([
+			{ text: 'Expense Tracker' },
+			{ text: 'Manage Transactions', occurs: 2, timeout: 3000 },
+			{ text: 'Rows per page:' }
+		]);
 
 		await userEvent.click(screen.getAllByLabelText('Category')[2]);
 		expect(screen.queryByText('Groceries')).toBeVisible();

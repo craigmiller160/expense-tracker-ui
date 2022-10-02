@@ -3,14 +3,13 @@ import './NeedsAttentionNotice.scss';
 import { useGetNeedsAttention } from '../../../ajaxapi/query/TransactionQueries';
 import {
 	CountAndOldest,
-	DATE_FORMAT,
 	NeedsAttentionResponse
 } from '../../../types/transactions';
-import * as Time from '@craigmiller160/ts-functions/es/Time';
 import { pipe } from 'fp-ts/es6/function';
-
-const parseResponseDate = Time.parse(DATE_FORMAT);
-const formatDisplayDate = Time.format('MM/dd/yyyy');
+import {
+	formatDisplayDate,
+	parseServerDate
+} from '../../../utils/dateTimeUtils';
 
 const doItemsNeedAttention = (data?: NeedsAttentionResponse): boolean =>
 	(data?.unconfirmed?.count ?? 0) > 0 ||
@@ -27,7 +26,7 @@ const formatDate = (date: string | null): string => {
 	if (date === null) {
 		return '';
 	}
-	return pipe(parseResponseDate(date), formatDisplayDate);
+	return pipe(parseServerDate(date), formatDisplayDate);
 };
 
 const AttentionItem = (props: AttentionItemProps) => {

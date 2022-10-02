@@ -1,22 +1,21 @@
 import {
 	CategorizeTransactionsRequest,
-	DATE_FORMAT,
+	CreateTransactionRequest,
 	DeleteTransactionsRequest,
 	NeedsAttentionResponse,
 	SearchTransactionsRequest,
 	SearchTransactionsResponse,
 	TransactionAndCategory,
+	TransactionResponse,
 	TransactionToUpdate,
 	UpdateTransactionDetailsRequest,
 	UpdateTransactionsRequest
 } from '../../types/transactions';
-import * as Time from '@craigmiller160/ts-functions/es/Time';
 import qs from 'qs';
 import { pipe } from 'fp-ts/es6/function';
 import * as Option from 'fp-ts/es6/Option';
 import { expenseTrackerApi, getData } from './AjaxApi';
-
-const formatSearchDate = Time.format(DATE_FORMAT);
+import { formatServerDate } from '../../utils/dateTimeUtils';
 
 const handleOptionalValue = <T>(
 	value: T | undefined,
@@ -41,8 +40,8 @@ const handleCategoryIds = (
 export const requestToQuery = (request: SearchTransactionsRequest): string =>
 	qs.stringify({
 		...request,
-		startDate: handleOptionalValue(request.startDate, formatSearchDate),
-		endDate: handleOptionalValue(request.endDate, formatSearchDate),
+		startDate: handleOptionalValue(request.startDate, formatServerDate),
+		endDate: handleOptionalValue(request.endDate, formatServerDate),
 		categoryIds: handleCategoryIds(
 			request.isCategorized,
 			request.categoryIds
@@ -112,6 +111,17 @@ export const updateTransactionDetails = (
 		.put<void, UpdateTransactionDetailsRequest>({
 			uri: `/transactions/${request.transactionId}/details`,
 			errorCustomizer: 'Error updating transaction details',
+			body: request
+		})
+		.then(getData);
+
+export const createTransaction = (
+	request: CreateTransactionRequest
+): Promise<TransactionResponse> =>
+	expenseTrackerApi
+		.post<TransactionResponse, CreateTransactionRequest>({
+			uri: '/transactions',
+			errorCustomizer: 'Error creating transaction',
 			body: request
 		})
 		.then(getData);

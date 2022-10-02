@@ -1,8 +1,10 @@
 import {
+	CreateTransactionRequest,
 	NeedsAttentionResponse,
 	SearchTransactionsRequest,
 	SearchTransactionsResponse,
 	TransactionAndCategory,
+	TransactionResponse,
 	TransactionToUpdate,
 	UpdateTransactionDetailsRequest
 } from '../../types/transactions';
@@ -17,6 +19,7 @@ import {
 } from 'react-query';
 import {
 	categorizeTransactions,
+	createTransaction,
 	deleteTransactions,
 	getNeedsAttention,
 	searchForTransactions,
@@ -120,6 +123,19 @@ export const useUpdateTransactionDetails = () => {
 	const queryClient = useQueryClient();
 	return useMutation<void, Error, UpdateTransactionDetailsParams>(
 		({ request }) => updateTransactionDetails(request),
+		{
+			onSuccess: () => invalidateTransactionQueries(queryClient)
+		}
+	);
+};
+
+type CreateTransactionParams = {
+	readonly request: CreateTransactionRequest;
+};
+export const useCreateTransaction = () => {
+	const queryClient = useQueryClient();
+	return useMutation<TransactionResponse, Error, CreateTransactionParams>(
+		({ request }) => createTransaction(request),
 		{
 			onSuccess: () => invalidateTransactionQueries(queryClient)
 		}

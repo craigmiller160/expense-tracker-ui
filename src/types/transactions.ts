@@ -5,8 +5,6 @@ export enum TransactionSortKey {
 	EXPENSE_DATE = 'EXPENSE_DATE'
 }
 
-export const DATE_FORMAT = 'yyyy-MM-dd';
-
 export interface SearchTransactionsRequest {
 	readonly pageNumber: number;
 	readonly pageSize: number;
@@ -75,6 +73,13 @@ export type DeleteTransactionsRequest = {
 export type UpdateTransactionDetailsRequest = {
 	readonly transactionId: string;
 	readonly confirmed: boolean;
+	readonly expenseDate: string;
+	readonly description: string;
+	readonly amount: number;
+	readonly categoryId?: string;
+};
+
+export type CreateTransactionRequest = {
 	readonly expenseDate: string;
 	readonly description: string;
 	readonly amount: number;

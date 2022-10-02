@@ -1,8 +1,5 @@
 import { DataUpdater } from '../Database';
-import {
-	DATE_FORMAT,
-	TransactionResponse
-} from '../../../src/types/transactions';
+import { TransactionResponse } from '../../../src/types/transactions';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 import { pipe } from 'fp-ts/es6/function';
 import * as RNonEmptyArray from 'fp-ts/es6/ReadonlyNonEmptyArray';
@@ -12,9 +9,10 @@ import {
 	transactionToRecord,
 	createTransaction
 } from '../../testutils/transactionDataUtils';
+import { formatServerDate } from '../../../src/utils/dateTimeUtils';
 
 const newExpenseDate = (index: number): string =>
-	pipe(new Date(), Time.subDays(index), Time.format(DATE_FORMAT));
+	pipe(new Date(), Time.subDays(index), formatServerDate);
 
 const createTransactionFromIndex = (index: number): TransactionResponse =>
 	createTransaction({

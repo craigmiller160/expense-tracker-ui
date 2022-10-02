@@ -259,6 +259,10 @@ describe('Transaction Details Dialog', () => {
 		).not.toBeInTheDocument();
 	});
 
+	it('adds a new transaction', async () => {
+		throw new Error();
+	});
+
 	it('can update transaction information', async () => {
 		const {
 			transactions: [transaction]

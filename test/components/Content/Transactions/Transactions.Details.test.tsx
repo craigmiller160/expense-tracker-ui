@@ -286,7 +286,7 @@ describe('Transaction Details Dialog', () => {
 		await select.selectItem('Groceries');
 		await select.hasValue('Groceries');
 
-		await userEvent.click(screen.getByText('Save'));
+		await userEvent.click(within(transactionDialog).getByText('Save'));
 
 		await waitForElementToBeRemoved(() =>
 			screen.queryByTestId('transaction-details-dialog')

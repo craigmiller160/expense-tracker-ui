@@ -66,7 +66,7 @@ const createAboveTableActions = (
 			key="add-transaction"
 			variant="contained"
 			color="primary"
-			onClick={openDetailsDialog}
+			onClick={() => openDetailsDialog()}
 		>
 			Add Transaction
 		</Button>

@@ -337,7 +337,7 @@ describe('Transactions Table', () => {
 			expectedSecondPageCount,
 			(index, description) => {
 				const expenseDate = pipe(
-					parseDisplayDate(description.expenseDate),
+					parseServerDate(description.expenseDate),
 					setToMidnight
 				);
 				const startDate = setToMidnight(defaultStartDate());

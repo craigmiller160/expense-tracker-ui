@@ -543,15 +543,11 @@ describe('Transactions Table', () => {
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
-		await waitFor(() =>
-			expect(screen.queryByText('Expense Tracker')).toBeVisible()
-		);
-		await waitFor(() =>
-			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
-		);
-		await waitFor(() =>
-			expect(screen.queryByText('Rows per page:')).toBeVisible()
-		);
+		await waitForVisibility([
+			{ text: 'Expense Tracker' },
+			{ text: 'Manage Transactions', occurs: 2, timeout: 3000 },
+			{ text: 'Rows per page:' }
+		]);
 
 		await userEvent.click(screen.getAllByLabelText('Category')[2]);
 		expect(screen.queryByText('Groceries')).toBeVisible();

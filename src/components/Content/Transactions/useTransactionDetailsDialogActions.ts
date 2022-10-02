@@ -43,6 +43,7 @@ export const useTransactionDetailsDialogActions =
 
 		const openDetailsDialog = (transaction: TransactionResponse) =>
 			setDetailsDialogState((draft) => {
+				draft.open = true;
 				draft.selectedTransaction = Option.of(transaction);
 			});
 

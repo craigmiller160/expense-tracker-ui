@@ -44,7 +44,7 @@ describe('Transactions Filters', () => {
 		});
 		await waitForVisibility([
 			{ text: 'Expense Tracker' },
-			{ text: 'Manage Transactions', occurs: 2 },
+			{ text: 'Manage Transactions', occurs: 2, timeout: 3000 },
 			{ text: 'Rows per page:' }
 		]);
 
@@ -76,7 +76,7 @@ describe('Transactions Filters', () => {
 		});
 		await waitForVisibility([
 			{ text: 'Expense Tracker' },
-			{ text: 'Manage Transactions', occurs: 2 },
+			{ text: 'Manage Transactions', occurs: 2, timeout: 3000 },
 			{ text: 'Rows per page:' }
 		]);
 

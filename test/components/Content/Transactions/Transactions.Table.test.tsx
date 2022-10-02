@@ -24,7 +24,6 @@ import { waitForVisibility } from '../../../testutils/dom-actions/wait-for-visib
 import { transactionIcon } from '../../../testutils/dom-actions/transaction-icon';
 import {
 	formatDisplayDate,
-	parseDisplayDate,
 	parseServerDate
 } from '../../../../src/utils/dateTimeUtils';
 
@@ -244,7 +243,7 @@ describe('Transactions Table', () => {
 
 		validateTransactionsInTable(25, (index, description) => {
 			const expenseDate = pipe(
-				parseDisplayDate(description.expenseDate),
+				parseServerDate(description.expenseDate),
 				setToMidnight
 			);
 			const startDate = setToMidnight(defaultStartDate());
@@ -275,7 +274,7 @@ describe('Transactions Table', () => {
 
 		validateTransactionsInTable(10, (index, description) => {
 			const expenseDate = pipe(
-				parseDisplayDate(description.expenseDate),
+				parseServerDate(description.expenseDate),
 				setToMidnight
 			);
 			const startDate = setToMidnight(defaultStartDate());

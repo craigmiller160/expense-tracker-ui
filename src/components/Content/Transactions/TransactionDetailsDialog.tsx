@@ -1,8 +1,5 @@
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
-import {
-	TransactionResponse,
-	UpdateTransactionDetailsRequest
-} from '../../../types/transactions';
+import { TransactionResponse } from '../../../types/transactions';
 import { SideDialog } from '../../UI/SideDialog';
 import { Button, CircularProgress } from '@mui/material';
 import './TransactionDetailsDialog.scss';
@@ -25,18 +22,13 @@ import {
 } from './useHandleTransactionDetailsDialogData';
 import { useIsAtMaxBreakpoint } from '../../../utils/breakpointHooks';
 import { PossibleRefundIcon } from './icons/PossibleRefundIcon';
-import * as Time from '@craigmiller160/ts-functions/es/Time';
 import * as Option from 'fp-ts/es6/Option';
-
-const formatDate = Time.format('yyyy-MM-dd');
 
 interface Props {
 	readonly open: boolean;
 	readonly selectedTransaction: OptionT<TransactionResponse>;
 	readonly onClose: () => void;
-	readonly saveTransaction: (
-		transaction: UpdateTransactionDetailsRequest
-	) => void;
+	readonly saveTransaction: (transaction: TransactionDetailsFormData) => void;
 	readonly deleteTransaction: (id: string | null) => void;
 }
 
@@ -109,14 +101,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 	);
 
 	const onSubmit = (values: TransactionDetailsFormData) =>
-		props.saveTransaction({
-			transactionId: transactionValues.id ?? '',
-			categoryId: values.category?.value,
-			expenseDate: formatDate(values.expenseDate),
-			amount: parseFloat(values.amount),
-			description: values.description,
-			confirmed: values.confirmed
-		});
+		props.saveTransaction(values);
 
 	const watchedTransaction = watch();
 

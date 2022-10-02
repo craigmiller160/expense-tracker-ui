@@ -1,17 +1,19 @@
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
-import {
-	TransactionResponse,
-	UpdateTransactionDetailsRequest
-} from '../../../types/transactions';
+import { TransactionResponse } from '../../../types/transactions';
 import { useImmer } from 'use-immer';
 import * as Option from 'fp-ts/es6/Option';
 import {
+	useCreateTransaction,
 	useDeleteTransactions,
 	useUpdateTransactionDetails
 } from '../../../ajaxapi/query/TransactionQueries';
 import { pipe } from 'fp-ts/es6/function';
 import { useContext } from 'react';
 import { ConfirmDialogContext } from '../../UI/ConfirmDialog/ConfirmDialogProvider';
+import { TransactionDetailsFormData } from './useHandleTransactionDetailsDialogData';
+import * as Time from '@craigmiller160/ts-functions/es/Time';
+
+const formatServerDate = Time.format('yyyy-MM-dd');
 
 interface TransactionDetailsDialogState {
 	readonly open: boolean;
@@ -22,9 +24,7 @@ interface TransactionDetailsDialogActions {
 	readonly selectedTransaction: OptionT<TransactionResponse>;
 	readonly openDetailsDialog: (transaction?: TransactionResponse) => void;
 	readonly closeDetailsDialog: () => void;
-	readonly saveTransaction: (
-		transaction: UpdateTransactionDetailsRequest
-	) => void;
+	readonly saveTransaction: (transaction: TransactionDetailsFormData) => void;
 	readonly deleteTransaction: (id: string | null) => void;
 	readonly dialogIsOpen: boolean;
 }
@@ -39,6 +39,7 @@ export const useTransactionDetailsDialogActions =
 			});
 		const { mutate: updateTransactionsMutate } =
 			useUpdateTransactionDetails();
+		const { mutate: createTransactionMutate } = useCreateTransaction();
 		const { mutate: deleteTransactionsMutate } = useDeleteTransactions();
 
 		const openDetailsDialog = (transaction?: TransactionResponse) =>
@@ -53,11 +54,33 @@ export const useTransactionDetailsDialogActions =
 				draft.selectedTransaction = Option.none;
 			});
 
-		const saveTransaction = (request: UpdateTransactionDetailsRequest) => {
+		const saveTransaction = (data: TransactionDetailsFormData) => {
 			closeDetailsDialog();
-			updateTransactionsMutate({
-				request
-			});
+			pipe(
+				detailsDialogState.selectedTransaction,
+				Option.fold(
+					() =>
+						createTransactionMutate({
+							request: {
+								amount: parseFloat(data.amount),
+								expenseDate: formatServerDate(data.expenseDate),
+								categoryId: data.category?.value,
+								description: data.description
+							}
+						}),
+					(txn) =>
+						updateTransactionsMutate({
+							request: {
+								transactionId: txn.id,
+								amount: parseFloat(data.amount),
+								confirmed: data.confirmed,
+								expenseDate: formatServerDate(data.expenseDate),
+								categoryId: data.category?.value,
+								description: data.description
+							}
+						})
+				)
+			);
 		};
 		const deleteTransaction = (nullableId: string | null) => {
 			const idsToDelete = pipe(

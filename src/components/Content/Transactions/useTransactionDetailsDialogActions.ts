@@ -11,9 +11,7 @@ import { pipe } from 'fp-ts/es6/function';
 import { useContext } from 'react';
 import { ConfirmDialogContext } from '../../UI/ConfirmDialog/ConfirmDialogProvider';
 import { TransactionDetailsFormData } from './useHandleTransactionDetailsDialogData';
-import * as Time from '@craigmiller160/ts-functions/es/Time';
-
-const formatServerDate = Time.format('yyyy-MM-dd');
+import { formatServerDate } from '../../../utils/dateTimeUtils';
 
 interface TransactionDetailsDialogState {
 	readonly open: boolean;

@@ -1,7 +1,6 @@
 import {
 	CategorizeTransactionsRequest,
 	CreateTransactionRequest,
-	DATE_FORMAT,
 	DeleteTransactionsRequest,
 	NeedsAttentionResponse,
 	SearchTransactionsRequest,
@@ -12,13 +11,11 @@ import {
 	UpdateTransactionDetailsRequest,
 	UpdateTransactionsRequest
 } from '../../types/transactions';
-import * as Time from '@craigmiller160/ts-functions/es/Time';
 import qs from 'qs';
 import { pipe } from 'fp-ts/es6/function';
 import * as Option from 'fp-ts/es6/Option';
 import { expenseTrackerApi, getData } from './AjaxApi';
-
-const formatSearchDate = Time.format(DATE_FORMAT);
+import { formatServerDate } from '../../utils/dateTimeUtils';
 
 const handleOptionalValue = <T>(
 	value: T | undefined,
@@ -43,8 +40,8 @@ const handleCategoryIds = (
 export const requestToQuery = (request: SearchTransactionsRequest): string =>
 	qs.stringify({
 		...request,
-		startDate: handleOptionalValue(request.startDate, formatSearchDate),
-		endDate: handleOptionalValue(request.endDate, formatSearchDate),
+		startDate: handleOptionalValue(request.startDate, formatServerDate),
+		endDate: handleOptionalValue(request.endDate, formatServerDate),
 		categoryIds: handleCategoryIds(
 			request.isCategorized,
 			request.categoryIds

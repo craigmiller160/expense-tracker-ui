@@ -268,7 +268,40 @@ describe('Transaction Details Dialog', () => {
 			{ text: 'Manage Transactions', occurs: 2, timeout: 3000 },
 			{ text: 'Rows per page:' }
 		]);
-		throw new Error();
+
+		await userEvent.click(screen.getByText('Add Transaction'));
+
+		const transactionDialog = screen.getByTestId(
+			'transaction-details-dialog'
+		);
+
+		await waitFor(() => expect(transactionDialog).toBeVisible());
+
+		const replaceFieldValue = createReplaceFieldValue(transactionDialog);
+		await replaceFieldValue('Expense Date', '01/01/2500');
+		await replaceFieldValue('Amount ($)', '145.22');
+		await replaceFieldValue('Description', 'Hello World');
+
+		const select = materialUiSelect('Category', transactionDialog);
+		await select.selectItem('Groceries');
+		await select.hasValue('Groceries');
+
+		await userEvent.click(screen.getByText('Save'));
+
+		await waitForElementToBeRemoved(() =>
+			screen.queryByTestId('transaction-details-dialog')
+		);
+		await waitFor(() => screen.queryByTestId('table-loading'));
+		await waitFor(() =>
+			expect(screen.getAllByTestId('transaction-table-row')).toHaveLength(
+				25
+			)
+		);
+
+		const newTransaction = Object.values(
+			apiServer.database.data.transactions
+		).find((txn) => txn.expenseDate === '2500-01-01');
+		expect(newTransaction).not.toBeUndefined();
 	});
 
 	it('can update transaction information', async () => {

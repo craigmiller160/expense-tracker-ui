@@ -10,7 +10,6 @@ import { Control } from 'react-hook-form';
 import { DuplicateIcon } from './icons/DuplicateIcon';
 import { NotConfirmedIcon } from './icons/NotConfirmedIcon';
 import { NotCategorizedIcon } from './icons/NotCategorizedIcon';
-import * as Option from 'fp-ts/es6/Option';
 import {
 	Autocomplete,
 	Checkbox,
@@ -31,6 +30,7 @@ import * as Time from '@craigmiller160/ts-functions/es/Time';
 const formatDate = Time.format('yyyy-MM-dd');
 
 interface Props {
+	readonly open: boolean;
 	readonly selectedTransaction: OptionT<TransactionResponse>;
 	readonly onClose: () => void;
 	readonly saveTransaction: (
@@ -123,7 +123,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 
 	return (
 		<SideDialog
-			open={Option.isSome(props.selectedTransaction)}
+			open={props.open}
 			onClose={props.onClose}
 			title="Transaction Details"
 			actions={Actions}

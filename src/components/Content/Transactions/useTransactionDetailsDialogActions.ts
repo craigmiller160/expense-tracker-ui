@@ -14,6 +14,7 @@ import { useContext } from 'react';
 import { ConfirmDialogContext } from '../../UI/ConfirmDialog/ConfirmDialogProvider';
 
 interface TransactionDetailsDialogState {
+	readonly open: boolean;
 	readonly selectedTransaction: OptionT<TransactionResponse>;
 }
 
@@ -25,6 +26,7 @@ interface TransactionDetailsDialogActions {
 		transaction: UpdateTransactionDetailsRequest
 	) => void;
 	readonly deleteTransaction: (id: string | null) => void;
+	readonly dialogIsOpen: boolean;
 }
 
 export const useTransactionDetailsDialogActions =
@@ -32,6 +34,7 @@ export const useTransactionDetailsDialogActions =
 		const { newConfirmDialog } = useContext(ConfirmDialogContext);
 		const [detailsDialogState, setDetailsDialogState] =
 			useImmer<TransactionDetailsDialogState>({
+				open: false,
 				selectedTransaction: Option.none
 			});
 		const { mutate: updateTransactionsMutate } =
@@ -45,6 +48,7 @@ export const useTransactionDetailsDialogActions =
 
 		const closeDetailsDialog = () =>
 			setDetailsDialogState((draft) => {
+				draft.open = false;
 				draft.selectedTransaction = Option.none;
 			});
 
@@ -79,6 +83,7 @@ export const useTransactionDetailsDialogActions =
 			openDetailsDialog,
 			closeDetailsDialog,
 			saveTransaction,
-			deleteTransaction
+			deleteTransaction,
+			dialogIsOpen: detailsDialogState.open
 		};
 	};

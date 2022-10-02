@@ -1,11 +1,13 @@
 import {
 	CategorizeTransactionsRequest,
+	CreateTransactionRequest,
 	DATE_FORMAT,
 	DeleteTransactionsRequest,
 	NeedsAttentionResponse,
 	SearchTransactionsRequest,
 	SearchTransactionsResponse,
 	TransactionAndCategory,
+	TransactionResponse,
 	TransactionToUpdate,
 	UpdateTransactionDetailsRequest,
 	UpdateTransactionsRequest
@@ -112,6 +114,17 @@ export const updateTransactionDetails = (
 		.put<void, UpdateTransactionDetailsRequest>({
 			uri: `/transactions/${request.transactionId}/details`,
 			errorCustomizer: 'Error updating transaction details',
+			body: request
+		})
+		.then(getData);
+
+export const createTransaction = (
+	request: CreateTransactionRequest
+): Promise<TransactionResponse> =>
+	expenseTrackerApi
+		.post<TransactionResponse, CreateTransactionRequest>({
+			uri: '/transactions',
+			errorCustomizer: 'Error creating transaction',
 			body: request
 		})
 		.then(getData);

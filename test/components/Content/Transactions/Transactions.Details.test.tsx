@@ -144,7 +144,7 @@ describe('Transaction Details Dialog', () => {
 		});
 		await waitForVisibility([
 			{ text: 'Expense Tracker' },
-			{ text: 'Manage Transactions', occurs: 2 },
+			{ text: 'Manage Transactions', occurs: 2, timeout: 3000 },
 			{ text: 'Rows per page:' }
 		]);
 
@@ -187,7 +187,7 @@ describe('Transaction Details Dialog', () => {
 		});
 		await waitForVisibility([
 			{ text: 'Expense Tracker' },
-			{ text: 'Manage Transactions', occurs: 2 },
+			{ text: 'Manage Transactions', occurs: 2, timeout: 3000 },
 			{ text: 'Rows per page:' }
 		]);
 
@@ -219,7 +219,7 @@ describe('Transaction Details Dialog', () => {
 		});
 		await waitForVisibility([
 			{ text: 'Expense Tracker' },
-			{ text: 'Manage Transactions', occurs: 2 },
+			{ text: 'Manage Transactions', occurs: 2, timeout: 3000 },
 			{ text: 'Rows per page:' }
 		]);
 
@@ -260,6 +260,14 @@ describe('Transaction Details Dialog', () => {
 	});
 
 	it('adds a new transaction', async () => {
+		await renderApp({
+			initialPath: '/expense-tracker/transactions'
+		});
+		await waitForVisibility([
+			{ text: 'Expense Tracker' },
+			{ text: 'Manage Transactions', occurs: 2, timeout: 3000 },
+			{ text: 'Rows per page:' }
+		]);
 		throw new Error();
 	});
 
@@ -280,7 +288,7 @@ describe('Transaction Details Dialog', () => {
 		});
 		await waitForVisibility([
 			{ text: 'Expense Tracker' },
-			{ text: 'Manage Transactions', occurs: 2 },
+			{ text: 'Manage Transactions', occurs: 2, timeout: 3000 },
 			{ text: 'Rows per page:' }
 		]);
 
@@ -326,7 +334,7 @@ describe('Transaction Details Dialog', () => {
 		});
 		await waitForVisibility([
 			{ text: 'Expense Tracker' },
-			{ text: 'Manage Transactions', occurs: 2 },
+			{ text: 'Manage Transactions', occurs: 2, timeout: 3000 },
 			{ text: 'Rows per page:' }
 		]);
 
@@ -382,7 +390,7 @@ describe('Transaction Details Dialog', () => {
 		});
 		await waitForVisibility([
 			{ text: 'Expense Tracker' },
-			{ text: 'Manage Transactions', occurs: 2 },
+			{ text: 'Manage Transactions', occurs: 2, timeout: 3000 },
 			{ text: 'Rows per page:' }
 		]);
 
@@ -427,7 +435,7 @@ describe('Transaction Details Dialog', () => {
 		});
 		await waitForVisibility([
 			{ text: 'Expense Tracker' },
-			{ text: 'Manage Transactions', occurs: 2 },
+			{ text: 'Manage Transactions', occurs: 2, timeout: 3000 },
 			{ text: 'Rows per page:' }
 		]);
 
@@ -470,7 +478,7 @@ describe('Transaction Details Dialog', () => {
 		});
 		await waitForVisibility([
 			{ text: 'Expense Tracker' },
-			{ text: 'Manage Transactions', occurs: 2 },
+			{ text: 'Manage Transactions', occurs: 2, timeout: 3000 },
 			{ text: 'Rows per page:' }
 		]);
 		const row = screen.getAllByTestId('transaction-table-row')[0];

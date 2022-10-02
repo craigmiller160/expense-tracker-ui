@@ -17,7 +17,6 @@ import {
 	defaultStartDate
 } from '../../../../src/components/Content/Transactions/utils';
 import { pipe } from 'fp-ts/es6/function';
-import * as Time from '@craigmiller160/ts-functions/es/Time';
 import * as Sleep from '@craigmiller160/ts-functions/es/Sleep';
 import { searchForTransactions } from '../../../../src/ajaxapi/service/TransactionService';
 import { TransactionSortKey } from '../../../../src/types/transactions';
@@ -35,8 +34,8 @@ import {
 import * as Monoid from 'fp-ts/es6/Monoid';
 import { waitForVisibility } from '../../../testutils/dom-actions/wait-for-visibility';
 import { materialUiCheckbox } from '../../../testutils/dom-actions/material-ui-checkbox';
-
-const DISPLAY_DATE_FORMAT = 'MM/dd/yyyy';
+import { formatDisplayDate } from '../../../../src/utils/dateTimeUtils';
+import * as Time from '@craigmiller160/ts-functions/es/Time';
 
 describe('Transactions Filters', () => {
 	it('start date', async () => {
@@ -59,7 +58,7 @@ describe('Transactions Filters', () => {
 		const dateToSelect = pipe(
 			defaultStartDate(),
 			Time.subDays(1),
-			Time.format('MM/dd/yyyy')
+			formatDisplayDate
 		);
 		await selectDate('Start Date', dateToSelect);
 		await userEvent.click(screen.getAllByText('Manage Transactions')[1]);
@@ -91,7 +90,7 @@ describe('Transactions Filters', () => {
 		const dateToSelect = pipe(
 			defaultEndDate(),
 			Time.subDays(1),
-			Time.format('MM/dd/yyyy')
+			formatDisplayDate
 		);
 		await selectDate('End Date', dateToSelect);
 		await userEvent.click(screen.getAllByText('Manage Transactions')[1]);
@@ -209,14 +208,11 @@ describe('Transactions Filters', () => {
 		const dates = screen.getAllByTestId('transaction-expense-date');
 		expect(dates.length).toEqual(25);
 
-		const expectedFirstDate = pipe(
-			defaultEndDate(),
-			Time.format(DISPLAY_DATE_FORMAT)
-		);
+		const expectedFirstDate = pipe(defaultEndDate(), formatDisplayDate);
 		const expectedLastDate = pipe(
 			defaultEndDate(),
 			Time.subDays(24),
-			Time.format(DISPLAY_DATE_FORMAT)
+			formatDisplayDate
 		);
 
 		expect(dates[0]).toHaveTextContent(expectedFirstDate);
@@ -231,12 +227,12 @@ describe('Transactions Filters', () => {
 
 		const newExpectedFirstDate = pipe(
 			defaultStartDate(),
-			Time.format(DISPLAY_DATE_FORMAT)
+			formatDisplayDate
 		);
 		const newExpectedLastDate = pipe(
 			defaultStartDate(),
 			Time.addDays(24),
-			Time.format(DISPLAY_DATE_FORMAT)
+			formatDisplayDate
 		);
 
 		const newDates = screen.getAllByTestId('transaction-expense-date');

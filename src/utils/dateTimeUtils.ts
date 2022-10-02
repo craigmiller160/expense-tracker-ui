@@ -4,9 +4,12 @@ import { Ordering } from 'fp-ts/es6/Ordering';
 import { match } from 'ts-pattern';
 
 const SERVER_DATE_FORMAT = 'yyyy-MM-dd';
+const DISPLAY_DATE_FORMAT = 'MM/dd/yyyy';
 
 export const parseServerDate = Time.parse(SERVER_DATE_FORMAT);
 export const formatServerDate = Time.format(SERVER_DATE_FORMAT);
+export const parseDisplayDate = Time.parse(DISPLAY_DATE_FORMAT);
+export const formatDisplayDate = Time.format(DISPLAY_DATE_FORMAT);
 
 export const compareServerDates = (
 	dateString1: string,

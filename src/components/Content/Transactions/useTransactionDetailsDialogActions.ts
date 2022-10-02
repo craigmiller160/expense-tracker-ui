@@ -20,7 +20,7 @@ interface TransactionDetailsDialogState {
 
 interface TransactionDetailsDialogActions {
 	readonly selectedTransaction: OptionT<TransactionResponse>;
-	readonly openDetailsDialog: (transaction: TransactionResponse) => void;
+	readonly openDetailsDialog: (transaction?: TransactionResponse) => void;
 	readonly closeDetailsDialog: () => void;
 	readonly saveTransaction: (
 		transaction: UpdateTransactionDetailsRequest
@@ -41,10 +41,10 @@ export const useTransactionDetailsDialogActions =
 			useUpdateTransactionDetails();
 		const { mutate: deleteTransactionsMutate } = useDeleteTransactions();
 
-		const openDetailsDialog = (transaction: TransactionResponse) =>
+		const openDetailsDialog = (transaction?: TransactionResponse) =>
 			setDetailsDialogState((draft) => {
 				draft.open = true;
-				draft.selectedTransaction = Option.of(transaction);
+				draft.selectedTransaction = Option.fromNullable(transaction);
 			});
 
 		const closeDetailsDialog = () =>

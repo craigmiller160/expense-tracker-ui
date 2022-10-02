@@ -26,6 +26,7 @@ import {
 import { useIsAtMaxBreakpoint } from '../../../utils/breakpointHooks';
 import { PossibleRefundIcon } from './icons/PossibleRefundIcon';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
+import * as Option from 'fp-ts/es6/Option';
 
 const formatDate = Time.format('yyyy-MM-dd');
 
@@ -94,6 +95,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 		form: { control, handleSubmit, formState, watch }
 	} = useHandleTransactionDetailsDialogData(props.selectedTransaction);
 	const CategoryComponent = useGetCategoryComponent(control);
+	const isEditExisting = Option.isSome(props.selectedTransaction);
 
 	const { isDirty, isValid } = formState;
 

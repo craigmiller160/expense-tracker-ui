@@ -55,7 +55,7 @@ interface Props {
 	readonly pagination: PaginationState;
 	readonly onPaginationChange: Updater<PaginationState>;
 	readonly filterValues: TransactionSearchForm;
-	readonly openDetailsDialog: (transaction: TransactionResponse) => void;
+	readonly openDetailsDialog: (transaction?: TransactionResponse) => void;
 }
 
 const createBelowTableActions = (

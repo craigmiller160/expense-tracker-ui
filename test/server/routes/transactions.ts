@@ -3,6 +3,7 @@ import { Server } from 'miragejs/server';
 import { Response } from 'miragejs';
 import {
 	CategorizeTransactionsRequest,
+	CreateTransactionRequest,
 	DATE_FORMAT,
 	DeleteTransactionsRequest,
 	NeedsAttentionResponse,
@@ -19,6 +20,8 @@ import { Ordering } from 'fp-ts/es6/Ordering';
 import { Ord } from 'fp-ts/es6/Ord';
 import * as Monoid from 'fp-ts/es6/Monoid';
 import { MonoidT } from '@craigmiller160/ts-functions/es/types';
+import { nanoid } from 'nanoid';
+import { CategoryResponse } from '../../../src/types/categories';
 
 const parseDate = Time.parse(DATE_FORMAT);
 
@@ -338,5 +341,28 @@ export const createTransactionsRoutes = (
 			}
 		});
 		return new Response(204);
+	});
+
+	server.post('/transactions', (schema, request) => {
+		const requestBody = JSON.parse(
+			request.requestBody
+		) as CreateTransactionRequest;
+
+		const id = nanoid();
+		const category: CategoryResponse | undefined =
+			database.data.categories[requestBody.categoryId ?? ''];
+		database.updateData((draft) => {
+			draft.transactions[id] = {
+				id,
+				categoryId: category?.id,
+				categoryName: category?.name,
+				description: requestBody.description,
+				amount: requestBody.amount,
+				confirmed: true,
+				duplicate: false,
+				expenseDate: requestBody.expenseDate
+			};
+		});
+		return database.data.transactions[id];
 	});
 };

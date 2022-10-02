@@ -80,3 +80,10 @@ export type UpdateTransactionDetailsRequest = {
 	readonly amount: number;
 	readonly categoryId?: string;
 };
+
+export type CreateTransactionRequest = {
+	readonly expenseDate: string;
+	readonly description: string;
+	readonly amount: number;
+	readonly categoryId?: string;
+};

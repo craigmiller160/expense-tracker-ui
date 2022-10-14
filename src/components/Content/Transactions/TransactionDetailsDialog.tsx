@@ -142,7 +142,13 @@ export const TransactionDetailsDialog = (props: Props) => {
 							control={control}
 							name="amount"
 							label="Amount ($)"
-							rules={{ required: 'Amount is required' }}
+							rules={{
+								required: 'Amount is required',
+								validate: (value: unknown) =>
+									/^0\.00$/.test(`${value}`)
+										? 'Must provide amount'
+										: undefined
+							}}
 							onBlurTransform={formatAmountValue}
 						/>
 					</div>

@@ -1,10 +1,12 @@
 import { useGetPossibleDuplicates } from '../../../ajaxapi/query/TransactionQueries';
 import { Table } from '../../UI/Table';
-import { Typography } from '@mui/material';
+import { TableCell, TableRow, Typography } from '@mui/material';
 import './TransactionDetailsDuplicatePanel.scss';
 import { createTablePagination, PaginationState } from './utils';
 import { useMemo } from 'react';
 import { useImmer } from 'use-immer';
+import { formatCurrency } from '../../../utils/formatCurrency';
+import { serverDateToDisplayDate } from '../../../utils/dateTimeUtils';
 
 type Props = {
 	readonly transactionId: string;
@@ -18,11 +20,10 @@ export const TransactionDetailsDuplicatePanel = (props: Props) => {
 		pageNumber: 0,
 		pageSize: 5
 	});
-	// TODO need pagination to be better
 	const { data, isFetching } = useGetPossibleDuplicates(
 		props.transactionId,
-		0,
-		25
+		state.pageNumber,
+		state.pageSize
 	);
 
 	const tablePagination = useMemo(
@@ -46,7 +47,21 @@ export const TransactionDetailsDuplicatePanel = (props: Props) => {
 				loading={isFetching}
 				pagination={tablePagination}
 				data-testid="transaction-duplicates-table"
-			></Table>
+			>
+				{data?.transactions?.map((txn) => (
+					<TableRow
+						key={txn.id}
+						data-testid="transaction-duplicate-row"
+					>
+						<TableCell>
+							{serverDateToDisplayDate(txn.expenseDate)}
+						</TableCell>
+						<TableCell>{formatCurrency(txn.amount)}</TableCell>
+						<TableCell>{txn.description}</TableCell>
+						<TableCell>{txn.categoryName}</TableCell>
+					</TableRow>
+				))}
+			</Table>
 		</div>
 	);
 };

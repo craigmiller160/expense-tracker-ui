@@ -2,6 +2,7 @@ import * as Time from '@craigmiller160/ts-functions/es/Time';
 import { SortDirection } from '../types/misc';
 import { Ordering } from 'fp-ts/es6/Ordering';
 import { match } from 'ts-pattern';
+import { pipe } from 'fp-ts/es6/function';
 
 const SERVER_DATE_FORMAT = 'yyyy-MM-dd';
 const DISPLAY_DATE_FORMAT = 'MM/dd/yyyy';
@@ -22,3 +23,6 @@ export const compareServerDates = (
 		.with(SortDirection.ASC, () => Time.compare(date1)(date2))
 		.otherwise(() => Time.compare(date2)(date1));
 };
+
+export const serverDateToDisplayDate = (serverDate: string): string =>
+	pipe(serverDate, parseServerDate, formatDisplayDate);

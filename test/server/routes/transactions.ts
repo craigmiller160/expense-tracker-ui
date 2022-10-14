@@ -353,4 +353,14 @@ export const createTransactionsRoutes = (
 		});
 		return database.data.transactions[id];
 	});
+
+	server.get('/transactions/:transactionId/duplicates', (schema, request) => {
+		const transactionId = request.params.transactionId as string;
+		const pageNumber = parseInt(`${request.queryParams?.pageNumber}`);
+		const pageSize = parseInt(`${request.queryParams?.pageSize}`);
+		const duplicates = Object.values(database.data.transactions)
+			.filter((txn) => txn.duplicate);
+		// TODO how to make this work in the mock server?
+		return new Response(200);
+	});
 };

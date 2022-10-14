@@ -85,7 +85,10 @@ export const TransactionDetailsDialog = (props: Props) => {
 	const {
 		transactionValues,
 		form: { control, handleSubmit, formState, watch }
-	} = useHandleTransactionDetailsDialogData(props.selectedTransaction);
+	} = useHandleTransactionDetailsDialogData(
+		props.selectedTransaction,
+		props.open
+	);
 	const CategoryComponent = useGetCategoryComponent(control);
 	const isEditExisting = Option.isSome(props.selectedTransaction);
 

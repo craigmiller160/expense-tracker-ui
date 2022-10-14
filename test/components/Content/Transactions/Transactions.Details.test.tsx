@@ -530,4 +530,8 @@ describe('Transaction Details Dialog', () => {
 
 		detailsButtons.forEach(testButton(true));
 	});
+
+	it('shows all possible duplicates for transaction', async () => {
+		throw new Error();
+	});
 });

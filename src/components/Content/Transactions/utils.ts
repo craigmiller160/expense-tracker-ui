@@ -15,10 +15,10 @@ import { useMemo } from 'react';
 import { match, P } from 'ts-pattern';
 import * as Option from 'fp-ts/es6/Option';
 
-export interface PaginationState {
+export type PaginationState = {
 	readonly pageNumber: number;
 	readonly pageSize: number;
-}
+};
 
 export interface TransactionSearchForm {
 	readonly direction: SortDirection;

@@ -22,6 +22,7 @@ import {
 	createTransaction,
 	deleteTransactions,
 	getNeedsAttention,
+	getPossibleDuplicates,
 	searchForTransactions,
 	updateTransactionDetails,
 	updateTransactions
@@ -30,6 +31,8 @@ import {
 export const SEARCH_FOR_TRANSACTIONS =
 	'TransactionQueries_SearchForTransactions';
 export const GET_NEEDS_ATTENTION = 'TransactionQueries_GetNeedsAttention';
+export const GET_POSSIBLE_DUPLICATES =
+	'TransactionQueries_GetPossibleDuplicates';
 
 const invalidateTransactionQueries = (queryClient: QueryClient) =>
 	Promise.all([
@@ -49,6 +52,33 @@ export const useSearchForTransactions = (
 		SearchForTransactionsKey
 	>([SEARCH_FOR_TRANSACTIONS, request], ({ queryKey: [, req] }) =>
 		searchForTransactions(req)
+	);
+
+type GetPossibleDuplicatesKey = [
+	string,
+	{ transactionId: string; pageNumber: number; pageSize: number }
+];
+export const useGetPossibleDuplicates = (
+	transactionId: string,
+	pageNumber: number,
+	pageSize: number
+) =>
+	useQuery<
+		TransactionsPageResponse,
+		Error,
+		TransactionsPageResponse,
+		GetPossibleDuplicatesKey
+	>(
+		[
+			GET_POSSIBLE_DUPLICATES,
+			{
+				transactionId,
+				pageNumber,
+				pageSize
+			}
+		],
+		({ queryKey: [, { transactionId, pageNumber, pageSize }] }) =>
+			getPossibleDuplicates(transactionId, pageNumber, pageSize)
 	);
 
 export const useGetNeedsAttention = (): UseQueryResult<

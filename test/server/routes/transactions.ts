@@ -358,9 +358,15 @@ export const createTransactionsRoutes = (
 		const transactionId = request.params.transactionId as string;
 		const pageNumber = parseInt(`${request.queryParams?.pageNumber}`);
 		const pageSize = parseInt(`${request.queryParams?.pageSize}`);
+		const matchingTxn = database.data.transactions[transactionId];
 		const duplicates = Object.values(database.data.transactions)
-			.filter((txn) => txn.duplicate);
-		// TODO how to make this work in the mock server?
-		return new Response(200);
+			.filter((txn) => txn.duplicate)
+			.filter(
+				(txn) =>
+					matchingTxn.expenseDate === txn.expenseDate &&
+					matchingTxn.amount === txn.amount &&
+					matchingTxn.description === txn.description
+			);
+		return paginateTransactions(pageNumber, pageSize)(duplicates);
 	});
 };

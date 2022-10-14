@@ -29,7 +29,7 @@ export interface TransactionResponse extends DbRecord {
 	readonly categoryName?: string;
 }
 
-export interface SearchTransactionsResponse {
+export interface TransactionsPageResponse {
 	readonly pageNumber: number;
 	readonly totalItems: number;
 	readonly transactions: ReadonlyArray<TransactionResponse>;

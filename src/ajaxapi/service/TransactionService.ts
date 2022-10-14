@@ -4,7 +4,7 @@ import {
 	DeleteTransactionsRequest,
 	NeedsAttentionResponse,
 	SearchTransactionsRequest,
-	SearchTransactionsResponse,
+	TransactionsPageResponse,
 	TransactionAndCategory,
 	TransactionResponse,
 	TransactionToUpdate,
@@ -50,10 +50,10 @@ export const requestToQuery = (request: SearchTransactionsRequest): string =>
 
 export const searchForTransactions = (
 	request: SearchTransactionsRequest
-): Promise<SearchTransactionsResponse> => {
+): Promise<TransactionsPageResponse> => {
 	const query = requestToQuery(request);
 	return expenseTrackerApi
-		.get<SearchTransactionsResponse>({
+		.get<TransactionsPageResponse>({
 			uri: `/transactions?${query}`,
 			errorCustomizer: 'Error searching for transactions'
 		})
@@ -123,5 +123,17 @@ export const createTransaction = (
 			uri: '/transactions',
 			errorCustomizer: 'Error creating transaction',
 			body: request
+		})
+		.then(getData);
+
+export const getPossibleDuplicates = (
+	transactionId: string,
+	pageNumber: number,
+	pageSize: number
+): Promise<TransactionsPageResponse> =>
+	expenseTrackerApi
+		.get<TransactionsPageResponse>({
+			uri: `/transactions/${transactionId}/duplicates?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+			errorCustomizer: 'Error finding possible duplicates'
 		})
 		.then(getData);

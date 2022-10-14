@@ -2,7 +2,7 @@ import {
 	CreateTransactionRequest,
 	NeedsAttentionResponse,
 	SearchTransactionsRequest,
-	SearchTransactionsResponse,
+	TransactionsPageResponse,
 	TransactionAndCategory,
 	TransactionResponse,
 	TransactionToUpdate,
@@ -41,11 +41,11 @@ type SearchForTransactionsKey = [string, SearchTransactionsRequest];
 
 export const useSearchForTransactions = (
 	request: SearchTransactionsRequest
-): UseQueryResult<SearchTransactionsResponse, Error> =>
+): UseQueryResult<TransactionsPageResponse, Error> =>
 	useQuery<
-		SearchTransactionsResponse,
+		TransactionsPageResponse,
 		Error,
-		SearchTransactionsResponse,
+		TransactionsPageResponse,
 		SearchForTransactionsKey
 	>([SEARCH_FOR_TRANSACTIONS, request], ({ queryKey: [, req] }) =>
 		searchForTransactions(req)

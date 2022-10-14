@@ -71,7 +71,8 @@ const useValuesFromSelectedTransaction = (
 };
 
 export const useHandleTransactionDetailsDialogData = (
-	selectedTransaction: OptionT<TransactionResponse>
+	selectedTransaction: OptionT<TransactionResponse>,
+	open: boolean
 ): TransactionDetailsDialogData => {
 	const transactionValues =
 		useValuesFromSelectedTransaction(selectedTransaction);
@@ -91,7 +92,7 @@ export const useHandleTransactionDetailsDialogData = (
 			amount: transactionValues.amount.toFixed(2),
 			expenseDate: parseDisplayDate(transactionValues.expenseDate)
 		});
-	}, [transactionValues, reset]);
+	}, [transactionValues, reset, open]);
 
 	return {
 		transactionValues,

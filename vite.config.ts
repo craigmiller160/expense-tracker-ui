@@ -29,7 +29,7 @@ export default {
 				logLevel: 'debug'
 			},
 			'/expense-tracker/oauth2': {
-				target: 'https://localhost:7003',
+				target: 'https://apps-craigmiller160.ddns.net/oauth2',
 				changeOrigin: true,
 				secure: false,
 				rewrite: (path: string) =>

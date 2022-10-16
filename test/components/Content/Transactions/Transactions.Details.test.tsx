@@ -22,6 +22,12 @@ import { transactionIcon } from '../../../testutils/dom-actions/transaction-icon
 import { waitForVisibility } from '../../../testutils/dom-actions/wait-for-visibility';
 import '@relmify/jest-fp-ts';
 import { materialUiCheckbox } from '../../../testutils/dom-actions/material-ui-checkbox';
+import { pipe } from 'fp-ts/es6/function';
+import * as Time from '@craigmiller160/ts-functions/es/Time';
+import { formatServerDateTime } from '../../../../src/utils/dateTimeUtils';
+
+const createTimestamp = (numDates: number): string =>
+	pipe(new Date(), Time.subDays(numDates), formatServerDateTime);
 
 const testButton =
 	(isDisabled: boolean) => (detailsButton: HTMLElement, index: number) => {
@@ -532,6 +538,50 @@ describe('Transaction Details Dialog', () => {
 	});
 
 	it('shows all possible duplicates for transaction', async () => {
-		throw new Error();
+		const { transactions } = await searchForTransactions({
+			startDate: defaultStartDate(),
+			endDate: defaultEndDate(),
+			pageNumber: 0,
+			pageSize: 25,
+			sortKey: TransactionSortKey.EXPENSE_DATE,
+			sortDirection: SortDirection.DESC
+		});
+		const date1 = createTimestamp(1);
+		const date2 = createTimestamp(2);
+		apiServer.database.updateData((draft) => {
+			draft.transactions[transactions[0].id] = {
+				...transactions[0],
+				duplicate: true,
+				created: date1,
+				updated: date1
+			};
+			draft.transactions[transactions[1].id] = {
+				...transactions[1],
+				duplicate: true,
+				updated: date2,
+				created: date2
+			};
+		});
+
+		await renderApp({
+			initialPath: '/expense-tracker/transactions'
+		});
+		await waitForVisibility([
+			{ text: 'Expense Tracker' },
+			{ text: 'Manage Transactions', occurs: 2, timeout: 3000 },
+			{ text: 'Rows per page:' }
+		]);
+
+		const row = screen.getAllByTestId('transaction-table-row')[0];
+		const detailsButton = within(row).getByText('Details');
+		await userEvent.click(detailsButton);
+
+		const transactionDialog = screen.getByTestId(
+			'transaction-details-dialog'
+		);
+
+		transactionIcon('duplicate-icon', transactionDialog).isVisible();
+
+		// TODO validate duplicates table
 	});
 });

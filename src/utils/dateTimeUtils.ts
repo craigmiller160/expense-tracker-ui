@@ -4,8 +4,6 @@ import { Ordering } from 'fp-ts/es6/Ordering';
 import { match } from 'ts-pattern';
 import { pipe } from 'fp-ts/es6/function';
 
-// 2022-07-02T18:55:13.824209Z
-
 const SERVER_DATE_FORMAT = 'yyyy-MM-dd';
 const SERVER_DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSX";
 const DISPLAY_DATE_FORMAT = 'MM/dd/yyyy';

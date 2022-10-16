@@ -351,8 +351,8 @@ export const createTransactionsRoutes = (
 				confirmed: true,
 				duplicate: false,
 				expenseDate: requestBody.expenseDate,
-				created: draft.transactions[id].created,
-				updated: draft.transactions[id].updated
+				created: '',
+				updated: ''
 			};
 		});
 		return database.data.transactions[id];

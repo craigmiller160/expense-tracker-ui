@@ -6,6 +6,7 @@ import {
 	CreateTransactionRequest,
 	DeleteTransactionsRequest,
 	NeedsAttentionResponse,
+	TransactionDetailsResponse,
 	TransactionDuplicateResponse,
 	TransactionResponse,
 	UpdateTransactionDetailsRequest,
@@ -37,8 +38,8 @@ const createSortTransactionOrd = (
 const paginateTransactions =
 	(pageNumber: number, pageSize: number) =>
 	(
-		transactions: ReadonlyArray<TransactionResponse>
-	): ReadonlyArray<TransactionResponse> =>
+		transactions: ReadonlyArray<TransactionDetailsResponse>
+	): ReadonlyArray<TransactionDetailsResponse> =>
 		transactions.slice(
 			pageNumber * pageSize,
 			pageNumber * pageSize + pageSize
@@ -349,7 +350,9 @@ export const createTransactionsRoutes = (
 				amount: requestBody.amount,
 				confirmed: true,
 				duplicate: false,
-				expenseDate: requestBody.expenseDate
+				expenseDate: requestBody.expenseDate,
+				created: draft.transactions[id].created,
+				updated: draft.transactions[id].updated
 			};
 		});
 		return database.data.transactions[id];

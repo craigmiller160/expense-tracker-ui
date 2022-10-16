@@ -29,6 +29,11 @@ export interface TransactionResponse extends DbRecord {
 	readonly categoryName?: string;
 }
 
+export interface TransactionDetailsResponse extends TransactionResponse {
+	readonly created: string;
+	readonly updated: string;
+}
+
 export interface TransactionsPageResponse {
 	readonly pageNumber: number;
 	readonly totalItems: number;

@@ -6,14 +6,14 @@ import * as Option from 'fp-ts/es6/Option';
 import { DbRecord } from '../../src/types/db';
 import { nanoid } from 'nanoid';
 import { CategoryResponse } from '../../src/types/categories';
-import { TransactionResponse } from '../../src/types/transactions';
+import { TransactionDetailsResponse } from '../../src/types/transactions';
 
 export const USER_ID = 1;
 
 export interface Data {
 	readonly authUser: OptionT<AuthUser>;
 	readonly categories: Record<string, CategoryResponse>;
-	readonly transactions: Record<string, TransactionResponse>;
+	readonly transactions: Record<string, TransactionDetailsResponse>;
 }
 
 export type DataUpdater = (draft: WritableDraft<Data>) => void;

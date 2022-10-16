@@ -562,6 +562,7 @@ describe('Transaction Details Dialog', () => {
 			};
 			draft.transactions[transactions[1].id] = {
 				...transactions[0],
+				id: transactions[1].id,
 				duplicate: true,
 				updated: date2,
 				created: date2
@@ -592,13 +593,9 @@ describe('Transaction Details Dialog', () => {
 		const displayDate1 = serverDateTimeToDisplayDateTime(date1);
 		const displayDate2 = serverDateTimeToDisplayDateTime(date2);
 
-		screen.debug(transactionDialog); // TODO delete this
-
 		await waitFor(() =>
 			expect(screen.queryAllByText(displayDate2)).toHaveLength(2)
 		);
 		expect(screen.queryByText(displayDate1)).not.toBeInTheDocument();
-
-		// TODO validate duplicates table
 	});
 });

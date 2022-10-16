@@ -369,7 +369,8 @@ export const createTransactionsRoutes = (
 				(txn) =>
 					matchingTxn.expenseDate === txn.expenseDate &&
 					matchingTxn.amount === txn.amount &&
-					matchingTxn.description === txn.description
+					matchingTxn.description === txn.description &&
+					matchingTxn.id !== txn.id
 			);
 		const paginatedDuplicates = paginateTransactions(
 			pageNumber,

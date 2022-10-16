@@ -39,7 +39,7 @@ export const TransactionDetailsDuplicatePanel = (props: Props) => {
 	return (
 		<div className="TransactionDetailsDuplicatePanel">
 			<Typography variant="h5" className="header">
-				Duplicates
+				All Duplicates
 			</Typography>
 			<Table
 				columns={COLUMNS}

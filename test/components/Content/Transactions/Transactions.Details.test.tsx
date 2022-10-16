@@ -24,7 +24,10 @@ import '@relmify/jest-fp-ts';
 import { materialUiCheckbox } from '../../../testutils/dom-actions/material-ui-checkbox';
 import { pipe } from 'fp-ts/es6/function';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
-import { formatServerDateTime } from '../../../../src/utils/dateTimeUtils';
+import {
+	formatServerDateTime,
+	serverDateTimeToDisplayDateTime
+} from '../../../../src/utils/dateTimeUtils';
 
 const createTimestamp = (numDates: number): string =>
 	pipe(new Date(), Time.subDays(numDates), formatServerDateTime);
@@ -115,6 +118,8 @@ describe('Transaction Details Dialog', () => {
 		transactionIcon('duplicate-icon', transactionDialog).isNotVisible();
 		transactionIcon('not-confirmed-icon', transactionDialog).isVisible();
 		transactionIcon('no-category-icon', transactionDialog).isVisible();
+
+		expect(screen.queryByText('All Duplicates')).not.toBeVisible();
 
 		expect(within(transactionDialog).getByText('Save')).toBeDisabled();
 
@@ -556,7 +561,7 @@ describe('Transaction Details Dialog', () => {
 				updated: date1
 			};
 			draft.transactions[transactions[1].id] = {
-				...transactions[1],
+				...transactions[0],
 				duplicate: true,
 				updated: date2,
 				created: date2
@@ -581,6 +586,18 @@ describe('Transaction Details Dialog', () => {
 		);
 
 		transactionIcon('duplicate-icon', transactionDialog).isVisible();
+
+		expect(screen.queryByText('All Duplicates')).toBeVisible();
+
+		const displayDate1 = serverDateTimeToDisplayDateTime(date1);
+		const displayDate2 = serverDateTimeToDisplayDateTime(date2);
+
+		screen.debug(transactionDialog); // TODO delete this
+
+		await waitFor(() =>
+			expect(screen.queryAllByText(displayDate2)).toHaveLength(2)
+		);
+		expect(screen.queryByText(displayDate1)).not.toBeInTheDocument();
 
 		// TODO validate duplicates table
 	});

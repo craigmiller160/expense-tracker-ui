@@ -5,15 +5,14 @@ import './TransactionDetailsDuplicatePanel.scss';
 import { createTablePagination, PaginationState } from './utils';
 import { useMemo } from 'react';
 import { useImmer } from 'use-immer';
-import { formatCurrency } from '../../../utils/formatCurrency';
-import { serverDateToDisplayDate } from '../../../utils/dateTimeUtils';
+import { serverDateTimeToDisplayDateTime } from '../../../utils/dateTimeUtils';
 
 type Props = {
 	readonly transactionId: string;
 };
 type State = PaginationState;
 
-const COLUMNS = ['Expense Date', 'Amount', 'Description', 'Category'];
+const COLUMNS = ['Created', 'Updated', 'Category'];
 
 export const TransactionDetailsDuplicatePanel = (props: Props) => {
 	const [state, setState] = useImmer<State>({
@@ -54,10 +53,11 @@ export const TransactionDetailsDuplicatePanel = (props: Props) => {
 						data-testid="transaction-duplicate-row"
 					>
 						<TableCell>
-							{serverDateToDisplayDate(txn.expenseDate)}
+							{serverDateTimeToDisplayDateTime(txn.created)}
 						</TableCell>
-						<TableCell>{formatCurrency(txn.amount)}</TableCell>
-						<TableCell>{txn.description}</TableCell>
+						<TableCell>
+							{serverDateTimeToDisplayDateTime(txn.updated)}
+						</TableCell>
 						<TableCell>{txn.categoryName}</TableCell>
 					</TableRow>
 				))}

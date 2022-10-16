@@ -9,7 +9,8 @@ import {
 	TransactionResponse,
 	TransactionToUpdate,
 	UpdateTransactionDetailsRequest,
-	UpdateTransactionsRequest
+	UpdateTransactionsRequest,
+	TransactionDuplicatePageResponse
 } from '../../types/transactions';
 import qs from 'qs';
 import { pipe } from 'fp-ts/es6/function';
@@ -130,9 +131,9 @@ export const getPossibleDuplicates = (
 	transactionId: string,
 	pageNumber: number,
 	pageSize: number
-): Promise<TransactionsPageResponse> =>
+): Promise<TransactionDuplicatePageResponse> =>
 	expenseTrackerApi
-		.get<TransactionsPageResponse>({
+		.get<TransactionDuplicatePageResponse>({
 			uri: `/transactions/${transactionId}/duplicates?pageNumber=${pageNumber}&pageSize=${pageSize}`,
 			errorCustomizer: 'Error finding possible duplicates'
 		})

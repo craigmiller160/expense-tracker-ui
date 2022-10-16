@@ -85,3 +85,16 @@ export type CreateTransactionRequest = {
 	readonly amount: number;
 	readonly categoryId?: string;
 };
+
+export type TransactionDuplicateResponse = {
+	readonly id: string;
+	readonly created: string;
+	readonly updated: string;
+	readonly categoryName?: string;
+};
+
+export type TransactionDuplicatePageResponse = {
+	readonly transactions: ReadonlyArray<TransactionDuplicateResponse>;
+	readonly pageNumber: number;
+	readonly totalItems: number;
+};

@@ -6,7 +6,8 @@ import {
 	TransactionAndCategory,
 	TransactionResponse,
 	TransactionToUpdate,
-	UpdateTransactionDetailsRequest
+	UpdateTransactionDetailsRequest,
+	TransactionDuplicatePageResponse
 } from '../../types/transactions';
 import {
 	QueryClient,
@@ -64,9 +65,9 @@ export const useGetPossibleDuplicates = (
 	pageSize: number
 ) =>
 	useQuery<
-		TransactionsPageResponse,
+		TransactionDuplicatePageResponse,
 		Error,
-		TransactionsPageResponse,
+		TransactionDuplicatePageResponse,
 		GetPossibleDuplicatesKey
 	>(
 		[

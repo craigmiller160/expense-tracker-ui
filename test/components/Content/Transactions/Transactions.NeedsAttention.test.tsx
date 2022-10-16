@@ -45,7 +45,8 @@ const createPrepareData =
 						confirmed: true,
 						duplicate: false,
 						categoryId: firstCategory.id,
-						categoryName: firstCategory.name
+						categoryName: firstCategory.name,
+						index: 0
 					})
 				),
 				RArray.map(transactionToRecord),
@@ -69,7 +70,8 @@ const createPrepareData =
 							flags?.notCategorized ?? false
 								? undefined
 								: firstCategory.name,
-						expenseDate: oldestDateResponseFormat
+						expenseDate: oldestDateResponseFormat,
+						index: 0
 					})
 				),
 				RArray.map(transactionToRecord),

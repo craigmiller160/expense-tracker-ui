@@ -6,6 +6,7 @@ import {
 	CreateTransactionRequest,
 	DeleteTransactionsRequest,
 	NeedsAttentionResponse,
+	TransactionDuplicateResponse,
 	TransactionResponse,
 	UpdateTransactionDetailsRequest,
 	UpdateTransactionsRequest
@@ -367,6 +368,21 @@ export const createTransactionsRoutes = (
 					matchingTxn.amount === txn.amount &&
 					matchingTxn.description === txn.description
 			);
-		return paginateTransactions(pageNumber, pageSize)(duplicates);
+		const paginatedDuplicates = paginateTransactions(
+			pageNumber,
+			pageSize
+		)(duplicates);
+		return {
+			transactions: paginatedDuplicates.map(
+				(txn): TransactionDuplicateResponse => ({
+					id: txn.id,
+					created: txn.created,
+					updated: txn.updated,
+					categoryName: txn.categoryName
+				})
+			),
+			pageNumber,
+			totalItems: duplicates.length
+		};
 	});
 };

@@ -119,7 +119,9 @@ describe('Transaction Details Dialog', () => {
 		transactionIcon('not-confirmed-icon', transactionDialog).isVisible();
 		transactionIcon('no-category-icon', transactionDialog).isVisible();
 
-		expect(screen.queryByText('All Duplicates')).not.toBeVisible();
+		expect(
+			within(transactionDialog).queryByText('All Duplicates')
+		).not.toBeInTheDocument();
 
 		expect(within(transactionDialog).getByText('Save')).toBeDisabled();
 

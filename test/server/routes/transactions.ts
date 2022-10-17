@@ -6,6 +6,8 @@ import {
 	CreateTransactionRequest,
 	DeleteTransactionsRequest,
 	NeedsAttentionResponse,
+	TransactionDetailsResponse,
+	TransactionDuplicateResponse,
 	TransactionResponse,
 	UpdateTransactionDetailsRequest,
 	UpdateTransactionsRequest
@@ -36,8 +38,8 @@ const createSortTransactionOrd = (
 const paginateTransactions =
 	(pageNumber: number, pageSize: number) =>
 	(
-		transactions: ReadonlyArray<TransactionResponse>
-	): ReadonlyArray<TransactionResponse> =>
+		transactions: ReadonlyArray<TransactionDetailsResponse>
+	): ReadonlyArray<TransactionDetailsResponse> =>
 		transactions.slice(
 			pageNumber * pageSize,
 			pageNumber * pageSize + pageSize
@@ -348,9 +350,43 @@ export const createTransactionsRoutes = (
 				amount: requestBody.amount,
 				confirmed: true,
 				duplicate: false,
-				expenseDate: requestBody.expenseDate
+				expenseDate: requestBody.expenseDate,
+				created: '',
+				updated: ''
 			};
 		});
 		return database.data.transactions[id];
+	});
+
+	server.get('/transactions/:transactionId/duplicates', (schema, request) => {
+		const transactionId = request.params.transactionId as string;
+		const pageNumber = parseInt(`${request.queryParams?.pageNumber}`);
+		const pageSize = parseInt(`${request.queryParams?.pageSize}`);
+		const matchingTxn = database.data.transactions[transactionId];
+		const duplicates = Object.values(database.data.transactions)
+			.filter((txn) => txn.duplicate)
+			.filter(
+				(txn) =>
+					matchingTxn.expenseDate === txn.expenseDate &&
+					matchingTxn.amount === txn.amount &&
+					matchingTxn.description === txn.description &&
+					matchingTxn.id !== txn.id
+			);
+		const paginatedDuplicates = paginateTransactions(
+			pageNumber,
+			pageSize
+		)(duplicates);
+		return {
+			transactions: paginatedDuplicates.map(
+				(txn): TransactionDuplicateResponse => ({
+					id: txn.id,
+					created: txn.created,
+					updated: txn.updated,
+					categoryName: txn.categoryName
+				})
+			),
+			pageNumber,
+			totalItems: duplicates.length
+		};
 	});
 };

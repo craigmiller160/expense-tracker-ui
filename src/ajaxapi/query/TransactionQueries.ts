@@ -2,11 +2,12 @@ import {
 	CreateTransactionRequest,
 	NeedsAttentionResponse,
 	SearchTransactionsRequest,
-	SearchTransactionsResponse,
+	TransactionsPageResponse,
 	TransactionAndCategory,
 	TransactionResponse,
 	TransactionToUpdate,
-	UpdateTransactionDetailsRequest
+	UpdateTransactionDetailsRequest,
+	TransactionDuplicatePageResponse
 } from '../../types/transactions';
 import {
 	QueryClient,
@@ -22,6 +23,7 @@ import {
 	createTransaction,
 	deleteTransactions,
 	getNeedsAttention,
+	getPossibleDuplicates,
 	searchForTransactions,
 	updateTransactionDetails,
 	updateTransactions
@@ -30,6 +32,8 @@ import {
 export const SEARCH_FOR_TRANSACTIONS =
 	'TransactionQueries_SearchForTransactions';
 export const GET_NEEDS_ATTENTION = 'TransactionQueries_GetNeedsAttention';
+export const GET_POSSIBLE_DUPLICATES =
+	'TransactionQueries_GetPossibleDuplicates';
 
 const invalidateTransactionQueries = (queryClient: QueryClient) =>
 	Promise.all([
@@ -41,14 +45,41 @@ type SearchForTransactionsKey = [string, SearchTransactionsRequest];
 
 export const useSearchForTransactions = (
 	request: SearchTransactionsRequest
-): UseQueryResult<SearchTransactionsResponse, Error> =>
+): UseQueryResult<TransactionsPageResponse, Error> =>
 	useQuery<
-		SearchTransactionsResponse,
+		TransactionsPageResponse,
 		Error,
-		SearchTransactionsResponse,
+		TransactionsPageResponse,
 		SearchForTransactionsKey
 	>([SEARCH_FOR_TRANSACTIONS, request], ({ queryKey: [, req] }) =>
 		searchForTransactions(req)
+	);
+
+type GetPossibleDuplicatesKey = [
+	string,
+	{ transactionId: string; pageNumber: number; pageSize: number }
+];
+export const useGetPossibleDuplicates = (
+	transactionId: string,
+	pageNumber: number,
+	pageSize: number
+) =>
+	useQuery<
+		TransactionDuplicatePageResponse,
+		Error,
+		TransactionDuplicatePageResponse,
+		GetPossibleDuplicatesKey
+	>(
+		[
+			GET_POSSIBLE_DUPLICATES,
+			{
+				transactionId,
+				pageNumber,
+				pageSize
+			}
+		],
+		({ queryKey: [, { transactionId, pageNumber, pageSize }] }) =>
+			getPossibleDuplicates(transactionId, pageNumber, pageSize)
 	);
 
 export const useGetNeedsAttention = (): UseQueryResult<

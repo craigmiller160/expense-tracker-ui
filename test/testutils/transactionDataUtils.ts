@@ -1,9 +1,15 @@
 import { MonoidT } from '@craigmiller160/ts-functions/es/types';
-import { TransactionResponse } from '../../src/types/transactions';
+import {
+	TransactionDetailsResponse,
+	TransactionResponse
+} from '../../src/types/transactions';
 import { nanoid } from 'nanoid';
+import { pipe } from 'fp-ts/es6/function';
+import * as Time from '@craigmiller160/ts-functions/es/Time';
+import { formatServerDateTime } from '../../src/utils/dateTimeUtils';
 
 export const transactionRecordMonoid: MonoidT<
-	Record<string, TransactionResponse>
+	Record<string, TransactionDetailsResponse>
 > = {
 	empty: {},
 	concat: (db1, db2) => ({
@@ -13,22 +19,31 @@ export const transactionRecordMonoid: MonoidT<
 };
 
 export const transactionToRecord = (
-	transaction: TransactionResponse
-): Record<string, TransactionResponse> => ({ [transaction.id]: transaction });
+	transaction: TransactionDetailsResponse
+): Record<string, TransactionDetailsResponse> => ({
+	[transaction.id]: transaction
+});
 
 export type TestTransactionDescription = Omit<
 	TransactionResponse,
 	'id' | 'description'
->;
+> & {
+	readonly index: number;
+};
+
+const createDate = (index: number): string =>
+	pipe(new Date(), Time.subDays(index), formatServerDateTime);
 
 export const createTransaction = (
 	transaction: TestTransactionDescription
-): TransactionResponse => ({
+): TransactionDetailsResponse => ({
 	...transaction,
 	id: nanoid(),
 	description: JSON.stringify({
 		...transaction,
 		id: undefined,
 		description: undefined
-	})
+	}),
+	created: createDate(transaction.index),
+	updated: createDate(transaction.index)
 });

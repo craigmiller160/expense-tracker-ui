@@ -6,7 +6,7 @@ import {
 	useUpdateTransactions
 } from '../../../ajaxapi/query/TransactionQueries';
 import {
-	SearchTransactionsResponse,
+	TransactionsPageResponse,
 	TransactionResponse,
 	TransactionSortKey
 } from '../../../types/transactions';
@@ -88,7 +88,7 @@ const createResetFormToData =
 
 const testNumberOfFormRecords = (
 	form: UseFormReturn<TransactionTableForm>,
-	data?: SearchTransactionsResponse
+	data?: TransactionsPageResponse
 ): boolean =>
 	form.getValues()?.transactions?.length === 0 && (data?.totalItems ?? 0) > 0;
 

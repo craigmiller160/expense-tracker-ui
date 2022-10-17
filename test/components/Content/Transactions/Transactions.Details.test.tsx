@@ -22,6 +22,15 @@ import { transactionIcon } from '../../../testutils/dom-actions/transaction-icon
 import { waitForVisibility } from '../../../testutils/dom-actions/wait-for-visibility';
 import '@relmify/jest-fp-ts';
 import { materialUiCheckbox } from '../../../testutils/dom-actions/material-ui-checkbox';
+import { pipe } from 'fp-ts/es6/function';
+import * as Time from '@craigmiller160/ts-functions/es/Time';
+import {
+	formatServerDateTime,
+	serverDateTimeToDisplayDateTime
+} from '../../../../src/utils/dateTimeUtils';
+
+const createTimestamp = (numDates: number): string =>
+	pipe(new Date(), Time.subDays(numDates), formatServerDateTime);
 
 const testButton =
 	(isDisabled: boolean) => (detailsButton: HTMLElement, index: number) => {
@@ -109,6 +118,10 @@ describe('Transaction Details Dialog', () => {
 		transactionIcon('duplicate-icon', transactionDialog).isNotVisible();
 		transactionIcon('not-confirmed-icon', transactionDialog).isVisible();
 		transactionIcon('no-category-icon', transactionDialog).isVisible();
+
+		expect(
+			within(transactionDialog).queryByText('All Duplicates')
+		).not.toBeInTheDocument();
 
 		expect(within(transactionDialog).getByText('Save')).toBeDisabled();
 
@@ -529,5 +542,62 @@ describe('Transaction Details Dialog', () => {
 		expect(confirmCheckbox.querySelector('input')).toBeChecked();
 
 		detailsButtons.forEach(testButton(true));
+	});
+
+	it('shows all possible duplicates for transaction', async () => {
+		const { transactions } = await searchForTransactions({
+			startDate: defaultStartDate(),
+			endDate: defaultEndDate(),
+			pageNumber: 0,
+			pageSize: 25,
+			sortKey: TransactionSortKey.EXPENSE_DATE,
+			sortDirection: SortDirection.DESC
+		});
+		const date1 = createTimestamp(1);
+		const date2 = createTimestamp(2);
+		apiServer.database.updateData((draft) => {
+			draft.transactions[transactions[0].id] = {
+				...transactions[0],
+				duplicate: true,
+				created: date1,
+				updated: date1
+			};
+			draft.transactions[transactions[1].id] = {
+				...transactions[0],
+				id: transactions[1].id,
+				duplicate: true,
+				updated: date2,
+				created: date2
+			};
+		});
+
+		await renderApp({
+			initialPath: '/expense-tracker/transactions'
+		});
+		await waitForVisibility([
+			{ text: 'Expense Tracker' },
+			{ text: 'Manage Transactions', occurs: 2, timeout: 3000 },
+			{ text: 'Rows per page:' }
+		]);
+
+		const row = screen.getAllByTestId('transaction-table-row')[0];
+		const detailsButton = within(row).getByText('Details');
+		await userEvent.click(detailsButton);
+
+		const transactionDialog = screen.getByTestId(
+			'transaction-details-dialog'
+		);
+
+		transactionIcon('duplicate-icon', transactionDialog).isVisible();
+
+		expect(screen.queryByText('All Duplicates')).toBeVisible();
+
+		const displayDate1 = serverDateTimeToDisplayDateTime(date1);
+		const displayDate2 = serverDateTimeToDisplayDateTime(date2);
+
+		await waitFor(() =>
+			expect(screen.queryAllByText(displayDate2)).toHaveLength(2)
+		);
+		expect(screen.queryByText(displayDate1)).not.toBeInTheDocument();
 	});
 });

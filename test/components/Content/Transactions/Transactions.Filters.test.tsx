@@ -114,7 +114,8 @@ describe('Transactions Filters', () => {
 		apiServer.database.updateData((draft) => {
 			draft.transactions[transactions[0].id] = createTransaction({
 				...transactions[0],
-				amount: transactions[0].amount * -1
+				amount: transactions[0].amount * -1,
+				index: 0
 			});
 		});
 
@@ -159,7 +160,8 @@ describe('Transactions Filters', () => {
 			draft.transactions[transactions[0].id] = createTransaction({
 				...transactions[0],
 				categoryId: categories[0].id,
-				categoryName: categories[0].name
+				categoryName: categories[0].name,
+				index: 0
 			});
 		});
 		await renderApp({
@@ -254,7 +256,8 @@ describe('Transactions Filters', () => {
 		apiServer.database.updateData((draft) => {
 			draft.transactions[transactions[0].id] = createTransaction({
 				...transactions[0],
-				duplicate: true
+				duplicate: true,
+				index: 0
 			});
 		});
 		await renderApp({
@@ -304,13 +307,18 @@ describe('Transactions Filters', () => {
 				RArray.map((transaction) =>
 					createTransaction({
 						...transaction,
-						confirmed: true
+						confirmed: true,
+						index: 0
 					})
 				),
 				RArray.map(transactionToRecord),
 				Monoid.concatAll(transactionRecordMonoid)
 			);
-			draft.transactions[transactions[0].id] = transactions[0];
+			draft.transactions[transactions[0].id] = {
+				...transactions[0],
+				created: '',
+				updated: ''
+			};
 		});
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
@@ -360,13 +368,18 @@ describe('Transactions Filters', () => {
 					createTransaction({
 						...transaction,
 						categoryId: categories[0].id,
-						categoryName: categories[0].name
+						categoryName: categories[0].name,
+						index: 0
 					})
 				),
 				RArray.map(transactionToRecord),
 				Monoid.concatAll(transactionRecordMonoid)
 			);
-			draft.transactions[transactions[0].id] = transactions[0];
+			draft.transactions[transactions[0].id] = {
+				...transactions[0],
+				created: '',
+				updated: ''
+			};
 		});
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'

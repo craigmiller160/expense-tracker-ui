@@ -4,12 +4,13 @@ import {
 	DeleteTransactionsRequest,
 	NeedsAttentionResponse,
 	SearchTransactionsRequest,
-	SearchTransactionsResponse,
+	TransactionsPageResponse,
 	TransactionAndCategory,
 	TransactionResponse,
 	TransactionToUpdate,
 	UpdateTransactionDetailsRequest,
-	UpdateTransactionsRequest
+	UpdateTransactionsRequest,
+	TransactionDuplicatePageResponse
 } from '../../types/transactions';
 import qs from 'qs';
 import { pipe } from 'fp-ts/es6/function';
@@ -50,10 +51,10 @@ export const requestToQuery = (request: SearchTransactionsRequest): string =>
 
 export const searchForTransactions = (
 	request: SearchTransactionsRequest
-): Promise<SearchTransactionsResponse> => {
+): Promise<TransactionsPageResponse> => {
 	const query = requestToQuery(request);
 	return expenseTrackerApi
-		.get<SearchTransactionsResponse>({
+		.get<TransactionsPageResponse>({
 			uri: `/transactions?${query}`,
 			errorCustomizer: 'Error searching for transactions'
 		})
@@ -123,5 +124,17 @@ export const createTransaction = (
 			uri: '/transactions',
 			errorCustomizer: 'Error creating transaction',
 			body: request
+		})
+		.then(getData);
+
+export const getPossibleDuplicates = (
+	transactionId: string,
+	pageNumber: number,
+	pageSize: number
+): Promise<TransactionDuplicatePageResponse> =>
+	expenseTrackerApi
+		.get<TransactionDuplicatePageResponse>({
+			uri: `/transactions/${transactionId}/duplicates?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+			errorCustomizer: 'Error finding possible duplicates'
 		})
 		.then(getData);

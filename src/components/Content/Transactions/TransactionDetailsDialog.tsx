@@ -23,6 +23,7 @@ import {
 import { useIsAtMaxBreakpoint } from '../../../utils/breakpointHooks';
 import { PossibleRefundIcon } from './icons/PossibleRefundIcon';
 import * as Option from 'fp-ts/es6/Option';
+import { TransactionDetailsDuplicatePanel } from './TransactionDetailsDuplicatePanel';
 
 interface Props {
 	readonly open: boolean;
@@ -178,6 +179,12 @@ export const TransactionDetailsDialog = (props: Props) => {
 					)}
 					{CategoryComponent}
 				</div>
+				<hr />
+				{transactionValues.id !== '' && transactionValues.duplicate && (
+					<TransactionDetailsDuplicatePanel
+						transactionId={transactionValues.id}
+					/>
+				)}
 			</div>
 		</SideDialog>
 	);

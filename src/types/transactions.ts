@@ -29,7 +29,12 @@ export interface TransactionResponse extends DbRecord {
 	readonly categoryName?: string;
 }
 
-export interface SearchTransactionsResponse {
+export interface TransactionDetailsResponse extends TransactionResponse {
+	readonly created: string;
+	readonly updated: string;
+}
+
+export interface TransactionsPageResponse {
 	readonly pageNumber: number;
 	readonly totalItems: number;
 	readonly transactions: ReadonlyArray<TransactionResponse>;
@@ -84,4 +89,17 @@ export type CreateTransactionRequest = {
 	readonly description: string;
 	readonly amount: number;
 	readonly categoryId?: string;
+};
+
+export type TransactionDuplicateResponse = {
+	readonly id: string;
+	readonly created: string;
+	readonly updated: string;
+	readonly categoryName?: string;
+};
+
+export type TransactionDuplicatePageResponse = {
+	readonly transactions: ReadonlyArray<TransactionDuplicateResponse>;
+	readonly pageNumber: number;
+	readonly totalItems: number;
 };

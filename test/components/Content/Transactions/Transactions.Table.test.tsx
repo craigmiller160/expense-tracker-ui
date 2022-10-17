@@ -118,18 +118,24 @@ describe('Transactions Table', () => {
 			draft.transactions[transactions[0].id] = {
 				...transactions[0],
 				categoryId: categories[0].id,
-				categoryName: categories[0].name
+				categoryName: categories[0].name,
+				updated: '',
+				created: ''
 			};
 			draft.transactions[transactions[1].id] = {
 				...transactions[1],
-				confirmed: true
+				confirmed: true,
+				updated: '',
+				created: ''
 			};
 			draft.transactions[transactions[2].id] = {
 				...transactions[2],
 				duplicate: true,
 				confirmed: true,
 				categoryId: categories[0].id,
-				categoryName: categories[0].name
+				categoryName: categories[0].name,
+				updated: '',
+				created: ''
 			};
 		});
 		await renderApp({
@@ -449,7 +455,9 @@ describe('Transactions Table', () => {
 			draft.transactions[transactions[0].id] = {
 				...transactions[0],
 				categoryId: categories[0].id,
-				categoryName: categories[0].name
+				categoryName: categories[0].name,
+				updated: '',
+				created: ''
 			};
 		});
 

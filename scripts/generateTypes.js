@@ -1,10 +1,11 @@
 const { generateApi } = require('swagger-typescript-api');
 const path = require('path');
+const axios = require('axios');
 
 generateApi({
 	name: 'expense-tracker',
-	output: path.join(process.cwd(), 'src', 'types', 'generated.ts'),
-	url: 'https://locahost:8080/v3/api-docs',
+	output: path.join(process.cwd(), 'src', 'types', 'generated'),
+	url: 'https://127.0.0.1:8080/v3/api-docs',
 	prettier: true,
 	generateClient: false
 })

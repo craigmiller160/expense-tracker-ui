@@ -6,7 +6,7 @@
     "start": "node scripts/startDev.js",
     "prepare": "husky install",
     "test": "craig-test",
-    "generate-types": "node scripts/generateTypes.js"
+    "generate-types": "NODE_TLS_REJECT_UNAUTHORIZED=0 node scripts/generateTypes.js"
   },
   "lint-staged": {
     "*.{ts,tsx}": "eslint --fix --max-warnings=0"

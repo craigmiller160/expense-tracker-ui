@@ -21,14 +21,7 @@ export interface UpdateTransactionsRequest {
   transactions: TransactionToUpdate[];
 }
 
-export interface EitherThrowableUnit {
-  empty: boolean;
-  right$arrow_core: boolean;
-  left$arrow_core: boolean;
-  notEmpty: boolean;
-  right: boolean;
-  left: boolean;
-}
+export type Unit = object;
 
 export interface UpdateTransactionDetailsRequest {
   /** @format uuid */
@@ -90,26 +83,19 @@ export interface TransactionResponse {
   categoryName?: string;
 }
 
-export interface EitherThrowableImportTransactionsResponse {
-  empty: boolean;
-  right$arrow_core: boolean;
-  left$arrow_core: boolean;
-  notEmpty: boolean;
-  right: boolean;
-  left: boolean;
+export interface ImportTransactionsResponse {
+  /** @format int32 */
+  transactionsImported: number;
 }
 
 export interface AuthCodeLoginDto {
   url: string;
 }
 
-export interface EitherThrowableCategoryResponse {
-  empty: boolean;
-  right$arrow_core: boolean;
-  left$arrow_core: boolean;
-  notEmpty: boolean;
-  right: boolean;
-  left: boolean;
+export interface CategoryResponse {
+  /** @format uuid */
+  id: string;
+  name: string;
 }
 
 export interface SearchTransactionsRequest {
@@ -145,22 +131,36 @@ export interface GetPossibleDuplicatesRequest {
   pageSize: number;
 }
 
-export interface EitherThrowableTransactionDuplicatePageResponse {
-  empty: boolean;
-  right$arrow_core: boolean;
-  left$arrow_core: boolean;
-  notEmpty: boolean;
-  right: boolean;
-  left: boolean;
+export interface TransactionDuplicatePageResponse {
+  transactions: TransactionDuplicateResponse[];
+  /** @format int32 */
+  pageNumber: number;
+  /** @format int64 */
+  totalItems: number;
 }
 
-export interface EitherThrowableNeedsAttentionResponse {
-  empty: boolean;
-  right$arrow_core: boolean;
-  left$arrow_core: boolean;
-  notEmpty: boolean;
-  right: boolean;
-  left: boolean;
+export interface TransactionDuplicateResponse {
+  /** @format uuid */
+  id: string;
+  /** @format date-time */
+  created: string;
+  /** @format date-time */
+  updated: string;
+  categoryName?: string;
+}
+
+export interface CountAndOldest {
+  /** @format int64 */
+  count: number;
+  /** @format date */
+  oldest?: string;
+}
+
+export interface NeedsAttentionResponse {
+  unconfirmed: CountAndOldest;
+  uncategorized: CountAndOldest;
+  duplicate: CountAndOldest;
+  possibleRefund: CountAndOldest;
 }
 
 export interface ImportTypeResponse {
@@ -177,17 +177,6 @@ export interface AuthUserDto {
   lastName: string;
 }
 
-export interface EitherThrowableListCategoryResponse {
-  empty: boolean;
-  right$arrow_core: boolean;
-  left$arrow_core: boolean;
-  notEmpty: boolean;
-  right: boolean;
-  left: boolean;
-}
-
 export interface DeleteTransactionsRequest {
   ids: string[];
 }
-
-export type Unit = object;

@@ -5,7 +5,8 @@
     "lint": "craig-lint",
     "start": "node scripts/startDev.js",
     "prepare": "husky install",
-    "test": "craig-test"
+    "test": "craig-test",
+    "generate-types": "node scripts/generateTypes.js"
   },
   "lint-staged": {
     "*.{ts,tsx}": "eslint --fix --max-warnings=0"
@@ -63,6 +64,7 @@
     "react-query": "^3.39.1",
     "react-router": "^6.3.0",
     "react-router-dom": "^6.3.0",
+    "swagger-typescript-api": "^10.0.2",
     "ts-pattern": "^4.0.3",
     "use-immer": "^0.7.0"
   }

@@ -1,9 +1,7 @@
 import {
-	CategorizeTransactionsRequest,
 	CreateTransactionRequest,
 	DeleteTransactionsRequest,
 	NeedsAttentionResponse,
-	TransactionAndCategory,
 	TransactionToUpdate,
 	UpdateTransactionDetailsRequest,
 	UpdateTransactionsRequest,
@@ -11,8 +9,10 @@ import {
 	EnhancedSearchTransactionsRequest
 } from '../../types/transactions';
 import {
+	CategorizeTransactionsRequest,
 	TransactionResponse,
-	TransactionsPageResponse
+	TransactionsPageResponse,
+	TransactionAndCategory
 } from '../../types/generated/expense-tracker';
 import qs from 'qs';
 import { pipe } from 'fp-ts/es6/function';

@@ -18,15 +18,6 @@ export interface TransactionDetailsResponse extends TransactionResponse {
 
 // TODO continue here
 
-export interface TransactionAndCategory {
-	readonly transactionId: string;
-	readonly categoryId: string | null;
-}
-
-export interface CategorizeTransactionsRequest {
-	readonly transactionsAndCategories: ReadonlyArray<TransactionAndCategory>;
-}
-
 export interface CountAndOldest {
 	readonly count: number;
 	readonly oldest: string | null;

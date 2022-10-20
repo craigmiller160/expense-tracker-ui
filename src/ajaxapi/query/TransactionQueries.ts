@@ -1,13 +1,13 @@
 import {
 	CreateTransactionRequest,
 	NeedsAttentionResponse,
-	TransactionAndCategory,
 	TransactionToUpdate,
 	UpdateTransactionDetailsRequest,
 	TransactionDuplicatePageResponse,
 	EnhancedSearchTransactionsRequest
 } from '../../types/transactions';
 import {
+	TransactionAndCategory,
 	TransactionResponse,
 	TransactionsPageResponse
 } from '../../types/generated/expense-tracker';

@@ -6,12 +6,13 @@ import {
 	CreateTransactionRequest,
 	DeleteTransactionsRequest,
 	NeedsAttentionResponse,
-	TransactionDetailsResponse,
 	TransactionDuplicateResponse,
 	TransactionResponse,
 	UpdateTransactionDetailsRequest,
-	UpdateTransactionsRequest
-} from '../../../src/types/transactions';
+	UpdateTransactionsRequest,
+	CategoryResponse
+} from '../../../src/types/generated/expense-tracker';
+import { TransactionDetailsResponse } from '../../../src/types/transactions';
 import * as RArray from 'fp-ts/es6/ReadonlyArray';
 import { pipe } from 'fp-ts/es6/function';
 import { match } from 'ts-pattern';
@@ -20,7 +21,6 @@ import { Ord } from 'fp-ts/es6/Ord';
 import * as Monoid from 'fp-ts/es6/Monoid';
 import { MonoidT } from '@craigmiller160/ts-functions/es/types';
 import { nanoid } from 'nanoid';
-import { CategoryResponse } from '../../../src/types/categories';
 import {
 	compareServerDates,
 	parseServerDate
@@ -108,32 +108,35 @@ const transactionToNeedsAttention = (
 ): NeedsAttentionResponse => ({
 	unconfirmed: {
 		count: transaction.confirmed === false ? 1 : 0,
-		oldest: transaction.confirmed === false ? transaction.expenseDate : null
+		oldest:
+			transaction.confirmed === false
+				? transaction.expenseDate
+				: undefined
 	},
 	uncategorized: {
 		count: transaction.categoryId ? 0 : 1,
-		oldest: transaction.categoryId ? null : transaction.expenseDate
+		oldest: transaction.categoryId ? undefined : transaction.expenseDate
 	},
 	duplicate: {
 		count: transaction.duplicate ? 1 : 0,
-		oldest: transaction.duplicate ? transaction.expenseDate : null
+		oldest: transaction.duplicate ? transaction.expenseDate : undefined
 	},
 	possibleRefund: {
 		count: transaction.amount > 0 ? 1 : 0,
-		oldest: transaction.amount > 0 ? transaction.expenseDate : null
+		oldest: transaction.amount > 0 ? transaction.expenseDate : undefined
 	}
 });
 
 const getOldestDate = (
-	dateString1: string | null,
-	dateString2: string | null
-): string | null => {
-	if (dateString1 === null) {
+	dateString1: string | undefined,
+	dateString2: string | undefined
+): string | undefined => {
+	if (dateString1 === undefined) {
 		return dateString2;
 	}
 
-	if (dateString2 === null) {
-		return null;
+	if (dateString2 === undefined) {
+		return undefined;
 	}
 
 	const date1 = parseServerDate(dateString1);
@@ -149,19 +152,19 @@ const needsAttentionMonoid: MonoidT<NeedsAttentionResponse> = {
 	empty: {
 		unconfirmed: {
 			count: 0,
-			oldest: null
+			oldest: undefined
 		},
 		uncategorized: {
 			count: 0,
-			oldest: null
+			oldest: undefined
 		},
 		duplicate: {
 			count: 0,
-			oldest: null
+			oldest: undefined
 		},
 		possibleRefund: {
 			count: 0,
-			oldest: null
+			oldest: undefined
 		}
 	},
 	concat: (res1, res2) => ({

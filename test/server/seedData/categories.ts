@@ -1,5 +1,5 @@
 import { DataUpdater } from '../Database';
-import { CategoryResponse } from '../../../src/types/categories';
+import { CategoryResponse } from '../../../src/types/generated/expense-tracker';
 import { nanoid } from 'nanoid';
 
 const createCategory = (name: string): CategoryResponse => ({

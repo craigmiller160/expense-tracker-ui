@@ -3,7 +3,6 @@ import {
 	CreateTransactionRequest,
 	DeleteTransactionsRequest,
 	NeedsAttentionResponse,
-	TransactionsPageResponse,
 	TransactionAndCategory,
 	TransactionToUpdate,
 	UpdateTransactionDetailsRequest,
@@ -11,7 +10,10 @@ import {
 	TransactionDuplicatePageResponse,
 	EnhancedSearchTransactionsRequest
 } from '../../types/transactions';
-import { TransactionResponse } from '../../types/generated/expense-tracker';
+import {
+	TransactionResponse,
+	TransactionsPageResponse
+} from '../../types/generated/expense-tracker';
 import qs from 'qs';
 import { pipe } from 'fp-ts/es6/function';
 import * as Option from 'fp-ts/es6/Option';

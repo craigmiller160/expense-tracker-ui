@@ -1,14 +1,16 @@
 import {
 	CreateTransactionRequest,
 	NeedsAttentionResponse,
-	TransactionsPageResponse,
 	TransactionAndCategory,
 	TransactionToUpdate,
 	UpdateTransactionDetailsRequest,
 	TransactionDuplicatePageResponse,
 	EnhancedSearchTransactionsRequest
 } from '../../types/transactions';
-import { TransactionResponse } from '../../types/generated/expense-tracker';
+import {
+	TransactionResponse,
+	TransactionsPageResponse
+} from '../../types/generated/expense-tracker';
 import {
 	QueryClient,
 	UseMutateFunction,

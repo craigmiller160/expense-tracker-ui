@@ -11,17 +11,12 @@ export type EnhancedSearchTransactionsRequest = Omit<
 	readonly endDate?: Date;
 };
 
-// TODO continue here
 export interface TransactionDetailsResponse extends TransactionResponse {
 	readonly created: string;
 	readonly updated: string;
 }
 
-export interface TransactionsPageResponse {
-	readonly pageNumber: number;
-	readonly totalItems: number;
-	readonly transactions: ReadonlyArray<TransactionResponse>;
-}
+// TODO continue here
 
 export interface TransactionAndCategory {
 	readonly transactionId: string;

@@ -10,7 +10,8 @@ import {
 	useUpdateCategory
 } from '../../../ajaxapi/query/CategoryQueries';
 import { Table } from '../../UI/Table';
-import { CategoryDetails, CategoryResponse } from '../../../types/categories';
+import { CategoryResponse } from '../../../types/generated/expense-tracker';
+import { CategoryDetails } from '../../../types/categories';
 import { ReactNode } from 'react';
 import { CategoryDetailsDialog } from './CategoryDetailsDialog';
 import { Updater, useImmer } from 'use-immer';

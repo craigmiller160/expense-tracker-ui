@@ -1,9 +1,3 @@
-import { DbRecord } from './db';
-
-export interface CategoryResponse extends DbRecord {
-	readonly name: string;
-}
-
 export interface CategoryRequest {
 	readonly name: string;
 }

@@ -10,7 +10,7 @@ import {
 	getAllCategories,
 	updateCategory
 } from '../service/CategoryService';
-import { CategoryResponse } from '../../types/categories';
+import { CategoryResponse } from '../../types/generated/expense-tracker';
 
 export const GET_ALL_CATEGORIES = 'CategoryQueries_GetAllCategories';
 

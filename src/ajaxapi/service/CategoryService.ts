@@ -1,4 +1,5 @@
-import { CategoryRequest, CategoryResponse } from '../../types/categories';
+import { CategoryResponse } from '../../types/generated/expense-tracker';
+import { CategoryRequest } from '../../types/categories';
 import { expenseTrackerApi, getData } from './AjaxApi';
 
 export const getAllCategories = (): Promise<ReadonlyArray<CategoryResponse>> =>

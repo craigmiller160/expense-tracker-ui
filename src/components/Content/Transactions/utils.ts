@@ -8,7 +8,7 @@ import {
 } from '../../../types/transactions';
 import * as RArray from 'fp-ts/es6/ReadonlyArray';
 import { identity, pipe } from 'fp-ts/es6/function';
-import { CategoryResponse } from '../../../types/categories';
+import { CategoryResponse } from '../../../types/generated/expense-tracker';
 import { SortDirection } from '../../../types/misc';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 import { useMemo } from 'react';

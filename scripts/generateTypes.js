@@ -34,7 +34,6 @@ const formatProperties = (properties, required) => {
 		.join('\n\t');
 };
 
-// TODO handle if type is required or not
 const formatType = (type) => {
 	const properties = formatProperties(type.properties, type.required);
 	return `export type ${type.name} = {

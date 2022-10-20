@@ -7,9 +7,9 @@ import {
 } from '../../../ajaxapi/query/TransactionQueries';
 import {
 	TransactionsPageResponse,
-	TransactionResponse,
-	TransactionSortKey
+	TransactionResponse
 } from '../../../types/transactions';
+import { TransactionSortKey } from '../../../types/misc';
 import { useEffect, useMemo } from 'react';
 import {
 	FieldArrayWithId,

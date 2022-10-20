@@ -1,9 +1,5 @@
-import { SortDirection } from './misc';
+import { SortDirection, TransactionSortKey } from './misc';
 import { DbRecord } from './db';
-
-export enum TransactionSortKey {
-	EXPENSE_DATE = 'EXPENSE_DATE'
-}
 
 export interface SearchTransactionsRequest {
 	readonly pageNumber: number;

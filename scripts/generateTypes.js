@@ -33,11 +33,9 @@ const formatProperties = (properties) => {
 // TODO handle if type is required or not
 const formatType = (type) => {
 	const properties = formatProperties(type.properties);
-	return `
-export type ${type.name} = {
+	return `export type ${type.name} = {
 	${properties}
-};
-`;
+};`;
 };
 
 const formatOutput = (res) =>

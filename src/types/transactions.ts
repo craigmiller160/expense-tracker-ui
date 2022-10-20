@@ -1,5 +1,7 @@
-import { DbRecord } from './db';
-import { SearchTransactionsRequest } from './generated/expense-tracker';
+import {
+	SearchTransactionsRequest,
+	TransactionResponse
+} from './generated/expense-tracker';
 
 export type EnhancedSearchTransactionsRequest = Omit<
 	SearchTransactionsRequest,
@@ -9,16 +11,7 @@ export type EnhancedSearchTransactionsRequest = Omit<
 	readonly endDate?: Date;
 };
 
-export interface TransactionResponse extends DbRecord {
-	readonly expenseDate: string;
-	readonly description: string;
-	readonly amount: number;
-	readonly confirmed: boolean;
-	readonly duplicate: boolean;
-	readonly categoryId?: string;
-	readonly categoryName?: string;
-}
-
+// TODO continue here
 export interface TransactionDetailsResponse extends TransactionResponse {
 	readonly created: string;
 	readonly updated: string;

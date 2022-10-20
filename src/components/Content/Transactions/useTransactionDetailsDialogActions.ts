@@ -1,5 +1,4 @@
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
-import { TransactionResponse } from '../../../types/transactions';
 import { useImmer } from 'use-immer';
 import * as Option from 'fp-ts/es6/Option';
 import {
@@ -12,6 +11,7 @@ import { useContext } from 'react';
 import { ConfirmDialogContext } from '../../UI/ConfirmDialog/ConfirmDialogProvider';
 import { TransactionDetailsFormData } from './useHandleTransactionDetailsDialogData';
 import { formatServerDate } from '../../../utils/dateTimeUtils';
+import { TransactionResponse } from '../../../types/generated/expense-tracker';
 
 interface TransactionDetailsDialogState {
 	readonly open: boolean;

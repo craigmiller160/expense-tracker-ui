@@ -3,12 +3,12 @@ import {
 	NeedsAttentionResponse,
 	TransactionsPageResponse,
 	TransactionAndCategory,
-	TransactionResponse,
 	TransactionToUpdate,
 	UpdateTransactionDetailsRequest,
 	TransactionDuplicatePageResponse,
 	EnhancedSearchTransactionsRequest
 } from '../../types/transactions';
+import { TransactionResponse } from '../../types/generated/expense-tracker';
 import {
 	QueryClient,
 	UseMutateFunction,

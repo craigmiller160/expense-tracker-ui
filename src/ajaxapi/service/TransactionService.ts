@@ -1,10 +1,8 @@
+import { EnhancedSearchTransactionsRequest } from '../../types/transactions';
 import {
 	CreateTransactionRequest,
 	UpdateTransactionDetailsRequest,
 	TransactionDuplicatePageResponse,
-	EnhancedSearchTransactionsRequest
-} from '../../types/transactions';
-import {
 	DeleteTransactionsRequest,
 	TransactionToUpdate,
 	UpdateTransactionsRequest,

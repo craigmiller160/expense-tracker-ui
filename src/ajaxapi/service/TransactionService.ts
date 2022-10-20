@@ -3,7 +3,6 @@ import {
 	CreateTransactionRequest,
 	DeleteTransactionsRequest,
 	NeedsAttentionResponse,
-	SearchTransactionsRequest,
 	TransactionsPageResponse,
 	TransactionAndCategory,
 	TransactionResponse,
@@ -17,6 +16,7 @@ import { pipe } from 'fp-ts/es6/function';
 import * as Option from 'fp-ts/es6/Option';
 import { expenseTrackerApi, getData } from './AjaxApi';
 import { formatServerDate } from '../../utils/dateTimeUtils';
+import { SearchTransactionsRequest } from '../../types/generated/expense-tracker';
 
 const handleOptionalValue = <T>(
 	value: T | undefined,

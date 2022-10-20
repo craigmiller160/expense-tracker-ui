@@ -1,7 +1,6 @@
 import {
 	CreateTransactionRequest,
 	NeedsAttentionResponse,
-	SearchTransactionsRequest,
 	TransactionsPageResponse,
 	TransactionAndCategory,
 	TransactionResponse,
@@ -28,6 +27,7 @@ import {
 	updateTransactionDetails,
 	updateTransactions
 } from '../service/TransactionService';
+import { SearchTransactionsRequest } from '../../types/generated/expense-tracker';
 
 export const SEARCH_FOR_TRANSACTIONS =
 	'TransactionQueries_SearchForTransactions';

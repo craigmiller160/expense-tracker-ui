@@ -1,19 +1,4 @@
-import { SortDirection, TransactionSortKey } from './misc';
 import { DbRecord } from './db';
-
-export interface SearchTransactionsRequest {
-	readonly pageNumber: number;
-	readonly pageSize: number;
-	readonly sortKey: TransactionSortKey;
-	readonly sortDirection: SortDirection;
-	readonly startDate?: Date;
-	readonly endDate?: Date;
-	readonly isConfirmed?: boolean;
-	readonly isCategorized?: boolean;
-	readonly isDuplicate?: boolean;
-	readonly isPossibleRefund?: boolean;
-	readonly categoryIds?: ReadonlyArray<string>;
-}
 
 export interface TransactionResponse extends DbRecord {
 	readonly expenseDate: string;

@@ -1,182 +1,189 @@
-/* eslint-disable */
-/* tslint:disable */
-/*
- * ---------------------------------------------------------------
- * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
- * ##                                                           ##
- * ## AUTHOR: acacode                                           ##
- * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
- * ---------------------------------------------------------------
- */
 
-export interface AuthCodeLoginDto {
-  url: string;
-}
+	export type AuthCodeLoginDto = {
+		readonly url: string;
+	};
 
-export interface AuthUserDto {
-  firstName: string;
-  lastName: string;
-  roles: string[];
-  /** @format int64 */
-  userId: number;
-  username: string;
-}
 
-export interface CategorizeTransactionsRequest {
-  transactionsAndCategories: TransactionAndCategory[];
-}
 
-export interface CategoryRequest {
-  name: string;
-}
+	export type AuthUserDto = {
+		readonly userId: number;
+readonly username: string;
+readonly roles: ReadonlyArray<string>;
+readonly firstName: string;
+readonly lastName: string;
+	};
 
-export interface CategoryResponse {
-  /** @format uuid */
-  id: string;
-  name: string;
-}
 
-export interface ConfirmTransactionsRequest {
-  transactionsToConfirm: TransactionToConfirm[];
-}
 
-export interface CountAndOldest {
-  /** @format int64 */
-  count: number;
-  /** @format date */
-  oldest?: string;
-}
+	export type CategorizeTransactionsRequest = {
+		readonly transactionsAndCategories: ReadonlyArray<string>;
+	};
 
-export interface CreateTransactionRequest {
-  amount: number;
-  /** @format uuid */
-  categoryId?: string;
-  description: string;
-  /** @format date */
-  expenseDate: string;
-}
 
-export interface DeleteTransactionsRequest {
-  ids: string[];
-}
 
-export interface GetPossibleDuplicatesRequest {
-  /** @format int32 */
-  pageNumber: number;
-  /** @format int32 */
-  pageSize: number;
-}
+	export type CategoryRequest = {
+		readonly name: string;
+	};
 
-export interface ImportTransactionsResponse {
-  /** @format int32 */
-  transactionsImported: number;
-}
 
-export interface ImportTypeResponse {
-  displayName: string;
-  key: string;
-}
 
-export interface NeedsAttentionResponse {
-  duplicate: CountAndOldest;
-  possibleRefund: CountAndOldest;
-  uncategorized: CountAndOldest;
-  unconfirmed: CountAndOldest;
-}
+	export type CategoryResponse = {
+		readonly id: string;
+readonly name: string;
+	};
 
-export interface SearchTransactionsRequest {
-  categoryIds?: string[];
-  /** @format date */
-  endDate?: string;
-  isCategorized?: boolean;
-  isConfirmed?: boolean;
-  isDuplicate?: boolean;
-  isPossibleRefund?: boolean;
-  /** @format int32 */
-  pageNumber: number;
-  /** @format int32 */
-  pageSize: number;
-  sortDirection: "ASC" | "DESC";
-  sortKey: "EXPENSE_DATE";
-  /** @format date */
-  startDate?: string;
-}
 
-export interface TransactionAndCategory {
-  /** @format uuid */
-  categoryId?: string;
-  /** @format uuid */
-  transactionId: string;
-}
 
-export interface TransactionDuplicatePageResponse {
-  /** @format int32 */
-  pageNumber: number;
-  /** @format int64 */
-  totalItems: number;
-  transactions: TransactionDuplicateResponse[];
-}
+	export type ConfirmTransactionsRequest = {
+		readonly transactionsToConfirm: ReadonlyArray<string>;
+	};
 
-export interface TransactionDuplicateResponse {
-  categoryName?: string;
-  /** @format date-time */
-  created: string;
-  /** @format uuid */
-  id: string;
-  /** @format date-time */
-  updated: string;
-}
 
-export interface TransactionResponse {
-  amount: number;
-  /** @format uuid */
-  categoryId?: string;
-  categoryName?: string;
-  confirmed: boolean;
-  description: string;
-  duplicate: boolean;
-  /** @format date */
-  expenseDate: string;
-  /** @format uuid */
-  id: string;
-}
 
-export interface TransactionToConfirm {
-  confirmed: boolean;
-  /** @format uuid */
-  transactionId: string;
-}
+	export type CountAndOldest = {
+		readonly count: number;
+readonly oldest: string;
+	};
 
-export interface TransactionToUpdate {
-  /** @format uuid */
-  categoryId?: string;
-  confirmed: boolean;
-  /** @format uuid */
-  transactionId: string;
-}
 
-export interface TransactionsPageResponse {
-  /** @format int32 */
-  pageNumber: number;
-  /** @format int64 */
-  totalItems: number;
-  transactions: TransactionResponse[];
-}
 
-export type Unit = object;
+	export type CreateTransactionRequest = {
+		readonly expenseDate: string;
+readonly description: string;
+readonly amount: number;
+readonly categoryId: string;
+	};
 
-export interface UpdateTransactionDetailsRequest {
-  amount: number;
-  /** @format uuid */
-  categoryId?: string;
-  confirmed: boolean;
-  description: string;
-  /** @format date */
-  expenseDate: string;
-  /** @format uuid */
-  transactionId: string;
-}
 
-export interface UpdateTransactionsRequest {
-  transactions: TransactionToUpdate[];
-}
+
+	export type DeleteTransactionsRequest = {
+		readonly ids: ReadonlyArray<string>;
+	};
+
+
+
+	export type GetPossibleDuplicatesRequest = {
+		readonly pageNumber: number;
+readonly pageSize: number;
+	};
+
+
+
+	export type ImportTransactionsResponse = {
+		readonly transactionsImported: number;
+	};
+
+
+
+	export type ImportTypeResponse = {
+		readonly key: string;
+readonly displayName: string;
+	};
+
+
+
+	export type NeedsAttentionResponse = {
+		readonly unconfirmed: CountAndOldest;
+readonly uncategorized: CountAndOldest;
+readonly duplicate: CountAndOldest;
+readonly possibleRefund: CountAndOldest;
+	};
+
+
+
+	export type SearchTransactionsRequest = {
+		readonly pageNumber: number;
+readonly pageSize: number;
+readonly sortKey: [object Object];
+readonly sortDirection: [object Object],[object Object];
+readonly startDate: string;
+readonly endDate: string;
+readonly isConfirmed: boolean;
+readonly isCategorized: boolean;
+readonly isDuplicate: boolean;
+readonly isPossibleRefund: boolean;
+readonly categoryIds: ReadonlyArray<string>;
+	};
+
+
+
+	export type TransactionAndCategory = {
+		readonly transactionId: string;
+readonly categoryId: string;
+	};
+
+
+
+	export type TransactionDuplicatePageResponse = {
+		readonly transactions: ReadonlyArray<string>;
+readonly pageNumber: number;
+readonly totalItems: number;
+	};
+
+
+
+	export type TransactionDuplicateResponse = {
+		readonly id: string;
+readonly created: string;
+readonly updated: string;
+readonly categoryName: string;
+	};
+
+
+
+	export type TransactionResponse = {
+		readonly id: string;
+readonly expenseDate: string;
+readonly description: string;
+readonly amount: number;
+readonly confirmed: boolean;
+readonly duplicate: boolean;
+readonly categoryId: string;
+readonly categoryName: string;
+	};
+
+
+
+	export type TransactionToConfirm = {
+		readonly transactionId: string;
+readonly confirmed: boolean;
+	};
+
+
+
+	export type TransactionToUpdate = {
+		readonly transactionId: string;
+readonly confirmed: boolean;
+readonly categoryId: string;
+	};
+
+
+
+	export type TransactionsPageResponse = {
+		readonly transactions: ReadonlyArray<string>;
+readonly pageNumber: number;
+readonly totalItems: number;
+	};
+
+
+
+	export type Unit = {
+		undefined
+	};
+
+
+
+	export type UpdateTransactionDetailsRequest = {
+		readonly transactionId: string;
+readonly confirmed: boolean;
+readonly expenseDate: string;
+readonly description: string;
+readonly amount: number;
+readonly categoryId: string;
+	};
+
+
+
+	export type UpdateTransactionsRequest = {
+		readonly transactions: ReadonlyArray<string>;
+	};

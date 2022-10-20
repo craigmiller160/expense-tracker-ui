@@ -29,14 +29,14 @@ export type ConfirmTransactionsRequest = {
 
 export type CountAndOldest = {
 	readonly count: number;
-	readonly oldest: string;
+	readonly oldest?: string;
 };
 
 export type CreateTransactionRequest = {
 	readonly expenseDate: string;
 	readonly description: string;
 	readonly amount: number;
-	readonly categoryId: string;
+	readonly categoryId?: string;
 };
 
 export type DeleteTransactionsRequest = {
@@ -69,18 +69,18 @@ export type SearchTransactionsRequest = {
 	readonly pageSize: number;
 	readonly sortKey: 'EXPENSE_DATE';
 	readonly sortDirection: 'ASC' | 'DESC';
-	readonly startDate: string;
-	readonly endDate: string;
-	readonly isConfirmed: boolean;
-	readonly isCategorized: boolean;
-	readonly isDuplicate: boolean;
-	readonly isPossibleRefund: boolean;
-	readonly categoryIds: ReadonlyArray<string>;
+	readonly startDate?: string;
+	readonly endDate?: string;
+	readonly isConfirmed?: boolean;
+	readonly isCategorized?: boolean;
+	readonly isDuplicate?: boolean;
+	readonly isPossibleRefund?: boolean;
+	readonly categoryIds?: ReadonlyArray<string>;
 };
 
 export type TransactionAndCategory = {
 	readonly transactionId: string;
-	readonly categoryId: string;
+	readonly categoryId?: string;
 };
 
 export type TransactionDuplicatePageResponse = {
@@ -93,7 +93,7 @@ export type TransactionDuplicateResponse = {
 	readonly id: string;
 	readonly created: string;
 	readonly updated: string;
-	readonly categoryName: string;
+	readonly categoryName?: string;
 };
 
 export type TransactionResponse = {
@@ -103,8 +103,8 @@ export type TransactionResponse = {
 	readonly amount: number;
 	readonly confirmed: boolean;
 	readonly duplicate: boolean;
-	readonly categoryId: string;
-	readonly categoryName: string;
+	readonly categoryId?: string;
+	readonly categoryName?: string;
 };
 
 export type TransactionToConfirm = {
@@ -115,7 +115,7 @@ export type TransactionToConfirm = {
 export type TransactionToUpdate = {
 	readonly transactionId: string;
 	readonly confirmed: boolean;
-	readonly categoryId: string;
+	readonly categoryId?: string;
 };
 
 export type TransactionsPageResponse = {
@@ -130,7 +130,7 @@ export type UpdateTransactionDetailsRequest = {
 	readonly expenseDate: string;
 	readonly description: string;
 	readonly amount: number;
-	readonly categoryId: string;
+	readonly categoryId?: string;
 };
 
 export type UpdateTransactionsRequest = {

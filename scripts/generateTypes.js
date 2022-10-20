@@ -19,20 +19,24 @@ const formatDataType = (details) => {
 	return parsedType;
 };
 
-const formatProperties = (properties) => {
+const formatProperties = (properties, required) => {
 	if (!properties) {
 		return '';
 	}
 	return Object.entries(properties)
-		.map(
-			([name, details]) => `readonly ${name}: ${formatDataType(details)};`
-		)
+		.map(([name, details]) => {
+			const isRequired =
+				required.find((requiredProp) => requiredProp === name) !==
+				undefined;
+			const q = isRequired ? '' : '?';
+			return `readonly ${name}${q}: ${formatDataType(details)};`;
+		})
 		.join('\n\t');
 };
 
 // TODO handle if type is required or not
 const formatType = (type) => {
-	const properties = formatProperties(type.properties);
+	const properties = formatProperties(type.properties, type.required);
 	return `export type ${type.name} = {
 	${properties}
 };`;
@@ -48,7 +52,6 @@ const OUTPUT_PATH = path.join(process.cwd(), 'src', 'types', 'generated');
 
 generateApi({
 	name: 'expense-tracker',
-	// output: OUTPUT_PATH,
 	url: 'https://127.0.0.1:8080/v3/api-docs',
 	prettier: true,
 	generateClient: false,

@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
 import { getAuthUser } from '../service/AuthService';
 import { QueryHookResult } from './index';
-import { AuthUser } from '../../types/auth';
+import { AuthUserDto } from '../../types/generated/expense-tracker';
 
 export const GET_AUTH_USER = 'AuthQueries_getAuthUser';
 
@@ -11,10 +11,10 @@ export interface GetAuthUserExtra {
 }
 
 export const useGetAuthUser = (): QueryHookResult<
-	AuthUser,
+	AuthUserDto,
 	GetAuthUserExtra
 > => {
-	const result = useQuery<AuthUser, Error>(GET_AUTH_USER, getAuthUser, {
+	const result = useQuery<AuthUserDto, Error>(GET_AUTH_USER, getAuthUser, {
 		refetchOnWindowFocus: true,
 		retry: false
 	});

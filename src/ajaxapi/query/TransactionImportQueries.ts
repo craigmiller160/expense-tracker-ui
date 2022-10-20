@@ -3,7 +3,7 @@ import { UseMutateFunction, useMutation } from 'react-query';
 import { importTransactions } from '../service/TransactionImportService';
 import { useContext } from 'react';
 import { AlertContext } from '../../components/UI/Alerts/AlertProvider';
-import { ImportTransactionsResponse } from '../../types/import';
+import { ImportTransactionsResponse } from '../../types/generated/expense-tracker';
 
 interface ImportTransactionsParams {
 	readonly type: FileType;

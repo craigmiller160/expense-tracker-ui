@@ -18,18 +18,6 @@ export interface TransactionDetailsResponse extends TransactionResponse {
 
 // TODO continue here
 
-export interface CountAndOldest {
-	readonly count: number;
-	readonly oldest: string | null;
-}
-
-export interface NeedsAttentionResponse {
-	readonly unconfirmed: CountAndOldest;
-	readonly uncategorized: CountAndOldest;
-	readonly duplicate: CountAndOldest;
-	readonly possibleRefund: CountAndOldest;
-}
-
 export interface TransactionToUpdate {
 	readonly transactionId: string;
 	readonly categoryId: string | null;

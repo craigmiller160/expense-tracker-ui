@@ -4,7 +4,7 @@ import { useGetNeedsAttention } from '../../../ajaxapi/query/TransactionQueries'
 import {
 	CountAndOldest,
 	NeedsAttentionResponse
-} from '../../../types/transactions';
+} from '../../../types/generated/expense-tracker';
 import { pipe } from 'fp-ts/es6/function';
 import {
 	formatDisplayDate,
@@ -22,8 +22,8 @@ interface AttentionItemProps {
 	readonly label: string;
 }
 
-const formatDate = (date: string | null): string => {
-	if (date === null) {
+const formatDate = (date?: string): string => {
+	if (!date) {
 		return '';
 	}
 	return pipe(parseServerDate(date), formatDisplayDate);

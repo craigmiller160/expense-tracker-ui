@@ -1,7 +1,6 @@
 import {
 	CreateTransactionRequest,
 	DeleteTransactionsRequest,
-	NeedsAttentionResponse,
 	TransactionToUpdate,
 	UpdateTransactionDetailsRequest,
 	UpdateTransactionsRequest,
@@ -9,6 +8,7 @@ import {
 	EnhancedSearchTransactionsRequest
 } from '../../types/transactions';
 import {
+	NeedsAttentionResponse,
 	CategorizeTransactionsRequest,
 	TransactionResponse,
 	TransactionsPageResponse,

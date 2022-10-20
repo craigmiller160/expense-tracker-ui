@@ -9,14 +9,14 @@ import {
 	TransactionToUpdate,
 	UpdateTransactionDetailsRequest,
 	UpdateTransactionsRequest,
-	TransactionDuplicatePageResponse
+	TransactionDuplicatePageResponse,
+	EnhancedSearchTransactionsRequest
 } from '../../types/transactions';
 import qs from 'qs';
 import { pipe } from 'fp-ts/es6/function';
 import * as Option from 'fp-ts/es6/Option';
 import { expenseTrackerApi, getData } from './AjaxApi';
 import { formatServerDate } from '../../utils/dateTimeUtils';
-import { SearchTransactionsRequest } from '../../types/generated/expense-tracker';
 
 const handleOptionalValue = <T>(
 	value: T | undefined,
@@ -38,7 +38,9 @@ const handleCategoryIds = (
 	return handleOptionalValue(categoryIds, (ids) => ids.join(','));
 };
 
-export const requestToQuery = (request: SearchTransactionsRequest): string =>
+export const requestToQuery = (
+	request: EnhancedSearchTransactionsRequest
+): string =>
 	qs.stringify({
 		...request,
 		startDate: handleOptionalValue(request.startDate, formatServerDate),
@@ -50,7 +52,7 @@ export const requestToQuery = (request: SearchTransactionsRequest): string =>
 	});
 
 export const searchForTransactions = (
-	request: SearchTransactionsRequest
+	request: EnhancedSearchTransactionsRequest
 ): Promise<TransactionsPageResponse> => {
 	const query = requestToQuery(request);
 	return expenseTrackerApi

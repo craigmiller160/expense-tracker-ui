@@ -6,7 +6,8 @@ import {
 	TransactionResponse,
 	TransactionToUpdate,
 	UpdateTransactionDetailsRequest,
-	TransactionDuplicatePageResponse
+	TransactionDuplicatePageResponse,
+	EnhancedSearchTransactionsRequest
 } from '../../types/transactions';
 import {
 	QueryClient,
@@ -27,7 +28,6 @@ import {
 	updateTransactionDetails,
 	updateTransactions
 } from '../service/TransactionService';
-import { SearchTransactionsRequest } from '../../types/generated/expense-tracker';
 
 export const SEARCH_FOR_TRANSACTIONS =
 	'TransactionQueries_SearchForTransactions';
@@ -41,10 +41,10 @@ const invalidateTransactionQueries = (queryClient: QueryClient) =>
 		queryClient.invalidateQueries(GET_NEEDS_ATTENTION)
 	]);
 
-type SearchForTransactionsKey = [string, SearchTransactionsRequest];
+type SearchForTransactionsKey = [string, EnhancedSearchTransactionsRequest];
 
 export const useSearchForTransactions = (
-	request: SearchTransactionsRequest
+	request: EnhancedSearchTransactionsRequest
 ): UseQueryResult<TransactionsPageResponse, Error> =>
 	useQuery<
 		TransactionsPageResponse,

@@ -1,13 +1,13 @@
 import {
 	CreateTransactionRequest,
-	DeleteTransactionsRequest,
-	TransactionToUpdate,
 	UpdateTransactionDetailsRequest,
-	UpdateTransactionsRequest,
 	TransactionDuplicatePageResponse,
 	EnhancedSearchTransactionsRequest
 } from '../../types/transactions';
 import {
+	DeleteTransactionsRequest,
+	TransactionToUpdate,
+	UpdateTransactionsRequest,
 	NeedsAttentionResponse,
 	CategorizeTransactionsRequest,
 	TransactionResponse,

@@ -1,11 +1,11 @@
 import {
 	CreateTransactionRequest,
-	TransactionToUpdate,
 	UpdateTransactionDetailsRequest,
 	TransactionDuplicatePageResponse,
 	EnhancedSearchTransactionsRequest
 } from '../../types/transactions';
 import {
+	TransactionToUpdate,
 	NeedsAttentionResponse,
 	TransactionAndCategory,
 	TransactionResponse,

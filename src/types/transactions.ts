@@ -18,20 +18,6 @@ export interface TransactionDetailsResponse extends TransactionResponse {
 
 // TODO continue here
 
-export interface TransactionToUpdate {
-	readonly transactionId: string;
-	readonly categoryId: string | null;
-	readonly confirmed: boolean;
-}
-
-export interface UpdateTransactionsRequest {
-	readonly transactions: ReadonlyArray<TransactionToUpdate>;
-}
-
-export type DeleteTransactionsRequest = {
-	readonly ids: ReadonlyArray<string>;
-};
-
 export type UpdateTransactionDetailsRequest = {
 	readonly transactionId: string;
 	readonly confirmed: boolean;

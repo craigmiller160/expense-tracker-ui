@@ -1,31 +1,6 @@
 /* eslint-disable no-console */
 const { generateApi } = require('swagger-typescript-api');
 const path = require('path');
-const spawn = require('cross-spawn');
-
-// const result = spawn.sync(
-// 	'swagger-typescript-api',
-// 	[
-// 		'-p',
-// 		'https://127.0.0.1:8080/v3/api-docs',
-// 		'-o',
-// 		path.join(process.cwd(), 'src', 'types', 'generated'),
-// 		'-n',
-// 		'expense-tracker2'
-// 		// '--union-enums',
-// 		// '--no-client',
-// 		// '--add-readonly '
-// 	],
-// 	{
-// 		stdio: 'inherit',
-// 		cwd: process.cwd(),
-// 		env: {
-// 			NODE_TLS_REJECT_UNAUTHORIZED: 0
-// 		}
-// 	}
-// );
-// process.exit(result.status);
-// console.log(result);
 
 // TODO how to make this readonly?
 

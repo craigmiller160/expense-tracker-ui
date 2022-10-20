@@ -6,4 +6,4 @@ export const expenseTrackerApi = createApi({
 	baseURL: '/expense-tracker/api'
 });
 
-export const getData = <T>(res: AxiosResponse<T>) => res.data;
+export const getData = <T>(res: AxiosResponse<T>): T => res.data;

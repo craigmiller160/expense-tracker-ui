@@ -2,12 +2,14 @@
 const { generateApi } = require('swagger-typescript-api');
 const path = require('path');
 
-const ARRAY_PATTERN = /^\(.*\)\[\]$/;
+const ARRAY_PATTERN = /^\((?<arrayType>.*)\)\[\]$/;
 
 const formatDataType = (parsedType) => {
 	if (ARRAY_PATTERN.test(parsedType)) {
-		return 'ReadonlyArray<string>';
+		const arrayType = ARRAY_PATTERN.exec(parsedType).groups.arrayType;
+		return `ReadonlyArray<${arrayType}>`;
 	}
+
 	return parsedType;
 };
 

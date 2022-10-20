@@ -16,7 +16,7 @@ readonly lastName: string;
 
 
 	export type CategorizeTransactionsRequest = {
-		readonly transactionsAndCategories: ReadonlyArray<string>;
+		readonly transactionsAndCategories: ReadonlyArray<TransactionAndCategory>;
 	};
 
 
@@ -35,7 +35,7 @@ readonly name: string;
 
 
 	export type ConfirmTransactionsRequest = {
-		readonly transactionsToConfirm: ReadonlyArray<string>;
+		readonly transactionsToConfirm: ReadonlyArray<TransactionToConfirm>;
 	};
 
 
@@ -115,7 +115,7 @@ readonly categoryId: string;
 
 
 	export type TransactionDuplicatePageResponse = {
-		readonly transactions: ReadonlyArray<string>;
+		readonly transactions: ReadonlyArray<TransactionDuplicateResponse>;
 readonly pageNumber: number;
 readonly totalItems: number;
 	};
@@ -160,7 +160,7 @@ readonly categoryId: string;
 
 
 	export type TransactionsPageResponse = {
-		readonly transactions: ReadonlyArray<string>;
+		readonly transactions: ReadonlyArray<TransactionResponse>;
 readonly pageNumber: number;
 readonly totalItems: number;
 	};
@@ -185,5 +185,5 @@ readonly categoryId: string;
 
 
 	export type UpdateTransactionsRequest = {
-		readonly transactions: ReadonlyArray<string>;
+		readonly transactions: ReadonlyArray<TransactionToUpdate>;
 	};

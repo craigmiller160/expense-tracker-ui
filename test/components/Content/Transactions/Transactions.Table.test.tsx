@@ -4,8 +4,7 @@ import { screen, waitFor, within } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import { searchForTransactions } from '../../../../src/ajaxapi/service/TransactionService';
-import { TransactionSortKey } from '../../../../src/types/transactions';
-import { SortDirection } from '../../../../src/types/misc';
+import { SortDirection, TransactionSortKey } from '../../../../src/types/misc';
 import { getAllCategories } from '../../../../src/ajaxapi/service/CategoryService';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 import {

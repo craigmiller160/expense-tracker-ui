@@ -19,8 +19,7 @@ import {
 import { pipe } from 'fp-ts/es6/function';
 import * as Sleep from '@craigmiller160/ts-functions/es/Sleep';
 import { searchForTransactions } from '../../../../src/ajaxapi/service/TransactionService';
-import { TransactionSortKey } from '../../../../src/types/transactions';
-import { SortDirection } from '../../../../src/types/misc';
+import { SortDirection, TransactionSortKey } from '../../../../src/types/misc';
 import { getAllCategories } from '../../../../src/ajaxapi/service/CategoryService';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';

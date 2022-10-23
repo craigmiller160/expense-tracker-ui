@@ -1,6 +1,5 @@
 import { requestToQuery } from '../../../src/ajaxapi/service/TransactionService';
-import { SortDirection } from '../../../src/types/misc';
-import { TransactionSortKey } from '../../../src/types/transactions';
+import { SortDirection, TransactionSortKey } from '../../../src/types/misc';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 
 describe('TransactionService', () => {

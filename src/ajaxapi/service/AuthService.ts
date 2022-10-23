@@ -1,10 +1,13 @@
-import { AuthUser, AuthCodeLogin } from '../../types/auth';
+import {
+	AuthCodeLoginDto,
+	AuthUserDto
+} from '../../types/generated/expense-tracker';
 import { expenseTrackerApi, getData } from './AjaxApi';
 import { NoAlertOrStatusHandlingError } from '../../error/NoAlertOrStatusHandlingError';
 
-export const getAuthUser = (): Promise<AuthUser> =>
+export const getAuthUser = (): Promise<AuthUserDto> =>
 	expenseTrackerApi
-		.get<AuthUser>({
+		.get<AuthUserDto>({
 			uri: '/oauth/user',
 			errorCustomizer: (error) =>
 				new NoAlertOrStatusHandlingError(
@@ -16,9 +19,9 @@ export const getAuthUser = (): Promise<AuthUser> =>
 		})
 		.then(getData);
 
-export const login = (): Promise<AuthCodeLogin> =>
+export const login = (): Promise<AuthCodeLoginDto> =>
 	expenseTrackerApi
-		.post<AuthCodeLogin, void>({
+		.post<AuthCodeLoginDto, void>({
 			uri: '/oauth/authcode/login',
 			errorCustomizer: 'Error getting login URI'
 		})

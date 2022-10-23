@@ -4,7 +4,7 @@ import { Response } from 'miragejs';
 import {
 	CategoryRequest,
 	CategoryResponse
-} from '../../../src/types/categories';
+} from '../../../src/types/generated/expense-tracker';
 import { nanoid } from 'nanoid';
 
 export const createCategoriesRoutes = (database: Database, server: Server) => {

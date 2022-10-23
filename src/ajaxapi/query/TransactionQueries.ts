@@ -1,14 +1,14 @@
+import { EnhancedSearchTransactionsRequest } from '../../types/transactions';
 import {
 	CreateTransactionRequest,
+	UpdateTransactionDetailsRequest,
+	TransactionDuplicatePageResponse,
+	TransactionToUpdate,
 	NeedsAttentionResponse,
-	SearchTransactionsRequest,
-	TransactionsPageResponse,
 	TransactionAndCategory,
 	TransactionResponse,
-	TransactionToUpdate,
-	UpdateTransactionDetailsRequest,
-	TransactionDuplicatePageResponse
-} from '../../types/transactions';
+	TransactionsPageResponse
+} from '../../types/generated/expense-tracker';
 import {
 	QueryClient,
 	UseMutateFunction,
@@ -41,10 +41,10 @@ const invalidateTransactionQueries = (queryClient: QueryClient) =>
 		queryClient.invalidateQueries(GET_NEEDS_ATTENTION)
 	]);
 
-type SearchForTransactionsKey = [string, SearchTransactionsRequest];
+type SearchForTransactionsKey = [string, EnhancedSearchTransactionsRequest];
 
 export const useSearchForTransactions = (
-	request: SearchTransactionsRequest
+	request: EnhancedSearchTransactionsRequest
 ): UseQueryResult<TransactionsPageResponse, Error> =>
 	useQuery<
 		TransactionsPageResponse,

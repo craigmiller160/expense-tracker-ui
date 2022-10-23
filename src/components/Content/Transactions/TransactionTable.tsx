@@ -24,7 +24,7 @@ import { useIsAtLeastBreakpoint } from '../../../utils/breakpointHooks';
 import { DuplicateIcon } from './icons/DuplicateIcon';
 import { NotConfirmedIcon } from './icons/NotConfirmedIcon';
 import { NotCategorizedIcon } from './icons/NotCategorizedIcon';
-import { TransactionResponse } from '../../../types/transactions';
+import { TransactionResponse } from '../../../types/generated/expense-tracker';
 import { formatCurrency } from '../../../utils/formatCurrency';
 import { PossibleRefundIcon } from './icons/PossibleRefundIcon';
 

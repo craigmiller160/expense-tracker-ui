@@ -42,7 +42,7 @@ const getCombinedErrorValues = (error: Error): CombinedErrorValues => {
 				errorResponse
 			};
 		}
-		baseError = baseError.cause;
+		baseError = baseError.cause as Error | undefined;
 	}
 	return {
 		message: messages.join('; ')

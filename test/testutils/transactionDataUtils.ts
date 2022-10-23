@@ -1,12 +1,10 @@
 import { MonoidT } from '@craigmiller160/ts-functions/es/types';
-import {
-	TransactionDetailsResponse,
-	TransactionResponse
-} from '../../src/types/transactions';
+import { TransactionDetailsResponse } from '../../src/types/transactions';
 import { nanoid } from 'nanoid';
 import { pipe } from 'fp-ts/es6/function';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 import { formatServerDateTime } from '../../src/utils/dateTimeUtils';
+import { TransactionResponse } from '../../src/types/generated/expense-tracker';
 
 export const transactionRecordMonoid: MonoidT<
 	Record<string, TransactionDetailsResponse>

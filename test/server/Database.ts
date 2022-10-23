@@ -1,17 +1,19 @@
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
-import { AuthUser } from '../../src/types/auth';
 import produce from 'immer';
 import { WritableDraft } from 'immer/dist/types/types-external';
 import * as Option from 'fp-ts/es6/Option';
 import { DbRecord } from '../../src/types/db';
 import { nanoid } from 'nanoid';
-import { CategoryResponse } from '../../src/types/categories';
 import { TransactionDetailsResponse } from '../../src/types/transactions';
+import {
+	AuthUserDto,
+	CategoryResponse
+} from '../../src/types/generated/expense-tracker';
 
 export const USER_ID = 1;
 
 export interface Data {
-	readonly authUser: OptionT<AuthUser>;
+	readonly authUser: OptionT<AuthUserDto>;
 	readonly categories: Record<string, CategoryResponse>;
 	readonly transactions: Record<string, TransactionDetailsResponse>;
 }

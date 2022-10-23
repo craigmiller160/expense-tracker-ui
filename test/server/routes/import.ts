@@ -3,7 +3,7 @@ import { Server } from 'miragejs/server';
 import { Response } from 'miragejs';
 import { FileType } from '../../../src/types/file';
 import { match } from 'ts-pattern';
-import { ImportTransactionsResponse } from '../../../src/types/import';
+import { ImportTransactionsResponse } from '../../../src/types/generated/expense-tracker';
 import { ErrorResponse } from '../../../src/types/error';
 
 const error: ErrorResponse = {

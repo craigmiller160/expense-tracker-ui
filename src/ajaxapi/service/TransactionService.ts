@@ -1,17 +1,17 @@
+import { EnhancedSearchTransactionsRequest } from '../../types/transactions';
 import {
-	CategorizeTransactionsRequest,
 	CreateTransactionRequest,
-	DeleteTransactionsRequest,
-	NeedsAttentionResponse,
-	SearchTransactionsRequest,
-	TransactionsPageResponse,
-	TransactionAndCategory,
-	TransactionResponse,
-	TransactionToUpdate,
 	UpdateTransactionDetailsRequest,
+	TransactionDuplicatePageResponse,
+	DeleteTransactionsRequest,
+	TransactionToUpdate,
 	UpdateTransactionsRequest,
-	TransactionDuplicatePageResponse
-} from '../../types/transactions';
+	NeedsAttentionResponse,
+	CategorizeTransactionsRequest,
+	TransactionResponse,
+	TransactionsPageResponse,
+	TransactionAndCategory
+} from '../../types/generated/expense-tracker';
 import qs from 'qs';
 import { pipe } from 'fp-ts/es6/function';
 import * as Option from 'fp-ts/es6/Option';
@@ -38,7 +38,9 @@ const handleCategoryIds = (
 	return handleOptionalValue(categoryIds, (ids) => ids.join(','));
 };
 
-export const requestToQuery = (request: SearchTransactionsRequest): string =>
+export const requestToQuery = (
+	request: EnhancedSearchTransactionsRequest
+): string =>
 	qs.stringify({
 		...request,
 		startDate: handleOptionalValue(request.startDate, formatServerDate),
@@ -50,7 +52,7 @@ export const requestToQuery = (request: SearchTransactionsRequest): string =>
 	});
 
 export const searchForTransactions = (
-	request: SearchTransactionsRequest
+	request: EnhancedSearchTransactionsRequest
 ): Promise<TransactionsPageResponse> => {
 	const query = requestToQuery(request);
 	return expenseTrackerApi

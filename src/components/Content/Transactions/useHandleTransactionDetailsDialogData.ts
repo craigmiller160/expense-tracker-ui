@@ -1,5 +1,5 @@
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
-import { TransactionResponse } from '../../../types/transactions';
+import { TransactionResponse } from '../../../types/generated/expense-tracker';
 import { pipe } from 'fp-ts/es6/function';
 import * as Option from 'fp-ts/es6/Option';
 import { CategoryOption, transactionToCategoryOption } from './utils';

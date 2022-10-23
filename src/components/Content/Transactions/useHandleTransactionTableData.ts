@@ -5,11 +5,7 @@ import {
 	useSearchForTransactions,
 	useUpdateTransactions
 } from '../../../ajaxapi/query/TransactionQueries';
-import {
-	TransactionsPageResponse,
-	TransactionResponse,
-	TransactionSortKey
-} from '../../../types/transactions';
+import { TransactionSortKey } from '../../../types/misc';
 import { useEffect, useMemo } from 'react';
 import {
 	FieldArrayWithId,
@@ -28,6 +24,10 @@ import {
 import { match } from 'ts-pattern';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 import { pipe } from 'fp-ts/es6/function';
+import {
+	TransactionResponse,
+	TransactionsPageResponse
+} from '../../../types/generated/expense-tracker';
 
 export const formatDisplayDate = (dateString: string) =>
 	pipe(dateString, Time.parse('yyyy-MM-dd'), Time.format('MM/dd/yyyy'));

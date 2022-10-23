@@ -2,13 +2,13 @@ import { SelectOption } from '@craigmiller160/react-hook-form-material-ui';
 import { TablePaginationConfig } from '../../UI/Table';
 import { Updater } from 'use-immer';
 import { TransactionTableForm } from './useHandleTransactionTableData';
-import {
-	TransactionResponse,
-	TransactionToUpdate
-} from '../../../types/transactions';
 import * as RArray from 'fp-ts/es6/ReadonlyArray';
 import { identity, pipe } from 'fp-ts/es6/function';
-import { CategoryResponse } from '../../../types/categories';
+import {
+	CategoryResponse,
+	TransactionResponse,
+	TransactionToUpdate
+} from '../../../types/generated/expense-tracker';
 import { SortDirection } from '../../../types/misc';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 import { useMemo } from 'react';
@@ -75,7 +75,7 @@ export const formToUpdateRequest = (
 		RArray.map(
 			(txn): TransactionToUpdate => ({
 				transactionId: txn.transactionId,
-				categoryId: txn.category?.value ?? null,
+				categoryId: txn.category?.value,
 				confirmed: txn.confirmed
 			})
 		)

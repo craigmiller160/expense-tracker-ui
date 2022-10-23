@@ -1080,6 +1080,13 @@
   resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@craigmiller160/react-hook-form-material-ui/-/react-hook-form-material-ui-1.2.0-beta.24.1.tgz#a75133bac1285bf9047a6a590cc0e8a0adb04ae1"
   integrity sha512-06iXlKp51ziDuSc/2NBJ78pEzc4eFcj8OTES0lWVx9uyKGuyDeZzPNa1niXsHKzaDWDRepOJkg9hPm2iHuNlKg==
 
+"@craigmiller160/swagger-typescript-api-formatted@^1.0.0-beta.1":
+  version "1.0.0-beta.1"
+  resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@craigmiller160/swagger-typescript-api-formatted/-/swagger-typescript-api-formatted-1.0.0-beta.1.tgz#ce477ab6c67f0fc3e2631759a899a12685f42d6f"
+  integrity sha512-/xuzZR4waFJCciSkkMwTXUfPokyk7TNeyD4+yTXt9hwI1dQSrt5gXnvWdITyumhtxPtU2Y76kgj/01W2Q2x5oQ==
+  dependencies:
+    swagger-typescript-api "^10.0.2"
+
 "@craigmiller160/ts-functions@^1.5.0-beta":
   version "1.5.0-beta.4"
   resolved "https://craigmiller160.ddns.net:30003/repository/npm-group/@craigmiller160/ts-functions/-/ts-functions-1.5.0-beta.4.tgz#8547918c7fdb5d9acb0feb6380346f524286a47f"
@@ -6010,9 +6017,9 @@ swagger-schema-official@2.0.0-bab6bed:
   integrity sha512-rCC0NWGKr/IJhtRuPq/t37qvZHI/mH4I4sxflVM+qgVe5Z2uOCivzWaVbuioJaB61kvm5UvB7b49E+oBY0M8jA==
 
 swagger-typescript-api@^10.0.2:
-  version "10.0.2"
-  resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/swagger-typescript-api/-/swagger-typescript-api-10.0.2.tgz#97c79a2edbbb1bc2f72484c1d9a0ba028dfb77e4"
-  integrity sha512-/4pVOwRMKLnqCOBwXYOGif6I5lufLdGQsWOeSHQMQ38zXoAWJr2jGIaBWhxO6snRSiZQWzVFYnNBsYbNtJIKrQ==
+  version "10.0.3"
+  resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/swagger-typescript-api/-/swagger-typescript-api-10.0.3.tgz#ed05da3e9893d892d4cfa93f95c5a3a7aec40715"
+  integrity sha512-2jyuLtDIMl43/YDXuX1g4MtymyhO22LFer3wWZWkDEQOCy29pdKeNIi9aDYkWUCsEYSzgSmZfhA2eSa3t4d/XA==
   dependencies:
     "@types/swagger-schema-official" "2.0.22"
     axios "0.27.2"

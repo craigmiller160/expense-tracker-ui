@@ -23,6 +23,7 @@
     "@craigmiller160/jest-config": "^1.0.3",
     "@craigmiller160/jest-config-ts": "^1.0.1",
     "@craigmiller160/prettier-config": "^1.0.0",
+    "@craigmiller160/swagger-typescript-api-formatted": "^1.0.0-beta.1",
     "@relmify/jest-fp-ts": "^2.0.2",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
@@ -65,7 +66,6 @@
     "react-query": "^3.39.1",
     "react-router": "^6.3.0",
     "react-router-dom": "^6.3.0",
-    "swagger-typescript-api": "^10.0.2",
     "ts-pattern": "^4.0.3",
     "use-immer": "^0.7.0"
   }

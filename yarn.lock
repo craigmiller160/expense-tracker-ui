@@ -1081,9 +1081,9 @@
   integrity sha512-06iXlKp51ziDuSc/2NBJ78pEzc4eFcj8OTES0lWVx9uyKGuyDeZzPNa1niXsHKzaDWDRepOJkg9hPm2iHuNlKg==
 
 "@craigmiller160/swagger-typescript-api-formatted@^1.0.0-beta.1":
-  version "1.0.0-beta.2"
-  resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@craigmiller160/swagger-typescript-api-formatted/-/swagger-typescript-api-formatted-1.0.0-beta.2.tgz#8063729db41ef53e56b016f3575c94ec4127f564"
-  integrity sha512-NnIyS+BP13gLWPJJOGzwnTBaF0L9rZwlZ43KQvW015EQ62B0Wg/uC92rXzdgTSJrfbpDoNCnwgKR/cD+y+6k5w==
+  version "1.0.0-beta.3"
+  resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@craigmiller160/swagger-typescript-api-formatted/-/swagger-typescript-api-formatted-1.0.0-beta.3.tgz#4e6a33ea9fc1fd2cf90da44239c4291dee8a6d7b"
+  integrity sha512-3mUQRhXyuGaS3WOhj8P++/WmgcoKZ6QqABSighffDHsL9S5cdbstkAG1tQz1XDv7d79S8RVwwiFsAVQhr2U3AQ==
   dependencies:
     swagger-typescript-api "^10.0.2"
 

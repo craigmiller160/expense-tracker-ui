@@ -2,18 +2,17 @@ import { renderApp } from '../../../testutils/renderApp';
 import { screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
+import { waitForVisibility } from '../../../testutils/dom-actions/wait-for-visibility';
 
 describe('Transaction Import', () => {
 	it('imports file successfully', async () => {
 		await renderApp({
 			initialPath: '/expense-tracker/import?IS_TEST=true'
 		});
-		await waitFor(() =>
-			expect(screen.queryByText('Expense Tracker')).toBeVisible()
-		);
-		await waitFor(() =>
-			expect(screen.queryAllByText('Import Transactions')).toHaveLength(2)
-		);
+		await waitForVisibility([
+			{ text: 'Expense Tracker' },
+			{ text: 'Import Transactions', occurs: 2 }
+		]);
 
 		userEvent.click(screen.getByText('Import'));
 		await waitFor(() =>

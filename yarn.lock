@@ -1042,14 +1042,6 @@
   resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@craigmiller160/eslint-config-tree-shaking-import-restrictions/-/eslint-config-tree-shaking-import-restrictions-1.0.0.tgz#3e2004bbc41cd960fd8547c4777c55e6158b2d2e"
   integrity sha512-OxQHIQ6H92xkprkEb2ApnNdt1g6JU4au03sESxMu3ZQ9tjuTyw9asd5aSKp/G/oqZoYVpXPtxV2d2VXctKtVaA==
 
-"@craigmiller160/eslint-config-ts@^1.1.0-beta":
-  version "1.1.0-beta.2.1"
-  resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@craigmiller160/eslint-config-ts/-/eslint-config-ts-1.1.0-beta.2.1.tgz#3060deed4f72e4bca3fe985d65f78b603ff852b4"
-  integrity sha512-BMzukF5813S3CJ9ZbaxALWw3pbQy6h/MhBSNcwzT+D0NEb3kJM427/0PIDzM4DsC4N24IAuJw8E0eBIDON55cw==
-  dependencies:
-    "@typescript-eslint/eslint-plugin" "^5.40.1"
-    "@typescript-eslint/parser" "^5.40.1"
-
 "@craigmiller160/jest-config-ts@^1.0.1":
   version "1.0.1"
   resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@craigmiller160/jest-config-ts/-/jest-config-ts-1.0.1.tgz#c1f2d954d88614c35ac7d1f62ebe1ddcee97cc0c"

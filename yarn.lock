@@ -981,9 +981,9 @@
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
 "@craigmiller160/ajax-api@^2.0.0-beta":
-  version "2.0.0-beta.2"
-  resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@craigmiller160/ajax-api/-/ajax-api-2.0.0-beta.2.tgz#dbe342d7d769b88c7b86e700155744f42d4f6a21"
-  integrity sha512-IDWJMmSv0qnaIR+Vru/yRISNomcNxZyxMJd5wPGAPx2GY4tV2BQnW2mPIH+Xy2Cx7ItER6avDyFH3ORgwFHKIw==
+  version "2.0.0-beta.3"
+  resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@craigmiller160/ajax-api/-/ajax-api-2.0.0-beta.3.tgz#893258f43fd235511043da6f96072d4ee0d04848"
+  integrity sha512-Qz841tIhF8aSM24HG0meIVA09MX9PnhVGaNrxa3p32sER8t4RLTbuKdeVWx3TePmlZh5sira4+VhfuVNvWpbiQ==
   dependencies:
     axios "^0.26.0"
 

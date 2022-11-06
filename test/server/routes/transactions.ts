@@ -10,9 +10,9 @@ import {
 	TransactionResponse,
 	UpdateTransactionDetailsRequest,
 	UpdateTransactionsRequest,
-	CategoryResponse
+	CategoryResponse,
+	TransactionDetailsResponse
 } from '../../../src/types/generated/expense-tracker';
-import { TransactionDetailsResponse } from '../../../src/types/transactions';
 import * as RArray from 'fp-ts/es6/ReadonlyArray';
 import { pipe } from 'fp-ts/es6/function';
 import { match } from 'ts-pattern';

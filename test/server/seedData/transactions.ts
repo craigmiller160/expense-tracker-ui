@@ -1,5 +1,5 @@
 import { DataUpdater } from '../Database';
-import { TransactionDetailsResponse } from '../../../src/types/transactions';
+import { TransactionDetailsResponse } from '../../../src/types/generated/expense-tracker';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 import { pipe } from 'fp-ts/es6/function';
 import * as RNonEmptyArray from 'fp-ts/es6/ReadonlyNonEmptyArray';

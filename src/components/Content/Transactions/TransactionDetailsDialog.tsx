@@ -23,6 +23,7 @@ import { useIsAtMaxBreakpoint } from '../../../utils/breakpointHooks';
 import { PossibleRefundIcon } from './icons/PossibleRefundIcon';
 import * as Option from 'fp-ts/es6/Option';
 import { TransactionDetailsDuplicatePanel } from './TransactionDetailsDuplicatePanel';
+import { Spinner } from '../../UI/Spinner';
 
 interface Props {
 	readonly open: boolean;
@@ -121,68 +122,86 @@ export const TransactionDetailsDialog = (props: Props) => {
 			data-testid="transaction-details-dialog"
 		>
 			<div className="TransactionDetailsDialog">
-				<div className="Flags">
-					<DuplicateIcon transaction={transactionValues} />
-					<NotConfirmedIcon transaction={watchedTransaction} />
-					<NotCategorizedIcon transaction={watchedTransaction} />
-					<PossibleRefundIcon transaction={transactionValues} />
-				</div>
-				<hr />
-				<div className="Info">
-					<div className="InfoRow">
-						<DatePicker
-							control={control}
-							name="expenseDate"
-							label="Expense Date"
-							rules={{ required: 'Expense Date is required' }}
-						/>
-					</div>
-					<div className="InfoRow">
-						<TextField
-							control={control}
-							name="amount"
-							label="Amount ($)"
-							rules={{
-								required: 'Amount is required',
-								validate: (value: unknown) =>
-									/^0\.00$/.test(`${value}`)
-										? 'Must provide amount'
-										: undefined
-							}}
-							onBlurTransform={formatAmountValue}
-						/>
-					</div>
-					<div className="InfoRow">
-						<TextField
-							control={control}
-							name="description"
-							label="Description"
-							multiline
-							rules={{ required: 'Description is required' }}
-						/>
-					</div>
-				</div>
-				<hr />
-				<div className={controlsClassName}>
-					{isEditExisting && (
-						<Checkbox
-							testId="confirm-transaction-checkbox"
-							control={control}
-							className={
-								transactionValues.confirmed ? 'invisible' : ''
-							}
-							name="confirmed"
-							label="Confirmed"
-							labelPlacement="end"
-						/>
-					)}
-					{CategoryComponent}
-				</div>
-				<hr />
-				{transactionValues.id !== '' && transactionValues.duplicate && (
-					<TransactionDetailsDuplicatePanel
-						transactionId={transactionValues.id}
-					/>
+				{transactionValues.isLoading && <Spinner />}
+				{!transactionValues.isLoading && (
+					<>
+						<div className="Flags">
+							<DuplicateIcon transaction={transactionValues} />
+							<NotConfirmedIcon
+								transaction={watchedTransaction}
+							/>
+							<NotCategorizedIcon
+								transaction={watchedTransaction}
+							/>
+							<PossibleRefundIcon
+								transaction={transactionValues}
+							/>
+						</div>
+						<hr />
+						<div className="Info">
+							<div className="InfoRow">
+								<DatePicker
+									control={control}
+									name="expenseDate"
+									label="Expense Date"
+									rules={{
+										required: 'Expense Date is required'
+									}}
+								/>
+							</div>
+							<div className="InfoRow">
+								<TextField
+									control={control}
+									name="amount"
+									label="Amount ($)"
+									rules={{
+										required: 'Amount is required',
+										validate: (value: unknown) =>
+											/^0\.00$/.test(`${value}`)
+												? 'Must provide amount'
+												: undefined
+									}}
+									onBlurTransform={formatAmountValue}
+								/>
+							</div>
+							<div className="InfoRow">
+								<TextField
+									control={control}
+									name="description"
+									label="Description"
+									multiline
+									rules={{
+										required: 'Description is required'
+									}}
+								/>
+							</div>
+						</div>
+						<hr />
+						<div className={controlsClassName}>
+							{isEditExisting && (
+								<Checkbox
+									testId="confirm-transaction-checkbox"
+									control={control}
+									className={
+										transactionValues.confirmed
+											? 'invisible'
+											: ''
+									}
+									name="confirmed"
+									label="Confirmed"
+									labelPlacement="end"
+								/>
+							)}
+							{CategoryComponent}
+						</div>
+						<hr />
+						{transactionValues.id !== '' &&
+							transactionValues.duplicate && (
+								<TransactionDetailsDuplicatePanel
+									transactionId={transactionValues.id}
+								/>
+							)}
+					</>
 				)}
 			</div>
 		</SideDialog>

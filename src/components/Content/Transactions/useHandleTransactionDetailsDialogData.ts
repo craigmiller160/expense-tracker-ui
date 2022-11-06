@@ -1,11 +1,11 @@
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
-import { TransactionResponse } from '../../../types/generated/expense-tracker';
 import { pipe } from 'fp-ts/es6/function';
 import * as Option from 'fp-ts/es6/Option';
 import { CategoryOption, transactionToCategoryOption } from './utils';
 import { useForm, UseFormReturn } from 'react-hook-form';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { parseDisplayDate } from '../../../utils/dateTimeUtils';
+import { useGetTransactionDetails } from '../../../ajaxapi/query/TransactionQueries';
 
 export type TransactionDetailsFormData = {
 	readonly confirmed: boolean;
@@ -23,6 +23,7 @@ export type TransactionValues = {
 	readonly expenseDate: string;
 	readonly description: string;
 	readonly amount: number;
+	readonly isLoading: boolean;
 };
 
 export type TransactionDetailsDialogData = {
@@ -37,60 +38,37 @@ const DEFAULT_TXN_VALUES: TransactionValues = {
 	category: null,
 	expenseDate: '',
 	description: '',
-	amount: 0
+	amount: 0,
+	isLoading: false
 };
 
 const useValuesFromSelectedTransaction = (
-	selectedTransaction: OptionT<string>
+	selectedTransactionId: OptionT<string>
 ): TransactionValues => {
-
-
-
-	// Doing this separately to help with dependency arrays
-	const transactionId: string | null = pipe(
-		selectedTransaction,
-		Option.map((txn): string | null => txn.id),
-		Option.getOrElse((): string | null => null)
-	);
-	return useMemo(
-		() =>
-			pipe(
-				selectedTransaction,
-				Option.map(
-					(transaction): TransactionValues => ({
-						id: transaction.id,
-						confirmed: transaction.confirmed,
-						duplicate: transaction.duplicate,
-						category: transactionToCategoryOption(transaction),
-						expenseDate: transaction.expenseDate,
-						description: transaction.description,
-						amount: transaction.amount
-					})
-				),
-				Option.getOrElse(
-					(): TransactionValues => ({
-						id: '',
-						confirmed: false,
-						duplicate: false,
-						category: null,
-						expenseDate: '',
-						description: '',
-						amount: 0
-					})
-				)
-			),
-		[transactionId] // eslint-disable-line react-hooks/exhaustive-deps
+	const { data, isLoading } = useGetTransactionDetails(selectedTransactionId);
+	return pipe(
+		Option.fromNullable(data),
+		Option.fold(
+			() => ({
+				...DEFAULT_TXN_VALUES,
+				isLoading
+			}),
+			(txn) => ({
+				...txn,
+				isLoading,
+				category: transactionToCategoryOption(txn)
+			})
+		)
 	);
 };
-
-
 
 export const useHandleTransactionDetailsDialogData = (
 	selectedTransactionId: OptionT<string>,
 	open: boolean
 ): TransactionDetailsDialogData => {
-	const transactionValues =
-		useValuesFromSelectedTransaction(selectedTransactionId);
+	const transactionValues = useValuesFromSelectedTransaction(
+		selectedTransactionId
+	);
 
 	const form = useForm<TransactionDetailsFormData>({
 		mode: 'onChange',

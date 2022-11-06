@@ -30,6 +30,8 @@ import {
 	updateTransactionDetails,
 	updateTransactions
 } from '../service/TransactionService';
+import { OptionT } from '@craigmiller160/ts-functions/es/types';
+import * as Option from 'fp-ts/es6/Option';
 
 export const SEARCH_FOR_TRANSACTIONS =
 	'TransactionQueries_SearchForTransactions';
@@ -86,9 +88,9 @@ export const useGetPossibleDuplicates = (
 			getPossibleDuplicates(transactionId, pageNumber, pageSize)
 	);
 
-type GetTransactionDetailsKey = [string, string | undefined];
+type GetTransactionDetailsKey = [string, OptionT<string>];
 export const useGetTransactionDetails = (
-	transactionId?: string
+	transactionId: OptionT<string>
 ): UseQueryResult<TransactionDetailsResponse, Error> =>
 	useQuery<
 		TransactionDetailsResponse,
@@ -97,8 +99,10 @@ export const useGetTransactionDetails = (
 		GetTransactionDetailsKey
 	>(
 		[GET_TRANSACTION_DETAILS, transactionId],
-		({ queryKey: [, id] }) => getTransactionDetails(id!),
-		{ enabled: transactionId !== undefined }
+		({ queryKey: [, id] }) =>
+			// Will never execute orElse condition
+			getTransactionDetails(Option.getOrElse(() => '')(id)),
+		{ enabled: Option.isSome(transactionId) }
 	);
 
 export const useGetNeedsAttention = (): UseQueryResult<

@@ -194,14 +194,13 @@ export const TransactionDetailsDialog = (props: Props) => {
 							)}
 							{CategoryComponent}
 						</div>
-						<hr />
-						{transactionValues.id !== '' &&
-							transactionValues.duplicate && (
-								<TransactionDetailsDuplicatePanel
-									transactionId={transactionValues.id}
-								/>
-							)}
 					</>
+				)}
+				<hr />
+				{transactionValues.id !== '' && transactionValues.duplicate && (
+					<TransactionDetailsDuplicatePanel
+						transactionId={transactionValues.id}
+					/>
 				)}
 			</div>
 		</SideDialog>

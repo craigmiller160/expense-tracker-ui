@@ -86,17 +86,19 @@ export const useGetPossibleDuplicates = (
 			getPossibleDuplicates(transactionId, pageNumber, pageSize)
 	);
 
-type GetTransactionDetailsKey = [string, string];
+type GetTransactionDetailsKey = [string, string | undefined];
 export const useGetTransactionDetails = (
-	transactionId: string
+	transactionId?: string
 ): UseQueryResult<TransactionDetailsResponse, Error> =>
 	useQuery<
 		TransactionDetailsResponse,
 		Error,
 		TransactionDetailsResponse,
 		GetTransactionDetailsKey
-	>([GET_TRANSACTION_DETAILS, transactionId], ({ queryKey: [, id] }) =>
-		getTransactionDetails(id)
+	>(
+		[GET_TRANSACTION_DETAILS, transactionId],
+		({ queryKey: [, id] }) => getTransactionDetails(id!),
+		{ enabled: transactionId !== undefined }
 	);
 
 export const useGetNeedsAttention = (): UseQueryResult<

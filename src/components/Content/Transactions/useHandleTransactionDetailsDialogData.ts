@@ -30,9 +30,22 @@ export type TransactionDetailsDialogData = {
 	readonly form: UseFormReturn<TransactionDetailsFormData>;
 };
 
+const DEFAULT_TXN_VALUES: TransactionValues = {
+	id: '',
+	confirmed: false,
+	duplicate: false,
+	category: null,
+	expenseDate: '',
+	description: '',
+	amount: 0
+};
+
 const useValuesFromSelectedTransaction = (
-	selectedTransaction: OptionT<TransactionResponse>
+	selectedTransaction: OptionT<string>
 ): TransactionValues => {
+
+
+
 	// Doing this separately to help with dependency arrays
 	const transactionId: string | null = pipe(
 		selectedTransaction,
@@ -70,12 +83,14 @@ const useValuesFromSelectedTransaction = (
 	);
 };
 
+
+
 export const useHandleTransactionDetailsDialogData = (
 	selectedTransactionId: OptionT<string>,
 	open: boolean
 ): TransactionDetailsDialogData => {
 	const transactionValues =
-		useValuesFromSelectedTransaction(selectedTransaction);
+		useValuesFromSelectedTransaction(selectedTransactionId);
 
 	const form = useForm<TransactionDetailsFormData>({
 		mode: 'onChange',

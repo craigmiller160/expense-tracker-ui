@@ -52,7 +52,7 @@ export const Transactions = () => {
 	);
 
 	const {
-		selectedTransaction,
+		selectedTransactionId,
 		openDetailsDialog,
 		closeDetailsDialog,
 		saveTransaction,
@@ -76,7 +76,7 @@ export const Transactions = () => {
 			/>
 			<TransactionDetailsDialog
 				open={dialogIsOpen}
-				selectedTransaction={selectedTransaction}
+				selectedTransactionId={selectedTransactionId}
 				onClose={closeDetailsDialog}
 				saveTransaction={saveTransaction}
 				deleteTransaction={deleteTransaction}

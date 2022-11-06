@@ -27,7 +27,7 @@ import { TransactionDetailsDuplicatePanel } from './TransactionDetailsDuplicateP
 
 interface Props {
 	readonly open: boolean;
-	readonly selectedTransaction: OptionT<TransactionResponse>;
+	readonly selectedTransactionId: OptionT<string>;
 	readonly onClose: () => void;
 	readonly saveTransaction: (transaction: TransactionDetailsFormData) => void;
 	readonly deleteTransaction: (id: string | null) => void;

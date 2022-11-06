@@ -361,6 +361,13 @@ export const createTransactionsRoutes = (
 		return database.data.transactions[id];
 	});
 
+	server.get('/transactions/:transactionId/details', (schema, request) => {
+		const transactionId = request.params.transactionId as string;
+		return Object.values(database.data.transactions).filter(
+			(txn) => txn.id === transactionId
+		)[0];
+	});
+
 	server.get('/transactions/:transactionId/duplicates', (schema, request) => {
 		const transactionId = request.params.transactionId as string;
 		const pageNumber = parseInt(`${request.queryParams?.pageNumber}`);

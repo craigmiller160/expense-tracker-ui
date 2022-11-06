@@ -1,7 +1,4 @@
-import {
-	SearchTransactionsRequest,
-	TransactionResponse
-} from './generated/expense-tracker';
+import { SearchTransactionsRequest } from './generated/expense-tracker';
 
 export type EnhancedSearchTransactionsRequest = Omit<
 	SearchTransactionsRequest,
@@ -10,8 +7,3 @@ export type EnhancedSearchTransactionsRequest = Omit<
 	readonly startDate?: Date;
 	readonly endDate?: Date;
 };
-
-export interface TransactionDetailsResponse extends TransactionResponse {
-	readonly created: string;
-	readonly updated: string;
-}

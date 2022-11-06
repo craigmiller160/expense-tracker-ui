@@ -71,7 +71,7 @@ const useValuesFromSelectedTransaction = (
 };
 
 export const useHandleTransactionDetailsDialogData = (
-	selectedTransaction: OptionT<TransactionResponse>,
+	selectedTransactionId: OptionT<string>,
 	open: boolean
 ): TransactionDetailsDialogData => {
 	const transactionValues =

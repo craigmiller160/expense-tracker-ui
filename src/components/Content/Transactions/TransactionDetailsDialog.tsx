@@ -1,5 +1,4 @@
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
-import { TransactionResponse } from '../../../types/generated/expense-tracker';
 import { SideDialog } from '../../UI/SideDialog';
 import { Button, CircularProgress } from '@mui/material';
 import './TransactionDetailsDialog.scss';
@@ -87,11 +86,11 @@ export const TransactionDetailsDialog = (props: Props) => {
 		transactionValues,
 		form: { control, handleSubmit, formState, watch }
 	} = useHandleTransactionDetailsDialogData(
-		props.selectedTransaction,
+		props.selectedTransactionId,
 		props.open
 	);
 	const CategoryComponent = useGetCategoryComponent(control);
-	const isEditExisting = Option.isSome(props.selectedTransaction);
+	const isEditExisting = Option.isSome(props.selectedTransactionId);
 
 	const { isDirty, isValid } = formState;
 

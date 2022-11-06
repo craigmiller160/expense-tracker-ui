@@ -10,7 +10,8 @@ import {
 	CategorizeTransactionsRequest,
 	TransactionResponse,
 	TransactionsPageResponse,
-	TransactionAndCategory
+	TransactionAndCategory,
+	TransactionDetailsResponse
 } from '../../types/generated/expense-tracker';
 import qs from 'qs';
 import { pipe } from 'fp-ts/es6/function';
@@ -138,5 +139,15 @@ export const getPossibleDuplicates = (
 		.get<TransactionDuplicatePageResponse>({
 			uri: `/transactions/${transactionId}/duplicates?pageNumber=${pageNumber}&pageSize=${pageSize}`,
 			errorCustomizer: 'Error finding possible duplicates'
+		})
+		.then(getData);
+
+export const getTransactionDetails = (
+	transactionId: string
+): Promise<TransactionDetailsResponse> =>
+	expenseTrackerApi
+		.get<TransactionDetailsResponse>({
+			uri: `/transactions/${transactionId}/details`,
+			errorCustomizer: 'Error getting transaction details'
 		})
 		.then(getData);

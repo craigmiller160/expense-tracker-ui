@@ -108,6 +108,19 @@ export type TransactionDuplicateResponse = {
 	readonly categoryName?: string;
 };
 
+export type TransactionDetailsResponse = {
+	readonly id: string;
+	readonly expenseDate: string;
+	readonly description: string;
+	readonly amount: number;
+	readonly confirmed: boolean;
+	readonly duplicate: boolean;
+	readonly categoryId?: string;
+	readonly categoryName?: string;
+	readonly created: string;
+	readonly updated: string;
+};
+
 export type CountAndOldest = {
 	readonly count: number;
 	readonly oldest?: string;

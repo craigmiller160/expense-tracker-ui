@@ -7,7 +7,8 @@ import {
 	NeedsAttentionResponse,
 	TransactionAndCategory,
 	TransactionResponse,
-	TransactionsPageResponse
+	TransactionsPageResponse,
+	TransactionDetailsResponse
 } from '../../types/generated/expense-tracker';
 import {
 	QueryClient,
@@ -24,6 +25,7 @@ import {
 	deleteTransactions,
 	getNeedsAttention,
 	getPossibleDuplicates,
+	getTransactionDetails,
 	searchForTransactions,
 	updateTransactionDetails,
 	updateTransactions
@@ -34,6 +36,8 @@ export const SEARCH_FOR_TRANSACTIONS =
 export const GET_NEEDS_ATTENTION = 'TransactionQueries_GetNeedsAttention';
 export const GET_POSSIBLE_DUPLICATES =
 	'TransactionQueries_GetPossibleDuplicates';
+export const GET_TRANSACTION_DETAILS =
+	'TransactionQueries_GetTransactionDetails';
 
 const invalidateTransactionQueries = (queryClient: QueryClient) =>
 	Promise.all([
@@ -80,6 +84,19 @@ export const useGetPossibleDuplicates = (
 		],
 		({ queryKey: [, { transactionId, pageNumber, pageSize }] }) =>
 			getPossibleDuplicates(transactionId, pageNumber, pageSize)
+	);
+
+type GetTransactionDetailsKey = [string, string];
+export const useGetTransactionDetails = (
+	transactionId: string
+): UseQueryResult<TransactionDetailsResponse, Error> =>
+	useQuery<
+		TransactionDetailsResponse,
+		Error,
+		TransactionDetailsResponse,
+		GetTransactionDetailsKey
+	>([GET_TRANSACTION_DETAILS, transactionId], ({ queryKey: [, id] }) =>
+		getTransactionDetails(id)
 	);
 
 export const useGetNeedsAttention = (): UseQueryResult<

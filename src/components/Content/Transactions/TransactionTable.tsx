@@ -24,7 +24,6 @@ import { useIsAtLeastBreakpoint } from '../../../utils/breakpointHooks';
 import { DuplicateIcon } from './icons/DuplicateIcon';
 import { NotConfirmedIcon } from './icons/NotConfirmedIcon';
 import { NotCategorizedIcon } from './icons/NotCategorizedIcon';
-import { TransactionResponse } from '../../../types/generated/expense-tracker';
 import { formatCurrency } from '../../../utils/formatCurrency';
 import { PossibleRefundIcon } from './icons/PossibleRefundIcon';
 
@@ -55,7 +54,7 @@ interface Props {
 	readonly pagination: PaginationState;
 	readonly onPaginationChange: Updater<PaginationState>;
 	readonly filterValues: TransactionSearchForm;
-	readonly openDetailsDialog: (transaction?: TransactionResponse) => void;
+	readonly openDetailsDialog: (transactionId?: string) => void;
 }
 
 const createAboveTableActions = (
@@ -234,7 +233,7 @@ export const TransactionTable = (props: Props) => {
 										color="info"
 										disabled={formState.isDirty}
 										onClick={() =>
-											props.openDetailsDialog(txn)
+											props.openDetailsDialog(txn.id)
 										}
 									>
 										Details

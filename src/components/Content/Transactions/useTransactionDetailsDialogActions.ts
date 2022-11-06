@@ -11,16 +11,15 @@ import { useContext } from 'react';
 import { ConfirmDialogContext } from '../../UI/ConfirmDialog/ConfirmDialogProvider';
 import { TransactionDetailsFormData } from './useHandleTransactionDetailsDialogData';
 import { formatServerDate } from '../../../utils/dateTimeUtils';
-import { TransactionResponse } from '../../../types/generated/expense-tracker';
 
 interface TransactionDetailsDialogState {
 	readonly open: boolean;
-	readonly selectedTransaction: OptionT<TransactionResponse>;
+	readonly selectedTransactionId: OptionT<string>;
 }
 
 interface TransactionDetailsDialogActions {
-	readonly selectedTransaction: OptionT<TransactionResponse>;
-	readonly openDetailsDialog: (transaction?: TransactionResponse) => void;
+	readonly selectedTransactionId: OptionT<string>;
+	readonly openDetailsDialog: (transactionId?: string) => void;
 	readonly closeDetailsDialog: () => void;
 	readonly saveTransaction: (transaction: TransactionDetailsFormData) => void;
 	readonly deleteTransaction: (id: string | null) => void;
@@ -33,29 +32,30 @@ export const useTransactionDetailsDialogActions =
 		const [detailsDialogState, setDetailsDialogState] =
 			useImmer<TransactionDetailsDialogState>({
 				open: false,
-				selectedTransaction: Option.none
+				selectedTransactionId: Option.none
 			});
 		const { mutate: updateTransactionsMutate } =
 			useUpdateTransactionDetails();
 		const { mutate: createTransactionMutate } = useCreateTransaction();
 		const { mutate: deleteTransactionsMutate } = useDeleteTransactions();
 
-		const openDetailsDialog = (transaction?: TransactionResponse) =>
+		const openDetailsDialog = (transactionId?: string) =>
 			setDetailsDialogState((draft) => {
 				draft.open = true;
-				draft.selectedTransaction = Option.fromNullable(transaction);
+				draft.selectedTransactionId =
+					Option.fromNullable(transactionId);
 			});
 
 		const closeDetailsDialog = () =>
 			setDetailsDialogState((draft) => {
 				draft.open = false;
-				draft.selectedTransaction = Option.none;
+				draft.selectedTransactionId = Option.none;
 			});
 
 		const saveTransaction = (data: TransactionDetailsFormData) => {
 			closeDetailsDialog();
 			pipe(
-				detailsDialogState.selectedTransaction,
+				detailsDialogState.selectedTransactionId,
 				Option.fold(
 					() =>
 						createTransactionMutate({
@@ -66,10 +66,10 @@ export const useTransactionDetailsDialogActions =
 								description: data.description
 							}
 						}),
-					(txn) =>
+					(txnId) =>
 						updateTransactionsMutate({
 							request: {
-								transactionId: txn.id,
+								transactionId: txnId,
 								amount: parseFloat(data.amount),
 								confirmed: data.confirmed,
 								expenseDate: formatServerDate(data.expenseDate),
@@ -101,7 +101,7 @@ export const useTransactionDetailsDialogActions =
 		};
 
 		return {
-			selectedTransaction: detailsDialogState.selectedTransaction,
+			selectedTransactionId: detailsDialogState.selectedTransactionId,
 			openDetailsDialog,
 			closeDetailsDialog,
 			saveTransaction,

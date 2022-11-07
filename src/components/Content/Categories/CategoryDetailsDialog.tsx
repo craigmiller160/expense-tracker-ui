@@ -140,6 +140,7 @@ export const CategoryDetailsDialog = (props: Props) => {
 
 	return (
 		<SideDialog
+			id="CategoryDetailsDialog"
 			title={title}
 			open={hasCategory}
 			onClose={props.onClose}

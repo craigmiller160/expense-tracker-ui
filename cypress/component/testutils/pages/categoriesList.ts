@@ -7,10 +7,12 @@ const getCategoryNames = (): Chainable<JQuery> =>
 	getTableRows().find('td:nth-of-type(1)');
 const getDetailsButtons = (): Chainable<JQuery> =>
 	getTableRows().find('td:nth-of-type(2)');
+const getAddButton = (): Chainable<JQuery> => cy.get('.ActionWrapper button');
 
-export const categoriesPage = {
+export const categoriesListPage = {
 	getTitle,
 	getTableRows,
 	getCategoryNames,
-	getDetailsButtons
+	getDetailsButtons,
+	getAddButton
 };

@@ -31,6 +31,7 @@ const Transition = forwardRef(function Transition(
 });
 
 interface Props {
+	readonly id?: string;
 	readonly title: string;
 	readonly open: boolean;
 	readonly onClose: () => void;
@@ -66,7 +67,7 @@ export const SideDialog = (props: PropsWithChildren<Props>) => {
 			data-testid={props['data-testid']}
 		>
 			<Form formSubmit={props.formSubmit}>
-				<AppBar sx={{ position: 'relative' }}>
+				<AppBar sx={{ position: 'relative' }} id={props.id}>
 					<Toolbar>
 						<Typography variant="h6">{props.title}</Typography>
 						<Box sx={{ flexGrow: 1 }} />

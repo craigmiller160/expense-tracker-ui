@@ -3,7 +3,7 @@ import { mountApp } from './testutils/mountApp';
 import { orderedCategoryNames } from './testutils/constants/categories';
 import { authorizedNavbarItems } from './testutils/constants/navbar';
 import { navbarPage } from './testutils/pages/navbar';
-import { categoriesPage } from './testutils/pages/categories';
+import { categoriesListPage } from './testutils/pages/categoriesList';
 
 describe('Manage Categories', () => {
 	it('displays all categories on the server', () => {
@@ -18,19 +18,24 @@ describe('Manage Categories', () => {
 					$node.textContent === authorizedNavbarItems.manageCategories
 			)
 			.should('have.class', 'active');
-		categoriesPage.getTitle().contains('Manage Categories');
-		categoriesPage
+		categoriesListPage.getTitle().contains('Manage Categories');
+		categoriesListPage
 			.getCategoryNames()
 			.each(($node, index) =>
 				expect($node.text()).to.eq(orderedCategoryNames[index])
 			);
-		categoriesPage
+		categoriesListPage
 			.getDetailsButtons()
 			.each(($node) => expect($node.text()).to.eq('Details'));
+		categoriesListPage.getAddButton().contains('Add');
 	});
 
 	it('adds new category', () => {
-		throw new Error();
+		getAllCategories();
+		mountApp({
+			initialRoute: '/expense-tracker/categories'
+		});
+		categoriesListPage.getAddButton().click();
 	});
 
 	it('will not save category without name', () => {

@@ -1,25 +1,21 @@
 import Chainable = Cypress.Chainable;
 
 const getHeaderTitle = (): Chainable<JQuery> =>
-	cy.get('#CategoryDetailsDialog .MuiToolbar-root h6');
+	cy.get('#CategoryDetailsDialog-header .MuiToolbar-root h6');
 const getContentTitle = (): Chainable<JQuery> =>
-	cy.get('#CategoryDetailsDialog .MuiDialogContent-root h6');
+	cy.get('#CategoryDetailsDialog-body h6');
 const getCategoryNameLabel = (): Chainable<JQuery> =>
-	cy.get('#CategoryDetailsDialog label').eq(0);
+	cy.get('#CategoryDetailsDialog-body label').eq(0);
 const getCategoryNameInput = (): Chainable<JQuery> =>
 	getCategoryNameLabel()
 		.invoke('attr', 'for')
-		.then((forValue) => cy.get(`#${forValue}`));
+		.then((forValue) => cy.get(`[id="${forValue}"]`));
 const getCloseButton = (): Chainable<JQuery> =>
-	cy.get('#CategoryDetailsDialog .MuiToolbar-root button');
+	cy.get('#CategoryDetailsDialog-header .MuiToolbar-root button');
 const getSaveButton = (): Chainable<JQuery> =>
-	cy.get(
-		'#CategoryDetailsDialog .MuiDialogActions-root button:nth-of-type(1)'
-	);
+	cy.get('#CategoryDetailsDialog-footer button:nth-of-type(1)');
 const getDeleteButton = (): Chainable<JQuery> =>
-	cy.get(
-		'#CategoryDetailsDialog .MuiDialogActions-root button:nth-of-type(2)'
-	);
+	cy.get('#CategoryDetailsDialog-footer button:nth-of-type(2)');
 
 export const categoryDetailsPage = {
 	getHeaderTitle,

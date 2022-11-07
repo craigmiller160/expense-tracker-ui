@@ -1,7 +1,8 @@
 import {
 	getAllCategories,
 	createCategory,
-	deleteCategory
+	deleteCategory,
+	updateCategory
 } from './testutils/apis/categories';
 import { mountApp } from './testutils/mountApp';
 import {
@@ -76,7 +77,35 @@ describe('Manage Categories', () => {
 	});
 
 	it('updates category name', () => {
-		throw new Error();
+		const firstCategoryId = allCategories[0].id;
+		getAllCategories();
+		updateCategory(firstCategoryId);
+		mountApp({
+			initialRoute: '/expense-tracker/categories'
+		});
+		categoriesListPage.getDetailsButtons().eq(0).click();
+		categoryDetailsPage.getHeaderTitle().contains(allCategories[0].name);
+		categoryDetailsPage.getContentTitle().contains('Category Information');
+		categoryDetailsPage.getDeleteButton().should('exist');
+		categoryDetailsPage
+			.getSaveButton()
+			.contains('Save')
+			.should('not.be.disabled');
+		categoryDetailsPage.getCategoryNameLabel().contains('Category Name');
+
+		categoryDetailsPage
+			.getCategoryNameInput()
+			.should('have.value', allCategories[0].name)
+			.clear()
+			.type('Hello Category')
+			.should('have.value', 'Hello Category');
+		categoryDetailsPage.getSaveButton().click();
+
+		cy.wait(`@updateCategory_${firstCategoryId}`).then((xhr) => {
+			expect(xhr.request.body).to.eql({
+				name: 'Hello Category'
+			});
+		});
 	});
 
 	it('deletes category', () => {

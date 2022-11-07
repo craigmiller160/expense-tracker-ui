@@ -14,3 +14,8 @@ export const deleteCategory = (id: string): Chainable<null> =>
 	cy
 		.intercept('delete', `/expense-tracker/api/categories/${id}`)
 		.as(`deleteCategory_${id}`);
+
+export const updateCategory = (id: string): Chainable<null> =>
+	cy
+		.intercept('put', `/expense-tracker/api/categories/${id}`)
+		.as(`updateCategory_${id}`);

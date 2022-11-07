@@ -5,6 +5,7 @@ import { authorizedNavbarItems } from './testutils/constants/navbar';
 import { navbarPage } from './testutils/pages/navbar';
 import { categoriesListPage } from './testutils/pages/categoriesList';
 import { categoryDetailsPage } from './testutils/pages/categoryDetails';
+import { confirmDialogPage } from './testutils/pages/confirmDialog';
 
 describe('Manage Categories', () => {
 	it('displays all categories on the server', () => {
@@ -79,5 +80,12 @@ describe('Manage Categories', () => {
 		categoriesListPage.getDetailsButtons().eq(0).click();
 		categoryDetailsPage.getHeaderTitle().should('exist');
 		categoryDetailsPage.getDeleteButton().click();
+
+		confirmDialogPage.getTitle().contains('Confirm Deletion');
+		confirmDialogPage
+			.getMessage()
+			.contains('Are you sure you want to delete this Category?');
+		confirmDialogPage.getCancelButton().contains('Cancel');
+		confirmDialogPage.getConfirmButton().click();
 	});
 });

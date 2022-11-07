@@ -8,7 +8,7 @@ const getCancelButton = (): Chainable<JQuery> =>
 const getConfirmButton = (): Chainable<JQuery> =>
 	cy.get('#ConfirmDialog .MuiDialogActions-root button:nth-of-type(2)');
 
-export const confirmDialog = {
+export const confirmDialogPage = {
 	getTitle,
 	getMessage,
 	getCancelButton,

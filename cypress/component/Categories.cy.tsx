@@ -1,4 +1,4 @@
-import { getAllCategories } from './testutils/apis/categories';
+import { getAllCategories, createCategory } from './testutils/apis/categories';
 import { mountApp } from './testutils/mountApp';
 import { orderedCategoryNames } from './testutils/constants/categories';
 import { authorizedNavbarItems } from './testutils/constants/navbar';
@@ -33,6 +33,7 @@ describe('Manage Categories', () => {
 
 	it('adds new category', () => {
 		getAllCategories();
+		createCategory();
 		mountApp({
 			initialRoute: '/expense-tracker/categories'
 		});
@@ -53,7 +54,13 @@ describe('Manage Categories', () => {
 			.type('Hello Category')
 			.should('have.value', 'Hello Category');
 		categoryDetailsPage.getSaveButton().click();
-		// TODO need to intercept the save call
+
+		cy.wait('@createCategory').then((xhr) => {
+			// { name: "The Name" }
+			expect(xhr.request.body).to.eq({
+				name: 'Hello Category'
+			});
+		});
 	});
 
 	it('will not save category without name', () => {

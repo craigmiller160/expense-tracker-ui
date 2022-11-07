@@ -104,9 +104,11 @@ describe('Transaction Details Dialog', () => {
 		const transactionDialog = screen.getByTestId(
 			'transaction-details-dialog'
 		);
-		expect(
-			within(transactionDialog).getByLabelText('Expense Date')
-		).toHaveValue(serverDateToDisplayDate(transaction.expenseDate));
+		await waitFor(() =>
+			expect(
+				within(transactionDialog).getByLabelText('Expense Date')
+			).toHaveValue(serverDateToDisplayDate(transaction.expenseDate))
+		);
 		expect(
 			within(transactionDialog).getByLabelText('Amount ($)')
 		).toHaveValue(transaction.amount.toFixed(2));
@@ -167,9 +169,11 @@ describe('Transaction Details Dialog', () => {
 		const transactionDialog = screen.getByTestId(
 			'transaction-details-dialog'
 		);
-		expect(
-			within(transactionDialog).getByLabelText('Expense Date')
-		).toHaveValue(serverDateToDisplayDate(transaction.expenseDate));
+		await waitFor(() =>
+			expect(
+				within(transactionDialog).getByLabelText('Expense Date')
+			).toHaveValue(serverDateToDisplayDate(transaction.expenseDate))
+		);
 		expect(
 			within(transactionDialog).getByLabelText('Amount ($)')
 		).toHaveValue(transaction.amount.toFixed(2));
@@ -211,6 +215,12 @@ describe('Transaction Details Dialog', () => {
 			'transaction-details-dialog'
 		);
 
+		await waitFor(() =>
+			expect(
+				within(transactionDialog).getByLabelText('Expense Date')
+			).toBeVisible()
+		);
+
 		const testFormValidation = createTestFormValidation(transactionDialog);
 		await testFormValidation(
 			'Expense Date',
@@ -245,6 +255,12 @@ describe('Transaction Details Dialog', () => {
 
 		const transactionDialog = screen.getByTestId(
 			'transaction-details-dialog'
+		);
+
+		await waitFor(() =>
+			expect(
+				within(transactionDialog).getByLabelText('Expense Date')
+			).toBeVisible()
 		);
 
 		const checkbox = materialUiCheckbox({
@@ -345,6 +361,12 @@ describe('Transaction Details Dialog', () => {
 			'transaction-details-dialog'
 		);
 
+		await waitFor(() =>
+			expect(
+				within(transactionDialog).getByLabelText('Expense Date')
+			).toBeVisible()
+		);
+
 		const replaceFieldValue = createReplaceFieldValue(transactionDialog);
 		await replaceFieldValue('Expense Date', '01/01/2022');
 		await replaceFieldValue('Amount ($)', '145.22');
@@ -389,6 +411,12 @@ describe('Transaction Details Dialog', () => {
 
 		const transactionDialog = screen.getByTestId(
 			'transaction-details-dialog'
+		);
+
+		await waitFor(() =>
+			expect(
+				within(transactionDialog).getByLabelText('Expense Date')
+			).toBeVisible()
 		);
 
 		const categorySelect = materialUiSelect('Category', transactionDialog);
@@ -446,6 +474,13 @@ describe('Transaction Details Dialog', () => {
 		const transactionDialog1 = screen.getByTestId(
 			'transaction-details-dialog'
 		);
+
+		await waitFor(() =>
+			expect(
+				within(transactionDialog1).getByLabelText('Expense Date')
+			).toBeVisible()
+		);
+
 		transactionIcon('possible-refund-icon', transactionDialog1).isVisible();
 
 		await userEvent.click(
@@ -585,6 +620,12 @@ describe('Transaction Details Dialog', () => {
 
 		const transactionDialog = screen.getByTestId(
 			'transaction-details-dialog'
+		);
+
+		await waitFor(() =>
+			expect(
+				within(transactionDialog).getByLabelText('Expense Date')
+			).toBeVisible()
 		);
 
 		transactionIcon('duplicate-icon', transactionDialog).isVisible();

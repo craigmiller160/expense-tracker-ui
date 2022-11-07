@@ -20,20 +20,13 @@ describe('Manage Categories', () => {
 			.should('have.class', 'active');
 		categoriesPage.getTitle().contains('Manage Categories');
 		categoriesPage
-			.getTableRows()
-			.should('have.length', 4)
-
-			.each(($node, index) => {
-				expect($node.children('td')).length(2);
-				const nameCell = $node.children('td').eq(0);
-				expect(nameCell.text()).to.eq(orderedCategoryNames[index]);
-
-				const detailsCell = $node
-					.children('td')
-					.eq(1)
-					.children('button');
-				expect(detailsCell.text()).to.eq('Details');
-			});
+			.getCategoryNames()
+			.each(($node, index) =>
+				expect($node.text()).to.eq(orderedCategoryNames[index])
+			);
+		categoriesPage
+			.getDetailsButtons()
+			.each(($node) => expect($node.text()).to.eq('Details'));
 	});
 
 	it('adds new category', () => {

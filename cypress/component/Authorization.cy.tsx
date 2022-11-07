@@ -1,16 +1,18 @@
 import { mountApp } from './testutils/mountApp';
 import { getAllCategories } from './testutils/apis/categories';
 import { orderedAuthorizedNavbarItems } from './testutils/constants/navbar';
+import { navbarPage } from './testutils/pages/navbar';
+import { welcomePage } from './testutils/pages/welcome';
 
 describe('Authorization.cy.tsx', () => {
 	it('The app displays in an unauthorized state', () => {
 		mountApp({
 			isAuthorized: false
 		});
-		cy.get('#expense-tracker-navbar-title').contains('Expense Tracker');
-		cy.get('#navbar-auth-button').contains('Login');
-		cy.get('#navbar .LinkButton').should('not.exist');
-		cy.get('.Welcome').find('h4').contains('Welcome to Expense Tracker');
+		navbarPage.getTitle().contains('Expense Tracker');
+		navbarPage.getAuthButton().contains('Login');
+		navbarPage.getNavbarItems().should('not.exist');
+		welcomePage.getTitle().contains('Welcome to Expense Tracker');
 	});
 
 	it('The app displays in an authorized state', () => {
@@ -18,12 +20,14 @@ describe('Authorization.cy.tsx', () => {
 		mountApp({
 			initialRoute: '/expense-tracker/categories'
 		});
-		cy.get('#navbar')
-			.find('.LinkButton')
+		navbarPage.getTitle().contains('Expense Tracker');
+		navbarPage.getAuthButton().contains('Logout');
+		navbarPage
+			.getNavbarItems()
 			.should('have.length', 3)
 			.each(($node, index) =>
 				expect($node.text()).to.eq(orderedAuthorizedNavbarItems[index])
 			);
-		cy.get('.Welcome').should('not.exist');
+		welcomePage.getTitle().should('not.exist');
 	});
 });

@@ -26,13 +26,13 @@ export const defaultConfig: MountConfig = {
 const handleViewport = (config?: Partial<MountConfig>): Chainable<null> =>
 	match(config)
 		.with(undefined, desktopViewport)
-		.with({ viewport: 'desktop' }, desktopViewport)
-		.otherwise(mobileViewport);
+		.with({ viewport: 'mobile' }, mobileViewport)
+		.otherwise(desktopViewport);
 const handleIsAuthorized = (config?: Partial<MountConfig>): Chainable<null> =>
 	match(config)
 		.with(undefined, getAuthUser_isAuthorized)
-		.with({ isAuthorized: true }, getAuthUser_isAuthorized)
-		.otherwise(getAuthUser_isNotAuthorized);
+		.with({ isAuthorized: false }, getAuthUser_isNotAuthorized)
+		.otherwise(getAuthUser_isAuthorized);
 const getInitialEntries = (config?: Partial<MountConfig>): string[] =>
 	match(config)
 		.with(undefined, () => ['/expense-tracker'])

@@ -26,7 +26,11 @@ export const DesktopNavItems = () => {
 			)}
 			<Box sx={{ flexGrow: 1 }} />
 			{hasCheckedAuthorization && (
-				<Button color="inherit" onClick={authButtonAction}>
+				<Button
+					id="navbar-auth-button"
+					color="inherit"
+					onClick={authButtonAction}
+				>
 					{authButtonText}
 				</Button>
 			)}

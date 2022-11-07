@@ -7,4 +7,8 @@ describe('Transaction Details Dialog', () => {
 		});
 		throw new Error();
 	});
+
+	it('can confirm transaction', () => {
+		throw new Error();
+	});
 });

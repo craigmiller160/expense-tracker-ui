@@ -237,6 +237,7 @@ describe('Transaction Details Dialog', () => {
 	});
 
 	it('can confirm transaction', async () => {
+		// TODO delete this test if successfully transferred to cypress
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});

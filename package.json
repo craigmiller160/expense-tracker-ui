@@ -2,7 +2,7 @@
   "name": "@craigmiller160/expense-tracker-ui",
   "version": "1.0.0-beta",
   "scripts": {
-    "lint": "craig-lint",
+    "lint": "eslint --fix --max-warnings=0 **/**.{ts,tsx}",
     "start": "node scripts/startDev.js",
     "prepare": "husky install",
     "test": "craig-test",

@@ -24,6 +24,7 @@ const getDeleteButton = (): Chainable<JQuery> =>
 export const categoryDetailsPage = {
 	getHeaderTitle,
 	getContentTitle,
+	getCategoryNameLabel,
 	getCategoryNameInput,
 	getCloseButton,
 	getSaveButton,

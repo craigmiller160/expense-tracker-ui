@@ -4,6 +4,7 @@ import { orderedCategoryNames } from './testutils/constants/categories';
 import { authorizedNavbarItems } from './testutils/constants/navbar';
 import { navbarPage } from './testutils/pages/navbar';
 import { categoriesListPage } from './testutils/pages/categoriesList';
+import { categoryDetailsPage } from './testutils/pages/categoryDetails';
 
 describe('Manage Categories', () => {
 	it('displays all categories on the server', () => {
@@ -36,6 +37,23 @@ describe('Manage Categories', () => {
 			initialRoute: '/expense-tracker/categories'
 		});
 		categoriesListPage.getAddButton().click();
+		categoryDetailsPage.getHeaderTitle().contains('New Category');
+		categoryDetailsPage.getContentTitle().contains('Category Information');
+		categoryDetailsPage.getDeleteButton().should('not.exist');
+		categoryDetailsPage
+			.getSaveButton()
+			.contains('Save')
+			.should('not.be.disabled');
+		categoryDetailsPage.getCategoryNameLabel().contains('Category Name');
+
+		categoryDetailsPage
+			.getCategoryNameInput()
+			.should('have.value', 'New Category')
+			.clear()
+			.type('Hello Category')
+			.should('have.value', 'Hello Category');
+		categoryDetailsPage.getSaveButton().click();
+		// TODO need to intercept the save call
 	});
 
 	it('will not save category without name', () => {

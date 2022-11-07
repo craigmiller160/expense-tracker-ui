@@ -7,7 +7,7 @@
     "prepare": "husky install",
     "test": "craig-test",
     "cypress": "cypress open",
-    "cypress:headless": "cypress run",
+    "cypress:headless": "cypress run --component",
     "generate-types": "craig-swagger expense-tracker https://127.0.0.1:8080/v3/api-docs"
   },
   "lint-staged": {

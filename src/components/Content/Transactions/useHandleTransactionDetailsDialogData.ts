@@ -4,7 +4,10 @@ import * as Option from 'fp-ts/es6/Option';
 import { CategoryOption, transactionToCategoryOption } from './utils';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { useEffect, useMemo } from 'react';
-import { parseDisplayDate } from '../../../utils/dateTimeUtils';
+import {
+	parseDisplayDate,
+	serverDateToDisplayDate
+} from '../../../utils/dateTimeUtils';
 import { useGetTransactionDetails } from '../../../ajaxapi/query/TransactionQueries';
 
 export type TransactionDetailsFormData = {
@@ -58,6 +61,7 @@ const useValuesFromSelectedTransaction = (
 					(txn) => ({
 						...txn,
 						isLoading,
+						expenseDate: serverDateToDisplayDate(txn.expenseDate),
 						category: transactionToCategoryOption(txn)
 					})
 				)

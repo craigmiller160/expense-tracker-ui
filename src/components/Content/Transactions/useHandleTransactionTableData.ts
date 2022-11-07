@@ -22,15 +22,11 @@ import {
 	useCategoriesToCategoryOptions
 } from './utils';
 import { match } from 'ts-pattern';
-import * as Time from '@craigmiller160/ts-functions/es/Time';
-import { pipe } from 'fp-ts/es6/function';
 import {
 	TransactionResponse,
 	TransactionsPageResponse
 } from '../../../types/generated/expense-tracker';
-
-export const formatDisplayDate = (dateString: string) =>
-	pipe(dateString, Time.parse('yyyy-MM-dd'), Time.format('MM/dd/yyyy'));
+import { serverDateToDisplayDate } from '../../../utils/dateTimeUtils';
 
 export interface TransactionFormValues {
 	readonly transactionId: string;
@@ -196,7 +192,7 @@ export const useHandleTransactionTableData = (
 		() =>
 			transactionData?.transactions.map((txn) => ({
 				...txn,
-				expenseDate: formatDisplayDate(txn.expenseDate)
+				expenseDate: serverDateToDisplayDate(txn.expenseDate)
 			})),
 		[transactionData]
 	);

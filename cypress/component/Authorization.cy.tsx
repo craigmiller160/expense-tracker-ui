@@ -1,6 +1,12 @@
 import { mountApp } from './testutils/mountApp';
 import { getAllCategories } from './testutils/apis/categories';
 
+const AUTHORIZED_NAVBAR_ITEMS = [
+	'Manage Transactions',
+	'Manage Categories',
+	'Import Transactions'
+];
+
 describe('Authorization.cy.tsx', () => {
 	it('The app displays in an unauthorized state', () => {
 		mountApp({
@@ -16,6 +22,11 @@ describe('Authorization.cy.tsx', () => {
 		mountApp({
 			initialRoute: '/expense-tracker/categories'
 		});
-		cy.get('#navbar').find('.LinkButton').should('have.length', 3);
+		cy.get('#navbar')
+			.find('.LinkButton')
+			.should('have.length', 3)
+			.each(($node, index) =>
+				expect($node.text()).to.eq(AUTHORIZED_NAVBAR_ITEMS[index])
+			);
 	});
 });

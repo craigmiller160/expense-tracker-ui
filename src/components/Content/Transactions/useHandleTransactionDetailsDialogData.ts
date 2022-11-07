@@ -3,7 +3,7 @@ import { pipe } from 'fp-ts/es6/function';
 import * as Option from 'fp-ts/es6/Option';
 import { CategoryOption, transactionToCategoryOption } from './utils';
 import { useForm, UseFormReturn } from 'react-hook-form';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { parseDisplayDate } from '../../../utils/dateTimeUtils';
 import { useGetTransactionDetails } from '../../../ajaxapi/query/TransactionQueries';
 
@@ -46,19 +46,23 @@ const useValuesFromSelectedTransaction = (
 	selectedTransactionId: OptionT<string>
 ): TransactionValues => {
 	const { data, isLoading } = useGetTransactionDetails(selectedTransactionId);
-	return pipe(
-		Option.fromNullable(data),
-		Option.fold(
-			() => ({
-				...DEFAULT_TXN_VALUES,
-				isLoading
-			}),
-			(txn) => ({
-				...txn,
-				isLoading,
-				category: transactionToCategoryOption(txn)
-			})
-		)
+	return useMemo(
+		() =>
+			pipe(
+				Option.fromNullable(data),
+				Option.fold(
+					() => ({
+						...DEFAULT_TXN_VALUES,
+						isLoading
+					}),
+					(txn) => ({
+						...txn,
+						isLoading,
+						category: transactionToCategoryOption(txn)
+					})
+				)
+			),
+		[data, isLoading]
 	);
 };
 

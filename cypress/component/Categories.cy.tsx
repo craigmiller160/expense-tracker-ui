@@ -1,6 +1,13 @@
-import { getAllCategories, createCategory } from './testutils/apis/categories';
+import {
+	getAllCategories,
+	createCategory,
+	deleteCategory
+} from './testutils/apis/categories';
 import { mountApp } from './testutils/mountApp';
-import { orderedCategoryNames } from './testutils/constants/categories';
+import {
+	allCategories,
+	orderedCategoryNames
+} from './testutils/constants/categories';
 import { authorizedNavbarItems } from './testutils/constants/navbar';
 import { navbarPage } from './testutils/pages/navbar';
 import { categoriesListPage } from './testutils/pages/categoriesList';
@@ -73,7 +80,9 @@ describe('Manage Categories', () => {
 	});
 
 	it('deletes category', () => {
+		const firstCategoryId = allCategories[0].id;
 		getAllCategories();
+		deleteCategory(firstCategoryId);
 		mountApp({
 			initialRoute: '/expense-tracker/categories'
 		});
@@ -87,5 +96,7 @@ describe('Manage Categories', () => {
 			.contains('Are you sure you want to delete this Category?');
 		confirmDialogPage.getCancelButton().contains('Cancel');
 		confirmDialogPage.getConfirmButton().click();
+
+		cy.wait(`@deleteCategory_${firstCategoryId}`); // TODO double-check that this works
 	});
 });

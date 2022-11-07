@@ -1,5 +1,11 @@
+import { getAllCategories } from './testutils/apis/categories';
+import { mountApp } from './testutils/mountApp';
+
 describe('Manage Categories', () => {
 	it('displays all categories on the server', () => {
-		throw new Error();
+		getAllCategories();
+		mountApp({
+			initialRoute: '/expense-tracker/categories'
+		});
 	});
 });

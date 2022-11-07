@@ -87,7 +87,7 @@ describe('Manage Categories', () => {
 			initialRoute: '/expense-tracker/categories'
 		});
 		categoriesListPage.getDetailsButtons().eq(0).click();
-		categoryDetailsPage.getHeaderTitle().should('exist');
+		categoryDetailsPage.getHeaderTitle().should('be.visible');
 		categoryDetailsPage.getDeleteButton().click();
 
 		confirmDialogPage.getTitle().contains('Confirm Deletion');
@@ -98,5 +98,6 @@ describe('Manage Categories', () => {
 		confirmDialogPage.getConfirmButton().click();
 
 		cy.wait(`@deleteCategory_${firstCategoryId}`); // TODO double-check that this works
+		confirmDialogPage.getTitle().should('not.be.visible');
 	});
 });

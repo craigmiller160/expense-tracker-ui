@@ -1,6 +1,9 @@
 import { getAllCategories } from './testutils/apis/categories';
 import { mountApp } from './testutils/mountApp';
 import { orderedCategoryNames } from './testutils/constants/categories';
+import { authorizedNavbarItems } from './testutils/constants/navbar';
+import { navbarPage } from './testutils/pages/navbar';
+import { categoriesPage } from './testutils/pages/categories';
 
 describe('Manage Categories', () => {
 	it('displays all categories on the server', () => {
@@ -8,28 +11,28 @@ describe('Manage Categories', () => {
 		mountApp({
 			initialRoute: '/expense-tracker/categories'
 		});
-		cy.get('#navbar')
-			.find('.LinkButton')
-			.filter((index, $node) => $node.textContent === 'Manage Categories')
+		navbarPage
+			.getNavbarItems()
+			.filter(
+				(index, $node) =>
+					$node.textContent === authorizedNavbarItems.manageCategories
+			)
 			.should('have.class', 'active');
-		cy.get('.Categories').find('h4').contains('Manage Categories');
-		cy.get('.Categories table tr')
-			.should('have.length', 5)
-			.each(($node, index) => {
-				// Skip the header
-				if (index > 0) {
-					expect($node.children('td')).length(2);
-					const nameCell = $node.children('td').eq(0);
-					expect(nameCell.text()).to.eq(
-						orderedCategoryNames[index - 1]
-					);
+		categoriesPage.getTitle().contains('Manage Categories');
+		categoriesPage
+			.getTableRows()
+			.should('have.length', 4)
 
-					const detailsCell = $node
-						.children('td')
-						.eq(1)
-						.children('button');
-					expect(detailsCell.text()).to.eq('Details');
-				}
+			.each(($node, index) => {
+				expect($node.children('td')).length(2);
+				const nameCell = $node.children('td').eq(0);
+				expect(nameCell.text()).to.eq(orderedCategoryNames[index]);
+
+				const detailsCell = $node
+					.children('td')
+					.eq(1)
+					.children('button');
+				expect(detailsCell.text()).to.eq('Details');
 			});
 	});
 

@@ -8,6 +8,7 @@ describe('App.cy.tsx', () => {
 		// cy.intercept('/expense-tracker/api/oauth/user', {
 		// 	fixture: 'authorizedUser.json'
 		// });
+		// cy.wait(300);
 		// cy.mount(
 		// 	<MemoryRouter initialEntries={['/expense-tracker']}>
 		// 		<App />

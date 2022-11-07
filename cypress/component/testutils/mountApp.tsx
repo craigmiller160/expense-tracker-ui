@@ -43,6 +43,8 @@ export const mountApp = (config?: Partial<MountConfig>): Chainable<unknown> => {
 	handleViewport(config);
 	handleIsAuthorized(config);
 	const initialEntries = getInitialEntries(config);
+	// This is here because if the component is mounted too soon, emotion fails to construct the style nodes correctly
+	cy.wait(300);
 	return cy.mount(
 		<MemoryRouter initialEntries={initialEntries}>
 			<App />

@@ -10,7 +10,7 @@
     "cypress:headless": "cypress run --component",
     "force-build": "vite build",
     "type-check": "tsc --noEmit",
-    "build": "yarn type-check yarn lint && yarn test && yarn cypress:headless && yarn force-build",
+    "build": "yarn type-check && yarn lint && yarn test && yarn cypress:headless && yarn force-build",
     "generate-types": "craig-swagger expense-tracker https://127.0.0.1:8080/v3/api-docs"
   },
   "lint-staged": {

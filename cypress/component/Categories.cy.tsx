@@ -90,7 +90,7 @@ describe('Manage Categories', () => {
 		categoryDetailsPage
 			.getSaveButton()
 			.contains('Save')
-			.should('not.be.disabled');
+			.should('be.disabled');
 		categoryDetailsPage.getCategoryNameLabel().contains('Category Name');
 
 		categoryDetailsPage
@@ -99,7 +99,7 @@ describe('Manage Categories', () => {
 			.clear()
 			.type('Hello Category')
 			.should('have.value', 'Hello Category');
-		categoryDetailsPage.getSaveButton().click();
+		categoryDetailsPage.getSaveButton().should('not.be.disabled').click();
 
 		cy.wait(`@updateCategory_${firstCategoryId}`).then((xhr) => {
 			expect(xhr.request.body).to.eql({

@@ -1,11 +1,6 @@
 import { mountApp } from './testutils/mountApp';
 import { getAllCategories } from './testutils/apis/categories';
-
-const AUTHORIZED_NAVBAR_ITEMS = [
-	'Manage Transactions',
-	'Manage Categories',
-	'Import Transactions'
-];
+import { orderedAuthorizedNavbarItems } from './testutils/constants/navbar';
 
 describe('Authorization.cy.tsx', () => {
 	it('The app displays in an unauthorized state', () => {
@@ -27,7 +22,7 @@ describe('Authorization.cy.tsx', () => {
 			.find('.LinkButton')
 			.should('have.length', 3)
 			.each(($node, index) =>
-				expect($node.text()).to.eq(AUTHORIZED_NAVBAR_ITEMS[index])
+				expect($node.text()).to.eq(orderedAuthorizedNavbarItems[index])
 			);
 		cy.get('.Welcome').should('not.exist');
 	});

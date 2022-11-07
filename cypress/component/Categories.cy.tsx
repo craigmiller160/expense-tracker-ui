@@ -1,7 +1,6 @@
 import { getAllCategories } from './testutils/apis/categories';
 import { mountApp } from './testutils/mountApp';
-
-const CATEGORY_NAMES = ['Entertainment', 'Groceries', 'Restaurants', 'Travel'];
+import { orderedCategoryNames } from './testutils/constants/categories';
 
 describe('Manage Categories', () => {
 	it('displays all categories on the server', () => {
@@ -21,7 +20,9 @@ describe('Manage Categories', () => {
 				if (index > 0) {
 					expect($node.children('td')).length(2);
 					const nameCell = $node.children('td').eq(0);
-					expect(nameCell.text()).to.eq(CATEGORY_NAMES[index - 1]);
+					expect(nameCell.text()).to.eq(
+						orderedCategoryNames[index - 1]
+					);
 
 					const detailsCell = $node
 						.children('td')

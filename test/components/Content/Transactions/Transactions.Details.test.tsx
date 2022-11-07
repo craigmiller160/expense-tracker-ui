@@ -198,6 +198,7 @@ describe('Transaction Details Dialog', () => {
 	});
 
 	it('input field validation rules work', async () => {
+		// TODO delete this test if properly replaced by cypress
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});

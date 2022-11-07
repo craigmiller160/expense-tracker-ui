@@ -492,10 +492,12 @@ describe('Transaction Details Dialog', () => {
 		const transactionDialog2 = screen.getByTestId(
 			'transaction-details-dialog'
 		);
-		transactionIcon(
-			'possible-refund-icon',
-			transactionDialog2
-		).isNotVisible();
+		await waitFor(() =>
+			transactionIcon(
+				'possible-refund-icon',
+				transactionDialog2
+			).isNotVisible()
+		);
 	});
 
 	it('can delete transaction', async () => {

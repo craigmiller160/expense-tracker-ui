@@ -72,7 +72,6 @@ describe('Manage Categories', () => {
 	});
 
 	it('will not save category without name', () => {
-		const firstCategoryId = allCategories[0].id;
 		getAllCategories();
 		mountApp({
 			initialRoute: '/expense-tracker/categories'
@@ -82,8 +81,27 @@ describe('Manage Categories', () => {
 			.getSaveButton()
 			.contains('Save')
 			.should('be.disabled');
+		categoryDetailsPage
+			.getCategoryNameInputHelperText()
+			.should('not.exist');
 
-		throw new Error();
+		categoryDetailsPage.getCategoryNameInput().clear();
+		categoryDetailsPage
+			.getCategoryNameInputHelperText()
+			.contains('Must provide a name');
+		categoryDetailsPage
+			.getSaveButton()
+			.contains('Save')
+			.should('be.disabled');
+
+		categoryDetailsPage.getCategoryNameInput().type('Hello');
+		categoryDetailsPage
+			.getCategoryNameInputHelperText()
+			.should('not.exist');
+		categoryDetailsPage
+			.getSaveButton()
+			.contains('Save')
+			.should('not.be.disabled');
 	});
 
 	it('updates category name', () => {

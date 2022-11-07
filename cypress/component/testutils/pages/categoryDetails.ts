@@ -10,6 +10,10 @@ const getCategoryNameInput = (): Chainable<JQuery> =>
 	getCategoryNameLabel()
 		.invoke('attr', 'for')
 		.then((forValue) => cy.get(`[id="${forValue}"]`));
+const getCategoryNameInputHelperText = (): Chainable<JQuery> =>
+	getCategoryNameLabel()
+		.invoke('attr', 'for')
+		.then((forValue) => cy.get(`[id="${forValue}-helper-text"]`));
 const getCloseButton = (): Chainable<JQuery> =>
 	cy.get('#CategoryDetailsDialog-header .MuiToolbar-root button');
 const getSaveButton = (): Chainable<JQuery> =>
@@ -22,6 +26,7 @@ export const categoryDetailsPage = {
 	getContentTitle,
 	getCategoryNameLabel,
 	getCategoryNameInput,
+	getCategoryNameInputHelperText,
 	getCloseButton,
 	getSaveButton,
 	getDeleteButton

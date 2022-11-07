@@ -61,13 +61,19 @@ const useMenuControls = (): UseMenuControlsReturn => {
 	};
 };
 
+type MatchValue = {
+	readonly pathname: string;
+	readonly isAuthorized: boolean;
+};
+
 const pathStartsWith =
 	(prefix: string) =>
-	(path: string): boolean =>
-		path.startsWith(prefix);
+	(value: MatchValue): boolean =>
+		value.pathname.startsWith(prefix);
 
-const findCurrentLabel = (pathname: string): string =>
-	match(pathname)
+const findCurrentLabel = (pathname: string, isAuthorized: boolean): string =>
+	match({ pathname, isAuthorized })
+		.with({ isAuthorized: false }, () => '')
 		.when(
 			pathStartsWith(MANAGE_TRANSACTIONS_TO),
 			() => MANAGE_TRANSACTIONS_LABEL
@@ -80,10 +86,13 @@ const findCurrentLabel = (pathname: string): string =>
 			pathStartsWith(IMPORT_TRANSACTIONS_TO),
 			() => IMPORT_TRANSACTIONS_LABEL
 		)
-		.with('/', () => MANAGE_TRANSACTIONS_LABEL)
+		.with({ pathname: '/' }, () => MANAGE_TRANSACTIONS_LABEL)
 		.run();
 
-const useMenuNavigation = (closeMenu: CloseMenu): UseMenuNavigationReturn => {
+const useMenuNavigation = (
+	isAuthorized: boolean,
+	closeMenu: CloseMenu
+): UseMenuNavigationReturn => {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const [state, setState] = useImmer<UseMenuNavigationState>({
@@ -92,9 +101,12 @@ const useMenuNavigation = (closeMenu: CloseMenu): UseMenuNavigationReturn => {
 
 	useEffect(() => {
 		setState((draft) => {
-			draft.currentLabel = findCurrentLabel(location.pathname);
+			draft.currentLabel = findCurrentLabel(
+				location.pathname,
+				isAuthorized
+			);
 		});
-	}, [location.pathname, setState]);
+	}, [location.pathname, setState, isAuthorized]);
 
 	const selectNavItem: SelectNavItem = (item) => () => {
 		navigate(item.to);
@@ -115,7 +127,10 @@ export const MobileNavItems = () => {
 		hasCheckedAuthorization
 	} = useDeriveNavbarFromAuthUser();
 	const { open, anchor, openMenu, closeMenu } = useMenuControls();
-	const { currentLabel, selectNavItem } = useMenuNavigation(closeMenu);
+	const { currentLabel, selectNavItem } = useMenuNavigation(
+		isAuthorized,
+		closeMenu
+	);
 
 	return (
 		<div className="MobileNavItems">

@@ -10,7 +10,11 @@ export const Navbar = () => {
 	const toolbarClass = isMobile ? 'MobileToolbar' : '';
 	const titleSpace = isMobile ? <br /> : ' ';
 	return (
-		<Box sx={{ flexGrow: 1, display: 'flex' }} className="Navbar">
+		<Box
+			sx={{ flexGrow: 1, display: 'flex' }}
+			className="Navbar"
+			id="navbar"
+		>
 			<AppBar position="static" component="nav">
 				<Toolbar className={toolbarClass}>
 					<Button
@@ -18,7 +22,11 @@ export const Navbar = () => {
 						to="/expense-tracker"
 						color="inherit"
 					>
-						<Typography variant="h6" component="div">
+						<Typography
+							id="expense-tracker-navbar-title"
+							variant="h6"
+							component="div"
+						>
 							Expense
 							{titleSpace}
 							Tracker

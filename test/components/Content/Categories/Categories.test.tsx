@@ -4,6 +4,7 @@ import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import { typeInInput } from '../../../testutils/testEvents';
 
+// TODO delete tests that were replicated in cypress
 describe('Manage Categories', () => {
 	it('displays all categories on sever', async () => {
 		await renderApp({

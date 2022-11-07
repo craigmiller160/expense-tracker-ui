@@ -31,4 +31,20 @@ describe('Manage Categories', () => {
 				}
 			});
 	});
+
+	it('adds new category', () => {
+		throw new Error();
+	});
+
+	it('will not save category without name', () => {
+		throw new Error();
+	});
+
+	it('updates category name', () => {
+		throw new Error();
+	});
+
+	it('deletes category', () => {
+		throw new Error();
+	});
 });

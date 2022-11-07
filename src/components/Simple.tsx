@@ -1,2 +1,12 @@
 // TODO delete this file
-export const Simple = () => <p>Hello World</p>;
+import { useLocation } from 'react-router';
+
+export const Simple = () => {
+	const location = useLocation();
+	return (
+		<div>
+			<p>Hello World</p>
+			<p>Path: {location.pathname}</p>
+		</div>
+	);
+};

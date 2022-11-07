@@ -12,10 +12,14 @@ export const createCategory = (): Chainable<null> =>
 
 export const deleteCategory = (id: string): Chainable<null> =>
 	cy
-		.intercept('delete', `/expense-tracker/api/categories/${id}`)
+		.intercept('delete', `/expense-tracker/api/categories/${id}`, {
+			statusCode: 204
+		})
 		.as(`deleteCategory_${id}`);
 
 export const updateCategory = (id: string): Chainable<null> =>
 	cy
-		.intercept('put', `/expense-tracker/api/categories/${id}`)
+		.intercept('put', `/expense-tracker/api/categories/${id}`, {
+			statusCode: 204
+		})
 		.as(`updateCategory_${id}`);

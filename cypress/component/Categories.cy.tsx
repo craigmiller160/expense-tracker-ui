@@ -72,7 +72,17 @@ describe('Manage Categories', () => {
 	});
 
 	it('will not save category without name', () => {
-		// TODO update code to disable save button when name is blank
+		const firstCategoryId = allCategories[0].id;
+		getAllCategories();
+		mountApp({
+			initialRoute: '/expense-tracker/categories'
+		});
+		categoriesListPage.getDetailsButtons().eq(0).click();
+		categoryDetailsPage
+			.getSaveButton()
+			.contains('Save')
+			.should('be.disabled');
+
 		throw new Error();
 	});
 

@@ -56,11 +56,9 @@ describe('Manage Categories', () => {
 		categoryDetailsPage.getSaveButton().click();
 
 		cy.wait('@createCategory').then((xhr) => {
-			expect(JSON.stringify(xhr.request.body)).to.eq(
-				JSON.stringify({
-					name: 'Hello Category'
-				})
-			);
+			expect(xhr.request.body).to.eql({
+				name: 'Hello Category'
+			});
 		});
 	});
 

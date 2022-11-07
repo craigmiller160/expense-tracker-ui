@@ -97,7 +97,7 @@ describe('Manage Categories', () => {
 		confirmDialogPage.getCancelButton().contains('Cancel');
 		confirmDialogPage.getConfirmButton().click();
 
-		cy.wait(`@deleteCategory_${firstCategoryId}`); // TODO double-check that this works
+		cy.wait(`@deleteCategory_${firstCategoryId}`);
 		confirmDialogPage.getTitle().should('not.be.visible');
 	});
 });

@@ -1,5 +1,6 @@
 // TODO delete this file
 import { RouteObject, useLocation, useRoutes } from 'react-router';
+import { Link } from 'react-router-dom';
 
 const Base = () => {
 	const location = useLocation();
@@ -37,6 +38,12 @@ export const Simple = () => {
 	return (
 		<div>
 			<p>Hello World</p>
+			<p>
+				<Link to="/">Base</Link>
+			</p>
+			<p>
+				<Link to="/other">Other</Link>
+			</p>
 			{Routes}
 		</div>
 	);

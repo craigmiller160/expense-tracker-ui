@@ -9,7 +9,6 @@ import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import { searchForTransactions } from '../../../../src/ajaxapi/service/TransactionService';
 import { SortDirection, TransactionSortKey } from '../../../../src/types/misc';
-import { formatDisplayDate } from '../../../../src/components/Content/Transactions/useHandleTransactionTableData';
 import {
 	defaultEndDate,
 	defaultStartDate
@@ -25,7 +24,8 @@ import { pipe } from 'fp-ts/es6/function';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 import {
 	formatServerDateTime,
-	serverDateTimeToDisplayDateTime
+	serverDateTimeToDisplayDateTime,
+	serverDateToDisplayDate
 } from '../../../../src/utils/dateTimeUtils';
 
 const createTimestamp = (numDates: number): string =>
@@ -106,7 +106,7 @@ describe('Transaction Details Dialog', () => {
 		);
 		expect(
 			within(transactionDialog).getByLabelText('Expense Date')
-		).toHaveValue(formatDisplayDate(transaction.expenseDate));
+		).toHaveValue(serverDateToDisplayDate(transaction.expenseDate));
 		expect(
 			within(transactionDialog).getByLabelText('Amount ($)')
 		).toHaveValue(transaction.amount.toFixed(2));
@@ -169,7 +169,7 @@ describe('Transaction Details Dialog', () => {
 		);
 		expect(
 			within(transactionDialog).getByLabelText('Expense Date')
-		).toHaveValue(formatDisplayDate(transaction.expenseDate));
+		).toHaveValue(serverDateToDisplayDate(transaction.expenseDate));
 		expect(
 			within(transactionDialog).getByLabelText('Amount ($)')
 		).toHaveValue(transaction.amount.toFixed(2));

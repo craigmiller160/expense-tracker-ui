@@ -31,6 +31,7 @@ const Transition = forwardRef(function Transition(
 });
 
 interface Props {
+	readonly id?: string;
 	readonly title: string;
 	readonly open: boolean;
 	readonly onClose: () => void;
@@ -66,7 +67,7 @@ export const SideDialog = (props: PropsWithChildren<Props>) => {
 			data-testid={props['data-testid']}
 		>
 			<Form formSubmit={props.formSubmit}>
-				<AppBar sx={{ position: 'relative' }}>
+				<AppBar sx={{ position: 'relative' }} id={`${props.id}-header`}>
 					<Toolbar>
 						<Typography variant="h6">{props.title}</Typography>
 						<Box sx={{ flexGrow: 1 }} />
@@ -79,8 +80,12 @@ export const SideDialog = (props: PropsWithChildren<Props>) => {
 						</IconButton>
 					</Toolbar>
 				</AppBar>
-				<DialogContent className="Body">{props.children}</DialogContent>
-				<DialogActions>{props.actions}</DialogActions>
+				<DialogContent id={`${props.id}-body`} className="Body">
+					{props.children}
+				</DialogContent>
+				<DialogActions id={`${props.id}-footer`}>
+					{props.actions}
+				</DialogActions>
 			</Form>
 		</Dialog>
 	);

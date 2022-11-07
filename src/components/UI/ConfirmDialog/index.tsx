@@ -18,6 +18,7 @@ export const ConfirmDialog = () => {
 
 	return (
 		<Dialog
+			id="ConfirmDialog"
 			data-testid="confirm-dialog"
 			open={dialogContext.open}
 			onClose={dialogContext.onClose}

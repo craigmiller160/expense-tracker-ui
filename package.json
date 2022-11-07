@@ -2,10 +2,15 @@
   "name": "@craigmiller160/expense-tracker-ui",
   "version": "1.0.0-beta",
   "scripts": {
-    "lint": "craig-lint",
+    "lint": "eslint --fix --max-warnings=0 **/**.{ts,tsx}",
     "start": "node scripts/startDev.js",
     "prepare": "husky install",
     "test": "craig-test",
+    "cypress": "cypress open",
+    "cypress:headless": "cypress run --component",
+    "force-build": "vite build",
+    "type-check": "tsc --noEmit",
+    "build": "yarn type-check && yarn lint && yarn test && yarn cypress:headless && yarn force-build",
     "generate-types": "craig-swagger expense-tracker https://127.0.0.1:8080/v3/api-docs"
   },
   "lint-staged": {
@@ -35,6 +40,7 @@
     "@types/react-dom": "^18.0.5",
     "@vitejs/plugin-react": "^1.3.2",
     "cross-spawn": "^7.0.3",
+    "cypress": "^10.11.0",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.2",
     "lodash-es": "^4.17.21",

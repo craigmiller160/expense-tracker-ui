@@ -2,6 +2,30 @@ import path from 'path';
 import react from '@vitejs/plugin-react';
 import fs from 'fs';
 
+const https =
+	process.env.CYPRESS === 'true'
+		? undefined
+		: {
+				cert: fs.readFileSync(
+					path.join(
+						process.cwd(),
+						'dev',
+						'certs',
+						'localhost.cert.pem'
+					),
+					'utf8'
+				),
+				key: fs.readFileSync(
+					path.join(
+						process.cwd(),
+						'dev',
+						'certs',
+						'localhost.key.pem'
+					),
+					'utf8'
+				)
+		  };
+
 export default {
 	root: path.join(process.cwd(), 'src'),
 	base: '/expense-tracker/',
@@ -9,16 +33,7 @@ export default {
 	server: {
 		port: 3002,
 		host: true,
-		https: {
-			cert: fs.readFileSync(
-				path.join(process.cwd(), 'dev', 'certs', 'localhost.cert.pem'),
-				'utf8'
-			),
-			key: fs.readFileSync(
-				path.join(process.cwd(), 'dev', 'certs', 'localhost.key.pem'),
-				'utf8'
-			)
-		},
+		https,
 		proxy: {
 			'/expense-tracker/api': {
 				target: 'https://localhost:8080',

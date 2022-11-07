@@ -22,6 +22,12 @@ describe('Manage Categories', () => {
 					expect($node.children('td')).length(2);
 					const nameCell = $node.children('td').eq(0);
 					expect(nameCell.text()).to.eq(CATEGORY_NAMES[index - 1]);
+
+					const detailsCell = $node
+						.children('td')
+						.eq(1)
+						.children('button');
+					expect(detailsCell.text()).to.eq('Details');
 				}
 			});
 	});

@@ -63,6 +63,7 @@ describe('Manage Categories', () => {
 	});
 
 	it('will not save category without name', () => {
+		// TODO update code to disable save button when name is blank
 		throw new Error();
 	});
 

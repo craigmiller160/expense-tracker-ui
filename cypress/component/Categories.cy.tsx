@@ -72,6 +72,12 @@ describe('Manage Categories', () => {
 	});
 
 	it('deletes category', () => {
-		throw new Error();
+		getAllCategories();
+		mountApp({
+			initialRoute: '/expense-tracker/categories'
+		});
+		categoriesListPage.getDetailsButtons().eq(0).click();
+		categoryDetailsPage.getHeaderTitle().should('exist');
+		categoryDetailsPage.getDeleteButton().click();
 	});
 });

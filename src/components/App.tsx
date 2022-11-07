@@ -1,5 +1,4 @@
 import { CssBaseline } from '@mui/material';
-import { BrowserRouter } from 'react-router-dom';
 import { Navbar } from './Navbar';
 import { Content } from './Content';
 import { AlertProvider } from './UI/Alerts/AlertProvider';
@@ -13,13 +12,11 @@ export const App = () => (
 	<AlertProvider>
 		<AppQueryAndErrorHandlingProvider>
 			<ConfirmDialogProvider>
-				<BrowserRouter basename="/">
-					<LocalizationProvider dateAdapter={AdapterDateFns}>
-						<CssBaseline />
-						<Navbar />
-						<Content />
-					</LocalizationProvider>
-				</BrowserRouter>
+				<LocalizationProvider dateAdapter={AdapterDateFns}>
+					<CssBaseline />
+					<Navbar />
+					<Content />
+				</LocalizationProvider>
 				<ConfirmDialog />
 			</ConfirmDialogProvider>
 		</AppQueryAndErrorHandlingProvider>

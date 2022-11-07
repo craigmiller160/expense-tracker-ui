@@ -119,7 +119,10 @@ const CategoryDetailsDialogActions = (props: DialogActionsProps) => (
 
 export const CategoryDetailsDialog = (props: Props) => {
 	const title = getTitle(props.selectedCategory);
-	const { handleSubmit, control, reset, formState } = useForm<FormData>();
+	const { handleSubmit, control, reset, formState } = useForm<FormData>({
+		mode: 'onChange',
+		reValidateMode: 'onChange'
+	});
 	const hasCategory = Option.isSome(props.selectedCategory);
 	const resetForm = useMemo(() => createResetForm(reset), [reset]);
 

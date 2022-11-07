@@ -15,6 +15,7 @@ describe('Authorization.cy.tsx', () => {
 		cy.get('#expense-tracker-navbar-title').contains('Expense Tracker');
 		cy.get('#navbar-auth-button').contains('Login');
 		cy.get('#navbar .LinkButton').should('not.exist');
+		cy.get('.Welcome').find('h4').contains('Welcome to Expense Tracker');
 	});
 
 	it('The app displays in an authorized state', () => {
@@ -28,5 +29,6 @@ describe('Authorization.cy.tsx', () => {
 			.each(($node, index) =>
 				expect($node.text()).to.eq(AUTHORIZED_NAVBAR_ITEMS[index])
 			);
+		cy.get('.Welcome').should('not.exist');
 	});
 });

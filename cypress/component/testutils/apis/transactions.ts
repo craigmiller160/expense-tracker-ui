@@ -16,8 +16,15 @@ const getTransactionDetails = (id: string): Chainable<null> =>
 				}
 			})
 		);
+const updateTransactionDetails = (id: string): Chainable<null> =>
+	cy
+		.intercept('put', `/expense-tracker/api/transactions/${id}/details`, {
+			statusCode: 204
+		})
+		.as(`updateTransactionDetails_${id}`);
 
 export const transactionsApi = {
 	searchForTransactions,
-	getTransactionDetails
+	getTransactionDetails,
+	updateTransactionDetails
 };

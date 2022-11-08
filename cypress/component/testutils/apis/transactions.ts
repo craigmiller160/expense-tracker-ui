@@ -1,5 +1,6 @@
 import Chainable = Cypress.Chainable;
 import { TransactionDetailsResponse } from '../../../../src/types/generated/expense-tracker';
+import { allCategories } from '../constants/categories';
 
 const searchForTransactions = (): Chainable<null> =>
 	cy.intercept('/expense-tracker/api/transactions?*', {
@@ -12,6 +13,20 @@ const getTransactionDetails = (id: string): Chainable<null> =>
 			cy.intercept(`/expense-tracker/api/transactions/${id}/details`, {
 				...fixture,
 				id
+			})
+		);
+const getTransactionDetails_confirmedAndCategorized = (
+	id: string
+): Chainable<null> =>
+	cy
+		.fixture('transactionDetails.json')
+		.then((fixture: TransactionDetailsResponse) =>
+			cy.intercept(`/expense-tracker/api/transactions/${id}/details`, {
+				...fixture,
+				id,
+				confirmed: true,
+				categoryId: allCategories[0].id,
+				categoryName: allCategories[1].name
 			})
 		);
 const updateTransactionDetails = (id: string): Chainable<null> =>
@@ -36,5 +51,6 @@ export const transactionsApi = {
 	getTransactionDetails,
 	updateTransactionDetails,
 	getNeedsAttention,
-	createTransaction
+	createTransaction,
+	getTransactionDetails_confirmedAndCategorized
 };

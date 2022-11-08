@@ -79,6 +79,12 @@ describe('Transaction Details Dialog', () => {
 		});
 
 		transactionsListPage.getDetailsButtons().eq(0).click();
+
+		transactionDetailsPage.getNotCategorizedIcon().should('be.visible');
+		transactionDetailsPage.getNotConfirmedIcon().should('be.visible');
+		transactionDetailsPage.getPossibleRefundIcon().should('not.be.visible');
+		transactionDetailsPage.getDuplicateIcon().should('not.be.visible');
+
 		transactionDetailsPage
 			.getExpenseDateInput()
 			.should(
@@ -113,8 +119,56 @@ describe('Transaction Details Dialog', () => {
 	});
 
 	it('shows current transaction information for confirmed and categorized', () => {
-		// TODO include timestamps
-		throw new Error();
+		const transactionId = allTransactions.transactions[0].id;
+		categoriesApi.getAllCategories();
+		transactionsApi.getNeedsAttention();
+		transactionsApi.searchForTransactions();
+		transactionsApi.createTransaction();
+		transactionsApi.getTransactionDetails_confirmedAndCategorized(
+			transactionId
+		);
+		mountApp({
+			initialRoute: '/expense-tracker/transactions'
+		});
+
+		transactionsListPage.getDetailsButtons().eq(0).click();
+
+		transactionDetailsPage.getNotCategorizedIcon().should('not.be.visible');
+		transactionDetailsPage.getNotConfirmedIcon().should('not.be.visible');
+		transactionDetailsPage.getPossibleRefundIcon().should('not.be.visible');
+		transactionDetailsPage.getDuplicateIcon().should('not.be.visible');
+
+		transactionDetailsPage
+			.getExpenseDateInput()
+			.should(
+				'have.value',
+				serverDateToDisplayDate(transactionDetails.expenseDate)
+			);
+		transactionDetailsPage
+			.getAmountInput()
+			.should('have.value', transactionDetails.amount);
+		transactionDetailsPage
+			.getDescriptionInput()
+			.should('have.value', transactionDetails.description);
+
+		transactionDetailsPage
+			.getCreatedTimestamp()
+			.contains(
+				`Created: ${serverDateTimeToDisplayDateTime(
+					transactionDetails.created
+				)}`
+			);
+		transactionDetailsPage
+			.getUpdatedTimestamp()
+			.contains(
+				`Updated: ${serverDateTimeToDisplayDateTime(
+					transactionDetails.updated
+				)}`
+			);
+
+		transactionDetailsPage.getDuplicateTitle().should('not.exist');
+		transactionDetailsPage.getSaveButton().should('be.disabled');
+		transactionDetailsPage.getDeleteButton().should('not.be.disabled');
 	});
 
 	it('shows current transaction information for possible refunds', () => {

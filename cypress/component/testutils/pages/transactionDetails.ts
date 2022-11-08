@@ -47,9 +47,9 @@ const getPossibleRefundIcon = (): Chainable<JQuery> =>
 		'#TransactionDetailsDialog-body [data-testid="possible-refund-icon"]'
 	);
 const getCreatedTimestamp = (): Chainable<JQuery> =>
-	cy.get('#TransactionDetailsDialog-body .Timestamps span').eq(0);
+	cy.get('#TransactionDetailsDialog-body .Timestamps span:nth-child(1)');
 const getUpdatedTimestamp = (): Chainable<JQuery> =>
-	cy.get('#TransactionDetailsDialog-body .Timestamps span').eq(1);
+	cy.get('#TransactionDetailsDialog-body .Timestamps span:nth-child(2)');
 const getDuplicateCreatedTimestamps = (): Chainable<JQuery> =>
 	cy.get('.TransactionDetailsDuplicatePanel tbody td').eq(0);
 const getDuplicateUpdatedTimestamps = (): Chainable<JQuery> =>

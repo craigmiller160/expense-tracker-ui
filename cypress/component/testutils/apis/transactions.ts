@@ -14,7 +14,8 @@ const getTransactionDetails = (id: string): Chainable<null> =>
 				...fixture,
 				id
 			})
-		);
+		)
+		.as(`getTransactionDetails_${id}`);
 const getTransactionDetails_confirmedAndCategorized = (
 	id: string
 ): Chainable<null> =>
@@ -76,7 +77,7 @@ const getPossibleDuplicates = (id: string): Chainable<null> =>
 		.intercept(`/expense-tracker/api/transactions/${id}/duplicates?*`, {
 			fixture: 'possibleDuplicates.json'
 		})
-		.as('getPossibleDuplicates');
+		.as(`getPossibleDuplicates_${id}`);
 
 export const transactionsApi = {
 	searchForTransactions,

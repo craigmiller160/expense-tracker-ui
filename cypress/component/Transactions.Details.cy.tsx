@@ -354,7 +354,7 @@ describe('Transaction Details Dialog', () => {
 			1
 		);
 
-		cy.wait('@getPossibleDuplicates').then((xhr) => {
+		cy.wait(`@getPossibleDuplicates_${transactionId}`).then((xhr) => {
 			expect(xhr.request.url).matches(/^.*\?pageNumber=0&pageSize=5$/);
 		});
 	});
@@ -464,6 +464,29 @@ describe('Transaction Details Dialog', () => {
 	});
 
 	it('can navigate to a duplicate transaction', () => {
-		throw new Error();
+		const transactionId = allTransactions.transactions[0].id;
+		const secondId = possibleDuplicates.transactions[0].id;
+		categoriesApi.getAllCategories();
+		transactionsApi.getNeedsAttention();
+		transactionsApi.searchForTransactions();
+		transactionsApi.getTransactionDetails_duplicate(transactionId);
+		transactionsApi.getPossibleDuplicates(transactionId);
+		transactionsApi.getTransactionDetails(secondId);
+		mountApp({
+			initialRoute: '/expense-tracker/transactions'
+		});
+
+		transactionsListPage.getDetailsButtons().eq(0).click();
+
+		transactionDetailsPage.getDuplicateTitle().should('be.visible');
+		transactionDetailsPage.getDuplicateRecords().should('have.length', 2);
+
+		transactionDetailsPage
+			.getOpenButtonForDuplicateRecord(
+				transactionDetailsPage.getDuplicateRecords().eq(0)
+			)
+			.click();
+
+		cy.wait(`@getTransactionDetails_${secondId}`);
 	});
 });

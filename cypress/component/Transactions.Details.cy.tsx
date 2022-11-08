@@ -260,7 +260,7 @@ describe('Transaction Details Dialog', () => {
 		transactionsApi.getNeedsAttention();
 		transactionsApi.searchForTransactions();
 		transactionsApi.createTransaction();
-		transactionsApi.getTransactionDetails_possibleRefund(transactionId);
+		transactionsApi.getTransactionDetails_duplicate(transactionId);
 		transactionsApi.getPossibleDuplicates(transactionId);
 		mountApp({
 			initialRoute: '/expense-tracker/transactions'
@@ -317,7 +317,6 @@ describe('Transaction Details Dialog', () => {
 		// TODO include timestamps
 		// TODO include one duplicate with a category and one without
 		// TODO include validation of pagination query params
-		throw new Error();
 	});
 
 	it('can update transaction information', () => {

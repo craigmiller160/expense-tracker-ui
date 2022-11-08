@@ -64,9 +64,7 @@ export const TransactionDetailsDuplicatePanel = (props: Props) => {
 							<Button
 								variant="contained"
 								onClick={() =>
-									props.updateSelectedTransactionId(
-										props.transactionId
-									)
+									props.updateSelectedTransactionId(txn.id)
 								}
 							>
 								Open

@@ -38,6 +38,24 @@ describe('Transaction Details Dialog', () => {
 		transactionDetailsPage.getNotCategorizedIcon().should('exist');
 		transactionDetailsPage.getDuplicateIcon().should('not.exist');
 		transactionDetailsPage.getPossibleRefundIcon().should('not.exist');
+		transactionDetailsPage.getSaveButton().should('be.disabled');
+		transactionDetailsPage.getDeleteButton().should('not.exist');
+
+		transactionDetailsPage.getExpenseDateInput().type('01/01/2022');
+		transactionDetailsPage.getAmountInput().type('-10.00');
+		transactionDetailsPage.getDescriptionInput().type('Hello World');
+		transactionDetailsPage
+			.getSaveButton()
+			.should('not.be.disabled')
+			.click();
+
+		cy.wait('@createTransaction').then((xhr) => {
+			expect(xhr.request.body).to.eql({
+				amount: -10,
+				description: 'Hello World',
+				expenseDate: '2022-01-01'
+			});
+		});
 	});
 
 	it('input field validation rules work', () => {

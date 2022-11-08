@@ -8,10 +8,15 @@ import { categoriesApi } from './testutils/apis/categories';
 
 describe('Transaction Details Dialog', () => {
 	it('input field validation rules work', () => {
+		categoriesApi.getAllCategories();
+		transactionsApi.getNeedsAttention();
+		transactionsApi.searchForTransactions();
 		mountApp({
 			initialRoute: '/expense-tracker/transactions'
 		});
-		throw new Error();
+
+		transactionsListPage.getDetailsButtons().eq(0).click();
+		// TODO finish this
 	});
 
 	it('can confirm transaction', () => {

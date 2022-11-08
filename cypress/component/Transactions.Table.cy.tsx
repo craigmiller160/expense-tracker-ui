@@ -30,5 +30,15 @@ describe('Transactions Table', () => {
 			.getCategorySelects()
 			.eq(0)
 			.should('have.value', orderedCategoryNames[0]);
+
+		transactionsListPage.getResetButton().should('not.be.disabled').click();
+		transactionsListPage
+			.getConfirmCheckboxes()
+			.eq(0)
+			.should('have.value', 'false');
+		transactionsListPage
+			.getCategorySelects()
+			.eq(0)
+			.should('have.value', '');
 	});
 });

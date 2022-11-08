@@ -13,11 +13,18 @@ const getAddTransactionButton = (): Chainable<JQuery> =>
 	cy.get(
 		'.ManageTransactions .TransactionsTable .AboveTableActionWrapper button'
 	);
+const getResetButton = (): Chainable<JQuery> =>
+	cy
+		.get(
+			'.ManageTransactions .TransactionsTable .BelowTableActionWrapper button'
+		)
+		.eq(0);
 
 export const transactionsListPage = {
 	getTitle,
 	getDetailsButtons,
 	getAddTransactionButton,
 	getConfirmCheckboxes,
-	getCategorySelects
+	getCategorySelects,
+	getResetButton
 };

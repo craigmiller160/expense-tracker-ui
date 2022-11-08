@@ -115,7 +115,10 @@ export const TransactionDetailsDialog = (props: Props) => {
 	const watchedTransaction = watch();
 
 	const isAtMaxSm = useIsAtMaxBreakpoint('md');
-	const controlsAndTimestampsClassName = `Controls ${
+	const controlsClassName = `Controls AdditionalSections ${
+		isAtMaxSm ? 'small' : ''
+	}`;
+	const timestampsClassName = `Timestamps AdditionalSections ${
 		isAtMaxSm ? 'small' : ''
 	}`;
 
@@ -185,7 +188,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 							</div>
 						</div>
 						<hr />
-						<div className={controlsAndTimestampsClassName}>
+						<div className={controlsClassName}>
 							{isEditExisting && (
 								<Checkbox
 									testId="confirm-transaction-checkbox"
@@ -205,7 +208,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 						{isEditExisting && (
 							<>
 								<hr />
-								<div className={controlsAndTimestampsClassName}>
+								<div className={timestampsClassName}>
 									<span className="center">
 										<strong>Created: </strong>
 										{transactionValues.created}

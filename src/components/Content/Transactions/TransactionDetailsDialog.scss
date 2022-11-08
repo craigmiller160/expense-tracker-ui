@@ -39,7 +39,7 @@
     }
   }
 
-  .Controls {
+  .AdditionalSections {
     @include Section;
     display: flex;
     &:not(.small) {

@@ -35,12 +35,23 @@ describe('Transaction Details Dialog', () => {
 
 		transactionsListPage.getDetailsButtons().eq(0).click();
 		testValidationRule(
+			transactionDetailsPage.getExpenseDateInput(),
+			transactionDetailsPage.getExpenseDateInputHelperText,
+			'Expense Date is required',
+			'01/01/2022'
+		);
+		testValidationRule(
 			transactionDetailsPage.getAmountInput(),
 			transactionDetailsPage.getAmountInputHelperText,
 			'Amount is required',
 			'-10.00'
 		);
-		// TODO finish this
+		testValidationRule(
+			transactionDetailsPage.getDescriptionInput(),
+			transactionDetailsPage.getDescriptionHelperText,
+			'Description is required',
+			'Hello World'
+		);
 	});
 
 	it('can confirm transaction', () => {

@@ -1,0 +1,18 @@
+{
+  "transactions": [
+    {
+      "id": "c2126943-6100-4994-9f2e-76c87ab4f209",
+      "created": "2022-07-02T18:55:13.824209Z",
+      "updated": "2022-11-08T18:48:48.216625Z",
+      "categoryName": "Entertainment"
+    },
+    {
+      "id": "0a4dd52a-b9a4-4668-8da6-d5f452425dc1",
+      "created": "2022-07-02T18:55:13.824209Z",
+      "updated": "2022-07-02T18:55:13.824209Z",
+      "categoryName": null
+    }
+  ],
+  "pageNumber": 0,
+  "totalItems": 2
+}

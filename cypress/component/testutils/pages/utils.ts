@@ -5,7 +5,7 @@ export const getInputForLabel = (
 ): Chainable<JQuery> =>
 	labelWrappedInChainable
 		.invoke('attr', 'for')
-		.then((forValue) => cy.get(`input[id="${forValue}"]`));
+		.then((forValue) => cy.get(`[id="${forValue}"]`));
 
 export const getHelperTextForLabel = (
 	labelWrappedInChainable: Chainable<JQuery>

@@ -24,10 +24,15 @@ const getNeedsAttention = (): Chainable<null> =>
 	cy.intercept('/expense-tracker/api/transactions/needs-attention', {
 		fixture: 'needsAttention.json'
 	});
+const createTransaction = (): Chainable<null> =>
+	cy.intercept('post', '/expense-tracker/api/transactions', {
+		statusCode: 204
+	});
 
 export const transactionsApi = {
 	searchForTransactions,
 	getTransactionDetails,
 	updateTransactionDetails,
-	getNeedsAttention
+	getNeedsAttention,
+	createTransaction
 };

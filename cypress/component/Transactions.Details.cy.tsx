@@ -24,7 +24,16 @@ const testValidationRule = (
 
 describe('Transaction Details Dialog', () => {
 	it('adds a new transaction', () => {
-		throw new Error();
+		categoriesApi.getAllCategories();
+		transactionsApi.getNeedsAttention();
+		transactionsApi.searchForTransactions();
+		transactionsApi.createTransaction();
+		mountApp({
+			initialRoute: '/expense-tracker/transactions'
+		});
+
+		transactionsListPage.getAddTransactionButton().click();
+		transactionDetailsPage.getHeaderTitle().contains('Transaction Details');
 	});
 
 	it('input field validation rules work', () => {

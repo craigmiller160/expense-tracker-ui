@@ -255,6 +255,65 @@ describe('Transaction Details Dialog', () => {
 	});
 
 	it('shows current transaction information for duplicates', () => {
+		const transactionId = allTransactions.transactions[0].id;
+		categoriesApi.getAllCategories();
+		transactionsApi.getNeedsAttention();
+		transactionsApi.searchForTransactions();
+		transactionsApi.createTransaction();
+		transactionsApi.getTransactionDetails_possibleRefund(transactionId);
+		transactionsApi.getPossibleDuplicates(transactionId);
+		mountApp({
+			initialRoute: '/expense-tracker/transactions'
+		});
+
+		transactionsListPage.getDetailsButtons().eq(0).click();
+
+		transactionDetailsPage
+			.getNotCategorizedIcon()
+			.should('not.have.class', 'visible');
+		transactionDetailsPage
+			.getNotConfirmedIcon()
+			.should('not.have.class', 'visible');
+		transactionDetailsPage
+			.getPossibleRefundIcon()
+			.should('not.have.class', 'visible');
+		transactionDetailsPage
+			.getDuplicateIcon()
+			.should('have.class', 'visible');
+
+		transactionDetailsPage
+			.getExpenseDateInput()
+			.should(
+				'have.value',
+				serverDateToDisplayDate(transactionDetails.expenseDate)
+			);
+		transactionDetailsPage
+			.getAmountInput()
+			.should('have.value', transactionDetails.amount);
+		transactionDetailsPage
+			.getDescriptionInput()
+			.should('have.value', transactionDetails.description);
+
+		transactionDetailsPage
+			.getCreatedTimestamp()
+			.contains(
+				`Created: ${serverDateTimeToDisplayDateTime(
+					transactionDetails.created
+				)}`
+			);
+		transactionDetailsPage
+			.getUpdatedTimestamp()
+			.contains(
+				`Updated: ${serverDateTimeToDisplayDateTime(
+					transactionDetails.updated
+				)}`
+			);
+
+		transactionDetailsPage.getSaveButton().should('be.disabled');
+		transactionDetailsPage.getDeleteButton().should('not.be.disabled');
+
+		transactionDetailsPage.getDuplicateTitle().should('be.visible');
+
 		// TODO include timestamps
 		// TODO include one duplicate with a category and one without
 		// TODO include validation of pagination query params

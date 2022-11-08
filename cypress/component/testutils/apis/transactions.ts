@@ -42,6 +42,19 @@ const getTransactionDetails_possibleRefund = (id: string): Chainable<null> =>
 				amount: 10
 			})
 		);
+const getTransactionDetails_duplicate = (id: string): Chainable<null> =>
+	cy
+		.fixture('transactionDetails.json')
+		.then((fixture: TransactionDetailsResponse) =>
+			cy.intercept(`/expense-tracker/api/transactions/${id}/details`, {
+				...fixture,
+				id,
+				confirmed: true,
+				categoryId: allCategories[0].id,
+				categoryName: allCategories[1].name,
+				duplicate: true
+			})
+		);
 const updateTransactionDetails = (id: string): Chainable<null> =>
 	cy
 		.intercept('put', `/expense-tracker/api/transactions/${id}/details`, {
@@ -69,5 +82,6 @@ export const transactionsApi = {
 	createTransaction,
 	getTransactionDetails_confirmedAndCategorized,
 	getTransactionDetails_possibleRefund,
-	getPossibleDuplicates
+	getPossibleDuplicates,
+	getTransactionDetails_duplicate
 };

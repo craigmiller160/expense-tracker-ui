@@ -163,9 +163,11 @@ describe('Transaction Details Dialog', () => {
 			type: 'testid',
 			root: transactionDialog
 		});
-		checkbox.isChecked();
+		await checkbox.isChecked();
 
-		materialUiSelect('Category', transactionDialog).hasValue(category.name);
+		await materialUiSelect('Category', transactionDialog).hasValue(
+			category.name
+		);
 	});
 
 	it('can categorize transaction', async () => {

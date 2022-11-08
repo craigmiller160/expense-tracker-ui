@@ -24,9 +24,11 @@ const testValidationRule = (
 
 describe('Transaction Details Dialog', () => {
 	it('input field validation rules work', () => {
+		const transactionId = allTransactions.transactions[0].id;
 		categoriesApi.getAllCategories();
 		transactionsApi.getNeedsAttention();
 		transactionsApi.searchForTransactions();
+		transactionsApi.getTransactionDetails(transactionId);
 		mountApp({
 			initialRoute: '/expense-tracker/transactions'
 		});

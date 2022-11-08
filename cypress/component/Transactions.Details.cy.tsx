@@ -42,7 +42,7 @@ describe('Transaction Details Dialog', () => {
 		transactionDetailsPage.getDeleteButton().should('not.exist');
 
 		transactionDetailsPage.getExpenseDateInput().type('01/01/2022');
-		transactionDetailsPage.getAmountInput().type('-10.00');
+		transactionDetailsPage.getAmountInput().clear().type('-10.00');
 		transactionDetailsPage.getDescriptionInput().type('Hello World');
 		transactionDetailsPage
 			.getSaveButton()

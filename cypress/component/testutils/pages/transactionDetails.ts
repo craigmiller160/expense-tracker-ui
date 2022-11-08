@@ -36,6 +36,16 @@ const getDescriptionInput = (): Chainable<JQuery> =>
 	pipe(getDescriptionLabel(), getInputForLabel);
 const getDescriptionHelperText = (): Chainable<JQuery> =>
 	pipe(getDescriptionLabel(), getHelperTextForLabel);
+const getDuplicateIcon = (): Chainable<JQuery> =>
+	cy.get('#TransactionDetailsDialog-body [data-testid="duplicate-icon"]');
+const getNotCategorizedIcon = (): Chainable<JQuery> =>
+	cy.get('#TransactionDetailsDialog-body [data-testid="no-category-icon"]');
+const getNotConfirmedIcon = (): Chainable<JQuery> =>
+	cy.get('#TransactionDetailsDialog-body [data-testid="not-confirmed-icon"]');
+const getPossibleRefundIcon = (): Chainable<JQuery> =>
+	cy.get(
+		'#TransactionDetailsDialog-body [data-testid="possible-refund-icon"]'
+	);
 
 export const transactionDetailsPage = {
 	getHeaderTitle,
@@ -54,5 +64,9 @@ export const transactionDetailsPage = {
 	getAmountInput,
 	getAmountInputHelperText,
 	getDescriptionInput,
-	getDescriptionHelperText
+	getDescriptionHelperText,
+	getDuplicateIcon,
+	getNotCategorizedIcon,
+	getNotConfirmedIcon,
+	getPossibleRefundIcon
 };

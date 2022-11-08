@@ -6,7 +6,6 @@ import { transactionDetailsPage } from './testutils/pages/transactionDetails';
 import { TransactionDetailsResponse } from '../../src/types/generated/expense-tracker';
 import { categoriesApi } from './testutils/apis/categories';
 import Chainable = Cypress.Chainable;
-import { transactionIconsPage } from './testutils/pages/transactionIcons';
 
 const testValidationRule = (
 	input: Chainable<JQuery>,
@@ -35,10 +34,10 @@ describe('Transaction Details Dialog', () => {
 
 		transactionsListPage.getAddTransactionButton().click();
 		transactionDetailsPage.getHeaderTitle().contains('Transaction Details');
-		transactionIconsPage.getNotConfirmedIcon().should('exist');
-		transactionIconsPage.getNotCategorizedIcons().should('exist');
-		transactionIconsPage.getDuplicateIcons().should('not.exist');
-		transactionIconsPage.getPossibleRefundIcon().should('not.exist');
+		transactionDetailsPage.getNotConfirmedIcon().should('exist');
+		transactionDetailsPage.getNotCategorizedIcon().should('exist');
+		transactionDetailsPage.getDuplicateIcon().should('not.exist');
+		transactionDetailsPage.getPossibleRefundIcon().should('not.exist');
 	});
 
 	it('input field validation rules work', () => {

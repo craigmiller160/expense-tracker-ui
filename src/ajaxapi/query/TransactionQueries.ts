@@ -7,7 +7,8 @@ import {
 	NeedsAttentionResponse,
 	TransactionAndCategory,
 	TransactionResponse,
-	TransactionsPageResponse
+	TransactionsPageResponse,
+	TransactionDetailsResponse
 } from '../../types/generated/expense-tracker';
 import {
 	QueryClient,
@@ -24,16 +25,21 @@ import {
 	deleteTransactions,
 	getNeedsAttention,
 	getPossibleDuplicates,
+	getTransactionDetails,
 	searchForTransactions,
 	updateTransactionDetails,
 	updateTransactions
 } from '../service/TransactionService';
+import { OptionT } from '@craigmiller160/ts-functions/es/types';
+import * as Option from 'fp-ts/es6/Option';
 
 export const SEARCH_FOR_TRANSACTIONS =
 	'TransactionQueries_SearchForTransactions';
 export const GET_NEEDS_ATTENTION = 'TransactionQueries_GetNeedsAttention';
 export const GET_POSSIBLE_DUPLICATES =
 	'TransactionQueries_GetPossibleDuplicates';
+export const GET_TRANSACTION_DETAILS =
+	'TransactionQueries_GetTransactionDetails';
 
 const invalidateTransactionQueries = (queryClient: QueryClient) =>
 	Promise.all([
@@ -80,6 +86,23 @@ export const useGetPossibleDuplicates = (
 		],
 		({ queryKey: [, { transactionId, pageNumber, pageSize }] }) =>
 			getPossibleDuplicates(transactionId, pageNumber, pageSize)
+	);
+
+type GetTransactionDetailsKey = [string, OptionT<string>];
+export const useGetTransactionDetails = (
+	transactionId: OptionT<string>
+): UseQueryResult<TransactionDetailsResponse, Error> =>
+	useQuery<
+		TransactionDetailsResponse,
+		Error,
+		TransactionDetailsResponse,
+		GetTransactionDetailsKey
+	>(
+		[GET_TRANSACTION_DETAILS, transactionId],
+		({ queryKey: [, id] }) =>
+			// Will never execute orElse condition
+			getTransactionDetails(Option.getOrElse(() => '')(id)),
+		{ enabled: Option.isSome(transactionId) }
 	);
 
 export const useGetNeedsAttention = (): UseQueryResult<

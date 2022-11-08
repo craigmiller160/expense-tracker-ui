@@ -9,7 +9,6 @@ import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import { searchForTransactions } from '../../../../src/ajaxapi/service/TransactionService';
 import { SortDirection, TransactionSortKey } from '../../../../src/types/misc';
-import { formatDisplayDate } from '../../../../src/components/Content/Transactions/useHandleTransactionTableData';
 import {
 	defaultEndDate,
 	defaultStartDate
@@ -25,7 +24,8 @@ import { pipe } from 'fp-ts/es6/function';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 import {
 	formatServerDateTime,
-	serverDateTimeToDisplayDateTime
+	serverDateTimeToDisplayDateTime,
+	serverDateToDisplayDate
 } from '../../../../src/utils/dateTimeUtils';
 
 const createTimestamp = (numDates: number): string =>
@@ -44,35 +44,6 @@ const testButton =
 				cause: ex as Error
 			});
 		}
-	};
-
-const createTestFormValidation =
-	(dialog: HTMLElement) =>
-	async (labelText: string, errorMessage: string, updatedValue: string) => {
-		const formControl = within(dialog).getByLabelText(labelText);
-		const saveButton = within(dialog).getByText('Save');
-
-		await userEvent.clear(formControl);
-		expect(formControl).toHaveValue('');
-		await waitFor(() =>
-			expect(within(dialog).getByText(errorMessage)).toBeVisible()
-		);
-		expect(saveButton).toBeDisabled();
-
-		await userEvent.type(formControl, updatedValue);
-		expect(formControl).toHaveValue(updatedValue);
-		expect(
-			within(dialog).queryByText(errorMessage)
-		).not.toBeInTheDocument();
-		expect(saveButton).toBeEnabled();
-	};
-
-const createReplaceFieldValue =
-	(dialog: HTMLElement) => async (labelText: string, newValue: string) => {
-		const control = within(dialog).getByLabelText(labelText);
-		await userEvent.clear(control);
-		await userEvent.type(control, newValue);
-		expect(control).toHaveValue(newValue);
 	};
 
 describe('Transaction Details Dialog', () => {
@@ -104,9 +75,11 @@ describe('Transaction Details Dialog', () => {
 		const transactionDialog = screen.getByTestId(
 			'transaction-details-dialog'
 		);
-		expect(
-			within(transactionDialog).getByLabelText('Expense Date')
-		).toHaveValue(formatDisplayDate(transaction.expenseDate));
+		await waitFor(() =>
+			expect(
+				within(transactionDialog).getByLabelText('Expense Date')
+			).toHaveValue(serverDateToDisplayDate(transaction.expenseDate))
+		);
 		expect(
 			within(transactionDialog).getByLabelText('Amount ($)')
 		).toHaveValue(transaction.amount.toFixed(2));
@@ -167,9 +140,11 @@ describe('Transaction Details Dialog', () => {
 		const transactionDialog = screen.getByTestId(
 			'transaction-details-dialog'
 		);
-		expect(
-			within(transactionDialog).getByLabelText('Expense Date')
-		).toHaveValue(formatDisplayDate(transaction.expenseDate));
+		await waitFor(() =>
+			expect(
+				within(transactionDialog).getByLabelText('Expense Date')
+			).toHaveValue(serverDateToDisplayDate(transaction.expenseDate))
+		);
 		expect(
 			within(transactionDialog).getByLabelText('Amount ($)')
 		).toHaveValue(transaction.amount.toFixed(2));
@@ -188,188 +163,10 @@ describe('Transaction Details Dialog', () => {
 			type: 'testid',
 			root: transactionDialog
 		});
-		checkbox.isChecked();
-
-		materialUiSelect('Category', transactionDialog).hasValue(category.name);
-	});
-
-	it('input field validation rules work', async () => {
-		await renderApp({
-			initialPath: '/expense-tracker/transactions'
-		});
-		await waitForVisibility([
-			{ text: 'Expense Tracker' },
-			{ text: 'Manage Transactions', occurs: 2, timeout: 3000 },
-			{ text: 'Rows per page:' }
-		]);
-
-		const row = screen.getAllByTestId('transaction-table-row')[0];
-		const detailsButton = within(row).getByText('Details');
-		await userEvent.click(detailsButton);
-
-		const transactionDialog = screen.getByTestId(
-			'transaction-details-dialog'
-		);
-
-		const testFormValidation = createTestFormValidation(transactionDialog);
-		await testFormValidation(
-			'Expense Date',
-			'Expense Date is required',
-			'01/01/2022'
-		);
-		await testFormValidation('Amount ($)', 'Amount is required', '10.00');
-		await testFormValidation(
-			'Description',
-			'Description is required',
-			'Hello World'
-		);
-	});
-
-	it('can confirm transaction', async () => {
-		await renderApp({
-			initialPath: '/expense-tracker/transactions'
-		});
-		await waitForVisibility([
-			{ text: 'Expense Tracker' },
-			{ text: 'Manage Transactions', occurs: 2, timeout: 3000 },
-			{ text: 'Rows per page:' }
-		]);
-
-		const row = screen.getAllByTestId('transaction-table-row')[0];
-		const detailsButton = within(row).getByText('Details');
-		await userEvent.click(detailsButton);
-
-		expect(
-			within(row).queryByTestId('confirm-transaction-checkbox')
-		).toBeInTheDocument();
-
-		const transactionDialog = screen.getByTestId(
-			'transaction-details-dialog'
-		);
-
-		const checkbox = materialUiCheckbox({
-			selector: 'confirm-transaction-checkbox',
-			type: 'testid',
-			root: transactionDialog
-		});
-		checkbox.click();
 		await checkbox.isChecked();
-		transactionIcon('not-confirmed-icon', transactionDialog).isNotVisible();
 
-		await userEvent.click(within(transactionDialog).getByText('Save'));
-
-		await waitForElementToBeRemoved(() =>
-			screen.queryByTestId('transaction-details-dialog')
-		);
-		await waitFor(() =>
-			expect(screen.getAllByTestId('transaction-table-row')).toHaveLength(
-				25
-			)
-		);
-		expect(
-			within(row).queryByTestId('confirm-transaction-checkbox')
-		).not.toBeInTheDocument();
-	});
-
-	it('adds a new transaction', async () => {
-		await renderApp({
-			initialPath: '/expense-tracker/transactions'
-		});
-		await waitForVisibility([
-			{ text: 'Expense Tracker' },
-			{ text: 'Manage Transactions', occurs: 2, timeout: 3000 },
-			{ text: 'Rows per page:' }
-		]);
-
-		await userEvent.click(screen.getByText('Add Transaction'));
-
-		const transactionDialog = screen.getByTestId(
-			'transaction-details-dialog'
-		);
-
-		await waitFor(() => expect(transactionDialog).toBeVisible());
-
-		const replaceFieldValue = createReplaceFieldValue(transactionDialog);
-		await replaceFieldValue('Expense Date', '01/01/2500');
-		await replaceFieldValue('Amount ($)', '145.22');
-		await replaceFieldValue('Description', 'Hello World');
-
-		const select = materialUiSelect('Category', transactionDialog);
-		await select.selectItem('Groceries');
-		await select.hasValue('Groceries');
-
-		await userEvent.click(within(transactionDialog).getByText('Save'));
-
-		await waitForElementToBeRemoved(() =>
-			screen.queryByTestId('transaction-details-dialog')
-		);
-		await waitFor(() => screen.queryByTestId('table-loading'));
-		await waitFor(() =>
-			expect(screen.getAllByTestId('transaction-table-row')).toHaveLength(
-				25
-			)
-		);
-
-		const newTransaction = Object.values(
-			apiServer.database.data.transactions
-		).find((txn) => txn.expenseDate === '2500-01-01');
-		expect(newTransaction).not.toBeUndefined();
-	});
-
-	it('can update transaction information', async () => {
-		const {
-			transactions: [transaction]
-		} = await searchForTransactions({
-			startDate: defaultStartDate(),
-			endDate: defaultEndDate(),
-			pageNumber: 0,
-			pageSize: 25,
-			sortKey: TransactionSortKey.EXPENSE_DATE,
-			sortDirection: SortDirection.DESC
-		});
-
-		await renderApp({
-			initialPath: '/expense-tracker/transactions'
-		});
-		await waitForVisibility([
-			{ text: 'Expense Tracker' },
-			{ text: 'Manage Transactions', occurs: 2, timeout: 3000 },
-			{ text: 'Rows per page:' }
-		]);
-
-		const row = screen.getAllByTestId('transaction-table-row')[0];
-		const detailsButton = within(row).getByText('Details');
-		await userEvent.click(detailsButton);
-
-		const transactionDialog = screen.getByTestId(
-			'transaction-details-dialog'
-		);
-
-		const replaceFieldValue = createReplaceFieldValue(transactionDialog);
-		await replaceFieldValue('Expense Date', '01/01/2022');
-		await replaceFieldValue('Amount ($)', '145.22');
-		await replaceFieldValue('Description', 'Hello World');
-		await userEvent.click(within(transactionDialog).getByText('Save'));
-
-		await waitForElementToBeRemoved(() =>
-			screen.queryByTestId('transaction-details-dialog')
-		);
-		await waitFor(() => screen.queryByTestId('table-loading'));
-		await waitFor(() =>
-			expect(screen.getAllByTestId('transaction-table-row')).toHaveLength(
-				25
-			)
-		);
-
-		const matchingTransaction =
-			apiServer.database.data.transactions[transaction.id];
-		expect(matchingTransaction).not.toBeUndefined();
-		expect(matchingTransaction).toEqual(
-			expect.objectContaining({
-				expenseDate: '2022-01-01',
-				description: 'Hello World',
-				amount: 145.22
-			})
+		await materialUiSelect('Category', transactionDialog).hasValue(
+			category.name
 		);
 	});
 
@@ -389,6 +186,12 @@ describe('Transaction Details Dialog', () => {
 
 		const transactionDialog = screen.getByTestId(
 			'transaction-details-dialog'
+		);
+
+		await waitFor(() =>
+			expect(
+				within(transactionDialog).getByLabelText('Expense Date')
+			).toBeVisible()
 		);
 
 		const categorySelect = materialUiSelect('Category', transactionDialog);
@@ -446,6 +249,13 @@ describe('Transaction Details Dialog', () => {
 		const transactionDialog1 = screen.getByTestId(
 			'transaction-details-dialog'
 		);
+
+		await waitFor(() =>
+			expect(
+				within(transactionDialog1).getByLabelText('Expense Date')
+			).toBeVisible()
+		);
+
 		transactionIcon('possible-refund-icon', transactionDialog1).isVisible();
 
 		await userEvent.click(
@@ -457,10 +267,12 @@ describe('Transaction Details Dialog', () => {
 		const transactionDialog2 = screen.getByTestId(
 			'transaction-details-dialog'
 		);
-		transactionIcon(
-			'possible-refund-icon',
-			transactionDialog2
-		).isNotVisible();
+		await waitFor(() =>
+			transactionIcon(
+				'possible-refund-icon',
+				transactionDialog2
+			).isNotVisible()
+		);
 	});
 
 	it('can delete transaction', async () => {
@@ -585,6 +397,12 @@ describe('Transaction Details Dialog', () => {
 
 		const transactionDialog = screen.getByTestId(
 			'transaction-details-dialog'
+		);
+
+		await waitFor(() =>
+			expect(
+				within(transactionDialog).getByLabelText('Expense Date')
+			).toBeVisible()
 		);
 
 		transactionIcon('duplicate-icon', transactionDialog).isVisible();

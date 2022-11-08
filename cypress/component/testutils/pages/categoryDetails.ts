@@ -1,4 +1,6 @@
 import Chainable = Cypress.Chainable;
+import { pipe } from 'fp-ts/es6/function';
+import { getHelperTextForLabel, getInputForLabel } from './utils';
 
 const getHeaderTitle = (): Chainable<JQuery> =>
 	cy.get('#CategoryDetailsDialog-header .MuiToolbar-root h6');
@@ -7,13 +9,9 @@ const getContentTitle = (): Chainable<JQuery> =>
 const getCategoryNameLabel = (): Chainable<JQuery> =>
 	cy.get('#CategoryDetailsDialog-body label').eq(0);
 const getCategoryNameInput = (): Chainable<JQuery> =>
-	getCategoryNameLabel()
-		.invoke('attr', 'for')
-		.then((forValue) => cy.get(`[id="${forValue}"]`));
+	pipe(getCategoryNameLabel(), getInputForLabel);
 const getCategoryNameInputHelperText = (): Chainable<JQuery> =>
-	getCategoryNameLabel()
-		.invoke('attr', 'for')
-		.then((forValue) => cy.get(`[id="${forValue}-helper-text"]`));
+	pipe(getCategoryNameLabel(), getHelperTextForLabel);
 const getCloseButton = (): Chainable<JQuery> =>
 	cy.get('#CategoryDetailsDialog-header .MuiToolbar-root button');
 const getSaveButton = (): Chainable<JQuery> =>

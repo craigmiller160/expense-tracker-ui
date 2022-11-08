@@ -1,0 +1,256 @@
+{
+  "transactions": [
+    {
+      "id": "1504bc85-04b0-48ce-973e-86e0f2cb4024",
+      "expenseDate": "2022-11-08",
+      "description": "DIRECTPAY FULL BALANCESEE DETAILS OF YOUR NEXT DIRECTPAY BELOW",
+      "amount": 1928.54,
+      "confirmed": false,
+      "duplicate": false,
+      "categoryId": null,
+      "categoryName": null
+    },
+    {
+      "id": "c1c61d3d-6431-45a8-8bc0-4a48b00fffc0",
+      "expenseDate": "2022-11-08",
+      "description": "FRONTIER COMM CORP WE 800-921-8101 CT        06/14",
+      "amount": -64.99,
+      "confirmed": false,
+      "duplicate": true,
+      "categoryId": null,
+      "categoryName": null
+    },
+    {
+      "id": "c2126943-6100-4994-9f2e-76c87ab4f209",
+      "expenseDate": "2022-11-08",
+      "description": "FRONTIER COMM CORP WE 800-921-8101 CT        06/14",
+      "amount": -64.99,
+      "confirmed": false,
+      "duplicate": true,
+      "categoryId": null,
+      "categoryName": null
+    },
+    {
+      "id": "0a4dd52a-b9a4-4668-8da6-d5f452425dc1",
+      "expenseDate": "2022-11-07",
+      "description": "CHECK 375  ",
+      "amount": -100.00,
+      "confirmed": false,
+      "duplicate": false,
+      "categoryId": null,
+      "categoryName": null
+    },
+    {
+      "id": "fa5c2f28-41e5-4eb4-9411-6486abcbcf46",
+      "expenseDate": "2022-11-06",
+      "description": "FID BKG SVC LLC  MONEYLINE                  PPD ID: 1035141383",
+      "amount": -250.00,
+      "confirmed": false,
+      "duplicate": false,
+      "categoryId": null,
+      "categoryName": null
+    },
+    {
+      "id": "f4059e39-965f-4e05-a09f-d7badd8c263f",
+      "expenseDate": "2022-11-05",
+      "description": "FID BKG SVC LLC  MONEYLINE                  PPD ID: 1035141383",
+      "amount": -250.00,
+      "confirmed": false,
+      "duplicate": false,
+      "categoryId": null,
+      "categoryName": null
+    },
+    {
+      "id": "313c2e05-e00c-4004-8b6a-edb83040ffd6",
+      "expenseDate": "2022-11-04",
+      "description": "8946 GREAT CLIPS AT PAV RIVERVIEW FL         06/12",
+      "amount": -22.00,
+      "confirmed": false,
+      "duplicate": false,
+      "categoryId": null,
+      "categoryName": null
+    },
+    {
+      "id": "019573ec-1350-4635-a3c8-fe9f2a6e807c",
+      "expenseDate": "2022-11-03",
+      "description": "DISCOVER         E-PAYMENT  9883            WEB ID: 3510020270",
+      "amount": -1812.12,
+      "confirmed": false,
+      "duplicate": false,
+      "categoryId": null,
+      "categoryName": null
+    },
+    {
+      "id": "7b00fb92-12da-4f17-b917-52377976d4d2",
+      "expenseDate": "2022-11-02",
+      "description": "ACI*GUARDIAN PROTECTI 888-279-6971 PA        06/05",
+      "amount": -53.74,
+      "confirmed": false,
+      "duplicate": false,
+      "categoryId": null,
+      "categoryName": null
+    },
+    {
+      "id": "dbdff8fb-e1c7-4608-bd72-08ced7d6d601",
+      "expenseDate": "2022-11-01",
+      "description": "Premier Communit RESIDENT    259540827      WEB ID: 2273639005",
+      "amount": -163.95,
+      "confirmed": false,
+      "duplicate": false,
+      "categoryId": null,
+      "categoryName": null
+    },
+    {
+      "id": "9fc4ee57-9945-4dd5-ad8c-7b40f057a0ed",
+      "expenseDate": "2022-10-31",
+      "description": "CHECK 374  ",
+      "amount": -100.00,
+      "confirmed": false,
+      "duplicate": false,
+      "categoryId": null,
+      "categoryName": null
+    },
+    {
+      "id": "c68617eb-ef39-49fc-bacb-2b182a2bb4af",
+      "expenseDate": "2022-10-30",
+      "description": "LAKEVIEW LN SRV  MTG PYMT   0047261250      WEB ID: 1541322890",
+      "amount": -1062.75,
+      "confirmed": false,
+      "duplicate": false,
+      "categoryId": null,
+      "categoryName": null
+    },
+    {
+      "id": "9de05cc2-d712-476c-99ec-1040dba6f1e3",
+      "expenseDate": "2022-10-29",
+      "description": "Zelle payment to ### ### 14239007591",
+      "amount": -50.00,
+      "confirmed": false,
+      "duplicate": false,
+      "categoryId": null,
+      "categoryName": null
+    },
+    {
+      "id": "286bb3a5-5a3e-493b-969f-19ce29883ccb",
+      "expenseDate": "2022-10-28",
+      "description": "APPLECARD GSBANK PAYMENT    53888324        WEB ID: 9999999999",
+      "amount": -258.25,
+      "confirmed": false,
+      "duplicate": false,
+      "categoryId": null,
+      "categoryName": null
+    },
+    {
+      "id": "497dbdfb-b584-4d08-b12b-0d9e48a01f6b",
+      "expenseDate": "2022-10-27",
+      "description": "SNACK SODA VENDING ZEPHYRHILLS FL            05/30",
+      "amount": -1.60,
+      "confirmed": false,
+      "duplicate": false,
+      "categoryId": null,
+      "categoryName": null
+    },
+    {
+      "id": "79572fba-16eb-4186-8752-53720a5b9277",
+      "expenseDate": "2022-10-26",
+      "description": "8946 GREAT CLIPS AT PAV RIVERVIEW FL         05/28",
+      "amount": -22.00,
+      "confirmed": false,
+      "duplicate": false,
+      "categoryId": null,
+      "categoryName": null
+    },
+    {
+      "id": "55e155ec-2bbd-4270-bfed-d404409c03af",
+      "expenseDate": "2022-10-25",
+      "description": "TECO/PEOPLE GAS  UTILITYBIL                 PPD ID: 9128751378",
+      "amount": -111.90,
+      "confirmed": false,
+      "duplicate": false,
+      "categoryId": null,
+      "categoryName": null
+    },
+    {
+      "id": "858fc065-e890-48dd-b428-268bcb5c4950",
+      "expenseDate": "2022-10-24",
+      "description": "HEALTHY PAWS PET INS TRACIM@HEALTH WA        05/25",
+      "amount": -33.01,
+      "confirmed": false,
+      "duplicate": false,
+      "categoryId": null,
+      "categoryName": null
+    },
+    {
+      "id": "a5598719-58df-4413-a5a9-bff3ae1ab376",
+      "expenseDate": "2022-10-23",
+      "description": "TERMINIX         CHECKS                     PPD ID: 1363478837",
+      "amount": -108.00,
+      "confirmed": false,
+      "duplicate": false,
+      "categoryId": null,
+      "categoryName": null
+    },
+    {
+      "id": "8698686e-6b58-432e-8b26-a1a8cca448ce",
+      "expenseDate": "2022-10-22",
+      "description": "FID BKG SVC LLC  MONEYLINE                  PPD ID: 1035141383",
+      "amount": -250.00,
+      "confirmed": false,
+      "duplicate": false,
+      "categoryId": null,
+      "categoryName": null
+    },
+    {
+      "id": "3f92d000-f749-4e84-b555-449833adb294",
+      "expenseDate": "2022-10-21",
+      "description": "FID BKG SVC LLC  MONEYLINE                  PPD ID: 1035141383",
+      "amount": -250.00,
+      "confirmed": false,
+      "duplicate": false,
+      "categoryId": null,
+      "categoryName": null
+    },
+    {
+      "id": "efcf0945-0d57-468f-b8ee-d282620c6f3e",
+      "expenseDate": "2022-10-20",
+      "description": "PANDA EXPRESS 1679 RIVERVIEW FL",
+      "amount": -5.81,
+      "confirmed": false,
+      "duplicate": false,
+      "categoryId": null,
+      "categoryName": null
+    },
+    {
+      "id": "6fc4bfae-ef71-4ee2-a21c-9f2a343063bb",
+      "expenseDate": "2022-10-19",
+      "description": "APPLEBEES 064692528491 BRANDON FL",
+      "amount": -13.81,
+      "confirmed": false,
+      "duplicate": false,
+      "categoryId": null,
+      "categoryName": null
+    },
+    {
+      "id": "92dd7f9f-aca5-4883-b19b-757ba5b261d2",
+      "expenseDate": "2022-10-18",
+      "description": "GOOGLE *YOUTUBEPREMIUM G.CO/HELPPAY#CAP0JIARGP",
+      "amount": -9.99,
+      "confirmed": false,
+      "duplicate": false,
+      "categoryId": null,
+      "categoryName": null
+    },
+    {
+      "id": "b7cb3c94-18d1-4bcf-b111-c389acda49d6",
+      "expenseDate": "2022-10-17",
+      "description": "MCDONALD'S F35651 RIVERVIEW FL",
+      "amount": -6.39,
+      "confirmed": false,
+      "duplicate": false,
+      "categoryId": null,
+      "categoryName": null
+    }
+  ],
+  "pageNumber": 0,
+  "totalItems": 34
+}

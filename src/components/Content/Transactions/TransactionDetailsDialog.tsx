@@ -1,5 +1,4 @@
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
-import { TransactionResponse } from '../../../types/generated/expense-tracker';
 import { SideDialog } from '../../UI/SideDialog';
 import { Button, CircularProgress } from '@mui/material';
 import './TransactionDetailsDialog.scss';
@@ -24,10 +23,11 @@ import { useIsAtMaxBreakpoint } from '../../../utils/breakpointHooks';
 import { PossibleRefundIcon } from './icons/PossibleRefundIcon';
 import * as Option from 'fp-ts/es6/Option';
 import { TransactionDetailsDuplicatePanel } from './TransactionDetailsDuplicatePanel';
+import { Spinner } from '../../UI/Spinner';
 
 interface Props {
 	readonly open: boolean;
-	readonly selectedTransaction: OptionT<TransactionResponse>;
+	readonly selectedTransactionId: OptionT<string>;
 	readonly onClose: () => void;
 	readonly saveTransaction: (transaction: TransactionDetailsFormData) => void;
 	readonly deleteTransaction: (id: string | null) => void;
@@ -36,6 +36,7 @@ interface Props {
 interface DialogActionsProps {
 	readonly deleteTransaction: () => void;
 	readonly enableSaveButton: boolean;
+	readonly showDeleteButton: boolean;
 }
 
 const TransactionDetailsDialogActions = (props: DialogActionsProps) => (
@@ -48,13 +49,15 @@ const TransactionDetailsDialogActions = (props: DialogActionsProps) => (
 		>
 			Save
 		</Button>
-		<Button
-			variant="contained"
-			color="error"
-			onClick={props.deleteTransaction}
-		>
-			Delete
-		</Button>
+		{props.showDeleteButton && (
+			<Button
+				variant="contained"
+				color="error"
+				onClick={props.deleteTransaction}
+			>
+				Delete
+			</Button>
+		)}
 	</div>
 );
 
@@ -87,11 +90,11 @@ export const TransactionDetailsDialog = (props: Props) => {
 		transactionValues,
 		form: { control, handleSubmit, formState, watch }
 	} = useHandleTransactionDetailsDialogData(
-		props.selectedTransaction,
+		props.selectedTransactionId,
 		props.open
 	);
 	const CategoryComponent = useGetCategoryComponent(control);
-	const isEditExisting = Option.isSome(props.selectedTransaction);
+	const isEditExisting = Option.isSome(props.selectedTransactionId);
 
 	const { isDirty, isValid } = formState;
 
@@ -101,6 +104,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 				props.deleteTransaction(transactionValues.id)
 			}
 			enableSaveButton={isDirty && isValid}
+			showDeleteButton={isEditExisting}
 		/>
 	);
 
@@ -114,6 +118,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 
 	return (
 		<SideDialog
+			id="TransactionDetailsDialog"
 			open={props.open}
 			onClose={props.onClose}
 			title="Transaction Details"
@@ -122,63 +127,80 @@ export const TransactionDetailsDialog = (props: Props) => {
 			data-testid="transaction-details-dialog"
 		>
 			<div className="TransactionDetailsDialog">
-				<div className="Flags">
-					<DuplicateIcon transaction={transactionValues} />
-					<NotConfirmedIcon transaction={watchedTransaction} />
-					<NotCategorizedIcon transaction={watchedTransaction} />
-					<PossibleRefundIcon transaction={transactionValues} />
-				</div>
-				<hr />
-				<div className="Info">
-					<div className="InfoRow">
-						<DatePicker
-							control={control}
-							name="expenseDate"
-							label="Expense Date"
-							rules={{ required: 'Expense Date is required' }}
-						/>
-					</div>
-					<div className="InfoRow">
-						<TextField
-							control={control}
-							name="amount"
-							label="Amount ($)"
-							rules={{
-								required: 'Amount is required',
-								validate: (value: unknown) =>
-									/^0\.00$/.test(`${value}`)
-										? 'Must provide amount'
-										: undefined
-							}}
-							onBlurTransform={formatAmountValue}
-						/>
-					</div>
-					<div className="InfoRow">
-						<TextField
-							control={control}
-							name="description"
-							label="Description"
-							multiline
-							rules={{ required: 'Description is required' }}
-						/>
-					</div>
-				</div>
-				<hr />
-				<div className={controlsClassName}>
-					{isEditExisting && (
-						<Checkbox
-							testId="confirm-transaction-checkbox"
-							control={control}
-							className={
-								transactionValues.confirmed ? 'invisible' : ''
-							}
-							name="confirmed"
-							label="Confirmed"
-							labelPlacement="end"
-						/>
-					)}
-					{CategoryComponent}
-				</div>
+				{transactionValues.isLoading && <Spinner />}
+				{!transactionValues.isLoading && (
+					<>
+						<div className="Flags">
+							<DuplicateIcon transaction={transactionValues} />
+							<NotConfirmedIcon
+								transaction={watchedTransaction}
+							/>
+							<NotCategorizedIcon
+								transaction={watchedTransaction}
+							/>
+							<PossibleRefundIcon
+								transaction={transactionValues}
+							/>
+						</div>
+						<hr />
+						<div className="Info">
+							<div className="InfoRow">
+								<DatePicker
+									control={control}
+									name="expenseDate"
+									label="Expense Date"
+									rules={{
+										required: 'Expense Date is required'
+									}}
+								/>
+							</div>
+							<div className="InfoRow">
+								<TextField
+									control={control}
+									name="amount"
+									label="Amount ($)"
+									rules={{
+										required: 'Amount is required',
+										validate: (value: unknown) =>
+											/^0\.00$/.test(`${value}`)
+												? 'Must provide amount'
+												: undefined
+									}}
+									onBlurTransform={formatAmountValue}
+								/>
+							</div>
+							<div className="InfoRow">
+								<TextField
+									control={control}
+									name="description"
+									label="Description"
+									multiline
+									rules={{
+										required: 'Description is required'
+									}}
+								/>
+							</div>
+						</div>
+						<hr />
+						<div className={controlsClassName}>
+							{isEditExisting && (
+								<Checkbox
+									testId="confirm-transaction-checkbox"
+									control={control}
+									className={
+										transactionValues.confirmed
+											? 'invisible'
+											: ''
+									}
+									name="confirmed"
+									label="Confirmed"
+									labelPlacement="end"
+								/>
+							)}
+							{CategoryComponent}
+						</div>
+					</>
+				)}
 				<hr />
 				{transactionValues.id !== '' && transactionValues.duplicate && (
 					<TransactionDetailsDuplicatePanel

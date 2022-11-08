@@ -39,7 +39,9 @@ export const Table = (props: PropsWithChildren<Props>) => (
 	<div className="AppTable" data-testid={props['data-testid']}>
 		<TableContainer component={Paper}>
 			{!props.loading && (
-				<div className="ActionWrapper">{props.aboveTableActions}</div>
+				<div className="ActionWrapper AboveTableActionWrapper">
+					{props.aboveTableActions}
+				</div>
 			)}
 			<MuiTable>
 				<TableHead>
@@ -73,7 +75,9 @@ export const Table = (props: PropsWithChildren<Props>) => (
 			</MuiTable>
 			{props.loading && <LinearProgress data-testid="table-loading" />}
 			{!props.loading && (
-				<div className="ActionWrapper">{props.belowTableActions}</div>
+				<div className="ActionWrapper BelowTableActionWrapper">
+					{props.belowTableActions}
+				</div>
 			)}
 		</TableContainer>
 	</div>

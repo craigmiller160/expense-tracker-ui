@@ -1,0 +1,18 @@
+{
+  "unconfirmed": {
+    "count": 78,
+    "oldest": "2022-08-25"
+  },
+  "uncategorized": {
+    "count": 78,
+    "oldest": "2022-08-25"
+  },
+  "duplicate": {
+    "count": 2,
+    "oldest": "2022-11-08"
+  },
+  "possibleRefund": {
+    "count": 2,
+    "oldest": "2022-10-07"
+  }
+}

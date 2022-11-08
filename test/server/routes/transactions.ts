@@ -10,9 +10,9 @@ import {
 	TransactionResponse,
 	UpdateTransactionDetailsRequest,
 	UpdateTransactionsRequest,
-	CategoryResponse
+	CategoryResponse,
+	TransactionDetailsResponse
 } from '../../../src/types/generated/expense-tracker';
-import { TransactionDetailsResponse } from '../../../src/types/transactions';
 import * as RArray from 'fp-ts/es6/ReadonlyArray';
 import { pipe } from 'fp-ts/es6/function';
 import { match } from 'ts-pattern';
@@ -359,6 +359,13 @@ export const createTransactionsRoutes = (
 			};
 		});
 		return database.data.transactions[id];
+	});
+
+	server.get('/transactions/:transactionId/details', (schema, request) => {
+		const transactionId = request.params.transactionId as string;
+		return Object.values(database.data.transactions).filter(
+			(txn) => txn.id === transactionId
+		)[0];
 	});
 
 	server.get('/transactions/:transactionId/duplicates', (schema, request) => {

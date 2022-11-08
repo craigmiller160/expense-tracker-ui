@@ -1,5 +1,5 @@
 import { mountApp } from './testutils/mountApp';
-import { getAllCategories } from './testutils/apis/categories';
+import { categoriesApi } from './testutils/apis/categories';
 import { orderedAuthorizedNavbarItems } from './testutils/constants/navbar';
 import { navbarPage } from './testutils/pages/navbar';
 import { welcomePage } from './testutils/pages/welcome';
@@ -16,7 +16,7 @@ describe('Authorization.cy.tsx', () => {
 	});
 
 	it('The app displays in an authorized state', () => {
-		getAllCategories();
+		categoriesApi.getAllCategories();
 		mountApp({
 			initialRoute: '/expense-tracker/categories'
 		});

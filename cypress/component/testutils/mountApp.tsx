@@ -1,9 +1,6 @@
 import Chainable = Cypress.Chainable;
 import { match, P } from 'ts-pattern';
-import {
-	getAuthUser_isAuthorized,
-	getAuthUser_isNotAuthorized
-} from './apis/oauth';
+import { oauthApi } from './apis/oauth';
 import { App } from '../../../src/components/App';
 import { MemoryRouter } from 'react-router-dom';
 
@@ -30,9 +27,9 @@ const handleViewport = (config?: Partial<MountConfig>): Chainable<null> =>
 		.otherwise(desktopViewport);
 const handleIsAuthorized = (config?: Partial<MountConfig>): Chainable<null> =>
 	match(config)
-		.with(undefined, getAuthUser_isAuthorized)
-		.with({ isAuthorized: false }, getAuthUser_isNotAuthorized)
-		.otherwise(getAuthUser_isAuthorized);
+		.with(undefined, oauthApi.getAuthUser_isAuthorized)
+		.with({ isAuthorized: false }, oauthApi.getAuthUser_isNotAuthorized)
+		.otherwise(oauthApi.getAuthUser_isAuthorized);
 const getInitialEntries = (config?: Partial<MountConfig>): string[] =>
 	match(config)
 		.with(undefined, () => ['/expense-tracker'])

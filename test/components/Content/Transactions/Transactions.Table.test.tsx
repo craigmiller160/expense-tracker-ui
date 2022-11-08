@@ -536,34 +536,4 @@ describe('Transactions Table', () => {
 		await userEvent.click(screen.getByText('Reset'));
 		validateCheckboxes(false);
 	});
-
-	it('can reset in-progress changes on transactions', async () => {
-		// TODO delete this
-		await renderApp({
-			initialPath: '/expense-tracker/transactions'
-		});
-		await waitForVisibility([
-			{ text: 'Expense Tracker' },
-			{ text: 'Manage Transactions', occurs: 2, timeout: 3000 },
-			{ text: 'Rows per page:' }
-		]);
-
-		await userEvent.click(screen.getAllByLabelText('Category')[2]);
-		expect(screen.queryByText('Groceries')).toBeVisible();
-		await userEvent.click(screen.getByText('Groceries'));
-		expect(screen.getAllByLabelText('Category')[2]).toHaveValue(
-			'Groceries'
-		);
-
-		const firstRow = screen.getAllByTestId('transaction-table-row')[0];
-		const confirmCheckbox = within(firstRow).getByTestId(
-			'confirm-transaction-checkbox'
-		);
-		await userEvent.click(confirmCheckbox);
-		expect(confirmCheckbox.querySelector('input')).toBeChecked();
-
-		await userEvent.click(screen.getByText('Reset'));
-		expect(screen.getAllByLabelText('Category')[2]).toHaveValue('');
-		expect(confirmCheckbox.querySelector('input')).not.toBeChecked();
-	});
 });

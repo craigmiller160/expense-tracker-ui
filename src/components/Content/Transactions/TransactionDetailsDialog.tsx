@@ -114,6 +114,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 
 	return (
 		<SideDialog
+			id="TransactionDetailsDialog"
 			open={props.open}
 			onClose={props.onClose}
 			title="Transaction Details"

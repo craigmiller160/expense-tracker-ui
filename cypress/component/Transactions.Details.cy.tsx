@@ -1,6 +1,7 @@
 import { mountApp } from './testutils/mountApp';
 import { transactionsApi } from './testutils/apis/transactions';
 import { allTransactions } from './testutils/constants/transactions';
+import { transactionsListPage } from './testutils/pages/transactionsList';
 
 describe('Transaction Details Dialog', () => {
 	it('input field validation rules work', () => {
@@ -17,6 +18,8 @@ describe('Transaction Details Dialog', () => {
 		mountApp({
 			initialRoute: '/expense-tracker/transactions'
 		});
+
+		transactionsListPage.getDetailsButtons().eq(0).click();
 		// TODO finish this
 	});
 });

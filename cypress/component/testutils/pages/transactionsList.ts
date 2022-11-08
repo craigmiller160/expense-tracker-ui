@@ -5,7 +5,7 @@ const getDetailsButtons = (): Chainable<JQuery> =>
 	cy.get('.ManageTransactions table .DetailsButton');
 const getConfirmCheckboxes = (): Chainable<JQuery> =>
 	cy.get(
-		'.ManageTransactions table [data-testid="confirm-transaction-checkbox"]'
+		'.ManageTransactions table [data-testid="confirm-transaction-checkbox"] input'
 	);
 const getCategorySelects = (): Chainable<JQuery> =>
 	cy.get('.ManageTransactions table .CategoryCell input');

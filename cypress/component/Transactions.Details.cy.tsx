@@ -1,11 +1,18 @@
 import { mountApp } from './testutils/mountApp';
 import { transactionsApi } from './testutils/apis/transactions';
-import { allTransactions } from './testutils/constants/transactions';
+import {
+	allTransactions,
+	transactionDetails
+} from './testutils/constants/transactions';
 import { transactionsListPage } from './testutils/pages/transactionsList';
 import { transactionDetailsPage } from './testutils/pages/transactionDetails';
 import { TransactionDetailsResponse } from '../../src/types/generated/expense-tracker';
 import { categoriesApi } from './testutils/apis/categories';
 import Chainable = Cypress.Chainable;
+import {
+	serverDateTimeToDisplayDateTime,
+	serverDateToDisplayDate
+} from '../../src/utils/dateTimeUtils';
 
 const testValidationRule = (
 	input: Chainable<JQuery>,
@@ -61,8 +68,48 @@ describe('Transaction Details Dialog', () => {
 	});
 
 	it('shows current transaction information for unconfirmed and uncategorized', () => {
-		// TODO include timestamps
-		throw new Error();
+		const transactionId = allTransactions.transactions[0].id;
+		categoriesApi.getAllCategories();
+		transactionsApi.getNeedsAttention();
+		transactionsApi.searchForTransactions();
+		transactionsApi.createTransaction();
+		transactionsApi.getTransactionDetails(transactionId);
+		mountApp({
+			initialRoute: '/expense-tracker/transactions'
+		});
+
+		transactionsListPage.getDetailsButtons().eq(0).click();
+		transactionDetailsPage
+			.getExpenseDateInput()
+			.should(
+				'have.value',
+				serverDateToDisplayDate(transactionDetails.expenseDate)
+			);
+		transactionDetailsPage
+			.getAmountInput()
+			.should('have.value', transactionDetails.amount);
+		transactionDetailsPage
+			.getDescriptionInput()
+			.should('have.value', transactionDetails.description);
+
+		transactionDetailsPage
+			.getCreatedTimestamp()
+			.contains(
+				`Created: ${serverDateTimeToDisplayDateTime(
+					transactionDetails.created
+				)}`
+			);
+		transactionDetailsPage
+			.getUpdatedTimestamp()
+			.contains(
+				`Updated: ${serverDateTimeToDisplayDateTime(
+					transactionDetails.updated
+				)}`
+			);
+
+		transactionDetailsPage.getDuplicateTitle().should('not.exist');
+		transactionDetailsPage.getSaveButton().should('be.disabled');
+		transactionDetailsPage.getDeleteButton().should('not.be.disabled');
 	});
 
 	it('shows current transaction information for confirmed and categorized', () => {

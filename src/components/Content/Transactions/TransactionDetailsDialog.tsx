@@ -206,10 +206,12 @@ export const TransactionDetailsDialog = (props: Props) => {
 								<hr />
 								<div className={controlsAndTimestampsClassName}>
 									<span className="center">
-										<strong>Created:</strong>
+										<strong>Created: </strong>
+										{transactionValues.created}
 									</span>
 									<span className="center">
-										<strong>Updated:</strong>
+										<strong>Updated: </strong>
+										{transactionValues.updated}
 									</span>
 								</div>
 							</>

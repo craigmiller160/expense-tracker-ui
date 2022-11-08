@@ -27,6 +27,8 @@ export type TransactionValues = {
 	readonly description: string;
 	readonly amount: number;
 	readonly isLoading: boolean;
+	readonly created: string;
+	readonly updated: string;
 };
 
 export type TransactionDetailsDialogData = {
@@ -42,7 +44,9 @@ const DEFAULT_TXN_VALUES: TransactionValues = {
 	expenseDate: '',
 	description: '',
 	amount: 0,
-	isLoading: false
+	isLoading: false,
+	created: '',
+	updated: ''
 };
 
 const useValuesFromSelectedTransaction = (

@@ -14,18 +14,15 @@ import {
 	defaultStartDate
 } from '../../../../src/components/Content/Transactions/utils';
 import { apiServer } from '../../../server';
-import { getAllCategories } from '../../../../src/ajaxapi/service/CategoryService';
 import { materialUiSelect } from '../../../testutils/dom-actions/material-ui-select';
 import { transactionIcon } from '../../../testutils/dom-actions/transaction-icon';
 import { waitForVisibility } from '../../../testutils/dom-actions/wait-for-visibility';
 import '@relmify/jest-fp-ts';
-import { materialUiCheckbox } from '../../../testutils/dom-actions/material-ui-checkbox';
 import { pipe } from 'fp-ts/es6/function';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 import {
 	formatServerDateTime,
-	serverDateTimeToDisplayDateTime,
-	serverDateToDisplayDate
+	serverDateTimeToDisplayDateTime
 } from '../../../../src/utils/dateTimeUtils';
 
 const createTimestamp = (numDates: number): string =>
@@ -47,131 +44,6 @@ const testButton =
 	};
 
 describe('Transaction Details Dialog', () => {
-	it('shows current transaction information for unconfirmed and uncategorized', async () => {
-		// TODO delete this
-		await renderApp({
-			initialPath: '/expense-tracker/transactions'
-		});
-		await waitForVisibility([
-			{ text: 'Expense Tracker' },
-			{ text: 'Manage Transactions', occurs: 2 },
-			{ text: 'Rows per page:' }
-		]);
-
-		const {
-			transactions: [transaction]
-		} = await searchForTransactions({
-			startDate: defaultStartDate(),
-			endDate: defaultEndDate(),
-			pageNumber: 0,
-			pageSize: 25,
-			sortKey: TransactionSortKey.EXPENSE_DATE,
-			sortDirection: SortDirection.DESC
-		});
-
-		const row = screen.getAllByTestId('transaction-table-row')[0];
-		const detailsButton = within(row).getByText('Details');
-		await userEvent.click(detailsButton);
-
-		const transactionDialog = screen.getByTestId(
-			'transaction-details-dialog'
-		);
-		await waitFor(() =>
-			expect(
-				within(transactionDialog).getByLabelText('Expense Date')
-			).toHaveValue(serverDateToDisplayDate(transaction.expenseDate))
-		);
-		expect(
-			within(transactionDialog).getByLabelText('Amount ($)')
-		).toHaveValue(transaction.amount.toFixed(2));
-		expect(
-			within(transactionDialog).getByLabelText('Description')
-		).toHaveValue(transaction.description);
-
-		transactionIcon('duplicate-icon', transactionDialog).isNotVisible();
-		transactionIcon('not-confirmed-icon', transactionDialog).isVisible();
-		transactionIcon('no-category-icon', transactionDialog).isVisible();
-
-		expect(
-			within(transactionDialog).queryByText('All Duplicates')
-		).not.toBeInTheDocument();
-
-		expect(within(transactionDialog).getByText('Save')).toBeDisabled();
-
-		await materialUiCheckbox({
-			selector: 'confirm-transaction-checkbox',
-			type: 'testid',
-			root: transactionDialog
-		}).isNotChecked();
-
-		await materialUiSelect('Category', transactionDialog).hasValue('');
-	});
-
-	it('shows current transaction information for confirmed & categorized', async () => {
-		// TODO delete this
-		const {
-			transactions: [transaction]
-		} = await searchForTransactions({
-			startDate: defaultStartDate(),
-			endDate: defaultEndDate(),
-			pageNumber: 0,
-			pageSize: 25,
-			sortKey: TransactionSortKey.EXPENSE_DATE,
-			sortDirection: SortDirection.DESC
-		});
-		const [category] = await getAllCategories();
-		apiServer.database.updateData((data) => {
-			data.transactions[transaction.id].confirmed = true;
-			data.transactions[transaction.id].categoryId = category.id;
-			data.transactions[transaction.id].categoryName = category.name;
-		});
-
-		await renderApp({
-			initialPath: '/expense-tracker/transactions'
-		});
-		await waitForVisibility([
-			{ text: 'Expense Tracker' },
-			{ text: 'Manage Transactions', occurs: 2, timeout: 3000 },
-			{ text: 'Rows per page:' }
-		]);
-
-		const row = screen.getAllByTestId('transaction-table-row')[0];
-		const detailsButton = within(row).getByText('Details');
-		await userEvent.click(detailsButton);
-
-		const transactionDialog = screen.getByTestId(
-			'transaction-details-dialog'
-		);
-		await waitFor(() =>
-			expect(
-				within(transactionDialog).getByLabelText('Expense Date')
-			).toHaveValue(serverDateToDisplayDate(transaction.expenseDate))
-		);
-		expect(
-			within(transactionDialog).getByLabelText('Amount ($)')
-		).toHaveValue(transaction.amount.toFixed(2));
-		expect(
-			within(transactionDialog).getByLabelText('Description')
-		).toHaveValue(transaction.description);
-
-		transactionIcon('duplicate-icon', transactionDialog).isNotVisible();
-		transactionIcon('not-confirmed-icon', transactionDialog).isNotVisible();
-		transactionIcon('no-category-icon', transactionDialog).isNotVisible();
-
-		expect(within(transactionDialog).getByText('Save')).toBeDisabled();
-
-		const checkbox = materialUiCheckbox({
-			selector: 'confirm-transaction-checkbox',
-			type: 'testid',
-			root: transactionDialog
-		});
-		await checkbox.isChecked();
-
-		await materialUiSelect('Category', transactionDialog).hasValue(
-			category.name
-		);
-	});
-
 	it('can categorize transaction', async () => {
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'

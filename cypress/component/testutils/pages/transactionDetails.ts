@@ -1,4 +1,6 @@
 import Chainable = Cypress.Chainable;
+import { pipe } from 'fp-ts/es6/function';
+import { getInputForLabel } from './utils';
 
 const getHeaderTitle = (): Chainable<JQuery> =>
 	cy.get('#TransactionDetailsDialog-header .MuiToolbar-root h6');
@@ -13,11 +15,15 @@ const getDeleteButton = (): Chainable<JQuery> =>
 const getConfirmCheckboxLabel = (): Chainable<JQuery> =>
 	cy.get('#TransactionDetailsDialog-body .Controls label:nth-of-type(1)');
 const getConfirmCheckboxInput = (): Chainable<JQuery> =>
-	getConfirmCheckboxLabel()
-		.invoke('attr', 'for')
-		.then((forValue) => cy.get(`[id="${forValue}"]`));
+	pipe(getConfirmCheckboxLabel(), getInputForLabel);
 const getCategorySelectLabel = (): Chainable<JQuery> =>
 	cy.get('#TransactionDetailsDialog-body .Controls label:nth-of-type(2)');
+const getExpenseDateLabel = (): Chainable<JQuery> =>
+	cy.get('#TransactionDetailsDialog-body .Info label:nth-of-type(1)');
+const getAmountLabel = (): Chainable<JQuery> =>
+	cy.get('#TransactionDetailsDialog-body .Info label:nth-of-type(2)');
+const getDescriptionLabel = (): Chainable<JQuery> =>
+	cy.get('#TransactionDetailsDialog-body .Info label:nth-of-type(3)');
 
 export const transactionDetailsPage = {
 	getHeaderTitle,
@@ -27,5 +33,8 @@ export const transactionDetailsPage = {
 	getDeleteButton,
 	getConfirmCheckboxLabel,
 	getCategorySelectLabel,
-	getConfirmCheckboxInput
+	getConfirmCheckboxInput,
+	getExpenseDateLabel,
+	getAmountLabel,
+	getDescriptionLabel
 };

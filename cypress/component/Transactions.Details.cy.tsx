@@ -40,6 +40,8 @@ describe('Transaction Details Dialog', () => {
 		transactionDetailsPage.getPossibleRefundIcon().should('not.be.visible');
 		transactionDetailsPage.getSaveButton().should('be.disabled');
 		transactionDetailsPage.getDeleteButton().should('not.exist');
+		transactionDetailsPage.getCreatedTimestamp().should('not.exist');
+		transactionDetailsPage.getUpdatedTimestamp().should('not.exist');
 
 		transactionDetailsPage.getExpenseDateInput().type('01/01/2022');
 		transactionDetailsPage.getAmountInput().clear().type('-10.00');
@@ -56,8 +58,6 @@ describe('Transaction Details Dialog', () => {
 				expenseDate: '2022-01-01'
 			});
 		});
-
-		// TODO make sure timestamps don't appear
 	});
 
 	it('shows current transaction information for unconfirmed and uncategorized', () => {

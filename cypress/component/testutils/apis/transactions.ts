@@ -58,6 +58,8 @@ const createTransaction = (): Chainable<null> =>
 			statusCode: 204
 		})
 		.as('createTransaction');
+const getPossibleDuplicates = (id: string): Chainable<null> =>
+	cy.intercept(`/expense-tracker/api/transactions/${id}/duplicates?*`);
 
 export const transactionsApi = {
 	searchForTransactions,
@@ -66,5 +68,6 @@ export const transactionsApi = {
 	getNeedsAttention,
 	createTransaction,
 	getTransactionDetails_confirmedAndCategorized,
-	getTransactionDetails_possibleRefund
+	getTransactionDetails_possibleRefund,
+	getPossibleDuplicates
 };

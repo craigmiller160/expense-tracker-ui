@@ -257,6 +257,7 @@ describe('Transaction Details Dialog', () => {
 	it('shows current transaction information for duplicates', () => {
 		// TODO include timestamps
 		// TODO include one duplicate with a category and one without
+		// TODO include validation of pagination query params
 		throw new Error();
 	});
 

@@ -59,7 +59,36 @@ describe('Transaction Details Dialog', () => {
 	});
 
 	it('can update transaction information', () => {
-		throw new Error();
+		const transactionId = allTransactions.transactions[0].id;
+		categoriesApi.getAllCategories();
+		transactionsApi.getNeedsAttention();
+		transactionsApi.searchForTransactions();
+		transactionsApi.getTransactionDetails(transactionId);
+		mountApp({
+			initialRoute: '/expense-tracker/transactions'
+		});
+
+		transactionsListPage.getDetailsButtons().eq(0).click();
+		transactionDetailsPage.getSaveButton().should('be.disabled');
+		transactionDetailsPage.getDeleteButton().should('be.visible');
+		transactionDetailsPage.getExpenseDateInput().clear().type('01/01/2022');
+		transactionDetailsPage.getAmountInput().clear().type('-10.00');
+		transactionDetailsPage
+			.getDescriptionInput()
+			.clear()
+			.type('Hello World');
+		transactionDetailsPage.getSaveButton().click();
+		transactionDetailsPage.getHeaderTitle().should('not.be.visible');
+
+		cy.wait(`@updateTransactionDetails_${transactionId}`).then((xhr) => {
+			expect(xhr.request.body).to.eql({
+				amount: -10,
+				expenseDate: '2022-01-01',
+				description: 'Hello World',
+				transactionId,
+				confirmed: false
+			});
+		});
 	});
 
 	it('input field validation rules work', () => {

@@ -313,6 +313,9 @@ describe('Transaction Details Dialog', () => {
 		transactionDetailsPage.getDeleteButton().should('not.be.disabled');
 
 		transactionDetailsPage.getDuplicateTitle().should('be.visible');
+		transactionDetailsPage
+			.getDuplicateCreatedTimestamps()
+			.should('have.length', 2);
 
 		// TODO include timestamps
 		// TODO include one duplicate with a category and one without

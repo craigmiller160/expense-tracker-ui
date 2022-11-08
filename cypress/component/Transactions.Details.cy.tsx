@@ -9,16 +9,16 @@ import Chainable = Cypress.Chainable;
 
 const testValidationRule = (
 	input: Chainable<JQuery>,
-	helperText: Chainable<JQuery>,
+	getHelperText: () => Chainable<JQuery>,
 	errorMessage: string,
 	updatedValue: string
 ) => {
 	input.clear();
 	transactionDetailsPage.getSaveButton().should('be.disabled');
-	helperText.contains(errorMessage);
+	getHelperText().contains(errorMessage);
 
 	input.type(updatedValue);
-	helperText.should('not.be.visible');
+	getHelperText().should('not.exist');
 	transactionDetailsPage.getSaveButton().should('not.be.disabled');
 };
 
@@ -36,7 +36,7 @@ describe('Transaction Details Dialog', () => {
 		transactionsListPage.getDetailsButtons().eq(0).click();
 		testValidationRule(
 			transactionDetailsPage.getAmountInput(),
-			transactionDetailsPage.getAmountInputHelperText(),
+			transactionDetailsPage.getAmountInputHelperText,
 			'Amount is required',
 			'-10.00'
 		);

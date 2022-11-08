@@ -43,8 +43,10 @@ describe('Transaction Details Dialog', () => {
 					.wait(`@updateTransactionDetails_${transactionId}`)
 					.then((xhr) => {
 						expect(xhr.request.body).to.eql({
-							...fixture,
-							id: transactionId,
+							amount: fixture.amount,
+							expenseDate: fixture.expenseDate,
+							description: fixture.description,
+							transactionId,
 							confirmed: true
 						});
 					})

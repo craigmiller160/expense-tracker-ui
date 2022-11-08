@@ -114,7 +114,9 @@ export const TransactionDetailsDialog = (props: Props) => {
 	const watchedTransaction = watch();
 
 	const isAtMaxSm = useIsAtMaxBreakpoint('md');
-	const controlsClassName = `Controls ${isAtMaxSm ? 'small' : ''}`;
+	const controlsAndTimestampsClassName = `Controls ${
+		isAtMaxSm ? 'small' : ''
+	}`;
 
 	return (
 		<SideDialog
@@ -182,7 +184,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 							</div>
 						</div>
 						<hr />
-						<div className={controlsClassName}>
+						<div className={controlsAndTimestampsClassName}>
 							{isEditExisting && (
 								<Checkbox
 									testId="confirm-transaction-checkbox"
@@ -199,6 +201,19 @@ export const TransactionDetailsDialog = (props: Props) => {
 							)}
 							{CategoryComponent}
 						</div>
+						{isEditExisting && (
+							<>
+								<hr />
+								<div className={controlsAndTimestampsClassName}>
+									<span className="center">
+										<strong>Created:</strong>
+									</span>
+									<span className="center">
+										<strong>Updated:</strong>
+									</span>
+								</div>
+							</>
+						)}
 					</>
 				)}
 				<hr />

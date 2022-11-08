@@ -221,6 +221,7 @@ describe('Transaction Details Dialog', () => {
 	});
 
 	it('shows the icon for possible refund transactions', async () => {
+		// TODO delete this
 		const {
 			transactions: [transaction]
 		} = await searchForTransactions({
@@ -358,6 +359,7 @@ describe('Transaction Details Dialog', () => {
 	});
 
 	it('shows all possible duplicates for transaction', async () => {
+		// TODO delete this
 		const { transactions } = await searchForTransactions({
 			startDate: defaultStartDate(),
 			endDate: defaultEndDate(),

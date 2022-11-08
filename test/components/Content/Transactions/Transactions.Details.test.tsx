@@ -236,59 +236,6 @@ describe('Transaction Details Dialog', () => {
 		);
 	});
 
-	it('can confirm transaction', async () => {
-		// TODO delete this test if successfully transferred to cypress
-		await renderApp({
-			initialPath: '/expense-tracker/transactions'
-		});
-		await waitForVisibility([
-			{ text: 'Expense Tracker' },
-			{ text: 'Manage Transactions', occurs: 2, timeout: 3000 },
-			{ text: 'Rows per page:' }
-		]);
-
-		const row = screen.getAllByTestId('transaction-table-row')[0];
-		const detailsButton = within(row).getByText('Details');
-		await userEvent.click(detailsButton);
-
-		expect(
-			within(row).queryByTestId('confirm-transaction-checkbox')
-		).toBeInTheDocument();
-
-		const transactionDialog = screen.getByTestId(
-			'transaction-details-dialog'
-		);
-
-		await waitFor(() =>
-			expect(
-				within(transactionDialog).getByLabelText('Expense Date')
-			).toBeVisible()
-		);
-
-		const checkbox = materialUiCheckbox({
-			selector: 'confirm-transaction-checkbox',
-			type: 'testid',
-			root: transactionDialog
-		});
-		checkbox.click();
-		await checkbox.isChecked();
-		transactionIcon('not-confirmed-icon', transactionDialog).isNotVisible();
-
-		await userEvent.click(within(transactionDialog).getByText('Save'));
-
-		await waitForElementToBeRemoved(() =>
-			screen.queryByTestId('transaction-details-dialog')
-		);
-		await waitFor(() =>
-			expect(screen.getAllByTestId('transaction-table-row')).toHaveLength(
-				25
-			)
-		);
-		expect(
-			within(row).queryByTestId('confirm-transaction-checkbox')
-		).not.toBeInTheDocument();
-	});
-
 	it('adds a new transaction', async () => {
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'

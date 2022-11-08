@@ -13,20 +13,10 @@ import {
 	defaultEndDate,
 	defaultStartDate
 } from '../../../../src/components/Content/Transactions/utils';
-import { apiServer } from '../../../server';
 import { materialUiSelect } from '../../../testutils/dom-actions/material-ui-select';
 import { transactionIcon } from '../../../testutils/dom-actions/transaction-icon';
 import { waitForVisibility } from '../../../testutils/dom-actions/wait-for-visibility';
 import '@relmify/jest-fp-ts';
-import { pipe } from 'fp-ts/es6/function';
-import * as Time from '@craigmiller160/ts-functions/es/Time';
-import {
-	formatServerDateTime,
-	serverDateTimeToDisplayDateTime
-} from '../../../../src/utils/dateTimeUtils';
-
-const createTimestamp = (numDates: number): string =>
-	pipe(new Date(), Time.subDays(numDates), formatServerDateTime);
 
 const testButton =
 	(isDisabled: boolean) => (detailsButton: HTMLElement, index: number) => {
@@ -89,64 +79,6 @@ describe('Transaction Details Dialog', () => {
 		)[0];
 		await materialUiSelect('Category', rowAfterReload).hasValue(
 			'Groceries'
-		);
-	});
-
-	it('shows the icon for possible refund transactions', async () => {
-		// TODO delete this
-		const {
-			transactions: [transaction]
-		} = await searchForTransactions({
-			startDate: defaultStartDate(),
-			endDate: defaultEndDate(),
-			pageNumber: 0,
-			pageSize: 25,
-			sortKey: TransactionSortKey.EXPENSE_DATE,
-			sortDirection: SortDirection.DESC
-		});
-		apiServer.database.updateData((draft) => {
-			draft.transactions[transaction.id].amount = transaction.amount * -1;
-		});
-
-		await renderApp({
-			initialPath: '/expense-tracker/transactions'
-		});
-		await waitForVisibility([
-			{ text: 'Expense Tracker' },
-			{ text: 'Manage Transactions', occurs: 2, timeout: 3000 },
-			{ text: 'Rows per page:' }
-		]);
-
-		const allRows = screen.getAllByTestId('transaction-table-row');
-
-		const detailsButton1 = within(allRows[0]).getByText('Details');
-		await userEvent.click(detailsButton1);
-		const transactionDialog1 = screen.getByTestId(
-			'transaction-details-dialog'
-		);
-
-		await waitFor(() =>
-			expect(
-				within(transactionDialog1).getByLabelText('Expense Date')
-			).toBeVisible()
-		);
-
-		transactionIcon('possible-refund-icon', transactionDialog1).isVisible();
-
-		await userEvent.click(
-			within(transactionDialog1).getByTestId('CloseIcon')
-		);
-
-		const detailsButton2 = within(allRows[1]).getByText('Details');
-		await userEvent.click(detailsButton2);
-		const transactionDialog2 = screen.getByTestId(
-			'transaction-details-dialog'
-		);
-		await waitFor(() =>
-			transactionIcon(
-				'possible-refund-icon',
-				transactionDialog2
-			).isNotVisible()
 		);
 	});
 
@@ -228,69 +160,5 @@ describe('Transaction Details Dialog', () => {
 		expect(confirmCheckbox.querySelector('input')).toBeChecked();
 
 		detailsButtons.forEach(testButton(true));
-	});
-
-	it('shows all possible duplicates for transaction', async () => {
-		// TODO delete this
-		const { transactions } = await searchForTransactions({
-			startDate: defaultStartDate(),
-			endDate: defaultEndDate(),
-			pageNumber: 0,
-			pageSize: 25,
-			sortKey: TransactionSortKey.EXPENSE_DATE,
-			sortDirection: SortDirection.DESC
-		});
-		const date1 = createTimestamp(1);
-		const date2 = createTimestamp(2);
-		apiServer.database.updateData((draft) => {
-			draft.transactions[transactions[0].id] = {
-				...transactions[0],
-				duplicate: true,
-				created: date1,
-				updated: date1
-			};
-			draft.transactions[transactions[1].id] = {
-				...transactions[0],
-				id: transactions[1].id,
-				duplicate: true,
-				updated: date2,
-				created: date2
-			};
-		});
-
-		await renderApp({
-			initialPath: '/expense-tracker/transactions'
-		});
-		await waitForVisibility([
-			{ text: 'Expense Tracker' },
-			{ text: 'Manage Transactions', occurs: 2, timeout: 3000 },
-			{ text: 'Rows per page:' }
-		]);
-
-		const row = screen.getAllByTestId('transaction-table-row')[0];
-		const detailsButton = within(row).getByText('Details');
-		await userEvent.click(detailsButton);
-
-		const transactionDialog = screen.getByTestId(
-			'transaction-details-dialog'
-		);
-
-		await waitFor(() =>
-			expect(
-				within(transactionDialog).getByLabelText('Expense Date')
-			).toBeVisible()
-		);
-
-		transactionIcon('duplicate-icon', transactionDialog).isVisible();
-
-		expect(screen.queryByText('All Duplicates')).toBeVisible();
-
-		const displayDate1 = serverDateTimeToDisplayDateTime(date1);
-		const displayDate2 = serverDateTimeToDisplayDateTime(date2);
-
-		await waitFor(() =>
-			expect(screen.queryAllByText(displayDate2)).toHaveLength(2)
-		);
-		expect(screen.queryByText(displayDate1)).not.toBeInTheDocument();
 	});
 });

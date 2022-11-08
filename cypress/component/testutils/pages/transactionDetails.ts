@@ -19,19 +19,19 @@ const getConfirmCheckboxInput = (): Chainable<JQuery> =>
 const getCategorySelectLabel = (): Chainable<JQuery> =>
 	cy.get('#TransactionDetailsDialog-body .Controls label:nth-of-type(2)');
 const getExpenseDateLabel = (): Chainable<JQuery> =>
-	cy.get('#TransactionDetailsDialog-body .Info label:nth-of-type(1)');
+	cy.get('#TransactionDetailsDialog-body .Info label').eq(0);
 const getExpenseDateInput = (): Chainable<JQuery> =>
 	pipe(getExpenseDateLabel(), getInputForLabel);
 const getExpenseDateInputHelperText = (): Chainable<JQuery> =>
 	pipe(getExpenseDateLabel(), getHelperTextForLabel);
 const getAmountLabel = (): Chainable<JQuery> =>
-	cy.get('#TransactionDetailsDialog-body .Info label:nth-of-type(2)');
+	cy.get('#TransactionDetailsDialog-body .Info label').eq(1);
 const getAmountInput = (): Chainable<JQuery> =>
 	pipe(getAmountLabel(), getInputForLabel);
 const getAmountInputHelperText = (): Chainable<JQuery> =>
 	pipe(getAmountLabel(), getHelperTextForLabel);
 const getDescriptionLabel = (): Chainable<JQuery> =>
-	cy.get('#TransactionDetailsDialog-body .Info label:nth-of-type(3)');
+	cy.get('#TransactionDetailsDialog-body .Info label').eq(2);
 const getDescriptionInput = (): Chainable<JQuery> =>
 	pipe(getDescriptionLabel(), getInputForLabel);
 const getDescriptionHelperText = (): Chainable<JQuery> =>

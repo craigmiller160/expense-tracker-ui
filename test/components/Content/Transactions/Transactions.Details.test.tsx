@@ -46,27 +46,6 @@ const testButton =
 		}
 	};
 
-const createTestFormValidation =
-	(dialog: HTMLElement) =>
-	async (labelText: string, errorMessage: string, updatedValue: string) => {
-		const formControl = within(dialog).getByLabelText(labelText);
-		const saveButton = within(dialog).getByText('Save');
-
-		await userEvent.clear(formControl);
-		expect(formControl).toHaveValue('');
-		await waitFor(() =>
-			expect(within(dialog).getByText(errorMessage)).toBeVisible()
-		);
-		expect(saveButton).toBeDisabled();
-
-		await userEvent.type(formControl, updatedValue);
-		expect(formControl).toHaveValue(updatedValue);
-		expect(
-			within(dialog).queryByText(errorMessage)
-		).not.toBeInTheDocument();
-		expect(saveButton).toBeEnabled();
-	};
-
 const createReplaceFieldValue =
 	(dialog: HTMLElement) => async (labelText: string, newValue: string) => {
 		const control = within(dialog).getByLabelText(labelText);
@@ -195,45 +174,6 @@ describe('Transaction Details Dialog', () => {
 		checkbox.isChecked();
 
 		materialUiSelect('Category', transactionDialog).hasValue(category.name);
-	});
-
-	it('input field validation rules work', async () => {
-		// TODO delete this test if properly replaced by cypress
-		await renderApp({
-			initialPath: '/expense-tracker/transactions'
-		});
-		await waitForVisibility([
-			{ text: 'Expense Tracker' },
-			{ text: 'Manage Transactions', occurs: 2, timeout: 3000 },
-			{ text: 'Rows per page:' }
-		]);
-
-		const row = screen.getAllByTestId('transaction-table-row')[0];
-		const detailsButton = within(row).getByText('Details');
-		await userEvent.click(detailsButton);
-
-		const transactionDialog = screen.getByTestId(
-			'transaction-details-dialog'
-		);
-
-		await waitFor(() =>
-			expect(
-				within(transactionDialog).getByLabelText('Expense Date')
-			).toBeVisible()
-		);
-
-		const testFormValidation = createTestFormValidation(transactionDialog);
-		await testFormValidation(
-			'Expense Date',
-			'Expense Date is required',
-			'01/01/2022'
-		);
-		await testFormValidation('Amount ($)', 'Amount is required', '10.00');
-		await testFormValidation(
-			'Description',
-			'Description is required',
-			'Hello World'
-		);
 	});
 
 	it('adds a new transaction', async () => {

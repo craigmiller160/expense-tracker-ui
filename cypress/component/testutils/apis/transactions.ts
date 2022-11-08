@@ -29,6 +29,19 @@ const getTransactionDetails_confirmedAndCategorized = (
 				categoryName: allCategories[1].name
 			})
 		);
+const getTransactionDetails_possibleRefund = (id: string): Chainable<null> =>
+	cy
+		.fixture('transactionDetails.json')
+		.then((fixture: TransactionDetailsResponse) =>
+			cy.intercept(`/expense-tracker/api/transactions/${id}/details`, {
+				...fixture,
+				id,
+				confirmed: true,
+				categoryId: allCategories[0].id,
+				categoryName: allCategories[1].name,
+				amount: 10
+			})
+		);
 const updateTransactionDetails = (id: string): Chainable<null> =>
 	cy
 		.intercept('put', `/expense-tracker/api/transactions/${id}/details`, {
@@ -52,5 +65,6 @@ export const transactionsApi = {
 	updateTransactionDetails,
 	getNeedsAttention,
 	createTransaction,
-	getTransactionDetails_confirmedAndCategorized
+	getTransactionDetails_confirmedAndCategorized,
+	getTransactionDetails_possibleRefund
 };

@@ -77,6 +77,7 @@ describe('Transaction Details Dialog', () => {
 
 	it('shows current transaction information for duplicates', () => {
 		// TODO include timestamps
+		// TODO include one duplicate with a category and one without
 		throw new Error();
 	});
 

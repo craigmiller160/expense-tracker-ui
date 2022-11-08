@@ -46,6 +46,26 @@ const getPossibleRefundIcon = (): Chainable<JQuery> =>
 	cy.get(
 		'#TransactionDetailsDialog-body [data-testid="possible-refund-icon"]'
 	);
+const getCreatedTimestamp = (): Chainable<JQuery> =>
+	cy.get('#TransactionDetailsDialog-body .Timestamps span:nth-child(1)');
+const getUpdatedTimestamp = (): Chainable<JQuery> =>
+	cy.get('#TransactionDetailsDialog-body .Timestamps span:nth-child(2)');
+const getDuplicateTitle = (): Chainable<JQuery> =>
+	cy.get('.TransactionDetailsDuplicatePanel h5');
+const getDuplicateRecords = (): Chainable<JQuery> =>
+	cy.get('.TransactionDetailsDuplicatePanel tbody tr');
+const getCreatedTimestampForDuplicateRecord = (
+	record: Chainable<JQuery>
+): Chainable<JQuery> => record.find('td').eq(0);
+const getUpdatedTimestampForDuplicateRecord = (
+	record: Chainable<JQuery>
+): Chainable<JQuery> => record.find('td').eq(1);
+const getCategoryForDuplicateRecord = (
+	record: Chainable<JQuery>
+): Chainable<JQuery> => record.find('td').eq(2);
+const getOpenButtonForDuplicateRecord = (
+	record: Chainable<JQuery>
+): Chainable<JQuery> => record.find('td').eq(3).find('button');
 
 export const transactionDetailsPage = {
 	getHeaderTitle,
@@ -68,5 +88,13 @@ export const transactionDetailsPage = {
 	getDuplicateIcon,
 	getNotCategorizedIcon,
 	getNotConfirmedIcon,
-	getPossibleRefundIcon
+	getPossibleRefundIcon,
+	getCreatedTimestamp,
+	getUpdatedTimestamp,
+	getDuplicateTitle,
+	getDuplicateRecords,
+	getCreatedTimestampForDuplicateRecord,
+	getUpdatedTimestampForDuplicateRecord,
+	getCategoryForDuplicateRecord,
+	getOpenButtonForDuplicateRecord
 };

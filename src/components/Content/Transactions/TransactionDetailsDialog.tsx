@@ -31,6 +31,7 @@ interface Props {
 	readonly onClose: () => void;
 	readonly saveTransaction: (transaction: TransactionDetailsFormData) => void;
 	readonly deleteTransaction: (id: string | null) => void;
+	readonly updateSelectedTransactionId: (id: string) => void;
 }
 
 interface DialogActionsProps {
@@ -114,7 +115,12 @@ export const TransactionDetailsDialog = (props: Props) => {
 	const watchedTransaction = watch();
 
 	const isAtMaxSm = useIsAtMaxBreakpoint('md');
-	const controlsClassName = `Controls ${isAtMaxSm ? 'small' : ''}`;
+	const controlsClassName = `Controls AdditionalSections ${
+		isAtMaxSm ? 'small' : ''
+	}`;
+	const timestampsClassName = `Timestamps AdditionalSections ${
+		isAtMaxSm ? 'small' : ''
+	}`;
 
 	return (
 		<SideDialog
@@ -199,12 +205,30 @@ export const TransactionDetailsDialog = (props: Props) => {
 							)}
 							{CategoryComponent}
 						</div>
+						{isEditExisting && (
+							<>
+								<hr />
+								<div className={timestampsClassName}>
+									<span className="center">
+										<strong>Created: </strong>
+										{transactionValues.created}
+									</span>
+									<span className="center">
+										<strong>Updated: </strong>
+										{transactionValues.updated}
+									</span>
+								</div>
+							</>
+						)}
 					</>
 				)}
 				<hr />
 				{transactionValues.id !== '' && transactionValues.duplicate && (
 					<TransactionDetailsDuplicatePanel
 						transactionId={transactionValues.id}
+						updateSelectedTransactionId={
+							props.updateSelectedTransactionId
+						}
 					/>
 				)}
 			</div>

@@ -1,5 +1,6 @@
 import Chainable = Cypress.Chainable;
 import { TransactionDetailsResponse } from '../../../../src/types/generated/expense-tracker';
+import { allCategories } from '../constants/categories';
 
 const searchForTransactions = (): Chainable<null> =>
 	cy.intercept('/expense-tracker/api/transactions?*', {
@@ -12,6 +13,47 @@ const getTransactionDetails = (id: string): Chainable<null> =>
 			cy.intercept(`/expense-tracker/api/transactions/${id}/details`, {
 				...fixture,
 				id
+			})
+		)
+		.as(`getTransactionDetails_${id}`);
+const getTransactionDetails_confirmedAndCategorized = (
+	id: string
+): Chainable<null> =>
+	cy
+		.fixture('transactionDetails.json')
+		.then((fixture: TransactionDetailsResponse) =>
+			cy.intercept(`/expense-tracker/api/transactions/${id}/details`, {
+				...fixture,
+				id,
+				confirmed: true,
+				categoryId: allCategories[0].id,
+				categoryName: allCategories[1].name
+			})
+		);
+const getTransactionDetails_possibleRefund = (id: string): Chainable<null> =>
+	cy
+		.fixture('transactionDetails.json')
+		.then((fixture: TransactionDetailsResponse) =>
+			cy.intercept(`/expense-tracker/api/transactions/${id}/details`, {
+				...fixture,
+				id,
+				confirmed: true,
+				categoryId: allCategories[0].id,
+				categoryName: allCategories[1].name,
+				amount: 10
+			})
+		);
+const getTransactionDetails_duplicate = (id: string): Chainable<null> =>
+	cy
+		.fixture('transactionDetails.json')
+		.then((fixture: TransactionDetailsResponse) =>
+			cy.intercept(`/expense-tracker/api/transactions/${id}/details`, {
+				...fixture,
+				id,
+				confirmed: true,
+				categoryId: allCategories[0].id,
+				categoryName: allCategories[1].name,
+				duplicate: true
 			})
 		);
 const updateTransactionDetails = (id: string): Chainable<null> =>
@@ -30,11 +72,21 @@ const createTransaction = (): Chainable<null> =>
 			statusCode: 204
 		})
 		.as('createTransaction');
+const getPossibleDuplicates = (id: string): Chainable<null> =>
+	cy
+		.intercept(`/expense-tracker/api/transactions/${id}/duplicates?*`, {
+			fixture: 'possibleDuplicates.json'
+		})
+		.as(`getPossibleDuplicates_${id}`);
 
 export const transactionsApi = {
 	searchForTransactions,
 	getTransactionDetails,
 	updateTransactionDetails,
 	getNeedsAttention,
-	createTransaction
+	createTransaction,
+	getTransactionDetails_confirmedAndCategorized,
+	getTransactionDetails_possibleRefund,
+	getPossibleDuplicates,
+	getTransactionDetails_duplicate
 };

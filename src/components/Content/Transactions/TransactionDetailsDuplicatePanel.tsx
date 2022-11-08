@@ -1,6 +1,6 @@
 import { useGetPossibleDuplicates } from '../../../ajaxapi/query/TransactionQueries';
 import { Table } from '../../UI/Table';
-import { TableCell, TableRow, Typography } from '@mui/material';
+import { Button, TableCell, TableRow, Typography } from '@mui/material';
 import './TransactionDetailsDuplicatePanel.scss';
 import { createTablePagination, PaginationState } from './utils';
 import { useMemo } from 'react';
@@ -9,10 +9,11 @@ import { serverDateTimeToDisplayDateTime } from '../../../utils/dateTimeUtils';
 
 type Props = {
 	readonly transactionId: string;
+	readonly updateSelectedTransactionId: (id: string) => void;
 };
 type State = PaginationState;
 
-const COLUMNS = ['Created', 'Updated', 'Category'];
+const COLUMNS = ['Created', 'Updated', 'Category', 'Actions'];
 
 export const TransactionDetailsDuplicatePanel = (props: Props) => {
 	const [state, setState] = useImmer<State>({
@@ -59,6 +60,16 @@ export const TransactionDetailsDuplicatePanel = (props: Props) => {
 							{serverDateTimeToDisplayDateTime(txn.updated)}
 						</TableCell>
 						<TableCell>{txn.categoryName}</TableCell>
+						<TableCell>
+							<Button
+								variant="contained"
+								onClick={() =>
+									props.updateSelectedTransactionId(txn.id)
+								}
+							>
+								Open
+							</Button>
+						</TableCell>
 					</TableRow>
 				))}
 			</Table>

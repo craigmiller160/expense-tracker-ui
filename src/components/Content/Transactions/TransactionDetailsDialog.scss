@@ -39,7 +39,7 @@
     }
   }
 
-  .Controls {
+  .AdditionalSections {
     @include Section;
     display: flex;
     &:not(.small) {
@@ -64,6 +64,10 @@
         visibility: hidden;
       }
     }
+  }
+
+  .center {
+    text-align: center;
   }
 }
 

@@ -1,10 +1,18 @@
 import { mountApp } from './testutils/mountApp';
 import { transactionsApi } from './testutils/apis/transactions';
-import { allTransactions } from './testutils/constants/transactions';
+import {
+	allTransactions,
+	possibleDuplicates,
+	transactionDetails
+} from './testutils/constants/transactions';
 import { transactionsListPage } from './testutils/pages/transactionsList';
 import { transactionDetailsPage } from './testutils/pages/transactionDetails';
 import { TransactionDetailsResponse } from '../../src/types/generated/expense-tracker';
 import { categoriesApi } from './testutils/apis/categories';
+import {
+	serverDateTimeToDisplayDateTime,
+	serverDateToDisplayDate
+} from '../../src/utils/dateTimeUtils';
 import Chainable = Cypress.Chainable;
 
 const testValidationRule = (
@@ -22,6 +30,36 @@ const testValidationRule = (
 	transactionDetailsPage.getSaveButton().should('not.be.disabled');
 };
 
+const testDuplicate = (getRecord: () => Chainable<JQuery>, index: number) => {
+	transactionDetailsPage
+		.getCreatedTimestampForDuplicateRecord(getRecord())
+		.contains(
+			serverDateTimeToDisplayDateTime(
+				possibleDuplicates.transactions[index].created
+			)
+		);
+	transactionDetailsPage
+		.getUpdatedTimestampForDuplicateRecord(getRecord())
+		.contains(
+			serverDateTimeToDisplayDateTime(
+				possibleDuplicates.transactions[index].updated
+			)
+		);
+	if (possibleDuplicates.transactions[index].categoryName) {
+		transactionDetailsPage
+			.getCategoryForDuplicateRecord(getRecord())
+			.contains(possibleDuplicates.transactions[index].categoryName);
+	} else {
+		transactionDetailsPage
+			.getCategoryForDuplicateRecord(getRecord())
+			.then((elem) => expect(elem.text()).eq(''));
+	}
+
+	transactionDetailsPage
+		.getOpenButtonForDuplicateRecord(getRecord())
+		.contains('Open');
+};
+
 describe('Transaction Details Dialog', () => {
 	it('adds a new transaction', () => {
 		categoriesApi.getAllCategories();
@@ -34,12 +72,24 @@ describe('Transaction Details Dialog', () => {
 
 		transactionsListPage.getAddTransactionButton().click();
 		transactionDetailsPage.getHeaderTitle().contains('Transaction Details');
-		transactionDetailsPage.getNotConfirmedIcon().should('exist');
-		transactionDetailsPage.getNotCategorizedIcon().should('exist');
-		transactionDetailsPage.getDuplicateIcon().should('not.be.visible');
-		transactionDetailsPage.getPossibleRefundIcon().should('not.be.visible');
+
+		transactionDetailsPage
+			.getNotConfirmedIcon()
+			.should('have.class', 'visible');
+		transactionDetailsPage
+			.getNotCategorizedIcon()
+			.should('have.class', 'visible');
+		transactionDetailsPage
+			.getDuplicateIcon()
+			.should('not.have.class', 'visible');
+		transactionDetailsPage
+			.getPossibleRefundIcon()
+			.should('not.have.class', 'visible');
+
 		transactionDetailsPage.getSaveButton().should('be.disabled');
 		transactionDetailsPage.getDeleteButton().should('not.exist');
+		transactionDetailsPage.getCreatedTimestamp().should('not.exist');
+		transactionDetailsPage.getUpdatedTimestamp().should('not.exist');
 
 		transactionDetailsPage.getExpenseDateInput().type('01/01/2022');
 		transactionDetailsPage.getAmountInput().clear().type('-10.00');
@@ -55,6 +105,257 @@ describe('Transaction Details Dialog', () => {
 				description: 'Hello World',
 				expenseDate: '2022-01-01'
 			});
+		});
+	});
+
+	it('shows current transaction information for unconfirmed and uncategorized', () => {
+		const transactionId = allTransactions.transactions[0].id;
+		categoriesApi.getAllCategories();
+		transactionsApi.getNeedsAttention();
+		transactionsApi.searchForTransactions();
+		transactionsApi.createTransaction();
+		transactionsApi.getTransactionDetails(transactionId);
+		mountApp({
+			initialRoute: '/expense-tracker/transactions'
+		});
+
+		transactionsListPage.getDetailsButtons().eq(0).click();
+
+		transactionDetailsPage
+			.getNotCategorizedIcon()
+			.should('have.class', 'visible');
+		transactionDetailsPage
+			.getNotConfirmedIcon()
+			.should('have.class', 'visible');
+		transactionDetailsPage
+			.getPossibleRefundIcon()
+			.should('not.have.class', 'visible');
+		transactionDetailsPage
+			.getDuplicateIcon()
+			.should('not.have.class', 'visible');
+
+		transactionDetailsPage
+			.getExpenseDateInput()
+			.should(
+				'have.value',
+				serverDateToDisplayDate(transactionDetails.expenseDate)
+			);
+		transactionDetailsPage
+			.getAmountInput()
+			.should('have.value', transactionDetails.amount);
+		transactionDetailsPage
+			.getDescriptionInput()
+			.should('have.value', transactionDetails.description);
+
+		transactionDetailsPage
+			.getCreatedTimestamp()
+			.contains(
+				`Created: ${serverDateTimeToDisplayDateTime(
+					transactionDetails.created
+				)}`
+			);
+		transactionDetailsPage
+			.getUpdatedTimestamp()
+			.contains(
+				`Updated: ${serverDateTimeToDisplayDateTime(
+					transactionDetails.updated
+				)}`
+			);
+
+		transactionDetailsPage.getDuplicateTitle().should('not.exist');
+		transactionDetailsPage.getSaveButton().should('be.disabled');
+		transactionDetailsPage.getDeleteButton().should('not.be.disabled');
+	});
+
+	it('shows current transaction information for confirmed and categorized', () => {
+		const transactionId = allTransactions.transactions[0].id;
+		categoriesApi.getAllCategories();
+		transactionsApi.getNeedsAttention();
+		transactionsApi.searchForTransactions();
+		transactionsApi.createTransaction();
+		transactionsApi.getTransactionDetails_confirmedAndCategorized(
+			transactionId
+		);
+		mountApp({
+			initialRoute: '/expense-tracker/transactions'
+		});
+
+		transactionsListPage.getDetailsButtons().eq(0).click();
+
+		transactionDetailsPage
+			.getNotCategorizedIcon()
+			.should('not.have.class', 'visible');
+		transactionDetailsPage
+			.getNotConfirmedIcon()
+			.should('not.have.class', 'visible');
+		transactionDetailsPage
+			.getPossibleRefundIcon()
+			.should('not.have.class', 'visible');
+		transactionDetailsPage
+			.getDuplicateIcon()
+			.should('not.have.class', 'visible');
+
+		transactionDetailsPage
+			.getExpenseDateInput()
+			.should(
+				'have.value',
+				serverDateToDisplayDate(transactionDetails.expenseDate)
+			);
+		transactionDetailsPage
+			.getAmountInput()
+			.should('have.value', transactionDetails.amount);
+		transactionDetailsPage
+			.getDescriptionInput()
+			.should('have.value', transactionDetails.description);
+
+		transactionDetailsPage
+			.getCreatedTimestamp()
+			.contains(
+				`Created: ${serverDateTimeToDisplayDateTime(
+					transactionDetails.created
+				)}`
+			);
+		transactionDetailsPage
+			.getUpdatedTimestamp()
+			.contains(
+				`Updated: ${serverDateTimeToDisplayDateTime(
+					transactionDetails.updated
+				)}`
+			);
+
+		transactionDetailsPage.getDuplicateTitle().should('not.exist');
+		transactionDetailsPage.getSaveButton().should('be.disabled');
+		transactionDetailsPage.getDeleteButton().should('not.be.disabled');
+	});
+
+	it('shows current transaction information for possible refunds', () => {
+		const transactionId = allTransactions.transactions[0].id;
+		categoriesApi.getAllCategories();
+		transactionsApi.getNeedsAttention();
+		transactionsApi.searchForTransactions();
+		transactionsApi.createTransaction();
+		transactionsApi.getTransactionDetails_possibleRefund(transactionId);
+		mountApp({
+			initialRoute: '/expense-tracker/transactions'
+		});
+
+		transactionsListPage.getDetailsButtons().eq(0).click();
+
+		transactionDetailsPage
+			.getNotCategorizedIcon()
+			.should('not.have.class', 'visible');
+		transactionDetailsPage
+			.getNotConfirmedIcon()
+			.should('not.have.class', 'visible');
+		transactionDetailsPage
+			.getPossibleRefundIcon()
+			.should('have.class', 'visible');
+		transactionDetailsPage
+			.getDuplicateIcon()
+			.should('not.have.class', 'visible');
+
+		transactionDetailsPage
+			.getExpenseDateInput()
+			.should(
+				'have.value',
+				serverDateToDisplayDate(transactionDetails.expenseDate)
+			);
+		transactionDetailsPage.getAmountInput().should('have.value', '10.00');
+		transactionDetailsPage
+			.getDescriptionInput()
+			.should('have.value', transactionDetails.description);
+
+		transactionDetailsPage
+			.getCreatedTimestamp()
+			.contains(
+				`Created: ${serverDateTimeToDisplayDateTime(
+					transactionDetails.created
+				)}`
+			);
+		transactionDetailsPage
+			.getUpdatedTimestamp()
+			.contains(
+				`Updated: ${serverDateTimeToDisplayDateTime(
+					transactionDetails.updated
+				)}`
+			);
+
+		transactionDetailsPage.getDuplicateTitle().should('not.exist');
+		transactionDetailsPage.getSaveButton().should('be.disabled');
+		transactionDetailsPage.getDeleteButton().should('not.be.disabled');
+	});
+
+	it('shows current transaction information for duplicates', () => {
+		const transactionId = allTransactions.transactions[0].id;
+		categoriesApi.getAllCategories();
+		transactionsApi.getNeedsAttention();
+		transactionsApi.searchForTransactions();
+		transactionsApi.createTransaction();
+		transactionsApi.getTransactionDetails_duplicate(transactionId);
+		transactionsApi.getPossibleDuplicates(transactionId);
+		mountApp({
+			initialRoute: '/expense-tracker/transactions'
+		});
+
+		transactionsListPage.getDetailsButtons().eq(0).click();
+
+		transactionDetailsPage
+			.getNotCategorizedIcon()
+			.should('not.have.class', 'visible');
+		transactionDetailsPage
+			.getNotConfirmedIcon()
+			.should('not.have.class', 'visible');
+		transactionDetailsPage
+			.getPossibleRefundIcon()
+			.should('not.have.class', 'visible');
+		transactionDetailsPage
+			.getDuplicateIcon()
+			.should('have.class', 'visible');
+
+		transactionDetailsPage
+			.getExpenseDateInput()
+			.should(
+				'have.value',
+				serverDateToDisplayDate(transactionDetails.expenseDate)
+			);
+		transactionDetailsPage
+			.getAmountInput()
+			.should('have.value', transactionDetails.amount);
+		transactionDetailsPage
+			.getDescriptionInput()
+			.should('have.value', transactionDetails.description);
+
+		transactionDetailsPage
+			.getCreatedTimestamp()
+			.contains(
+				`Created: ${serverDateTimeToDisplayDateTime(
+					transactionDetails.created
+				)}`
+			);
+		transactionDetailsPage
+			.getUpdatedTimestamp()
+			.contains(
+				`Updated: ${serverDateTimeToDisplayDateTime(
+					transactionDetails.updated
+				)}`
+			);
+
+		transactionDetailsPage.getSaveButton().should('be.disabled');
+		transactionDetailsPage.getDeleteButton().should('not.be.disabled');
+
+		transactionDetailsPage.getDuplicateTitle().should('be.visible');
+		transactionDetailsPage.getDuplicateRecords().should('have.length', 2);
+		testDuplicate(
+			() => transactionDetailsPage.getDuplicateRecords().eq(0),
+			0
+		);
+		testDuplicate(
+			() => transactionDetailsPage.getDuplicateRecords().eq(1),
+			1
+		);
+
+		cy.wait(`@getPossibleDuplicates_${transactionId}`).then((xhr) => {
+			expect(xhr.request.url).matches(/^.*\?pageNumber=0&pageSize=5$/);
 		});
 	});
 
@@ -160,5 +461,32 @@ describe('Transaction Details Dialog', () => {
 						});
 					})
 		);
+	});
+
+	it('can navigate to a duplicate transaction', () => {
+		const transactionId = allTransactions.transactions[0].id;
+		const secondId = possibleDuplicates.transactions[0].id;
+		categoriesApi.getAllCategories();
+		transactionsApi.getNeedsAttention();
+		transactionsApi.searchForTransactions();
+		transactionsApi.getTransactionDetails_duplicate(transactionId);
+		transactionsApi.getPossibleDuplicates(transactionId);
+		transactionsApi.getTransactionDetails(secondId);
+		mountApp({
+			initialRoute: '/expense-tracker/transactions'
+		});
+
+		transactionsListPage.getDetailsButtons().eq(0).click();
+
+		transactionDetailsPage.getDuplicateTitle().should('be.visible');
+		transactionDetailsPage.getDuplicateRecords().should('have.length', 2);
+
+		transactionDetailsPage
+			.getOpenButtonForDuplicateRecord(
+				transactionDetailsPage.getDuplicateRecords().eq(0)
+			)
+			.click();
+
+		cy.wait(`@getTransactionDetails_${secondId}`);
 	});
 });

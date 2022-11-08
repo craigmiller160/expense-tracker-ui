@@ -6,6 +6,7 @@ import { useForm, UseFormReturn } from 'react-hook-form';
 import { useEffect, useMemo } from 'react';
 import {
 	parseDisplayDate,
+	serverDateTimeToDisplayDateTime,
 	serverDateToDisplayDate
 } from '../../../utils/dateTimeUtils';
 import { useGetTransactionDetails } from '../../../ajaxapi/query/TransactionQueries';
@@ -27,6 +28,8 @@ export type TransactionValues = {
 	readonly description: string;
 	readonly amount: number;
 	readonly isLoading: boolean;
+	readonly created: string;
+	readonly updated: string;
 };
 
 export type TransactionDetailsDialogData = {
@@ -42,7 +45,9 @@ const DEFAULT_TXN_VALUES: TransactionValues = {
 	expenseDate: '',
 	description: '',
 	amount: 0,
-	isLoading: false
+	isLoading: false,
+	created: '',
+	updated: ''
 };
 
 const useValuesFromSelectedTransaction = (
@@ -62,7 +67,9 @@ const useValuesFromSelectedTransaction = (
 						...txn,
 						isLoading,
 						expenseDate: serverDateToDisplayDate(txn.expenseDate),
-						category: transactionToCategoryOption(txn)
+						category: transactionToCategoryOption(txn),
+						created: serverDateTimeToDisplayDateTime(txn.created),
+						updated: serverDateTimeToDisplayDateTime(txn.updated)
 					})
 				)
 			),

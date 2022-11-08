@@ -23,6 +23,10 @@ const testValidationRule = (
 };
 
 describe('Transaction Details Dialog', () => {
+	it('adds a new transaction', () => {
+		throw new Error();
+	});
+
 	it('input field validation rules work', () => {
 		const transactionId = allTransactions.transactions[0].id;
 		categoriesApi.getAllCategories();

@@ -1,9 +1,4 @@
-import {
-	getAllCategories,
-	createCategory,
-	deleteCategory,
-	updateCategory
-} from './testutils/apis/categories';
+import { categoriesApi } from './testutils/apis/categories';
 import { mountApp } from './testutils/mountApp';
 import {
 	allCategories,
@@ -17,7 +12,7 @@ import { confirmDialogPage } from './testutils/pages/confirmDialog';
 
 describe('Manage Categories', () => {
 	it('displays all categories on the server', () => {
-		getAllCategories();
+		categoriesApi.getAllCategories();
 		mountApp({
 			initialRoute: '/expense-tracker/categories'
 		});
@@ -41,8 +36,8 @@ describe('Manage Categories', () => {
 	});
 
 	it('adds new category', () => {
-		getAllCategories();
-		createCategory();
+		categoriesApi.getAllCategories();
+		categoriesApi.createCategory();
 		mountApp({
 			initialRoute: '/expense-tracker/categories'
 		});
@@ -72,7 +67,7 @@ describe('Manage Categories', () => {
 	});
 
 	it('will not save category without name', () => {
-		getAllCategories();
+		categoriesApi.getAllCategories();
 		mountApp({
 			initialRoute: '/expense-tracker/categories'
 		});
@@ -106,8 +101,8 @@ describe('Manage Categories', () => {
 
 	it('updates category name', () => {
 		const firstCategoryId = allCategories[0].id;
-		getAllCategories();
-		updateCategory(firstCategoryId);
+		categoriesApi.getAllCategories();
+		categoriesApi.updateCategory(firstCategoryId);
 		mountApp({
 			initialRoute: '/expense-tracker/categories'
 		});
@@ -138,8 +133,8 @@ describe('Manage Categories', () => {
 
 	it('deletes category', () => {
 		const firstCategoryId = allCategories[0].id;
-		getAllCategories();
-		deleteCategory(firstCategoryId);
+		categoriesApi.getAllCategories();
+		categoriesApi.deleteCategory(firstCategoryId);
 		mountApp({
 			initialRoute: '/expense-tracker/categories'
 		});

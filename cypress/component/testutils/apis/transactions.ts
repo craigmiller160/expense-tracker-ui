@@ -72,9 +72,11 @@ const createTransaction = (): Chainable<null> =>
 		})
 		.as('createTransaction');
 const getPossibleDuplicates = (id: string): Chainable<null> =>
-	cy.intercept(`/expense-tracker/api/transactions/${id}/duplicates?*`, {
-		fixture: 'possibleDuplicates.json'
-	});
+	cy
+		.intercept(`/expense-tracker/api/transactions/${id}/duplicates?*`, {
+			fixture: 'possibleDuplicates.json'
+		})
+		.as('getPossibleDuplicates');
 
 export const transactionsApi = {
 	searchForTransactions,

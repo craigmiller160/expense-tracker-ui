@@ -353,7 +353,10 @@ describe('Transaction Details Dialog', () => {
 			() => transactionDetailsPage.getDuplicateRecords().eq(1),
 			1
 		);
-		// TODO include validation of pagination query params
+
+		cy.wait('@getPossibleDuplicates').then((xhr) => {
+			expect(xhr.request.url).matches(/^.*\?pageNumber=0&pageSize=5$/);
+		});
 	});
 
 	it('can update transaction information', () => {

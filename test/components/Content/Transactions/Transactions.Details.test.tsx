@@ -48,6 +48,7 @@ const testButton =
 
 describe('Transaction Details Dialog', () => {
 	it('shows current transaction information for unconfirmed and uncategorized', async () => {
+		// TODO delete this
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
@@ -107,6 +108,7 @@ describe('Transaction Details Dialog', () => {
 	});
 
 	it('shows current transaction information for confirmed & categorized', async () => {
+		// TODO delete this
 		const {
 			transactions: [transaction]
 		} = await searchForTransactions({

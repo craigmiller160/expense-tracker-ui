@@ -56,6 +56,28 @@ describe('Transaction Details Dialog', () => {
 				expenseDate: '2022-01-01'
 			});
 		});
+
+		// TODO make sure timestamps don't appear
+	});
+
+	it('shows current transaction information for unconfirmed and uncategorized', () => {
+		// TODO include timestamps
+		throw new Error();
+	});
+
+	it('shows current transaction information for confirmed and categorized', () => {
+		// TODO include timestamps
+		throw new Error();
+	});
+
+	it('shows current transaction information for possible refunds', () => {
+		// TODO include timestamps
+		throw new Error();
+	});
+
+	it('shows current transaction information for duplicates', () => {
+		// TODO include timestamps
+		throw new Error();
 	});
 
 	it('can update transaction information', () => {
@@ -160,5 +182,9 @@ describe('Transaction Details Dialog', () => {
 						});
 					})
 		);
+	});
+
+	it('can navigate to a duplicate transaction', () => {
+		throw new Error();
 	});
 });

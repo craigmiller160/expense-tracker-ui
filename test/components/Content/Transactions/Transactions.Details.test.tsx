@@ -177,6 +177,7 @@ describe('Transaction Details Dialog', () => {
 	});
 
 	it('adds a new transaction', async () => {
+		// TODO this one is failing now... wtf...
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});

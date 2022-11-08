@@ -2,6 +2,8 @@ import { categoriesApi } from './testutils/apis/categories';
 import { transactionsApi } from './testutils/apis/transactions';
 import { mountApp } from './testutils/mountApp';
 import { transactionsListPage } from './testutils/pages/transactionsList';
+import { commonPage } from './testutils/pages/common';
+import { orderedCategoryNames } from './testutils/constants/categories';
 
 describe('Transactions Table', () => {
 	it('can reset in-progress changes on transactions', () => {
@@ -23,5 +25,10 @@ describe('Transactions Table', () => {
 			.eq(0)
 			.should('have.value', '')
 			.click();
+		commonPage.getOpenSelectOptions().eq(0).click();
+		transactionsListPage
+			.getCategorySelects()
+			.eq(0)
+			.should('have.value', orderedCategoryNames[0]);
 	});
 });

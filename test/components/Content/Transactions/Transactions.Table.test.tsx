@@ -538,6 +538,7 @@ describe('Transactions Table', () => {
 	});
 
 	it('can reset in-progress changes on transactions', async () => {
+		// TODO delete this
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});

@@ -58,6 +58,10 @@ describe('Transaction Details Dialog', () => {
 		});
 	});
 
+	it('can update transaction information', () => {
+		throw new Error();
+	});
+
 	it('input field validation rules work', () => {
 		const transactionId = allTransactions.transactions[0].id;
 		categoriesApi.getAllCategories();

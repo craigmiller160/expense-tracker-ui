@@ -177,6 +177,7 @@ describe('Transaction Details Dialog', () => {
 	});
 
 	it('can update transaction information', async () => {
+		// TODO delete this test
 		const {
 			transactions: [transaction]
 		} = await searchForTransactions({

@@ -5,6 +5,22 @@ import { transactionsListPage } from './testutils/pages/transactionsList';
 import { transactionDetailsPage } from './testutils/pages/transactionDetails';
 import { TransactionDetailsResponse } from '../../src/types/generated/expense-tracker';
 import { categoriesApi } from './testutils/apis/categories';
+import Chainable = Cypress.Chainable;
+
+const testValidationRule = (
+	input: Chainable<JQuery>,
+	helperText: Chainable<JQuery>,
+	errorMessage: string,
+	updatedValue: string
+) => {
+	input.clear();
+	transactionDetailsPage.getSaveButton().should('be.disabled');
+	helperText.contains(errorMessage);
+
+	input.type(updatedValue);
+	helperText.should('not.be.visible');
+	transactionDetailsPage.getSaveButton().should('not.be.disabled');
+};
 
 describe('Transaction Details Dialog', () => {
 	it('input field validation rules work', () => {
@@ -16,6 +32,12 @@ describe('Transaction Details Dialog', () => {
 		});
 
 		transactionsListPage.getDetailsButtons().eq(0).click();
+		testValidationRule(
+			transactionDetailsPage.getAmountInput(),
+			transactionDetailsPage.getAmountInputHelperText(),
+			'Amount is required',
+			'-10.00'
+		);
 		// TODO finish this
 	});
 

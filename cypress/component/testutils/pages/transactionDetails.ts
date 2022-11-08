@@ -46,6 +46,20 @@ const getPossibleRefundIcon = (): Chainable<JQuery> =>
 	cy.get(
 		'#TransactionDetailsDialog-body [data-testid="possible-refund-icon"]'
 	);
+const getCreatedTimestamp = (): Chainable<JQuery> =>
+	cy.get('#TransactionDetailsDialog-body .Timestamps span').eq(0);
+const getUpdatedTimestamp = (): Chainable<JQuery> =>
+	cy.get('#TransactionDetailsDialog-body .Timestamps span').eq(1);
+const getDuplicateCreatedTimestamps = (): Chainable<JQuery> =>
+	cy.get('.TransactionDetailsDuplicatePanel tbody td').eq(0);
+const getDuplicateUpdatedTimestamps = (): Chainable<JQuery> =>
+	cy.get('.TransactionDetailsDuplicatePanel tbody td').eq(1);
+const getDuplicateCategories = (): Chainable<JQuery> =>
+	cy.get('.TransactionDetailsDuplicatePanel tbody td').eq(2);
+const getDuplicateOpenButtons = (): Chainable<JQuery> =>
+	cy.get('.TransactionDetailsDuplicatePanel tbody td button');
+const getDuplicateTitle = (): Chainable<JQuery> =>
+	cy.get('.TransactionDetailsDuplicatePanel h5');
 
 export const transactionDetailsPage = {
 	getHeaderTitle,
@@ -68,5 +82,12 @@ export const transactionDetailsPage = {
 	getDuplicateIcon,
 	getNotCategorizedIcon,
 	getNotConfirmedIcon,
-	getPossibleRefundIcon
+	getPossibleRefundIcon,
+	getCreatedTimestamp,
+	getUpdatedTimestamp,
+	getDuplicateCreatedTimestamps,
+	getDuplicateUpdatedTimestamps,
+	getDuplicateCategories,
+	getDuplicateOpenButtons,
+	getDuplicateTitle
 };

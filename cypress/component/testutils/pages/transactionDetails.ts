@@ -9,9 +9,9 @@ const getContentTitle = (): Chainable<JQuery> =>
 const getCloseButton = (): Chainable<JQuery> =>
 	cy.get('#TransactionDetailsDialog-header .MuiToolbar-root button');
 const getSaveButton = (): Chainable<JQuery> =>
-	cy.get('#TransactionDetailsDialog-footer button:nth-of-type(1)');
+	cy.get('#TransactionDetailsDialog-footer button').eq(0);
 const getDeleteButton = (): Chainable<JQuery> =>
-	cy.get('#TransactionDetailsDialog-footer button:nth-of-type(2)');
+	cy.get('#TransactionDetailsDialog-footer button').eq(1);
 const getConfirmCheckboxLabel = (): Chainable<JQuery> =>
 	cy.get('#TransactionDetailsDialog-body .Controls label:nth-of-type(1)');
 const getConfirmCheckboxInput = (): Chainable<JQuery> =>

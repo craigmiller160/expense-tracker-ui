@@ -36,8 +36,8 @@ describe('Transaction Details Dialog', () => {
 		transactionDetailsPage.getHeaderTitle().contains('Transaction Details');
 		transactionDetailsPage.getNotConfirmedIcon().should('exist');
 		transactionDetailsPage.getNotCategorizedIcon().should('exist');
-		transactionDetailsPage.getDuplicateIcon().should('not.exist');
-		transactionDetailsPage.getPossibleRefundIcon().should('not.exist');
+		transactionDetailsPage.getDuplicateIcon().should('not.be.visible');
+		transactionDetailsPage.getPossibleRefundIcon().should('not.be.visible');
 		transactionDetailsPage.getSaveButton().should('be.disabled');
 		transactionDetailsPage.getDeleteButton().should('not.exist');
 

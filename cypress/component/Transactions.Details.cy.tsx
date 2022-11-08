@@ -17,6 +17,7 @@ describe('Transaction Details Dialog', () => {
 	it('can confirm transaction', () => {
 		const transactionId = allTransactions.transactions[0].id;
 		categoriesApi.getAllCategories();
+		transactionsApi.getNeedsAttention();
 		transactionsApi.searchForTransactions();
 		transactionsApi.getTransactionDetails(transactionId);
 		transactionsApi.updateTransactionDetails(transactionId);

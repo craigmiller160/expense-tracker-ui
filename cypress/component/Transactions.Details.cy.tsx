@@ -64,6 +64,7 @@ describe('Transaction Details Dialog', () => {
 		transactionsApi.getNeedsAttention();
 		transactionsApi.searchForTransactions();
 		transactionsApi.getTransactionDetails(transactionId);
+		transactionsApi.updateTransactionDetails(transactionId);
 		mountApp({
 			initialRoute: '/expense-tracker/transactions'
 		});

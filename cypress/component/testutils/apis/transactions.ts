@@ -10,10 +10,8 @@ const getTransactionDetails = (id: string): Chainable<null> =>
 		.fixture('transactionDetails.json')
 		.then((fixture: TransactionDetailsResponse) =>
 			cy.intercept(`/expense-tracker/api/transactions/${id}/details`, {
-				fixture: {
-					...fixture,
-					id
-				}
+				...fixture,
+				id
 			})
 		);
 const updateTransactionDetails = (id: string): Chainable<null> =>

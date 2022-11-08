@@ -4,6 +4,7 @@ import { allTransactions } from './testutils/constants/transactions';
 import { transactionsListPage } from './testutils/pages/transactionsList';
 import { transactionDetailsPage } from './testutils/pages/transactionDetails';
 import { TransactionDetailsResponse } from '../../src/types/generated/expense-tracker';
+import { categoriesApi } from './testutils/apis/categories';
 
 describe('Transaction Details Dialog', () => {
 	it('input field validation rules work', () => {
@@ -14,7 +15,8 @@ describe('Transaction Details Dialog', () => {
 	});
 
 	it('can confirm transaction', () => {
-		const transactionId = allTransactions[0].id;
+		const transactionId = allTransactions.transactions[0].id;
+		categoriesApi.getAllCategories();
 		transactionsApi.searchForTransactions();
 		transactionsApi.getTransactionDetails(transactionId);
 		transactionsApi.updateTransactionDetails(transactionId);

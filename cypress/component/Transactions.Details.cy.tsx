@@ -2,17 +2,18 @@ import { mountApp } from './testutils/mountApp';
 import { transactionsApi } from './testutils/apis/transactions';
 import {
 	allTransactions,
+	possibleDuplicates,
 	transactionDetails
 } from './testutils/constants/transactions';
 import { transactionsListPage } from './testutils/pages/transactionsList';
 import { transactionDetailsPage } from './testutils/pages/transactionDetails';
 import { TransactionDetailsResponse } from '../../src/types/generated/expense-tracker';
 import { categoriesApi } from './testutils/apis/categories';
-import Chainable = Cypress.Chainable;
 import {
 	serverDateTimeToDisplayDateTime,
 	serverDateToDisplayDate
 } from '../../src/utils/dateTimeUtils';
+import Chainable = Cypress.Chainable;
 
 const testValidationRule = (
 	input: Chainable<JQuery>,
@@ -27,6 +28,36 @@ const testValidationRule = (
 	input.type(updatedValue);
 	getHelperText().should('not.exist');
 	transactionDetailsPage.getSaveButton().should('not.be.disabled');
+};
+
+const testDuplicate = (getRecord: () => Chainable<JQuery>, index: number) => {
+	transactionDetailsPage
+		.getCreatedTimestampForDuplicateRecord(getRecord())
+		.contains(
+			serverDateTimeToDisplayDateTime(
+				possibleDuplicates.transactions[index].created
+			)
+		);
+	transactionDetailsPage
+		.getUpdatedTimestampForDuplicateRecord(getRecord())
+		.contains(
+			serverDateTimeToDisplayDateTime(
+				possibleDuplicates.transactions[index].updated
+			)
+		);
+	if (possibleDuplicates.transactions[index].categoryName) {
+		transactionDetailsPage
+			.getCategoryForDuplicateRecord(getRecord())
+			.contains(possibleDuplicates.transactions[index].categoryName);
+	} else {
+		transactionDetailsPage
+			.getCategoryForDuplicateRecord(getRecord())
+			.then((elem) => expect(elem.text()).eq(''));
+	}
+
+	transactionDetailsPage
+		.getOpenButtonForDuplicateRecord(getRecord())
+		.contains('Open');
 };
 
 describe('Transaction Details Dialog', () => {
@@ -313,10 +344,15 @@ describe('Transaction Details Dialog', () => {
 		transactionDetailsPage.getDeleteButton().should('not.be.disabled');
 
 		transactionDetailsPage.getDuplicateTitle().should('be.visible');
-		transactionDetailsPage
-			.getDuplicateCreatedTimestamps()
-			.should('have.length', 2);
-
+		transactionDetailsPage.getDuplicateRecords().should('have.length', 2);
+		testDuplicate(
+			() => transactionDetailsPage.getDuplicateRecords().eq(0),
+			0
+		);
+		testDuplicate(
+			() => transactionDetailsPage.getDuplicateRecords().eq(1),
+			1
+		);
 		// TODO include timestamps
 		// TODO include one duplicate with a category and one without
 		// TODO include validation of pagination query params

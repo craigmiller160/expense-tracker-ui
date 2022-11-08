@@ -31,6 +31,7 @@ interface Props {
 	readonly onClose: () => void;
 	readonly saveTransaction: (transaction: TransactionDetailsFormData) => void;
 	readonly deleteTransaction: (id: string | null) => void;
+	readonly updateSelectedTransactionId: (id: string) => void;
 }
 
 interface DialogActionsProps {

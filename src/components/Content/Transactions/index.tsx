@@ -77,6 +77,7 @@ export const Transactions = () => {
 			<TransactionDetailsDialog
 				open={dialogIsOpen}
 				selectedTransactionId={selectedTransactionId}
+				updateSelectedTransactionId={openDetailsDialog}
 				onClose={closeDetailsDialog}
 				saveTransaction={saveTransaction}
 				deleteTransaction={deleteTransaction}

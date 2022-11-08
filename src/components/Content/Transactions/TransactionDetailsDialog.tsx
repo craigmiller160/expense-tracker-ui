@@ -223,6 +223,9 @@ export const TransactionDetailsDialog = (props: Props) => {
 				{transactionValues.id !== '' && transactionValues.duplicate && (
 					<TransactionDetailsDuplicatePanel
 						transactionId={transactionValues.id}
+						updateSelectedTransactionId={
+							props.updateSelectedTransactionId
+						}
 					/>
 				)}
 			</div>

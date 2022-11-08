@@ -353,8 +353,6 @@ describe('Transaction Details Dialog', () => {
 			() => transactionDetailsPage.getDuplicateRecords().eq(1),
 			1
 		);
-		// TODO include timestamps
-		// TODO include one duplicate with a category and one without
 		// TODO include validation of pagination query params
 	});
 

@@ -9,6 +9,9 @@ describe('Transaction Details Dialog', () => {
 	});
 
 	it('can confirm transaction', () => {
+		mountApp({
+			initialRoute: '/expense-tracker/transactions'
+		});
 		throw new Error();
 	});
 });

@@ -229,6 +229,7 @@ export const TransactionTable = (props: Props) => {
 								</TableCell>
 								<TableCell>
 									<Button
+										className="DetailsButton"
 										variant="contained"
 										color="info"
 										disabled={formState.isDirty}

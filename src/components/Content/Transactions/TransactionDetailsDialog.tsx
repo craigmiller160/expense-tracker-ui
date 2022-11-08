@@ -36,6 +36,7 @@ interface Props {
 interface DialogActionsProps {
 	readonly deleteTransaction: () => void;
 	readonly enableSaveButton: boolean;
+	readonly showDeleteButton: boolean;
 }
 
 const TransactionDetailsDialogActions = (props: DialogActionsProps) => (
@@ -48,13 +49,15 @@ const TransactionDetailsDialogActions = (props: DialogActionsProps) => (
 		>
 			Save
 		</Button>
-		<Button
-			variant="contained"
-			color="error"
-			onClick={props.deleteTransaction}
-		>
-			Delete
-		</Button>
+		{props.showDeleteButton && (
+			<Button
+				variant="contained"
+				color="error"
+				onClick={props.deleteTransaction}
+			>
+				Delete
+			</Button>
+		)}
 	</div>
 );
 
@@ -101,6 +104,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 				props.deleteTransaction(transactionValues.id)
 			}
 			enableSaveButton={isDirty && isValid}
+			showDeleteButton={isEditExisting}
 		/>
 	);
 

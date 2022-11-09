@@ -45,7 +45,9 @@ export const GET_TRANSACTION_DETAILS =
 const invalidateTransactionQueries = (queryClient: QueryClient) =>
 	Promise.all([
 		queryClient.invalidateQueries(SEARCH_FOR_TRANSACTIONS),
-		queryClient.invalidateQueries(GET_NEEDS_ATTENTION)
+		queryClient.invalidateQueries(GET_NEEDS_ATTENTION),
+		queryClient.invalidateQueries(GET_POSSIBLE_DUPLICATES),
+		queryClient.invalidateQueries(GET_TRANSACTION_DETAILS)
 	]);
 
 type SearchForTransactionsKey = [string, EnhancedSearchTransactionsRequest];
@@ -170,11 +172,7 @@ export const useMarkNotDuplicate = (): UseMutationResult<
 	return useMutation<unknown, Error, MarkNotDuplicateParams>(
 		({ id }) => markNotDuplicate(id),
 		{
-			onSuccess: () =>
-				Promise.all([
-					queryClient.invalidateQueries(GET_POSSIBLE_DUPLICATES),
-					queryClient.invalidateQueries(GET_TRANSACTION_DETAILS)
-				])
+			onSuccess: () => invalidateTransactionQueries(queryClient)
 		}
 	);
 };

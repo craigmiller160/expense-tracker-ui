@@ -74,6 +74,9 @@ export const TransactionDetailsDuplicatePanel = (props: Props) => {
 					</TableRow>
 				))}
 			</Table>
+			<div className="MarkNotDuplicateSection">
+				<Button variant="contained">This is Not a Duplicate</Button>
+			</div>
 		</div>
 	);
 };

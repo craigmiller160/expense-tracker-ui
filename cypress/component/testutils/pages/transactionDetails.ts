@@ -69,6 +69,8 @@ const getConfirmedForDuplicateRecord = (
 const getOpenButtonForDuplicateRecord = (
 	record: Chainable<JQuery>
 ): Chainable<JQuery> => record.find('td').eq(4).find('button');
+const getMarkNotDuplicateButton = (): Chainable<JQuery> =>
+	cy.get('.TransactionDetailsDuplicatePanel .MarkNotDuplicateSection button');
 
 export const transactionDetailsPage = {
 	getHeaderTitle,
@@ -100,5 +102,6 @@ export const transactionDetailsPage = {
 	getUpdatedTimestampForDuplicateRecord,
 	getCategoryForDuplicateRecord,
 	getOpenButtonForDuplicateRecord,
-	getConfirmedForDuplicateRecord
+	getConfirmedForDuplicateRecord,
+	getMarkNotDuplicateButton
 };

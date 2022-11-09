@@ -353,7 +353,12 @@ describe('Transaction Details Dialog', () => {
 		transactionDetailsPage.getSaveButton().should('be.disabled');
 		transactionDetailsPage.getDeleteButton().should('not.be.disabled');
 
-		transactionDetailsPage.getDuplicateTitle().should('be.visible');
+		transactionDetailsPage
+			.getDuplicateTitle()
+			.contains('Possible Duplicates');
+		transactionDetailsPage
+			.getMarkNotDuplicateButton()
+			.contains('This is Not a Duplicate');
 		transactionDetailsPage.getDuplicateRecords().should('have.length', 2);
 		testDuplicate(
 			() => transactionDetailsPage.getDuplicateRecords().eq(0),
@@ -498,5 +503,49 @@ describe('Transaction Details Dialog', () => {
 			.click();
 
 		cy.wait(`@getTransactionDetails_${secondId}`);
+	});
+
+	it('can mark transaction as not a duplicate', () => {
+		const transactionId = allTransactions.transactions[0].id;
+		categoriesApi.getAllCategories();
+		transactionsApi.getNeedsAttention();
+		transactionsApi.searchForTransactions();
+		transactionsApi.createTransaction();
+		transactionsApi.getTransactionDetails_duplicate(transactionId);
+		transactionsApi.getPossibleDuplicates(transactionId);
+		transactionsApi.markNotDuplicate(transactionId);
+		mountApp({
+			initialRoute: '/expense-tracker/transactions'
+		});
+
+		transactionsListPage.getDetailsButtons().eq(0).click();
+
+		transactionDetailsPage.getDuplicateRecords().should('have.length', 2);
+		transactionDetailsPage.getMarkNotDuplicateButton().click();
+
+		cy.wait(`@markNotDuplicate_${transactionId}`);
+		cy.get(`@markNotDuplicate_${transactionId}.all`).should(
+			'have.length',
+			1
+		);
+
+		cy.wait('@searchForTransactions');
+		cy.wait('@getNeedsAttention');
+		cy.wait(`@getTransactionDetails_duplicate_${transactionId}`);
+		cy.wait(`@getPossibleDuplicates_${transactionId}`);
+		cy.wait(1000); // Cypress does not know how to properly wait on multiple calls to APIs, so this is needed
+
+		cy.get(`@getTransactionDetails_duplicate_${transactionId}.all`).should(
+			'have.length',
+			2
+		);
+		cy.get('@searchForTransactions.all').should('have.length', 2);
+		cy.get('@getNeedsAttention.all').should('have.length', 2);
+
+		// this is only being called again because I'm not changing the transaction details response
+		cy.get(`@getPossibleDuplicates_${transactionId}.all`).should(
+			'have.length',
+			2
+		);
 	});
 });

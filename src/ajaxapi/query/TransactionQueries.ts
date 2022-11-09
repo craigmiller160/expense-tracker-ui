@@ -26,6 +26,7 @@ import {
 	getNeedsAttention,
 	getPossibleDuplicates,
 	getTransactionDetails,
+	markNotDuplicate,
 	searchForTransactions,
 	updateTransactionDetails,
 	updateTransactions
@@ -44,8 +45,9 @@ export const GET_TRANSACTION_DETAILS =
 const invalidateTransactionQueries = (queryClient: QueryClient) =>
 	Promise.all([
 		queryClient.invalidateQueries(SEARCH_FOR_TRANSACTIONS),
-		queryClient.invalidateQueries(GET_NEEDS_ATTENTION)
-	]);
+		queryClient.invalidateQueries(GET_NEEDS_ATTENTION),
+		queryClient.invalidateQueries(GET_TRANSACTION_DETAILS)
+	]).then(() => queryClient.invalidateQueries(GET_POSSIBLE_DUPLICATES));
 
 type SearchForTransactionsKey = [string, EnhancedSearchTransactionsRequest];
 
@@ -150,6 +152,24 @@ export const useUpdateTransactions = (): UseMutationResult<
 	const queryClient = useQueryClient();
 	return useMutation<unknown, Error, UpdateTransactionsParams>(
 		({ transactions }) => updateTransactions(transactions),
+		{
+			onSuccess: () => invalidateTransactionQueries(queryClient)
+		}
+	);
+};
+
+type MarkNotDuplicateParams = {
+	readonly id: string;
+};
+
+export const useMarkNotDuplicate = (): UseMutationResult<
+	unknown,
+	Error,
+	MarkNotDuplicateParams
+> => {
+	const queryClient = useQueryClient();
+	return useMutation<unknown, Error, MarkNotDuplicateParams>(
+		({ id }) => markNotDuplicate(id),
 		{
 			onSuccess: () => invalidateTransactionQueries(queryClient)
 		}

@@ -1,4 +1,7 @@
-import { useGetPossibleDuplicates } from '../../../ajaxapi/query/TransactionQueries';
+import {
+	useGetPossibleDuplicates,
+	useMarkNotDuplicate
+} from '../../../ajaxapi/query/TransactionQueries';
 import { Table } from '../../UI/Table';
 import { Button, TableCell, TableRow, Typography } from '@mui/material';
 import './TransactionDetailsDuplicatePanel.scss';
@@ -25,6 +28,7 @@ export const TransactionDetailsDuplicatePanel = (props: Props) => {
 		state.pageNumber,
 		state.pageSize
 	);
+	const { mutate } = useMarkNotDuplicate();
 
 	const tablePagination = useMemo(
 		() =>
@@ -40,7 +44,7 @@ export const TransactionDetailsDuplicatePanel = (props: Props) => {
 	return (
 		<div className="TransactionDetailsDuplicatePanel">
 			<Typography variant="h5" className="header">
-				All Duplicates
+				Possible Duplicates
 			</Typography>
 			<Table
 				columns={COLUMNS}
@@ -74,6 +78,18 @@ export const TransactionDetailsDuplicatePanel = (props: Props) => {
 					</TableRow>
 				))}
 			</Table>
+			<div className="MarkNotDuplicateSection">
+				<Button
+					variant="contained"
+					onClick={() =>
+						mutate({
+							id: props.transactionId
+						})
+					}
+				>
+					This is Not a Duplicate
+				</Button>
+			</div>
 		</div>
 	);
 };

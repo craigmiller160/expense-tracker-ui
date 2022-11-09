@@ -499,4 +499,8 @@ describe('Transaction Details Dialog', () => {
 
 		cy.wait(`@getTransactionDetails_${secondId}`);
 	});
+
+	it('can mark transaction as not a duplicate', () => {
+		throw new Error();
+	});
 });

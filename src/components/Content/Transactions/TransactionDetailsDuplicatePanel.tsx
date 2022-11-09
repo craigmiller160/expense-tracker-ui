@@ -18,7 +18,7 @@ const COLUMNS = ['Created', 'Updated', 'Category', 'Actions'];
 export const TransactionDetailsDuplicatePanel = (props: Props) => {
 	const [state, setState] = useImmer<State>({
 		pageNumber: 0,
-		pageSize: 5
+		pageSize: 10
 	});
 	const { data, isFetching } = useGetPossibleDuplicates(
 		props.transactionId,

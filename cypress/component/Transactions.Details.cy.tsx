@@ -526,19 +526,16 @@ describe('Transaction Details Dialog', () => {
 		cy.get(`@markNotDuplicate_${transactionId}.all`).then((calls) =>
 			expect(calls).length(1)
 		);
-		cy.get(`getTransactionDetails_duplicate_${transactionId}.all`).then(
+		cy.get(`@getTransactionDetails_duplicate_${transactionId}.all`).then(
 			(calls) => expect(calls).length(2)
 		);
-		cy.get(`getPossibleDuplicates_${transactionId}.all`).then((calls) =>
+		// TODO this is only being called again because I'm not changing the transaction details response
+		cy.get(`@getPossibleDuplicates_${transactionId}.all`).then((calls) =>
 			expect(calls).length(2)
 		);
-		cy.get('searchForTransactions.all').then((calls) =>
+		cy.get('@searchForTransactions.all').then((calls) =>
 			expect(calls).length(2)
 		);
 		cy.get('getNeedsAttention').then((calls) => expect(calls).length(2));
-		// TODO validate mark not duplicate endpoint runs
-		// TODO validate that getTransactionDetails is called twice
-		// TODO validate that search and needs attention are called twice
-		// TODO how to handle the fact that getTransactionDetails should return a different result
 	});
 });

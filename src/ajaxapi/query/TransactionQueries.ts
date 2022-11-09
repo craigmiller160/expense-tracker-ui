@@ -46,9 +46,8 @@ const invalidateTransactionQueries = (queryClient: QueryClient) =>
 	Promise.all([
 		queryClient.invalidateQueries(SEARCH_FOR_TRANSACTIONS),
 		queryClient.invalidateQueries(GET_NEEDS_ATTENTION),
-		queryClient.invalidateQueries(GET_POSSIBLE_DUPLICATES),
 		queryClient.invalidateQueries(GET_TRANSACTION_DETAILS)
-	]);
+	]).then(() => queryClient.invalidateQueries(GET_POSSIBLE_DUPLICATES));
 
 type SearchForTransactionsKey = [string, EnhancedSearchTransactionsRequest];
 

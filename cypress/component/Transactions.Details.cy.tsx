@@ -523,6 +523,8 @@ describe('Transaction Details Dialog', () => {
 		transactionDetailsPage.getDuplicateRecords().should('have.length', 2);
 		transactionDetailsPage.getMarkNotDuplicateButton().click();
 
+		// TODO in the future, try cy.get("@create_case_in_salesforce.all").should('have.length', 1);
+
 		cy.get(`@markNotDuplicate_${transactionId}.all`).then((calls) =>
 			expect(calls, 'markNotDuplicate').length(1)
 		);

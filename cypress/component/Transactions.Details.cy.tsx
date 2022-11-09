@@ -75,7 +75,7 @@ describe('Transaction Details Dialog', () => {
 
 		transactionDetailsPage
 			.getNotConfirmedIcon()
-			.should('have.class', 'visible');
+			.should('not.have.class', 'visible');
 		transactionDetailsPage
 			.getNotCategorizedIcon()
 			.should('have.class', 'visible');

@@ -140,14 +140,14 @@ export const Categories = () => {
 		newConfirmDialog
 	);
 
-	const belowTableActions = [
+	const aboveTableActions = [
 		<Button
 			key="add-category-button"
 			variant="contained"
-			color="secondary"
+			color="primary"
 			onClick={onNewCategory}
 		>
-			Add
+			Add Category
 		</Button>
 	];
 
@@ -158,7 +158,7 @@ export const Categories = () => {
 				<Table
 					columns={COLUMNS}
 					loading={isLoading}
-					belowTableActions={belowTableActions}
+					aboveTableActions={aboveTableActions}
 				>
 					{Rows}
 				</Table>

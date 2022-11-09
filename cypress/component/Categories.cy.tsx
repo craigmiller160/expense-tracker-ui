@@ -41,7 +41,7 @@ describe('Manage Categories', () => {
 		mountApp({
 			initialRoute: '/expense-tracker/categories'
 		});
-		categoriesListPage.getAddButton().click();
+		categoriesListPage.getAddButton().contains('Add Category').click();
 		categoryDetailsPage.getHeaderTitle().contains('New Category');
 		categoryDetailsPage.getContentTitle().contains('Category Information');
 		categoryDetailsPage.getDeleteButton().should('not.exist');

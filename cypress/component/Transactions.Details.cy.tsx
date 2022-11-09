@@ -542,7 +542,7 @@ describe('Transaction Details Dialog', () => {
 		cy.get('@searchForTransactions.all').should('have.length', 2);
 		cy.get('@getNeedsAttention.all').should('have.length', 2);
 
-		// TODO this is only being called again because I'm not changing the transaction details response
+		// this is only being called again because I'm not changing the transaction details response
 		cy.get(`@getPossibleDuplicates_${transactionId}.all`).should(
 			'have.length',
 			2

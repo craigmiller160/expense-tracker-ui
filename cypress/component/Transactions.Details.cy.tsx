@@ -526,10 +526,6 @@ describe('Transaction Details Dialog', () => {
 		cy.get(`@markNotDuplicate_${transactionId}.all`).then((calls) =>
 			expect(calls, 'markNotDuplicate').length(1)
 		);
-		cy.get(`@markNotDuplicate_${transactionId}.all`).should(
-			'have.length',
-			1
-		); // TODO better than above
 		cy.wait(`@markNotDuplicate_${transactionId}`);
 		cy.wait('@searchForTransactions');
 		cy.wait('@getNeedsAttention');

@@ -526,16 +526,22 @@ describe('Transaction Details Dialog', () => {
 		cy.get(`@markNotDuplicate_${transactionId}.all`).then((calls) =>
 			expect(calls).length(1)
 		);
+		cy.wait(`@markNotDuplicate_${transactionId}`);
+		cy.wait('@searchForTransactions');
+		cy.wait('@getNeedsAttention');
+		cy.wait(`@getTransactionDetails_duplicate_${transactionId}`);
+		cy.wait(`@getPossibleDuplicates_${transactionId}`);
+
 		cy.get(`@getTransactionDetails_duplicate_${transactionId}.all`).then(
 			(calls) => expect(calls).length(2)
-		);
-		// TODO this is only being called again because I'm not changing the transaction details response
-		cy.get(`@getPossibleDuplicates_${transactionId}.all`).then((calls) =>
-			expect(calls).length(2)
 		);
 		cy.get('@searchForTransactions.all').then((calls) =>
 			expect(calls).length(2)
 		);
 		cy.get('getNeedsAttention').then((calls) => expect(calls).length(2));
+		// TODO this is only being called again because I'm not changing the transaction details response
+		cy.get(`@getPossibleDuplicates_${transactionId}.all`).then((calls) =>
+			expect(calls).length(2)
+		);
 	});
 });

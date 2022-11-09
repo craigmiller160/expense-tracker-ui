@@ -3,9 +3,11 @@ import { TransactionDetailsResponse } from '../../../../src/types/generated/expe
 import { allCategories } from '../constants/categories';
 
 const searchForTransactions = (): Chainable<null> =>
-	cy.intercept('/expense-tracker/api/transactions?*', {
-		fixture: 'allTransactions.json'
-	});
+	cy
+		.intercept('/expense-tracker/api/transactions?*', {
+			fixture: 'allTransactions.json'
+		})
+		.as('searchForTransactions');
 const getTransactionDetails = (id: string): Chainable<null> =>
 	cy
 		.fixture('transactionDetails.json')
@@ -55,7 +57,8 @@ const getTransactionDetails_duplicate = (id: string): Chainable<null> =>
 				categoryName: allCategories[1].name,
 				duplicate: true
 			})
-		);
+		)
+		.as(`getTransactionDetails_duplicate_${id}`);
 const updateTransactionDetails = (id: string): Chainable<null> =>
 	cy
 		.intercept('put', `/expense-tracker/api/transactions/${id}/details`, {
@@ -63,9 +66,11 @@ const updateTransactionDetails = (id: string): Chainable<null> =>
 		})
 		.as(`updateTransactionDetails_${id}`);
 const getNeedsAttention = (): Chainable<null> =>
-	cy.intercept('/expense-tracker/api/transactions/needs-attention', {
-		fixture: 'needsAttention.json'
-	});
+	cy
+		.intercept('/expense-tracker/api/transactions/needs-attention', {
+			fixture: 'needsAttention.json'
+		})
+		.as('getNeedsAttention');
 const createTransaction = (): Chainable<null> =>
 	cy
 		.intercept('post', '/expense-tracker/api/transactions', {

@@ -526,6 +526,16 @@ describe('Transaction Details Dialog', () => {
 		cy.get(`@markNotDuplicate_${transactionId}.all`).then((calls) =>
 			expect(calls).length(1)
 		);
+		cy.get(`getTransactionDetails_duplicate_${transactionId}.all`).then(
+			(calls) => expect(calls).length(2)
+		);
+		cy.get(`getPossibleDuplicates_${transactionId}.all`).then((calls) =>
+			expect(calls).length(2)
+		);
+		cy.get('searchForTransactions.all').then((calls) =>
+			expect(calls).length(2)
+		);
+		cy.get('getNeedsAttention').then((calls) => expect(calls).length(2));
 		// TODO validate mark not duplicate endpoint runs
 		// TODO validate that getTransactionDetails is called twice
 		// TODO validate that search and needs attention are called twice

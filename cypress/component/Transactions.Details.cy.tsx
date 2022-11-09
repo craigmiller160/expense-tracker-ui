@@ -523,35 +523,28 @@ describe('Transaction Details Dialog', () => {
 		transactionDetailsPage.getDuplicateRecords().should('have.length', 2);
 		transactionDetailsPage.getMarkNotDuplicateButton().click();
 
-		// TODO in the future, try cy.get("@create_case_in_salesforce.all").should('have.length', 1);
-
-		cy.get(`@markNotDuplicate_${transactionId}.all`).then((calls) =>
-			expect(calls, 'markNotDuplicate').length(1)
-		);
 		cy.wait(`@markNotDuplicate_${transactionId}`);
+		cy.get(`@markNotDuplicate_${transactionId}.all`).should(
+			'have.length',
+			1
+		);
+
 		cy.wait('@searchForTransactions');
 		cy.wait('@getNeedsAttention');
 		cy.wait(`@getTransactionDetails_duplicate_${transactionId}`);
 		cy.wait(`@getPossibleDuplicates_${transactionId}`);
 
-		cy.get(`@getTransactionDetails_duplicate_${transactionId}.all`).then(
-			(calls) =>
-				expect(
-					calls,
-					`@getTransactionDetails_duplicate_${transactionId}.all`
-				).length(2)
+		cy.get(`@getTransactionDetails_duplicate_${transactionId}.all`).should(
+			'have.length',
+			2
 		);
-		cy.get('@searchForTransactions.all').then((calls) =>
-			expect(calls, `@markNotDuplicate_${transactionId}.all`).length(2)
-		);
-		cy.get('getNeedsAttention.all').then((calls) =>
-			expect(calls, 'getNeedsAttention.all').length(2)
-		);
+		cy.get('@searchForTransactions.all').should('have.length', 2);
+		cy.get('@getNeedsAttention.all').should('have.length', 2);
+
 		// TODO this is only being called again because I'm not changing the transaction details response
-		cy.get(`@getPossibleDuplicates_${transactionId}.all`).then((calls) =>
-			expect(calls, `@getPossibleDuplicates_${transactionId}.all`).length(
-				2
-			)
+		cy.get(`@getPossibleDuplicates_${transactionId}.all`).should(
+			'have.length',
+			2
 		);
 	});
 });

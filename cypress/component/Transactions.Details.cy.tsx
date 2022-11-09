@@ -353,7 +353,12 @@ describe('Transaction Details Dialog', () => {
 		transactionDetailsPage.getSaveButton().should('be.disabled');
 		transactionDetailsPage.getDeleteButton().should('not.be.disabled');
 
-		transactionDetailsPage.getDuplicateTitle().should('be.visible');
+		transactionDetailsPage
+			.getDuplicateTitle()
+			.contains('Possible Duplicates');
+		transactionDetailsPage
+			.getMarkNotDuplicateButton()
+			.contains('This is Not a Duplicate');
 		transactionDetailsPage.getDuplicateRecords().should('have.length', 2);
 		testDuplicate(
 			() => transactionDetailsPage.getDuplicateRecords().eq(0),

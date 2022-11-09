@@ -81,7 +81,11 @@ export const TransactionDetailsDuplicatePanel = (props: Props) => {
 			<div className="MarkNotDuplicateSection">
 				<Button
 					variant="contained"
-					onClick={() => mutate(props.transactionId)}
+					onClick={() =>
+						mutate({
+							id: props.transactionId
+						})
+					}
 				>
 					This is Not a Duplicate
 				</Button>

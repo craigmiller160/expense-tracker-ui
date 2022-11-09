@@ -26,6 +26,7 @@ import {
 	getNeedsAttention,
 	getPossibleDuplicates,
 	getTransactionDetails,
+	markNotDuplicate,
 	searchForTransactions,
 	updateTransactionDetails,
 	updateTransactions
@@ -152,6 +153,28 @@ export const useUpdateTransactions = (): UseMutationResult<
 		({ transactions }) => updateTransactions(transactions),
 		{
 			onSuccess: () => invalidateTransactionQueries(queryClient)
+		}
+	);
+};
+
+type MarkNotDuplicateParams = {
+	readonly id: string;
+};
+
+export const useMarkNotDuplicate = (): UseMutationResult<
+	unknown,
+	Error,
+	MarkNotDuplicateParams
+> => {
+	const queryClient = useQueryClient();
+	return useMutation<unknown, Error, MarkNotDuplicateParams>(
+		({ id }) => markNotDuplicate(id),
+		{
+			onSuccess: () =>
+				Promise.all([
+					queryClient.invalidateQueries(GET_POSSIBLE_DUPLICATES),
+					queryClient.invalidateQueries(GET_TRANSACTION_DETAILS)
+				])
 		}
 	);
 };

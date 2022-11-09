@@ -522,6 +522,7 @@ describe('Transaction Details Dialog', () => {
 		transactionDetailsPage.getMarkNotDuplicateButton().click();
 		// TODO validate mark not duplicate endpoint runs
 		// TODO validate that getTransactionDetails is called twice
+		// TODO validate that search and needs attention are called twice
 		// TODO how to handle the fact that getTransactionDetails should return a different result
 		throw new Error();
 	});

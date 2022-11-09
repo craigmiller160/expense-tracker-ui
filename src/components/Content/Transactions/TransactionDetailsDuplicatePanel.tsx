@@ -13,7 +13,7 @@ type Props = {
 };
 type State = PaginationState;
 
-const COLUMNS = ['Created', 'Updated', 'Category', 'Actions'];
+const COLUMNS = ['Created', 'Updated', 'Category', 'Confirmed', 'Actions'];
 
 export const TransactionDetailsDuplicatePanel = (props: Props) => {
 	const [state, setState] = useImmer<State>({
@@ -60,6 +60,7 @@ export const TransactionDetailsDuplicatePanel = (props: Props) => {
 							{serverDateTimeToDisplayDateTime(txn.updated)}
 						</TableCell>
 						<TableCell>{txn.categoryName}</TableCell>
+						<TableCell>{txn.confirmed ? 'Yes' : 'No'}</TableCell>
 						<TableCell>
 							<Button
 								variant="contained"

@@ -63,9 +63,12 @@ const getUpdatedTimestampForDuplicateRecord = (
 const getCategoryForDuplicateRecord = (
 	record: Chainable<JQuery>
 ): Chainable<JQuery> => record.find('td').eq(2);
+const getConfirmedForDuplicateRecord = (
+	record: Chainable<JQuery>
+): Chainable<JQuery> => record.find('td').eq(3);
 const getOpenButtonForDuplicateRecord = (
 	record: Chainable<JQuery>
-): Chainable<JQuery> => record.find('td').eq(3).find('button');
+): Chainable<JQuery> => record.find('td').eq(4).find('button');
 
 export const transactionDetailsPage = {
 	getHeaderTitle,
@@ -96,5 +99,6 @@ export const transactionDetailsPage = {
 	getCreatedTimestampForDuplicateRecord,
 	getUpdatedTimestampForDuplicateRecord,
 	getCategoryForDuplicateRecord,
-	getOpenButtonForDuplicateRecord
+	getOpenButtonForDuplicateRecord,
+	getConfirmedForDuplicateRecord
 };

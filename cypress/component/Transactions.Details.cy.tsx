@@ -506,6 +506,23 @@ describe('Transaction Details Dialog', () => {
 	});
 
 	it('can mark transaction as not a duplicate', () => {
+		const transactionId = allTransactions.transactions[0].id;
+		categoriesApi.getAllCategories();
+		transactionsApi.getNeedsAttention();
+		transactionsApi.searchForTransactions();
+		transactionsApi.createTransaction();
+		transactionsApi.getTransactionDetails_duplicate(transactionId);
+		transactionsApi.getPossibleDuplicates(transactionId);
+		mountApp({
+			initialRoute: '/expense-tracker/transactions'
+		});
+
+		transactionsListPage.getDetailsButtons().eq(0).click();
+
+		transactionDetailsPage.getMarkNotDuplicateButton().click();
+		// TODO validate mark not duplicate endpoint runs
+		// TODO validate that getTransactionDetails is called twice
+		// TODO how to handle the fact that getTransactionDetails should return a different result
 		throw new Error();
 	});
 });

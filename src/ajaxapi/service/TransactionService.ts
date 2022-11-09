@@ -151,3 +151,11 @@ export const getTransactionDetails = (
 			errorCustomizer: 'Error getting transaction details'
 		})
 		.then(getData);
+
+export const markNotDuplicate = (transactionId: string): Promise<void> =>
+	expenseTrackerApi
+		.put<void, void>({
+			uri: `/transactions/${transactionId}/notDuplicate`,
+			errorCustomizer: 'Error marking transaction as not duplicate'
+		})
+		.then(getData);

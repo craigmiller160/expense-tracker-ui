@@ -355,7 +355,7 @@ describe('Transaction Details Dialog', () => {
 		);
 
 		cy.wait(`@getPossibleDuplicates_${transactionId}`).then((xhr) => {
-			expect(xhr.request.url).matches(/^.*\?pageNumber=0&pageSize=5$/);
+			expect(xhr.request.url).matches(/^.*\?pageNumber=0&pageSize=10$/);
 		});
 	});
 

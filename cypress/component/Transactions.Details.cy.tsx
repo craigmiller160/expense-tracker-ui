@@ -513,17 +513,22 @@ describe('Transaction Details Dialog', () => {
 		transactionsApi.createTransaction();
 		transactionsApi.getTransactionDetails_duplicate(transactionId);
 		transactionsApi.getPossibleDuplicates(transactionId);
+		transactionsApi.markNotDuplicate(transactionId);
 		mountApp({
 			initialRoute: '/expense-tracker/transactions'
 		});
 
 		transactionsListPage.getDetailsButtons().eq(0).click();
 
+		transactionDetailsPage.getDuplicateRecords().should('have.length', 2);
 		transactionDetailsPage.getMarkNotDuplicateButton().click();
+
+		cy.get(`@markNotDuplicate_${transactionId}.all`).then((calls) =>
+			expect(calls).length(1)
+		);
 		// TODO validate mark not duplicate endpoint runs
 		// TODO validate that getTransactionDetails is called twice
 		// TODO validate that search and needs attention are called twice
 		// TODO how to handle the fact that getTransactionDetails should return a different result
-		throw new Error();
 	});
 });

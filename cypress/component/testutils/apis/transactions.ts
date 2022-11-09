@@ -80,9 +80,13 @@ const getPossibleDuplicates = (id: string): Chainable<null> =>
 		.as(`getPossibleDuplicates_${id}`);
 const markNotDuplicate = (id: string): Chainable<null> =>
 	cy
-		.intercept(`/expense-tracker/api/transactions/${id}/notDuplicate`, {
-			statusCode: 204
-		})
+		.intercept(
+			'put',
+			`/expense-tracker/api/transactions/${id}/notDuplicate`,
+			{
+				statusCode: 204
+			}
+		)
 		.as(`markNotDuplicate_${id}`);
 
 export const transactionsApi = {

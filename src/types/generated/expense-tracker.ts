@@ -103,6 +103,7 @@ export type TransactionDuplicatePageResponse = {
 
 export type TransactionDuplicateResponse = {
 	readonly id: string;
+	readonly confirmed: boolean;
 	readonly created: string;
 	readonly updated: string;
 	readonly categoryName?: string;

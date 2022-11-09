@@ -39,7 +39,7 @@ export type TransactionDetailsDialogData = {
 
 const DEFAULT_TXN_VALUES: TransactionValues = {
 	id: '',
-	confirmed: false,
+	confirmed: true,
 	duplicate: false,
 	category: null,
 	expenseDate: '',

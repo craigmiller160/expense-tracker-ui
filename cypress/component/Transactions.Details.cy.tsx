@@ -55,6 +55,16 @@ const testDuplicate = (getRecord: () => Chainable<JQuery>, index: number) => {
 			.then((elem) => expect(elem.text()).eq(''));
 	}
 
+	if (possibleDuplicates.transactions[index].confirmed) {
+		transactionDetailsPage
+			.getConfirmedForDuplicateRecord(getRecord())
+			.contains('Yes');
+	} else {
+		transactionDetailsPage
+			.getConfirmedForDuplicateRecord(getRecord())
+			.contains('No');
+	}
+
 	transactionDetailsPage
 		.getOpenButtonForDuplicateRecord(getRecord())
 		.contains('Open');

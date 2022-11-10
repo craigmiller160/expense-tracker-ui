@@ -25,7 +25,7 @@ import {
 import { PageTitle } from '../../UI/PageTitle';
 import { PageResponsiveWrapper } from '../../UI/ResponsiveWrappers/PageResponsiveWrapper';
 
-const COLUMNS = ['Name', 'Actions'];
+const COLUMNS = ['', 'Name', 'Actions'];
 
 const dataToRows = (
 	updateSelectCategoryDetails: (idOption: OptionT<CategoryDetails>) => void,
@@ -33,6 +33,12 @@ const dataToRows = (
 ): ReadonlyArray<ReactNode> =>
 	(data ?? []).map((category) => (
 		<TableRow key={category.id}>
+			<TableCell>
+				<div
+					className="ColorBox"
+					style={{ backgroundColor: category.color }}
+				/>
+			</TableCell>
 			<TableCell>{category.name}</TableCell>
 			<TableCell>
 				<Button

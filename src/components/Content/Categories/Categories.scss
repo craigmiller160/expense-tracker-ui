@@ -3,12 +3,22 @@
 .Categories {
   .TableWrapper {
     width: 100%;
-    th:nth-child(2) {
+    th:nth-child(3) {
       @include RightAlign;
     }
 
-    td:nth-child(2) {
+    td:nth-child(1) {
+      text-align: center;
+    }
+
+    td:nth-child(3) {
       @include RightAlign
+    }
+
+    .ColorBox {
+      margin: 0 auto;
+      width: 1rem;
+      height: 1rem;
     }
   }
 }

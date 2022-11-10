@@ -4,7 +4,8 @@ import { nanoid } from 'nanoid';
 
 const createCategory = (name: string): CategoryResponse => ({
 	id: nanoid(),
-	name
+	name,
+	color: '#ffffff'
 });
 
 export const seedCategories: DataUpdater = (draft) => {

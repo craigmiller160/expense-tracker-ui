@@ -68,6 +68,7 @@ export type AuthCodeLoginDto = {
 export type CategoryResponse = {
 	readonly id: string;
 	readonly name: string;
+	readonly color: string;
 };
 
 export type SearchTransactionsRequest = {

@@ -18,7 +18,8 @@ export const createCategoriesRoutes = (database: Database, server: Server) => {
 		const requestBody = JSON.parse(request.requestBody) as CategoryRequest;
 		const category: CategoryResponse = {
 			id: nanoid(),
-			name: requestBody.name
+			name: requestBody.name,
+			color: '#ffffff'
 		};
 		database.updateData((draft) => {
 			draft.categories[category.id] = category;
@@ -34,7 +35,8 @@ export const createCategoriesRoutes = (database: Database, server: Server) => {
 			if (existing) {
 				draft.categories[id] = {
 					id,
-					name: requestBody.name
+					name: requestBody.name,
+					color: '#ffffff'
 				};
 			}
 		});

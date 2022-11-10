@@ -392,7 +392,8 @@ export const createTransactionsRoutes = (
 					id: txn.id,
 					created: txn.created,
 					updated: txn.updated,
-					categoryName: txn.categoryName
+					categoryName: txn.categoryName,
+					confirmed: false
 				})
 			),
 			pageNumber,

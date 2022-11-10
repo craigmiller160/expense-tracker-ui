@@ -2,21 +2,21 @@
   {
     "id": "a328e302-773d-48a0-9dbc-b3ec8e3f3412",
     "name": "Entertainment",
-    "color": "#ffffff"
+    "color": "#000000"
   },
   {
     "id": "289184a9-093a-41cc-8b78-b91750eceb32",
     "name": "Groceries",
-    "color": "#ffffff"
+    "color": "#000000"
   },
   {
     "id": "4d5decba-a7bf-40c8-8135-8c68fb8436be",
     "name": "Restaurants",
-    "color": "#ffffff"
+    "color": "#000000"
   },
   {
     "id": "a658ef77-e67c-4b11-a820-981bd4cad531",
     "name": "Travel",
-    "color": "#ffffff"
+    "color": "#000000"
   }
 ]

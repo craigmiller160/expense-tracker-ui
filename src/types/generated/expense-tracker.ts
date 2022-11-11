@@ -147,6 +147,7 @@ export type ReportRequest = {
 
 export type ReportCategoryResponse = {
 	readonly name: string;
+	readonly color: string;
 	readonly amount: number;
 	readonly percent: number;
 };

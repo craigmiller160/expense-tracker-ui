@@ -4,6 +4,7 @@ import { Table } from '../../UI/Table';
 import { TableCell, TableRow } from '@mui/material';
 import { serverDateToReportMonth } from '../../../utils/dateTimeUtils';
 import { createTablePagination, PaginationState } from '../Transactions/utils';
+import { SpendingByCategoryTable } from './SpendingByCategoryTable';
 
 const COLUMNS = ['Month', 'Data', 'Chart'];
 
@@ -31,7 +32,11 @@ export const ReportTable = () => {
 					<TableCell>
 						{serverDateToReportMonth(report.date)}
 					</TableCell>
-					<TableCell></TableCell>
+					<TableCell>
+						<SpendingByCategoryTable
+							categories={report.categories}
+						/>
+					</TableCell>
 					<TableCell></TableCell>
 				</TableRow>
 			))}

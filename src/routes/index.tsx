@@ -54,7 +54,7 @@ const createAuthorizedRoutes = (): RouteObject[] => [
 	},
 	{
 		path: '*',
-		element: <Navigate to="transactions" />
+		element: <Navigate to="reports" />
 	}
 ];
 

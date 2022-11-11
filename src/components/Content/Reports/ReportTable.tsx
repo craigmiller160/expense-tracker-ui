@@ -9,6 +9,7 @@ import { SpendingByCategoryChart } from './SpendingByCategoryChart';
 
 const COLUMNS = ['Month', 'Data', 'Chart'];
 
+// TODO consider alignment of column headers
 export const ReportTable = () => {
 	const [state, setState] = useImmer<PaginationState>({
 		pageNumber: 0,

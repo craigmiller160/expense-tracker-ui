@@ -11,13 +11,12 @@ const getLabel = (category: ReportCategoryResponse): string => category.name;
 
 export const SpendingByCategoryChart = (props: Props) => (
 	<div className="SpendingByCategoryChart">
-		<PieChart width={200} height={200}>
+		<PieChart width={500} height={300}>
 			<Pie
 				data={castDraft(props.categories)}
 				dataKey="percent"
 				nameKey="name"
 				label={getLabel}
-				fill="#8884d8"
 			>
 				{props.categories.map((category) => (
 					<Cell key={category.name} fill={category.color} />

@@ -1,18 +1,14 @@
-import {useGetSpendingByMonthAndCategory} from '../../../ajaxapi/query/ReportQueries';
-import {useImmer} from 'use-immer';
-import {Table} from '../../UI/Table';
-import {TableCell, TableRow} from '@mui/material';
-import {serverDateToReportMonth} from '../../../utils/dateTimeUtils';
-
-type State = {
-	readonly pageNumber: number;
-	readonly pageSize: number;
-};
+import { useGetSpendingByMonthAndCategory } from '../../../ajaxapi/query/ReportQueries';
+import { useImmer } from 'use-immer';
+import { Table } from '../../UI/Table';
+import { TableCell, TableRow } from '@mui/material';
+import { serverDateToReportMonth } from '../../../utils/dateTimeUtils';
+import { createTablePagination, PaginationState } from '../Transactions/utils';
 
 const COLUMNS = ['Month', 'Data', 'Chart'];
 
 export const ReportTable = () => {
-	const [state, setState] = useImmer<State>({
+	const [state, setState] = useImmer<PaginationState>({
 		pageNumber: 0,
 		pageSize: 10
 	});
@@ -21,8 +17,15 @@ export const ReportTable = () => {
 		state.pageSize
 	);
 
+	const pagination = createTablePagination(
+		state.pageNumber,
+		state.pageSize,
+		data?.totalItems ?? 0,
+		setState
+	);
+
 	return (
-		<Table loading={isFetching} columns={COLUMNS}>
+		<Table pagination={pagination} loading={isFetching} columns={COLUMNS}>
 			{data?.reports?.map((report) => (
 				<TableRow key={report.date}>
 					<TableCell>

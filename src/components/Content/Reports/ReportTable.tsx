@@ -34,9 +34,9 @@ export const ReportTable = () => {
 						{serverDateToReportMonth(report.date)}
 					</TableCell>
 					<TableCell>
-						{/*<SpendingByCategoryTable*/}
-						{/*	categories={report.categories}*/}
-						{/*/>*/}
+						<SpendingByCategoryTable
+							categories={report.categories}
+						/>
 					</TableCell>
 					<TableCell>
 						<SpendingByCategoryChart

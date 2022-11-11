@@ -1,7 +1,7 @@
 import { ReportCategoryResponse } from '../../../types/generated/expense-tracker';
-import { PieChart } from '@mui/icons-material';
-import { Cell, Pie } from 'recharts';
+import { Cell, Pie, PieChart } from 'recharts';
 import { castDraft } from 'immer';
+import './SpendingByCategoryChart.scss';
 
 type Props = {
 	readonly categories: ReadonlyArray<ReportCategoryResponse>;
@@ -10,16 +10,19 @@ type Props = {
 const getLabel = (category: ReportCategoryResponse): string => category.name;
 
 export const SpendingByCategoryChart = (props: Props) => (
-	<PieChart width={500} height={500}>
-		<Pie
-			data={castDraft(props.categories)}
-			dataKey="amount"
-			nameKey="name"
-			label={getLabel}
-		>
-			{props.categories.map((category) => (
-				<Cell key={category.name} fill={category.color} />
-			))}
-		</Pie>
-	</PieChart>
+	<div className="SpendingByCategoryChart">
+		<PieChart width={200} height={200}>
+			<Pie
+				data={castDraft(props.categories)}
+				dataKey="amount"
+				nameKey="name"
+				label={getLabel}
+				fill="#8884d8"
+			>
+				{props.categories.map((category) => (
+					<Cell key={category.name} fill={category.color} />
+				))}
+			</Pie>
+		</PieChart>
+	</div>
 );

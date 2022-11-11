@@ -9,6 +9,7 @@ type Props = {
 
 const getLabel = (category: ReportCategoryResponse): string => category.name;
 
+// TODO how to make the width/height properly responsive? may need some ugly code here because recharts is weird with it
 export const SpendingByCategoryChart = (props: Props) => (
 	<div className="SpendingByCategoryChart">
 		<PieChart width={500} height={300}>

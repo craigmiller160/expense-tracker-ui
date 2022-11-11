@@ -14,7 +14,7 @@ export const SpendingByCategoryChart = (props: Props) => (
 		<PieChart width={200} height={200}>
 			<Pie
 				data={castDraft(props.categories)}
-				dataKey="amount"
+				dataKey="percent"
 				nameKey="name"
 				label={getLabel}
 				fill="#8884d8"

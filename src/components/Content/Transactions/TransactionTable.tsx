@@ -24,7 +24,7 @@ import { useIsAtLeastBreakpoint } from '../../../utils/breakpointHooks';
 import { DuplicateIcon } from './icons/DuplicateIcon';
 import { NotConfirmedIcon } from './icons/NotConfirmedIcon';
 import { NotCategorizedIcon } from './icons/NotCategorizedIcon';
-import { formatCurrency } from '../../../utils/formatCurrency';
+import { formatCurrency } from '../../../utils/formatNumbers';
 import { PossibleRefundIcon } from './icons/PossibleRefundIcon';
 
 const COLUMNS: ReadonlyArray<string | ReactNode> = [

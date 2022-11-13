@@ -6,11 +6,11 @@ import { ColorBox } from '../../UI/ColorBox';
 
 type Props = {
 	readonly categories: ReadonlyArray<ReportCategoryResponse>;
+	readonly total: number;
 };
 
 const COLUMNS = ['', 'Category', 'Amount', 'Percent'];
 
-// TODO need total
 export const SpendingByCategoryTable = (props: Props) => (
 	<Table columns={COLUMNS}>
 		{props.categories.map((category) => (
@@ -23,5 +23,15 @@ export const SpendingByCategoryTable = (props: Props) => (
 				<TableCell>{formatPercent(category.percent)}</TableCell>
 			</TableRow>
 		))}
+		<TableRow>
+			<TableCell />
+			<TableCell>
+				<strong>Total</strong>
+			</TableCell>
+			<TableCell>
+				<strong>{formatCurrency(props.total)}</strong>
+			</TableCell>
+			<TableCell />
+		</TableRow>
 	</Table>
 );

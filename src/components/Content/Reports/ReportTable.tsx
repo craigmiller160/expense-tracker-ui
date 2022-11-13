@@ -37,6 +37,7 @@ export const ReportTable = () => {
 					<TableCell>
 						<SpendingByCategoryTable
 							categories={report.categories}
+							total={report.total}
 						/>
 					</TableCell>
 					<TableCell>

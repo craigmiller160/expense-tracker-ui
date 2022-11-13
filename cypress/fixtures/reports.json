@@ -1,0 +1,132 @@
+{
+  "reports": [
+    {
+      "date": "2022-11-01",
+      "total": -3994.54,
+      "categories": [
+        {
+          "name": "Unknown",
+          "color": "#3e442a",
+          "amount": -213.95,
+          "percent": 0.05
+        },
+        {
+          "name": "Restaurants",
+          "color": "#58c4b6",
+          "amount": -1434.75,
+          "percent": 0.36
+        },
+        {
+          "name": "Entertainment",
+          "color": "#6caf68",
+          "amount": -314.99,
+          "percent": 0.08
+        },
+        {
+          "name": "Travel",
+          "color": "#cb6b3a",
+          "amount": -100.00,
+          "percent": 0.03
+        },
+        {
+          "name": "Groceries",
+          "color": "#c8ea4b",
+          "amount": -1930.85,
+          "percent": 0.48
+        }
+      ]
+    },
+    {
+      "date": "2022-10-01",
+      "total": -1467.05,
+      "categories": [
+        {
+          "name": "Groceries",
+          "color": "#c8ea4b",
+          "amount": -277.66,
+          "percent": 0.19
+        },
+        {
+          "name": "Travel",
+          "color": "#cb6b3a",
+          "amount": -270.00,
+          "percent": 0.18
+        },
+        {
+          "name": "Unknown",
+          "color": "#3e442a",
+          "amount": -587.92,
+          "percent": 0.40
+        },
+        {
+          "name": "Restaurants",
+          "color": "#58c4b6",
+          "amount": -3.21,
+          "percent": 0.00
+        },
+        {
+          "name": "Entertainment",
+          "color": "#6caf68",
+          "amount": -328.26,
+          "percent": 0.22
+        }
+      ]
+    },
+    {
+      "date": "2022-09-01",
+      "total": -1286.11,
+      "categories": [
+        {
+          "name": "Entertainment",
+          "color": "#6caf68",
+          "amount": -124.93,
+          "percent": 0.10
+        },
+        {
+          "name": "Unknown",
+          "color": "#3e442a",
+          "amount": -422.63,
+          "percent": 0.33
+        },
+        {
+          "name": "Restaurants",
+          "color": "#58c4b6",
+          "amount": -455.52,
+          "percent": 0.35
+        },
+        {
+          "name": "Travel",
+          "color": "#cb6b3a",
+          "amount": -219.81,
+          "percent": 0.17
+        },
+        {
+          "name": "Groceries",
+          "color": "#c8ea4b",
+          "amount": -63.22,
+          "percent": 0.05
+        }
+      ]
+    },
+    {
+      "date": "2022-08-01",
+      "total": -93.72,
+      "categories": [
+        {
+          "name": "Unknown",
+          "color": "#3e442a",
+          "amount": -86.09,
+          "percent": 0.92
+        },
+        {
+          "name": "Entertainment",
+          "color": "#6caf68",
+          "amount": -7.63,
+          "percent": 0.08
+        }
+      ]
+    }
+  ],
+  "pageNumber": 0,
+  "totalItems": 4
+}

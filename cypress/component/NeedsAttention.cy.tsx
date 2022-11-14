@@ -29,6 +29,7 @@ const validateNeedsAttention = (
 		!hasUncategorized
 	) {
 		needsAttentionPage.getNeedsAttentionRoot().should('not.exist');
+		return;
 	}
 
 	if (hasDuplicates) {

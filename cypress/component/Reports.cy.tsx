@@ -18,18 +18,16 @@ const validateRootTableHeaders = () => {
 };
 
 const validateReport = (index: number) => {
-	const row = reportsPage.getRootTableRows().eq(index);
 	const report = reports.reports[index];
-	reportsPage.getReportChart(row).should('be.visible');
-	const table = reportsPage.getReportTable(row);
+	reportsPage.getReportChart(index).should('be.visible');
 	reportsPage
-		.getReportTableRows(table)
+		.getReportTableRows(index)
 		.should('have.length', report.categories.length + 1);
 	pipe(
 		RNonEmptyArray.range(0, report.categories.length - 1),
 		RNonEmptyArray.map((index) => {
 			const reportTableCells = reportsPage
-				.getReportTableRows(table)
+				.getReportTableRows(index)
 				.eq(index)
 				.find('td');
 			reportTableCells.eq(1).contains(report.categories[index].name);
@@ -42,7 +40,7 @@ const validateReport = (index: number) => {
 		})
 	);
 	const totalCells = reportsPage
-		.getReportTableRows(table)
+		.getReportTableRows(index)
 		.eq(report.categories.length)
 		.find('td');
 	totalCells.eq(1).contains('Total');

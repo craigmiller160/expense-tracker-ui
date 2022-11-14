@@ -1,3 +1,5 @@
+import { needsAttentionPage } from './testutils/pages/needsAttention';
+
 type NeedsAttentionValidationConfig = {
 	readonly hasDuplicates: boolean;
 	readonly hasPossibleRefunds: boolean;
@@ -10,7 +12,19 @@ const getOrDefault = (value?: boolean): boolean => value ?? false;
 const validateNeedsAttention = (
 	config?: Partial<NeedsAttentionValidationConfig>
 ) => {
-	throw new Error();
+	const hasDuplicates = getOrDefault(config?.hasDuplicates);
+	const hasPossibleRefunds = getOrDefault(config?.hasPossibleRefunds);
+	const hasUnconfirmed = getOrDefault(config?.hasUnconfirmed);
+	const hasUncategorized = getOrDefault(config?.hasUncategorized);
+
+	if (
+		!hasDuplicates &&
+		!hasPossibleRefunds &&
+		!hasUnconfirmed &&
+		!hasUncategorized
+	) {
+		needsAttentionPage.getNeedsAttentionTitle().should('not.exist');
+	}
 };
 
 describe('Needs Attention', () => {

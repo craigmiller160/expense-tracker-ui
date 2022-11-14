@@ -24,6 +24,7 @@ describe('Navigation', () => {
 		it('navigates to Transactions', () => {
 			categoriesApi.getAllCategories();
 			transactionsApi.searchForTransactions();
+			transactionsApi.getNeedsAttention();
 			mountApp({
 				initialRoute: '/expense-tracker/categories'
 			});
@@ -71,6 +72,7 @@ describe('Navigation', () => {
 		it('navigates to Transactions', () => {
 			categoriesApi.getAllCategories();
 			transactionsApi.searchForTransactions();
+			transactionsApi.getNeedsAttention();
 			mountApp({
 				viewport: 'mobile',
 				initialRoute: '/expense-tracker/categories'

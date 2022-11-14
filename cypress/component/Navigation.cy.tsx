@@ -8,6 +8,7 @@ import { transactionsListPage } from './testutils/pages/transactionsList';
 import { transactionsApi } from './testutils/apis/transactions';
 import { importPage } from './testutils/pages/importPage';
 import { authorizedNavbarItems } from './testutils/constants/navbar';
+import { needsAttentionApi } from './testutils/apis/needsAttention';
 
 describe('Navigation', () => {
 	describe('Desktop', () => {
@@ -26,7 +27,7 @@ describe('Navigation', () => {
 		it('navigates to Transactions', () => {
 			categoriesApi.getAllCategories();
 			transactionsApi.searchForTransactions();
-			transactionsApi.getNeedsAttention();
+			needsAttentionApi.getNeedsAttention_all();
 			mountApp({
 				initialRoute: '/expense-tracker/categories'
 			});
@@ -80,7 +81,7 @@ describe('Navigation', () => {
 		it('navigates to Transactions', () => {
 			categoriesApi.getAllCategories();
 			transactionsApi.searchForTransactions();
-			transactionsApi.getNeedsAttention();
+			needsAttentionApi.getNeedsAttention_all();
 			mountApp({
 				viewport: 'mobile',
 				initialRoute: '/expense-tracker/categories'

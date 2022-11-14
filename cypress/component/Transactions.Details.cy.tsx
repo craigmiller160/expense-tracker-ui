@@ -1,5 +1,6 @@
 import { mountApp } from './testutils/mountApp';
 import { transactionsApi } from './testutils/apis/transactions';
+import { needsAttentionApi } from './testutils/apis/needsAttention';
 import {
 	allTransactions,
 	possibleDuplicates,
@@ -73,7 +74,7 @@ const testDuplicate = (getRecord: () => Chainable<JQuery>, index: number) => {
 describe('Transaction Details Dialog', () => {
 	it('adds a new transaction', () => {
 		categoriesApi.getAllCategories();
-		transactionsApi.getNeedsAttention();
+		needsAttentionApi.getNeedsAttention_all();
 		transactionsApi.searchForTransactions();
 		transactionsApi.createTransaction();
 		mountApp({
@@ -121,7 +122,7 @@ describe('Transaction Details Dialog', () => {
 	it('shows current transaction information for unconfirmed and uncategorized', () => {
 		const transactionId = allTransactions.transactions[0].id;
 		categoriesApi.getAllCategories();
-		transactionsApi.getNeedsAttention();
+		needsAttentionApi.getNeedsAttention_all();
 		transactionsApi.searchForTransactions();
 		transactionsApi.createTransaction();
 		transactionsApi.getTransactionDetails(transactionId);
@@ -180,7 +181,7 @@ describe('Transaction Details Dialog', () => {
 	it('shows current transaction information for confirmed and categorized', () => {
 		const transactionId = allTransactions.transactions[0].id;
 		categoriesApi.getAllCategories();
-		transactionsApi.getNeedsAttention();
+		needsAttentionApi.getNeedsAttention_all();
 		transactionsApi.searchForTransactions();
 		transactionsApi.createTransaction();
 		transactionsApi.getTransactionDetails_confirmedAndCategorized(
@@ -241,7 +242,7 @@ describe('Transaction Details Dialog', () => {
 	it('shows current transaction information for possible refunds', () => {
 		const transactionId = allTransactions.transactions[0].id;
 		categoriesApi.getAllCategories();
-		transactionsApi.getNeedsAttention();
+		needsAttentionApi.getNeedsAttention_all();
 		transactionsApi.searchForTransactions();
 		transactionsApi.createTransaction();
 		transactionsApi.getTransactionDetails_possibleRefund(transactionId);
@@ -298,7 +299,7 @@ describe('Transaction Details Dialog', () => {
 	it('shows current transaction information for duplicates', () => {
 		const transactionId = allTransactions.transactions[0].id;
 		categoriesApi.getAllCategories();
-		transactionsApi.getNeedsAttention();
+		needsAttentionApi.getNeedsAttention_all();
 		transactionsApi.searchForTransactions();
 		transactionsApi.createTransaction();
 		transactionsApi.getTransactionDetails_duplicate(transactionId);
@@ -377,7 +378,7 @@ describe('Transaction Details Dialog', () => {
 	it('can update transaction information', () => {
 		const transactionId = allTransactions.transactions[0].id;
 		categoriesApi.getAllCategories();
-		transactionsApi.getNeedsAttention();
+		needsAttentionApi.getNeedsAttention_all();
 		transactionsApi.searchForTransactions();
 		transactionsApi.getTransactionDetails(transactionId);
 		transactionsApi.updateTransactionDetails(transactionId);
@@ -411,7 +412,7 @@ describe('Transaction Details Dialog', () => {
 	it('input field validation rules work', () => {
 		const transactionId = allTransactions.transactions[0].id;
 		categoriesApi.getAllCategories();
-		transactionsApi.getNeedsAttention();
+		needsAttentionApi.getNeedsAttention_all();
 		transactionsApi.searchForTransactions();
 		transactionsApi.getTransactionDetails(transactionId);
 		mountApp({
@@ -442,7 +443,7 @@ describe('Transaction Details Dialog', () => {
 	it('can confirm transaction', () => {
 		const transactionId = allTransactions.transactions[0].id;
 		categoriesApi.getAllCategories();
-		transactionsApi.getNeedsAttention();
+		needsAttentionApi.getNeedsAttention_all();
 		transactionsApi.searchForTransactions();
 		transactionsApi.getTransactionDetails(transactionId);
 		transactionsApi.updateTransactionDetails(transactionId);
@@ -482,7 +483,7 @@ describe('Transaction Details Dialog', () => {
 		const transactionId = allTransactions.transactions[0].id;
 		const secondId = possibleDuplicates.transactions[0].id;
 		categoriesApi.getAllCategories();
-		transactionsApi.getNeedsAttention();
+		needsAttentionApi.getNeedsAttention_all();
 		transactionsApi.searchForTransactions();
 		transactionsApi.getTransactionDetails_duplicate(transactionId);
 		transactionsApi.getPossibleDuplicates(transactionId);
@@ -508,7 +509,7 @@ describe('Transaction Details Dialog', () => {
 	it('can mark transaction as not a duplicate', () => {
 		const transactionId = allTransactions.transactions[0].id;
 		categoriesApi.getAllCategories();
-		transactionsApi.getNeedsAttention();
+		needsAttentionApi.getNeedsAttention_all();
 		transactionsApi.searchForTransactions();
 		transactionsApi.createTransaction();
 		transactionsApi.getTransactionDetails_duplicate(transactionId);

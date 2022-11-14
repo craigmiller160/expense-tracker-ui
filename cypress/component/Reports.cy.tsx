@@ -4,6 +4,7 @@ import { reportsPage } from './testutils/pages/reports';
 import { reportRootTableHeaders, reports } from './testutils/constants/reports';
 import * as RNonEmptyArray from 'fp-ts/es6/ReadonlyNonEmptyArray';
 import { pipe } from 'fp-ts/es6/function';
+import { formatCurrency, formatPercent } from '../../src/utils/formatNumbers';
 
 const validateRootTableHeaders = () => {
 	reportsPage
@@ -20,6 +21,32 @@ const validateReport = (index: number) => {
 	const row = reportsPage.getRootTableRows().eq(index);
 	const report = reports.reports[index];
 	reportsPage.getReportChart(row).should('be.visible');
+	const table = reportsPage.getReportTable(row);
+	reportsPage
+		.getReportTableRows(table)
+		.should('have.length', report.categories.length + 1);
+	pipe(
+		RNonEmptyArray.range(0, report.categories.length),
+		RNonEmptyArray.map((index) => {
+			const reportTableCells = reportsPage
+				.getReportTableRows(table)
+				.eq(index)
+				.find('td');
+			reportTableCells.eq(1).contains(report.categories[index].name);
+			reportTableCells
+				.eq(2)
+				.contains(formatCurrency(report.categories[index].amount));
+			reportTableCells
+				.eq(2)
+				.contains(formatPercent(report.categories[index].percent));
+		})
+	);
+	const totalCells = reportsPage
+		.getReportTableRows(table)
+		.eq(report.categories.length)
+		.find('td');
+	totalCells.eq(1).contains('Total');
+	totalCells.eq(2).contains(formatCurrency(report.total));
 };
 
 describe('Reports', () => {

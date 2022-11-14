@@ -10,6 +10,8 @@ const getReportTable = (row: Chainable<JQuery>): Chainable<JQuery> =>
 	row.get('.SpendingByCategoryTable');
 const getReportChart = (row: Chainable<JQuery>): Chainable<JQuery> =>
 	row.get('.SpendingByCategoryChart');
+const getReportTableRows = (table: Chainable<JQuery>): Chainable<JQuery> =>
+	table.get('tbody tr');
 
 export const reportsPage = {
 	getTitle,
@@ -17,5 +19,6 @@ export const reportsPage = {
 	getRootTableHeaders,
 	getRootTableRows,
 	getReportTable,
-	getReportChart
+	getReportChart,
+	getReportTableRows
 };

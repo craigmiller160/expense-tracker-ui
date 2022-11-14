@@ -3,6 +3,10 @@
 .AppTable {
   width: 100%;
 
+  .TableTitle {
+    margin: 0.5rem auto;
+  }
+
   .MuiTable-root {
     thead th {
       font-weight: bold;

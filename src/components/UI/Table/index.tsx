@@ -8,7 +8,8 @@ import {
 	TableFooter,
 	TableHead,
 	TablePagination,
-	TableRow
+	TableRow,
+	Typography
 } from '@mui/material';
 import { ChangeEvent, MouseEvent, PropsWithChildren, ReactNode } from 'react';
 import './Table.scss';
@@ -34,6 +35,7 @@ interface Props {
 	readonly pagination?: TablePaginationConfig;
 	readonly 'data-testid'?: string;
 	readonly className?: string;
+	readonly tableTitle?: string;
 }
 
 export const Table = (props: PropsWithChildren<Props>) => {
@@ -45,6 +47,11 @@ export const Table = (props: PropsWithChildren<Props>) => {
 	return (
 		<div className={rootClasses} data-testid={props['data-testid']}>
 			<TableContainer component={Paper}>
+				{props.tableTitle && (
+					<Typography className="TableTitle" variant="h6">
+						{props.tableTitle}
+					</Typography>
+				)}
 				{!props.loading && (
 					<div className="ActionWrapper AboveTableActionWrapper">
 						{props.aboveTableActions}

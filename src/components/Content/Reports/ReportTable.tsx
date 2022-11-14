@@ -6,10 +6,10 @@ import { serverDateToReportMonth } from '../../../utils/dateTimeUtils';
 import { createTablePagination, PaginationState } from '../Transactions/utils';
 import { SpendingByCategoryTable } from './SpendingByCategoryTable';
 import { SpendingByCategoryChart } from './SpendingByCategoryChart';
+import './ReportsTable.scss';
 
 const COLUMNS = ['Month', 'Data', 'Chart'];
 
-// TODO consider alignment of column headers
 export const ReportTable = () => {
 	const [state, setState] = useImmer<PaginationState>({
 		pageNumber: 0,
@@ -28,7 +28,12 @@ export const ReportTable = () => {
 	);
 
 	return (
-		<Table pagination={pagination} loading={isFetching} columns={COLUMNS}>
+		<Table
+			className="ReportsTable"
+			pagination={pagination}
+			loading={isFetching}
+			columns={COLUMNS}
+		>
 			{data?.reports?.map((report) => (
 				<TableRow key={report.date}>
 					<TableCell>

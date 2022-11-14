@@ -24,7 +24,7 @@ describe('Authorization.cy.tsx', () => {
 		navbarPage.getAuthButton().contains('Logout');
 		navbarPage
 			.getNavbarItems()
-			.should('have.length', 3)
+			.should('have.length', orderedAuthorizedNavbarItems.length)
 			.each(($node, index) =>
 				expect($node.text()).to.eq(orderedAuthorizedNavbarItems[index])
 			);

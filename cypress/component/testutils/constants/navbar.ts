@@ -1,4 +1,5 @@
 export const orderedAuthorizedNavbarItems = [
+	'Reports',
 	'Manage Transactions',
 	'Manage Categories',
 	'Import Transactions'

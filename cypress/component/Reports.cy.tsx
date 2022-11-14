@@ -26,7 +26,7 @@ const validateReport = (index: number) => {
 		.getReportTableRows(table)
 		.should('have.length', report.categories.length + 1);
 	pipe(
-		RNonEmptyArray.range(0, report.categories.length),
+		RNonEmptyArray.range(0, report.categories.length - 1),
 		RNonEmptyArray.map((index) => {
 			const reportTableCells = reportsPage
 				.getReportTableRows(table)
@@ -62,7 +62,7 @@ describe('Reports', () => {
 			.getRootTableRows()
 			.should('have.length', reports.reports.length);
 		pipe(
-			RNonEmptyArray.range(0, reports.reports.length),
+			RNonEmptyArray.range(0, reports.reports.length - 1),
 			RNonEmptyArray.map(validateReport)
 		);
 	});

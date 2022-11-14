@@ -7,9 +7,9 @@ const getRootTableHeaders = (): Chainable<JQuery> =>
 const getRootTableRows = (): Chainable<JQuery> =>
 	cy.get('.Reports .ReportsTable-body > tr');
 const getReportTable = (row: Chainable<JQuery>): Chainable<JQuery> =>
-	row.get('.SpendingByCategoryTable');
+	row.find('.SpendingByCategoryTable');
 const getReportChart = (row: Chainable<JQuery>): Chainable<JQuery> =>
-	row.get('.SpendingByCategoryChart');
+	row.find('.SpendingByCategoryChart');
 const getReportTableRows = (table: Chainable<JQuery>): Chainable<JQuery> =>
 	table.get('tbody tr');
 

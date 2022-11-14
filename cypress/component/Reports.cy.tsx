@@ -40,12 +40,13 @@ const validateReport = (reportRowIndex: number) => {
 				.contains(formatPercent(report.categories[index].percent));
 		})
 	);
-	const totalCells = reportsPage
-		.getReportTableRows(reportRowIndex)
-		.eq(report.categories.length)
-		.find('td');
-	totalCells.eq(1).contains('Total');
-	totalCells.eq(2).contains(formatCurrency(report.total));
+	const getTotalCells = () =>
+		reportsPage
+			.getReportTableRows(reportRowIndex)
+			.eq(report.categories.length)
+			.find('td');
+	getTotalCells().eq(1).contains('Total');
+	getTotalCells().eq(2).contains(formatCurrency(report.total));
 };
 
 describe('Reports', () => {

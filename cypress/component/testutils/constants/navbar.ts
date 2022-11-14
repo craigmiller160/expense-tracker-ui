@@ -1,8 +1,8 @@
 export const orderedAuthorizedNavbarItems = [
 	'Reports',
-	'Manage Transactions',
-	'Manage Categories',
-	'Import Transactions'
+	'Transactions',
+	'Categories',
+	'Import'
 ];
 
 export const authorizedNavbarItems = {

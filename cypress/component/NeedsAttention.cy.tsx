@@ -1,4 +1,8 @@
 import { needsAttentionPage } from './testutils/pages/needsAttention';
+import { needsAttentionApi } from './testutils/apis/needsAttention';
+import { transactionsApi } from './testutils/apis/transactions';
+import { categoriesApi } from './testutils/apis/categories';
+import { mountApp } from './testutils/mountApp';
 
 type NeedsAttentionValidationConfig = {
 	readonly hasDuplicates: boolean;
@@ -62,30 +66,60 @@ const validateNeedsAttention = (
 describe('Needs Attention', () => {
 	describe('Transactions Page', () => {
 		it('has duplicates', () => {
+			transactionsApi.searchForTransactions();
+			categoriesApi.getAllCategories();
+			needsAttentionApi.getNeedsAttention_duplicates();
+			mountApp({
+				initialRoute: '/expense-tracker/transactions'
+			});
 			validateNeedsAttention({
 				hasDuplicates: true
 			});
 		});
 
 		it('has possible refunds', () => {
+			transactionsApi.searchForTransactions();
+			categoriesApi.getAllCategories();
+			needsAttentionApi.getNeedsAttention_possibleRefund();
+			mountApp({
+				initialRoute: '/expense-tracker/transactions'
+			});
 			validateNeedsAttention({
 				hasPossibleRefunds: true
 			});
 		});
 
 		it('has unconfirmed', () => {
+			transactionsApi.searchForTransactions();
+			categoriesApi.getAllCategories();
+			needsAttentionApi.getNeedsAttention_unconfirmed();
+			mountApp({
+				initialRoute: '/expense-tracker/transactions'
+			});
 			validateNeedsAttention({
 				hasUnconfirmed: true
 			});
 		});
 
 		it('has uncategorized', () => {
+			transactionsApi.searchForTransactions();
+			categoriesApi.getAllCategories();
+			needsAttentionApi.getNeedsAttention_uncategorized();
+			mountApp({
+				initialRoute: '/expense-tracker/transactions'
+			});
 			validateNeedsAttention({
 				hasUncategorized: true
 			});
 		});
 
 		it('has all', () => {
+			transactionsApi.searchForTransactions();
+			categoriesApi.getAllCategories();
+			needsAttentionApi.getNeedsAttention_all();
+			mountApp({
+				initialRoute: '/expense-tracker/transactions'
+			});
 			validateNeedsAttention({
 				hasUncategorized: true,
 				hasUnconfirmed: true,
@@ -95,6 +129,12 @@ describe('Needs Attention', () => {
 		});
 
 		it('has none', () => {
+			transactionsApi.searchForTransactions();
+			categoriesApi.getAllCategories();
+			needsAttentionApi.getNeedsAttention_none();
+			mountApp({
+				initialRoute: '/expense-tracker/transactions'
+			});
 			validateNeedsAttention();
 		});
 	});

@@ -7,6 +7,7 @@ import { reportsPage } from './testutils/pages/reports';
 import { transactionsListPage } from './testutils/pages/transactionsList';
 import { transactionsApi } from './testutils/apis/transactions';
 import { importPage } from './testutils/pages/importPage';
+import { authorizedNavbarItems } from './testutils/constants/navbar';
 
 describe('Navigation', () => {
 	describe('Desktop', () => {
@@ -18,6 +19,7 @@ describe('Navigation', () => {
 			});
 			categoriesListPage.getTitle().should('be.visible');
 			navbarPage.getReportsItem().click();
+			navbarPage.getReportsItem().should('have.class', 'active');
 			reportsPage.getTitle().should('be.visible');
 		});
 
@@ -30,6 +32,7 @@ describe('Navigation', () => {
 			});
 			categoriesListPage.getTitle().should('be.visible');
 			navbarPage.getTransactionsItem().click();
+			navbarPage.getTransactionsItem().should('have.class', 'active');
 			transactionsListPage.getTitle().should('be.visible');
 		});
 
@@ -41,6 +44,7 @@ describe('Navigation', () => {
 			});
 			reportsPage.getTitle().should('be.visible');
 			navbarPage.getCategoriesItem().click();
+			navbarPage.getCategoriesItem().should('have.class', 'active');
 			categoriesListPage.getTitle().should('be.visible');
 		});
 
@@ -51,6 +55,7 @@ describe('Navigation', () => {
 			});
 			categoriesListPage.getTitle().should('be.visible');
 			navbarPage.getImportItem().click();
+			navbarPage.getImportItem().should('have.class', 'active');
 			importPage.getTitle().should('be.visible');
 		});
 	});
@@ -66,6 +71,9 @@ describe('Navigation', () => {
 			categoriesListPage.getTitle().should('be.visible');
 			navbarPage.getMobileNavItemsButton().click();
 			navbarPage.getReportsItem().click();
+			navbarPage
+				.getMobileNavItemsButton()
+				.contains(authorizedNavbarItems.reports);
 			reportsPage.getTitle().should('be.visible');
 		});
 
@@ -80,6 +88,9 @@ describe('Navigation', () => {
 			categoriesListPage.getTitle().should('be.visible');
 			navbarPage.getMobileNavItemsButton().click();
 			navbarPage.getTransactionsItem().click();
+			navbarPage
+				.getMobileNavItemsButton()
+				.contains(authorizedNavbarItems.manageTransactions);
 			transactionsListPage.getTitle().should('be.visible');
 		});
 
@@ -93,6 +104,9 @@ describe('Navigation', () => {
 			reportsPage.getTitle().should('be.visible');
 			navbarPage.getMobileNavItemsButton().click();
 			navbarPage.getCategoriesItem().click();
+			navbarPage
+				.getMobileNavItemsButton()
+				.contains(authorizedNavbarItems.manageCategories);
 			categoriesListPage.getTitle().should('be.visible');
 		});
 
@@ -105,6 +119,9 @@ describe('Navigation', () => {
 			categoriesListPage.getTitle().should('be.visible');
 			navbarPage.getMobileNavItemsButton().click();
 			navbarPage.getImportItem().click();
+			navbarPage
+				.getMobileNavItemsButton()
+				.contains(authorizedNavbarItems.importTransactions);
 			importPage.getTitle().should('be.visible');
 		});
 	});

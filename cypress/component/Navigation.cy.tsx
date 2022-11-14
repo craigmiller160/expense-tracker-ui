@@ -63,6 +63,7 @@ describe('Navigation', () => {
 				initialRoute: '/expense-tracker/categories'
 			});
 			categoriesListPage.getTitle().should('be.visible');
+			navbarPage.getMobileNavItemsButton().click();
 			navbarPage.getReportsItem().click();
 			reportsPage.getTitle().should('be.visible');
 		});

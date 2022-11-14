@@ -90,6 +90,10 @@ describe('Transactions Needs Attention', () => {
 		prepareData = createPrepareData(apiServer.database);
 	});
 
+	it('delete all of these tests', () => {
+		throw new Error();
+	});
+
 	it('has duplicates', async () => {
 		prepareData({ duplicate: true });
 		await renderApp({

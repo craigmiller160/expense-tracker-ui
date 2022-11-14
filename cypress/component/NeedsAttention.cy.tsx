@@ -3,6 +3,7 @@ import { needsAttentionApi } from './testutils/apis/needsAttention';
 import { transactionsApi } from './testutils/apis/transactions';
 import { categoriesApi } from './testutils/apis/categories';
 import { mountApp } from './testutils/mountApp';
+import { reportsApi } from './testutils/apis/reports';
 
 type NeedsAttentionValidationConfig = {
 	readonly hasDuplicates: boolean;
@@ -141,30 +142,55 @@ describe('Needs Attention', () => {
 
 	describe('Reports Page', () => {
 		it('has duplicates', () => {
+			reportsApi.getSpendingByMonthAndCategory();
+			needsAttentionApi.getNeedsAttention_duplicates();
+			mountApp({
+				initialRoute: '/expense-tracker/reports'
+			});
 			validateNeedsAttention({
 				hasDuplicates: true
 			});
 		});
 
 		it('has possible refunds', () => {
+			reportsApi.getSpendingByMonthAndCategory();
+			needsAttentionApi.getNeedsAttention_possibleRefund();
+			mountApp({
+				initialRoute: '/expense-tracker/reports'
+			});
 			validateNeedsAttention({
 				hasPossibleRefunds: true
 			});
 		});
 
 		it('has unconfirmed', () => {
+			reportsApi.getSpendingByMonthAndCategory();
+			needsAttentionApi.getNeedsAttention_unconfirmed();
+			mountApp({
+				initialRoute: '/expense-tracker/reports'
+			});
 			validateNeedsAttention({
 				hasUnconfirmed: true
 			});
 		});
 
 		it('has uncategorized', () => {
+			reportsApi.getSpendingByMonthAndCategory();
+			needsAttentionApi.getNeedsAttention_uncategorized();
+			mountApp({
+				initialRoute: '/expense-tracker/reports'
+			});
 			validateNeedsAttention({
 				hasUncategorized: true
 			});
 		});
 
 		it('has all', () => {
+			reportsApi.getSpendingByMonthAndCategory();
+			needsAttentionApi.getNeedsAttention_all();
+			mountApp({
+				initialRoute: '/expense-tracker/reports'
+			});
 			validateNeedsAttention({
 				hasUncategorized: true,
 				hasUnconfirmed: true,
@@ -174,6 +200,11 @@ describe('Needs Attention', () => {
 		});
 
 		it('has none', () => {
+			reportsApi.getSpendingByMonthAndCategory();
+			needsAttentionApi.getNeedsAttention_none();
+			mountApp({
+				initialRoute: '/expense-tracker/reports'
+			});
 			validateNeedsAttention();
 		});
 	});

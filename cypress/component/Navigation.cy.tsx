@@ -76,6 +76,7 @@ describe('Navigation', () => {
 				initialRoute: '/expense-tracker/categories'
 			});
 			categoriesListPage.getTitle().should('be.visible');
+			navbarPage.getMobileNavItemsButton().click();
 			navbarPage.getTransactionsItem().click();
 			transactionsListPage.getTitle().should('be.visible');
 		});
@@ -88,6 +89,7 @@ describe('Navigation', () => {
 				initialRoute: '/expense-tracker/reports'
 			});
 			reportsPage.getTitle().should('be.visible');
+			navbarPage.getMobileNavItemsButton().click();
 			navbarPage.getCategoriesItem().click();
 			categoriesListPage.getTitle().should('be.visible');
 		});
@@ -99,6 +101,7 @@ describe('Navigation', () => {
 				initialRoute: '/expense-tracker/categories'
 			});
 			categoriesListPage.getTitle().should('be.visible');
+			navbarPage.getMobileNavItemsButton().click();
 			navbarPage.getImportItem().click();
 			importPage.getTitle().should('be.visible');
 		});

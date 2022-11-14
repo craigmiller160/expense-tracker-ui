@@ -4,6 +4,8 @@ import { reportsApi } from './testutils/apis/reports';
 import { navbarPage } from './testutils/pages/navbar';
 import { categoriesListPage } from './testutils/pages/categoriesList';
 import { reportsPage } from './testutils/pages/reports';
+import { transactionsListPage } from './testutils/pages/transactionsList';
+import { transactionsApi } from './testutils/apis/transactions';
 
 describe('Navigation', () => {
 	describe('Desktop', () => {
@@ -16,15 +18,28 @@ describe('Navigation', () => {
 			categoriesListPage.getTitle().should('be.visible');
 			navbarPage.getReportsItem().click();
 			reportsPage.getTitle().should('be.visible');
-			cy.url().should('match', /^.*\/reports$/);
 		});
 
 		it('navigates to Transactions', () => {
-			throw new Error();
+			categoriesApi.getAllCategories();
+			transactionsApi.searchForTransactions();
+			mountApp({
+				initialRoute: '/expense-tracker/categories'
+			});
+			categoriesListPage.getTitle().should('be.visible');
+			navbarPage.getTransactionsItem().click();
+			transactionsListPage.getTitle().should('be.visible');
 		});
 
 		it('navigates to Categories', () => {
-			throw new Error();
+			reportsApi.getSpendingByMonthAndCategory();
+			categoriesApi.getAllCategories();
+			mountApp({
+				initialRoute: '/expense-tracker/reports'
+			});
+			reportsPage.getTitle().should('be.visible');
+			navbarPage.getCategoriesItem().click();
+			categoriesListPage.getTitle().should('be.visible');
 		});
 
 		it('navigates to Import', () => {

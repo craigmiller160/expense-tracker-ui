@@ -6,7 +6,8 @@ export const orderedAuthorizedNavbarItems = [
 ];
 
 export const authorizedNavbarItems = {
-	manageTransactions: orderedAuthorizedNavbarItems[0],
-	manageCategories: orderedAuthorizedNavbarItems[1],
-	importTransactions: orderedAuthorizedNavbarItems[2]
+	reports: orderedAuthorizedNavbarItems[0],
+	manageTransactions: orderedAuthorizedNavbarItems[1],
+	manageCategories: orderedAuthorizedNavbarItems[2],
+	importTransactions: orderedAuthorizedNavbarItems[3]
 };

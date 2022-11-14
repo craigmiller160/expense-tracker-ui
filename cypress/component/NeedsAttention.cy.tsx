@@ -25,7 +25,38 @@ const validateNeedsAttention = (
 	) {
 		needsAttentionPage.getNeedsAttentionTitle().should('not.exist');
 	}
-	// TODO validate each item individually
+
+	if (hasDuplicates) {
+		needsAttentionPage
+			.getDuplicatesItem()
+			.contains('Duplicate - Count: 2, Oldest: 08/11/2022');
+	} else {
+		needsAttentionPage.getDuplicatesItem().should('not.exist');
+	}
+
+	if (hasPossibleRefunds) {
+		needsAttentionPage
+			.getDuplicatesItem()
+			.contains('Possible Refund - Count: 2, Oldest: 10/07/2022');
+	} else {
+		needsAttentionPage.getDuplicatesItem().should('not.exist');
+	}
+
+	if (hasUnconfirmed) {
+		needsAttentionPage
+			.getUnconfirmedItem()
+			.contains('Unconfirmed - Count: 78, Oldest: 08/25/2022');
+	} else {
+		needsAttentionPage.getUnconfirmedItem().should('not.exist');
+	}
+
+	if (hasUncategorized) {
+		needsAttentionPage
+			.getUncategorizedItem()
+			.contains('Uncategorized - Count: 78, Oldest: 08/25/2022');
+	} else {
+		needsAttentionPage.getUncategorizedItem().should('not.exist');
+	}
 };
 
 describe('Needs Attention', () => {

@@ -1,9 +1,37 @@
 describe('Navigation', () => {
-	it('Desktop navbar takes user to all pages', () => {
-		throw new Error();
+	describe('Desktop', () => {
+		it('navigates to Reports', () => {
+			throw new Error();
+		});
+
+		it('navigates to Transactions', () => {
+			throw new Error();
+		});
+
+		it('navigates to Categories', () => {
+			throw new Error();
+		});
+
+		it('navigates to Import', () => {
+			throw new Error();
+		});
 	});
 
-	it('Mobile navbar takes user to all pages', () => {
-		throw new Error();
+	describe('Mobile', () => {
+		it('navigates to Reports', () => {
+			throw new Error();
+		});
+
+		it('navigates to Transactions', () => {
+			throw new Error();
+		});
+
+		it('navigates to Categories', () => {
+			throw new Error();
+		});
+
+		it('navigates to Import', () => {
+			throw new Error();
+		});
 	});
 });

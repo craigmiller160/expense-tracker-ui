@@ -56,19 +56,50 @@ describe('Navigation', () => {
 
 	describe('Mobile', () => {
 		it('navigates to Reports', () => {
-			throw new Error();
+			categoriesApi.getAllCategories();
+			reportsApi.getSpendingByMonthAndCategory();
+			mountApp({
+				viewport: 'mobile',
+				initialRoute: '/expense-tracker/categories'
+			});
+			categoriesListPage.getTitle().should('be.visible');
+			navbarPage.getReportsItem().click();
+			reportsPage.getTitle().should('be.visible');
 		});
 
 		it('navigates to Transactions', () => {
-			throw new Error();
+			categoriesApi.getAllCategories();
+			transactionsApi.searchForTransactions();
+			mountApp({
+				viewport: 'mobile',
+				initialRoute: '/expense-tracker/categories'
+			});
+			categoriesListPage.getTitle().should('be.visible');
+			navbarPage.getTransactionsItem().click();
+			transactionsListPage.getTitle().should('be.visible');
 		});
 
 		it('navigates to Categories', () => {
-			throw new Error();
+			reportsApi.getSpendingByMonthAndCategory();
+			categoriesApi.getAllCategories();
+			mountApp({
+				viewport: 'mobile',
+				initialRoute: '/expense-tracker/reports'
+			});
+			reportsPage.getTitle().should('be.visible');
+			navbarPage.getCategoriesItem().click();
+			categoriesListPage.getTitle().should('be.visible');
 		});
 
 		it('navigates to Import', () => {
-			throw new Error();
+			categoriesApi.getAllCategories();
+			mountApp({
+				viewport: 'mobile',
+				initialRoute: '/expense-tracker/categories'
+			});
+			categoriesListPage.getTitle().should('be.visible');
+			navbarPage.getImportItem().click();
+			importPage.getTitle().should('be.visible');
 		});
 	});
 });

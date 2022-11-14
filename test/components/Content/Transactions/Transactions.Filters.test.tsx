@@ -43,7 +43,7 @@ describe('Transactions Filters', () => {
 		});
 		await waitForVisibility([
 			{ text: 'Expense Tracker' },
-			{ text: 'Manage Transactions', occurs: 2, timeout: 3000 },
+			{ text: 'Manage Transactions', occurs: 1, timeout: 3000 },
 			{ text: 'Rows per page:' }
 		]);
 
@@ -75,7 +75,7 @@ describe('Transactions Filters', () => {
 		});
 		await waitForVisibility([
 			{ text: 'Expense Tracker' },
-			{ text: 'Manage Transactions', occurs: 2, timeout: 3000 },
+			{ text: 'Manage Transactions', occurs: 1, timeout: 3000 },
 			{ text: 'Rows per page:' }
 		]);
 
@@ -124,7 +124,7 @@ describe('Transactions Filters', () => {
 
 		await waitForVisibility([
 			{ text: 'Expense Tracker' },
-			{ text: 'Manage Transactions', occurs: 2 },
+			{ text: 'Manage Transactions', occurs: 1 },
 			{ text: 'Rows per page:' }
 		]);
 
@@ -170,7 +170,7 @@ describe('Transactions Filters', () => {
 			expect(screen.queryByText('Expense Tracker')).toBeVisible()
 		);
 		await waitFor(() =>
-			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
+			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(1)
 		);
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
@@ -200,7 +200,7 @@ describe('Transactions Filters', () => {
 			expect(screen.queryByText('Expense Tracker')).toBeVisible()
 		);
 		await waitFor(() =>
-			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
+			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(1)
 		);
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
@@ -266,7 +266,7 @@ describe('Transactions Filters', () => {
 			expect(screen.queryByText('Expense Tracker')).toBeVisible()
 		);
 		await waitFor(() =>
-			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
+			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(1)
 		);
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
@@ -326,7 +326,7 @@ describe('Transactions Filters', () => {
 			expect(screen.queryByText('Expense Tracker')).toBeVisible()
 		);
 		await waitFor(() =>
-			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
+			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(1)
 		);
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
@@ -387,7 +387,7 @@ describe('Transactions Filters', () => {
 			expect(screen.queryByText('Expense Tracker')).toBeVisible()
 		);
 		await waitFor(() =>
-			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
+			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(1)
 		);
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()

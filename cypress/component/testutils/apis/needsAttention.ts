@@ -5,7 +5,7 @@ const getNeedsAttention_all = (): Chainable<null> =>
 		.intercept('/expense-tracker/api/needs-attention', {
 			fixture: 'needsAttention_all.json'
 		})
-		.as('getNeedsAttention');
+		.as('getNeedsAttention_all');
 
 export const needsAttentionApi = {
 	getNeedsAttention_all

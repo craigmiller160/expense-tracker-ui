@@ -531,7 +531,7 @@ describe('Transaction Details Dialog', () => {
 		);
 
 		cy.wait('@searchForTransactions');
-		cy.wait('@getNeedsAttention');
+		cy.wait('@getNeedsAttention_all');
 		cy.wait(`@getTransactionDetails_duplicate_${transactionId}`);
 		cy.wait(`@getPossibleDuplicates_${transactionId}`);
 		cy.wait(1000); // Cypress does not know how to properly wait on multiple calls to APIs, so this is needed
@@ -541,7 +541,7 @@ describe('Transaction Details Dialog', () => {
 			2
 		);
 		cy.get('@searchForTransactions.all').should('have.length', 2);
-		cy.get('@getNeedsAttention.all').should('have.length', 2);
+		cy.get('@getNeedsAttention_all.all').should('have.length', 2);
 
 		// this is only being called again because I'm not changing the transaction details response
 		cy.get(`@getPossibleDuplicates_${transactionId}.all`).should(

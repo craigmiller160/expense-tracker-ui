@@ -28,7 +28,7 @@ const validateNeedsAttention = (
 		!hasUnconfirmed &&
 		!hasUncategorized
 	) {
-		needsAttentionPage.getNeedsAttentionTitle().should('not.exist');
+		needsAttentionPage.getNeedsAttentionRoot().should('not.exist');
 	}
 
 	if (hasDuplicates) {
@@ -42,7 +42,7 @@ const validateNeedsAttention = (
 	if (hasPossibleRefunds) {
 		needsAttentionPage
 			.getPossibleRefundsItem()
-			.contains('Possible Refund - Count: 2, Oldest: 10/07/2022');
+			.contains('Possible Refunds - Count: 2, Oldest: 10/07/2022');
 	} else {
 		needsAttentionPage.getPossibleRefundsItem().should('not.exist');
 	}

@@ -14,6 +14,7 @@ const getPossibleRefundsItem = (): Chainable<JQuery> =>
 	getNeedsAttentionRoot().find('.AttentionItem-Possible_Refunds');
 
 export const needsAttentionPage = {
+	getNeedsAttentionRoot,
 	getNeedsAttentionTitle,
 	getUncategorizedItem,
 	getUnconfirmedItem,

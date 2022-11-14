@@ -1,6 +1,6 @@
 import { Paper, Typography } from '@mui/material';
 import './NeedsAttentionNotice.scss';
-import { useGetNeedsAttention } from '../../../ajaxapi/query/TransactionQueries';
+import { useGetNeedsAttention } from '../../../ajaxapi/query/NeedsAttentionQueries';
 import {
 	CountAndOldest,
 	NeedsAttentionResponse

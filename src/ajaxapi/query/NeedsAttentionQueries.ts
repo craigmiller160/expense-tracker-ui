@@ -1,6 +1,6 @@
 import { useQuery, UseQueryResult } from 'react-query';
 import { NeedsAttentionResponse } from '../../types/generated/expense-tracker';
-import { getNeedsAttention } from '../service/TransactionService';
+import { getNeedsAttention } from '../service/NeedsAttentionService';
 
 export const GET_NEEDS_ATTENTION = 'NeedsAttentionQueries_GetNeedsAttention';
 

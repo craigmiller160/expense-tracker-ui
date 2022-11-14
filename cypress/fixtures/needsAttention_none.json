@@ -1,0 +1,18 @@
+{
+  "unconfirmed": {
+    "count": 0,
+    "oldest": null
+  },
+  "uncategorized": {
+    "count": 0,
+    "oldest": null
+  },
+  "duplicate": {
+    "count": 0,
+    "oldest": null
+  },
+  "possibleRefund": {
+    "count": 0,
+    "oldest": null
+  }
+}

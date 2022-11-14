@@ -33,6 +33,7 @@ export const ReportTable = () => {
 			pagination={pagination}
 			loading={isFetching}
 			columns={COLUMNS}
+			tableTitle="Spending by Month & Category"
 		>
 			{data?.reports?.map((report) => (
 				<TableRow key={report.date}>

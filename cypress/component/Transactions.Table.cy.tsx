@@ -4,11 +4,12 @@ import { mountApp } from './testutils/mountApp';
 import { transactionsListPage } from './testutils/pages/transactionsList';
 import { commonPage } from './testutils/pages/common';
 import { orderedCategoryNames } from './testutils/constants/categories';
+import { needsAttentionApi } from './testutils/apis/needsAttention';
 
 describe('Transactions Table', () => {
 	it('can reset in-progress changes on transactions', () => {
 		categoriesApi.getAllCategories();
-		transactionsApi.getNeedsAttention();
+		needsAttentionApi.getNeedsAttention_all();
 		transactionsApi.searchForTransactions();
 		mountApp({
 			initialRoute: '/expense-tracker/transactions'

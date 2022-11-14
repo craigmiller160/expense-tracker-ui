@@ -1,14 +1,13 @@
 import { EnhancedSearchTransactionsRequest } from '../../types/transactions';
 import {
 	CreateTransactionRequest,
-	UpdateTransactionDetailsRequest,
-	TransactionDuplicatePageResponse,
-	TransactionToUpdate,
-	NeedsAttentionResponse,
 	TransactionAndCategory,
+	TransactionDetailsResponse,
+	TransactionDuplicatePageResponse,
 	TransactionResponse,
 	TransactionsPageResponse,
-	TransactionDetailsResponse
+	TransactionToUpdate,
+	UpdateTransactionDetailsRequest
 } from '../../types/generated/expense-tracker';
 import {
 	QueryClient,
@@ -23,7 +22,6 @@ import {
 	categorizeTransactions,
 	createTransaction,
 	deleteTransactions,
-	getNeedsAttention,
 	getPossibleDuplicates,
 	getTransactionDetails,
 	markNotDuplicate,
@@ -34,10 +32,10 @@ import {
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
 import * as Option from 'fp-ts/es6/Option';
 import { GET_SPENDING_BY_MONTH_AND_CATEGORY } from './ReportQueries';
+import { GET_NEEDS_ATTENTION } from './NeedsAttentionQueries';
 
 export const SEARCH_FOR_TRANSACTIONS =
 	'TransactionQueries_SearchForTransactions';
-export const GET_NEEDS_ATTENTION = 'TransactionQueries_GetNeedsAttention';
 export const GET_POSSIBLE_DUPLICATES =
 	'TransactionQueries_GetPossibleDuplicates';
 export const GET_TRANSACTION_DETAILS =
@@ -107,14 +105,6 @@ export const useGetTransactionDetails = (
 			// Will never execute orElse condition
 			getTransactionDetails(Option.getOrElse(() => '')(id)),
 		{ enabled: Option.isSome(transactionId) }
-	);
-
-export const useGetNeedsAttention = (): UseQueryResult<
-	NeedsAttentionResponse,
-	Error
-> =>
-	useQuery<NeedsAttentionResponse, Error>(GET_NEEDS_ATTENTION, () =>
-		getNeedsAttention()
 	);
 
 interface CategorizeTransactionsParams {

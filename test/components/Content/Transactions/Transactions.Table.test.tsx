@@ -392,7 +392,7 @@ describe('Transactions Table', () => {
 			expect(screen.queryByText('Expense Tracker')).toBeVisible()
 		);
 		await waitFor(() =>
-			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
+			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(1)
 		);
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
@@ -469,7 +469,7 @@ describe('Transactions Table', () => {
 			expect(screen.queryByText('Expense Tracker')).toBeVisible()
 		);
 		await waitFor(() =>
-			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
+			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(1)
 		);
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()

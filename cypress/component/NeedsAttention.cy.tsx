@@ -14,6 +14,9 @@ type NeedsAttentionValidationConfig = {
 
 const getOrDefault = (value?: boolean): boolean => value ?? false;
 
+const validateText = (expected: string, actual: string) =>
+	expect(actual.replace(/\s/g, ' ')).eq(expected);
+
 const validateNeedsAttention = (
 	config?: Partial<NeedsAttentionValidationConfig>
 ) => {
@@ -34,17 +37,22 @@ const validateNeedsAttention = (
 	if (hasDuplicates) {
 		needsAttentionPage
 			.getDuplicatesItem()
-			.contains('Duplicate - Count: 2, Oldest: 08/11/2022');
+			.then(($elem) =>
+				validateText(
+					'Duplicates - Count: 2, Oldest: 11/08/2022',
+					$elem.text()
+				)
+			);
 	} else {
 		needsAttentionPage.getDuplicatesItem().should('not.exist');
 	}
 
 	if (hasPossibleRefunds) {
 		needsAttentionPage
-			.getDuplicatesItem()
+			.getPossibleRefundsItem()
 			.contains('Possible Refund - Count: 2, Oldest: 10/07/2022');
 	} else {
-		needsAttentionPage.getDuplicatesItem().should('not.exist');
+		needsAttentionPage.getPossibleRefundsItem().should('not.exist');
 	}
 
 	if (hasUnconfirmed) {

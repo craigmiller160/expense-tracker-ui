@@ -25,6 +25,7 @@ const validateNeedsAttention = (
 	) {
 		needsAttentionPage.getNeedsAttentionTitle().should('not.exist');
 	}
+	// TODO validate each item individually
 };
 
 describe('Needs Attention', () => {

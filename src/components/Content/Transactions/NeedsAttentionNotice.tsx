@@ -34,8 +34,10 @@ const AttentionItem = (props: AttentionItemProps) => {
 		return <></>;
 	}
 
+	const classNameLabel = props.label.replace(/\s/g, '_');
+
 	return (
-		<li>
+		<li className={`AttentionItem-${classNameLabel}`}>
 			<Typography variant="body1">
 				{props.label} - Count: {props.countAndOldest.count}, Oldest:{' '}
 				{formatDate(props.countAndOldest.oldest)}

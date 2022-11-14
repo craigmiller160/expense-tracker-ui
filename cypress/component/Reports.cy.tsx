@@ -17,30 +17,31 @@ const validateRootTableHeaders = () => {
 		);
 };
 
-const validateReport = (index: number) => {
-	const report = reports.reports[index];
-	reportsPage.getReportChart(index).should('be.visible');
+const validateReport = (reportRowIndex: number) => {
+	const report = reports.reports[reportRowIndex];
+	reportsPage.getReportChart(reportRowIndex).should('be.visible');
 	reportsPage
-		.getReportTableRows(index)
+		.getReportTableRows(reportRowIndex)
 		.should('have.length', report.categories.length + 1);
 	pipe(
 		RNonEmptyArray.range(0, report.categories.length - 1),
 		RNonEmptyArray.map((index) => {
-			const reportTableCells = reportsPage
-				.getReportTableRows(index)
-				.eq(index)
-				.find('td');
-			reportTableCells.eq(1).contains(report.categories[index].name);
-			reportTableCells
+			const getReportTableCells = () =>
+				reportsPage
+					.getReportTableRows(reportRowIndex)
+					.eq(index)
+					.find('td');
+			getReportTableCells().eq(1).contains(report.categories[index].name);
+			getReportTableCells()
 				.eq(2)
 				.contains(formatCurrency(report.categories[index].amount));
-			reportTableCells
-				.eq(2)
+			getReportTableCells()
+				.eq(3)
 				.contains(formatPercent(report.categories[index].percent));
 		})
 	);
 	const totalCells = reportsPage
-		.getReportTableRows(index)
+		.getReportTableRows(reportRowIndex)
 		.eq(report.categories.length)
 		.find('td');
 	totalCells.eq(1).contains('Total');

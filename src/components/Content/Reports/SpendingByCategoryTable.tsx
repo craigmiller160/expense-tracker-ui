@@ -12,7 +12,7 @@ type Props = {
 const COLUMNS = ['', 'Category', 'Amount', 'Percent'];
 
 export const SpendingByCategoryTable = (props: Props) => (
-	<Table columns={COLUMNS}>
+	<Table columns={COLUMNS} className="SpendingByCategoryTable">
 		{props.categories.map((category) => (
 			<TableRow key={category.name}>
 				<TableCell>

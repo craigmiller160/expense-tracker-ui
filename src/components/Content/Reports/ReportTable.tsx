@@ -29,7 +29,7 @@ export const ReportTable = () => {
 
 	return (
 		<Table
-			className="ReportsTable"
+			id="ReportsTable"
 			pagination={pagination}
 			loading={isFetching}
 			columns={COLUMNS}

@@ -97,7 +97,7 @@ describe('Transactions Needs Attention', () => {
 		});
 		await waitForVisibility([
 			{ text: 'Expense Tracker' },
-			{ text: 'Manage Transactions', occurs: 2, timeout: 3000 },
+			{ text: 'Manage Transactions', occurs: 1, timeout: 3000 },
 			{ text: 'Transactions Need Attention' }
 		]);
 		const needsAttentionNotice = screen.getByTestId(
@@ -128,7 +128,7 @@ describe('Transactions Needs Attention', () => {
 			expect(screen.queryByText('Expense Tracker')).toBeVisible()
 		);
 		await waitFor(() =>
-			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
+			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(1)
 		);
 		await waitFor(() =>
 			expect(
@@ -161,7 +161,7 @@ describe('Transactions Needs Attention', () => {
 		});
 		await waitForVisibility([
 			{ text: 'Expense Tracker' },
-			{ text: 'Manage Transactions', occurs: 2 },
+			{ text: 'Manage Transactions', occurs: 1 },
 			{ text: 'Transactions Need Attention' }
 		]);
 		const needsAttentionNotice = screen.getByTestId(
@@ -192,7 +192,7 @@ describe('Transactions Needs Attention', () => {
 			expect(screen.queryByText('Expense Tracker')).toBeVisible()
 		);
 		await waitFor(() =>
-			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
+			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(1)
 		);
 		await waitFor(() =>
 			expect(
@@ -232,7 +232,7 @@ describe('Transactions Needs Attention', () => {
 			expect(screen.queryByText('Expense Tracker')).toBeVisible()
 		);
 		await waitFor(() =>
-			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
+			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(1)
 		);
 		await waitFor(() =>
 			expect(
@@ -273,7 +273,7 @@ describe('Transactions Needs Attention', () => {
 			expect(screen.queryByText('Expense Tracker')).toBeVisible()
 		);
 		await waitFor(() =>
-			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(2)
+			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(1)
 		);
 		await Sleep.sleep(200)();
 

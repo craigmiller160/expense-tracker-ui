@@ -41,6 +41,7 @@ export const Table = (props: PropsWithChildren<Props>) => {
 		.filter((c) => !!c)
 		.join(' ');
 	const headerClass = props.className ? `${props.className}-header` : '';
+	const bodyClass = props.className ? `${props.className}-body` : '';
 	return (
 		<div className={rootClasses} data-testid={props['data-testid']}>
 			<TableContainer component={Paper}>
@@ -59,7 +60,9 @@ export const Table = (props: PropsWithChildren<Props>) => {
 					</TableHead>
 					{!props.loading && (
 						<>
-							<TableBody>{props.children}</TableBody>
+							<TableBody className={bodyClass}>
+								{props.children}
+							</TableBody>
 							<TableFooter>
 								{props.pagination && (
 									<TablePagination

@@ -33,17 +33,16 @@ interface Props {
 	readonly loading?: boolean;
 	readonly pagination?: TablePaginationConfig;
 	readonly 'data-testid'?: string;
-	readonly id?: string;
+	readonly className?: string;
 }
 
 export const Table = (props: PropsWithChildren<Props>) => {
-	const headerId = props.id ? `${props.id}-header` : '';
+	const rootClasses = ['AppTable', props.className]
+		.filter((c) => !!c)
+		.join(' ');
+	const headerClass = props.className ? `${props.className}-header` : '';
 	return (
-		<div
-			id={props.id}
-			className="AppTable"
-			data-testid={props['data-testid']}
-		>
+		<div className={rootClasses} data-testid={props['data-testid']}>
 			<TableContainer component={Paper}>
 				{!props.loading && (
 					<div className="ActionWrapper AboveTableActionWrapper">
@@ -51,7 +50,7 @@ export const Table = (props: PropsWithChildren<Props>) => {
 					</div>
 				)}
 				<MuiTable>
-					<TableHead id={headerId}>
+					<TableHead className={headerClass}>
 						<TableRow>
 							{props.columns.map((col, index) => (
 								<TableCell key={index}>{col}</TableCell>

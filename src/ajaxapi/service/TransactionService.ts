@@ -1,17 +1,16 @@
 import { EnhancedSearchTransactionsRequest } from '../../types/transactions';
 import {
-	CreateTransactionRequest,
-	UpdateTransactionDetailsRequest,
-	TransactionDuplicatePageResponse,
-	DeleteTransactionsRequest,
-	TransactionToUpdate,
-	UpdateTransactionsRequest,
-	NeedsAttentionResponse,
 	CategorizeTransactionsRequest,
+	CreateTransactionRequest,
+	DeleteTransactionsRequest,
+	TransactionAndCategory,
+	TransactionDetailsResponse,
+	TransactionDuplicatePageResponse,
 	TransactionResponse,
 	TransactionsPageResponse,
-	TransactionAndCategory,
-	TransactionDetailsResponse
+	TransactionToUpdate,
+	UpdateTransactionDetailsRequest,
+	UpdateTransactionsRequest
 } from '../../types/generated/expense-tracker';
 import qs from 'qs';
 import { pipe } from 'fp-ts/es6/function';
@@ -96,15 +95,6 @@ export const deleteTransactions = (
 			body: {
 				ids: idsToDelete
 			}
-		})
-		.then(getData);
-
-export const getNeedsAttention = (): Promise<NeedsAttentionResponse> =>
-	expenseTrackerApi
-		.get<NeedsAttentionResponse>({
-			uri: '/transactions/needs-attention',
-			errorCustomizer:
-				'Error getting stats on transactions that need attention'
 		})
 		.then(getData);
 

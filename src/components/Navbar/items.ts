@@ -4,11 +4,11 @@ export interface NavbarItem {
 }
 
 export const MANAGE_TRANSACTIONS_TO = '/expense-tracker/transactions';
-export const MANAGE_TRANSACTIONS_LABEL = 'Manage Transactions';
+export const MANAGE_TRANSACTIONS_LABEL = 'Transactions';
 export const MANAGE_CATEGORIES_TO = '/expense-tracker/categories';
-export const MANAGE_CATEGORIES_LABEL = 'Manage Categories';
+export const MANAGE_CATEGORIES_LABEL = 'Categories';
 export const IMPORT_TRANSACTIONS_TO = '/expense-tracker/import';
-export const IMPORT_TRANSACTIONS_LABEL = 'Import Transactions';
+export const IMPORT_TRANSACTIONS_LABEL = 'Import';
 export const REPORTS_TO = '/expense-tracker/reports';
 export const REPORTS_LABEL = 'Reports';
 

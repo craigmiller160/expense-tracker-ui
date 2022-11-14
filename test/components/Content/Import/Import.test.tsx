@@ -11,10 +11,11 @@ describe('Transaction Import', () => {
 		});
 		await waitForVisibility([
 			{ text: 'Expense Tracker' },
-			{ text: 'Import Transactions', occurs: 2 }
+			{ text: 'Import', occurs: 2 },
+			{ text: 'Import Transactions' }
 		]);
 
-		userEvent.click(screen.getByText('Import'));
+		await userEvent.click(screen.getAllByText('Import')[1]);
 		await waitFor(() =>
 			expect(
 				screen.getByText('Successfully imported 10 transactions')
@@ -30,16 +31,16 @@ describe('Transaction Import', () => {
 			expect(screen.queryByText('Expense Tracker')).toBeVisible()
 		);
 		await waitFor(() =>
-			expect(screen.queryAllByText('Import Transactions')).toHaveLength(2)
+			expect(screen.queryAllByText('Import Transactions')).toHaveLength(1)
 		);
 
-		userEvent.click(screen.getByLabelText('File Type'));
+		await userEvent.click(screen.getByLabelText('File Type'));
 		await waitFor(() =>
 			expect(screen.queryByText('Discover (CSV)')).toBeVisible()
 		);
-		userEvent.click(screen.getByText('Discover (CSV)'));
+		await userEvent.click(screen.getByText('Discover (CSV)'));
 
-		userEvent.click(screen.getByText('Import'));
+		await userEvent.click(screen.getAllByText('Import')[1]);
 		await waitFor(() =>
 			expect(screen.getByText('Invalid CSV import')).toBeVisible()
 		);
@@ -53,7 +54,7 @@ describe('Transaction Import', () => {
 			expect(screen.queryByText('Expense Tracker')).toBeVisible()
 		);
 		await waitFor(() =>
-			expect(screen.queryAllByText('Import Transactions')).toHaveLength(2)
+			expect(screen.queryAllByText('Import Transactions')).toHaveLength(1)
 		);
 
 		const autocomplete = screen.getByLabelText('File Type');
@@ -65,9 +66,9 @@ describe('Transaction Import', () => {
 		);
 		expect(clearButton).toBeTruthy();
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		userEvent.click(clearButton!);
+		await userEvent.click(clearButton!);
 
-		userEvent.click(screen.getByText('Import'));
+		await userEvent.click(screen.getAllByText('Import')[1]);
 
 		await waitFor(() =>
 			expect(screen.queryByText('File is required')).toBeVisible()

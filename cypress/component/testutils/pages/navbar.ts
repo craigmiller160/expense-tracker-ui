@@ -12,6 +12,8 @@ const getCategoriesItem = (): Chainable<JQuery> =>
 	cy.get('#navbar .LinkButton').eq(2);
 const getImportItem = (): Chainable<JQuery> =>
 	cy.get('#navbar .LinkButton').eq(3);
+const getMobileNavItemsButton = (): Chainable<JQuery> =>
+	cy.get('#navbar #mobile-nav-items-button');
 
 export const navbarPage = {
 	getTitle,
@@ -20,5 +22,6 @@ export const navbarPage = {
 	getReportsItem,
 	getTransactionsItem,
 	getCategoriesItem,
-	getImportItem
+	getImportItem,
+	getMobileNavItemsButton
 };

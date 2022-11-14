@@ -6,6 +6,7 @@ import { categoriesListPage } from './testutils/pages/categoriesList';
 import { reportsPage } from './testutils/pages/reports';
 import { transactionsListPage } from './testutils/pages/transactionsList';
 import { transactionsApi } from './testutils/apis/transactions';
+import { importPage } from './testutils/pages/importPage';
 
 describe('Navigation', () => {
 	describe('Desktop', () => {
@@ -43,7 +44,13 @@ describe('Navigation', () => {
 		});
 
 		it('navigates to Import', () => {
-			throw new Error();
+			categoriesApi.getAllCategories();
+			mountApp({
+				initialRoute: '/expense-tracker/categories'
+			});
+			categoriesListPage.getTitle().should('be.visible');
+			navbarPage.getImportItem().click();
+			importPage.getTitle().should('be.visible');
 		});
 	});
 

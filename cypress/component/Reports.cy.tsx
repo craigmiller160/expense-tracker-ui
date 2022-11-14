@@ -1,9 +1,9 @@
 import { reportsApi } from './testutils/apis/reports';
 import { mountApp } from './testutils/mountApp';
 import { reportsPage } from './testutils/pages/reports';
-import { reportRootTableHeaders } from './testutils/constants/reports';
+import { reportRootTableHeaders, reports } from './testutils/constants/reports';
 
-const validateTableHeaders = () => {
+const validateRootTableHeaders = () => {
 	reportsPage
 		.getRootTableHeaders()
 		.should('have.length', reportRootTableHeaders.length);
@@ -14,6 +14,8 @@ const validateTableHeaders = () => {
 		);
 };
 
+const validateReport = (index: number) => {};
+
 describe('Reports', () => {
 	it('shows month-by-month report', () => {
 		reportsApi.getSpendingByMonthAndCategory();
@@ -22,6 +24,9 @@ describe('Reports', () => {
 		});
 		reportsPage.getTitle().contains('Reports');
 		reportsPage.getTableTitle().contains('Spending by Month & Category');
-		validateTableHeaders();
+		validateRootTableHeaders();
+		reportsPage
+			.getRootTableRows()
+			.should('have.length', reports.reports.length);
 	});
 });

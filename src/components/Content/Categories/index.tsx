@@ -24,6 +24,7 @@ import {
 } from '../../UI/ConfirmDialog/ConfirmDialogProvider';
 import { PageTitle } from '../../UI/PageTitle';
 import { PageResponsiveWrapper } from '../../UI/ResponsiveWrappers/PageResponsiveWrapper';
+import { ColorBox } from '../../UI/ColorBox';
 
 const COLUMNS = ['', 'Name', 'Actions'];
 
@@ -34,10 +35,7 @@ const dataToRows = (
 	(data ?? []).map((category) => (
 		<TableRow key={category.id}>
 			<TableCell>
-				<div
-					className="ColorBox"
-					style={{ backgroundColor: category.color }}
-				/>
+				<ColorBox color={category.color} />
 			</TableCell>
 			<TableCell>{category.name}</TableCell>
 			<TableCell>

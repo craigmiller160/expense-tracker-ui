@@ -13,7 +13,9 @@ import {
 	MANAGE_TRANSACTIONS_LABEL,
 	MANAGE_TRANSACTIONS_TO,
 	NAVBAR_ITEMS,
-	NavbarItem
+	NavbarItem,
+	REPORTS_LABEL,
+	REPORTS_TO
 } from './items';
 import { match } from 'ts-pattern';
 
@@ -74,6 +76,7 @@ const pathStartsWith =
 const findCurrentLabel = (pathname: string, isAuthorized: boolean): string =>
 	match({ pathname, isAuthorized })
 		.with({ isAuthorized: false }, () => '')
+		.when(pathStartsWith(REPORTS_TO), () => REPORTS_LABEL)
 		.when(
 			pathStartsWith(MANAGE_TRANSACTIONS_TO),
 			() => MANAGE_TRANSACTIONS_LABEL
@@ -155,7 +158,11 @@ export const MobileNavItems = () => {
 				}}
 			>
 				{NAVBAR_ITEMS.map((item) => (
-					<MenuItem key={item.to} onClick={selectNavItem(item)}>
+					<MenuItem
+						className="NavbarItem"
+						key={item.to}
+						onClick={selectNavItem(item)}
+					>
 						{item.label}
 					</MenuItem>
 				))}

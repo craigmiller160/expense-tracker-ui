@@ -73,6 +73,7 @@
     "react-query": "^3.39.1",
     "react-router": "^6.3.0",
     "react-router-dom": "^6.3.0",
+    "recharts": "^2.1.16",
     "ts-pattern": "^4.0.3",
     "use-immer": "^0.7.0"
   }

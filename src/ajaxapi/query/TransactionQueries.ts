@@ -33,6 +33,7 @@ import {
 } from '../service/TransactionService';
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
 import * as Option from 'fp-ts/es6/Option';
+import { GET_SPENDING_BY_MONTH_AND_CATEGORY } from './ReportQueries';
 
 export const SEARCH_FOR_TRANSACTIONS =
 	'TransactionQueries_SearchForTransactions';
@@ -46,7 +47,8 @@ const invalidateTransactionQueries = (queryClient: QueryClient) =>
 	Promise.all([
 		queryClient.invalidateQueries(SEARCH_FOR_TRANSACTIONS),
 		queryClient.invalidateQueries(GET_NEEDS_ATTENTION),
-		queryClient.invalidateQueries(GET_TRANSACTION_DETAILS)
+		queryClient.invalidateQueries(GET_TRANSACTION_DETAILS),
+		queryClient.invalidateQueries(GET_SPENDING_BY_MONTH_AND_CATEGORY)
 	]).then(() => queryClient.invalidateQueries(GET_POSSIBLE_DUPLICATES));
 
 type SearchForTransactionsKey = [string, EnhancedSearchTransactionsRequest];

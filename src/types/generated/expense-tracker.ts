@@ -140,6 +140,30 @@ export type ImportTypeResponse = {
 	readonly displayName: string;
 };
 
+export type ReportRequest = {
+	readonly pageNumber: number;
+	readonly pageSize: number;
+};
+
+export type ReportCategoryResponse = {
+	readonly name: string;
+	readonly color: string;
+	readonly amount: number;
+	readonly percent: number;
+};
+
+export type ReportMonthResponse = {
+	readonly date: string;
+	readonly total: number;
+	readonly categories: ReadonlyArray<ReportCategoryResponse>;
+};
+
+export type ReportPageResponse = {
+	readonly reports: ReadonlyArray<ReportMonthResponse>;
+	readonly pageNumber: number;
+	readonly totalItems: number;
+};
+
 export type AuthUserDto = {
 	readonly userId: number;
 	readonly username: string;

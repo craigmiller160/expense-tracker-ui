@@ -5,3 +5,11 @@ export const formatCurrency = (amount: number): string => {
 		maximumFractionDigits: 2
 	})}`;
 };
+
+export const formatPercent = (amount: number): string => {
+	const value = (amount * 100).toLocaleString('en', {
+		minimumFractionDigits: 2,
+		maximumFractionDigits: 2
+	});
+	return `${value}%`;
+};

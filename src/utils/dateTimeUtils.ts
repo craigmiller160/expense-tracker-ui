@@ -8,6 +8,7 @@ const SERVER_DATE_FORMAT = 'yyyy-MM-dd';
 const SERVER_DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSX";
 const DISPLAY_DATE_FORMAT = 'MM/dd/yyyy';
 const DISPLAY_DATE_TIME_FORMAT = 'MM/dd/yyyy hh:mm:ss a';
+const REPORT_MONTH_FORMAT = 'MMM yyyy';
 
 export const parseServerDate = Time.parse(SERVER_DATE_FORMAT);
 export const formatServerDate = Time.format(SERVER_DATE_FORMAT);
@@ -17,6 +18,7 @@ export const parseServerDateTime = Time.parse(SERVER_DATE_TIME_FORMAT);
 export const formatServerDateTime = Time.format(SERVER_DATE_TIME_FORMAT);
 export const parseDisplayDateTime = Time.format(DISPLAY_DATE_TIME_FORMAT);
 export const formatDisplayDateTime = Time.format(DISPLAY_DATE_TIME_FORMAT);
+export const formatReportMonth = Time.format(REPORT_MONTH_FORMAT);
 
 export const compareServerDates = (
 	dateString1: string,
@@ -36,3 +38,6 @@ export const serverDateToDisplayDate = (serverDate: string): string =>
 export const serverDateTimeToDisplayDateTime = (
 	serverDateTime: string
 ): string => pipe(serverDateTime, parseServerDateTime, formatDisplayDateTime);
+
+export const serverDateToReportMonth = (serverDate: string): string =>
+	pipe(serverDate, parseServerDate, formatReportMonth);

@@ -14,9 +14,6 @@ type NeedsAttentionValidationConfig = {
 
 const getOrDefault = (value?: boolean): boolean => value ?? false;
 
-const validateText = (expected: string, actual: string) =>
-	expect(actual.replace(/\s/g, ' ')).eq(expected);
-
 const validateNeedsAttention = (
 	config?: Partial<NeedsAttentionValidationConfig>
 ) => {
@@ -37,12 +34,7 @@ const validateNeedsAttention = (
 	if (hasDuplicates) {
 		needsAttentionPage
 			.getDuplicatesItem()
-			.then(($elem) =>
-				validateText(
-					'Duplicates - Count: 2, Oldest: 11/08/2022',
-					$elem.text()
-				)
-			);
+			.contains('Duplicates - Count: 2, Oldest: 11/08/2022');
 	} else {
 		needsAttentionPage.getDuplicatesItem().should('not.exist');
 	}

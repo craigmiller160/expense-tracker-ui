@@ -268,7 +268,7 @@ export const createTransactionsRoutes = (
 		return new Response(204);
 	});
 
-	server.get('/transactions/needs-attention', () => {
+	server.get('/needs-attention', () => {
 		return pipe(
 			Object.values(database.data.transactions),
 			RArray.map(transactionToNeedsAttention),

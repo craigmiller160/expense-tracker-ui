@@ -11,7 +11,7 @@ describe('Transaction Import', () => {
 		});
 		await waitForVisibility([
 			{ text: 'Expense Tracker' },
-			{ text: 'Import' },
+			{ text: 'Import', occurs: 2 },
 			{ text: 'Import Transactions' }
 		]);
 

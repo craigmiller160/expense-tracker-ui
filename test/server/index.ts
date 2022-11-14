@@ -8,6 +8,7 @@ import { createCategoriesRoutes } from './routes/categories';
 import { createImportRoutes } from './routes/import';
 import { seedTransactions } from './seedData/transactions';
 import { createTransactionsRoutes } from './routes/transactions';
+import { createNeedsAttentionRoutes } from './routes/needsAttention';
 
 interface ApiServerActions {
 	readonly clearDefaultUser: () => void;
@@ -47,6 +48,7 @@ const server: Server = createServer({
 		createCategoriesRoutes(database, this);
 		createImportRoutes(database, this);
 		createTransactionsRoutes(database, this);
+		createNeedsAttentionRoutes(database, this);
 	},
 	timing: 0
 });

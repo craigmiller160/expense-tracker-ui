@@ -1,6 +1,13 @@
 {
   "name": "@craigmiller160/expense-tracker-ui",
   "version": "1.0.0-beta",
+  "sideEffects": false,
+  "files": [
+    "build"
+  ],
+  "publishConfig": {
+    "registry": "https://nexus-craigmiller160.ddns.net/repository/npm-private/"
+  },
   "scripts": {
     "lint": "eslint --fix --max-warnings=0 **/**.{ts,tsx}",
     "start": "node scripts/startDev.js",

@@ -1,0 +1,10 @@
+app-deployment:
+  appName: expense-tracker-ui
+  image: nexus-docker-craigmiller160.ddns.net/expense-tracker-ui:latest
+  ports:
+    - containerPort: 443
+  livenessProbe:
+    httpGet:
+      path: /healthcheck
+      port: 443
+      scheme: HTTPS

@@ -1092,10 +1092,10 @@
   resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@craigmiller160/react-hook-form-material-ui/-/react-hook-form-material-ui-1.2.0-beta.2.tgz#c99b7d7325cbe5996e4793e5078ff7c344028c04"
   integrity sha512-Chg/oC9d5A87zqwV1666rTsCeDpg7P7pByg68x+gwPxnoNjLRr3T8lQG89pTDvrXjYfUF1b6sO+UwVDdTtiX8A==
 
-"@craigmiller160/swagger-typescript-api-formatted@^1.0.0-beta":
-  version "1.0.0-beta.1"
-  resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@craigmiller160/swagger-typescript-api-formatted/-/swagger-typescript-api-formatted-1.0.0-beta.1.tgz#ffd56b8d06db26f357b7a58f15dfed987bec230e"
-  integrity sha512-nUWR+6x8QW7QtCJBfDcvftv2+1TcikpFG3rPihuzk7uAfX3GXxFUfwKdcmQRbXnt8Udi7ZX4PILF6efpCid0Tw==
+"@craigmiller160/swagger-typescript-api-formatted@1.0.0":
+  version "1.0.0"
+  resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@craigmiller160/swagger-typescript-api-formatted/-/swagger-typescript-api-formatted-1.0.0.tgz#cb1a82d494b32690b12ceaf988c6b0d028672ea9"
+  integrity sha512-WOXj5mOSzmH2pat2QPkRihJn+1Y8LTvoZ69YHW+9x9Vtqmn4RvyvLgn0M7Rw3GSEaLL7jCiPYCSYjW9DfMKveQ==
   dependencies:
     swagger-typescript-api "^10.0.2"
 

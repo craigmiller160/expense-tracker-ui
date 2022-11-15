@@ -10,3 +10,5 @@ coverage
 deploy/build
 cypress/videos
 cypress/screenshots
+deploy/build
+deploy/chart/charts

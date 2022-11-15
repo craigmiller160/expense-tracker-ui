@@ -992,10 +992,10 @@
   resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@colors/colors/-/colors-1.5.0.tgz#bb504579c1cae923e6576a4f5da43d25f97bdbd9"
   integrity sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==
 
-"@craigmiller160/ajax-api@^2.0.0-beta":
-  version "2.0.0-beta.3"
-  resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@craigmiller160/ajax-api/-/ajax-api-2.0.0-beta.3.tgz#893258f43fd235511043da6f96072d4ee0d04848"
-  integrity sha512-Qz841tIhF8aSM24HG0meIVA09MX9PnhVGaNrxa3p32sER8t4RLTbuKdeVWx3TePmlZh5sira4+VhfuVNvWpbiQ==
+"@craigmiller160/ajax-api@2.0.0":
+  version "2.0.0"
+  resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@craigmiller160/ajax-api/-/ajax-api-2.0.0.tgz#d1fe2cb75b0c28480d3cb69f3d3f59641666f825"
+  integrity sha512-c3oQfsT8juhvr5M8RWqT80pYpZG8GvnH9zP+YROIfKHR8q93263QaiGJ2DWa7HNeub8PjhDpxbxvBPq9Rv4RMQ==
   dependencies:
     axios "^0.26.0"
 
@@ -1087,7 +1087,7 @@
   dependencies:
     prettier "^2.5.1"
 
-"@craigmiller160/react-hook-form-material-ui@^1.2.0":
+"@craigmiller160/react-hook-form-material-ui@1.2.0":
   version "1.2.0"
   resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@craigmiller160/react-hook-form-material-ui/-/react-hook-form-material-ui-1.2.0.tgz#9e5319bb2b2358c80bef6e80f62142d560916257"
   integrity sha512-7Fzp92gM7i70Z1U4DcD/z5y3fryacnhRqhQxXdoP+wLIwGFKU9I41GfTa1fHcnot7w1xHJePYkyi+iMNCi5JQA==

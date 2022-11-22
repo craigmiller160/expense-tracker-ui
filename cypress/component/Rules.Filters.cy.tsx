@@ -50,6 +50,12 @@ describe('Rules Filters', () => {
 	});
 
 	it('applies category filter', () => {
+		rulesApi.getAllRules();
+		categoriesApi.getAllCategories();
+		mountApp({
+			initialRoute: '/expense-tracker/rules'
+		});
+
 		throw new Error();
 	});
 });

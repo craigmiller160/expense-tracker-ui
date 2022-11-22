@@ -440,6 +440,10 @@ describe('Transaction Details Dialog', () => {
 		);
 	});
 
+	it('can categorize transaction', () => {
+		throw new Error();
+	});
+
 	it('can confirm transaction', () => {
 		const transactionId = allTransactions.transactions[0].id;
 		categoriesApi.getAllCategories();

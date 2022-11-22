@@ -91,7 +91,7 @@ describe('Navigation', () => {
 			navbarPage.getTransactionsItem().click();
 			navbarPage
 				.getMobileNavItemsButton()
-				.contains(authorizedNavbarItems.manageTransactions);
+				.contains(authorizedNavbarItems.transactions);
 			transactionsListPage.getTitle().should('be.visible');
 		});
 
@@ -107,7 +107,7 @@ describe('Navigation', () => {
 			navbarPage.getCategoriesItem().click();
 			navbarPage
 				.getMobileNavItemsButton()
-				.contains(authorizedNavbarItems.manageCategories);
+				.contains(authorizedNavbarItems.categories);
 			categoriesListPage.getTitle().should('be.visible');
 		});
 
@@ -122,7 +122,7 @@ describe('Navigation', () => {
 			navbarPage.getImportItem().click();
 			navbarPage
 				.getMobileNavItemsButton()
-				.contains(authorizedNavbarItems.importTransactions);
+				.contains(authorizedNavbarItems.import);
 			importPage.getTitle().should('be.visible');
 		});
 	});

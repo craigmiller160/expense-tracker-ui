@@ -9,6 +9,8 @@ import { transactionsApi } from './testutils/apis/transactions';
 import { importPage } from './testutils/pages/importPage';
 import { authorizedNavbarItems } from './testutils/constants/navbar';
 import { needsAttentionApi } from './testutils/apis/needsAttention';
+import { rulesApi } from './testutils/apis/rules';
+import { rulesListPage } from './testutils/pages/rulesList';
 
 describe('Navigation', () => {
 	describe('Desktop', () => {
@@ -25,7 +27,16 @@ describe('Navigation', () => {
 		});
 
 		it('navigates to Rules', () => {
-			throw new Error();
+			categoriesApi.getAllCategories();
+			rulesApi.getAllRules();
+			mountApp({
+				viewport: 'mobile',
+				initialRoute: '/expense-tracker/categories'
+			});
+			categoriesListPage.getTitle().should('be.visible');
+			navbarPage.getRulesItem().click();
+			navbarPage.getRulesItem().should('have.class', 'active');
+			rulesListPage.getTitle().should('be.visible');
 		});
 
 		it('navigates to Transactions', () => {

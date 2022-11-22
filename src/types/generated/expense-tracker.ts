@@ -39,6 +39,27 @@ export type CategoryRequest = {
 	readonly name: string;
 };
 
+export type AutoCategorizeRuleRequest = {
+	readonly categoryId: string;
+	readonly regex: string;
+	readonly ordinal?: number;
+	readonly startDate?: string;
+	readonly endDate?: string;
+	readonly minAmount?: number;
+	readonly maxAmount?: number;
+};
+
+export type AutoCategorizeRuleResponse = {
+	readonly id: string;
+	readonly categoryId: string;
+	readonly ordinal: number;
+	readonly regex: string;
+	readonly startDate?: string;
+	readonly endDate?: string;
+	readonly minAmount?: number;
+	readonly maxAmount?: number;
+};
+
 export type CreateTransactionRequest = {
 	readonly expenseDate: string;
 	readonly description: string;
@@ -123,16 +144,17 @@ export type TransactionDetailsResponse = {
 	readonly updated: string;
 };
 
-export type CountAndOldest = {
-	readonly count: number;
-	readonly oldest?: string;
-};
-
-export type NeedsAttentionResponse = {
-	readonly unconfirmed: CountAndOldest;
-	readonly uncategorized: CountAndOldest;
-	readonly duplicate: CountAndOldest;
-	readonly possibleRefund: CountAndOldest;
+export type LastRuleAppliedResponse = {
+	readonly id: string;
+	readonly ruleId: string;
+	readonly transactionId: string;
+	readonly categoryId: string;
+	readonly ordinal: number;
+	readonly regex: string;
+	readonly startDate?: string;
+	readonly endDate?: string;
+	readonly minAmount?: number;
+	readonly maxAmount?: number;
 };
 
 export type ImportTypeResponse = {
@@ -170,6 +192,31 @@ export type AuthUserDto = {
 	readonly roles: ReadonlyArray<string>;
 	readonly firstName: string;
 	readonly lastName: string;
+};
+
+export type CountAndOldest = {
+	readonly count: number;
+	readonly oldest?: string;
+};
+
+export type NeedsAttentionResponse = {
+	readonly unconfirmed: CountAndOldest;
+	readonly uncategorized: CountAndOldest;
+	readonly duplicate: CountAndOldest;
+	readonly possibleRefund: CountAndOldest;
+};
+
+export type AutoCategorizeRulePageRequest = {
+	readonly pageNumber: number;
+	readonly pageSize: number;
+	readonly categoryId?: string;
+	readonly regex?: string;
+};
+
+export type AutoCategorizeRulePageResponse = {
+	readonly rules: ReadonlyArray<AutoCategorizeRuleResponse>;
+	readonly pageNumber: number;
+	readonly totalItems: number;
 };
 
 export type DeleteTransactionsRequest = {

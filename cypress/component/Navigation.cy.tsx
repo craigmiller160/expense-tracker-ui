@@ -30,7 +30,6 @@ describe('Navigation', () => {
 			categoriesApi.getAllCategories();
 			rulesApi.getAllRules();
 			mountApp({
-				viewport: 'mobile',
 				initialRoute: '/expense-tracker/categories'
 			});
 			categoriesListPage.getTitle().should('be.visible');

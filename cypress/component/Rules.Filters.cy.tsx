@@ -37,7 +37,6 @@ describe('Rules Filters', () => {
 			.then(($xhrs) => {
 				const requests =
 					$xhrs as unknown as ReadonlyArray<Interception>;
-				cy.log('', $xhrs);
 
 				validateQueryString(
 					requests[0].request.url,

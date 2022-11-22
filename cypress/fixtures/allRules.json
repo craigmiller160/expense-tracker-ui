@@ -1,0 +1,50 @@
+{
+  "rules": [
+    {
+      "id": "d4f6b966-adbd-41c6-8574-6ecf39e79ba6",
+      "categoryId": "d47de45b-d200-4033-95f7-f6e5bf5802bd",
+      "categoryName": "Groceries",
+      "ordinal": 1,
+      "regex": "Demo 1",
+      "startDate": "2022-01-01",
+      "endDate": "2022-02-02",
+      "minAmount": 10,
+      "maxAmount": 20
+    },
+    {
+      "id": "daea51a6-a625-4cbb-af85-14ef4ffb83a3",
+      "categoryId": "d47de45b-d200-4033-95f7-f6e5bf5802bd",
+      "categoryName": "Groceries",
+      "ordinal": 1,
+      "regex": "Demo 2",
+      "startDate": null,
+      "endDate": null,
+      "minAmount": null,
+      "maxAmount": null
+    },
+    {
+      "id": "616e0fae-c791-434e-af67-b5c22149d304",
+      "categoryId": "d47de45b-d200-4033-95f7-f6e5bf5802bd",
+      "categoryName": "Groceries",
+      "ordinal": 1,
+      "regex": "Demo 3",
+      "startDate": "2022-01-01",
+      "endDate": "2022-02-02",
+      "minAmount": null,
+      "maxAmount": null
+    },
+    {
+      "id": "9b444fa8-d502-4e44-92a6-0a6de5b1d83b",
+      "categoryId": "d47de45b-d200-4033-95f7-f6e5bf5802bd",
+      "categoryName": "Groceries",
+      "ordinal": 1,
+      "regex": "Demo 4",
+      "startDate": null,
+      "endDate": null,
+      "minAmount": 10,
+      "maxAmount": 20
+    }
+  ],
+  "pageNumber": 0,
+  "totalItems": 4
+}

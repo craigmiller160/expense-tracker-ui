@@ -4,8 +4,10 @@ import { PageTitle } from '../../UI/PageTitle';
 import { useImmer } from 'use-immer';
 import { PaginationState } from '../../../utils/pagination';
 import { RulesTable } from './RulesTable';
-import { useGetAllRulesData } from './useGetAllRulesData';
+import { useHandleAllRulesData } from './useHandleAllRulesData';
 import { RulesFilters } from './RulesFilters';
+
+const onValueHasChanged = () => {};
 
 export const Rules = () => {
 	const [state, setState] = useImmer<PaginationState>({
@@ -19,12 +21,16 @@ export const Rules = () => {
 		isFetching,
 		filtersForm,
 		categories
-	} = useGetAllRulesData(state);
+	} = useHandleAllRulesData(state);
 
 	return (
 		<PageResponsiveWrapper className="AutoCategorizeRules">
 			<PageTitle title="Auto-Categorization Rules" />
-			<RulesFilters form={filtersForm} categories={categories} />
+			<RulesFilters
+				form={filtersForm}
+				categories={categories}
+				onValueHasChanged={onValueHasChanged}
+			/>
 			<RulesTable
 				currentPage={currentPage}
 				totalItems={totalItems}

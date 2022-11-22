@@ -40,7 +40,7 @@ const formatCategories = (
 		RArray.map(categoryToCategoryOption)
 	);
 
-export const useGetAllRulesData = (props: Props): GetAllRulesDataResult => {
+export const useHandleAllRulesData = (props: Props): GetAllRulesDataResult => {
 	const form = useForm<RulesFiltersFormData>();
 	const { data: getAllRulesData, isFetching: getAllRulesIsFetching } =
 		useGetAllRules({

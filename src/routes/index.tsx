@@ -21,6 +21,7 @@ const Transactions = namedLazy(
 	() => import('../components/Content/Transactions'),
 	'Transactions'
 );
+const Rules = namedLazy(() => import('../components/Content/Rules'), 'Rules');
 interface RouteRules {
 	readonly isAuthorized: boolean;
 	readonly hasCheckedAuthorization: boolean;
@@ -51,6 +52,10 @@ const createAuthorizedRoutes = (): RouteObject[] => [
 	{
 		path: 'reports',
 		element: <LazySuspenseWrapper component={Reports} />
+	},
+	{
+		path: 'rules',
+		element: <LazySuspenseWrapper component={Rules} />
 	},
 	{
 		path: '*',

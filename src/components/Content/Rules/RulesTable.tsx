@@ -11,12 +11,15 @@ import { pipe } from 'fp-ts/es6/function';
 import * as Option from 'fp-ts/es6/Option';
 import { serverDateToDisplayDate } from '../../../utils/dateTimeUtils';
 import { formatCurrency } from '../../../utils/formatNumbers';
-import { useGetAllRulesData } from './useGetAllRulesData';
 
 const COLUMNS = ['Ordinal', 'Category', 'Rule'];
 
 type Props = {
-	readonly pagination: PaginationState;
+	readonly currentPage: number;
+	readonly totalItems: number;
+	readonly pageSize: number;
+	readonly rules: ReadonlyArray<AutoCategorizeRuleResponse>;
+	readonly isFetching: boolean;
 	readonly onPaginationChange: Updater<PaginationState>;
 };
 
@@ -65,14 +68,10 @@ const RuleCell = (props: RuleProps) => {
 };
 
 export const RulesTable = (props: Props) => {
-	const { currentPage, totalItems, rules, isFetching } = useGetAllRulesData(
-		props.pagination
-	);
-
 	const paginationConfig = createTablePagination(
-		currentPage,
-		props.pagination.pageSize,
-		totalItems,
+		props.currentPage,
+		props.pageSize,
+		props.totalItems,
 		props.onPaginationChange
 	);
 
@@ -80,10 +79,10 @@ export const RulesTable = (props: Props) => {
 		<div className="AutoCategorizeRulesTable">
 			<Table
 				columns={COLUMNS}
-				loading={isFetching}
+				loading={props.isFetching}
 				pagination={paginationConfig}
 			>
-				{rules.map((rule) => (
+				{props.rules.map((rule) => (
 					<TableRow key={rule.id}>
 						<TableCell>{rule.ordinal}</TableCell>
 						<TableCell>{rule.categoryName}</TableCell>

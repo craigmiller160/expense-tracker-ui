@@ -1,13 +1,15 @@
 import { Paper } from '@mui/material';
 import {
 	Autocomplete,
-	TextField, ValueHasChanged
+	TextField,
+	ValueHasChanged
 } from '@craigmiller160/react-hook-form-material-ui';
 import { UseFormReturn } from 'react-hook-form';
 import { RulesFiltersFormData } from './useHandleAllRulesData';
 import { CategoryOption } from '../Transactions/utils';
 import './RulesFilters.scss';
 import { ResponsiveRow } from '../../UI/ResponsiveWrappers/ResponsiveRow';
+import { constVoid } from 'fp-ts/es6/function';
 
 type Props = {
 	readonly form: UseFormReturn<RulesFiltersFormData>;
@@ -18,7 +20,7 @@ type Props = {
 export const RulesFilters = (props: Props) => {
 	return (
 		<Paper className="AutoCategorizeRulesFilters">
-			<form>
+			<form onSubmit={constVoid}>
 				<ResponsiveRow>
 					<TextField
 						control={props.form.control}

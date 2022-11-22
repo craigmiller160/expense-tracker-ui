@@ -110,7 +110,17 @@ describe('Navigation', () => {
 		});
 
 		it('navigates to Rules', () => {
-			throw new Error();
+			categoriesApi.getAllCategories();
+			rulesApi.getAllRules();
+			mountApp({
+				viewport: 'mobile',
+				initialRoute: '/expense-tracker/categories'
+			});
+			categoriesListPage.getTitle().should('be.visible');
+			navbarPage.getMobileNavItemsButton().click();
+			navbarPage.getRulesItem().click();
+			navbarPage.getRulesItem().should('have.class', 'active');
+			rulesListPage.getTitle().should('be.visible');
 		});
 
 		it('navigates to Categories', () => {

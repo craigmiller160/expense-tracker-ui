@@ -4,6 +4,11 @@ import { mountApp } from './testutils/mountApp';
 import { rulesListFiltersPage } from './testutils/pages/rulesListFilters';
 import { Interception } from 'cypress/types/net-stubbing';
 
+const validateQueryString = (url: string, expectedQuery: string) => {
+	const query = url.split('?')[1];
+	expect(query).eq(expectedQuery);
+};
+
 describe('Rules Filters', () => {
 	it('renders the filters', () => {
 		rulesApi.getAllRules();
@@ -34,11 +39,14 @@ describe('Rules Filters', () => {
 					$xhrs as unknown as ReadonlyArray<Interception>;
 				cy.log('', $xhrs);
 
-				const query1 = requests[0].request.url.split('?')[1];
-				expect(query1).eq('pageNumber=0&pageSize=25');
-
-				const query2 = requests[1].request.url.split('?')[1];
-				expect(query2).eq('pageNumber=0&pageSize=25&regex=Hello');
+				validateQueryString(
+					requests[0].request.url,
+					'pageNumber=0&pageSize=25'
+				);
+				validateQueryString(
+					requests[1].request.url,
+					'pageNumber=0&pageSize=25&regex=Hello'
+				);
 			});
 	});
 

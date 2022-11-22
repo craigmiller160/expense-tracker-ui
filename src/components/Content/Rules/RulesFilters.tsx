@@ -6,6 +6,7 @@ import {
 import { UseFormReturn } from 'react-hook-form';
 import { RulesFiltersFormData } from './useGetAllRulesData';
 import { CategoryOption } from '../Transactions/utils';
+import './RulesFilters.scss';
 
 type Props = {
 	readonly form: UseFormReturn<RulesFiltersFormData>;

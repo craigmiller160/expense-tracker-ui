@@ -24,6 +24,10 @@ describe('Navigation', () => {
 			reportsPage.getTitle().should('be.visible');
 		});
 
+		it('navigates to Rules', () => {
+			throw new Error();
+		});
+
 		it('navigates to Transactions', () => {
 			categoriesApi.getAllCategories();
 			transactionsApi.searchForTransactions();
@@ -93,6 +97,10 @@ describe('Navigation', () => {
 				.getMobileNavItemsButton()
 				.contains(authorizedNavbarItems.transactions);
 			transactionsListPage.getTitle().should('be.visible');
+		});
+
+		it('navigates to Rules', () => {
+			throw new Error();
 		});
 
 		it('navigates to Categories', () => {

@@ -11,16 +11,16 @@ import {
 import { RulesFilters } from './RulesFilters';
 import { UseFormHandleSubmit } from 'react-hook-form';
 import { ForceUpdate, useForceUpdate } from '../../../utils/useForceUpdate';
+import { useDebounce } from '../../../utils/useDebounce';
 
 export const DEFAULT_ROWS_PER_PAGE = 25;
 
-const createOnValueHasChanged = (
+const useOnValueHasChanged = (
 	handleSubmit: UseFormHandleSubmit<RulesFiltersFormData>,
 	setPaginationState: Updater<PaginationState>,
 	forceUpdate: ForceUpdate
-) =>
-	// TODO this needs to be debounced
-	handleSubmit(() =>
+) => {
+	const submitFn = handleSubmit(() =>
 		setPaginationState((draft) => {
 			if (draft.pageNumber === 0) {
 				forceUpdate();
@@ -29,6 +29,8 @@ const createOnValueHasChanged = (
 			}
 		})
 	);
+	return useDebounce(submitFn, 500);
+};
 
 export const Rules = () => {
 	const [state, setState] = useImmer<PaginationState>({
@@ -44,7 +46,7 @@ export const Rules = () => {
 		categories
 	} = useHandleAllRulesData(state);
 	const forceUpdate = useForceUpdate();
-	const onValueHasChanged = createOnValueHasChanged(
+	const onValueHasChanged = useOnValueHasChanged(
 		filtersForm.handleSubmit,
 		setState,
 		forceUpdate

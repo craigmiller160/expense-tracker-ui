@@ -119,7 +119,9 @@ describe('Navigation', () => {
 			categoriesListPage.getTitle().should('be.visible');
 			navbarPage.getMobileNavItemsButton().click();
 			navbarPage.getRulesItem().click();
-			navbarPage.getRulesItem().should('have.class', 'active');
+			navbarPage
+				.getMobileNavItemsButton()
+				.contains(authorizedNavbarItems.rules);
 			rulesListPage.getTitle().should('be.visible');
 		});
 

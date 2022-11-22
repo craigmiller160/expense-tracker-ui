@@ -45,7 +45,9 @@ export const useHandleAllRulesData = (props: Props): GetAllRulesDataResult => {
 	const { data: getAllRulesData, isFetching: getAllRulesIsFetching } =
 		useGetAllRules({
 			pageNumber: props.pageNumber,
-			pageSize: props.pageSize
+			pageSize: props.pageSize,
+			categoryId: form.getValues().category?.value,
+			regex: form.getValues().regex
 		});
 	const {
 		data: getAllCategoriesData,

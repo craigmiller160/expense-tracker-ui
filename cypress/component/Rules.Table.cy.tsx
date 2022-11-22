@@ -7,6 +7,7 @@ import { pipe } from 'fp-ts/es6/function';
 import * as Option from 'fp-ts/es6/Option';
 import { serverDateToDisplayDate } from '../../src/utils/dateTimeUtils';
 import { formatCurrency } from '../../src/utils/formatNumbers';
+import { categoriesApi } from './testutils/apis/categories';
 
 const formatDate = (value?: string): string =>
 	pipe(
@@ -57,6 +58,7 @@ const validateRuleRow = (row: JQuery, index: number) => {
 describe('Rules Table', () => {
 	it('shows the existing rules in the table', () => {
 		rulesApi.getAllRules();
+		categoriesApi.getAllCategories();
 		mountApp({
 			initialRoute: '/expense-tracker/rules'
 		});

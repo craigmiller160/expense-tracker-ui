@@ -11,6 +11,8 @@ export const IMPORT_TRANSACTIONS_TO = '/expense-tracker/import';
 export const IMPORT_TRANSACTIONS_LABEL = 'Import';
 export const REPORTS_TO = '/expense-tracker/reports';
 export const REPORTS_LABEL = 'Reports';
+export const RULES_TO = '/expense-tracker/rules';
+export const RULES_LABEL = 'Rules';
 
 export const NAVBAR_ITEMS: ReadonlyArray<NavbarItem> = [
 	{
@@ -24,6 +26,10 @@ export const NAVBAR_ITEMS: ReadonlyArray<NavbarItem> = [
 	{
 		to: MANAGE_CATEGORIES_TO,
 		label: MANAGE_CATEGORIES_LABEL
+	},
+	{
+		to: RULES_TO,
+		label: RULES_LABEL
 	},
 	{
 		to: IMPORT_TRANSACTIONS_TO,

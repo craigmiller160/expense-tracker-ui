@@ -29,7 +29,7 @@ const useOnValueHasChanged = (
 			}
 		})
 	);
-	return useDebounce(submitFn, 500);
+	return useDebounce(submitFn, 300);
 };
 
 export const Rules = () => {

@@ -4,6 +4,11 @@ import {
 	PaginationState
 } from '../../../utils/pagination';
 import { Updater } from 'use-immer';
+import { Table } from '../../UI/Table';
+import { TableCell, TableRow } from '@mui/material';
+import './RulesTable.scss';
+
+const COLUMNS = ['Ordinal', 'Category', 'Rule'];
 
 type Props = {
 	readonly pagination: PaginationState;
@@ -22,5 +27,22 @@ export const RulesTable = (props: Props) => {
 		data?.totalItems ?? 0,
 		props.onPaginationChange
 	);
-	return <div />;
+	// TODO I need the backend to return the category name
+	return (
+		<div className="AutoCategorizeRulesTable">
+			<Table
+				columns={COLUMNS}
+				loading={isFetching}
+				pagination={paginationConfig}
+			>
+				{data?.rules?.map((rule) => (
+					<TableRow key={rule.id}>
+						<TableCell>{rule.ordinal}</TableCell>
+						<TableCell>{rule.categoryId}</TableCell>
+						<TableCell>TBD</TableCell>
+					</TableRow>
+				))}
+			</Table>
+		</div>
+	);
 };

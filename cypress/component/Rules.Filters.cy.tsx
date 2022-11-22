@@ -18,7 +18,15 @@ describe('Rules Filters', () => {
 	});
 
 	it('applies regex filter', () => {
-		throw new Error();
+		rulesApi.getAllRules();
+		categoriesApi.getAllCategories();
+		mountApp({
+			initialRoute: '/expense-tracker/rules'
+		});
+
+		rulesListFiltersPage.getRegexFilterInput().type('Hello');
+		cy.wait(500);
+		cy.get('@getAllRules.all').should('have.length', 2);
 	});
 
 	it('applies category filter', () => {

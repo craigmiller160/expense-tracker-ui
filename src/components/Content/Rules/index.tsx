@@ -19,6 +19,7 @@ const createOnValueHasChanged = (
 	setPaginationState: Updater<PaginationState>,
 	forceUpdate: ForceUpdate
 ) =>
+	// TODO this needs to be debounced
 	handleSubmit(() =>
 		setPaginationState((draft) => {
 			if (draft.pageNumber === 0) {

@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
-import { InnerDivProps } from '../../../UI/ResponsiveWrappers/utils';
-import { addThemeToWrapper } from '../../../UI/ResponsiveWrappers/addThemeToWrapper';
+import { InnerDivProps } from './utils';
+import { addThemeToWrapper } from './addThemeToWrapper';
 
 const InnerDiv = styled.div<InnerDivProps>`
 	width: 100%;
@@ -30,4 +30,4 @@ const InnerDiv = styled.div<InnerDivProps>`
 	}
 `;
 
-export const ResponsiveFilterRow = addThemeToWrapper(InnerDiv);
+export const ResponsiveRow = addThemeToWrapper(InnerDiv);

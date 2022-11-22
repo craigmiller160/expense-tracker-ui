@@ -52,6 +52,7 @@ export type AutoCategorizeRuleRequest = {
 export type AutoCategorizeRuleResponse = {
 	readonly id: string;
 	readonly categoryId: string;
+	readonly categoryName: string;
 	readonly ordinal: number;
 	readonly regex: string;
 	readonly startDate?: string;
@@ -80,10 +81,6 @@ export type TransactionResponse = {
 
 export type ImportTransactionsResponse = {
 	readonly transactionsImported: number;
-};
-
-export type AuthCodeLoginDto = {
-	readonly url: string;
 };
 
 export type CategoryResponse = {

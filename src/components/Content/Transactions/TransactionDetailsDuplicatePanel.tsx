@@ -5,10 +5,13 @@ import {
 import { Table } from '../../UI/Table';
 import { Button, TableCell, TableRow, Typography } from '@mui/material';
 import './TransactionDetailsDuplicatePanel.scss';
-import { createTablePagination, PaginationState } from './utils';
 import { useMemo } from 'react';
 import { useImmer } from 'use-immer';
 import { serverDateTimeToDisplayDateTime } from '../../../utils/dateTimeUtils';
+import {
+	createTablePagination,
+	PaginationState
+} from '../../../utils/pagination';
 
 type Props = {
 	readonly transactionId: string;

@@ -3,7 +3,6 @@ import './Transactions.scss';
 import { Updater, useImmer } from 'use-immer';
 import {
 	DEFAULT_ROWS_PER_PAGE,
-	PaginationState,
 	TransactionSearchForm,
 	transactionSearchFormDefaultValues
 } from './utils';
@@ -15,6 +14,7 @@ import { NeedsAttentionNotice } from './NeedsAttentionNotice';
 import { PageResponsiveWrapper } from '../../UI/ResponsiveWrappers/PageResponsiveWrapper';
 import { TransactionDetailsDialog } from './TransactionDetailsDialog';
 import { useTransactionDetailsDialogActions } from './useTransactionDetailsDialogActions';
+import { PaginationState } from '../../../utils/pagination';
 
 const createOnValueHasChanged = (
 	handleSubmit: UseFormHandleSubmit<TransactionSearchForm>,

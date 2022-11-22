@@ -1,7 +1,6 @@
 import { PaginationState } from '../../../utils/pagination';
 import { useGetAllRules } from '../../../ajaxapi/query/AutoCategorizeRuleQueries';
 import {
-	AutoCategorizeRulePageResponse,
 	AutoCategorizeRuleResponse,
 	CategoryResponse
 } from '../../../types/generated/expense-tracker';
@@ -20,6 +19,7 @@ type Props = PaginationState;
 export type GetAllRulesDataResult = {
 	readonly currentPage: number;
 	readonly totalItems: number;
+	readonly isFetching: boolean;
 	readonly rules: ReadonlyArray<AutoCategorizeRuleResponse>;
 	readonly categories: ReadonlyArray<CategoryOption>;
 };
@@ -52,6 +52,7 @@ export const useGetAllRulesData = (props: Props): GetAllRulesDataResult => {
 	return {
 		currentPage: getAllRulesData?.pageNumber ?? 0,
 		totalItems: getAllRulesData?.totalItems ?? 0,
+		isFetching: getAllRulesIsFetching || getAllCategoriesIsFetching,
 		rules: getAllRulesData?.rules ?? [],
 		categories
 	};

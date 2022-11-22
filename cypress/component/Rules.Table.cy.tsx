@@ -72,4 +72,12 @@ describe('Rules Table', () => {
 			.should('have.length', allRules.rules.length)
 			.each(($row, index) => validateRuleRow($row, index));
 	});
+
+	it('applies regex filter', () => {
+		throw new Error();
+	});
+
+	it('applies category filter', () => {
+		throw new Error();
+	});
 });

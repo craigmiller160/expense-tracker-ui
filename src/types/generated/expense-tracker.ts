@@ -83,6 +83,10 @@ export type ImportTransactionsResponse = {
 	readonly transactionsImported: number;
 };
 
+export type AuthCodeLoginDto = {
+	readonly url: string;
+};
+
 export type CategoryResponse = {
 	readonly id: string;
 	readonly name: string;

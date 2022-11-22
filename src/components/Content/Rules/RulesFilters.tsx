@@ -7,6 +7,7 @@ import { UseFormReturn } from 'react-hook-form';
 import { RulesFiltersFormData } from './useGetAllRulesData';
 import { CategoryOption } from '../Transactions/utils';
 import './RulesFilters.scss';
+import { ResponsiveRow } from '../../UI/ResponsiveWrappers/ResponsiveRow';
 
 type Props = {
 	readonly form: UseFormReturn<RulesFiltersFormData>;
@@ -17,17 +18,19 @@ export const RulesFilters = (props: Props) => {
 	return (
 		<Paper className="AutoCategorizeRulesFilters">
 			<form>
-				<TextField
-					control={props.form.control}
-					name="regex"
-					label="Regex"
-				/>
-				<Autocomplete
-					options={props.categories}
-					control={props.form.control}
-					name="category"
-					label="Category"
-				/>
+				<ResponsiveRow>
+					<TextField
+						control={props.form.control}
+						name="regex"
+						label="Regex"
+					/>
+					<Autocomplete
+						options={props.categories}
+						control={props.form.control}
+						name="category"
+						label="Category"
+					/>
+				</ResponsiveRow>
 			</form>
 		</Paper>
 	);

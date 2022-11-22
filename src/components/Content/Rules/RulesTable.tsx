@@ -1,4 +1,3 @@
-import { useGetAllRules } from '../../../ajaxapi/query/AutoCategorizeRuleQueries';
 import {
 	createTablePagination,
 	PaginationState
@@ -12,6 +11,7 @@ import { pipe } from 'fp-ts/es6/function';
 import * as Option from 'fp-ts/es6/Option';
 import { serverDateToDisplayDate } from '../../../utils/dateTimeUtils';
 import { formatCurrency } from '../../../utils/formatNumbers';
+import { useGetAllRulesData } from './useGetAllRulesData';
 
 const COLUMNS = ['Ordinal', 'Category', 'Rule'];
 
@@ -65,18 +65,17 @@ const RuleCell = (props: RuleProps) => {
 };
 
 export const RulesTable = (props: Props) => {
-	const { data, isFetching } = useGetAllRules({
-		pageNumber: props.pagination.pageNumber,
-		pageSize: props.pagination.pageSize
-	});
+	const { currentPage, totalItems, rules, isFetching } = useGetAllRulesData(
+		props.pagination
+	);
 
 	const paginationConfig = createTablePagination(
-		data?.pageNumber ?? 0,
+		currentPage,
 		props.pagination.pageSize,
-		data?.totalItems ?? 0,
+		totalItems,
 		props.onPaginationChange
 	);
-	// TODO I need the backend to return the category name
+
 	return (
 		<div className="AutoCategorizeRulesTable">
 			<Table
@@ -84,7 +83,7 @@ export const RulesTable = (props: Props) => {
 				loading={isFetching}
 				pagination={paginationConfig}
 			>
-				{data?.rules?.map((rule) => (
+				{rules.map((rule) => (
 					<TableRow key={rule.id}>
 						<TableCell>{rule.ordinal}</TableCell>
 						<TableCell>{rule.categoryName}</TableCell>

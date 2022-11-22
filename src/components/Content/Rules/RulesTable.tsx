@@ -7,6 +7,7 @@ import { Updater } from 'use-immer';
 import { Table } from '../../UI/Table';
 import { TableCell, TableRow } from '@mui/material';
 import './RulesTable.scss';
+import { AutoCategorizeRuleResponse } from '../../../types/generated/expense-tracker';
 
 const COLUMNS = ['Ordinal', 'Category', 'Rule'];
 
@@ -14,6 +15,18 @@ type Props = {
 	readonly pagination: PaginationState;
 	readonly onPaginationChange: Updater<PaginationState>;
 };
+
+type RuleProps = {
+	readonly rule: AutoCategorizeRuleResponse;
+};
+
+const RuleCell = (props: RuleProps) => (
+	<ul>
+		<li>Regex</li>
+		<li>Dates</li>
+		<li>Amounts</li>
+	</ul>
+);
 
 export const RulesTable = (props: Props) => {
 	const { data, isFetching } = useGetAllRules({
@@ -39,7 +52,9 @@ export const RulesTable = (props: Props) => {
 					<TableRow key={rule.id}>
 						<TableCell>{rule.ordinal}</TableCell>
 						<TableCell>{rule.categoryName}</TableCell>
-						<TableCell>TBD</TableCell>
+						<TableCell>
+							<RuleCell rule={rule} />
+						</TableCell>
 					</TableRow>
 				))}
 			</Table>

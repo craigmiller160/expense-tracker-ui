@@ -2,6 +2,7 @@ import { rulesApi } from './testutils/apis/rules';
 import { categoriesApi } from './testutils/apis/categories';
 import { mountApp } from './testutils/mountApp';
 import { rulesListFiltersPage } from './testutils/pages/rulesListFilters';
+import { Interception } from 'cypress/types/net-stubbing';
 
 describe('Rules Filters', () => {
 	it('renders the filters', () => {
@@ -25,8 +26,20 @@ describe('Rules Filters', () => {
 		});
 
 		rulesListFiltersPage.getRegexFilterInput().type('Hello');
-		cy.wait(500);
-		cy.get('@getAllRules.all').should('have.length', 2);
+		cy.wait(300);
+		cy.get('@getAllRules.all')
+			.should('have.length', 2)
+			.then(($xhrs) => {
+				const requests =
+					$xhrs as unknown as ReadonlyArray<Interception>;
+				cy.log('', $xhrs);
+
+				const query1 = requests[0].request.url.split('?')[1];
+				expect(query1).eq('pageNumber=0&pageSize=25');
+
+				const query2 = requests[1].request.url.split('?')[1];
+				expect(query2).eq('pageNumber=0&pageSize=25&regex=Hello');
+			});
 	});
 
 	it('applies category filter', () => {

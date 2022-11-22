@@ -3,6 +3,7 @@ import { PageResponsiveWrapper } from '../../UI/ResponsiveWrappers/PageResponsiv
 import { PageTitle } from '../../UI/PageTitle';
 import { useImmer } from 'use-immer';
 import { PaginationState } from '../../../utils/pagination';
+import { RulesTable } from './RulesTable';
 
 export const Rules = () => {
 	const [state, setState] = useImmer<PaginationState>({
@@ -12,6 +13,7 @@ export const Rules = () => {
 	return (
 		<PageResponsiveWrapper className="AutoCategorizeRules">
 			<PageTitle title="Auto-Categorization Rules" />
+			<RulesTable pagination={state} onPaginationChange={setState} />
 		</PageResponsiveWrapper>
 	);
 };

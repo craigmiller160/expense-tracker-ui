@@ -15,7 +15,9 @@ import {
 	NAVBAR_ITEMS,
 	NavbarItem,
 	REPORTS_LABEL,
-	REPORTS_TO
+	REPORTS_TO,
+	RULES_LABEL,
+	RULES_TO
 } from './items';
 import { match } from 'ts-pattern';
 
@@ -89,6 +91,7 @@ const findCurrentLabel = (pathname: string, isAuthorized: boolean): string =>
 			pathStartsWith(IMPORT_TRANSACTIONS_TO),
 			() => IMPORT_TRANSACTIONS_LABEL
 		)
+		.when(pathStartsWith(RULES_TO), () => RULES_LABEL)
 		.with({ pathname: '/' }, () => MANAGE_TRANSACTIONS_LABEL)
 		.run();
 

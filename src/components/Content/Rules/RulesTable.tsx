@@ -38,7 +38,7 @@ export const RulesTable = (props: Props) => {
 				{data?.rules?.map((rule) => (
 					<TableRow key={rule.id}>
 						<TableCell>{rule.ordinal}</TableCell>
-						<TableCell>{rule.categoryId}</TableCell>
+						<TableCell>{rule.categoryName}</TableCell>
 						<TableCell>TBD</TableCell>
 					</TableRow>
 				))}

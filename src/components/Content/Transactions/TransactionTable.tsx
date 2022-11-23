@@ -58,18 +58,16 @@ interface Props {
 
 const createAboveTableActions = (
 	openDetailsDialog: () => void
-): ReadonlyArray<ReactNode> => {
-	return [
-		<Button
-			key="add-transaction"
-			variant="contained"
-			color="primary"
-			onClick={() => openDetailsDialog()}
-		>
-			Add Transaction
-		</Button>
-	];
-};
+): ReadonlyArray<ReactNode> => [
+	<Button
+		key="add-transaction"
+		variant="contained"
+		color="primary"
+		onClick={() => openDetailsDialog()}
+	>
+		Add Transaction
+	</Button>
+];
 
 const createBelowTableActions = (
 	formState: FormState<TransactionTableForm>,

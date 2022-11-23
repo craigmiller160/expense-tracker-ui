@@ -4,13 +4,14 @@ import {
 } from '../../../utils/pagination';
 import { Updater } from 'use-immer';
 import { Table } from '../../UI/Table';
-import { TableCell, TableRow } from '@mui/material';
+import { Button, TableCell, TableRow } from '@mui/material';
 import './RulesTable.scss';
 import { AutoCategorizeRuleResponse } from '../../../types/generated/expense-tracker';
 import { pipe } from 'fp-ts/es6/function';
 import * as Option from 'fp-ts/es6/Option';
 import { serverDateToDisplayDate } from '../../../utils/dateTimeUtils';
 import { formatCurrency } from '../../../utils/formatNumbers';
+import { ReactNode } from 'react';
 
 const COLUMNS = ['Ordinal', 'Category', 'Rule'];
 
@@ -67,6 +68,12 @@ const RuleCell = (props: RuleProps) => {
 	);
 };
 
+const createAboveTableActions = (): ReadonlyArray<ReactNode> => [
+	<Button id="AddRuleBtn" key="add-rule" variant="contained" color="primary">
+		Add Rule
+	</Button>
+];
+
 export const RulesTable = (props: Props) => {
 	const paginationConfig = createTablePagination(
 		props.currentPage,
@@ -75,12 +82,15 @@ export const RulesTable = (props: Props) => {
 		props.onPaginationChange
 	);
 
+	const aboveTableActions = createAboveTableActions();
+
 	return (
 		<div className="AutoCategorizeRulesTable">
 			<Table
 				columns={COLUMNS}
 				loading={props.isFetching}
 				pagination={paginationConfig}
+				aboveTableActions={aboveTableActions}
 			>
 				{props.rules.map((rule) => (
 					<TableRow key={rule.id}>

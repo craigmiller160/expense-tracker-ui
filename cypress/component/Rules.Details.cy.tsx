@@ -188,7 +188,41 @@ describe('Rule Details', () => {
 	});
 
 	it('can update an existing rule', () => {
-		throw new Error();
+		const ruleId = allRules.rules[0].id;
+		rulesApi.getAllRules();
+		categoriesApi.getAllCategories();
+		rulesApi.getMaxOrdinal();
+		rulesApi.getRule_maximum(ruleId);
+		rulesApi.updateRule(ruleId);
+		mountApp({
+			initialRoute: '/expense-tracker/rules'
+		});
+
+		const row = rulesListPage.getRuleRows().eq(0);
+		rulesListPage.getDetailsButton(row).click();
+
+		ruleDetailsPage.getHeaderTitle().should('have.text', 'Rule Details');
+
+		ruleDetailsPage.getSaveButton().should('be.disabled');
+
+		ruleDetailsPage
+			.getRegexInput()
+			.clear()
+			.type('Hello')
+			.should('have.value', 'Hello');
+
+		ruleDetailsPage.getSaveButton().should('be.enabled').click();
+		cy.wait(`@updateRule_${ruleId}`).then((xhr) => {
+			expect(xhr.request.body).to.eql({
+				categoryId: 'e6a10eec-c1e4-44e6-9100-e834f994ac4c',
+				regex: 'Hello',
+				ordinal: 1,
+				minAmount: 1,
+				maxAmount: 2,
+				startDate: '2022-01-01',
+				endDate: '2022-02-02'
+			});
+		});
 	});
 
 	it('input validation rules', () => {

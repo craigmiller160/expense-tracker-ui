@@ -1,5 +1,5 @@
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
-import { useHandleDialogData } from './useHandleDialogData';
+import { useHandleRuleDialogData } from './useHandleRuleDialogData';
 import { SideDialog } from '../../UI/SideDialog';
 import { CircularProgress } from '@mui/material';
 
@@ -11,7 +11,7 @@ type Props = {
 
 // TODO how to add ordinal control?
 export const RuleDetailsDialog = (props: Props) => {
-	const { isFetching } = useHandleDialogData({
+	const { isFetching } = useHandleRuleDialogData({
 		selectedRuleId: props.selectedRuleId
 	});
 	return (
@@ -21,6 +21,7 @@ export const RuleDetailsDialog = (props: Props) => {
 			onClose={props.close}
 		>
 			{isFetching && <CircularProgress />}
+			{!isFetching && <div></div>}
 		</SideDialog>
 	);
 };

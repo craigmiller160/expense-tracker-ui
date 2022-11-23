@@ -48,7 +48,7 @@ const optionalRuleToValues = (rule?: AutoCategorizeRuleResponse): RuleValues =>
 		Option.fold(() => defaultRuleValues, ruleToValues)
 	);
 
-export const useHandleDialogData = (props: Props): Data => {
+export const useHandleRuleDialogData = (props: Props): Data => {
 	const { data: allCategoriesData, isFetching: allCategoriesIsFetching } =
 		useGetAllCategories();
 	const { data: ruleData, isFetching: ruleIsFetching } = useGetRule(

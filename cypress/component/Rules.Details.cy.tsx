@@ -9,6 +9,7 @@ import {
 	orderedCategoryIds,
 	orderedCategoryNames
 } from './testutils/constants/categories';
+import { confirmDialogPage } from './testutils/pages/confirmDialog';
 
 type RuleValues = {
 	readonly categoryName: string;
@@ -20,7 +21,7 @@ type RuleValues = {
 	readonly endDate?: string;
 };
 
-const validateRuleDialogFields = (values: RuleValues) => {
+const validateRuleDialogFields = (values: RuleValues, isCreate = false) => {
 	ruleDetailsPage.getOrdinalLabel().should('have.text', 'Ordinal');
 	ruleDetailsPage.getOrdinalInput().should('have.value', values.ordinal);
 	ruleDetailsPage.getCategoryLabel().should('have.text', 'Category');
@@ -38,6 +39,13 @@ const validateRuleDialogFields = (values: RuleValues) => {
 	ruleDetailsPage
 		.getMaxAmountInput()
 		.should('have.value', values.maxAmount ?? '');
+
+	ruleDetailsPage.getSaveButton().should('have.text', 'Save');
+	if (!isCreate) {
+		ruleDetailsPage.getDeleteButton().should('have.text', 'Delete');
+	} else {
+		ruleDetailsPage.getDeleteButton().should('not.exist');
+	}
 };
 
 describe('Rule Details', () => {
@@ -98,11 +106,14 @@ describe('Rule Details', () => {
 
 		rulesListPage.getAddRuleButton().click();
 		ruleDetailsPage.getHeaderTitle().should('have.text', 'Rule Details');
-		validateRuleDialogFields({
-			ordinal: 5,
-			categoryName: '',
-			regex: ''
-		});
+		validateRuleDialogFields(
+			{
+				ordinal: 5,
+				categoryName: '',
+				regex: ''
+			},
+			true
+		);
 		ruleDetailsPage.getSaveButton().should('be.disabled');
 
 		ruleDetailsPage.getCategoryInput().click();
@@ -158,11 +169,14 @@ describe('Rule Details', () => {
 
 		rulesListPage.getAddRuleButton().click();
 		ruleDetailsPage.getHeaderTitle().should('have.text', 'Rule Details');
-		validateRuleDialogFields({
-			ordinal: 5,
-			categoryName: '',
-			regex: ''
-		});
+		validateRuleDialogFields(
+			{
+				ordinal: 5,
+				categoryName: '',
+				regex: ''
+			},
+			true
+		);
 		ruleDetailsPage.getSaveButton().should('be.disabled');
 
 		ruleDetailsPage.getCategoryInput().click();
@@ -230,6 +244,24 @@ describe('Rule Details', () => {
 	});
 
 	it('can delete an existing rule', () => {
-		throw new Error();
+		const ruleId = allRules.rules[0].id;
+		rulesApi.getAllRules();
+		categoriesApi.getAllCategories();
+		rulesApi.getMaxOrdinal();
+		rulesApi.getRule_maximum(ruleId);
+		rulesApi.deleteRule(ruleId);
+		mountApp({
+			initialRoute: '/expense-tracker/rules'
+		});
+
+		const row = rulesListPage.getRuleRows().eq(0);
+		rulesListPage.getDetailsButton(row).click();
+
+		ruleDetailsPage.getHeaderTitle().should('have.text', 'Rule Details');
+
+		ruleDetailsPage.getDeleteButton().click();
+		confirmDialogPage.getConfirmButton().click();
+
+		cy.wait(`@deleteRule_${ruleId}`);
 	});
 });

@@ -4,8 +4,6 @@ import { getHelperTextForLabel, getInputForLabel } from './utils';
 
 const getHeaderTitle = (): Chainable<JQuery> =>
 	cy.get('#RuleDetailsDialog-header .MuiToolbar-root h6');
-const getContentTitle = (): Chainable<JQuery> =>
-	cy.get('#RuleDetailsDialog-body h6');
 const getCloseButton = (): Chainable<JQuery> =>
 	cy.get('#RuleDetailsDialog-header .MuiToolbar-root button');
 const getSaveButton = (): Chainable<JQuery> =>
@@ -13,19 +11,33 @@ const getSaveButton = (): Chainable<JQuery> =>
 const getDeleteButton = (): Chainable<JQuery> =>
 	cy.get('#RuleDetailsDialog-footer button').eq(1);
 const getOrdinalLabel = (): Chainable<JQuery> =>
-	cy.get('#RuleDetailsDialog .AutoCategorizeRuleDetailsForm label').eq(0);
+	cy
+		.get('#RuleDetailsDialog-body .AutoCategorizeRuleDetailsForm label')
+		.eq(0);
 const getCategoryLabel = (): Chainable<JQuery> =>
-	cy.get('#RuleDetailsDialog .AutoCategorizeRuleDetailsForm label').eq(1);
+	cy
+		.get('#RuleDetailsDialog-body .AutoCategorizeRuleDetailsForm label')
+		.eq(1);
 const getRegexLabel = (): Chainable<JQuery> =>
-	cy.get('#RuleDetailsDialog .AutoCategorizeRuleDetailsForm label').eq(2);
+	cy
+		.get('#RuleDetailsDialog-body .AutoCategorizeRuleDetailsForm label')
+		.eq(2);
 const getStartDateLabel = (): Chainable<JQuery> =>
-	cy.get('#RuleDetailsDialog .AutoCategorizeRuleDetailsForm label').eq(3);
+	cy
+		.get('#RuleDetailsDialog-body .AutoCategorizeRuleDetailsForm label')
+		.eq(3);
 const getEndDateLabel = (): Chainable<JQuery> =>
-	cy.get('#RuleDetailsDialog .AutoCategorizeRuleDetailsForm label').eq(4);
+	cy
+		.get('#RuleDetailsDialog-body .AutoCategorizeRuleDetailsForm label')
+		.eq(4);
 const getMinAmountLabel = (): Chainable<JQuery> =>
-	cy.get('#RuleDetailsDialog .AutoCategorizeRuleDetailsForm label').eq(5);
+	cy
+		.get('#RuleDetailsDialog-body .AutoCategorizeRuleDetailsForm label')
+		.eq(5);
 const getMaxAmountLabel = (): Chainable<JQuery> =>
-	cy.get('#RuleDetailsDialog .AutoCategorizeRuleDetailsForm label').eq(6);
+	cy
+		.get('#RuleDetailsDialog-body .AutoCategorizeRuleDetailsForm label')
+		.eq(6);
 const getOrdinalInput = (): Chainable<JQuery> =>
 	pipe(getOrdinalLabel(), getInputForLabel);
 const getOrdinalHelperText = (): Chainable<JQuery> =>
@@ -53,7 +65,6 @@ const getMaxAmountInput = (): Chainable<JQuery> =>
 
 export const ruleDetailsPage = {
 	getHeaderTitle,
-	getContentTitle,
 	getCloseButton,
 	getSaveButton,
 	getDeleteButton,

@@ -33,15 +33,17 @@ const useOnValueHasChanged = (
 	return useDebounce(submitFn, 300);
 };
 
-type State = PaginationState & {
-	readonly detailsDialogOpen: boolean;
+type DialogState = {
+	readonly open: boolean;
 };
 
 export const Rules = () => {
-	const [state, setState] = useImmer<State>({
+	const [paginationState, setPaginationState] = useImmer<PaginationState>({
 		pageNumber: 0,
-		pageSize: DEFAULT_ROWS_PER_PAGE,
-		detailsDialogOpen: false
+		pageSize: DEFAULT_ROWS_PER_PAGE
+	});
+	const [dialogState, setDialogState] = useImmer<DialogState>({
+		open: false
 	});
 	const {
 		currentPage,
@@ -50,11 +52,11 @@ export const Rules = () => {
 		isFetching,
 		filtersForm,
 		categories
-	} = useHandleAllRulesData(state);
+	} = useHandleAllRulesData(paginationState);
 	const forceUpdate = useForceUpdate();
 	const onValueHasChanged = useOnValueHasChanged(
 		filtersForm.handleSubmit,
-		setState,
+		setPaginationState,
 		forceUpdate
 	);
 
@@ -71,10 +73,10 @@ export const Rules = () => {
 				totalItems={totalItems}
 				rules={rules}
 				isFetching={isFetching}
-				pageSize={state.pageSize}
-				onPaginationChange={setState}
+				pageSize={paginationState.pageSize}
+				onPaginationChange={setPaginationState}
 			/>
-			<RuleDetailsDialog open={state.detailsDialogOpen} />
+			<RuleDetailsDialog open={dialogState.open} />
 		</PageResponsiveWrapper>
 	);
 };

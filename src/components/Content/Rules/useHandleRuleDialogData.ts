@@ -13,6 +13,7 @@ import { useForm, UseFormReturn } from 'react-hook-form';
 import { useEffect } from 'react';
 import { useCreateOrdinalOptions } from '../../../utils/ordinalUtils';
 import { OrdinalOption } from '../../../types/rules';
+import { parseServerDate } from '../../../utils/dateTimeUtils';
 
 type Props = {
 	readonly selectedRuleId: OptionT<string>;
@@ -46,14 +47,21 @@ type Data = {
 	readonly ordinalOptions: ReadonlyArray<OrdinalOption>;
 };
 
+const parseRuleDate = (dateString?: string): Date | null =>
+	pipe(
+		Option.fromNullable(dateString),
+		Option.map(parseServerDate),
+		Option.getOrElse((): Date | null => null)
+	);
+
 const ruleToValues = (rule: AutoCategorizeRuleResponse): RuleFormData => ({
 	ordinal: rule.ordinal,
 	category: null,
 	regex: rule.regex,
-	startDate: rule.startDate ?? null,
-	endDate: rule.endDate ?? null,
-	minAmount: rule.minAmount ?? null,
-	maxAmount: rule.maxAmount ?? null
+	startDate: parseRuleDate(rule.startDate),
+	endDate: parseRuleDate(rule.endDate),
+	minAmount: rule.minAmount?.toFixed(2) ?? null,
+	maxAmount: rule.maxAmount?.toFixed(2) ?? null
 });
 
 const optionalRuleToValues = (

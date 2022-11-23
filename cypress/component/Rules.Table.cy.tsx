@@ -74,6 +74,6 @@ describe('Rules Table', () => {
 			.should('have.length', allRules.rules.length)
 			.each(($row, index) => validateRuleRow($row, index));
 
-		throw new Error('Check for the presence of the add button here');
+		rulesListPage.getAddRuleButton().should('have.text', 'Add Rule');
 	});
 });

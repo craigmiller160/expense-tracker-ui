@@ -154,7 +154,7 @@ export const Rules = () => {
 		setPaginationState,
 		forceUpdate
 	);
-	const { openDialog, closeDialog } = useDialogActions(
+	const { openDialog, closeDialog, saveRule, deleteRule } = useDialogActions(
 		setDialogState,
 		dialogState.selectedRuleId
 	);
@@ -180,6 +180,8 @@ export const Rules = () => {
 				selectedRuleId={dialogState.selectedRuleId}
 				open={dialogState.open}
 				close={closeDialog}
+				saveRule={saveRule}
+				deleteRule={deleteRule}
 			/>
 		</PageResponsiveWrapper>
 	);

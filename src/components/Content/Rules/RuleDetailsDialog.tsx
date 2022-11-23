@@ -1,5 +1,8 @@
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
-import { useHandleRuleDialogData } from './useHandleRuleDialogData';
+import {
+	RuleFormData,
+	useHandleRuleDialogData
+} from './useHandleRuleDialogData';
 import { SideDialog } from '../../UI/SideDialog';
 import { Button, CircularProgress } from '@mui/material';
 import './RuleDetailsDialog.scss';
@@ -44,6 +47,8 @@ type Props = {
 	readonly open: boolean;
 	readonly close: () => void;
 	readonly selectedRuleId: OptionT<string>;
+	readonly saveRule: (values: RuleFormData) => void;
+	readonly deleteRule: () => void;
 };
 
 export const RuleDetailsDialog = (props: Props) => {
@@ -61,14 +66,9 @@ export const RuleDetailsDialog = (props: Props) => {
 		open: props.open
 	});
 
-	const onSubmit = () => {
-		// TODO finish this
-		throw new Error();
-	};
-
 	const Actions = (
 		<RuleDetailsDialogActions
-			deleteRule={() => null}
+			deleteRule={props.deleteRule}
 			enableSaveButton={isDirty && isValid}
 			showDeleteButton={Option.isSome(props.selectedRuleId)}
 		/>
@@ -79,7 +79,7 @@ export const RuleDetailsDialog = (props: Props) => {
 			title="Rule Details"
 			open={props.open}
 			onClose={props.close}
-			formSubmit={handleSubmit(onSubmit)}
+			formSubmit={handleSubmit(props.saveRule)}
 			actions={Actions}
 		>
 			{isFetching && <CircularProgress />}

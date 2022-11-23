@@ -22,7 +22,7 @@ import {
 import { constVoid, pipe } from 'fp-ts/es6/function';
 import * as Option from 'fp-ts/es6/Option';
 import { useForm, UseFormReturn } from 'react-hook-form';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import {
 	getTrueMaxOrdinal,
 	useCreateOrdinalOptions
@@ -34,6 +34,7 @@ import {
 } from '../../../utils/dateTimeUtils';
 import { UseMutateFunction } from 'react-query';
 import * as Task from 'fp-ts/es6/Task';
+import { ConfirmDialogContext } from '../../UI/ConfirmDialog/ConfirmDialogProvider';
 
 const parseRequestDate = (date: Date | null): string | undefined =>
 	pipe(
@@ -186,6 +187,7 @@ const createDeleteRule =
 		)();
 
 export const useHandleRuleDialogData = (props: Props): Data => {
+	const { newConfirmDialog } = useContext(ConfirmDialogContext);
 	const { data: allCategoriesData, isFetching: allCategoriesIsFetching } =
 		useGetAllCategories();
 	const { data: maxOrdinalData, isFetching: maxOrdinalIsFetching } =
@@ -242,6 +244,12 @@ export const useHandleRuleDialogData = (props: Props): Data => {
 		deleteRuleWaitForSettled,
 		props.close
 	);
+	const confirmAndDeleteRule = () =>
+		newConfirmDialog(
+			'Delete Rule',
+			'Are you sure you want to delete this rule?',
+			deleteRule
+		);
 
 	return {
 		categoryOptions: allCategoriesData?.map(categoryToCategoryOption) ?? [],
@@ -255,6 +263,6 @@ export const useHandleRuleDialogData = (props: Props): Data => {
 		form,
 		ordinalOptions,
 		saveRule,
-		deleteRule
+		deleteRule: confirmAndDeleteRule
 	};
 };

@@ -9,7 +9,7 @@ import {
 	TextField,
 	DatePicker
 } from '@craigmiller160/react-hook-form-material-ui';
-import { formatAmountValue } from '../Transactions/utils';
+import { formatAmountValue } from '../../../utils/amountUtils';
 
 type Props = {
 	readonly open: boolean;
@@ -17,7 +17,6 @@ type Props = {
 	readonly selectedRuleId: OptionT<string>;
 };
 
-// TODO how to add ordinal control?
 export const RuleDetailsDialog = (props: Props) => {
 	const {
 		isFetching,

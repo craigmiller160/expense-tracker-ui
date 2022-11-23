@@ -12,7 +12,6 @@ import {
 	DatePicker,
 	TextField
 } from '@craigmiller160/react-hook-form-material-ui';
-import { formatAmountValue } from './utils';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 import { ReactNode } from 'react';
 import {
@@ -25,6 +24,7 @@ import * as Option from 'fp-ts/es6/Option';
 import { TransactionDetailsDuplicatePanel } from './TransactionDetailsDuplicatePanel';
 import { Spinner } from '../../UI/Spinner';
 import { useCategoriesToCategoryOptions } from '../../../utils/categoryUtils';
+import { formatAmountValue } from '../../../utils/amountUtils';
 
 interface Props {
 	readonly open: boolean;

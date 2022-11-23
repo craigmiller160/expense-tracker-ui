@@ -23,10 +23,10 @@ export type RuleFormData = {
 	readonly category: CategoryOption | null;
 	readonly ordinal: number | null;
 	readonly regex: string | null;
-	readonly startDate: string | null;
-	readonly endDate: string | null;
-	readonly minAmount: number | null;
-	readonly maxAmount: number | null;
+	readonly startDate: Date | null;
+	readonly endDate: Date | null;
+	readonly minAmount: string | null;
+	readonly maxAmount: string | null;
 };
 
 const defaultRuleValues: RuleFormData = {

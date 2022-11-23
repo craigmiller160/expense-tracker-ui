@@ -37,6 +37,28 @@ type DialogState = {
 	readonly open: boolean;
 };
 
+type DialogActions = {
+	readonly openDialog: () => void;
+	readonly closeDialog: () => void;
+};
+
+const useDialogActions = (
+	setDialogState: Updater<DialogState>
+): DialogActions => {
+	const openDialog = () =>
+		setDialogState((draft) => {
+			draft.open = true;
+		});
+	const closeDialog = () =>
+		setDialogState((draft) => {
+			draft.open = false;
+		});
+	return {
+		openDialog,
+		closeDialog
+	};
+};
+
 export const Rules = () => {
 	const [paginationState, setPaginationState] = useImmer<PaginationState>({
 		pageNumber: 0,
@@ -59,6 +81,7 @@ export const Rules = () => {
 		setPaginationState,
 		forceUpdate
 	);
+	const { openDialog, closeDialog } = useDialogActions(setDialogState);
 
 	return (
 		<PageResponsiveWrapper className="AutoCategorizeRules">
@@ -75,8 +98,9 @@ export const Rules = () => {
 				isFetching={isFetching}
 				pageSize={paginationState.pageSize}
 				onPaginationChange={setPaginationState}
+				openDialog={openDialog}
 			/>
-			<RuleDetailsDialog open={dialogState.open} />
+			<RuleDetailsDialog open={dialogState.open} close={closeDialog} />
 		</PageResponsiveWrapper>
 	);
 };

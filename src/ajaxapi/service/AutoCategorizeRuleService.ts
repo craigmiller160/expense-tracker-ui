@@ -36,9 +36,11 @@ export const getMaxOrdinal = (): Promise<MaxOrdinalResponse> =>
 		})
 		.then(getData);
 
-export const createRule = (request: AutoCategorizeRuleRequest): Promise<void> =>
+export const createRule = (
+	request: AutoCategorizeRuleRequest
+): Promise<AutoCategorizeRuleResponse> =>
 	expenseTrackerApi
-		.post<void, AutoCategorizeRuleRequest>({
+		.post<AutoCategorizeRuleResponse, AutoCategorizeRuleRequest>({
 			uri: '/categories/rules',
 			body: request,
 			errorCustomizer: 'Error creating rule'

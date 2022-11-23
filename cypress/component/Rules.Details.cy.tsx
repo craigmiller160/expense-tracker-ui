@@ -260,11 +260,12 @@ describe('Rule Details', () => {
 		});
 		validateInput({
 			getInput: ruleDetailsPage.getOrdinalInput,
-			getHelperText: ruleDetailsPage.getOrdinalHelperText
+			getHelperText: ruleDetailsPage.getOrdinalHelperText,
+			type: 'select'
 		})({
 			errorMessage: 'Ordinal is required',
 			invalidValue: '',
-			validValue: '1'
+			validValue: '2'
 		});
 		validateInput({
 			getInput: ruleDetailsPage.getRegexInput,
@@ -278,7 +279,7 @@ describe('Rule Details', () => {
 			getInput: ruleDetailsPage.getStartDateInput,
 			getHelperText: ruleDetailsPage.getStartDateHelperText
 		})({
-			errorMessage: 'Invalid date',
+			errorMessage: 'Must be valid date',
 			invalidValue: '01',
 			validValue: '01/01/2022'
 		});
@@ -286,13 +287,14 @@ describe('Rule Details', () => {
 			getInput: ruleDetailsPage.getEndDateInput,
 			getHelperText: ruleDetailsPage.getEndDateHelperText
 		})({
-			errorMessage: 'Invalid date',
+			errorMessage: 'Must be valid date',
 			invalidValue: '01',
 			validValue: '01/01/2022'
 		});
 		validateInput({
 			getInput: ruleDetailsPage.getCategoryInput,
-			getHelperText: ruleDetailsPage.getCategoryHelperText
+			getHelperText: ruleDetailsPage.getCategoryHelperText,
+			type: 'select'
 		})({
 			errorMessage: 'Category is required',
 			invalidValue: '',

@@ -11,6 +11,8 @@ const getCategoryCell = (row: Chainable<JQuery>): Chainable<JQuery> =>
 	row.find('td').eq(1);
 const getRuleCell = (row: Chainable<JQuery>): Chainable<JQuery> =>
 	row.find('td').eq(2);
+const getDetailsButton = (row: Chainable<JQuery>): Chainable<JQuery> =>
+	row.find('.RuleDetailsButton');
 const getAddRuleButton = (): Chainable<JQuery> =>
 	cy.get('.AutoCategorizeRules #AddRuleBtn');
 
@@ -21,5 +23,6 @@ export const rulesListPage = {
 	getOrdinalCell,
 	getCategoryCell,
 	getRuleCell,
-	getAddRuleButton
+	getAddRuleButton,
+	getDetailsButton
 };

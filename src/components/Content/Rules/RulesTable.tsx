@@ -101,7 +101,12 @@ export const RulesTable = (props: Props) => {
 							<RuleCell rule={rule} />
 						</TableCell>
 						<TableCell>
-							<Button variant="contained">Details</Button>
+							<Button
+								className="RuleDetailsButton"
+								variant="contained"
+							>
+								Details
+							</Button>
 						</TableCell>
 					</TableRow>
 				))}

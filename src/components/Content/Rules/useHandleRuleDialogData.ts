@@ -11,6 +11,8 @@ import { pipe } from 'fp-ts/es6/function';
 import * as Option from 'fp-ts/es6/Option';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { useEffect } from 'react';
+import { useCreateOrdinalOptions } from '../../../utils/ordinalUtils';
+import { OrdinalOption } from '../../../types/rules';
 
 type Props = {
 	readonly selectedRuleId: OptionT<string>;
@@ -38,10 +40,10 @@ const defaultRuleValues: RuleFormData = {
 };
 
 type Data = {
-	readonly categories: ReadonlyArray<CategoryOption>;
+	readonly categoryOptions: ReadonlyArray<CategoryOption>;
 	readonly isFetching: boolean;
 	readonly form: UseFormReturn<RuleFormData>;
-	readonly maxOrdinal: number;
+	readonly ordinalOptions: ReadonlyArray<OrdinalOption>;
 };
 
 const ruleToValues = (rule: AutoCategorizeRuleResponse): RuleFormData => ({
@@ -79,11 +81,16 @@ export const useHandleRuleDialogData = (props: Props): Data => {
 		reset(optionalRuleToValues(ruleData));
 	}, [ruleData, reset, props.open]);
 
+	const ordinalOptions = useCreateOrdinalOptions(
+		maxOrdinalData?.maxOrdinal ?? 0,
+		Option.isNone(props.selectedRuleId)
+	);
+
 	return {
-		categories: allCategoriesData?.map(categoryToCategoryOption) ?? [],
+		categoryOptions: allCategoriesData?.map(categoryToCategoryOption) ?? [],
 		isFetching:
 			allCategoriesIsFetching || ruleIsFetching || maxOrdinalIsFetching,
 		form,
-		maxOrdinal: maxOrdinalData?.maxOrdinal ?? 0
+		ordinalOptions
 	};
 };

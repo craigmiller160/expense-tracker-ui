@@ -4,7 +4,10 @@ import { SideDialog } from '../../UI/SideDialog';
 import { CircularProgress } from '@mui/material';
 import './RuleDetailsDialog.scss';
 import { ResponsiveRow } from '../../UI/ResponsiveWrappers/ResponsiveRow';
-import { TextField, Select } from '@craigmiller160/react-hook-form-material-ui';
+import {
+	Autocomplete,
+	TextField
+} from '@craigmiller160/react-hook-form-material-ui';
 
 type Props = {
 	readonly open: boolean;
@@ -16,6 +19,8 @@ type Props = {
 export const RuleDetailsDialog = (props: Props) => {
 	const {
 		isFetching,
+		ordinalOptions,
+		categoryOptions,
 		form: { handleSubmit, control }
 	} = useHandleRuleDialogData({
 		selectedRuleId: props.selectedRuleId,
@@ -27,6 +32,7 @@ export const RuleDetailsDialog = (props: Props) => {
 		throw new Error();
 	};
 
+	// TODO concerned about widths here, tweak it via the ResponsiveRow component and compare with TransactionDialog
 	return (
 		<SideDialog
 			title="Rule Details"
@@ -38,13 +44,24 @@ export const RuleDetailsDialog = (props: Props) => {
 			{!isFetching && (
 				<div className="AutoCategorizeRuleDetailsForm">
 					<ResponsiveRow>
-						<Select
-							options={[]}
+						<Autocomplete
+							options={ordinalOptions}
 							control={control}
 							name="ordinal"
 							label="Ordinal"
+							rules={{
+								required: 'Ordinal is required'
+							}}
 						/>
-						<p>Category</p>
+						<Autocomplete
+							options={categoryOptions}
+							control={control}
+							name="category"
+							label="Category"
+							rules={{
+								required: 'Category is required'
+							}}
+						/>
 					</ResponsiveRow>
 					<ResponsiveRow
 						overrideChildWidth={{

@@ -17,7 +17,9 @@ const getConfirmCheckboxLabel = (): Chainable<JQuery> =>
 const getConfirmCheckboxInput = (): Chainable<JQuery> =>
 	pipe(getConfirmCheckboxLabel(), getInputForLabel);
 const getCategorySelectLabel = (): Chainable<JQuery> =>
-	cy.get('#TransactionDetailsDialog-body .Controls label:nth-of-type(2)');
+	cy.get('#TransactionDetailsDialog-body .Controls label').eq(1);
+const getCategorySelectInput = (): Chainable<JQuery> =>
+	pipe(getCategorySelectLabel(), getInputForLabel);
 const getExpenseDateLabel = (): Chainable<JQuery> =>
 	cy.get('#TransactionDetailsDialog-body .Info label').eq(0);
 const getExpenseDateInput = (): Chainable<JQuery> =>
@@ -103,5 +105,6 @@ export const transactionDetailsPage = {
 	getCategoryForDuplicateRecord,
 	getOpenButtonForDuplicateRecord,
 	getConfirmedForDuplicateRecord,
-	getMarkNotDuplicateButton
+	getMarkNotDuplicateButton,
+	getCategorySelectInput
 };

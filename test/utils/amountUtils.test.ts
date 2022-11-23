@@ -1,6 +1,6 @@
-import { formatAmountValue } from '../../../../src/components/Content/Transactions/utils';
+import { formatAmountValue } from '../../src/utils/amountUtils';
 
-describe('Transaction utils', () => {
+describe('amountUtils', () => {
 	describe('formatAmountValue', () => {
 		it('100', () => {
 			const result = formatAmountValue('100');

@@ -69,8 +69,16 @@ const RuleCell = (props: RuleProps) => {
 	);
 };
 
-const createAboveTableActions = (): ReadonlyArray<ReactNode> => [
-	<Button id="AddRuleBtn" key="add-rule" variant="contained" color="primary">
+const createAboveTableActions = (
+	openDialog: () => void
+): ReadonlyArray<ReactNode> => [
+	<Button
+		id="AddRuleBtn"
+		key="add-rule"
+		variant="contained"
+		color="primary"
+		onClick={openDialog}
+	>
 		Add Rule
 	</Button>
 ];
@@ -83,7 +91,7 @@ export const RulesTable = (props: Props) => {
 		props.onPaginationChange
 	);
 
-	const aboveTableActions = createAboveTableActions();
+	const aboveTableActions = createAboveTableActions(props.openDialog);
 
 	return (
 		<div className="AutoCategorizeRulesTable">

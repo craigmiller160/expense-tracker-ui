@@ -74,6 +74,7 @@ export const RuleDetailsDialog = (props: Props) => {
 
 	return (
 		<SideDialog
+			id="RuleDetailsDialog"
 			title="Rule Details"
 			open={props.open}
 			onClose={props.close}

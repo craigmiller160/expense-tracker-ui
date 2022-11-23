@@ -12,6 +12,7 @@ import { RulesFilters } from './RulesFilters';
 import { UseFormHandleSubmit } from 'react-hook-form';
 import { ForceUpdate, useForceUpdate } from '../../../utils/useForceUpdate';
 import { useDebounce } from '../../../utils/useDebounce';
+import { RuleDetailsDialog } from './RuleDetailsDialog';
 
 export const DEFAULT_ROWS_PER_PAGE = 25;
 
@@ -68,6 +69,7 @@ export const Rules = () => {
 				pageSize={state.pageSize}
 				onPaginationChange={setState}
 			/>
+			<RuleDetailsDialog open={false} />
 		</PageResponsiveWrapper>
 	);
 };

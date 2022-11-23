@@ -16,9 +16,10 @@ import './TransactionSearchFilters.scss';
 import { SortDirection } from '../../../types/misc';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 import { useMemo } from 'react';
-import { categoryToCategoryOption, TransactionSearchForm } from './utils';
+import { TransactionSearchForm } from './utils';
 import { Paper } from '@mui/material';
 import { ResponsiveRow } from '../../UI/ResponsiveWrappers/ResponsiveRow';
+import { categoryToCategoryOption } from '../../../utils/categoryUtils';
 
 const directionOptions: ReadonlyArray<SelectOption<SortDirection>> = [
 	{ value: SortDirection.DESC, label: 'Newest to Oldest' },

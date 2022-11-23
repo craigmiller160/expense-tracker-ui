@@ -91,7 +91,7 @@ export const RulesTable = (props: Props) => {
 		props.onPaginationChange
 	);
 
-	const aboveTableActions = createAboveTableActions(props.openDialog);
+	const aboveTableActions = createAboveTableActions(() => props.openDialog());
 
 	return (
 		<div className="AutoCategorizeRulesTable">

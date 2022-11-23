@@ -3,15 +3,14 @@ import { TransactionTableForm } from './useHandleTransactionTableData';
 import * as RArray from 'fp-ts/es6/ReadonlyArray';
 import { identity, pipe } from 'fp-ts/es6/function';
 import {
-	CategoryResponse,
 	TransactionResponse,
 	TransactionToUpdate
 } from '../../../types/generated/expense-tracker';
 import { SortDirection } from '../../../types/misc';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
-import { useMemo } from 'react';
 import { match, P } from 'ts-pattern';
 import * as Option from 'fp-ts/es6/Option';
+import { CategoryOption } from '../../../types/categories';
 
 export interface TransactionSearchForm {
 	readonly direction: SortDirection;
@@ -38,7 +37,6 @@ export const transactionSearchFormDefaultValues: TransactionSearchForm = {
 	isPossibleRefund: false
 };
 
-export type CategoryOption = SelectOption<string>;
 export const DEFAULT_ROWS_PER_PAGE = 25;
 
 export const formToUpdateRequest = (
@@ -53,21 +51,6 @@ export const formToUpdateRequest = (
 				confirmed: txn.confirmed
 			})
 		)
-	);
-
-export const categoryToCategoryOption = (
-	category: CategoryResponse
-): CategoryOption => ({
-	label: category.name,
-	value: category.id
-});
-
-export const useCategoriesToCategoryOptions = (
-	categories: ReadonlyArray<CategoryResponse> | undefined
-): CategoryOption[] =>
-	useMemo(
-		() => categories?.map(categoryToCategoryOption) ?? [],
-		[categories]
 	);
 
 export const transactionToCategoryOption = (

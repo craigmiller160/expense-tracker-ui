@@ -58,7 +58,28 @@ describe('Rule Details', () => {
 	});
 
 	it('opens existing rule with maximum fields filled', () => {
-		throw new Error();
+		const ruleId = allRules.rules[0].id;
+		rulesApi.getAllRules();
+		categoriesApi.getAllCategories();
+		rulesApi.getMaxOrdinal();
+		rulesApi.getRule_maximum(ruleId);
+		mountApp({
+			initialRoute: '/expense-tracker/rules'
+		});
+
+		const row = rulesListPage.getRuleRows().eq(0);
+		rulesListPage.getDetailsButton(row).click();
+
+		ruleDetailsPage.getHeaderTitle().should('have.text', 'Rule Details');
+		validateRuleDialogFields({
+			ordinal: 1,
+			categoryName: 'Groceries',
+			regex: 'TARGET',
+			minAmount: '1.00',
+			maxAmount: '2.00',
+			startDate: '01/01/2022',
+			endDate: '02/02/2022'
+		});
 	});
 
 	it('can add a new rule', () => {

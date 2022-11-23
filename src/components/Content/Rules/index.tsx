@@ -15,15 +15,6 @@ import { useDebounce } from '../../../utils/useDebounce';
 import { RuleDetailsDialog } from './RuleDetailsDialog';
 import * as Option from 'fp-ts/es6/Option';
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
-import {
-	useCreateRule,
-	useDeleteRule,
-	useUpdateRule
-} from '../../../ajaxapi/query/AutoCategorizeRuleQueries';
-import { constVoid, pipe } from 'fp-ts/es6/function';
-import { RuleFormData } from './useHandleRuleDialogData';
-import { AutoCategorizeRuleRequest } from '../../../types/generated/expense-tracker';
-import { formatServerDate } from '../../../utils/dateTimeUtils';
 
 export const DEFAULT_ROWS_PER_PAGE = 25;
 
@@ -52,24 +43,10 @@ type DialogState = {
 type DialogActions = {
 	readonly openDialog: (ruleId?: string) => void;
 	readonly closeDialog: () => void;
-	readonly saveRule: (values: RuleFormData) => void;
-	readonly deleteRule: () => void;
 };
 
-const parseRequestDate = (date: Date | null): string | undefined =>
-	pipe(
-		Option.fromNullable(date),
-		Option.fold((): string | undefined => undefined, formatServerDate)
-	);
-const parseRequestAmount = (amount: string | null): number | undefined =>
-	pipe(
-		Option.fromNullable(amount),
-		Option.fold((): number | undefined => undefined, parseFloat)
-	);
-
 const useDialogActions = (
-	setDialogState: Updater<DialogState>,
-	selectedRuleId: OptionT<string>
+	setDialogState: Updater<DialogState>
 ): DialogActions => {
 	const openDialog = (id?: string) =>
 		setDialogState((draft) => {
@@ -81,53 +58,9 @@ const useDialogActions = (
 			draft.open = false;
 		});
 
-	const { mutate: createRuleMutate } = useCreateRule();
-	const { mutate: updateRuleMutate } = useUpdateRule();
-	const { mutate: deleteRuleMutate } = useDeleteRule();
-
-	const saveRule = (values: RuleFormData) => {
-		// Validations are enforced both in the form controls
-		// and server-side, so the defaults won't be an issue
-		const request: AutoCategorizeRuleRequest = {
-			categoryId: values.category?.value ?? '',
-			regex: values.regex ?? '',
-			ordinal: values.ordinal?.value ?? 1,
-			startDate: parseRequestDate(values.startDate),
-			endDate: parseRequestDate(values.endDate),
-			minAmount: parseRequestAmount(values.minAmount),
-			maxAmount: parseRequestAmount(values.maxAmount)
-		};
-		pipe(
-			selectedRuleId,
-			Option.fold(
-				() =>
-					createRuleMutate({
-						request
-					}),
-				(ruleId) =>
-					updateRuleMutate({
-						ruleId,
-						request
-					})
-			)
-		);
-	};
-
-	const deleteRule = () =>
-		pipe(
-			selectedRuleId,
-			Option.fold(constVoid, (ruleId) =>
-				deleteRuleMutate({
-					ruleId
-				})
-			)
-		);
-
 	return {
 		openDialog,
-		closeDialog,
-		saveRule,
-		deleteRule
+		closeDialog
 	};
 };
 
@@ -154,10 +87,7 @@ export const Rules = () => {
 		setPaginationState,
 		forceUpdate
 	);
-	const { openDialog, closeDialog, saveRule, deleteRule } = useDialogActions(
-		setDialogState,
-		dialogState.selectedRuleId
-	);
+	const { openDialog, closeDialog } = useDialogActions(setDialogState);
 
 	return (
 		<PageResponsiveWrapper className="AutoCategorizeRules">
@@ -180,8 +110,6 @@ export const Rules = () => {
 				selectedRuleId={dialogState.selectedRuleId}
 				open={dialogState.open}
 				close={closeDialog}
-				saveRule={saveRule}
-				deleteRule={deleteRule}
 			/>
 		</PageResponsiveWrapper>
 	);

@@ -6,11 +6,20 @@ import {
 	itemWithCategoryToCategoryOption
 } from '../../../utils/categoryUtils';
 import {
+	CreateRuleParams,
+	DeleteRuleParams,
+	UpdateRuleParams,
+	useCreateRule,
+	useDeleteRule,
 	useGetMaxOrdinal,
-	useGetRule
+	useGetRule,
+	useUpdateRule
 } from '../../../ajaxapi/query/AutoCategorizeRuleQueries';
-import { AutoCategorizeRuleResponse } from '../../../types/generated/expense-tracker';
-import { pipe } from 'fp-ts/es6/function';
+import {
+	AutoCategorizeRuleRequest,
+	AutoCategorizeRuleResponse
+} from '../../../types/generated/expense-tracker';
+import { constVoid, pipe } from 'fp-ts/es6/function';
 import * as Option from 'fp-ts/es6/Option';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { useEffect } from 'react';
@@ -19,7 +28,22 @@ import {
 	useCreateOrdinalOptions
 } from '../../../utils/ordinalUtils';
 import { OrdinalOption } from '../../../types/rules';
-import { parseServerDate } from '../../../utils/dateTimeUtils';
+import {
+	formatServerDate,
+	parseServerDate
+} from '../../../utils/dateTimeUtils';
+import { UseMutateFunction } from 'react-query';
+
+const parseRequestDate = (date: Date | null): string | undefined =>
+	pipe(
+		Option.fromNullable(date),
+		Option.fold((): string | undefined => undefined, formatServerDate)
+	);
+const parseRequestAmount = (amount: string | null): number | undefined =>
+	pipe(
+		Option.fromNullable(amount),
+		Option.fold((): number | undefined => undefined, parseFloat)
+	);
 
 type Props = {
 	readonly selectedRuleId: OptionT<string>;
@@ -54,6 +78,8 @@ type Data = {
 	readonly isFetching: boolean;
 	readonly form: UseFormReturn<RuleFormData>;
 	readonly ordinalOptions: ReadonlyArray<OrdinalOption>;
+	readonly saveRule: (values: RuleFormData) => void;
+	readonly deleteRule: () => void;
 };
 
 const parseRuleDate = (dateString?: string): Date | null =>
@@ -85,6 +111,63 @@ const optionalRuleToValues = (
 		Option.fold(() => createDefaultRuleValues(trueMaxOrdinal), ruleToValues)
 	);
 
+const createSaveRule =
+	(
+		selectedRuleId: OptionT<string>,
+		createRule: UseMutateFunction<
+			AutoCategorizeRuleResponse,
+			Error,
+			CreateRuleParams
+		>,
+		updateRule: UseMutateFunction<
+			AutoCategorizeRuleResponse,
+			Error,
+			UpdateRuleParams
+		>
+	) =>
+	(values: RuleFormData): void => {
+		// Validations are enforced both in the form controls
+		// and server-side, so the defaults won't be an issue
+		const request: AutoCategorizeRuleRequest = {
+			categoryId: values.category?.value ?? '',
+			regex: values.regex ?? '',
+			ordinal: values.ordinal?.value ?? 1,
+			startDate: parseRequestDate(values.startDate),
+			endDate: parseRequestDate(values.endDate),
+			minAmount: parseRequestAmount(values.minAmount),
+			maxAmount: parseRequestAmount(values.maxAmount)
+		};
+		pipe(
+			selectedRuleId,
+			Option.fold(
+				() =>
+					createRule({
+						request
+					}),
+				(ruleId) =>
+					updateRule({
+						ruleId,
+						request
+					})
+			)
+		);
+	};
+
+const createDeleteRule =
+	(
+		selectedRuleId: OptionT<string>,
+		deleteRule: UseMutateFunction<void, Error, DeleteRuleParams>
+	) =>
+	() =>
+		pipe(
+			selectedRuleId,
+			Option.fold(constVoid, (ruleId) =>
+				deleteRule({
+					ruleId
+				})
+			)
+		);
+
 export const useHandleRuleDialogData = (props: Props): Data => {
 	const { data: allCategoriesData, isFetching: allCategoriesIsFetching } =
 		useGetAllCategories();
@@ -112,11 +195,31 @@ export const useHandleRuleDialogData = (props: Props): Data => {
 		Option.isNone(props.selectedRuleId)
 	);
 
+	const { mutate: createRuleMutate, isLoading: createRuleIsLoading } =
+		useCreateRule();
+	const { mutate: updateRuleMutate, isLoading: updateRuleIsLoading } =
+		useUpdateRule();
+	const { mutate: deleteRuleMutate, isLoading: deleteRuleIsLoading } =
+		useDeleteRule();
+	const saveRule = createSaveRule(
+		props.selectedRuleId,
+		createRuleMutate,
+		updateRuleMutate
+	);
+	const deleteRule = createDeleteRule(props.selectedRuleId, deleteRuleMutate);
+
 	return {
 		categoryOptions: allCategoriesData?.map(categoryToCategoryOption) ?? [],
 		isFetching:
-			allCategoriesIsFetching || ruleIsFetching || maxOrdinalIsFetching,
+			allCategoriesIsFetching ||
+			ruleIsFetching ||
+			maxOrdinalIsFetching ||
+			createRuleIsLoading ||
+			updateRuleIsLoading ||
+			deleteRuleIsLoading,
 		form,
-		ordinalOptions
+		ordinalOptions,
+		saveRule,
+		deleteRule
 	};
 };

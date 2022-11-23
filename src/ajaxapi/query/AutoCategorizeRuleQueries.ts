@@ -68,7 +68,7 @@ export const useGetRule = (
 export const useGetMaxOrdinal = (): UseQueryResult<MaxOrdinalResponse, Error> =>
 	useQuery<MaxOrdinalResponse, Error>(GET_MAX_ORDINAL, () => getMaxOrdinal());
 
-type CreateRuleParams = {
+export type CreateRuleParams = {
 	readonly request: AutoCategorizeRuleRequest;
 };
 export const useCreateRule = (): UseMutationResult<
@@ -85,7 +85,7 @@ export const useCreateRule = (): UseMutationResult<
 	);
 };
 
-type UpdateRuleParams = {
+export type UpdateRuleParams = {
 	readonly ruleId: string;
 	readonly request: AutoCategorizeRuleRequest;
 };
@@ -103,7 +103,7 @@ export const useUpdateRule = (): UseMutationResult<
 	);
 };
 
-type DeleteRuleParams = {
+export type DeleteRuleParams = {
 	readonly ruleId: string;
 };
 export const useDeleteRule = (): UseMutationResult<

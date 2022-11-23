@@ -1,6 +1,6 @@
 import CategoryIcon from '@mui/icons-material/Category';
 import { TransactionIcon } from './TransactionIcon';
-import { CategoryOption } from '../utils';
+import { CategoryOption } from '../../../../types/categories';
 
 type PartialTransactionForm = {
 	readonly category: CategoryOption | null;

@@ -1,5 +1,5 @@
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
-import { CategoryOption } from '../Transactions/utils';
+import {CategoryOption} from '../../../types/categories';
 
 type Props = {
 	readonly selectedRuleId: OptionT<string>;

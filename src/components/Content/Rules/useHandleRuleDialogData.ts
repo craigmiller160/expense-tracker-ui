@@ -11,7 +11,10 @@ import { pipe } from 'fp-ts/es6/function';
 import * as Option from 'fp-ts/es6/Option';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { useEffect } from 'react';
-import { useCreateOrdinalOptions } from '../../../utils/ordinalUtils';
+import {
+	getTrueMaxOrdinal,
+	useCreateOrdinalOptions
+} from '../../../utils/ordinalUtils';
 import { OrdinalOption } from '../../../types/rules';
 import { parseServerDate } from '../../../utils/dateTimeUtils';
 
@@ -22,7 +25,7 @@ type Props = {
 
 export type RuleFormData = {
 	readonly category: CategoryOption | null;
-	readonly ordinal: number | null;
+	readonly ordinal: OrdinalOption | null;
 	readonly regex: string | null;
 	readonly startDate: Date | null;
 	readonly endDate: Date | null;
@@ -30,15 +33,18 @@ export type RuleFormData = {
 	readonly maxAmount: string | null;
 };
 
-const defaultRuleValues: RuleFormData = {
+const createDefaultRuleValues = (ordinalValue: number): RuleFormData => ({
 	category: null,
-	ordinal: null,
+	ordinal: {
+		value: ordinalValue,
+		label: `${ordinalValue}`
+	},
 	regex: null,
 	startDate: null,
 	endDate: null,
 	minAmount: null,
 	maxAmount: null
-};
+});
 
 type Data = {
 	readonly categoryOptions: ReadonlyArray<CategoryOption>;
@@ -55,8 +61,11 @@ const parseRuleDate = (dateString?: string): Date | null =>
 	);
 
 const ruleToValues = (rule: AutoCategorizeRuleResponse): RuleFormData => ({
-	ordinal: rule.ordinal,
-	category: null,
+	ordinal: {
+		value: rule.ordinal,
+		label: `${rule.ordinal}`
+	},
+	category: null, // TODO need to fix this
 	regex: rule.regex,
 	startDate: parseRuleDate(rule.startDate),
 	endDate: parseRuleDate(rule.endDate),
@@ -65,11 +74,12 @@ const ruleToValues = (rule: AutoCategorizeRuleResponse): RuleFormData => ({
 });
 
 const optionalRuleToValues = (
+	trueMaxOrdinal: number,
 	rule?: AutoCategorizeRuleResponse
 ): RuleFormData =>
 	pipe(
 		Option.fromNullable(rule),
-		Option.fold(() => defaultRuleValues, ruleToValues)
+		Option.fold(() => createDefaultRuleValues(trueMaxOrdinal), ruleToValues)
 	);
 
 export const useHandleRuleDialogData = (props: Props): Data => {
@@ -85,9 +95,14 @@ export const useHandleRuleDialogData = (props: Props): Data => {
 		reValidateMode: 'onChange'
 	});
 	const { reset } = form;
+	const trueMaxOrdinal = getTrueMaxOrdinal(
+		maxOrdinalData?.maxOrdinal ?? 0,
+		Option.isNone(props.selectedRuleId)
+	);
+
 	useEffect(() => {
-		reset(optionalRuleToValues(ruleData));
-	}, [ruleData, reset, props.open]);
+		reset(optionalRuleToValues(trueMaxOrdinal, ruleData));
+	}, [ruleData, reset, props.open, trueMaxOrdinal]);
 
 	const ordinalOptions = useCreateOrdinalOptions(
 		maxOrdinalData?.maxOrdinal ?? 0,

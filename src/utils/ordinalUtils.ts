@@ -3,11 +3,16 @@ import { pipe } from 'fp-ts/es6/function';
 import { OrdinalOption } from '../types/rules';
 import { useMemo } from 'react';
 
+export const getTrueMaxOrdinal = (
+	maxOrdinal: number,
+	isNewRule: boolean
+): number => (isNewRule ? maxOrdinal + 1 : maxOrdinal);
+
 export const useCreateOrdinalOptions = (
 	maxOrdinal: number,
 	isNewRule: boolean
 ): ReadonlyArray<OrdinalOption> => {
-	const rangeEnd = isNewRule ? maxOrdinal + 1 : maxOrdinal;
+	const rangeEnd = getTrueMaxOrdinal(maxOrdinal, isNewRule);
 	return useMemo(
 		() =>
 			pipe(

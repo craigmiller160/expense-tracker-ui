@@ -91,7 +91,7 @@ const useDialogActions = (
 		const request: AutoCategorizeRuleRequest = {
 			categoryId: values.category?.value ?? '',
 			regex: values.regex ?? '',
-			ordinal: values.ordinal ?? 1,
+			ordinal: values.ordinal?.value ?? 1,
 			startDate: parseRequestDate(values.startDate),
 			endDate: parseRequestDate(values.endDate),
 			minAmount: parseRequestAmount(values.minAmount),

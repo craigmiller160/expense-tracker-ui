@@ -38,6 +38,18 @@ const getRegexInput = (): Chainable<JQuery> =>
 	pipe(getRegexLabel(), getInputForLabel);
 const getRegexHelperText = (): Chainable<JQuery> =>
 	pipe(getRegexLabel(), getHelperTextForLabel);
+const getStartDateInput = (): Chainable<JQuery> =>
+	pipe(getStartDateLabel(), getInputForLabel);
+const getStartDateHelperText = (): Chainable<JQuery> =>
+	pipe(getStartDateLabel(), getHelperTextForLabel);
+const getEndDateInput = (): Chainable<JQuery> =>
+	pipe(getEndDateLabel(), getInputForLabel);
+const getEndDateHelperText = (): Chainable<JQuery> =>
+	pipe(getEndDateLabel(), getHelperTextForLabel);
+const getMinAmountInput = (): Chainable<JQuery> =>
+	pipe(getMinAmountLabel(), getInputForLabel);
+const getMaxAmountInput = (): Chainable<JQuery> =>
+	pipe(getMaxAmountLabel(), getInputForLabel);
 
 export const ruleDetailsPage = {
 	getHeaderTitle,
@@ -57,5 +69,11 @@ export const ruleDetailsPage = {
 	getCategoryHelperText,
 	getCategoryInput,
 	getOrdinalHelperText,
-	getOrdinalInput
+	getOrdinalInput,
+	getStartDateInput,
+	getStartDateHelperText,
+	getEndDateInput,
+	getEndDateHelperText,
+	getMinAmountInput,
+	getMaxAmountInput
 };

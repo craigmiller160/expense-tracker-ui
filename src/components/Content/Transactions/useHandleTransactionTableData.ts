@@ -14,12 +14,7 @@ import {
 	UseFormReset,
 	UseFormReturn
 } from 'react-hook-form';
-import {
-	CategoryOption,
-	TransactionSearchForm,
-	transactionToCategoryOption,
-	useCategoriesToCategoryOptions
-} from './utils';
+import { TransactionSearchForm } from './utils';
 import { match } from 'ts-pattern';
 import {
 	TransactionResponse,
@@ -27,6 +22,11 @@ import {
 } from '../../../types/generated/expense-tracker';
 import { serverDateToDisplayDate } from '../../../utils/dateTimeUtils';
 import { PaginationState } from '../../../utils/pagination';
+import { CategoryOption } from '../../../types/categories';
+import {
+	itemWithCategoryToCategoryOption,
+	useCategoriesToCategoryOptions
+} from '../../../utils/categoryUtils';
 
 export interface TransactionFormValues {
 	readonly transactionId: string;
@@ -65,7 +65,7 @@ const transactionToFormValues = (
 	transaction: TransactionResponse
 ): TransactionFormValues => ({
 	transactionId: transaction.id,
-	category: transactionToCategoryOption(transaction),
+	category: itemWithCategoryToCategoryOption(transaction),
 	confirmed: transaction.confirmed
 });
 

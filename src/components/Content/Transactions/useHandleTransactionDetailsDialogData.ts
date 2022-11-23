@@ -1,7 +1,6 @@
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
 import { pipe } from 'fp-ts/es6/function';
 import * as Option from 'fp-ts/es6/Option';
-import { CategoryOption, transactionToCategoryOption } from './utils';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { useEffect, useMemo } from 'react';
 import {
@@ -10,6 +9,8 @@ import {
 	serverDateToDisplayDate
 } from '../../../utils/dateTimeUtils';
 import { useGetTransactionDetails } from '../../../ajaxapi/query/TransactionQueries';
+import { CategoryOption } from '../../../types/categories';
+import { itemWithCategoryToCategoryOption } from '../../../utils/categoryUtils';
 
 export type TransactionDetailsFormData = {
 	readonly confirmed: boolean;
@@ -67,7 +68,7 @@ const useValuesFromSelectedTransaction = (
 						...txn,
 						isLoading,
 						expenseDate: serverDateToDisplayDate(txn.expenseDate),
-						category: transactionToCategoryOption(txn),
+						category: itemWithCategoryToCategoryOption(txn),
 						created: serverDateTimeToDisplayDateTime(txn.created),
 						updated: serverDateTimeToDisplayDateTime(txn.updated)
 					})

@@ -1,17 +1,10 @@
 import { SelectOption } from '@craigmiller160/react-hook-form-material-ui';
 import { TransactionTableForm } from './useHandleTransactionTableData';
 import * as RArray from 'fp-ts/es6/ReadonlyArray';
-import { identity, pipe } from 'fp-ts/es6/function';
-import {
-	CategoryResponse,
-	TransactionResponse,
-	TransactionToUpdate
-} from '../../../types/generated/expense-tracker';
+import { pipe } from 'fp-ts/es6/function';
+import { TransactionToUpdate } from '../../../types/generated/expense-tracker';
 import { SortDirection } from '../../../types/misc';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
-import { useMemo } from 'react';
-import { match, P } from 'ts-pattern';
-import * as Option from 'fp-ts/es6/Option';
 
 export interface TransactionSearchForm {
 	readonly direction: SortDirection;
@@ -38,7 +31,6 @@ export const transactionSearchFormDefaultValues: TransactionSearchForm = {
 	isPossibleRefund: false
 };
 
-export type CategoryOption = SelectOption<string>;
 export const DEFAULT_ROWS_PER_PAGE = 25;
 
 export const formToUpdateRequest = (
@@ -54,45 +46,3 @@ export const formToUpdateRequest = (
 			})
 		)
 	);
-
-export const categoryToCategoryOption = (
-	category: CategoryResponse
-): CategoryOption => ({
-	label: category.name,
-	value: category.id
-});
-
-export const useCategoriesToCategoryOptions = (
-	categories: ReadonlyArray<CategoryResponse> | undefined
-): CategoryOption[] =>
-	useMemo(
-		() => categories?.map(categoryToCategoryOption) ?? [],
-		[categories]
-	);
-
-export const transactionToCategoryOption = (
-	transaction: TransactionResponse
-): CategoryOption | null =>
-	match(transaction)
-		.with(
-			{ categoryId: P.not(P.nullish) },
-			(t): CategoryOption => ({
-				value: t.categoryId!, // eslint-disable-line @typescript-eslint/no-non-null-assertion
-				label: t.categoryName! // eslint-disable-line @typescript-eslint/no-non-null-assertion
-			})
-		)
-		.otherwise(() => null);
-
-export const formatAmountValue = (value: string): string => {
-	if (value.length === 0) {
-		return '';
-	}
-	const numericValue = value.replace(/[a-zA-z]/g, '');
-	const parts = numericValue.split('.');
-	const decimal = pipe(
-		Option.fromNullable(parts[1]),
-		Option.map((decimal) => decimal.padEnd(2, '0').substring(0, 2)),
-		Option.fold(() => '00', identity)
-	);
-	return `${parts[0]}.${decimal}`;
-};

@@ -1087,10 +1087,10 @@
   dependencies:
     prettier "^2.5.1"
 
-"@craigmiller160/react-hook-form-material-ui@1.2.0":
-  version "1.2.0"
-  resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@craigmiller160/react-hook-form-material-ui/-/react-hook-form-material-ui-1.2.0.tgz#9e5319bb2b2358c80bef6e80f62142d560916257"
-  integrity sha512-7Fzp92gM7i70Z1U4DcD/z5y3fryacnhRqhQxXdoP+wLIwGFKU9I41GfTa1fHcnot7w1xHJePYkyi+iMNCi5JQA==
+"@craigmiller160/react-hook-form-material-ui@^1.3.0-beta":
+  version "1.3.0-beta.1"
+  resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@craigmiller160/react-hook-form-material-ui/-/react-hook-form-material-ui-1.3.0-beta.1.tgz#3f4394d4cf52251eaa6db774f6c38cabd9621e3b"
+  integrity sha512-n42Saw7nX2CDn/wfjM9gJUPX5FJylkOa9uMUhGO0OWSVzQfj2Ng9CZBXy6e62Qs0vX9/Y4ROxUaKh8IepbTqHw==
 
 "@craigmiller160/swagger-typescript-api-formatted@1.0.0":
   version "1.0.0"

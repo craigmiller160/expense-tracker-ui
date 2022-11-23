@@ -4,15 +4,16 @@ import {
 } from '../../../utils/pagination';
 import { Updater } from 'use-immer';
 import { Table } from '../../UI/Table';
-import { TableCell, TableRow } from '@mui/material';
+import { Button, TableCell, TableRow } from '@mui/material';
 import './RulesTable.scss';
 import { AutoCategorizeRuleResponse } from '../../../types/generated/expense-tracker';
 import { pipe } from 'fp-ts/es6/function';
 import * as Option from 'fp-ts/es6/Option';
 import { serverDateToDisplayDate } from '../../../utils/dateTimeUtils';
 import { formatCurrency } from '../../../utils/formatNumbers';
+import { ReactNode } from 'react';
 
-const COLUMNS = ['Ordinal', 'Category', 'Rule'];
+const COLUMNS = ['Ordinal', 'Category', 'Rule', 'Actions'];
 
 type Props = {
 	readonly currentPage: number;
@@ -21,6 +22,7 @@ type Props = {
 	readonly rules: ReadonlyArray<AutoCategorizeRuleResponse>;
 	readonly isFetching: boolean;
 	readonly onPaginationChange: Updater<PaginationState>;
+	readonly openDialog: (ruleId?: string) => void;
 };
 
 type RuleProps = {
@@ -67,6 +69,20 @@ const RuleCell = (props: RuleProps) => {
 	);
 };
 
+const createAboveTableActions = (
+	openDialog: () => void
+): ReadonlyArray<ReactNode> => [
+	<Button
+		id="AddRuleBtn"
+		key="add-rule"
+		variant="contained"
+		color="primary"
+		onClick={openDialog}
+	>
+		Add Rule
+	</Button>
+];
+
 export const RulesTable = (props: Props) => {
 	const paginationConfig = createTablePagination(
 		props.currentPage,
@@ -75,12 +91,15 @@ export const RulesTable = (props: Props) => {
 		props.onPaginationChange
 	);
 
+	const aboveTableActions = createAboveTableActions(() => props.openDialog());
+
 	return (
 		<div className="AutoCategorizeRulesTable">
 			<Table
 				columns={COLUMNS}
 				loading={props.isFetching}
 				pagination={paginationConfig}
+				aboveTableActions={aboveTableActions}
 			>
 				{props.rules.map((rule) => (
 					<TableRow key={rule.id}>
@@ -88,6 +107,15 @@ export const RulesTable = (props: Props) => {
 						<TableCell>{rule.categoryName}</TableCell>
 						<TableCell>
 							<RuleCell rule={rule} />
+						</TableCell>
+						<TableCell>
+							<Button
+								className="RuleDetailsButton"
+								variant="contained"
+								onClick={() => props.openDialog(rule.id)}
+							>
+								Details
+							</Button>
 						</TableCell>
 					</TableRow>
 				))}

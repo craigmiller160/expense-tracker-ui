@@ -220,6 +220,10 @@ export type AutoCategorizeRulePageResponse = {
 	readonly totalItems: number;
 };
 
+export type MaxOrdinalResponse = {
+	readonly maxOrdinal: number;
+};
+
 export type DeleteTransactionsRequest = {
 	readonly ids: ReadonlyArray<string>;
 };

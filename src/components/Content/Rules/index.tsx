@@ -12,6 +12,9 @@ import { RulesFilters } from './RulesFilters';
 import { UseFormHandleSubmit } from 'react-hook-form';
 import { ForceUpdate, useForceUpdate } from '../../../utils/useForceUpdate';
 import { useDebounce } from '../../../utils/useDebounce';
+import { RuleDetailsDialog } from './RuleDetailsDialog';
+import * as Option from 'fp-ts/es6/Option';
+import { OptionT } from '@craigmiller160/ts-functions/es/types';
 
 export const DEFAULT_ROWS_PER_PAGE = 25;
 
@@ -32,10 +35,44 @@ const useOnValueHasChanged = (
 	return useDebounce(submitFn, 300);
 };
 
+type DialogState = {
+	readonly open: boolean;
+	readonly selectedRuleId: OptionT<string>;
+};
+
+type DialogActions = {
+	readonly openDialog: (ruleId?: string) => void;
+	readonly closeDialog: () => void;
+};
+
+const useDialogActions = (
+	setDialogState: Updater<DialogState>
+): DialogActions => {
+	const openDialog = (id?: string) =>
+		setDialogState((draft) => {
+			draft.open = true;
+			draft.selectedRuleId = Option.fromNullable(id);
+		});
+	const closeDialog = () =>
+		setDialogState((draft) => {
+			draft.open = false;
+			draft.selectedRuleId = Option.none;
+		});
+
+	return {
+		openDialog,
+		closeDialog
+	};
+};
+
 export const Rules = () => {
-	const [state, setState] = useImmer<PaginationState>({
+	const [paginationState, setPaginationState] = useImmer<PaginationState>({
 		pageNumber: 0,
 		pageSize: DEFAULT_ROWS_PER_PAGE
+	});
+	const [dialogState, setDialogState] = useImmer<DialogState>({
+		open: false,
+		selectedRuleId: Option.none
 	});
 	const {
 		currentPage,
@@ -44,13 +81,14 @@ export const Rules = () => {
 		isFetching,
 		filtersForm,
 		categories
-	} = useHandleAllRulesData(state);
+	} = useHandleAllRulesData(paginationState);
 	const forceUpdate = useForceUpdate();
 	const onValueHasChanged = useOnValueHasChanged(
 		filtersForm.handleSubmit,
-		setState,
+		setPaginationState,
 		forceUpdate
 	);
+	const { openDialog, closeDialog } = useDialogActions(setDialogState);
 
 	return (
 		<PageResponsiveWrapper className="AutoCategorizeRules">
@@ -65,8 +103,14 @@ export const Rules = () => {
 				totalItems={totalItems}
 				rules={rules}
 				isFetching={isFetching}
-				pageSize={state.pageSize}
-				onPaginationChange={setState}
+				pageSize={paginationState.pageSize}
+				onPaginationChange={setPaginationState}
+				openDialog={openDialog}
+			/>
+			<RuleDetailsDialog
+				selectedRuleId={dialogState.selectedRuleId}
+				open={dialogState.open}
+				close={closeDialog}
 			/>
 		</PageResponsiveWrapper>
 	);

@@ -14,27 +14,13 @@ import {
 	serverDateTimeToDisplayDateTime,
 	serverDateToDisplayDate
 } from '../../src/utils/dateTimeUtils';
-import Chainable = Cypress.Chainable;
 import { commonPage } from './testutils/pages/common';
 import {
 	orderedCategoryIds,
 	orderedCategoryNames
 } from './testutils/constants/categories';
-
-const testValidationRule = (
-	input: Chainable<JQuery>,
-	getHelperText: () => Chainable<JQuery>,
-	errorMessage: string,
-	updatedValue: string
-) => {
-	input.clear();
-	transactionDetailsPage.getSaveButton().should('be.disabled');
-	getHelperText().contains(errorMessage);
-
-	input.type(updatedValue);
-	getHelperText().should('not.exist');
-	transactionDetailsPage.getSaveButton().should('not.be.disabled');
-};
+import { validateInputRules } from './testutils/validations/inputRules';
+import Chainable = Cypress.Chainable;
 
 const testDuplicate = (getRecord: () => Chainable<JQuery>, index: number) => {
 	transactionDetailsPage
@@ -425,24 +411,33 @@ describe('Transaction Details Dialog', () => {
 		});
 
 		transactionsListPage.getDetailsButtons().eq(0).click();
-		testValidationRule(
-			transactionDetailsPage.getExpenseDateInput(),
-			transactionDetailsPage.getExpenseDateInputHelperText,
-			'Expense Date is required',
-			'01/01/2022'
-		);
-		testValidationRule(
-			transactionDetailsPage.getAmountInput(),
-			transactionDetailsPage.getAmountInputHelperText,
-			'Amount is required',
-			'-10.00'
-		);
-		testValidationRule(
-			transactionDetailsPage.getDescriptionInput(),
-			transactionDetailsPage.getDescriptionHelperText,
-			'Description is required',
-			'Hello World'
-		);
+		const validateInput = validateInputRules({
+			getSaveButton: transactionDetailsPage.getSaveButton
+		});
+		validateInput({
+			getInput: transactionDetailsPage.getExpenseDateInput,
+			getHelperText: transactionDetailsPage.getExpenseDateInputHelperText
+		})({
+			invalidValue: '',
+			validValue: '01/02/2022',
+			errorMessage: 'Expense Date is required'
+		});
+		validateInput({
+			getInput: transactionDetailsPage.getAmountInput,
+			getHelperText: transactionDetailsPage.getAmountInputHelperText
+		})({
+			invalidValue: '',
+			validValue: '-10.00',
+			errorMessage: 'Amount is required'
+		});
+		validateInput({
+			getInput: transactionDetailsPage.getDescriptionInput,
+			getHelperText: transactionDetailsPage.getDescriptionHelperText
+		})({
+			errorMessage: 'Description is required',
+			validValue: 'Hello World',
+			invalidValue: ''
+		});
 	});
 
 	it('can categorize transaction', () => {

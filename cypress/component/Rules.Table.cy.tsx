@@ -53,6 +53,7 @@ const validateRuleRow = (row: JQuery, index: number) => {
 				.run();
 			expect($li.text()).eq(expectedText);
 		});
+	rulesListPage.getDetailsButton(cy.wrap(row)).should('have.text', 'Details');
 };
 
 describe('Rules Table', () => {
@@ -73,5 +74,7 @@ describe('Rules Table', () => {
 			.getRuleRows()
 			.should('have.length', allRules.rules.length)
 			.each(($row, index) => validateRuleRow($row, index));
+
+		rulesListPage.getAddRuleButton().should('have.text', 'Add Rule');
 	});
 });

@@ -5,15 +5,13 @@ import {
 	CategoryResponse
 } from '../../../types/generated/expense-tracker';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
-import {
-	CategoryOption,
-	categoryToCategoryOption
-} from '../Transactions/utils';
 import { useMemo } from 'react';
 import * as RArray from 'fp-ts/es6/ReadonlyArray';
 import { pipe } from 'fp-ts/es6/function';
 import * as Option from 'fp-ts/es6/Option';
 import { useForm, UseFormReturn } from 'react-hook-form';
+import { CategoryOption } from '../../../types/categories';
+import { categoryToCategoryOption } from '../../../utils/categoryUtils';
 
 type Props = PaginationState;
 

@@ -6,10 +6,10 @@ import {
 } from '@craigmiller160/react-hook-form-material-ui';
 import { UseFormReturn } from 'react-hook-form';
 import { RulesFiltersFormData } from './useHandleAllRulesData';
-import { CategoryOption } from '../Transactions/utils';
 import './RulesFilters.scss';
 import { ResponsiveRow } from '../../UI/ResponsiveWrappers/ResponsiveRow';
 import { constVoid } from 'fp-ts/es6/function';
+import { CategoryOption } from '../../../types/categories';
 
 type Props = {
 	readonly form: UseFormReturn<RulesFiltersFormData>;

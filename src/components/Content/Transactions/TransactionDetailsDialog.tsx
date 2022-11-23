@@ -12,18 +12,22 @@ import {
 	DatePicker,
 	TextField
 } from '@craigmiller160/react-hook-form-material-ui';
-import { formatAmountValue, useCategoriesToCategoryOptions } from './utils';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 import { ReactNode } from 'react';
 import {
 	TransactionDetailsFormData,
 	useHandleTransactionDetailsDialogData
 } from './useHandleTransactionDetailsDialogData';
-import { useIsAtMaxBreakpoint } from '../../../utils/breakpointHooks';
 import { PossibleRefundIcon } from './icons/PossibleRefundIcon';
 import * as Option from 'fp-ts/es6/Option';
 import { TransactionDetailsDuplicatePanel } from './TransactionDetailsDuplicatePanel';
 import { Spinner } from '../../UI/Spinner';
+import { useCategoriesToCategoryOptions } from '../../../utils/categoryUtils';
+import { formatAmountValue } from '../../../utils/amountUtils';
+import {
+	OverrideChildWidth,
+	ResponsiveRow
+} from '../../UI/ResponsiveWrappers/ResponsiveRow';
 
 interface Props {
 	readonly open: boolean;
@@ -114,13 +118,9 @@ export const TransactionDetailsDialog = (props: Props) => {
 
 	const watchedTransaction = watch();
 
-	const isAtMaxSm = useIsAtMaxBreakpoint('md');
-	const controlsClassName = `Controls AdditionalSections ${
-		isAtMaxSm ? 'small' : ''
-	}`;
-	const timestampsClassName = `Timestamps AdditionalSections ${
-		isAtMaxSm ? 'small' : ''
-	}`;
+	const fullWidthResponsiveRows: OverrideChildWidth = {
+		sm: '100%'
+	};
 
 	return (
 		<SideDialog
@@ -150,7 +150,9 @@ export const TransactionDetailsDialog = (props: Props) => {
 						</div>
 						<hr />
 						<div className="Info">
-							<div className="InfoRow">
+							<ResponsiveRow
+								overrideChildWidth={fullWidthResponsiveRows}
+							>
 								<DatePicker
 									control={control}
 									name="expenseDate"
@@ -159,8 +161,10 @@ export const TransactionDetailsDialog = (props: Props) => {
 										required: 'Expense Date is required'
 									}}
 								/>
-							</div>
-							<div className="InfoRow">
+							</ResponsiveRow>
+							<ResponsiveRow
+								overrideChildWidth={fullWidthResponsiveRows}
+							>
 								<TextField
 									control={control}
 									name="amount"
@@ -174,8 +178,10 @@ export const TransactionDetailsDialog = (props: Props) => {
 									}}
 									onBlurTransform={formatAmountValue}
 								/>
-							</div>
-							<div className="InfoRow">
+							</ResponsiveRow>
+							<ResponsiveRow
+								overrideChildWidth={fullWidthResponsiveRows}
+							>
 								<TextField
 									control={control}
 									name="description"
@@ -185,10 +191,10 @@ export const TransactionDetailsDialog = (props: Props) => {
 										required: 'Description is required'
 									}}
 								/>
-							</div>
+							</ResponsiveRow>
 						</div>
 						<hr />
-						<div className={controlsClassName}>
+						<ResponsiveRow className="Controls">
 							{isEditExisting && (
 								<Checkbox
 									testId="confirm-transaction-checkbox"
@@ -204,11 +210,11 @@ export const TransactionDetailsDialog = (props: Props) => {
 								/>
 							)}
 							{CategoryComponent}
-						</div>
+						</ResponsiveRow>
 						{isEditExisting && (
 							<>
 								<hr />
-								<div className={timestampsClassName}>
+								<ResponsiveRow className="Timestamps">
 									<span className="center">
 										<strong>Created: </strong>
 										{transactionValues.created}
@@ -217,7 +223,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 										<strong>Updated: </strong>
 										{transactionValues.updated}
 									</span>
-								</div>
+								</ResponsiveRow>
 							</>
 						)}
 					</>

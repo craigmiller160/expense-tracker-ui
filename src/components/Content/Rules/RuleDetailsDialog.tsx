@@ -6,8 +6,8 @@ import './RuleDetailsDialog.scss';
 import { ResponsiveRow } from '../../UI/ResponsiveWrappers/ResponsiveRow';
 import {
 	Autocomplete,
-	TextField,
-	DatePicker
+	DatePicker,
+	TextField
 } from '@craigmiller160/react-hook-form-material-ui';
 import { formatAmountValue } from '../../../utils/amountUtils';
 
@@ -65,7 +65,7 @@ export const RuleDetailsDialog = (props: Props) => {
 					</ResponsiveRow>
 					<ResponsiveRow
 						overrideChildWidth={{
-							sm: '100%'
+							sm: '80%'
 						}}
 					>
 						<TextField

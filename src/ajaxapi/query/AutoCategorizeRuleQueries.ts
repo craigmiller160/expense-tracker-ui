@@ -5,6 +5,8 @@ import {
 	AutoCategorizeRuleResponse
 } from '../../types/generated/expense-tracker';
 import { getAllRules, getRule } from '../service/AutoCategorizeRuleService';
+import { OptionT } from '@craigmiller160/ts-functions/es/types';
+import * as Option from 'fp-ts/es6/Option';
 
 export const GET_ALL_RULES = 'AutoCategorizeRuleQueries_GetAllRules';
 export const GET_RULE = 'AutoCategorizeRuleQueries_GetRule';
@@ -20,13 +22,21 @@ export const useGetAllRules = (
 		GetAllRulesKey
 	>([GET_ALL_RULES, request], ({ queryKey: [, req] }) => getAllRules(req));
 
-type GetRuleKey = [string, string];
+type GetRuleKey = [string, OptionT<string>];
 export const useGetRule = (
-	ruleId: string
+	ruleId: OptionT<string>
 ): UseQueryResult<AutoCategorizeRuleResponse, Error> =>
 	useQuery<
 		AutoCategorizeRuleResponse,
 		Error,
 		AutoCategorizeRuleResponse,
 		GetRuleKey
-	>([GET_RULE, ruleId], ({ queryKey: [, id] }) => getRule(id));
+	>(
+		[GET_RULE, ruleId],
+		({ queryKey: [, id] }) =>
+			// Will never execute orElse condition
+			getRule(Option.getOrElse(() => '')(id)),
+		{
+			enabled: Option.isSome(ruleId)
+		}
+	);

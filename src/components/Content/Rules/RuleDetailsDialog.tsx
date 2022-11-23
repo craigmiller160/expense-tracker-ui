@@ -60,7 +60,8 @@ export const RuleDetailsDialog = (props: Props) => {
 		deleteRule
 	} = useHandleRuleDialogData({
 		selectedRuleId: props.selectedRuleId,
-		open: props.open
+		open: props.open,
+		close: props.close
 	});
 
 	const Actions = (

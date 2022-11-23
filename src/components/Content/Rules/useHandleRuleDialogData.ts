@@ -1,4 +1,4 @@
-import { OptionT } from '@craigmiller160/ts-functions/es/types';
+import { OptionT, TaskT } from '@craigmiller160/ts-functions/es/types';
 import { CategoryOption } from '../../../types/categories';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 import {
@@ -33,6 +33,7 @@ import {
 	parseServerDate
 } from '../../../utils/dateTimeUtils';
 import { UseMutateFunction } from 'react-query';
+import * as Task from 'fp-ts/es6/Task';
 
 const parseRequestDate = (date: Date | null): string | undefined =>
 	pipe(
@@ -48,6 +49,7 @@ const parseRequestAmount = (amount: string | null): number | undefined =>
 type Props = {
 	readonly selectedRuleId: OptionT<string>;
 	readonly open: boolean;
+	readonly close: () => void;
 };
 
 export type RuleFormData = {
@@ -123,7 +125,10 @@ const createSaveRule =
 			AutoCategorizeRuleResponse,
 			Error,
 			UpdateRuleParams
-		>
+		>,
+		createWaitForSettled: TaskT<void>,
+		updateWaitForSettled: TaskT<void>,
+		onSettled: () => void
 	) =>
 	(values: RuleFormData): void => {
 		// Validations are enforced both in the form controls
@@ -140,33 +145,45 @@ const createSaveRule =
 		pipe(
 			selectedRuleId,
 			Option.fold(
-				() =>
+				() => {
 					createRule({
 						request
-					}),
-				(ruleId) =>
+					});
+					return createWaitForSettled;
+				},
+				(ruleId) => {
 					updateRule({
 						ruleId,
 						request
-					})
-			)
-		);
+					});
+					return updateWaitForSettled;
+				}
+			),
+			Task.map(onSettled)
+		)();
 	};
 
 const createDeleteRule =
 	(
 		selectedRuleId: OptionT<string>,
-		deleteRule: UseMutateFunction<void, Error, DeleteRuleParams>
+		deleteRule: UseMutateFunction<void, Error, DeleteRuleParams>,
+		deleteWaitForSettled: TaskT<void>,
+		onSettled: () => void
 	) =>
 	() =>
 		pipe(
 			selectedRuleId,
-			Option.fold(constVoid, (ruleId) =>
-				deleteRule({
-					ruleId
-				})
-			)
-		);
+			Option.fold(
+				() => () => Promise.resolve(constVoid()),
+				(ruleId) => {
+					deleteRule({
+						ruleId
+					});
+					return deleteWaitForSettled;
+				}
+			),
+			Task.map(onSettled)
+		)();
 
 export const useHandleRuleDialogData = (props: Props): Data => {
 	const { data: allCategoriesData, isFetching: allCategoriesIsFetching } =
@@ -195,18 +212,36 @@ export const useHandleRuleDialogData = (props: Props): Data => {
 		Option.isNone(props.selectedRuleId)
 	);
 
-	const { mutate: createRuleMutate, isLoading: createRuleIsLoading } =
-		useCreateRule();
-	const { mutate: updateRuleMutate, isLoading: updateRuleIsLoading } =
-		useUpdateRule();
-	const { mutate: deleteRuleMutate, isLoading: deleteRuleIsLoading } =
-		useDeleteRule();
+	const {
+		mutate: createRuleMutate,
+		waitForSettled: createRuleWaitForSettled,
+		isLoading: createRuleIsLoading
+	} = useCreateRule();
+	const {
+		mutate: updateRuleMutate,
+		waitForSettled: updateRuleWaitForSettled,
+		isLoading: updateRuleIsLoading
+	} = useUpdateRule();
+	const {
+		mutate: deleteRuleMutate,
+		waitForSettled: deleteRuleWaitForSettled,
+		isLoading: deleteRuleIsLoading
+	} = useDeleteRule();
+
 	const saveRule = createSaveRule(
 		props.selectedRuleId,
 		createRuleMutate,
-		updateRuleMutate
+		updateRuleMutate,
+		createRuleWaitForSettled,
+		updateRuleWaitForSettled,
+		props.close
 	);
-	const deleteRule = createDeleteRule(props.selectedRuleId, deleteRuleMutate);
+	const deleteRule = createDeleteRule(
+		props.selectedRuleId,
+		deleteRuleMutate,
+		deleteRuleWaitForSettled,
+		props.close
+	);
 
 	return {
 		categoryOptions: allCategoriesData?.map(categoryToCategoryOption) ?? [],

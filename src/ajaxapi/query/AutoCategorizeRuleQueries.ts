@@ -1,7 +1,6 @@
 import {
 	QueryClient,
 	useMutation,
-	UseMutationResult,
 	useQuery,
 	useQueryClient,
 	UseQueryResult
@@ -23,6 +22,7 @@ import {
 } from '../service/AutoCategorizeRuleService';
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
 import * as Option from 'fp-ts/es6/Option';
+import { createWaitForSettled, UseMutationWithWaitResult } from './utils';
 
 export const GET_ALL_RULES = 'AutoCategorizeRuleQueries_GetAllRules';
 export const GET_RULE = 'AutoCategorizeRuleQueries_GetRule';
@@ -71,51 +71,71 @@ export const useGetMaxOrdinal = (): UseQueryResult<MaxOrdinalResponse, Error> =>
 export type CreateRuleParams = {
 	readonly request: AutoCategorizeRuleRequest;
 };
-export const useCreateRule = (): UseMutationResult<
+export const useCreateRule = (): UseMutationWithWaitResult<
 	AutoCategorizeRuleResponse,
 	Error,
 	CreateRuleParams
 > => {
 	const queryClient = useQueryClient();
-	return useMutation<AutoCategorizeRuleResponse, Error, CreateRuleParams>(
-		({ request }) => createRule(request),
-		{
-			onSuccess: () => invalidateRuleQueries(queryClient)
-		}
-	);
+	const { onSettled, waitForSettled } = createWaitForSettled();
+	const mutation = useMutation<
+		AutoCategorizeRuleResponse,
+		Error,
+		CreateRuleParams
+	>(({ request }) => createRule(request), {
+		onSuccess: () => invalidateRuleQueries(queryClient),
+		onSettled
+	});
+	return {
+		...mutation,
+		waitForSettled
+	};
 };
 
 export type UpdateRuleParams = {
 	readonly ruleId: string;
 	readonly request: AutoCategorizeRuleRequest;
 };
-export const useUpdateRule = (): UseMutationResult<
+export const useUpdateRule = (): UseMutationWithWaitResult<
 	AutoCategorizeRuleResponse,
 	Error,
 	UpdateRuleParams
 > => {
 	const queryClient = useQueryClient();
-	return useMutation<AutoCategorizeRuleResponse, Error, UpdateRuleParams>(
-		({ ruleId, request }) => updateRule(ruleId, request),
-		{
-			onSuccess: () => invalidateRuleQueries(queryClient)
-		}
-	);
+	const { onSettled, waitForSettled } = createWaitForSettled();
+	const mutation = useMutation<
+		AutoCategorizeRuleResponse,
+		Error,
+		UpdateRuleParams
+	>(({ ruleId, request }) => updateRule(ruleId, request), {
+		onSuccess: () => invalidateRuleQueries(queryClient),
+		onSettled
+	});
+	return {
+		...mutation,
+		waitForSettled
+	};
 };
 
 export type DeleteRuleParams = {
 	readonly ruleId: string;
 };
-export const useDeleteRule = (): UseMutationResult<
+export const useDeleteRule = (): UseMutationWithWaitResult<
 	void,
 	Error,
 	DeleteRuleParams
 > => {
 	const queryClient = useQueryClient();
-	return useMutation<void, Error, DeleteRuleParams>(
+	const { onSettled, waitForSettled } = createWaitForSettled();
+	const mutation = useMutation<void, Error, DeleteRuleParams>(
 		({ ruleId }) => deleteRule(ruleId),
 		{
-			onSuccess: () => invalidateRuleQueries(queryClient)
+			onSuccess: () => invalidateRuleQueries(queryClient),
+			onSettled
 		}
 	);
+	return {
+		...mutation,
+		waitForSettled
+	};
 };

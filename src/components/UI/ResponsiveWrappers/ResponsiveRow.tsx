@@ -25,7 +25,7 @@ const InnerDiv = styled.div<ResponsiveRowProps & InnerDivProps>`
 
 	${({ theme }) => theme.breakpoints.up('sm')} {
 		flex-direction: row;
-		justify-content: space-around;
+		justify-content: space-between;
 		margin: 0.5rem auto;
 		> * {
 			width: ${({ overrideChildWidth }) =>

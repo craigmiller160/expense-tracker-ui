@@ -13,7 +13,7 @@ import { serverDateToDisplayDate } from '../../../utils/dateTimeUtils';
 import { formatCurrency } from '../../../utils/formatNumbers';
 import { ReactNode } from 'react';
 
-const COLUMNS = ['Ordinal', 'Category', 'Rule'];
+const COLUMNS = ['Ordinal', 'Category', 'Rule', 'Actions'];
 
 type Props = {
 	readonly currentPage: number;

@@ -31,10 +31,18 @@ const updateRule = (id: string): Chainable<null> =>
 		})
 		.as(`updateRule_${id}`);
 
+const deleteRule = (id: string): Chainable<null> =>
+	cy
+		.intercept('delete', `/expense-tracker/api/categories/rules/${id}`, {
+			statusCode: 204
+		})
+		.as(`deleteRule_${id}`);
+
 export const rulesApi = {
 	getAllRules,
 	getRule_minimum,
 	getRule_maximum,
 	createRule,
-	updateRule
+	updateRule,
+	deleteRule
 };

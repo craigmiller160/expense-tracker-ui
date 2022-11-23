@@ -6,8 +6,10 @@ import './RuleDetailsDialog.scss';
 import { ResponsiveRow } from '../../UI/ResponsiveWrappers/ResponsiveRow';
 import {
 	Autocomplete,
-	TextField
+	TextField,
+	DatePicker
 } from '@craigmiller160/react-hook-form-material-ui';
+import { formatAmountValue } from '../Transactions/utils';
 
 type Props = {
 	readonly open: boolean;
@@ -79,12 +81,30 @@ export const RuleDetailsDialog = (props: Props) => {
 						/>
 					</ResponsiveRow>
 					<ResponsiveRow>
-						<p>Start Date</p>
-						<p>End Date</p>
+						<DatePicker
+							control={control}
+							name="startDate"
+							label="Start Date"
+						/>
+						<DatePicker
+							control={control}
+							name="endDate"
+							label="End Date"
+						/>
 					</ResponsiveRow>
 					<ResponsiveRow>
-						<p>Min Amount</p>
-						<p>Max Amount</p>
+						<TextField
+							control={control}
+							name="minAmount"
+							label="Min Amount ($)"
+							onBlurTransform={formatAmountValue}
+						/>
+						<TextField
+							control={control}
+							name="maxAmount"
+							label="Max Amount ($)"
+							onBlurTransform={formatAmountValue}
+						/>
 					</ResponsiveRow>
 				</div>
 			)}

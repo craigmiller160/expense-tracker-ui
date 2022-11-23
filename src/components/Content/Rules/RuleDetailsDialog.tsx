@@ -119,6 +119,7 @@ export const RuleDetailsDialog = (props: Props) => {
 							}}
 						/>
 					</ResponsiveRow>
+					<hr />
 					<ResponsiveRow>
 						<DatePicker
 							control={control}
@@ -145,6 +146,7 @@ export const RuleDetailsDialog = (props: Props) => {
 							onBlurTransform={formatAmountValue}
 						/>
 					</ResponsiveRow>
+					<hr />
 				</div>
 			)}
 		</SideDialog>

@@ -59,17 +59,12 @@ export const RuleDetailsDialog = (props: Props) => {
 		form: {
 			handleSubmit,
 			control,
-			formState: { isDirty, isValid, errors },
-			watch
+			formState: { isDirty, isValid }
 		}
 	} = useHandleRuleDialogData({
 		selectedRuleId: props.selectedRuleId,
 		open: props.open
 	});
-
-	watch(); // TODO not sure if this is needed
-
-	console.log('STATE', isDirty, isValid, errors);
 
 	const Actions = (
 		<RuleDetailsDialogActions

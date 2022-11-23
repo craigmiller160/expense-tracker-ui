@@ -33,10 +33,15 @@ const useOnValueHasChanged = (
 	return useDebounce(submitFn, 300);
 };
 
+type State = PaginationState & {
+	readonly detailsDialogOpen: boolean;
+};
+
 export const Rules = () => {
-	const [state, setState] = useImmer<PaginationState>({
+	const [state, setState] = useImmer<State>({
 		pageNumber: 0,
-		pageSize: DEFAULT_ROWS_PER_PAGE
+		pageSize: DEFAULT_ROWS_PER_PAGE,
+		detailsDialogOpen: false
 	});
 	const {
 		currentPage,
@@ -69,7 +74,7 @@ export const Rules = () => {
 				pageSize={state.pageSize}
 				onPaginationChange={setState}
 			/>
-			<RuleDetailsDialog open={false} />
+			<RuleDetailsDialog open={state.detailsDialogOpen} />
 		</PageResponsiveWrapper>
 	);
 };

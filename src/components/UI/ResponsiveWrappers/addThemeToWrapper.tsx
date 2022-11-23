@@ -3,17 +3,16 @@ import { InnerDivProps, WrapperOuterProps } from './utils';
 import { StyledComponent } from '@emotion/styled';
 import { useTheme } from '@mui/material';
 
+// TODO need to exclude theme from the outer props
 export const addThemeToWrapper =
-	(Wrapper: StyledComponent<PropsWithChildren<InnerDivProps>>) =>
+	<T extends object>(
+		Wrapper: StyledComponent<PropsWithChildren<InnerDivProps & T>>
+	) =>
 	// eslint-disable-next-line react/display-name
-	(props: PropsWithChildren<WrapperOuterProps>) => {
+	(props: PropsWithChildren<WrapperOuterProps & T>) => {
 		const theme = useTheme();
 		return (
-			<Wrapper
-				theme={theme}
-				className={props.className}
-				data-testid={props['data-testid']}
-			>
+			<Wrapper {...props} theme={theme}>
 				{props.children}
 			</Wrapper>
 		);

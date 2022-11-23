@@ -41,7 +41,12 @@ export const RuleDetailsDialog = (props: Props) => {
 						<p>Ordinal</p>
 						<p>Category</p>
 					</ResponsiveRow>
-					<ResponsiveRow>
+					<ResponsiveRow
+						overrideChildWidth={{
+							sm: '100%',
+							xl: '100%'
+						}}
+					>
 						<TextField
 							control={control}
 							name="regex"

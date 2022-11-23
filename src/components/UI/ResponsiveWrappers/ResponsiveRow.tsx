@@ -2,15 +2,15 @@ import styled from '@emotion/styled';
 import { InnerDivProps } from './utils';
 import { addThemeToWrapper } from './addThemeToWrapper';
 
-interface ResponsiveRowProps extends InnerDivProps {
+type ResponsiveRowProps = {
 	readonly overrideChildWidth?: {
 		xs?: string;
 		sm?: string;
 		xl?: string;
 	};
-}
+};
 
-const InnerDiv = styled.div<ResponsiveRowProps>`
+const InnerDiv = styled.div<ResponsiveRowProps & InnerDivProps>`
 	width: 100%;
 	display: flex;
 

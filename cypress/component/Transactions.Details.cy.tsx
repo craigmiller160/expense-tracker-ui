@@ -20,7 +20,9 @@ import {
 	orderedCategoryIds,
 	orderedCategoryNames
 } from './testutils/constants/categories';
+import { validateInputRules } from './testutils/validations/inputRules';
 
+// TODO delete this
 const testValidationRule = (
 	input: Chainable<JQuery>,
 	getHelperText: () => Chainable<JQuery>,
@@ -425,18 +427,22 @@ describe('Transaction Details Dialog', () => {
 		});
 
 		transactionsListPage.getDetailsButtons().eq(0).click();
-		testValidationRule(
-			transactionDetailsPage.getExpenseDateInput(),
-			transactionDetailsPage.getExpenseDateInputHelperText,
-			'Expense Date is required',
-			'01/01/2022'
-		);
-		testValidationRule(
-			transactionDetailsPage.getAmountInput(),
-			transactionDetailsPage.getAmountInputHelperText,
-			'Amount is required',
-			'-10.00'
-		);
+		validateInputRules({
+			getInput: transactionDetailsPage.getExpenseDateInput,
+			invalidValue: '',
+			validValue: '01/02/2022',
+			getHelperText: transactionDetailsPage.getExpenseDateInputHelperText,
+			errorMessage: 'Expense Date is required',
+			getSaveButton: transactionDetailsPage.getSaveButton
+		});
+		validateInputRules({
+			getInput: transactionDetailsPage.getAmountInput,
+			invalidValue: '',
+			validValue: '-10.00',
+			errorMessage: 'Amount is required',
+			getHelperText: transactionDetailsPage.getAmountInputHelperText,
+			getSaveButton: transactionDetailsPage.getSaveButton
+		});
 		testValidationRule(
 			transactionDetailsPage.getDescriptionInput(),
 			transactionDetailsPage.getDescriptionHelperText,

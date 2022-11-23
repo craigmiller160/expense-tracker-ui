@@ -16,7 +16,6 @@ import {
 } from 'react-hook-form';
 import {
 	CategoryOption,
-	PaginationState,
 	TransactionSearchForm,
 	transactionToCategoryOption,
 	useCategoriesToCategoryOptions
@@ -27,6 +26,7 @@ import {
 	TransactionsPageResponse
 } from '../../../types/generated/expense-tracker';
 import { serverDateToDisplayDate } from '../../../utils/dateTimeUtils';
+import { PaginationState } from '../../../utils/pagination';
 
 export interface TransactionFormValues {
 	readonly transactionId: string;

@@ -3,10 +3,13 @@ import { useImmer } from 'use-immer';
 import { Table } from '../../UI/Table';
 import { TableCell, TableRow } from '@mui/material';
 import { serverDateToReportMonth } from '../../../utils/dateTimeUtils';
-import { createTablePagination, PaginationState } from '../Transactions/utils';
 import { SpendingByCategoryTable } from './SpendingByCategoryTable';
 import { SpendingByCategoryChart } from './SpendingByCategoryChart';
 import './ReportsTable.scss';
+import {
+	createTablePagination,
+	PaginationState
+} from '../../../utils/pagination';
 
 const COLUMNS = ['Month', 'Data', 'Chart'];
 

@@ -1,9 +1,4 @@
-import {
-	createTablePagination,
-	formToUpdateRequest,
-	PaginationState,
-	TransactionSearchForm
-} from './utils';
+import { formToUpdateRequest, TransactionSearchForm } from './utils';
 import {
 	TransactionTableForm,
 	useHandleTransactionTableData
@@ -26,6 +21,10 @@ import { NotConfirmedIcon } from './icons/NotConfirmedIcon';
 import { NotCategorizedIcon } from './icons/NotCategorizedIcon';
 import { formatCurrency } from '../../../utils/formatNumbers';
 import { PossibleRefundIcon } from './icons/PossibleRefundIcon';
+import {
+	createTablePagination,
+	PaginationState
+} from '../../../utils/pagination';
 
 const COLUMNS: ReadonlyArray<string | ReactNode> = [
 	'Expense Date',

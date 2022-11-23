@@ -9,6 +9,8 @@ import { transactionsApi } from './testutils/apis/transactions';
 import { importPage } from './testutils/pages/importPage';
 import { authorizedNavbarItems } from './testutils/constants/navbar';
 import { needsAttentionApi } from './testutils/apis/needsAttention';
+import { rulesApi } from './testutils/apis/rules';
+import { rulesListPage } from './testutils/pages/rulesList';
 
 describe('Navigation', () => {
 	describe('Desktop', () => {
@@ -22,6 +24,18 @@ describe('Navigation', () => {
 			navbarPage.getReportsItem().click();
 			navbarPage.getReportsItem().should('have.class', 'active');
 			reportsPage.getTitle().should('be.visible');
+		});
+
+		it('navigates to Rules', () => {
+			categoriesApi.getAllCategories();
+			rulesApi.getAllRules();
+			mountApp({
+				initialRoute: '/expense-tracker/categories'
+			});
+			categoriesListPage.getTitle().should('be.visible');
+			navbarPage.getRulesItem().click();
+			navbarPage.getRulesItem().should('have.class', 'active');
+			rulesListPage.getTitle().should('be.visible');
 		});
 
 		it('navigates to Transactions', () => {
@@ -91,8 +105,24 @@ describe('Navigation', () => {
 			navbarPage.getTransactionsItem().click();
 			navbarPage
 				.getMobileNavItemsButton()
-				.contains(authorizedNavbarItems.manageTransactions);
+				.contains(authorizedNavbarItems.transactions);
 			transactionsListPage.getTitle().should('be.visible');
+		});
+
+		it('navigates to Rules', () => {
+			categoriesApi.getAllCategories();
+			rulesApi.getAllRules();
+			mountApp({
+				viewport: 'mobile',
+				initialRoute: '/expense-tracker/categories'
+			});
+			categoriesListPage.getTitle().should('be.visible');
+			navbarPage.getMobileNavItemsButton().click();
+			navbarPage.getRulesItem().click();
+			navbarPage
+				.getMobileNavItemsButton()
+				.contains(authorizedNavbarItems.rules);
+			rulesListPage.getTitle().should('be.visible');
 		});
 
 		it('navigates to Categories', () => {
@@ -107,7 +137,7 @@ describe('Navigation', () => {
 			navbarPage.getCategoriesItem().click();
 			navbarPage
 				.getMobileNavItemsButton()
-				.contains(authorizedNavbarItems.manageCategories);
+				.contains(authorizedNavbarItems.categories);
 			categoriesListPage.getTitle().should('be.visible');
 		});
 
@@ -122,7 +152,7 @@ describe('Navigation', () => {
 			navbarPage.getImportItem().click();
 			navbarPage
 				.getMobileNavItemsButton()
-				.contains(authorizedNavbarItems.importTransactions);
+				.contains(authorizedNavbarItems.import);
 			importPage.getTitle().should('be.visible');
 		});
 	});

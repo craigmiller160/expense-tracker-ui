@@ -13,17 +13,10 @@ export const DesktopNavItems = () => {
 	return (
 		<>
 			<Box sx={{ marginRight: '1rem' }} />
-			{isAuthorized && (
-				<>
-					{NAVBAR_ITEMS.map((item) => (
-						<LinkButton
-							key={item.to}
-							to={item.to}
-							label={item.label}
-						/>
-					))}
-				</>
-			)}
+			{isAuthorized &&
+				NAVBAR_ITEMS.map((item) => (
+					<LinkButton key={item.to} to={item.to} label={item.label} />
+				))}
 			<Box sx={{ flexGrow: 1 }} />
 			{hasCheckedAuthorization && (
 				<Button

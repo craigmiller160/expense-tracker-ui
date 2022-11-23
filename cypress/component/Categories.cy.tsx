@@ -20,7 +20,7 @@ describe('Manage Categories', () => {
 			.getNavbarItems()
 			.filter(
 				(index, $node) =>
-					$node.textContent === authorizedNavbarItems.manageCategories
+					$node.textContent === authorizedNavbarItems.categories
 			)
 			.should('have.class', 'active');
 		categoriesListPage.getTitle().contains('Manage Categories');

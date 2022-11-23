@@ -18,7 +18,7 @@ import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 import { useMemo } from 'react';
 import { categoryToCategoryOption, TransactionSearchForm } from './utils';
 import { Paper } from '@mui/material';
-import { ResponsiveFilterRow } from './responsive/ResponsiveFilterRow';
+import { ResponsiveRow } from '../../UI/ResponsiveWrappers/ResponsiveRow';
 
 const directionOptions: ReadonlyArray<SelectOption<SortDirection>> = [
 	{ value: SortDirection.DESC, label: 'Newest to Oldest' },
@@ -67,7 +67,7 @@ export const TransactionSearchFilters = (props: Props) => {
 			data-testid="transaction-filters"
 		>
 			<form onSubmit={constVoid}>
-				<ResponsiveFilterRow>
+				<ResponsiveRow>
 					<DatePicker
 						name="startDate"
 						control={control}
@@ -82,8 +82,8 @@ export const TransactionSearchFilters = (props: Props) => {
 						rules={{ required: 'End Date is required' }}
 						onValueHasChanged={onValueHasChanged}
 					/>
-				</ResponsiveFilterRow>
-				<ResponsiveFilterRow>
+				</ResponsiveRow>
+				<ResponsiveRow>
 					<Autocomplete
 						name="category"
 						control={control}
@@ -99,8 +99,8 @@ export const TransactionSearchFilters = (props: Props) => {
 						label="Order By"
 						onValueHasChanged={onValueHasChanged}
 					/>
-				</ResponsiveFilterRow>
-				<ResponsiveFilterRow>
+				</ResponsiveRow>
+				<ResponsiveRow>
 					<Checkbox
 						control={control}
 						name="isDuplicate"
@@ -125,7 +125,7 @@ export const TransactionSearchFilters = (props: Props) => {
 						label="Is Possible Refund"
 						onValueHasChanged={onValueHasChanged}
 					/>
-				</ResponsiveFilterRow>
+				</ResponsiveRow>
 			</form>
 		</Paper>
 	);

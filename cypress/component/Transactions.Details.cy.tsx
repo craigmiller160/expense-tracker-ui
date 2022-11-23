@@ -15,6 +15,11 @@ import {
 	serverDateToDisplayDate
 } from '../../src/utils/dateTimeUtils';
 import Chainable = Cypress.Chainable;
+import { commonPage } from './testutils/pages/common';
+import {
+	orderedCategoryIds,
+	orderedCategoryNames
+} from './testutils/constants/categories';
 
 const testValidationRule = (
 	input: Chainable<JQuery>,
@@ -437,6 +442,48 @@ describe('Transaction Details Dialog', () => {
 			transactionDetailsPage.getDescriptionHelperText,
 			'Description is required',
 			'Hello World'
+		);
+	});
+
+	it('can categorize transaction', () => {
+		const transactionId = allTransactions.transactions[0].id;
+		categoriesApi.getAllCategories();
+		needsAttentionApi.getNeedsAttention_all();
+		transactionsApi.searchForTransactions();
+		transactionsApi.getTransactionDetails(transactionId);
+		transactionsApi.updateTransactionDetails(transactionId);
+
+		mountApp({
+			initialRoute: '/expense-tracker/transactions'
+		});
+
+		transactionsListPage.getDetailsButtons().eq(0).click();
+		transactionDetailsPage.getSaveButton().should('be.disabled');
+		transactionDetailsPage.getCategorySelectInput().click();
+		commonPage.getOpenSelectOptions().eq(0).click();
+		transactionDetailsPage
+			.getCategorySelectInput()
+			.should('have.value', orderedCategoryNames[0]);
+
+		transactionDetailsPage
+			.getSaveButton()
+			.should('not.be.disabled')
+			.click();
+
+		cy.fixture('transactionDetails.json').then(
+			(fixture: TransactionDetailsResponse) =>
+				cy
+					.wait(`@updateTransactionDetails_${transactionId}`)
+					.then((xhr) => {
+						expect(xhr.request.body).to.eql({
+							amount: fixture.amount,
+							expenseDate: fixture.expenseDate,
+							description: fixture.description,
+							transactionId,
+							categoryId: orderedCategoryIds[0],
+							confirmed: false
+						});
+					})
 		);
 	});
 

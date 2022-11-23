@@ -1,0 +1,8 @@
+@mixin MaxWidth {
+  width: 100%;
+  max-width: 100%;
+}
+
+.AutoCategorizeRulesTable {
+  @include MaxWidth;
+}

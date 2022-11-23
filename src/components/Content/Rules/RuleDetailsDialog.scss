@@ -1,5 +1,11 @@
+@import "../../../styles/dialog";
+
 .AutoCategorizeRuleDetailsForm {
   display: flex;
   flex-direction: column;
   width: 100%;
+}
+
+.AutoCategorizeRuleDetailsActions {
+  @include DialogActions;
 }

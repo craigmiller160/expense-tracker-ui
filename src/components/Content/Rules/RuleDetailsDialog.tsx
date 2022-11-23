@@ -1,4 +1,5 @@
-import {OptionT} from '@craigmiller160/ts-functions/es/types';
+import { OptionT } from '@craigmiller160/ts-functions/es/types';
+import { useHandleDialogData } from './useHandleDialogData';
 
 type Props = {
 	readonly open: boolean;
@@ -6,4 +7,10 @@ type Props = {
 	readonly selectedRuleId: OptionT<string>;
 };
 
-export const RuleDetailsDialog = (props: Props) => <div />;
+// TODO how to add ordinal control?
+export const RuleDetailsDialog = (props: Props) => {
+	useHandleDialogData({
+		selectedRuleId: props.selectedRuleId
+	});
+	return <div />;
+};

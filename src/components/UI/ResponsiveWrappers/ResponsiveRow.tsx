@@ -2,14 +2,23 @@ import styled from '@emotion/styled';
 import { InnerDivProps } from './utils';
 import { addThemeToWrapper } from './addThemeToWrapper';
 
-const InnerDiv = styled.div<InnerDivProps>`
+interface ResponsiveRowProps extends InnerDivProps {
+	readonly overrideChildWidth?: {
+		xs?: string;
+		sm?: string;
+		xl?: string;
+	};
+}
+
+const InnerDiv = styled.div<ResponsiveRowProps>`
 	width: 100%;
 	display: flex;
 
 	${({ theme }) => theme.breakpoints.up('xs')} {
 		flex-direction: column;
 		> * {
-			width: 100%;
+			width: ${({ overrideChildWidth }) =>
+				overrideChildWidth?.xs ?? '100%'};
 			margin: 0.5rem auto !important;
 		}
 	}
@@ -19,13 +28,15 @@ const InnerDiv = styled.div<InnerDivProps>`
 		justify-content: space-around;
 		margin: 0.5rem auto;
 		> * {
-			width: 30%;
+			width: ${({ overrideChildWidth }) =>
+				overrideChildWidth?.sm ?? '30%'};
 		}
 	}
 
 	${({ theme }) => theme.breakpoints.up('xl')} {
 		> * {
-			width: 20%;
+			width: ${({ overrideChildWidth }) =>
+				overrideChildWidth?.xl ?? '20%'};
 		}
 	}
 `;

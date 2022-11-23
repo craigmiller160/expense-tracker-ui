@@ -10,6 +10,7 @@ import {
 	orderedCategoryNames
 } from './testutils/constants/categories';
 import { confirmDialogPage } from './testutils/pages/confirmDialog';
+import { validateInputRules } from './testutils/validations/inputRules';
 
 type RuleValues = {
 	readonly categoryName: string;
@@ -240,7 +241,63 @@ describe('Rule Details', () => {
 	});
 
 	it('input validation rules', () => {
-		throw new Error();
+		const ruleId = allRules.rules[0].id;
+		rulesApi.getAllRules();
+		categoriesApi.getAllCategories();
+		rulesApi.getMaxOrdinal();
+		rulesApi.getRule_maximum(ruleId);
+		mountApp({
+			initialRoute: '/expense-tracker/rules'
+		});
+
+		const row = rulesListPage.getRuleRows().eq(0);
+		rulesListPage.getDetailsButton(row).click();
+
+		ruleDetailsPage.getHeaderTitle().should('have.text', 'Rule Details');
+
+		const validateInput = validateInputRules({
+			getSaveButton: ruleDetailsPage.getSaveButton
+		});
+		validateInput({
+			getInput: ruleDetailsPage.getOrdinalInput,
+			getHelperText: ruleDetailsPage.getOrdinalHelperText
+		})({
+			errorMessage: 'Ordinal is required',
+			invalidValue: '',
+			validValue: '1'
+		});
+		validateInput({
+			getInput: ruleDetailsPage.getRegexInput,
+			getHelperText: ruleDetailsPage.getRegexHelperText
+		})({
+			errorMessage: 'Regex is required',
+			invalidValue: '',
+			validValue: 'Hello'
+		});
+		validateInput({
+			getInput: ruleDetailsPage.getStartDateInput,
+			getHelperText: ruleDetailsPage.getStartDateHelperText
+		})({
+			errorMessage: 'Invalid date',
+			invalidValue: '01',
+			validValue: '01/01/2022'
+		});
+		validateInput({
+			getInput: ruleDetailsPage.getEndDateInput,
+			getHelperText: ruleDetailsPage.getEndDateHelperText
+		})({
+			errorMessage: 'Invalid date',
+			invalidValue: '01',
+			validValue: '01/01/2022'
+		});
+		validateInput({
+			getInput: ruleDetailsPage.getCategoryInput,
+			getHelperText: ruleDetailsPage.getCategoryHelperText
+		})({
+			errorMessage: 'Category is required',
+			invalidValue: '',
+			validValue: 'Entertainment'
+		});
 	});
 
 	it('can delete an existing rule', () => {

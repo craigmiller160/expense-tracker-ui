@@ -1,0 +1,11 @@
+{
+  "id": "1c332b5a-5064-4e7b-8743-427c8df7bc89",
+  "categoryId": "e6a10eec-c1e4-44e6-9100-e834f994ac4c",
+  "categoryName": "Groceries",
+  "ordinal": 1,
+  "regex": "TARGET",
+  "startDate": null,
+  "endDate": null,
+  "minAmount": null,
+  "maxAmount": null
+}

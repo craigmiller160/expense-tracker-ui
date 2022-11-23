@@ -112,6 +112,7 @@ export const RulesTable = (props: Props) => {
 							<Button
 								className="RuleDetailsButton"
 								variant="contained"
+								onClick={() => props.openDialog(rule.id)}
 							>
 								Details
 							</Button>

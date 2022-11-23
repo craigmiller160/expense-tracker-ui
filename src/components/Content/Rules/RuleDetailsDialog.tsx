@@ -14,7 +14,8 @@ type Props = {
 // TODO how to add ordinal control?
 export const RuleDetailsDialog = (props: Props) => {
 	const { isFetching } = useHandleRuleDialogData({
-		selectedRuleId: props.selectedRuleId
+		selectedRuleId: props.selectedRuleId,
+		open: props.open
 	});
 	return (
 		<SideDialog

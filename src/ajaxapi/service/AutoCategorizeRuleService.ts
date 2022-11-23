@@ -1,7 +1,8 @@
 import {
 	AutoCategorizeRulePageRequest,
 	AutoCategorizeRulePageResponse,
-	AutoCategorizeRuleResponse
+	AutoCategorizeRuleResponse,
+	MaxOrdinalResponse
 } from '../../types/generated/expense-tracker';
 import qs from 'qs';
 import { expenseTrackerApi, getData } from './AjaxApi';
@@ -23,5 +24,13 @@ export const getRule = (ruleId: string): Promise<AutoCategorizeRuleResponse> =>
 		.get<AutoCategorizeRuleResponse>({
 			uri: `/categories/rules/${ruleId}`,
 			errorCustomizer: 'Error getting rule'
+		})
+		.then(getData);
+
+export const getMaxOrdinal = (): Promise<MaxOrdinalResponse> =>
+	expenseTrackerApi
+		.get<MaxOrdinalResponse>({
+			uri: '/categories/rules/maxOrdinal',
+			errorCustomizer: 'Error getting max ordinal'
 		})
 		.then(getData);

@@ -53,6 +53,7 @@ const validateRuleRow = (row: JQuery, index: number) => {
 				.run();
 			expect($li.text()).eq(expectedText);
 		});
+	throw new Error('Validate details button');
 };
 
 describe('Rules Table', () => {

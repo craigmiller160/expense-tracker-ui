@@ -4,7 +4,7 @@ import { SideDialog } from '../../UI/SideDialog';
 import { CircularProgress } from '@mui/material';
 import './RuleDetailsDialog.scss';
 import { ResponsiveRow } from '../../UI/ResponsiveWrappers/ResponsiveRow';
-import { TextField } from '@craigmiller160/react-hook-form-material-ui';
+import { TextField, Select } from '@craigmiller160/react-hook-form-material-ui';
 
 type Props = {
 	readonly open: boolean;
@@ -38,7 +38,12 @@ export const RuleDetailsDialog = (props: Props) => {
 			{!isFetching && (
 				<div className="AutoCategorizeRuleDetailsForm">
 					<ResponsiveRow>
-						<p>Ordinal</p>
+						<Select
+							options={[]}
+							control={control}
+							name="ordinal"
+							label="Ordinal"
+						/>
 						<p>Category</p>
 					</ResponsiveRow>
 					<ResponsiveRow

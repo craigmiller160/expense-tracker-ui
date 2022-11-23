@@ -1,7 +1,10 @@
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
 import { CategoryOption } from '../../../types/categories';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
-import { categoryToCategoryOption } from '../../../utils/categoryUtils';
+import {
+	categoryToCategoryOption,
+	itemWithCategoryToCategoryOption
+} from '../../../utils/categoryUtils';
 import {
 	useGetMaxOrdinal,
 	useGetRule
@@ -65,7 +68,7 @@ const ruleToValues = (rule: AutoCategorizeRuleResponse): RuleFormData => ({
 		value: rule.ordinal,
 		label: `${rule.ordinal}`
 	},
-	category: null, // TODO need to fix this
+	category: itemWithCategoryToCategoryOption(rule),
 	regex: rule.regex,
 	startDate: parseRuleDate(rule.startDate),
 	endDate: parseRuleDate(rule.endDate),

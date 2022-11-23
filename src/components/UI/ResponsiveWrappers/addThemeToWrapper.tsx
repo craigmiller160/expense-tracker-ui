@@ -3,7 +3,7 @@ import { InnerDivProps, WrapperOuterProps } from './utils';
 import { StyledComponent } from '@emotion/styled';
 import { useTheme } from '@mui/material';
 
-// TODO need to exclude theme from the outer props
+// Define the generic parameter when using this function to avoid theme prop leaking to outer scope
 export const addThemeToWrapper =
 	<T extends object>(
 		Wrapper: StyledComponent<PropsWithChildren<InnerDivProps & T>>

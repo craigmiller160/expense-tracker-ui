@@ -41,4 +41,4 @@ const InnerDiv = styled.div<ResponsiveRowProps & InnerDivProps>`
 	}
 `;
 
-export const ResponsiveRow = addThemeToWrapper(InnerDiv);
+export const ResponsiveRow = addThemeToWrapper<ResponsiveRowProps>(InnerDiv);

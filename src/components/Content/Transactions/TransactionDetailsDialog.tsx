@@ -25,6 +25,7 @@ import { TransactionDetailsDuplicatePanel } from './TransactionDetailsDuplicateP
 import { Spinner } from '../../UI/Spinner';
 import { useCategoriesToCategoryOptions } from '../../../utils/categoryUtils';
 import { formatAmountValue } from '../../../utils/amountUtils';
+import { ResponsiveRow } from '../../UI/ResponsiveWrappers/ResponsiveRow';
 
 interface Props {
 	readonly open: boolean;
@@ -123,6 +124,11 @@ export const TransactionDetailsDialog = (props: Props) => {
 		isAtMaxSm ? 'small' : ''
 	}`;
 
+	const fullWidthResponsiveRows = {
+		sm: '100%',
+		xl: '100%'
+	};
+
 	return (
 		<SideDialog
 			id="TransactionDetailsDialog"
@@ -151,7 +157,9 @@ export const TransactionDetailsDialog = (props: Props) => {
 						</div>
 						<hr />
 						<div className="Info">
-							<div className="InfoRow">
+							<ResponsiveRow
+								overrideChildWidth={fullWidthResponsiveRows}
+							>
 								<DatePicker
 									control={control}
 									name="expenseDate"
@@ -160,8 +168,10 @@ export const TransactionDetailsDialog = (props: Props) => {
 										required: 'Expense Date is required'
 									}}
 								/>
-							</div>
-							<div className="InfoRow">
+							</ResponsiveRow>
+							<ResponsiveRow
+								overrideChildWidth={fullWidthResponsiveRows}
+							>
 								<TextField
 									control={control}
 									name="amount"
@@ -175,8 +185,10 @@ export const TransactionDetailsDialog = (props: Props) => {
 									}}
 									onBlurTransform={formatAmountValue}
 								/>
-							</div>
-							<div className="InfoRow">
+							</ResponsiveRow>
+							<ResponsiveRow
+								overrideChildWidth={fullWidthResponsiveRows}
+							>
 								<TextField
 									control={control}
 									name="description"
@@ -186,7 +198,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 										required: 'Description is required'
 									}}
 								/>
-							</div>
+							</ResponsiveRow>
 						</div>
 						<hr />
 						<div className={controlsClassName}>

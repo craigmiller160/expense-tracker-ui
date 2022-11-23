@@ -4,6 +4,7 @@ import { SideDialog } from '../../UI/SideDialog';
 import { CircularProgress } from '@mui/material';
 import './RuleDetailsDialog.scss';
 import { ResponsiveRow } from '../../UI/ResponsiveWrappers/ResponsiveRow';
+import { TextField } from '@craigmiller160/react-hook-form-material-ui';
 
 type Props = {
 	readonly open: boolean;
@@ -13,15 +14,25 @@ type Props = {
 
 // TODO how to add ordinal control?
 export const RuleDetailsDialog = (props: Props) => {
-	const { isFetching } = useHandleRuleDialogData({
+	const {
+		isFetching,
+		form: { handleSubmit, control }
+	} = useHandleRuleDialogData({
 		selectedRuleId: props.selectedRuleId,
 		open: props.open
 	});
+
+	const onSubmit = () => {
+		// TODO finish this
+		throw new Error();
+	};
+
 	return (
 		<SideDialog
 			title="Rule Details"
 			open={props.open}
 			onClose={props.close}
+			formSubmit={handleSubmit(onSubmit)}
 		>
 			{isFetching && <CircularProgress />}
 			{!isFetching && (
@@ -31,7 +42,14 @@ export const RuleDetailsDialog = (props: Props) => {
 						<p>Category</p>
 					</ResponsiveRow>
 					<ResponsiveRow>
-						<p>Regex</p>
+						<TextField
+							control={control}
+							name="regex"
+							label="Regex"
+							rules={{
+								required: 'Regex is required'
+							}}
+						/>
 					</ResponsiveRow>
 					<ResponsiveRow>
 						<p>Start Date</p>

@@ -19,8 +19,8 @@ type Props = {
 
 export type RuleFormData = {
 	readonly category: CategoryOption | null;
-	readonly ordinal: number;
-	readonly regex: string;
+	readonly ordinal: number | null;
+	readonly regex: string | null;
 	readonly startDate: string | null;
 	readonly endDate: string | null;
 	readonly minAmount: number | null;
@@ -29,8 +29,8 @@ export type RuleFormData = {
 
 const defaultRuleValues: RuleFormData = {
 	category: null,
-	ordinal: 1, // TODO bad
-	regex: '',
+	ordinal: null,
+	regex: null,
 	startDate: null,
 	endDate: null,
 	minAmount: null,
@@ -41,6 +41,7 @@ type Data = {
 	readonly categories: ReadonlyArray<CategoryOption>;
 	readonly isFetching: boolean;
 	readonly form: UseFormReturn<RuleFormData>;
+	readonly maxOrdinal: number;
 };
 
 const ruleToValues = (rule: AutoCategorizeRuleResponse): RuleFormData => ({
@@ -64,7 +65,8 @@ const optionalRuleToValues = (
 export const useHandleRuleDialogData = (props: Props): Data => {
 	const { data: allCategoriesData, isFetching: allCategoriesIsFetching } =
 		useGetAllCategories();
-	const { isFetching: maxOrdinalIsFetching } = useGetMaxOrdinal();
+	const { data: maxOrdinalData, isFetching: maxOrdinalIsFetching } =
+		useGetMaxOrdinal();
 	const { data: ruleData, isFetching: ruleIsFetching } = useGetRule(
 		props.selectedRuleId
 	);
@@ -81,6 +83,7 @@ export const useHandleRuleDialogData = (props: Props): Data => {
 		categories: allCategoriesData?.map(categoryToCategoryOption) ?? [],
 		isFetching:
 			allCategoriesIsFetching || ruleIsFetching || maxOrdinalIsFetching,
-		form
+		form,
+		maxOrdinal: maxOrdinalData?.maxOrdinal ?? 0
 	};
 };

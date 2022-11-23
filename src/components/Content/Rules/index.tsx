@@ -13,6 +13,8 @@ import { UseFormHandleSubmit } from 'react-hook-form';
 import { ForceUpdate, useForceUpdate } from '../../../utils/useForceUpdate';
 import { useDebounce } from '../../../utils/useDebounce';
 import { RuleDetailsDialog } from './RuleDetailsDialog';
+import * as Option from 'fp-ts/es6/Option';
+import { OptionT } from '@craigmiller160/ts-functions/es/types';
 
 export const DEFAULT_ROWS_PER_PAGE = 25;
 
@@ -35,19 +37,21 @@ const useOnValueHasChanged = (
 
 type DialogState = {
 	readonly open: boolean;
+	readonly selectedRuleId: OptionT<string>;
 };
 
 type DialogActions = {
-	readonly openDialog: () => void;
+	readonly openDialog: (ruleId?: string) => void;
 	readonly closeDialog: () => void;
 };
 
 const useDialogActions = (
 	setDialogState: Updater<DialogState>
 ): DialogActions => {
-	const openDialog = () =>
+	const openDialog = (id?: string) =>
 		setDialogState((draft) => {
 			draft.open = true;
+			draft.selectedRuleId = Option.fromNullable(id);
 		});
 	const closeDialog = () =>
 		setDialogState((draft) => {
@@ -65,7 +69,8 @@ export const Rules = () => {
 		pageSize: DEFAULT_ROWS_PER_PAGE
 	});
 	const [dialogState, setDialogState] = useImmer<DialogState>({
-		open: false
+		open: false,
+		selectedRuleId: Option.none
 	});
 	const {
 		currentPage,

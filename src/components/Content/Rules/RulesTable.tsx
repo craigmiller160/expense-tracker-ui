@@ -22,7 +22,7 @@ type Props = {
 	readonly rules: ReadonlyArray<AutoCategorizeRuleResponse>;
 	readonly isFetching: boolean;
 	readonly onPaginationChange: Updater<PaginationState>;
-	readonly openDialog: () => void;
+	readonly openDialog: (ruleId?: string) => void;
 };
 
 type RuleProps = {

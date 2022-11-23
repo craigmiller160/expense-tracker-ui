@@ -56,6 +56,7 @@ const useDialogActions = (
 	const closeDialog = () =>
 		setDialogState((draft) => {
 			draft.open = false;
+			draft.selectedRuleId = Option.none;
 		});
 
 	return {

@@ -11,6 +11,7 @@
   "scripts": {
     "lint": "eslint --fix --max-warnings=0 **/**.{ts,tsx}",
     "start": "node scripts/startDev.js",
+    "start:nocache": "node scripts/startDev.js --force",
     "prepare": "husky install",
     "test": "craig-test",
     "cypress": "cypress open",
@@ -60,7 +61,7 @@
   },
   "dependencies": {
     "@craigmiller160/ajax-api": "2.0.0",
-    "@craigmiller160/react-hook-form-material-ui": "1.2.0",
+    "@craigmiller160/react-hook-form-material-ui": "file:.yalc/@craigmiller160/react-hook-form-material-ui",
     "@craigmiller160/ts-functions": "1.6.0",
     "@date-io/date-fns": "^2.14.0",
     "@emotion/react": "^11.9.3",

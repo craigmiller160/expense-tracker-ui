@@ -73,5 +73,7 @@ describe('Rules Table', () => {
 			.getRuleRows()
 			.should('have.length', allRules.rules.length)
 			.each(($row, index) => validateRuleRow($row, index));
+
+		throw new Error('Check for the presence of the add button here');
 	});
 });

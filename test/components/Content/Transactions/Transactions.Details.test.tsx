@@ -13,8 +13,6 @@ import {
 	defaultEndDate,
 	defaultStartDate
 } from '../../../../src/components/Content/Transactions/utils';
-import { materialUiSelect } from '../../../testutils/dom-actions/material-ui-select';
-import { transactionIcon } from '../../../testutils/dom-actions/transaction-icon';
 import { waitForVisibility } from '../../../testutils/dom-actions/wait-for-visibility';
 import '@relmify/jest-fp-ts';
 
@@ -34,54 +32,6 @@ const testButton =
 	};
 
 describe('Transaction Details Dialog', () => {
-	it('can categorize transaction', async () => {
-		await renderApp({
-			initialPath: '/expense-tracker/transactions'
-		});
-		await waitForVisibility([
-			{ text: 'Expense Tracker' },
-			{ text: 'Manage Transactions', occurs: 1, timeout: 3000 },
-			{ text: 'Rows per page:' }
-		]);
-
-		const row = screen.getAllByTestId('transaction-table-row')[0];
-		const detailsButton = within(row).getByText('Details');
-		await userEvent.click(detailsButton);
-
-		const transactionDialog = screen.getByTestId(
-			'transaction-details-dialog'
-		);
-
-		await waitFor(() =>
-			expect(
-				within(transactionDialog).getByLabelText('Expense Date')
-			).toBeVisible()
-		);
-
-		const categorySelect = materialUiSelect('Category', transactionDialog);
-		await categorySelect.selectItem('Groceries');
-		await categorySelect.hasValue('Groceries');
-
-		transactionIcon('no-category-icon', transactionDialog).isNotVisible();
-		await userEvent.click(within(transactionDialog).getByText('Save'));
-
-		await waitForElementToBeRemoved(() =>
-			screen.queryByTestId('transaction-details-dialog')
-		);
-		await waitFor(() => screen.queryByTestId('table-loading'));
-		await waitFor(() =>
-			expect(screen.getAllByTestId('transaction-table-row')).toHaveLength(
-				25
-			)
-		);
-		const rowAfterReload = screen.getAllByTestId(
-			'transaction-table-row'
-		)[0];
-		await materialUiSelect('Category', rowAfterReload).hasValue(
-			'Groceries'
-		);
-	});
-
 	it('can delete transaction', async () => {
 		const {
 			transactions: [transaction]

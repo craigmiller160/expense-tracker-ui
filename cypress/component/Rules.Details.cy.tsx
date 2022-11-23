@@ -1,5 +1,10 @@
+import { rulesApi } from './testutils/apis/rules';
+import { categoriesApi } from './testutils/apis/categories';
+
 describe('Rule Details', () => {
 	it('opens existing rule with minimum fields filled', () => {
+		rulesApi.getAllRules();
+		categoriesApi.getAllCategories();
 		throw new Error();
 	});
 

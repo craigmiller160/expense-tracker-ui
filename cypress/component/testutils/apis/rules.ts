@@ -38,11 +38,17 @@ const deleteRule = (id: string): Chainable<null> =>
 		})
 		.as(`deleteRule_${id}`);
 
+const getMaxOrdinal = (): Chainable<null> =>
+	cy.intercept('/expense-tracker/api/categories/rules/maxOrdinal', {
+		fixture: 'maxOrdinal.json'
+	});
+
 export const rulesApi = {
 	getAllRules,
 	getRule_minimum,
 	getRule_maximum,
 	createRule,
 	updateRule,
-	deleteRule
+	deleteRule,
+	getMaxOrdinal
 };

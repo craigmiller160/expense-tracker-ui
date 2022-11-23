@@ -2,14 +2,9 @@ import { SelectOption } from '@craigmiller160/react-hook-form-material-ui';
 import { TransactionTableForm } from './useHandleTransactionTableData';
 import * as RArray from 'fp-ts/es6/ReadonlyArray';
 import { pipe } from 'fp-ts/es6/function';
-import {
-	TransactionResponse,
-	TransactionToUpdate
-} from '../../../types/generated/expense-tracker';
+import { TransactionToUpdate } from '../../../types/generated/expense-tracker';
 import { SortDirection } from '../../../types/misc';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
-import { match, P } from 'ts-pattern';
-import { CategoryOption } from '../../../types/categories';
 
 export interface TransactionSearchForm {
 	readonly direction: SortDirection;
@@ -51,16 +46,3 @@ export const formToUpdateRequest = (
 			})
 		)
 	);
-
-export const transactionToCategoryOption = (
-	transaction: TransactionResponse
-): CategoryOption | null =>
-	match(transaction)
-		.with(
-			{ categoryId: P.not(P.nullish) },
-			(t): CategoryOption => ({
-				value: t.categoryId!, // eslint-disable-line @typescript-eslint/no-non-null-assertion
-				label: t.categoryName! // eslint-disable-line @typescript-eslint/no-non-null-assertion
-			})
-		)
-		.otherwise(() => null);

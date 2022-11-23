@@ -88,7 +88,63 @@ describe('Rule Details', () => {
 	});
 
 	it('can add a new rule with maximum values', () => {
-		throw new Error();
+		rulesApi.getAllRules();
+		categoriesApi.getAllCategories();
+		rulesApi.getMaxOrdinal();
+		rulesApi.createRule();
+		mountApp({
+			initialRoute: '/expense-tracker/rules'
+		});
+
+		rulesListPage.getAddRuleButton().click();
+		ruleDetailsPage.getHeaderTitle().should('have.text', 'Rule Details');
+		validateRuleDialogFields({
+			ordinal: 5,
+			categoryName: '',
+			regex: ''
+		});
+		ruleDetailsPage.getSaveButton().should('be.disabled');
+
+		ruleDetailsPage.getCategoryInput().click();
+		commonPage.getOpenSelectOptions().eq(0).click();
+		ruleDetailsPage
+			.getCategoryInput()
+			.should('have.value', orderedCategoryNames[0]);
+
+		ruleDetailsPage
+			.getRegexInput()
+			.type('Hello')
+			.should('have.value', 'Hello');
+		ruleDetailsPage
+			.getMinAmountInput()
+			.type('1.00')
+			.should('have.value', '1.00');
+		ruleDetailsPage
+			.getMaxAmountInput()
+			.type('2.00')
+			.should('have.value', '2.00');
+		ruleDetailsPage
+			.getStartDateInput()
+			.type('01/01/2022')
+			.should('have.value', '01/01/2022');
+		ruleDetailsPage
+			.getEndDateInput()
+			.type('02/02/2022')
+			.should('have.value', '02/02/2022');
+
+		ruleDetailsPage.getSaveButton().should('be.enabled').click();
+
+		cy.wait('@createRule').then((xhr) => {
+			expect(xhr.request.body).to.eql({
+				categoryId: orderedCategoryIds[0],
+				regex: 'Hello',
+				ordinal: 5,
+				minAmount: 1,
+				maxAmount: 2,
+				startDate: '2022-01-01',
+				endDate: '2022-02-02'
+			});
+		});
 	});
 
 	it('can add a new rule with minimum values', () => {

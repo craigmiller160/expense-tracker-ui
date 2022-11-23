@@ -2,7 +2,10 @@ import { OptionT } from '@craigmiller160/ts-functions/es/types';
 import { CategoryOption } from '../../../types/categories';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 import { categoryToCategoryOption } from '../../../utils/categoryUtils';
-import { useGetRule } from '../../../ajaxapi/query/AutoCategorizeRuleQueries';
+import {
+	useGetMaxOrdinal,
+	useGetRule
+} from '../../../ajaxapi/query/AutoCategorizeRuleQueries';
 import { AutoCategorizeRuleResponse } from '../../../types/generated/expense-tracker';
 import { pipe } from 'fp-ts/es6/function';
 import * as Option from 'fp-ts/es6/Option';
@@ -61,6 +64,7 @@ const optionalRuleToValues = (
 export const useHandleRuleDialogData = (props: Props): Data => {
 	const { data: allCategoriesData, isFetching: allCategoriesIsFetching } =
 		useGetAllCategories();
+	const { isFetching: maxOrdinalIsFetching } = useGetMaxOrdinal();
 	const { data: ruleData, isFetching: ruleIsFetching } = useGetRule(
 		props.selectedRuleId
 	);
@@ -75,7 +79,8 @@ export const useHandleRuleDialogData = (props: Props): Data => {
 
 	return {
 		categories: allCategoriesData?.map(categoryToCategoryOption) ?? [],
-		isFetching: allCategoriesIsFetching || ruleIsFetching,
+		isFetching:
+			allCategoriesIsFetching || ruleIsFetching || maxOrdinalIsFetching,
 		form
 	};
 };

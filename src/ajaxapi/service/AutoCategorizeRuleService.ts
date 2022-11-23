@@ -1,6 +1,7 @@
 import {
 	AutoCategorizeRulePageRequest,
 	AutoCategorizeRulePageResponse,
+	AutoCategorizeRuleRequest,
 	AutoCategorizeRuleResponse,
 	MaxOrdinalResponse
 } from '../../types/generated/expense-tracker';
@@ -32,5 +33,34 @@ export const getMaxOrdinal = (): Promise<MaxOrdinalResponse> =>
 		.get<MaxOrdinalResponse>({
 			uri: '/categories/rules/maxOrdinal',
 			errorCustomizer: 'Error getting max ordinal'
+		})
+		.then(getData);
+
+export const createRule = (request: AutoCategorizeRuleRequest): Promise<void> =>
+	expenseTrackerApi
+		.post<void, AutoCategorizeRuleRequest>({
+			uri: '/categories/rules',
+			body: request,
+			errorCustomizer: 'Error creating rule'
+		})
+		.then(getData);
+
+export const updateRule = (
+	ruleId: string,
+	request: AutoCategorizeRuleRequest
+): Promise<AutoCategorizeRuleResponse> =>
+	expenseTrackerApi
+		.put<AutoCategorizeRuleResponse, AutoCategorizeRuleRequest>({
+			uri: `/categories/rules/${ruleId}`,
+			body: request,
+			errorCustomizer: 'Error updating rule'
+		})
+		.then(getData);
+
+export const deleteRule = (ruleId: string): Promise<void> =>
+	expenseTrackerApi
+		.delete<void>({
+			uri: `/categories/rules/${ruleId}`,
+			errorCustomizer: 'Error deleting rule'
 		})
 		.then(getData);

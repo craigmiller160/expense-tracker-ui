@@ -2,12 +2,13 @@ import styled from '@emotion/styled';
 import { InnerDivProps } from './utils';
 import { addThemeToWrapper } from './addThemeToWrapper';
 
+export type OverrideChildWidth = {
+	xs?: string;
+	sm?: string;
+};
+
 type ResponsiveRowProps = {
-	readonly overrideChildWidth?: {
-		xs?: string;
-		sm?: string;
-		xl?: string;
-	};
+	readonly overrideChildWidth?: OverrideChildWidth;
 };
 
 const InnerDiv = styled.div<ResponsiveRowProps & InnerDivProps>`
@@ -30,13 +31,6 @@ const InnerDiv = styled.div<ResponsiveRowProps & InnerDivProps>`
 		> * {
 			width: ${({ overrideChildWidth }) =>
 				overrideChildWidth?.sm ?? '30%'};
-		}
-	}
-
-	${({ theme }) => theme.breakpoints.up('xl')} {
-		> * {
-			width: ${({ overrideChildWidth }) =>
-				overrideChildWidth?.xl ?? '20%'};
 		}
 	}
 `;

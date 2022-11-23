@@ -33,7 +33,6 @@ export const RuleDetailsDialog = (props: Props) => {
 		throw new Error();
 	};
 
-	// TODO concerned about widths here, tweak it via the ResponsiveRow component and compare with TransactionDialog
 	return (
 		<SideDialog
 			title="Rule Details"
@@ -66,8 +65,7 @@ export const RuleDetailsDialog = (props: Props) => {
 					</ResponsiveRow>
 					<ResponsiveRow
 						overrideChildWidth={{
-							sm: '100%',
-							xl: '100%'
+							sm: '100%'
 						}}
 					>
 						<TextField

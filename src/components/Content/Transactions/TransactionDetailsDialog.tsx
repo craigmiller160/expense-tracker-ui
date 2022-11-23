@@ -24,7 +24,10 @@ import { TransactionDetailsDuplicatePanel } from './TransactionDetailsDuplicateP
 import { Spinner } from '../../UI/Spinner';
 import { useCategoriesToCategoryOptions } from '../../../utils/categoryUtils';
 import { formatAmountValue } from '../../../utils/amountUtils';
-import { ResponsiveRow } from '../../UI/ResponsiveWrappers/ResponsiveRow';
+import {
+	OverrideChildWidth,
+	ResponsiveRow
+} from '../../UI/ResponsiveWrappers/ResponsiveRow';
 
 interface Props {
 	readonly open: boolean;
@@ -115,9 +118,8 @@ export const TransactionDetailsDialog = (props: Props) => {
 
 	const watchedTransaction = watch();
 
-	const fullWidthResponsiveRows = {
-		sm: '100%',
-		xl: '100%'
+	const fullWidthResponsiveRows: OverrideChildWidth = {
+		sm: '100%'
 	};
 
 	return (

@@ -26,33 +26,6 @@
     flex-direction: column;
   }
 
-  .AdditionalSections {
-    @include Section;
-    display: flex;
-    &:not(.small) {
-      flex-direction: row;
-      justify-content: space-around;
-    }
-    &.small {
-      flex-direction: column;
-      width: 100%;
-      align-items: center;
-      justify-content: space-between;
-      flex: 1;
-      >* {
-        width: 100%;
-        margin: 0.5rem 0;
-      }
-    }
-
-    >* {
-      width: 33%;
-      &.invisible {
-        visibility: hidden;
-      }
-    }
-  }
-
   .center {
     text-align: center;
   }

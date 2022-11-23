@@ -18,7 +18,6 @@ import {
 	TransactionDetailsFormData,
 	useHandleTransactionDetailsDialogData
 } from './useHandleTransactionDetailsDialogData';
-import { useIsAtMaxBreakpoint } from '../../../utils/breakpointHooks';
 import { PossibleRefundIcon } from './icons/PossibleRefundIcon';
 import * as Option from 'fp-ts/es6/Option';
 import { TransactionDetailsDuplicatePanel } from './TransactionDetailsDuplicatePanel';
@@ -116,14 +115,6 @@ export const TransactionDetailsDialog = (props: Props) => {
 
 	const watchedTransaction = watch();
 
-	const isAtMaxSm = useIsAtMaxBreakpoint('md');
-	const controlsClassName = `Controls AdditionalSections ${
-		isAtMaxSm ? 'small' : ''
-	}`;
-	const timestampsClassName = `Timestamps AdditionalSections ${
-		isAtMaxSm ? 'small' : ''
-	}`;
-
 	const fullWidthResponsiveRows = {
 		sm: '100%',
 		xl: '100%'
@@ -201,7 +192,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 							</ResponsiveRow>
 						</div>
 						<hr />
-						<div className={controlsClassName}>
+						<ResponsiveRow className="Controls">
 							{isEditExisting && (
 								<Checkbox
 									testId="confirm-transaction-checkbox"
@@ -217,11 +208,11 @@ export const TransactionDetailsDialog = (props: Props) => {
 								/>
 							)}
 							{CategoryComponent}
-						</div>
+						</ResponsiveRow>
 						{isEditExisting && (
 							<>
 								<hr />
-								<div className={timestampsClassName}>
+								<ResponsiveRow className="Timestamps">
 									<span className="center">
 										<strong>Created: </strong>
 										{transactionValues.created}
@@ -230,7 +221,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 										<strong>Updated: </strong>
 										{transactionValues.updated}
 									</span>
-								</div>
+								</ResponsiveRow>
 							</>
 						)}
 					</>

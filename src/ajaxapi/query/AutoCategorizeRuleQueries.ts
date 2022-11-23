@@ -1,11 +1,13 @@
 import { useQuery, UseQueryResult } from 'react-query';
 import {
 	AutoCategorizeRulePageRequest,
-	AutoCategorizeRulePageResponse
+	AutoCategorizeRulePageResponse,
+	AutoCategorizeRuleResponse
 } from '../../types/generated/expense-tracker';
-import { getAllRules } from '../service/AutoCategorizeRuleService';
+import { getAllRules, getRule } from '../service/AutoCategorizeRuleService';
 
 export const GET_ALL_RULES = 'AutoCategorizeRuleQueries_GetAllRules';
+export const GET_RULE = 'AutoCategorizeRuleQueries_GetRule';
 
 type GetAllRulesKey = [string, AutoCategorizeRulePageRequest];
 export const useGetAllRules = (
@@ -17,3 +19,14 @@ export const useGetAllRules = (
 		AutoCategorizeRulePageResponse,
 		GetAllRulesKey
 	>([GET_ALL_RULES, request], ({ queryKey: [, req] }) => getAllRules(req));
+
+type GetRuleKey = [string, string];
+export const useGetRule = (
+	ruleId: string
+): UseQueryResult<AutoCategorizeRuleResponse, Error> =>
+	useQuery<
+		AutoCategorizeRuleResponse,
+		Error,
+		AutoCategorizeRuleResponse,
+		GetRuleKey
+	>([GET_RULE, ruleId], ({ queryKey: [, id] }) => getRule(id));

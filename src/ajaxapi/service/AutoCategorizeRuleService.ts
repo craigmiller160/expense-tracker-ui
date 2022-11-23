@@ -1,6 +1,7 @@
 import {
 	AutoCategorizeRulePageRequest,
-	AutoCategorizeRulePageResponse
+	AutoCategorizeRulePageResponse,
+	AutoCategorizeRuleResponse
 } from '../../types/generated/expense-tracker';
 import qs from 'qs';
 import { expenseTrackerApi, getData } from './AjaxApi';
@@ -16,3 +17,11 @@ export const getAllRules = (
 		})
 		.then(getData);
 };
+
+export const getRule = (ruleId: string): Promise<AutoCategorizeRuleResponse> =>
+	expenseTrackerApi
+		.get<AutoCategorizeRuleResponse>({
+			uri: `/categories/rules/${ruleId}`,
+			errorCustomizer: 'Error getting rule'
+		})
+		.then(getData);

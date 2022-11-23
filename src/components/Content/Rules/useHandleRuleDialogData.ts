@@ -19,7 +19,7 @@ import {
 	AutoCategorizeRuleRequest,
 	AutoCategorizeRuleResponse
 } from '../../../types/generated/expense-tracker';
-import { constVoid, pipe } from 'fp-ts/es6/function';
+import { pipe } from 'fp-ts/es6/function';
 import * as Option from 'fp-ts/es6/Option';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { useContext, useEffect } from 'react';
@@ -32,8 +32,9 @@ import {
 	formatServerDate,
 	parseServerDate
 } from '../../../utils/dateTimeUtils';
-import { UseMutateFunction } from 'react-query';
+import { UseMutateAsyncFunction } from 'react-query';
 import { ConfirmDialogContext } from '../../UI/ConfirmDialog/ConfirmDialogProvider';
+import * as Task from 'fp-ts/es6/Task';
 
 const parseRequestDate = (date: Date | null): string | undefined =>
 	pipe(
@@ -116,12 +117,12 @@ const optionalRuleToValues = (
 const createSaveRule =
 	(
 		selectedRuleId: OptionT<string>,
-		createRule: UseMutateFunction<
+		createRule: UseMutateAsyncFunction<
 			AutoCategorizeRuleResponse,
 			Error,
 			CreateRuleParams
 		>,
-		updateRule: UseMutateFunction<
+		updateRule: UseMutateAsyncFunction<
 			AutoCategorizeRuleResponse,
 			Error,
 			UpdateRuleParams
@@ -143,37 +144,38 @@ const createSaveRule =
 		pipe(
 			selectedRuleId,
 			Option.fold(
-				() =>
+				() => () =>
 					createRule({
 						request
 					}),
-				(ruleId) =>
+				(ruleId) => () =>
 					updateRule({
 						ruleId,
 						request
 					})
-			)
-		);
-		close();
+			),
+			Task.map(close)
+		)();
 	};
 
 const createDeleteRule =
 	(
 		selectedRuleId: OptionT<string>,
-		deleteRule: UseMutateFunction<void, Error, DeleteRuleParams>,
+		deleteRule: UseMutateAsyncFunction<void, Error, DeleteRuleParams>,
 		close: () => void
 	) =>
-	() => {
+	() =>
 		pipe(
 			selectedRuleId,
-			Option.fold(constVoid, (ruleId) =>
-				deleteRule({
-					ruleId
-				})
-			)
-		);
-		close();
-	};
+			Option.fold(
+				() => () => Promise.resolve(),
+				(ruleId) => () =>
+					deleteRule({
+						ruleId
+					})
+			),
+			Task.map(close)
+		)();
 
 export const useHandleRuleDialogData = (props: Props): Data => {
 	const { newConfirmDialog } = useContext(ConfirmDialogContext);
@@ -203,11 +205,11 @@ export const useHandleRuleDialogData = (props: Props): Data => {
 		Option.isNone(props.selectedRuleId)
 	);
 
-	const { mutate: createRuleMutate, isLoading: createRuleIsLoading } =
+	const { mutateAsync: createRuleMutate, isLoading: createRuleIsLoading } =
 		useCreateRule();
-	const { mutate: updateRuleMutate, isLoading: updateRuleIsLoading } =
+	const { mutateAsync: updateRuleMutate, isLoading: updateRuleIsLoading } =
 		useUpdateRule();
-	const { mutate: deleteRuleMutate, isLoading: deleteRuleIsLoading } =
+	const { mutateAsync: deleteRuleMutate, isLoading: deleteRuleIsLoading } =
 		useDeleteRule();
 
 	const saveRule = createSaveRule(

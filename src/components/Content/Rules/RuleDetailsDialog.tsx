@@ -64,15 +64,14 @@ export const RuleDetailsDialog = (props: Props) => {
 		close: props.close
 	});
 
-	const Actions = (
+	const Actions = !isFetching ? (
 		<RuleDetailsDialogActions
 			deleteRule={deleteRule}
 			enableSaveButton={isDirty && isValid}
 			showDeleteButton={Option.isSome(props.selectedRuleId)}
 		/>
-	);
+	) : undefined;
 
-	// TODO need to add confirm
 	return (
 		<SideDialog
 			title="Rule Details"

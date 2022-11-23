@@ -1,10 +1,5 @@
 import { PaginationState } from '../../../utils/pagination';
-import {
-	useCreateRule,
-	useDeleteRule,
-	useGetAllRules,
-	useUpdateRule
-} from '../../../ajaxapi/query/AutoCategorizeRuleQueries';
+import { useGetAllRules } from '../../../ajaxapi/query/AutoCategorizeRuleQueries';
 import {
 	AutoCategorizeRuleResponse,
 	CategoryResponse
@@ -56,9 +51,6 @@ export const useHandleAllRulesData = (props: Props): GetAllRulesDataResult => {
 		data: getAllCategoriesData,
 		isFetching: getAllCategoriesIsFetching
 	} = useGetAllCategories();
-	const { isLoading: createRuleIsLoading } = useCreateRule();
-	const { isLoading: updateRuleIsLoading } = useUpdateRule();
-	const { isLoading: deleteRuleIsLoading } = useDeleteRule();
 
 	const categories = useMemo(
 		() => formatCategories(getAllCategoriesData),
@@ -68,12 +60,7 @@ export const useHandleAllRulesData = (props: Props): GetAllRulesDataResult => {
 	return {
 		currentPage: getAllRulesData?.pageNumber ?? 0,
 		totalItems: getAllRulesData?.totalItems ?? 0,
-		isFetching:
-			getAllRulesIsFetching ||
-			getAllCategoriesIsFetching ||
-			createRuleIsLoading ||
-			updateRuleIsLoading ||
-			deleteRuleIsLoading,
+		isFetching: getAllRulesIsFetching || getAllCategoriesIsFetching,
 		rules: getAllRulesData?.rules ?? [],
 		categories,
 		filtersForm: form

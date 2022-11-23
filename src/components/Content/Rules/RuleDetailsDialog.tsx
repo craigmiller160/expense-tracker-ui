@@ -72,6 +72,7 @@ export const RuleDetailsDialog = (props: Props) => {
 		/>
 	);
 
+	// TODO need to add confirm
 	return (
 		<SideDialog
 			title="Rule Details"

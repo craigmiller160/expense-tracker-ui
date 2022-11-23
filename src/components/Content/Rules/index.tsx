@@ -105,7 +105,11 @@ export const Rules = () => {
 				onPaginationChange={setPaginationState}
 				openDialog={openDialog}
 			/>
-			<RuleDetailsDialog open={dialogState.open} close={closeDialog} />
+			<RuleDetailsDialog
+				selectedRuleId={dialogState.selectedRuleId}
+				open={dialogState.open}
+				close={closeDialog}
+			/>
 		</PageResponsiveWrapper>
 	);
 };

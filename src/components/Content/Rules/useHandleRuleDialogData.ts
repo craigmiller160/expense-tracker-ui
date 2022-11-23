@@ -1,4 +1,4 @@
-import { OptionT, TaskT } from '@craigmiller160/ts-functions/es/types';
+import { OptionT } from '@craigmiller160/ts-functions/es/types';
 import { CategoryOption } from '../../../types/categories';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 import {
@@ -33,7 +33,6 @@ import {
 	parseServerDate
 } from '../../../utils/dateTimeUtils';
 import { UseMutateFunction } from 'react-query';
-import * as Task from 'fp-ts/es6/Task';
 import { ConfirmDialogContext } from '../../UI/ConfirmDialog/ConfirmDialogProvider';
 
 const parseRequestDate = (date: Date | null): string | undefined =>
@@ -127,9 +126,7 @@ const createSaveRule =
 			Error,
 			UpdateRuleParams
 		>,
-		createWaitForSettled: TaskT<void>,
-		updateWaitForSettled: TaskT<void>,
-		onSettled: () => void
+		close: () => void
 	) =>
 	(values: RuleFormData): void => {
 		// Validations are enforced both in the form controls
@@ -146,45 +143,37 @@ const createSaveRule =
 		pipe(
 			selectedRuleId,
 			Option.fold(
-				() => {
+				() =>
 					createRule({
 						request
-					});
-					return createWaitForSettled;
-				},
-				(ruleId) => {
+					}),
+				(ruleId) =>
 					updateRule({
 						ruleId,
 						request
-					});
-					return updateWaitForSettled;
-				}
-			),
-			Task.map(onSettled)
-		)();
+					})
+			)
+		);
+		close();
 	};
 
 const createDeleteRule =
 	(
 		selectedRuleId: OptionT<string>,
 		deleteRule: UseMutateFunction<void, Error, DeleteRuleParams>,
-		deleteWaitForSettled: TaskT<void>,
-		onSettled: () => void
+		close: () => void
 	) =>
-	() =>
+	() => {
 		pipe(
 			selectedRuleId,
-			Option.fold(
-				() => () => Promise.resolve(constVoid()),
-				(ruleId) => {
-					deleteRule({
-						ruleId
-					});
-					return deleteWaitForSettled;
-				}
-			),
-			Task.map(onSettled)
-		)();
+			Option.fold(constVoid, (ruleId) =>
+				deleteRule({
+					ruleId
+				})
+			)
+		);
+		close();
+	};
 
 export const useHandleRuleDialogData = (props: Props): Data => {
 	const { newConfirmDialog } = useContext(ConfirmDialogContext);
@@ -214,34 +203,22 @@ export const useHandleRuleDialogData = (props: Props): Data => {
 		Option.isNone(props.selectedRuleId)
 	);
 
-	const {
-		mutate: createRuleMutate,
-		waitForSettled: createRuleWaitForSettled,
-		isLoading: createRuleIsLoading
-	} = useCreateRule();
-	const {
-		mutate: updateRuleMutate,
-		waitForSettled: updateRuleWaitForSettled,
-		isLoading: updateRuleIsLoading
-	} = useUpdateRule();
-	const {
-		mutate: deleteRuleMutate,
-		waitForSettled: deleteRuleWaitForSettled,
-		isLoading: deleteRuleIsLoading
-	} = useDeleteRule();
+	const { mutate: createRuleMutate, isLoading: createRuleIsLoading } =
+		useCreateRule();
+	const { mutate: updateRuleMutate, isLoading: updateRuleIsLoading } =
+		useUpdateRule();
+	const { mutate: deleteRuleMutate, isLoading: deleteRuleIsLoading } =
+		useDeleteRule();
 
 	const saveRule = createSaveRule(
 		props.selectedRuleId,
 		createRuleMutate,
 		updateRuleMutate,
-		createRuleWaitForSettled,
-		updateRuleWaitForSettled,
 		props.close
 	);
 	const deleteRule = createDeleteRule(
 		props.selectedRuleId,
 		deleteRuleMutate,
-		deleteRuleWaitForSettled,
 		props.close
 	);
 	const confirmAndDeleteRule = () =>

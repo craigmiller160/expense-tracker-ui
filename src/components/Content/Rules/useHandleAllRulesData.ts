@@ -1,5 +1,8 @@
 import { PaginationState } from '../../../utils/pagination';
-import { useGetAllRules } from '../../../ajaxapi/query/AutoCategorizeRuleQueries';
+import {
+	useGetAllRules,
+	useGetMaxOrdinal
+} from '../../../ajaxapi/query/AutoCategorizeRuleQueries';
 import {
 	AutoCategorizeRuleResponse,
 	CategoryResponse
@@ -27,6 +30,7 @@ export type GetAllRulesDataResult = {
 	readonly rules: ReadonlyArray<AutoCategorizeRuleResponse>;
 	readonly categories: ReadonlyArray<CategoryOption>;
 	readonly filtersForm: UseFormReturn<RulesFiltersFormData>;
+	readonly maxOrdinal: number;
 };
 
 const formatCategories = (
@@ -51,6 +55,8 @@ export const useHandleAllRulesData = (props: Props): GetAllRulesDataResult => {
 		data: getAllCategoriesData,
 		isFetching: getAllCategoriesIsFetching
 	} = useGetAllCategories();
+	const { data: getMaxOrdinalData, isFetching: getMaxOrdinalIsFetching } =
+		useGetMaxOrdinal();
 
 	const categories = useMemo(
 		() => formatCategories(getAllCategoriesData),
@@ -60,9 +66,13 @@ export const useHandleAllRulesData = (props: Props): GetAllRulesDataResult => {
 	return {
 		currentPage: getAllRulesData?.pageNumber ?? 0,
 		totalItems: getAllRulesData?.totalItems ?? 0,
-		isFetching: getAllRulesIsFetching || getAllCategoriesIsFetching,
+		isFetching:
+			getAllRulesIsFetching ||
+			getAllCategoriesIsFetching ||
+			getMaxOrdinalIsFetching,
 		rules: getAllRulesData?.rules ?? [],
 		categories,
-		filtersForm: form
+		filtersForm: form,
+		maxOrdinal: getMaxOrdinalData?.maxOrdinal ?? 0
 	};
 };

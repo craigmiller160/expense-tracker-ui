@@ -7,6 +7,16 @@
 .TransactionDetailsDialog {
   width: 100%;
 
+  .LastRuleApplied {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    >* {
+      margin-bottom: 0.5rem;
+    }
+  }
+
   .DetailsSpinner {
     display: flex;
     flex-direction: row;

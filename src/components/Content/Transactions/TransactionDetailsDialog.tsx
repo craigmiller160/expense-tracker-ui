@@ -1,6 +1,6 @@
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
 import { SideDialog } from '../../UI/SideDialog';
-import { Button, CircularProgress } from '@mui/material';
+import { Button, CircularProgress, Typography } from '@mui/material';
 import './TransactionDetailsDialog.scss';
 import { Control } from 'react-hook-form';
 import { DuplicateIcon } from './icons/DuplicateIcon';
@@ -90,6 +90,8 @@ const useGetCategoryComponent = (
 		/>
 	);
 };
+
+const LAST_RULE_COLUMNS = ['Ordinal', 'Category', 'Rule'];
 
 export const TransactionDetailsDialog = (props: Props) => {
 	const {
@@ -203,9 +205,14 @@ export const TransactionDetailsDialog = (props: Props) => {
 						<hr />
 						{!transactionValues.confirmed && lastRuleApplied && (
 							<>
-								<Table columns={[]}>
-									<RuleTableRow rule={lastRuleApplied} />
-								</Table>
+								<div className="LastRuleApplied">
+									<Typography variant="h6">
+										Auto-Categorize Rule Applied
+									</Typography>
+									<Table columns={LAST_RULE_COLUMNS}>
+										<RuleTableRow rule={lastRuleApplied} />
+									</Table>
+								</div>
 								<hr />
 							</>
 						)}

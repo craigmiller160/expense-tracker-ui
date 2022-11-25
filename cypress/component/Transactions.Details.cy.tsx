@@ -591,4 +591,12 @@ describe('Transaction Details Dialog', () => {
 			2
 		);
 	});
+
+	it('shows last applied rule for unconfirmed transaction', () => {
+		throw new Error();
+	});
+
+	it('does not show last applied rule for unconfirmed transaction if there is none', () => {
+		throw new Error();
+	});
 });

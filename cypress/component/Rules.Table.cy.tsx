@@ -22,6 +22,11 @@ const formatAmount = (value?: number): string =>
 		Option.getOrElse(() => 'Any')
 	);
 
+type ExpectedOrderButtons = {
+	readonly up: boolean;
+	readonly down: boolean;
+};
+
 const validateRuleRow = (row: JQuery, index: number) => {
 	rulesListPage
 		.getOrdinalCell(cy.wrap(row))
@@ -54,11 +59,46 @@ const validateRuleRow = (row: JQuery, index: number) => {
 			expect($li.text()).eq(expectedText);
 		});
 	rulesListPage.getDetailsButton(cy.wrap(row)).should('have.text', 'Details');
+
+	const expectedOrderButtons = match(index)
+		.with(
+			0,
+			(): ExpectedOrderButtons => ({
+				up: false,
+				down: true
+			})
+		)
+		.with(
+			allRules.rules.length - 1,
+			(): ExpectedOrderButtons => ({
+				up: true,
+				down: false
+			})
+		)
+		.otherwise(
+			(): ExpectedOrderButtons => ({
+				up: true,
+				down: true
+			})
+		);
+
+	if (expectedOrderButtons.up) {
+		rulesListPage.getUpButton(cy.wrap(row)).should('be.visible');
+	} else {
+		rulesListPage.getUpButton(cy.wrap(row)).should('not.be.visible');
+	}
+
+	if (expectedOrderButtons.down) {
+		rulesListPage.getDownButton(cy.wrap(row)).should('be.visible');
+	} else {
+		rulesListPage.getDownButton(cy.wrap(row)).should('not.be.visible');
+	}
 };
 
 describe('Rules Table', () => {
 	it('shows the existing rules in the table', () => {
 		rulesApi.getAllRules();
+		rulesApi.getMaxOrdinal();
 		categoriesApi.getAllCategories();
 		mountApp({
 			initialRoute: '/expense-tracker/rules'
@@ -76,5 +116,43 @@ describe('Rules Table', () => {
 			.each(($row, index) => validateRuleRow($row, index));
 
 		rulesListPage.getAddRuleButton().should('have.text', 'Add Rule');
+	});
+
+	it('move a rule up one', () => {
+		const rule2 = allRules.rules[1];
+		rulesApi.getAllRules();
+		rulesApi.getMaxOrdinal();
+		rulesApi.reOrderRule(rule2.id, rule2.ordinal - 1);
+		categoriesApi.getAllCategories();
+
+		mountApp({
+			initialRoute: '/expense-tracker/rules'
+		});
+
+		const row = rulesListPage
+			.getRuleRows()
+			.should('have.length', allRules.rules.length)
+			.eq(1);
+		rulesListPage.getUpButton(row).click();
+		cy.wait(`@reOrderRule_${rule2.id}_${rule2.ordinal - 1}`);
+	});
+
+	it('move a rule down one', () => {
+		const rule2 = allRules.rules[1];
+		rulesApi.getAllRules();
+		rulesApi.getMaxOrdinal();
+		rulesApi.reOrderRule(rule2.id, rule2.ordinal + 1);
+		categoriesApi.getAllCategories();
+
+		mountApp({
+			initialRoute: '/expense-tracker/rules'
+		});
+
+		const row = rulesListPage
+			.getRuleRows()
+			.should('have.length', allRules.rules.length)
+			.eq(1);
+		rulesListPage.getDownButton(row).click();
+		cy.wait(`@reOrderRule_${rule2.id}_${rule2.ordinal + 1}`);
 	});
 });

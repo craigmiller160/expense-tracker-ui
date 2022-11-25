@@ -12,6 +12,9 @@ import * as Option from 'fp-ts/es6/Option';
 import { serverDateToDisplayDate } from '../../../utils/dateTimeUtils';
 import { formatCurrency } from '../../../utils/formatNumbers';
 import { ReactNode } from 'react';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { ReOrderActions } from './useHandleAllRulesData';
 
 const COLUMNS = ['Ordinal', 'Category', 'Rule', 'Actions'];
 
@@ -23,6 +26,8 @@ type Props = {
 	readonly isFetching: boolean;
 	readonly onPaginationChange: Updater<PaginationState>;
 	readonly openDialog: (ruleId?: string) => void;
+	readonly maxOrdinal: number;
+	readonly reOrder: ReOrderActions;
 };
 
 type RuleProps = {
@@ -101,24 +106,60 @@ export const RulesTable = (props: Props) => {
 				pagination={paginationConfig}
 				aboveTableActions={aboveTableActions}
 			>
-				{props.rules.map((rule) => (
-					<TableRow key={rule.id}>
-						<TableCell>{rule.ordinal}</TableCell>
-						<TableCell>{rule.categoryName}</TableCell>
-						<TableCell>
-							<RuleCell rule={rule} />
-						</TableCell>
-						<TableCell>
-							<Button
-								className="RuleDetailsButton"
-								variant="contained"
-								onClick={() => props.openDialog(rule.id)}
-							>
-								Details
-							</Button>
-						</TableCell>
-					</TableRow>
-				))}
+				{props.rules.map((rule) => {
+					const upClassName =
+						rule.ordinal === 1 ? 'UpButton invisible' : 'UpButton';
+					const downClassName =
+						rule.ordinal === props.maxOrdinal
+							? 'DownButton invisible'
+							: 'DownButton';
+					return (
+						<TableRow key={rule.id}>
+							<TableCell>{rule.ordinal}</TableCell>
+							<TableCell>{rule.categoryName}</TableCell>
+							<TableCell>
+								<RuleCell rule={rule} />
+							</TableCell>
+							<TableCell>
+								<div className="ActionsCell">
+									<div className="ReOrderButtons">
+										<Button
+											className={upClassName}
+											onClick={() =>
+												props.reOrder.decrementRuleOrdinal(
+													rule
+												)
+											}
+										>
+											<ArrowDropUpIcon />
+										</Button>
+										<Button
+											className={downClassName}
+											onClick={() =>
+												props.reOrder.incrementRuleOrdinal(
+													rule
+												)
+											}
+										>
+											<ArrowDropDownIcon />
+										</Button>
+									</div>
+									<div className="DetailsButton">
+										<Button
+											className="RuleDetailsButton"
+											variant="contained"
+											onClick={() =>
+												props.openDialog(rule.id)
+											}
+										>
+											Details
+										</Button>
+									</div>
+								</div>
+							</TableCell>
+						</TableRow>
+					);
+				})}
 			</Table>
 		</div>
 	);

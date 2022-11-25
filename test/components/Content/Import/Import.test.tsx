@@ -59,8 +59,6 @@ describe('Transaction Import', () => {
 
 		const autocomplete = screen.getByLabelText('File Type');
 		autocomplete.focus();
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		screen.debug(autocomplete.parentElement!);
 		const clearButton = autocomplete.parentElement?.querySelector(
 			'.MuiAutocomplete-clearIndicator'
 		);

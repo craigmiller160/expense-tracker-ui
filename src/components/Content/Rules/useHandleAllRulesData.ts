@@ -1,5 +1,9 @@
 import { PaginationState } from '../../../utils/pagination';
-import { useGetAllRules } from '../../../ajaxapi/query/AutoCategorizeRuleQueries';
+import {
+	useGetAllRules,
+	useGetMaxOrdinal,
+	useReOrderRule
+} from '../../../ajaxapi/query/AutoCategorizeRuleQueries';
 import {
 	AutoCategorizeRuleResponse,
 	CategoryResponse
@@ -20,6 +24,13 @@ export type RulesFiltersFormData = {
 	readonly regex?: string;
 };
 
+type InternalReOrderActions = {
+	readonly isLoading: boolean;
+	readonly incrementRuleOrdinal: (rule: AutoCategorizeRuleResponse) => void;
+	readonly decrementRuleOrdinal: (rule: AutoCategorizeRuleResponse) => void;
+};
+export type ReOrderActions = Omit<InternalReOrderActions, 'isLoading'>;
+
 export type GetAllRulesDataResult = {
 	readonly currentPage: number;
 	readonly totalItems: number;
@@ -27,6 +38,25 @@ export type GetAllRulesDataResult = {
 	readonly rules: ReadonlyArray<AutoCategorizeRuleResponse>;
 	readonly categories: ReadonlyArray<CategoryOption>;
 	readonly filtersForm: UseFormReturn<RulesFiltersFormData>;
+	readonly maxOrdinal: number;
+	readonly reOrder: ReOrderActions;
+};
+
+const useReOrderActions = (): InternalReOrderActions => {
+	const { mutate, isLoading } = useReOrderRule();
+	return {
+		isLoading,
+		incrementRuleOrdinal: (rule) =>
+			mutate({
+				ruleId: rule.id,
+				ordinal: rule.ordinal + 1
+			}),
+		decrementRuleOrdinal: (rule) =>
+			mutate({
+				ruleId: rule.id,
+				ordinal: rule.ordinal - 1
+			})
+	};
 };
 
 const formatCategories = (
@@ -51,6 +81,13 @@ export const useHandleAllRulesData = (props: Props): GetAllRulesDataResult => {
 		data: getAllCategoriesData,
 		isFetching: getAllCategoriesIsFetching
 	} = useGetAllCategories();
+	const { data: getMaxOrdinalData, isFetching: getMaxOrdinalIsFetching } =
+		useGetMaxOrdinal();
+	const {
+		isLoading: reOrderIsLoading,
+		incrementRuleOrdinal,
+		decrementRuleOrdinal
+	} = useReOrderActions();
 
 	const categories = useMemo(
 		() => formatCategories(getAllCategoriesData),
@@ -58,11 +95,20 @@ export const useHandleAllRulesData = (props: Props): GetAllRulesDataResult => {
 	);
 
 	return {
+		reOrder: {
+			incrementRuleOrdinal,
+			decrementRuleOrdinal
+		},
 		currentPage: getAllRulesData?.pageNumber ?? 0,
 		totalItems: getAllRulesData?.totalItems ?? 0,
-		isFetching: getAllRulesIsFetching || getAllCategoriesIsFetching,
+		isFetching:
+			getAllRulesIsFetching ||
+			getAllCategoriesIsFetching ||
+			getMaxOrdinalIsFetching ||
+			reOrderIsLoading,
 		rules: getAllRulesData?.rules ?? [],
 		categories,
-		filtersForm: form
+		filtersForm: form,
+		maxOrdinal: getMaxOrdinalData?.maxOrdinal ?? 0
 	};
 };

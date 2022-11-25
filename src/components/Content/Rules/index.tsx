@@ -81,7 +81,8 @@ export const Rules = () => {
 		isFetching,
 		filtersForm,
 		categories,
-		maxOrdinal
+		maxOrdinal,
+		reOrder
 	} = useHandleAllRulesData(paginationState);
 	const forceUpdate = useForceUpdate();
 	const onValueHasChanged = useOnValueHasChanged(
@@ -108,6 +109,7 @@ export const Rules = () => {
 				onPaginationChange={setPaginationState}
 				openDialog={openDialog}
 				maxOrdinal={maxOrdinal}
+				reOrder={reOrder}
 			/>
 			<RuleDetailsDialog
 				selectedRuleId={dialogState.selectedRuleId}

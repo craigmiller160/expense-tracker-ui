@@ -14,7 +14,7 @@ import { formatCurrency } from '../../../utils/formatNumbers';
 import { ReactNode } from 'react';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { useReOrderRule } from '../../../ajaxapi/query/AutoCategorizeRuleQueries';
+import { ReOrderActions } from './useHandleAllRulesData';
 
 const COLUMNS = ['Ordinal', 'Category', 'Rule', 'Actions'];
 
@@ -27,6 +27,7 @@ type Props = {
 	readonly onPaginationChange: Updater<PaginationState>;
 	readonly openDialog: (ruleId?: string) => void;
 	readonly maxOrdinal: number;
+	readonly reOrder: ReOrderActions;
 };
 
 type RuleProps = {
@@ -87,28 +88,6 @@ const createAboveTableActions = (
 	</Button>
 ];
 
-type ReOrderActions = {
-	readonly isLoading: boolean;
-	readonly incrementRuleOrdinal: (rule: AutoCategorizeRuleResponse) => void;
-	readonly decrementRuleOrdinal: (rule: AutoCategorizeRuleResponse) => void;
-};
-const useReOrderActions = (): ReOrderActions => {
-	const { mutate, isLoading } = useReOrderRule();
-	return {
-		isLoading,
-		incrementRuleOrdinal: (rule) =>
-			mutate({
-				ruleId: rule.id,
-				ordinal: rule.ordinal + 1
-			}),
-		decrementRuleOrdinal: (rule) =>
-			mutate({
-				ruleId: rule.id,
-				ordinal: rule.ordinal - 1
-			})
-	};
-};
-
 export const RulesTable = (props: Props) => {
 	const paginationConfig = createTablePagination(
 		props.currentPage,
@@ -116,12 +95,6 @@ export const RulesTable = (props: Props) => {
 		props.totalItems,
 		props.onPaginationChange
 	);
-	// TODO move into parent component hook... maybe?
-	const {
-		incrementRuleOrdinal,
-		decrementRuleOrdinal,
-		isLoading: reOrderIsLoading
-	} = useReOrderActions();
 
 	const aboveTableActions = createAboveTableActions(() => props.openDialog());
 
@@ -129,7 +102,7 @@ export const RulesTable = (props: Props) => {
 		<div className="AutoCategorizeRulesTable">
 			<Table
 				columns={COLUMNS}
-				loading={props.isFetching || reOrderIsLoading}
+				loading={props.isFetching}
 				pagination={paginationConfig}
 				aboveTableActions={aboveTableActions}
 			>
@@ -153,7 +126,9 @@ export const RulesTable = (props: Props) => {
 										<Button
 											className={upClassName}
 											onClick={() =>
-												decrementRuleOrdinal(rule)
+												props.reOrder.decrementRuleOrdinal(
+													rule
+												)
 											}
 										>
 											<ArrowDropUpIcon />
@@ -161,7 +136,9 @@ export const RulesTable = (props: Props) => {
 										<Button
 											className={downClassName}
 											onClick={() =>
-												incrementRuleOrdinal(rule)
+												props.reOrder.incrementRuleOrdinal(
+													rule
+												)
 											}
 										>
 											<ArrowDropDownIcon />

@@ -11,6 +11,7 @@ import {
 import { useGetTransactionDetails } from '../../../ajaxapi/query/TransactionQueries';
 import { CategoryOption } from '../../../types/categories';
 import { itemWithCategoryToCategoryOption } from '../../../utils/categoryUtils';
+import { useGetLastRuleApplied } from '../../../ajaxapi/query/LastAppliedRuleQueries';
 
 export type TransactionDetailsFormData = {
 	readonly confirmed: boolean;
@@ -85,6 +86,8 @@ export const useHandleTransactionDetailsDialogData = (
 	const transactionValues = useValuesFromSelectedTransaction(
 		selectedTransactionId
 	);
+	const { data: lastRuleAppliedData, isFetching: lastRuleAppliedIsFetching } =
+		useGetLastRuleApplied(selectedTransactionId);
 
 	const form = useForm<TransactionDetailsFormData>({
 		mode: 'onChange',

@@ -9,7 +9,8 @@ export const GET_LAST_RULE_APPLIED =
 
 type GetLastRuleAppliedKey = [string, OptionT<string>];
 export const useGetLastRuleApplied = (
-	transactionId: OptionT<string>
+	transactionId: OptionT<string>,
+	isUnconfirmed: boolean
 ): UseQueryResult<LastRuleAppliedResponse, Error> =>
 	useQuery<
 		LastRuleAppliedResponse,
@@ -22,6 +23,6 @@ export const useGetLastRuleApplied = (
 			// OrElse will never be used
 			getLastRuleApplied(Option.getOrElse(() => '')(id)),
 		{
-			enabled: Option.isSome(transactionId)
+			enabled: Option.isSome(transactionId) && isUnconfirmed
 		}
 	);

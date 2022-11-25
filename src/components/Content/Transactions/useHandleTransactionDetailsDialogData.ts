@@ -90,7 +90,10 @@ export const useHandleTransactionDetailsDialogData = (
 		selectedTransactionId
 	);
 	const { data: lastRuleApplied, isFetching: lastRuleAppliedIsFetching } =
-		useGetLastRuleApplied(selectedTransactionId);
+		useGetLastRuleApplied(
+			selectedTransactionId,
+			!transactionValues.confirmed
+		);
 
 	const form = useForm<TransactionDetailsFormData>({
 		mode: 'onChange',

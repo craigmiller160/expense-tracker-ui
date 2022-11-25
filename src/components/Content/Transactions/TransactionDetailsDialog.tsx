@@ -27,6 +27,8 @@ import {
 	OverrideChildWidth,
 	ResponsiveRow
 } from '../../UI/ResponsiveWrappers/ResponsiveRow';
+import { Table } from '../../UI/Table';
+import { RuleTableRow } from '../Rules/common/RuleTableRow';
 
 interface Props {
 	readonly open: boolean;
@@ -93,7 +95,8 @@ export const TransactionDetailsDialog = (props: Props) => {
 	const {
 		transactionValues,
 		isLoading,
-		form: { control, handleSubmit, formState, watch }
+		form: { control, handleSubmit, formState, watch },
+		lastRuleApplied
 	} = useHandleTransactionDetailsDialogData(
 		props.selectedTransactionId,
 		props.open
@@ -198,6 +201,14 @@ export const TransactionDetailsDialog = (props: Props) => {
 							</ResponsiveRow>
 						</div>
 						<hr />
+						{!transactionValues.confirmed && lastRuleApplied && (
+							<>
+								<Table columns={[]}>
+									<RuleTableRow rule={lastRuleApplied!} />
+								</Table>
+								<hr />
+							</>
+						)}
 						<ResponsiveRow className="Controls">
 							{isEditExisting && (
 								<Checkbox

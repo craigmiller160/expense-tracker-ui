@@ -109,13 +109,23 @@ export const RulesTable = (props: Props) => {
 							<RuleCell rule={rule} />
 						</TableCell>
 						<TableCell>
-							<Button
-								className="RuleDetailsButton"
-								variant="contained"
-								onClick={() => props.openDialog(rule.id)}
-							>
-								Details
-							</Button>
+							<div className="ActionsCell">
+								<div className="ReOrderButtons">
+									<Button>Up</Button>
+									<Button>Down</Button>
+								</div>
+								<div className="DetailsButton">
+									<Button
+										className="RuleDetailsButton"
+										variant="contained"
+										onClick={() =>
+											props.openDialog(rule.id)
+										}
+									>
+										Details
+									</Button>
+								</div>
+							</div>
 						</TableCell>
 					</TableRow>
 				))}

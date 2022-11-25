@@ -71,7 +71,7 @@ export const RuleTableRow = (props: Props) => {
 			: 'DownButton';
 
 	return (
-		<TableRow>
+		<TableRow className="AutoCategorizeRuleTableRow">
 			<TableCell>{props.rule.ordinal}</TableCell>
 			<TableCell>{props.rule.categoryName}</TableCell>
 			<TableCell>

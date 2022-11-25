@@ -119,6 +119,9 @@ describe('Rules Table', () => {
 	});
 
 	it('move a rule up one', () => {
+		rulesApi.getAllRules();
+		rulesApi.getMaxOrdinal();
+		categoriesApi.getAllCategories();
 		throw new Error();
 	});
 

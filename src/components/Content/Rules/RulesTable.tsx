@@ -116,6 +116,7 @@ export const RulesTable = (props: Props) => {
 		props.totalItems,
 		props.onPaginationChange
 	);
+	// TODO move into parent component hook... maybe?
 	const {
 		incrementRuleOrdinal,
 		decrementRuleOrdinal,

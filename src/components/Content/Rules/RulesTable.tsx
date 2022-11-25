@@ -12,6 +12,8 @@ import * as Option from 'fp-ts/es6/Option';
 import { serverDateToDisplayDate } from '../../../utils/dateTimeUtils';
 import { formatCurrency } from '../../../utils/formatNumbers';
 import { ReactNode } from 'react';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 const COLUMNS = ['Ordinal', 'Category', 'Rule', 'Actions'];
 
@@ -111,8 +113,12 @@ export const RulesTable = (props: Props) => {
 						<TableCell>
 							<div className="ActionsCell">
 								<div className="ReOrderButtons">
-									<Button>Up</Button>
-									<Button>Down</Button>
+									<Button>
+										<ArrowDropUpIcon />
+									</Button>
+									<Button>
+										<ArrowDropDownIcon />
+									</Button>
 								</div>
 								<div className="DetailsButton">
 									<Button

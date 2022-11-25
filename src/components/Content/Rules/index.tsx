@@ -80,7 +80,8 @@ export const Rules = () => {
 		rules,
 		isFetching,
 		filtersForm,
-		categories
+		categories,
+		maxOrdinal
 	} = useHandleAllRulesData(paginationState);
 	const forceUpdate = useForceUpdate();
 	const onValueHasChanged = useOnValueHasChanged(
@@ -106,6 +107,7 @@ export const Rules = () => {
 				pageSize={paginationState.pageSize}
 				onPaginationChange={setPaginationState}
 				openDialog={openDialog}
+				maxOrdinal={maxOrdinal}
 			/>
 			<RuleDetailsDialog
 				selectedRuleId={dialogState.selectedRuleId}

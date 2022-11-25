@@ -25,6 +25,7 @@ type Props = {
 	readonly isFetching: boolean;
 	readonly onPaginationChange: Updater<PaginationState>;
 	readonly openDialog: (ruleId?: string) => void;
+	readonly maxOrdinal: number;
 };
 
 type RuleProps = {

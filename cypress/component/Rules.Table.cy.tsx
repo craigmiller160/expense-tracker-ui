@@ -22,6 +22,11 @@ const formatAmount = (value?: number): string =>
 		Option.getOrElse(() => 'Any')
 	);
 
+type ExpectedOrderButtons = {
+	readonly up: boolean;
+	readonly down: boolean;
+};
+
 const validateRuleRow = (row: JQuery, index: number) => {
 	rulesListPage
 		.getOrdinalCell(cy.wrap(row))
@@ -54,6 +59,40 @@ const validateRuleRow = (row: JQuery, index: number) => {
 			expect($li.text()).eq(expectedText);
 		});
 	rulesListPage.getDetailsButton(cy.wrap(row)).should('have.text', 'Details');
+
+	const expectedOrderButtons = match(index)
+		.with(
+			0,
+			(): ExpectedOrderButtons => ({
+				up: false,
+				down: true
+			})
+		)
+		.with(
+			3,
+			(): ExpectedOrderButtons => ({
+				up: true,
+				down: false
+			})
+		)
+		.otherwise(
+			(): ExpectedOrderButtons => ({
+				up: true,
+				down: true
+			})
+		);
+
+	if (expectedOrderButtons.up) {
+		rulesListPage.getUpButton(cy.wrap(row)).should('be.visible');
+	} else {
+		rulesListPage.getUpButton(cy.wrap(row)).should('not.be.visible');
+	}
+
+	if (expectedOrderButtons.down) {
+		rulesListPage.getDownButton(cy.wrap(row)).should('be.visible');
+	} else {
+		rulesListPage.getDownButton(cy.wrap(row)).should('not.be.visible');
+	}
 };
 
 describe('Rules Table', () => {
@@ -76,10 +115,6 @@ describe('Rules Table', () => {
 			.each(($row, index) => validateRuleRow($row, index));
 
 		rulesListPage.getAddRuleButton().should('have.text', 'Add Rule');
-
-		throw new Error(
-			'First rule should have no up button, last rule should have no down button'
-		);
 	});
 
 	it('move a rule up one', () => {

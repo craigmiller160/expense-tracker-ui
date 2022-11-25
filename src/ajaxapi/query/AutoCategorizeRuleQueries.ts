@@ -19,6 +19,7 @@ import {
 	getAllRules,
 	getMaxOrdinal,
 	getRule,
+	reOrderRule,
 	updateRule
 } from '../service/AutoCategorizeRuleService';
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
@@ -114,6 +115,24 @@ export const useDeleteRule = (): UseMutationResult<
 	const queryClient = useQueryClient();
 	return useMutation<void, Error, DeleteRuleParams>(
 		({ ruleId }) => deleteRule(ruleId),
+		{
+			onSuccess: () => invalidateRuleQueries(queryClient)
+		}
+	);
+};
+
+export type ReOrderRuleParams = {
+	readonly ruleId: string;
+	readonly ordinal: number;
+};
+export const useReOrderRule = (): UseMutationResult<
+	void,
+	Error,
+	ReOrderRuleParams
+> => {
+	const queryClient = useQueryClient();
+	return useMutation<void, Error, ReOrderRuleParams>(
+		({ ruleId, ordinal }) => reOrderRule(ruleId, ordinal),
 		{
 			onSuccess: () => invalidateRuleQueries(queryClient)
 		}

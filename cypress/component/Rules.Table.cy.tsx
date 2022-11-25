@@ -76,5 +76,17 @@ describe('Rules Table', () => {
 			.each(($row, index) => validateRuleRow($row, index));
 
 		rulesListPage.getAddRuleButton().should('have.text', 'Add Rule');
+
+		throw new Error(
+			'First rule should have no up button, last rule should have no down button'
+		);
+	});
+
+	it('move a rule up one', () => {
+		throw new Error();
+	});
+
+	it('move a rule down one', () => {
+		throw new Error();
 	});
 });

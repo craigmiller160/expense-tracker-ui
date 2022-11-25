@@ -7,6 +7,12 @@
 .TransactionDetailsDialog {
   width: 100%;
 
+  .DetailsSpinner {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
   hr {
     border-color: cyan;
   }

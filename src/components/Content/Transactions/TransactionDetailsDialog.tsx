@@ -21,7 +21,6 @@ import {
 import { PossibleRefundIcon } from './icons/PossibleRefundIcon';
 import * as Option from 'fp-ts/es6/Option';
 import { TransactionDetailsDuplicatePanel } from './TransactionDetailsDuplicatePanel';
-import { Spinner } from '../../UI/Spinner';
 import { useCategoriesToCategoryOptions } from '../../../utils/categoryUtils';
 import { formatAmountValue } from '../../../utils/amountUtils';
 import {
@@ -93,6 +92,7 @@ const useGetCategoryComponent = (
 export const TransactionDetailsDialog = (props: Props) => {
 	const {
 		transactionValues,
+		isLoading,
 		form: { control, handleSubmit, formState, watch }
 	} = useHandleTransactionDetailsDialogData(
 		props.selectedTransactionId,
@@ -133,8 +133,12 @@ export const TransactionDetailsDialog = (props: Props) => {
 			data-testid="transaction-details-dialog"
 		>
 			<div className="TransactionDetailsDialog">
-				{transactionValues.isLoading && <Spinner />}
-				{!transactionValues.isLoading && (
+				{isLoading && (
+					<div className="DetailsSpinner">
+						<CircularProgress />
+					</div>
+				)}
+				{!isLoading && (
 					<>
 						<div className="Flags">
 							<DuplicateIcon transaction={transactionValues} />
@@ -228,14 +232,16 @@ export const TransactionDetailsDialog = (props: Props) => {
 						)}
 					</>
 				)}
-				<hr />
 				{transactionValues.id !== '' && transactionValues.duplicate && (
-					<TransactionDetailsDuplicatePanel
-						transactionId={transactionValues.id}
-						updateSelectedTransactionId={
-							props.updateSelectedTransactionId
-						}
-					/>
+					<>
+						<hr />
+						<TransactionDetailsDuplicatePanel
+							transactionId={transactionValues.id}
+							updateSelectedTransactionId={
+								props.updateSelectedTransactionId
+							}
+						/>
+					</>
 				)}
 			</div>
 		</SideDialog>

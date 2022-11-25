@@ -17,7 +17,8 @@ import {
 } from '../../../ajaxapi/query/AutoCategorizeRuleQueries';
 import {
 	AutoCategorizeRuleRequest,
-	AutoCategorizeRuleResponse
+	AutoCategorizeRuleResponse,
+	LastRuleAppliedResponse
 } from '../../../types/generated/expense-tracker';
 import { pipe } from 'fp-ts/es6/function';
 import * as Option from 'fp-ts/es6/Option';
@@ -35,6 +36,7 @@ import {
 import { UseMutateAsyncFunction } from 'react-query';
 import { ConfirmDialogContext } from '../../UI/ConfirmDialog/ConfirmDialogProvider';
 import * as Task from 'fp-ts/es6/Task';
+import { useGetLastRuleApplied } from '../../../ajaxapi/query/LastAppliedRuleQueries';
 
 const parseRequestDate = (date: Date | null): string | undefined =>
 	pipe(
@@ -83,6 +85,7 @@ type Data = {
 	readonly ordinalOptions: ReadonlyArray<OrdinalOption>;
 	readonly saveRule: (values: RuleFormData) => void;
 	readonly deleteRule: () => void;
+	readonly lastRuleApplied?: LastRuleAppliedResponse;
 };
 
 const parseRuleDate = (dateString?: string): Date | null =>
@@ -186,6 +189,7 @@ export const useHandleRuleDialogData = (props: Props): Data => {
 	const { data: ruleData, isFetching: ruleIsFetching } = useGetRule(
 		props.selectedRuleId
 	);
+	useGetLastRuleApplied(props.selectedRuleId);
 	const form = useForm<RuleFormData>({
 		mode: 'onChange',
 		reValidateMode: 'onChange'

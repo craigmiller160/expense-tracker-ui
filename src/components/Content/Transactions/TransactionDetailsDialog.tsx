@@ -204,7 +204,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 						{!transactionValues.confirmed && lastRuleApplied && (
 							<>
 								<Table columns={[]}>
-									<RuleTableRow rule={lastRuleApplied!} />
+									<RuleTableRow rule={lastRuleApplied} />
 								</Table>
 								<hr />
 							</>

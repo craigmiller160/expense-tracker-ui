@@ -69,7 +69,7 @@ const validateRuleRow = (row: JQuery, index: number) => {
 			})
 		)
 		.with(
-			3,
+			allRules.rules.length - 1,
 			(): ExpectedOrderButtons => ({
 				up: true,
 				down: false

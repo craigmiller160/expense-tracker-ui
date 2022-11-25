@@ -88,12 +88,14 @@ const createAboveTableActions = (
 ];
 
 type ReOrderActions = {
+	readonly isLoading: boolean;
 	readonly incrementRuleOrdinal: (rule: AutoCategorizeRuleResponse) => void;
 	readonly decrementRuleOrdinal: (rule: AutoCategorizeRuleResponse) => void;
 };
 const useReOrderActions = (): ReOrderActions => {
-	const { mutate } = useReOrderRule();
+	const { mutate, isLoading } = useReOrderRule();
 	return {
+		isLoading,
 		incrementRuleOrdinal: (rule) =>
 			mutate({
 				ruleId: rule.id,
@@ -114,7 +116,11 @@ export const RulesTable = (props: Props) => {
 		props.totalItems,
 		props.onPaginationChange
 	);
-	const { incrementRuleOrdinal, decrementRuleOrdinal } = useReOrderActions();
+	const {
+		incrementRuleOrdinal,
+		decrementRuleOrdinal,
+		isLoading: reOrderIsLoading
+	} = useReOrderActions();
 
 	const aboveTableActions = createAboveTableActions(() => props.openDialog());
 
@@ -122,7 +128,7 @@ export const RulesTable = (props: Props) => {
 		<div className="AutoCategorizeRulesTable">
 			<Table
 				columns={COLUMNS}
-				loading={props.isFetching}
+				loading={props.isFetching || reOrderIsLoading}
 				pagination={paginationConfig}
 				aboveTableActions={aboveTableActions}
 			>

@@ -43,6 +43,17 @@ const getMaxOrdinal = (): Chainable<null> =>
 		fixture: 'maxOrdinal.json'
 	});
 
+const reOrderRule = (id: string, ordinal: number): Chainable<null> =>
+	cy
+		.intercept(
+			'put',
+			`/expense-tracker/api/categories/rules/${id}/reOrder/${ordinal}`,
+			{
+				statusCode: 204
+			}
+		)
+		.as(`reOrderRule_${id}_${ordinal}`);
+
 export const rulesApi = {
 	getAllRules,
 	getRule_minimum,
@@ -50,5 +61,6 @@ export const rulesApi = {
 	createRule,
 	updateRule,
 	deleteRule,
-	getMaxOrdinal
+	getMaxOrdinal,
+	reOrderRule
 };

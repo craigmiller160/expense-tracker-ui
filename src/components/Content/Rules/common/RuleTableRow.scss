@@ -1,0 +1,23 @@
+.AutoCategorizeRuleTableRow {
+  .ActionsCell {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+
+    .ReOrderButtons {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      .invisible {
+        visibility: hidden;
+      }
+    }
+
+    .DetailsButton {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+}

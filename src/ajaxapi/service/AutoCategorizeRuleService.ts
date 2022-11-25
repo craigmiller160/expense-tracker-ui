@@ -66,3 +66,11 @@ export const deleteRule = (ruleId: string): Promise<void> =>
 			errorCustomizer: 'Error deleting rule'
 		})
 		.then(getData);
+
+export const reOrderRule = (ruleId: string, ordinal: number): Promise<void> =>
+	expenseTrackerApi
+		.put<void, void>({
+			uri: `/categories/rules/${ruleId}/reOrder/${ordinal}`,
+			errorCustomizer: 'Error re-ordering rule'
+		})
+		.then(getData);

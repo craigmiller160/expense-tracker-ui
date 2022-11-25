@@ -14,6 +14,7 @@ import { formatCurrency } from '../../../utils/formatNumbers';
 import { ReactNode } from 'react';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { useReOrderRule } from '../../../ajaxapi/query/AutoCategorizeRuleQueries';
 
 const COLUMNS = ['Ordinal', 'Category', 'Rule', 'Actions'];
 
@@ -86,6 +87,26 @@ const createAboveTableActions = (
 	</Button>
 ];
 
+type ReOrderActions = {
+	readonly incrementRuleOrdinal: (rule: AutoCategorizeRuleResponse) => void;
+	readonly decrementRuleOrdinal: (rule: AutoCategorizeRuleResponse) => void;
+};
+const useReOrderActions = (): ReOrderActions => {
+	const { mutate } = useReOrderRule();
+	return {
+		incrementRuleOrdinal: (rule) =>
+			mutate({
+				ruleId: rule.id,
+				ordinal: rule.ordinal + 1
+			}),
+		decrementRuleOrdinal: (rule) =>
+			mutate({
+				ruleId: rule.id,
+				ordinal: rule.ordinal - 1
+			})
+	};
+};
+
 export const RulesTable = (props: Props) => {
 	const paginationConfig = createTablePagination(
 		props.currentPage,
@@ -93,6 +114,7 @@ export const RulesTable = (props: Props) => {
 		props.totalItems,
 		props.onPaginationChange
 	);
+	const { incrementRuleOrdinal, decrementRuleOrdinal } = useReOrderActions();
 
 	const aboveTableActions = createAboveTableActions(() => props.openDialog());
 
@@ -118,10 +140,20 @@ export const RulesTable = (props: Props) => {
 							<TableCell>
 								<div className="ActionsCell">
 									<div className="ReOrderButtons">
-										<Button className={upClassName}>
+										<Button
+											className={upClassName}
+											onClick={() =>
+												decrementRuleOrdinal(rule)
+											}
+										>
 											<ArrowDropUpIcon />
 										</Button>
-										<Button className={downClassName}>
+										<Button
+											className={downClassName}
+											onClick={() =>
+												incrementRuleOrdinal(rule)
+											}
+										>
 											<ArrowDropDownIcon />
 										</Button>
 									</div>

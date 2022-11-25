@@ -119,10 +119,22 @@ describe('Rules Table', () => {
 	});
 
 	it('move a rule up one', () => {
+		const rule2 = allRules.rules[1];
 		rulesApi.getAllRules();
 		rulesApi.getMaxOrdinal();
+		rulesApi.reOrderRule(rule2.id, rule2.ordinal - 1);
 		categoriesApi.getAllCategories();
-		throw new Error();
+
+		mountApp({
+			initialRoute: '/expense-tracker/rules'
+		});
+
+		const row = rulesListPage
+			.getRuleRows()
+			.should('have.length', allRules.rules.length)
+			.eq(1);
+		rulesListPage.getUpButton(row).click();
+		cy.wait(`@reOrderRule_${rule2.id}_${rule2.ordinal - 1}`);
 	});
 
 	it('move a rule down one', () => {

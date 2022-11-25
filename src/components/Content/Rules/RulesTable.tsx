@@ -105,8 +105,9 @@ export const RulesTable = (props: Props) => {
 				aboveTableActions={aboveTableActions}
 			>
 				{props.rules.map((rule) => {
-					const upClassName = '';
-					const downClassName = '';
+					const upClassName = rule.ordinal === 1 ? 'invisible' : '';
+					const downClassName =
+						rule.ordinal === props.maxOrdinal ? 'invisible' : '';
 					return (
 						<TableRow key={rule.id}>
 							<TableCell>{rule.ordinal}</TableCell>

@@ -21,6 +21,10 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+
+      .invisible {
+        visibility: hidden;
+      }
     }
 
     .DetailsButton {

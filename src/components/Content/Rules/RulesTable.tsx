@@ -103,38 +103,42 @@ export const RulesTable = (props: Props) => {
 				pagination={paginationConfig}
 				aboveTableActions={aboveTableActions}
 			>
-				{props.rules.map((rule) => (
-					<TableRow key={rule.id}>
-						<TableCell>{rule.ordinal}</TableCell>
-						<TableCell>{rule.categoryName}</TableCell>
-						<TableCell>
-							<RuleCell rule={rule} />
-						</TableCell>
-						<TableCell>
-							<div className="ActionsCell">
-								<div className="ReOrderButtons">
-									<Button>
-										<ArrowDropUpIcon />
-									</Button>
-									<Button>
-										<ArrowDropDownIcon />
-									</Button>
+				{props.rules.map((rule) => {
+					const upClassName = '';
+					const downClassName = '';
+					return (
+						<TableRow key={rule.id}>
+							<TableCell>{rule.ordinal}</TableCell>
+							<TableCell>{rule.categoryName}</TableCell>
+							<TableCell>
+								<RuleCell rule={rule} />
+							</TableCell>
+							<TableCell>
+								<div className="ActionsCell">
+									<div className="ReOrderButtons">
+										<Button className={upClassName}>
+											<ArrowDropUpIcon />
+										</Button>
+										<Button className={downClassName}>
+											<ArrowDropDownIcon />
+										</Button>
+									</div>
+									<div className="DetailsButton">
+										<Button
+											className="RuleDetailsButton"
+											variant="contained"
+											onClick={() =>
+												props.openDialog(rule.id)
+											}
+										>
+											Details
+										</Button>
+									</div>
 								</div>
-								<div className="DetailsButton">
-									<Button
-										className="RuleDetailsButton"
-										variant="contained"
-										onClick={() =>
-											props.openDialog(rule.id)
-										}
-									>
-										Details
-									</Button>
-								</div>
-							</div>
-						</TableCell>
-					</TableRow>
-				))}
+							</TableCell>
+						</TableRow>
+					);
+				})}
 			</Table>
 		</div>
 	);

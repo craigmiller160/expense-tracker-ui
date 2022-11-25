@@ -12,6 +12,7 @@ import { useGetTransactionDetails } from '../../../ajaxapi/query/TransactionQuer
 import { CategoryOption } from '../../../types/categories';
 import { itemWithCategoryToCategoryOption } from '../../../utils/categoryUtils';
 import { useGetLastRuleApplied } from '../../../ajaxapi/query/LastAppliedRuleQueries';
+import { LastRuleAppliedResponse } from '../../../types/generated/expense-tracker';
 
 export type TransactionDetailsFormData = {
 	readonly confirmed: boolean;
@@ -35,8 +36,10 @@ export type TransactionValues = {
 };
 
 export type TransactionDetailsDialogData = {
-	readonly transactionValues: TransactionValues;
+	readonly transactionValues: Omit<TransactionValues, 'isLoading'>;
+	readonly lastRuleApplied?: LastRuleAppliedResponse;
 	readonly form: UseFormReturn<TransactionDetailsFormData>;
+	readonly isLoading: boolean;
 };
 
 const DEFAULT_TXN_VALUES: TransactionValues = {
@@ -86,7 +89,7 @@ export const useHandleTransactionDetailsDialogData = (
 	const transactionValues = useValuesFromSelectedTransaction(
 		selectedTransactionId
 	);
-	const { data: lastRuleAppliedData, isFetching: lastRuleAppliedIsFetching } =
+	const { data: lastRuleApplied, isFetching: lastRuleAppliedIsFetching } =
 		useGetLastRuleApplied(selectedTransactionId);
 
 	const form = useForm<TransactionDetailsFormData>({
@@ -108,6 +111,8 @@ export const useHandleTransactionDetailsDialogData = (
 
 	return {
 		transactionValues,
-		form
+		form,
+		isLoading: transactionValues.isLoading || lastRuleAppliedIsFetching,
+		lastRuleApplied
 	};
 };

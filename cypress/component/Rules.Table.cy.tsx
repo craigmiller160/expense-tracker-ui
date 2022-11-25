@@ -98,6 +98,7 @@ const validateRuleRow = (row: JQuery, index: number) => {
 describe('Rules Table', () => {
 	it('shows the existing rules in the table', () => {
 		rulesApi.getAllRules();
+		rulesApi.getMaxOrdinal();
 		categoriesApi.getAllCategories();
 		mountApp({
 			initialRoute: '/expense-tracker/rules'

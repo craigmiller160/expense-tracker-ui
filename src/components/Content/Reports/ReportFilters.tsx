@@ -26,6 +26,7 @@ export const ReportFilters = (props: Props) => {
 			<form onSubmit={constVoid}>
 				<ResponsiveRow>
 					<Autocomplete
+						multiple
 						options={categories ?? []}
 						control={control}
 						name="excludedCategories"

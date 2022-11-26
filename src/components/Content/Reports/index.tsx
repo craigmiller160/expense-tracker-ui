@@ -9,7 +9,7 @@ import { useGetReportData } from './useGetReportData';
 export const Reports = () => {
 	const {
 		form,
-		data: { isFetching, report },
+		data: { isFetching, report, categories },
 		pagination: { state, setState },
 		onValueHasChanged
 	} = useGetReportData();
@@ -19,6 +19,7 @@ export const Reports = () => {
 			{!isFetching && (
 				<ReportFilters
 					form={form}
+					categories={categories}
 					onValueHasChanged={onValueHasChanged}
 				/>
 			)}

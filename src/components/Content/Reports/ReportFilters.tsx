@@ -3,6 +3,7 @@ import { CategoryOption } from '../../../types/categories';
 import { Paper } from '@mui/material';
 import { constVoid } from 'fp-ts/es6/function';
 import {ValueHasChanged} from '@craigmiller160/react-hook-form-material-ui';
+import './ReportFilters.scss';
 
 export type ReportFilterFormData = {
 	readonly excludedCategories: ReadonlyArray<CategoryOption>;
@@ -13,11 +14,11 @@ type Props = {
 	readonly onValueHasChanged: ValueHasChanged;
 };
 
-export const ReportsFilters = (props: Props) => {
+export const ReportFilters = (props: Props) => {
 	return (
-		<Paper className="ReportsFilters">
+		<Paper className="ReportFilters">
 			<form onSubmit={constVoid}>
-				<div />
+				<p>Hello</p>
 			</form>
 		</Paper>
 	);

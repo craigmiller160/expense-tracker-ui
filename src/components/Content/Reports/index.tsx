@@ -6,7 +6,7 @@ import { NeedsAttentionNotice } from '../Transactions/NeedsAttentionNotice';
 import { useGetSpendingByMonthAndCategory } from '../../../ajaxapi/query/ReportQueries';
 import { useImmer } from 'use-immer';
 import { PaginationState } from '../../../utils/pagination';
-import { ReportFilterFormData, ReportsFilters } from './ReportsFilters';
+import { ReportFilterFormData, ReportFilters } from './ReportFilters';
 import { useForm } from 'react-hook-form';
 
 export const Reports = () => {
@@ -23,7 +23,7 @@ export const Reports = () => {
 	return (
 		<PageResponsiveWrapper className="Reports">
 			<PageTitle title="Reports" />
-			<ReportsFilters form={form} onValueHasChanged={() => null} />
+			<ReportFilters form={form} onValueHasChanged={() => null} />
 			<NeedsAttentionNotice />
 			<ReportTable
 				isFetching={isFetching}

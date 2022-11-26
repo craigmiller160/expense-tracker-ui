@@ -31,6 +31,7 @@ export const ReportFilters = (props: Props) => {
 						control={control}
 						name="excludedCategories"
 						label="Excluded Categories"
+						onValueHasChanged={props.onValueHasChanged}
 					/>
 				</ResponsiveRow>
 			</form>

@@ -46,7 +46,11 @@ export const useGetReportData = (): ReportData => {
 		pageNumber: 0,
 		pageSize: 10
 	});
-	const form = useForm<ReportFilterFormData>();
+	const form = useForm<ReportFilterFormData>({
+		defaultValues: {
+			excludedCategories: []
+		}
+	});
 
 	const { isFetching: getReportIsFetching, data: reportData } =
 		useGetSpendingByMonthAndCategory({

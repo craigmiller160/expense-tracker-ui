@@ -16,7 +16,12 @@ export const Reports = () => {
 	return (
 		<PageResponsiveWrapper className="Reports">
 			<PageTitle title="Reports" />
-			<ReportFilters form={form} onValueHasChanged={onValueHasChanged} />
+			{!isFetching && (
+				<ReportFilters
+					form={form}
+					onValueHasChanged={onValueHasChanged}
+				/>
+			)}
 			<NeedsAttentionNotice />
 			<ReportTable
 				isFetching={isFetching}

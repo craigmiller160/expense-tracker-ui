@@ -8,7 +8,9 @@ import qs from 'qs';
 export const getSpendingByMonthAndCategory = (
 	request: ReportRequest
 ): Promise<ReportPageResponse> => {
-	const query = qs.stringify(request);
+	const query = qs.stringify(request, {
+		arrayFormat: 'comma'
+	});
 	return expenseTrackerApi
 		.get<ReportPageResponse>({
 			uri: `/reports?${query}`,

@@ -1,0 +1,13 @@
+{
+  "id": "4543244a-3e98-40fa-acec-9151394b85b6",
+  "ruleId": "bad84224-2701-4f2b-a090-ec98e87bd993",
+  "transactionId": "eb4d7428-792f-492d-963e-9033a875d46e",
+  "categoryId": "be99f0b5-2b23-423a-931d-3bb2421fadd0",
+  "categoryName": "Groceries",
+  "ordinal": 5,
+  "regex": ".*TARGET.*",
+  "startDate": null,
+  "endDate": null,
+  "minAmount": null,
+  "maxAmount": null
+}

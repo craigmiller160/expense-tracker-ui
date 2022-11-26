@@ -5,6 +5,7 @@ import { reportRootTableHeaders, reports } from './testutils/constants/reports';
 import * as RNonEmptyArray from 'fp-ts/es6/ReadonlyNonEmptyArray';
 import { pipe } from 'fp-ts/es6/function';
 import { formatCurrency, formatPercent } from '../../src/utils/formatNumbers';
+import { categoriesApi } from './testutils/apis/categories';
 
 const validateRootTableHeaders = () => {
 	reportsPage
@@ -52,6 +53,7 @@ const validateReport = (reportRowIndex: number) => {
 describe('Reports', () => {
 	it('shows month-by-month report', () => {
 		reportsApi.getSpendingByMonthAndCategory();
+		categoriesApi.getAllCategories();
 		mountApp({
 			initialRoute: '/expense-tracker/reports'
 		});

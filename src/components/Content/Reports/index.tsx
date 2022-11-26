@@ -30,12 +30,14 @@ export const Reports = () => {
 		pageNumber: 0,
 		pageSize: 10
 	});
+	const form = useForm<ReportFilterFormData>();
 	const { isFetching, data } = useGetSpendingByMonthAndCategory({
 		pageNumber: state.pageNumber,
 		pageSize: state.pageSize,
-		excludeCategoryIds: []
+		excludeCategoryIds: form
+			.getValues()
+			.excludedCategories.map((cat) => cat.value)
 	});
-	const form = useForm<ReportFilterFormData>();
 	const forceUpdate = useForceUpdate();
 	const onValueHasChanged = createOnValueHasChanged(
 		form.handleSubmit,

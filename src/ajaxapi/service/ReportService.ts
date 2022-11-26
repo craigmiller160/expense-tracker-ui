@@ -1,13 +1,18 @@
-import { ReportPageResponse } from '../../types/generated/expense-tracker';
+import {
+	ReportPageResponse,
+	ReportRequest
+} from '../../types/generated/expense-tracker';
 import { expenseTrackerApi, getData } from './AjaxApi';
+import qs from 'qs';
 
 export const getSpendingByMonthAndCategory = (
-	pageNumber: number,
-	pageSize: number
-): Promise<ReportPageResponse> =>
-	expenseTrackerApi
+	request: ReportRequest
+): Promise<ReportPageResponse> => {
+	const query = qs.stringify(request);
+	return expenseTrackerApi
 		.get<ReportPageResponse>({
-			uri: `/reports?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+			uri: `/reports?${query}`,
 			errorCustomizer: 'Error getting spending by month and category'
 		})
 		.then(getData);
+};

@@ -6,6 +6,8 @@ import { NeedsAttentionNotice } from '../Transactions/NeedsAttentionNotice';
 import { useGetSpendingByMonthAndCategory } from '../../../ajaxapi/query/ReportQueries';
 import { useImmer } from 'use-immer';
 import { PaginationState } from '../../../utils/pagination';
+import { ReportFilterFormData, ReportsFilters } from './ReportsFilters';
+import { useForm } from 'react-hook-form';
 
 export const Reports = () => {
 	const [state, setState] = useImmer<PaginationState>({
@@ -17,9 +19,11 @@ export const Reports = () => {
 		pageSize: state.pageSize,
 		excludeCategoryIds: []
 	});
+	const form = useForm<ReportFilterFormData>();
 	return (
 		<PageResponsiveWrapper className="Reports">
 			<PageTitle title="Reports" />
+			<ReportsFilters form={form} onValueHasChanged={() => null} />
 			<NeedsAttentionNotice />
 			<ReportTable
 				isFetching={isFetching}

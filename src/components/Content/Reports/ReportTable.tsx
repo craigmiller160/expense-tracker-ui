@@ -18,10 +18,11 @@ export const ReportTable = () => {
 		pageNumber: 0,
 		pageSize: 10
 	});
-	const { isFetching, data } = useGetSpendingByMonthAndCategory(
-		state.pageNumber,
-		state.pageSize
-	);
+	const { isFetching, data } = useGetSpendingByMonthAndCategory({
+		pageNumber: state.pageNumber,
+		pageSize: state.pageSize,
+		excludeCategoryIds: []
+	});
 
 	const pagination = createTablePagination(
 		state.pageNumber,

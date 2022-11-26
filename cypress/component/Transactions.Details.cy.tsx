@@ -601,6 +601,22 @@ describe('Transaction Details Dialog', () => {
 	});
 
 	it('does not check for last applied rule for confirmed transaction', () => {
-		throw new Error();
+		const transactionId = allTransactions.transactions[0].id;
+		categoriesApi.getAllCategories();
+		needsAttentionApi.getNeedsAttention_all();
+		transactionsApi.searchForTransactions();
+		transactionsApi.createTransaction();
+		transactionsApi.getTransactionDetails_confirmedAndCategorized(
+			transactionId
+		);
+		transactionsApi.markNotDuplicate(transactionId);
+		mountApp({
+			initialRoute: '/expense-tracker/transactions'
+		});
+
+		transactionsListPage.getDetailsButtons().eq(0).click();
+
+		transactionDetailsPage.getAmountInput().should('be.visible');
+		transactionDetailsPage.getLastRuleAppliedTitle().should('.not.exist');
 	});
 });

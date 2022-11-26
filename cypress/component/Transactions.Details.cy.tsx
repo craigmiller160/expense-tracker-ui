@@ -618,6 +618,20 @@ describe('Transaction Details Dialog', () => {
 	});
 
 	it('does not show last applied rule for unconfirmed transaction if there is none', () => {
-		throw new Error();
+		const transactionId = allTransactions.transactions[0].id;
+		categoriesApi.getAllCategories();
+		needsAttentionApi.getNeedsAttention_all();
+		transactionsApi.searchForTransactions();
+		transactionsApi.createTransaction();
+		transactionsApi.getTransactionDetails(transactionId);
+		lastAppliedApi.getLastRuleApplied_noRule(transactionId);
+		mountApp({
+			initialRoute: '/expense-tracker/transactions'
+		});
+
+		transactionsListPage.getDetailsButtons().eq(0).click();
+
+		transactionDetailsPage.getAmountInput().should('be.visible');
+		transactionDetailsPage.getLastRuleAppliedTitle().should('not.exist');
 	});
 });

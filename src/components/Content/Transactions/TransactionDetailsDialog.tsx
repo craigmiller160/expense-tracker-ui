@@ -1,6 +1,6 @@
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
 import { SideDialog } from '../../UI/SideDialog';
-import { Button, CircularProgress } from '@mui/material';
+import { Button, CircularProgress, Typography } from '@mui/material';
 import './TransactionDetailsDialog.scss';
 import { Control } from 'react-hook-form';
 import { DuplicateIcon } from './icons/DuplicateIcon';
@@ -21,13 +21,14 @@ import {
 import { PossibleRefundIcon } from './icons/PossibleRefundIcon';
 import * as Option from 'fp-ts/es6/Option';
 import { TransactionDetailsDuplicatePanel } from './TransactionDetailsDuplicatePanel';
-import { Spinner } from '../../UI/Spinner';
 import { useCategoriesToCategoryOptions } from '../../../utils/categoryUtils';
 import { formatAmountValue } from '../../../utils/amountUtils';
 import {
 	OverrideChildWidth,
 	ResponsiveRow
 } from '../../UI/ResponsiveWrappers/ResponsiveRow';
+import { Table } from '../../UI/Table';
+import { RuleTableRow } from '../Rules/common/RuleTableRow';
 
 interface Props {
 	readonly open: boolean;
@@ -90,10 +91,14 @@ const useGetCategoryComponent = (
 	);
 };
 
+const LAST_RULE_COLUMNS = ['Ordinal', 'Category', 'Rule'];
+
 export const TransactionDetailsDialog = (props: Props) => {
 	const {
 		transactionValues,
-		form: { control, handleSubmit, formState, watch }
+		isLoading,
+		form: { control, handleSubmit, formState, watch },
+		lastRuleApplied
 	} = useHandleTransactionDetailsDialogData(
 		props.selectedTransactionId,
 		props.open
@@ -133,8 +138,12 @@ export const TransactionDetailsDialog = (props: Props) => {
 			data-testid="transaction-details-dialog"
 		>
 			<div className="TransactionDetailsDialog">
-				{transactionValues.isLoading && <Spinner />}
-				{!transactionValues.isLoading && (
+				{isLoading && (
+					<div className="DetailsSpinner">
+						<CircularProgress />
+					</div>
+				)}
+				{!isLoading && (
 					<>
 						<div className="Flags">
 							<DuplicateIcon transaction={transactionValues} />
@@ -194,6 +203,22 @@ export const TransactionDetailsDialog = (props: Props) => {
 							</ResponsiveRow>
 						</div>
 						<hr />
+						{!transactionValues.confirmed && lastRuleApplied && (
+							<>
+								<div className="LastRuleApplied">
+									<Typography variant="h6">
+										Auto-Categorize Rule Applied
+									</Typography>
+									<Table
+										className="LastRuleAppliedTable"
+										columns={LAST_RULE_COLUMNS}
+									>
+										<RuleTableRow rule={lastRuleApplied} />
+									</Table>
+								</div>
+								<hr />
+							</>
+						)}
 						<ResponsiveRow className="Controls">
 							{isEditExisting && (
 								<Checkbox
@@ -228,14 +253,16 @@ export const TransactionDetailsDialog = (props: Props) => {
 						)}
 					</>
 				)}
-				<hr />
 				{transactionValues.id !== '' && transactionValues.duplicate && (
-					<TransactionDetailsDuplicatePanel
-						transactionId={transactionValues.id}
-						updateSelectedTransactionId={
-							props.updateSelectedTransactionId
-						}
-					/>
+					<>
+						<hr />
+						<TransactionDetailsDuplicatePanel
+							transactionId={transactionValues.id}
+							updateSelectedTransactionId={
+								props.updateSelectedTransactionId
+							}
+						/>
+					</>
 				)}
 			</div>
 		</SideDialog>

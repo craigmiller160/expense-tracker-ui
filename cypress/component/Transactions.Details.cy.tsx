@@ -21,6 +21,8 @@ import {
 } from './testutils/constants/categories';
 import { validateInputRules } from './testutils/validations/inputRules';
 import Chainable = Cypress.Chainable;
+import { lastAppliedApi } from './testutils/apis/lastApplied';
+import { match } from 'ts-pattern';
 
 const testDuplicate = (getRecord: () => Chainable<JQuery>, index: number) => {
 	transactionDetailsPage
@@ -117,6 +119,7 @@ describe('Transaction Details Dialog', () => {
 		transactionsApi.searchForTransactions();
 		transactionsApi.createTransaction();
 		transactionsApi.getTransactionDetails(transactionId);
+		lastAppliedApi.getLastRuleApplied(transactionId);
 		mountApp({
 			initialRoute: '/expense-tracker/transactions'
 		});
@@ -167,6 +170,22 @@ describe('Transaction Details Dialog', () => {
 		transactionDetailsPage.getDuplicateTitle().should('not.exist');
 		transactionDetailsPage.getSaveButton().should('be.disabled');
 		transactionDetailsPage.getDeleteButton().should('not.be.disabled');
+
+		transactionDetailsPage
+			.getLastRuleAppliedTitle()
+			.contains('Auto-Categorize Rule Applied');
+		transactionDetailsPage.getLastRuleOrdinal().contains('5');
+		transactionDetailsPage.getLastRuleCategory().contains('Groceries');
+		transactionDetailsPage
+			.getLastRuleInfo()
+			.find('li')
+			.each(($li, index) => {
+				match(index)
+					.with(0, () => expect($li.text()).eq('Regex: /.*TARGET.*/'))
+					.with(1, () => expect($li.text()).eq('Dates: Any to Any'))
+					.with(2, () => expect($li.text()).eq('Amounts: Any to Any'))
+					.run();
+			});
 	});
 
 	it('shows current transaction information for confirmed and categorized', () => {
@@ -228,6 +247,8 @@ describe('Transaction Details Dialog', () => {
 		transactionDetailsPage.getDuplicateTitle().should('not.exist');
 		transactionDetailsPage.getSaveButton().should('be.disabled');
 		transactionDetailsPage.getDeleteButton().should('not.be.disabled');
+
+		transactionDetailsPage.getLastRuleAppliedTitle().should('not.exist');
 	});
 
 	it('shows current transaction information for possible refunds', () => {
@@ -373,6 +394,7 @@ describe('Transaction Details Dialog', () => {
 		transactionsApi.searchForTransactions();
 		transactionsApi.getTransactionDetails(transactionId);
 		transactionsApi.updateTransactionDetails(transactionId);
+		lastAppliedApi.getLastRuleApplied_noRule(transactionId);
 		mountApp({
 			initialRoute: '/expense-tracker/transactions'
 		});
@@ -406,6 +428,7 @@ describe('Transaction Details Dialog', () => {
 		needsAttentionApi.getNeedsAttention_all();
 		transactionsApi.searchForTransactions();
 		transactionsApi.getTransactionDetails(transactionId);
+		lastAppliedApi.getLastRuleApplied_noRule(transactionId);
 		mountApp({
 			initialRoute: '/expense-tracker/transactions'
 		});
@@ -447,6 +470,7 @@ describe('Transaction Details Dialog', () => {
 		transactionsApi.searchForTransactions();
 		transactionsApi.getTransactionDetails(transactionId);
 		transactionsApi.updateTransactionDetails(transactionId);
+		lastAppliedApi.getLastRuleApplied_noRule(transactionId);
 
 		mountApp({
 			initialRoute: '/expense-tracker/transactions'
@@ -489,6 +513,7 @@ describe('Transaction Details Dialog', () => {
 		transactionsApi.searchForTransactions();
 		transactionsApi.getTransactionDetails(transactionId);
 		transactionsApi.updateTransactionDetails(transactionId);
+		lastAppliedApi.getLastRuleApplied_noRule(transactionId);
 		mountApp({
 			initialRoute: '/expense-tracker/transactions'
 		});
@@ -590,5 +615,23 @@ describe('Transaction Details Dialog', () => {
 			'have.length',
 			2
 		);
+	});
+
+	it('does not show last applied rule for unconfirmed transaction if there is none', () => {
+		const transactionId = allTransactions.transactions[0].id;
+		categoriesApi.getAllCategories();
+		needsAttentionApi.getNeedsAttention_all();
+		transactionsApi.searchForTransactions();
+		transactionsApi.createTransaction();
+		transactionsApi.getTransactionDetails(transactionId);
+		lastAppliedApi.getLastRuleApplied_noRule(transactionId);
+		mountApp({
+			initialRoute: '/expense-tracker/transactions'
+		});
+
+		transactionsListPage.getDetailsButtons().eq(0).click();
+
+		transactionDetailsPage.getAmountInput().should('be.visible');
+		transactionDetailsPage.getLastRuleAppliedTitle().should('not.exist');
 	});
 });

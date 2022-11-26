@@ -24,6 +24,7 @@ import {
 } from '../service/AutoCategorizeRuleService';
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
 import * as Option from 'fp-ts/es6/Option';
+import { GET_LAST_RULE_APPLIED } from './LastAppliedRuleQueries';
 
 export const GET_ALL_RULES = 'AutoCategorizeRuleQueries_GetAllRules';
 export const GET_RULE = 'AutoCategorizeRuleQueries_GetRule';
@@ -33,7 +34,8 @@ const invalidateRuleQueries = (queryClient: QueryClient): Promise<unknown> =>
 	Promise.all([
 		queryClient.invalidateQueries(GET_ALL_RULES),
 		queryClient.invalidateQueries(GET_RULE),
-		queryClient.invalidateQueries(GET_MAX_ORDINAL)
+		queryClient.invalidateQueries(GET_MAX_ORDINAL),
+		queryClient.invalidateQueries(GET_LAST_RULE_APPLIED)
 	]);
 
 type GetAllRulesKey = [string, AutoCategorizeRulePageRequest];

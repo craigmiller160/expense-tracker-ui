@@ -150,6 +150,7 @@ export type LastRuleAppliedResponse = {
 	readonly ruleId: string;
 	readonly transactionId: string;
 	readonly categoryId: string;
+	readonly categoryName: string;
 	readonly ordinal: number;
 	readonly regex: string;
 	readonly startDate?: string;

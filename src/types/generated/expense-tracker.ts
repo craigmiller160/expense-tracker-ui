@@ -167,6 +167,7 @@ export type ImportTypeResponse = {
 export type ReportRequest = {
 	readonly pageNumber: number;
 	readonly pageSize: number;
+	readonly excludeCategoryIds: ReadonlyArray<string>;
 };
 
 export type ReportCategoryResponse = {

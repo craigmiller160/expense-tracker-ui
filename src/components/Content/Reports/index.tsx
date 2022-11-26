@@ -3,11 +3,33 @@ import { PageTitle } from '../../UI/PageTitle';
 import './Reports.scss';
 import { ReportTable } from './ReportTable';
 import { NeedsAttentionNotice } from '../Transactions/NeedsAttentionNotice';
+import { ReportFilters } from './ReportFilters';
+import { useGetReportData } from './useGetReportData';
 
-export const Reports = () => (
-	<PageResponsiveWrapper className="Reports">
-		<PageTitle title="Reports" />
-		<NeedsAttentionNotice />
-		<ReportTable />
-	</PageResponsiveWrapper>
-);
+export const Reports = () => {
+	const {
+		form,
+		data: { isFetching, report, categories },
+		pagination: { state, setState },
+		onValueHasChanged
+	} = useGetReportData();
+	return (
+		<PageResponsiveWrapper className="Reports">
+			<PageTitle title="Reports" />
+			{!isFetching && (
+				<ReportFilters
+					form={form}
+					categories={categories}
+					onValueHasChanged={onValueHasChanged}
+				/>
+			)}
+			<NeedsAttentionNotice />
+			<ReportTable
+				isFetching={isFetching}
+				data={report}
+				pagination={state}
+				updatePagination={setState}
+			/>
+		</PageResponsiveWrapper>
+	);
+};

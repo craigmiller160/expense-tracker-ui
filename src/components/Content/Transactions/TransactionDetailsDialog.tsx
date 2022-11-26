@@ -209,7 +209,10 @@ export const TransactionDetailsDialog = (props: Props) => {
 									<Typography variant="h6">
 										Auto-Categorize Rule Applied
 									</Typography>
-									<Table columns={LAST_RULE_COLUMNS}>
+									<Table
+										className="LastRuleAppliedTable"
+										columns={LAST_RULE_COLUMNS}
+									>
 										<RuleTableRow rule={lastRuleApplied} />
 									</Table>
 								</div>

@@ -73,6 +73,26 @@ const getOpenButtonForDuplicateRecord = (
 ): Chainable<JQuery> => record.find('td').eq(4).find('button');
 const getMarkNotDuplicateButton = (): Chainable<JQuery> =>
 	cy.get('.TransactionDetailsDuplicatePanel .MarkNotDuplicateSection button');
+const getLastRuleAppliedTitle = (): Chainable<JQuery> =>
+	cy.get('#TransactionDetailsDialog-body .LastRuleApplied h6');
+const getLastRuleOrdinal = (): Chainable<JQuery> =>
+	cy
+		.get(
+			'##TransactionDetailsDialog-body .LastRuleApplied .AutoCategorizeRuleTableRow td'
+		)
+		.eq(0);
+const getLastRuleCategory = (): Chainable<JQuery> =>
+	cy
+		.get(
+			'##TransactionDetailsDialog-body .LastRuleApplied .AutoCategorizeRuleTableRow td'
+		)
+		.eq(1);
+const getLastRuleInfo = (): Chainable<JQuery> =>
+	cy
+		.get(
+			'##TransactionDetailsDialog-body .LastRuleApplied .AutoCategorizeRuleTableRow td'
+		)
+		.eq(1);
 
 export const transactionDetailsPage = {
 	getHeaderTitle,
@@ -106,5 +126,9 @@ export const transactionDetailsPage = {
 	getOpenButtonForDuplicateRecord,
 	getConfirmedForDuplicateRecord,
 	getMarkNotDuplicateButton,
-	getCategorySelectInput
+	getCategorySelectInput,
+	getLastRuleAppliedTitle,
+	getLastRuleOrdinal,
+	getLastRuleCategory,
+	getLastRuleInfo
 };

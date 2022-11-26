@@ -264,6 +264,10 @@ export const createTransactionsRoutes = (
 		)[0];
 	});
 
+	server.get('/transactions/rules/lastApplied/:transactionId', () => {
+		return new Response(204);
+	});
+
 	server.get('/transactions/:transactionId/duplicates', (schema, request) => {
 		const transactionId = request.params.transactionId as string;
 		const pageNumber = parseInt(`${request.queryParams?.pageNumber}`);

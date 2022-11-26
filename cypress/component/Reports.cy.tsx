@@ -66,4 +66,8 @@ describe('Reports', () => {
 			RNonEmptyArray.map(validateReport)
 		);
 	});
+
+	it('can exclude categories from month-by-month report', () => {
+		throw new Error();
+	});
 });

@@ -5,10 +5,7 @@ import { constVoid } from 'fp-ts/es6/function';
 import { ValueHasChanged } from '@craigmiller160/react-hook-form-material-ui';
 import { ResponsiveRow } from '../../UI/ResponsiveWrappers/ResponsiveRow';
 import './ReportFilters.scss';
-
-export type ReportFilterFormData = {
-	readonly excludedCategories: ReadonlyArray<CategoryOption>;
-};
+import {ReportFilterFormData} from './useGetReportData';
 
 type Props = {
 	readonly form: UseFormReturn<ReportFilterFormData>;

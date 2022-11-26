@@ -2,7 +2,8 @@ import { UseFormReturn } from 'react-hook-form';
 import { CategoryOption } from '../../../types/categories';
 import { Paper } from '@mui/material';
 import { constVoid } from 'fp-ts/es6/function';
-import {ValueHasChanged} from '@craigmiller160/react-hook-form-material-ui';
+import { ValueHasChanged } from '@craigmiller160/react-hook-form-material-ui';
+import { ResponsiveRow } from '../../UI/ResponsiveWrappers/ResponsiveRow';
 import './ReportFilters.scss';
 
 export type ReportFilterFormData = {
@@ -18,7 +19,9 @@ export const ReportFilters = (props: Props) => {
 	return (
 		<Paper className="ReportFilters">
 			<form onSubmit={constVoid}>
-				<p>Hello</p>
+				<ResponsiveRow>
+
+				</ResponsiveRow>
 			</form>
 		</Paper>
 	);

@@ -3,8 +3,8 @@ import Chainable = Cypress.Chainable;
 const getOpenSelectOptions = (): Chainable<JQuery> =>
 	cy.get('.MuiAutocomplete-popper li[role="option"]');
 const getMultipleSelectValues = (
-	select: Chainable<JQuery>
-): Chainable<JQuery> => select.find('.MuiChip-label');
+	selectInput: Chainable<JQuery>
+): Chainable<JQuery> => selectInput.parent().find('.MuiChip-label');
 
 export const commonPage = {
 	getOpenSelectOptions,

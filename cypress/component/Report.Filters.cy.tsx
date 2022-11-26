@@ -4,7 +4,14 @@ import { categoriesApi } from './testutils/apis/categories';
 import { reportFiltersPage } from './testutils/pages/reportFilters';
 import { commonPage } from './testutils/pages/common';
 import { pipe } from 'fp-ts/es6/function';
-import { orderedCategoryNames } from './testutils/constants/categories';
+import {
+	orderedCategoryIds,
+	orderedCategoryNames
+} from './testutils/constants/categories';
+import { Interception } from 'cypress/types/net-stubbing';
+
+const excludedIds = (): string =>
+	pipe(orderedCategoryIds.slice(0, 2).join(','), encodeURIComponent);
 
 describe('Report Filters', () => {
 	it('can exclude categories', () => {
@@ -28,5 +35,17 @@ describe('Report Filters', () => {
 		).each(($value, index) =>
 			expect($value.text()).eq(orderedCategoryNames[index])
 		);
+
+		cy.wait(300);
+		cy.get('@getSpendingByMonthAndCategory.all')
+			.should('have.length', 3)
+			.then(($xhrs) => {
+				const xhr = (
+					$xhrs as unknown as ReadonlyArray<Interception>
+				)[2];
+				expect(xhr.request.url).to.match(
+					RegExp(`^.*excludeCategoryIds=${excludedIds()}$`)
+				);
+			});
 	});
 });

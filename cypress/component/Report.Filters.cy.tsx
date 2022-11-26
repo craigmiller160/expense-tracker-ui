@@ -3,6 +3,8 @@ import { mountApp } from './testutils/mountApp';
 import { categoriesApi } from './testutils/apis/categories';
 import { reportFiltersPage } from './testutils/pages/reportFilters';
 import { commonPage } from './testutils/pages/common';
+import { pipe } from 'fp-ts/es6/function';
+import { orderedCategoryNames } from './testutils/constants/categories';
 
 describe('Report Filters', () => {
 	it('can exclude categories', () => {
@@ -20,6 +22,11 @@ describe('Report Filters', () => {
 		reportFiltersPage.getCategoryInput().click();
 		commonPage.getOpenSelectOptions().eq(1).click();
 
-		reportFiltersPage.getCategoryInput().should('have.value', '');
+		pipe(
+			reportFiltersPage.getCategoryInput(),
+			commonPage.getMultipleSelectValues
+		).each(($value, index) =>
+			expect($value.text()).eq(orderedCategoryNames[index])
+		);
 	});
 });

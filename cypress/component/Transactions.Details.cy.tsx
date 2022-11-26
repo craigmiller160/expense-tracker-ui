@@ -22,6 +22,7 @@ import {
 import { validateInputRules } from './testutils/validations/inputRules';
 import Chainable = Cypress.Chainable;
 import { lastAppliedApi } from './testutils/apis/lastApplied';
+import { match } from 'ts-pattern';
 
 const testDuplicate = (getRecord: () => Chainable<JQuery>, index: number) => {
 	transactionDetailsPage
@@ -173,6 +174,18 @@ describe('Transaction Details Dialog', () => {
 		transactionDetailsPage
 			.getLastRuleAppliedTitle()
 			.contains('Auto-Categorize Rule Applied');
+		transactionDetailsPage.getLastRuleOrdinal().contains('5');
+		transactionDetailsPage.getLastRuleCategory().contains('Groceries');
+		transactionDetailsPage
+			.getLastRuleInfo()
+			.find('li')
+			.each(($li, index) => {
+				match(index)
+					.with(0, () => expect($li.text()).eq('Regex: /.*TARGET.*/'))
+					.with(1, () => expect($li.text()).eq('Dates: Any to Any'))
+					.with(2, () => expect($li.text()).eq('Amounts: Any to Any'))
+					.run();
+			});
 	});
 
 	it('shows current transaction information for confirmed and categorized', () => {

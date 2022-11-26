@@ -9,7 +9,17 @@ const getLastRuleApplied = (id: string): Chainable<null> =>
 			}
 		)
 		.as(`getLastRuleApplied_${id}`);
+const getLastRuleApplied_noRule = (id: string): Chainable<null> =>
+	cy
+		.intercept(
+			`/expense-tracker/api/transactions/rules/last-applied/${id}`,
+			{
+				statusCode: 204
+			}
+		)
+		.as(`getLastRuleApplied_noRule_${id}`);
 
 export const lastAppliedApi = {
-	getLastRuleApplied
+	getLastRuleApplied,
+	getLastRuleApplied_noRule
 };

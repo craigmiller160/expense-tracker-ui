@@ -1,5 +1,4 @@
-import { useGetSpendingByMonthAndCategory } from '../../../ajaxapi/query/ReportQueries';
-import { useImmer } from 'use-immer';
+import { Updater } from 'use-immer';
 import { Table } from '../../UI/Table';
 import { TableCell, TableRow } from '@mui/material';
 import { serverDateToReportMonth } from '../../../utils/dateTimeUtils';
@@ -10,36 +9,34 @@ import {
 	createTablePagination,
 	PaginationState
 } from '../../../utils/pagination';
+import { ReportPageResponse } from '../../../types/generated/expense-tracker';
 
 const COLUMNS = ['Month', 'Data', 'Chart'];
 
-export const ReportTable = () => {
-	const [state, setState] = useImmer<PaginationState>({
-		pageNumber: 0,
-		pageSize: 10
-	});
-	const { isFetching, data } = useGetSpendingByMonthAndCategory({
-		pageNumber: state.pageNumber,
-		pageSize: state.pageSize,
-		excludeCategoryIds: []
-	});
+type Props = {
+	readonly isFetching: boolean;
+	readonly data?: ReportPageResponse;
+	readonly pagination: PaginationState;
+	readonly updatePagination: Updater<PaginationState>;
+};
 
+export const ReportTable = (props: Props) => {
 	const pagination = createTablePagination(
-		state.pageNumber,
-		state.pageSize,
-		data?.totalItems ?? 0,
-		setState
+		props.pagination.pageNumber,
+		props.pagination.pageSize,
+		props.data?.totalItems ?? 0,
+		props.updatePagination
 	);
 
 	return (
 		<Table
 			className="ReportsTable"
 			pagination={pagination}
-			loading={isFetching}
+			loading={props.isFetching}
 			columns={COLUMNS}
 			tableTitle="Spending by Month & Category"
 		>
-			{data?.reports?.map((report) => (
+			{props.data?.reports?.map((report) => (
 				<TableRow key={report.date}>
 					<TableCell>
 						{serverDateToReportMonth(report.date)}

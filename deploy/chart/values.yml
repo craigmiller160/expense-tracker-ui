@@ -1,4 +1,4 @@
-app-deployment:
+app_deployment:
   appName: expense-tracker-ui
   image: nexus-docker-craigmiller160.ddns.net/expense-tracker-ui:latest
   ports:

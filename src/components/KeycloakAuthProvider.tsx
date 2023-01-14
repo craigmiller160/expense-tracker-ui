@@ -24,6 +24,7 @@ const keycloak = new Keycloak({
 
 const handleKeycloakResult =
 	(updateAuth: Updater<KeycloakAuth>) => (isSuccess: boolean) => {
+		console.log('INSIDE RESULT')
 		if (isSuccess && keycloak.token) {
 			localStorage.setItem(BEARER_TOKEN_KEY, keycloak.token);
 		} else {

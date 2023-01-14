@@ -21,6 +21,9 @@ resource "keycloak_openid_client" "expense_tracker_ui_dev" {
   name = local.client_common.name
   enabled = local.client_common.enabled
   access_type = local.client_common.access_type
+  valid_redirect_uris = [
+    'https://localhost:3002/expense-tracker'
+  ]
 }
 
 resource "keycloak_openid_client" "expense_tracker_ui_prod" {
@@ -29,4 +32,7 @@ resource "keycloak_openid_client" "expense_tracker_ui_prod" {
   name = local.client_common.name
   enabled = local.client_common.enabled
   access_type = local.client_common.access_type
+  valid_redirect_uris = [
+    'https://apps-craigmiller160.ddns.net/expense-tracker'
+  ]
 }

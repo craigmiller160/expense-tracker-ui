@@ -7,15 +7,18 @@ import { ConfirmDialogProvider } from './UI/ConfirmDialog/ConfirmDialogProvider'
 import { ConfirmDialog } from './UI/ConfirmDialog';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { KeycloakAuthProvider } from './KeycloakAuthProvider';
 
 export const App = () => (
 	<AlertProvider>
 		<AppQueryAndErrorHandlingProvider>
 			<ConfirmDialogProvider>
 				<LocalizationProvider dateAdapter={AdapterDateFns}>
-					<CssBaseline />
-					<Navbar />
-					<Content />
+					<KeycloakAuthProvider>
+						<CssBaseline />
+						<Navbar />
+						<Content />
+					</KeycloakAuthProvider>
 				</LocalizationProvider>
 				<ConfirmDialog />
 			</ConfirmDialogProvider>

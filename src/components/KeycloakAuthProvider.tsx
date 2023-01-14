@@ -8,7 +8,7 @@ export type KeycloakAuth = {
 	readonly hasCheckedAuthorization: boolean;
 };
 
-const KeycloakAuthContext = createContext<KeycloakAuth>({
+export const KeycloakAuthContext = createContext<KeycloakAuth>({
 	isAuthorized: false,
 	hasCheckedAuthorization: false
 });

@@ -5213,10 +5213,10 @@ jsprim@^2.0.2:
     array-includes "^3.1.5"
     object.assign "^4.1.2"
 
-keycloak-js@^20.0.3:
-  version "20.0.3"
-  resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/keycloak-js/-/keycloak-js-20.0.3.tgz#1c1779e67b16bb2a1e7943e1d78557d3277bc705"
-  integrity sha512-XOOPip8M8K8BsHvk9hnyHuHQ49u9cDu42UXY187G6fM9wsFSvM2apYK3WQ0EUg90nlWt1oMykrWsCWJY10Ihkw==
+keycloak-js@20.0.2:
+  version "20.0.2"
+  resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/keycloak-js/-/keycloak-js-20.0.2.tgz#31c337a33eb44fc2aaaed342519cc6d5e959e4bd"
+  integrity sha512-RPLeBdrsB4ybc2tWL5R+tUqdUd62ytZLVT7AWcCCqMWKuQ0AbmrOtGaPnnWMzS/3XJH447nDq1ulUOGzpj41LQ==
   dependencies:
     base64-js "^1.5.1"
     js-sha256 "^0.9.0"

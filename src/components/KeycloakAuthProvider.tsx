@@ -46,12 +46,13 @@ const initializeKeycloak = (
 		.then(handleKeycloakResult(updateAuth))
 		.catch((ex) => console.error('ERROR', ex));
 
-	setInterval(() => {
-		keycloak
-			.updateToken(ACCESS_TOKEN_EXP_SECS - 70)
-			.then(handleKeycloakResult(updateAuth))
-			.catch((ex) => console.error('ERROR', ex));
-	}, (ACCESS_TOKEN_EXP_SECS - 60) * 1000);
+	// TODO restore this
+	// setInterval(() => {
+	// 	keycloak
+	// 		.updateToken(ACCESS_TOKEN_EXP_SECS - 70)
+	// 		.then(handleKeycloakResult(updateAuth))
+	// 		.catch((ex) => console.error('ERROR', ex));
+	// }, (ACCESS_TOKEN_EXP_SECS - 60) * 1000);
 
 	return promise;
 };

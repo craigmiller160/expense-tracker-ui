@@ -16,7 +16,7 @@ export const KeycloakAuthContext = createContext<KeycloakAuth>({
 const ACCESS_TOKEN_EXP_SECS = 300;
 
 const keycloak = new Keycloak({
-	url: 'https://auth-craigmiller160.ddns.net',
+	url: 'https://auth-craigmiller160.ddns.net/',
 	// TODO this needs to be dynamic
 	realm: 'apps-dev',
 	clientId: 'expense-tracker-ui'

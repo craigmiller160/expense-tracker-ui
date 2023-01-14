@@ -24,7 +24,8 @@ resource "keycloak_openid_client" "expense_tracker_ui_dev" {
   access_type = local.client_common.access_type
   standard_flow_enabled = local.client_common.standard_flow_enabled
   valid_redirect_uris = [
-    "https://localhost:3002/expense-tracker"
+    "https://localhost:3002/expense-tracker",
+    "https://localhost:3002/expense-tracker/"
   ]
 }
 
@@ -36,6 +37,7 @@ resource "keycloak_openid_client" "expense_tracker_ui_prod" {
   access_type = local.client_common.access_type
   standard_flow_enabled = local.client_common.standard_flow_enabled
   valid_redirect_uris = [
-    "https://apps-craigmiller160.ddns.net/expense-tracker"
+    "https://apps-craigmiller160.ddns.net/expense-tracker",
+    "https://apps-craigmiller160.ddns.net/expense-tracker/"
   ]
 }

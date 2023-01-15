@@ -5,15 +5,13 @@ import { Updater, useImmer } from 'use-immer';
 
 type CheckStatus = 'pre-check' | 'checking' | 'post-check';
 
-export type KeycloakAuth = {
+type KeycloakState = {
 	readonly isAuthorized: boolean;
 	readonly checkStatus: CheckStatus;
 };
-
-export const KeycloakAuthContext = createContext<KeycloakAuth>({
-	isAuthorized: false,
-	checkStatus: 'pre-check'
-});
+export type KeycloakAuth = KeycloakState & {
+	readonly logout: () => void;
+};
 
 const ACCESS_TOKEN_EXP_SECS = 300;
 
@@ -23,9 +21,16 @@ const keycloak = new Keycloak({
 	realm: 'apps-dev',
 	clientId: 'expense-tracker-ui'
 });
+const logout = () => keycloak.logout();
+
+export const KeycloakAuthContext = createContext<KeycloakAuth>({
+	isAuthorized: false,
+	checkStatus: 'pre-check',
+	logout
+});
 
 const handleKeycloakResult =
-	(updateAuth: Updater<KeycloakAuth>) => (isSuccess: boolean) => {
+	(updateAuth: Updater<KeycloakState>) => (isSuccess: boolean) => {
 		if (isSuccess && keycloak.token) {
 			localStorage.setItem(BEARER_TOKEN_KEY, keycloak.token);
 		}
@@ -36,7 +41,7 @@ const handleKeycloakResult =
 	};
 
 const initializeKeycloak = (
-	updateAuth: Updater<KeycloakAuth>
+	updateAuth: Updater<KeycloakState>
 ): Promise<void> => {
 	const promise = keycloak
 		.init({ onLoad: 'login-required' })
@@ -54,7 +59,7 @@ const initializeKeycloak = (
 };
 
 export const KeycloakAuthProvider = (props: PropsWithChildren) => {
-	const [state, setState] = useImmer<KeycloakAuth>({
+	const [state, setState] = useImmer<KeycloakState>({
 		isAuthorized: false,
 		checkStatus: 'pre-check'
 	});
@@ -67,8 +72,13 @@ export const KeycloakAuthProvider = (props: PropsWithChildren) => {
 			initializeKeycloak(setState);
 		}
 	}, [setState, state.checkStatus]);
+
+	const authValue = {
+		...state,
+		logout
+	};
 	return (
-		<KeycloakAuthContext.Provider value={state}>
+		<KeycloakAuthContext.Provider value={authValue}>
 			{props.children}
 		</KeycloakAuthContext.Provider>
 	);

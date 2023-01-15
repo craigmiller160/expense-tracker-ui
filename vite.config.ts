@@ -30,7 +30,7 @@ export default {
 	root: path.join(process.cwd(), 'src'),
 	base: '/expense-tracker/',
 	publicDir: path.join(process.cwd(), 'public'),
-	envDir: process.cwd(),
+	envDir: path.join(process.cwd(), 'environment'),
 	server: {
 		port: 3002,
 		host: true,

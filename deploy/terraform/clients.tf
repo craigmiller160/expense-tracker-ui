@@ -27,6 +27,9 @@ resource "keycloak_openid_client" "expense_tracker_ui_dev" {
     "https://localhost:3002/expense-tracker",
     "https://localhost:3002/expense-tracker/"
   ]
+  web_origins = [
+    "https://localhost:3002"
+  ]
 }
 
 resource "keycloak_openid_client" "expense_tracker_ui_prod" {
@@ -39,5 +42,8 @@ resource "keycloak_openid_client" "expense_tracker_ui_prod" {
   valid_redirect_uris = [
     "https://apps-craigmiller160.ddns.net/expense-tracker",
     "https://apps-craigmiller160.ddns.net/expense-tracker/"
+  ]
+  web_origins = [
+    "https://apps-craigmiller160.ddns.net/expense-tracker"
   ]
 }

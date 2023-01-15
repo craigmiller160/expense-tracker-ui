@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
-    "target": "es2020",
+    "target": "es2022",
     "lib": [
       "dom",
       "dom.iterable",
       "esnext",
       "webworker"
     ],
+    "types": ["vite/client", "node"],
     "outDir": "./build",
     "allowJs": true,
     "skipLibCheck": true,

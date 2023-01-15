@@ -77,6 +77,7 @@ export const KeycloakAuthProvider = (props: PropsWithChildren) => {
 		...state,
 		logout
 	};
+	console.log(import.meta.env);
 	return (
 		<KeycloakAuthContext.Provider value={authValue}>
 			{props.children}

@@ -7,7 +7,7 @@
       "esnext",
       "webworker"
     ],
-    "types": ["vite/client", "node"],
+    "types": ["vite/client", "node", "jest"],
     "outDir": "./build",
     "allowJs": true,
     "skipLibCheck": true,

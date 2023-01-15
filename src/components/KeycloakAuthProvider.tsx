@@ -3,14 +3,16 @@ import Keycloak from 'keycloak-js';
 import { BEARER_TOKEN_KEY } from '@craigmiller160/ajax-api';
 import { Updater, useImmer } from 'use-immer';
 
+type CheckStatus = 'pre-check' | 'checking' | 'post-check';
+
 export type KeycloakAuth = {
 	readonly isAuthorized: boolean;
-	readonly hasCheckedAuthorization: boolean;
+	readonly checkStatus: CheckStatus;
 };
 
 export const KeycloakAuthContext = createContext<KeycloakAuth>({
 	isAuthorized: false,
-	hasCheckedAuthorization: false
+	checkStatus: 'pre-check'
 });
 
 const ACCESS_TOKEN_EXP_SECS = 300;
@@ -24,7 +26,7 @@ const keycloak = new Keycloak({
 
 const handleKeycloakResult =
 	(updateAuth: Updater<KeycloakAuth>) => (isSuccess: boolean) => {
-		console.log('INSIDE RESULT')
+		console.log('INSIDE RESULT');
 		if (isSuccess && keycloak.token) {
 			localStorage.setItem(BEARER_TOKEN_KEY, keycloak.token);
 		} else {
@@ -32,7 +34,7 @@ const handleKeycloakResult =
 			// TODO how to handle this?
 		}
 		updateAuth((draft) => {
-			draft.hasCheckedAuthorization = true;
+			draft.checkStatus = 'post-check';
 			draft.isAuthorized = isSuccess;
 		});
 	};
@@ -60,11 +62,17 @@ const initializeKeycloak = (
 export const KeycloakAuthProvider = (props: PropsWithChildren) => {
 	const [state, setState] = useImmer<KeycloakAuth>({
 		isAuthorized: false,
-		hasCheckedAuthorization: false
+		checkStatus: 'pre-check'
 	});
 	useEffect(() => {
-		initializeKeycloak(setState);
-	}, [setState]);
+		if (state.checkStatus === 'pre-check') {
+			setState((draft) => {
+				draft.checkStatus = 'checking';
+			});
+		} else if (state.checkStatus === 'checking') {
+			initializeKeycloak(setState);
+		}
+	}, [setState, state.checkStatus]);
 	return (
 		<KeycloakAuthContext.Provider value={state}>
 			{props.children}

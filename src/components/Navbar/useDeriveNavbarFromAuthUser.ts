@@ -9,8 +9,7 @@ interface DerivedValues {
 }
 
 export const useDeriveNavbarFromAuthUser = (): DerivedValues => {
-	const { isAuthorized, hasCheckedAuthorization } =
-		useContext(KeycloakAuthContext);
+	const { isAuthorized, checkStatus } = useContext(KeycloakAuthContext);
 	const authButtonText = 'Logout';
 	// const authButtonAction = getAuthButtonAction(refetch)(status);
 
@@ -19,6 +18,6 @@ export const useDeriveNavbarFromAuthUser = (): DerivedValues => {
 		// TODO fix this for logout
 		authButtonAction: () => Promise.resolve(),
 		isAuthorized,
-		hasCheckedAuthorization
+		hasCheckedAuthorization: checkStatus === 'post-check'
 	};
 };

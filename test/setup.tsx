@@ -12,6 +12,10 @@ jest.mock('react', () => {
 	React.Suspense = ({ children }: PropsWithChildren) => children;
 	return React;
 });
+jest.mock('keycloak', () => {
+	class MockKeycloak {}
+	return MockKeycloak;
+});
 
 let originalMatchMedia: (query: string) => MediaQueryList;
 

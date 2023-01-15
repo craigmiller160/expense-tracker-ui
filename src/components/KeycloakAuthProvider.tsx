@@ -15,9 +15,16 @@ export type KeycloakAuth = KeycloakState & {
 
 const ACCESS_TOKEN_EXP_SECS = 300;
 
+const getRealm = (): string => {
+	if (process.env.NODE_ENV !== 'test') {
+		return import.meta.env.VITE_KEYCLOAK_REALM;
+	}
+	return '';
+};
+
 const keycloak = new Keycloak({
 	url: 'https://auth-craigmiller160.ddns.net/',
-	realm: import.meta.env.VITE_KEYCLOAK_REALM,
+	realm: getRealm(),
 	clientId: 'expense-tracker-ui'
 });
 const logout = () => keycloak.logout();

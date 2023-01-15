@@ -26,12 +26,8 @@ const keycloak = new Keycloak({
 
 const handleKeycloakResult =
 	(updateAuth: Updater<KeycloakAuth>) => (isSuccess: boolean) => {
-		console.log('INSIDE RESULT');
 		if (isSuccess && keycloak.token) {
 			localStorage.setItem(BEARER_TOKEN_KEY, keycloak.token);
-		} else {
-			console.error('NO SUCCESS');
-			// TODO how to handle this?
 		}
 		updateAuth((draft) => {
 			draft.checkStatus = 'post-check';
@@ -42,19 +38,17 @@ const handleKeycloakResult =
 const initializeKeycloak = (
 	updateAuth: Updater<KeycloakAuth>
 ): Promise<void> => {
-	// TODO what about catch() in all of these?
 	const promise = keycloak
 		.init({ onLoad: 'login-required' })
 		.then(handleKeycloakResult(updateAuth))
-		.catch((ex) => console.error('ERROR', ex));
+		.catch((ex) => console.error('Keycloak Authentication Error', ex));
 
-	// TODO restore this
-	// setInterval(() => {
-	// 	keycloak
-	// 		.updateToken(ACCESS_TOKEN_EXP_SECS - 70)
-	// 		.then(handleKeycloakResult(updateAuth))
-	// 		.catch((ex) => console.error('ERROR', ex));
-	// }, (ACCESS_TOKEN_EXP_SECS - 60) * 1000);
+	setInterval(() => {
+		keycloak
+			.updateToken(ACCESS_TOKEN_EXP_SECS - 70)
+			.then(handleKeycloakResult(updateAuth))
+			.catch((ex) => console.error('Keycloak Refresh Error', ex));
+	}, (ACCESS_TOKEN_EXP_SECS - 60) * 1000);
 
 	return promise;
 };

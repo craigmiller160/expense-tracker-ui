@@ -3,20 +3,19 @@ import { KeycloakAuthContext } from '../KeycloakAuthProvider';
 
 interface DerivedValues {
 	readonly authButtonText: string;
-	readonly authButtonAction: () => Promise<unknown>;
+	readonly authButtonAction: () => void;
 	readonly isAuthorized: boolean;
 	readonly hasCheckedAuthorization: boolean;
 }
 
 export const useDeriveNavbarFromAuthUser = (): DerivedValues => {
-	const { isAuthorized, checkStatus } = useContext(KeycloakAuthContext);
+	const { isAuthorized, checkStatus, logout } =
+		useContext(KeycloakAuthContext);
 	const authButtonText = 'Logout';
-	// const authButtonAction = getAuthButtonAction(refetch)(status);
 
 	return {
 		authButtonText,
-		// TODO fix this for logout
-		authButtonAction: () => Promise.resolve(),
+		authButtonAction: logout,
 		isAuthorized,
 		hasCheckedAuthorization: checkStatus === 'post-check'
 	};

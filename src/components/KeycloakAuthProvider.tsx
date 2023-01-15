@@ -17,8 +17,7 @@ const ACCESS_TOKEN_EXP_SECS = 300;
 
 const keycloak = new Keycloak({
 	url: 'https://auth-craigmiller160.ddns.net/',
-	// TODO this needs to be dynamic
-	realm: 'apps-dev',
+	realm: import.meta.env.VITE_KEYCLOAK_REALM,
 	clientId: 'expense-tracker-ui'
 });
 const logout = () => keycloak.logout();
@@ -78,7 +77,6 @@ export const KeycloakAuthProvider = (props: PropsWithChildren) => {
 		logout
 	};
 
-	console.log(import.meta.env, import.meta.env.VITE_KEYCLOAK_REALM);
 	return (
 		<KeycloakAuthContext.Provider value={authValue}>
 			{props.children}

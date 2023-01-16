@@ -1,6 +1,7 @@
 import path from 'path';
 import react from '@vitejs/plugin-react';
 import fs from 'fs';
+import { defineConfig } from 'vite';
 
 const https =
 	process.env.CYPRESS === 'true'
@@ -26,7 +27,7 @@ const https =
 				)
 		  };
 
-export default {
+export default defineConfig({
 	root: path.join(process.cwd(), 'src'),
 	base: '/expense-tracker/',
 	publicDir: path.join(process.cwd(), 'public'),
@@ -60,4 +61,4 @@ export default {
 		outDir: path.join(process.cwd(), 'build'),
 		emptyOutDir: true
 	}
-};
+});

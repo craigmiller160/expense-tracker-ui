@@ -6,7 +6,7 @@ import { LazySuspenseWrapper } from '../components/UI/LazySuspenseWrapper';
 import {
 	KeycloakAuth,
 	KeycloakAuthContext
-} from '../components/keycloak/KeycloakAuthProvider';
+} from '../components/keycloak/KeycloakAuthContext';
 
 const Welcome = namedLazy(
 	() => import('../components/Content/Welcome'),

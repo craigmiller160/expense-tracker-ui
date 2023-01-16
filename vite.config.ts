@@ -42,16 +42,14 @@ export default defineConfig({
 				changeOrigin: true,
 				secure: false,
 				rewrite: (path: string) =>
-					path.replace(/^\/expense-tracker\/api/, ''),
-				logLevel: 'debug'
+					path.replace(/^\/expense-tracker\/api/, '')
 			},
 			'/expense-tracker/oauth2': {
 				target: 'https://apps-craigmiller160.ddns.net/oauth2',
 				changeOrigin: true,
 				secure: false,
 				rewrite: (path: string) =>
-					path.replace(/^\/expense-tracker\/oauth2/, ''),
-				logLevel: 'debug'
+					path.replace(/^\/expense-tracker\/oauth2/, '')
 			}
 		}
 	},

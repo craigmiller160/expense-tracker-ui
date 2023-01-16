@@ -1,9 +1,12 @@
-import { ReactElement } from 'react';
-import { useGetAuthUser } from '../ajaxapi/query/AuthQueries';
+import { ReactElement, useContext } from 'react';
 import { Navigate, RouteObject, useRoutes } from 'react-router';
 import { namedLazy } from '../utils/reactWrappers';
 import { match } from 'ts-pattern';
 import { LazySuspenseWrapper } from '../components/UI/LazySuspenseWrapper';
+import {
+	KeycloakAuth,
+	KeycloakAuthContext
+} from '../components/keycloak/KeycloakAuthContext';
 
 const Welcome = namedLazy(
 	() => import('../components/Content/Welcome'),
@@ -110,9 +113,11 @@ const createRoutes = (rules: RouteRules): RouteObject[] => [
 ];
 
 export const useAppRoutes = (): ReactElement | null => {
-	const {
-		extra: { isAuthorized, hasCheckedAuthorization }
-	} = useGetAuthUser();
-	const routes = createRoutes({ isAuthorized, hasCheckedAuthorization });
+	const { isAuthorized, checkStatus } =
+		useContext<KeycloakAuth>(KeycloakAuthContext);
+	const routes = createRoutes({
+		isAuthorized,
+		hasCheckedAuthorization: checkStatus === 'post-check'
+	});
 	return useRoutes(routes);
 };

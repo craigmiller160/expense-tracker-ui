@@ -1,8 +1,11 @@
 import Chainable = Cypress.Chainable;
 import { match, P } from 'ts-pattern';
-import { oauthApi } from './apis/oauth';
 import { App } from '../../../src/components/App';
 import { MemoryRouter } from 'react-router-dom';
+import {
+	KeycloakAuth,
+	KeycloakAuthContext
+} from '../../../src/components/keycloak/KeycloakAuthContext';
 
 const desktopViewport = (): Chainable<null> => cy.viewport(1920, 1080);
 const mobileViewport = (): Chainable<null> => cy.viewport(500, 500);
@@ -25,11 +28,6 @@ const handleViewport = (config?: Partial<MountConfig>): Chainable<null> =>
 		.with(undefined, desktopViewport)
 		.with({ viewport: 'mobile' }, mobileViewport)
 		.otherwise(desktopViewport);
-const handleIsAuthorized = (config?: Partial<MountConfig>): Chainable<null> =>
-	match(config)
-		.with(undefined, oauthApi.getAuthUser_isAuthorized)
-		.with({ isAuthorized: false }, oauthApi.getAuthUser_isNotAuthorized)
-		.otherwise(oauthApi.getAuthUser_isAuthorized);
 const getInitialEntries = (config?: Partial<MountConfig>): string[] =>
 	match(config)
 		.with(undefined, () => ['/expense-tracker'])
@@ -37,14 +35,21 @@ const getInitialEntries = (config?: Partial<MountConfig>): string[] =>
 		.otherwise(() => ['/expense-tracker']);
 
 export const mountApp = (config?: Partial<MountConfig>): Chainable<unknown> => {
+	const keycloakAuth: KeycloakAuth = {
+		isAuthorized: config?.isAuthorized ?? true,
+		checkStatus: 'post-check',
+		// eslint-disable-next-line @typescript-eslint/no-empty-function
+		logout: () => {}
+	};
 	handleViewport(config);
-	handleIsAuthorized(config);
 	const initialEntries = getInitialEntries(config);
 	// This is here because if the component is mounted too soon, emotion fails to construct the style nodes correctly
 	cy.wait(300);
 	return cy.mount(
 		<MemoryRouter initialEntries={initialEntries}>
-			<App />
+			<KeycloakAuthContext.Provider value={keycloakAuth}>
+				<App />
+			</KeycloakAuthContext.Provider>
 		</MemoryRouter>
 	);
 };

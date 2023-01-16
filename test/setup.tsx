@@ -12,7 +12,7 @@ jest.mock('react', () => {
 	React.Suspense = ({ children }: PropsWithChildren) => children;
 	return React;
 });
-jest.mock('../src/components/KeycloakAuthProvider', () => {
+jest.mock('../src/components/keycloak/KeycloakAuthProvider', () => {
 	return null;
 });
 

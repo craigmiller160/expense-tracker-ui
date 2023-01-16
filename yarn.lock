@@ -1112,10 +1112,10 @@
   resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@colors/colors/-/colors-1.5.0.tgz#bb504579c1cae923e6576a4f5da43d25f97bdbd9"
   integrity sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==
 
-"@craigmiller160/ajax-api@^2.1.0-beta":
-  version "2.1.0-beta.2"
-  resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@craigmiller160/ajax-api/-/ajax-api-2.1.0-beta.2.tgz#f37ebc9c13ec7bbbe41e3215f4d7a08726128aa8"
-  integrity sha512-nzX9IOpBsvYO37xCfQh5mUMC4hU1asv6EtmE/Bm9x/veDBW+PTViTdAYBa+yddsQNWn3UPyD1bCMwP9DBRXnXw==
+"@craigmiller160/ajax-api@2.1.0":
+  version "2.1.0"
+  resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@craigmiller160/ajax-api/-/ajax-api-2.1.0.tgz#7182f614027d338cda9203dd8c2fa2ad4f964326"
+  integrity sha512-H0VwrJGwOIf8dE316m06CH2VkZ/z6Kdu0P2LaG19gxeXLS8LlyWPDmpt8QgllqSlSpB89qBnwil+2fmIMFcieg==
   dependencies:
     axios "^0.26.0"
 

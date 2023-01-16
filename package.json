@@ -56,7 +56,7 @@
     "lodash-es": "^4.17.21",
     "miragejs": "^0.1.45",
     "sass": "^1.53.0",
-    "typescript": "^4.8.4",
+    "typescript": "^4.9.4",
     "vite": "^4.0.4"
   },
   "dependencies": {

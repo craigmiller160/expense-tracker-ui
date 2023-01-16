@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 import { createContext, PropsWithChildren, useEffect } from 'react';
 import Keycloak from 'keycloak-js';
 import { BEARER_TOKEN_KEY } from '@craigmiller160/ajax-api';

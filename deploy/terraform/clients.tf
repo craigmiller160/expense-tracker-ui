@@ -48,6 +48,6 @@ resource "keycloak_openid_client" "expense_tracker_ui_prod" {
     "https://apps-craigmiller160.ddns.net/expense-tracker/*"
   ]
   web_origins = [
-    "https://apps-craigmiller160.ddns.net/expense-tracker"
+    "https://apps-craigmiller160.ddns.net"
   ]
 }

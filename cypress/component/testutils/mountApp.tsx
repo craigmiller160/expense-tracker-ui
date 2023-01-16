@@ -3,6 +3,10 @@ import { match, P } from 'ts-pattern';
 import { oauthApi } from './apis/oauth';
 import { App } from '../../../src/components/App';
 import { MemoryRouter } from 'react-router-dom';
+import {
+	KeycloakAuth,
+	KeycloakAuthContext
+} from '../../../src/components/keycloak/KeycloakAuthContext';
 
 const desktopViewport = (): Chainable<null> => cy.viewport(1920, 1080);
 const mobileViewport = (): Chainable<null> => cy.viewport(500, 500);
@@ -36,15 +40,22 @@ const getInitialEntries = (config?: Partial<MountConfig>): string[] =>
 		.with({ initialRoute: P.string }, ({ initialRoute }) => [initialRoute])
 		.otherwise(() => ['/expense-tracker']);
 
+const keycloakAuth: KeycloakAuth = {
+	isAuthorized: true,
+	checkStatus: 'post-check',
+	logout: () => {}
+};
+
 export const mountApp = (config?: Partial<MountConfig>): Chainable<unknown> => {
 	handleViewport(config);
-	handleIsAuthorized(config);
 	const initialEntries = getInitialEntries(config);
 	// This is here because if the component is mounted too soon, emotion fails to construct the style nodes correctly
 	cy.wait(300);
 	return cy.mount(
 		<MemoryRouter initialEntries={initialEntries}>
-			<App />
+			<KeycloakAuthContext.Provider value={keycloakAuth}>
+				<App />
+			</KeycloakAuthContext.Provider>
 		</MemoryRouter>
 	);
 };

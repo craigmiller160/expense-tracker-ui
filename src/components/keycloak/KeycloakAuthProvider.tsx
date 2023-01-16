@@ -1,18 +1,11 @@
 /// <reference types="vite/client" />
-import { createContext, PropsWithChildren, useEffect } from 'react';
+import { PropsWithChildren, useEffect } from 'react';
 import Keycloak from 'keycloak-js';
 import { BEARER_TOKEN_KEY } from '@craigmiller160/ajax-api';
 import { Updater, useImmer } from 'use-immer';
+import { KeycloakAuth, KeycloakAuthContext } from './KeycloakAuthContext';
 
-type CheckStatus = 'pre-check' | 'checking' | 'post-check';
-
-type KeycloakState = {
-	readonly isAuthorized: boolean;
-	readonly checkStatus: CheckStatus;
-};
-export type KeycloakAuth = KeycloakState & {
-	readonly logout: () => void;
-};
+type KeycloakState = Omit<KeycloakAuth, 'logout'>;
 
 const ACCESS_TOKEN_EXP_SECS = 300;
 
@@ -29,12 +22,6 @@ const keycloak = new Keycloak({
 	clientId: 'expense-tracker-ui'
 });
 const logout = () => keycloak.logout();
-
-export const KeycloakAuthContext = createContext<KeycloakAuth>({
-	isAuthorized: false,
-	checkStatus: 'pre-check',
-	logout
-});
 
 const handleKeycloakResult =
 	(updateAuth: Updater<KeycloakState>) => (isSuccess: boolean) => {

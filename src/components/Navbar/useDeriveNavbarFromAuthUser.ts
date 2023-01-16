@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { KeycloakAuthContext } from '../KeycloakAuthProvider';
+import { KeycloakAuthContext } from '../keycloak/KeycloakAuthProvider';
 
 interface DerivedValues {
 	readonly authButtonText: string;

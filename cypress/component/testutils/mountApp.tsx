@@ -1,6 +1,5 @@
 import Chainable = Cypress.Chainable;
 import { match, P } from 'ts-pattern';
-import { oauthApi } from './apis/oauth';
 import { App } from '../../../src/components/App';
 import { MemoryRouter } from 'react-router-dom';
 import {
@@ -29,24 +28,19 @@ const handleViewport = (config?: Partial<MountConfig>): Chainable<null> =>
 		.with(undefined, desktopViewport)
 		.with({ viewport: 'mobile' }, mobileViewport)
 		.otherwise(desktopViewport);
-const handleIsAuthorized = (config?: Partial<MountConfig>): Chainable<null> =>
-	match(config)
-		.with(undefined, oauthApi.getAuthUser_isAuthorized)
-		.with({ isAuthorized: false }, oauthApi.getAuthUser_isNotAuthorized)
-		.otherwise(oauthApi.getAuthUser_isAuthorized);
 const getInitialEntries = (config?: Partial<MountConfig>): string[] =>
 	match(config)
 		.with(undefined, () => ['/expense-tracker'])
 		.with({ initialRoute: P.string }, ({ initialRoute }) => [initialRoute])
 		.otherwise(() => ['/expense-tracker']);
 
-const keycloakAuth: KeycloakAuth = {
-	isAuthorized: true,
-	checkStatus: 'post-check',
-	logout: () => {}
-};
-
 export const mountApp = (config?: Partial<MountConfig>): Chainable<unknown> => {
+	const keycloakAuth: KeycloakAuth = {
+		isAuthorized: config?.isAuthorized ?? true,
+		checkStatus: 'post-check',
+		// eslint-disable-next-line @typescript-eslint/no-empty-function
+		logout: () => {}
+	};
 	handleViewport(config);
 	const initialEntries = getInitialEntries(config);
 	// This is here because if the component is mounted too soon, emotion fails to construct the style nodes correctly

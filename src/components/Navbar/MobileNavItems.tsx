@@ -93,6 +93,7 @@ const findCurrentLabel = (pathname: string, isAuthorized: boolean): string =>
 		)
 		.when(pathStartsWith(RULES_TO), () => RULES_LABEL)
 		.with({ pathname: '/' }, () => MANAGE_TRANSACTIONS_LABEL)
+		.with({ isAuthorized: true }, () => '')
 		.run();
 
 const useMenuNavigation = (

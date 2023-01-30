@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { KeycloakAuthContext } from '../keycloak/KeycloakAuthContext';
+import { KeycloakAuthContext } from '@craigmiller160/react-keycloak';
 
 interface DerivedValues {
 	readonly authButtonText: string;
@@ -9,7 +9,7 @@ interface DerivedValues {
 }
 
 export const useDeriveNavbarFromAuthUser = (): DerivedValues => {
-	const { isAuthorized, checkStatus, logout } =
+	const { isAuthorized, authStatus, logout } =
 		useContext(KeycloakAuthContext);
 	const authButtonText = 'Logout';
 
@@ -17,6 +17,6 @@ export const useDeriveNavbarFromAuthUser = (): DerivedValues => {
 		authButtonText,
 		authButtonAction: logout,
 		isAuthorized,
-		hasCheckedAuthorization: checkStatus === 'post-check'
+		hasCheckedAuthorization: authStatus === 'post-auth'
 	};
 };

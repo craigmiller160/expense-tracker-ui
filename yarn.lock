@@ -1231,9 +1231,9 @@
   integrity sha512-hoXxZCT9K+am0kT3B2eIHKBqlCmzj8ROClzA2gLdadtEkGH6jKOmxwlOpooPZs9HU8k54AIzUGww4A1ysNsGSA==
 
 "@craigmiller160/react-keycloak@^1.0.0-beta":
-  version "1.0.0-beta.2"
-  resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@craigmiller160/react-keycloak/-/react-keycloak-1.0.0-beta.2.tgz#955c98863441cd485c8c43be5e3d489df0eb1008"
-  integrity sha512-9pkJnwV9oJbRXSQo+OBnRCoWDwcwR/rau4aeq1ELtL5Z0AF25tsOKebr8rZdn3UK0B2Rb7ZpvNlsIzwB+ypSfA==
+  version "1.0.0-beta.4"
+  resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@craigmiller160/react-keycloak/-/react-keycloak-1.0.0-beta.4.tgz#e960668509a2630e4f1c762f2ef9c9519889238b"
+  integrity sha512-t9zU2dCejxN4P4vv5IJBJbGgLqo6fACpAZXs8nHG5AtEklay/UhtO06c88V6mExnjBRPSJeuoSOLFwUHyu2b/g==
   dependencies:
     keycloak-js "^20.0.3"
 

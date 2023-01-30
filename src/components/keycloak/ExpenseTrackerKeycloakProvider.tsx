@@ -1,7 +1,7 @@
 /// <reference types="vite/client" />
 
 import { PropsWithChildren } from 'react';
-import { KeycloakAuthProvider } from '@craigmiller160/react-keycloak/lib';
+import { KeycloakAuthProvider } from '@craigmiller160/react-keycloak';
 import { BEARER_TOKEN_KEY } from '@craigmiller160/ajax-api';
 
 const ACCESS_TOKEN_EXP_SECS = 300;

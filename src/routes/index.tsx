@@ -6,7 +6,7 @@ import { LazySuspenseWrapper } from '../components/UI/LazySuspenseWrapper';
 import {
 	KeycloakAuth,
 	KeycloakAuthContext
-} from '../components/keycloak/KeycloakAuthContext';
+} from '@craigmiller160/react-keycloak';
 
 const Welcome = namedLazy(
 	() => import('../components/Content/Welcome'),
@@ -113,11 +113,11 @@ const createRoutes = (rules: RouteRules): RouteObject[] => [
 ];
 
 export const useAppRoutes = (): ReactElement | null => {
-	const { isAuthorized, checkStatus } =
+	const { isAuthorized, authStatus } =
 		useContext<KeycloakAuth>(KeycloakAuthContext);
 	const routes = createRoutes({
 		isAuthorized,
-		hasCheckedAuthorization: checkStatus === 'post-check'
+		hasCheckedAuthorization: authStatus === 'post-auth'
 	});
 	return useRoutes(routes);
 };

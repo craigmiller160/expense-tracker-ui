@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { App } from './components/App';
 import { BrowserRouter } from 'react-router-dom';
-import { KeycloakAuthProvider } from './components/keycloak/KeycloakAuthProvider';
+import { ExpenseTrackerKeycloakProvider } from './components/keycloak/ExpenseTrackerKeycloakProvider';
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const root = ReactDOM.createRoot(document.querySelector('#root')!);
@@ -10,9 +10,9 @@ const root = ReactDOM.createRoot(document.querySelector('#root')!);
 root.render(
 	<React.StrictMode>
 		<BrowserRouter basename="/">
-			<KeycloakAuthProvider>
+			<ExpenseTrackerKeycloakProvider>
 				<App />
-			</KeycloakAuthProvider>
+			</ExpenseTrackerKeycloakProvider>
 		</BrowserRouter>
 	</React.StrictMode>
 );

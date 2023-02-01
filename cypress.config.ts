@@ -9,6 +9,7 @@ export default defineConfig({
 			bundler: 'vite'
 		}
 	},
+	experimentalFetchPolyfill: true,
 
 	e2e: {
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars

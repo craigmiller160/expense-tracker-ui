@@ -5,7 +5,7 @@ import { MemoryRouter } from 'react-router-dom';
 import {
 	KeycloakAuth,
 	KeycloakAuthContext
-} from '../../../src/components/keycloak/KeycloakAuthContext';
+} from '@craigmiller160/react-keycloak';
 
 const desktopViewport = (): Chainable<null> => cy.viewport(1920, 1080);
 const mobileViewport = (): Chainable<null> => cy.viewport(500, 500);
@@ -37,7 +37,7 @@ const getInitialEntries = (config?: Partial<MountConfig>): string[] =>
 export const mountApp = (config?: Partial<MountConfig>): Chainable<unknown> => {
 	const keycloakAuth: KeycloakAuth = {
 		isAuthorized: config?.isAuthorized ?? true,
-		checkStatus: 'post-check',
+		authStatus: 'post-auth',
 		// eslint-disable-next-line @typescript-eslint/no-empty-function
 		logout: () => {}
 	};

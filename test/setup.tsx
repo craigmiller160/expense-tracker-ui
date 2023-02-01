@@ -12,8 +12,12 @@ jest.mock('react', () => {
 	React.Suspense = ({ children }: PropsWithChildren) => children;
 	return React;
 });
-jest.mock('../src/components/keycloak/KeycloakAuthProvider', () => {
-	return null;
+jest.mock('@craigmiller160/react-keycloak', () => {
+	const reactKeycloak = jest.requireActual('@craigmiller160/react-keycloak');
+	return {
+		...reactKeycloak,
+		KeycloakAuthProvider: null
+	};
 });
 
 let originalMatchMedia: (query: string) => MediaQueryList;

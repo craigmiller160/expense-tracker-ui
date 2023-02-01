@@ -7,7 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import {
 	KeycloakAuth,
 	KeycloakAuthContext
-} from '../../src/components/keycloak/KeycloakAuthContext';
+} from '@craigmiller160/react-keycloak';
 
 interface RenderConfig {
 	readonly initialPath?: string;
@@ -15,7 +15,7 @@ interface RenderConfig {
 
 const keycloakAuth: KeycloakAuth = {
 	isAuthorized: true,
-	checkStatus: 'post-check',
+	authStatus: 'post-auth',
 	logout: jest.fn()
 };
 

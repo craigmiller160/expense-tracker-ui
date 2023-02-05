@@ -36,8 +36,7 @@ const getInitialEntries = (config?: Partial<MountConfig>): string[] =>
 
 export const mountApp = (config?: Partial<MountConfig>): Chainable<unknown> => {
 	const keycloakAuth: KeycloakAuth = {
-		isAuthorized: config?.isAuthorized ?? true,
-		authStatus: 'post-auth',
+		status: 'authorized',
 		// eslint-disable-next-line @typescript-eslint/no-empty-function
 		logout: () => {}
 	};

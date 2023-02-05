@@ -9,14 +9,13 @@ interface DerivedValues {
 }
 
 export const useDeriveNavbarFromAuthUser = (): DerivedValues => {
-	const { isAuthorized, authStatus, logout } =
-		useContext(KeycloakAuthContext);
+	const { status, logout } = useContext(KeycloakAuthContext);
 	const authButtonText = 'Logout';
 
 	return {
 		authButtonText,
 		authButtonAction: logout,
-		isAuthorized,
-		hasCheckedAuthorization: authStatus === 'post-auth'
+		isAuthorized: status === 'authorized',
+		hasCheckedAuthorization: status !== 'authorizing'
 	};
 };

@@ -14,8 +14,7 @@ interface RenderConfig {
 }
 
 const keycloakAuth: KeycloakAuth = {
-	isAuthorized: true,
-	authStatus: 'post-auth',
+	status: 'authorized',
 	logout: jest.fn()
 };
 

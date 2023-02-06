@@ -1,7 +1,8 @@
 /// <reference types="vite/client" />
 
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useContext, useEffect } from 'react';
 import {
+	KeycloakAuthContext,
 	KeycloakAuthProvider,
 	RequiredRoles
 } from '@craigmiller160/react-keycloak';
@@ -20,13 +21,25 @@ const requiredRoles: RequiredRoles = {
 	}
 };
 
+const Explorer = (props: PropsWithChildren) => {
+	const { status, error, tokenParsed } = useContext(KeycloakAuthContext);
+	console.error('KEYCLOAK STATUS', status, error, tokenParsed);
+	useEffect(() => {
+		if (error) {
+			alert('There is an error');
+		}
+	}, [error]);
+	return <>{props.children}</>;
+};
+
 export const ExpenseTrackerKeycloakProvider = (props: PropsWithChildren) => (
 	<KeycloakAuthProvider
 		realm={getRealm()}
 		clientId="expense-tracker-ui"
 		localStorageKey={BEARER_TOKEN_KEY}
 		requiredRoles={requiredRoles}
+		doAccessDeniedRedirect={false}
 	>
-		{props.children}
+		<Explorer>{props.children}</Explorer>
 	</KeycloakAuthProvider>
 );

@@ -34,7 +34,6 @@ import {
 } from '../../../utils/dateTimeUtils';
 import { UseMutateAsyncFunction } from 'react-query';
 import { ConfirmDialogContext } from '../../UI/ConfirmDialog/ConfirmDialogProvider';
-import * as Task from 'fp-ts/es6/Task';
 
 const parseRequestDate = (date: Date | null): string | undefined =>
 	pipe(
@@ -141,6 +140,7 @@ const createSaveRule =
 			minAmount: parseRequestAmount(values.minAmount),
 			maxAmount: parseRequestAmount(values.maxAmount)
 		};
+		close();
 		pipe(
 			selectedRuleId,
 			Option.fold(
@@ -153,8 +153,7 @@ const createSaveRule =
 						ruleId,
 						request
 					})
-			),
-			Task.map(close)
+			)
 		)();
 	};
 
@@ -164,7 +163,8 @@ const createDeleteRule =
 		deleteRule: UseMutateAsyncFunction<void, Error, DeleteRuleParams>,
 		close: () => void
 	) =>
-	() =>
+	() => {
+		close();
 		pipe(
 			selectedRuleId,
 			Option.fold(
@@ -173,9 +173,9 @@ const createDeleteRule =
 					deleteRule({
 						ruleId
 					})
-			),
-			Task.map(close)
+			)
 		)();
+	};
 
 export const useHandleRuleDialogData = (props: Props): Data => {
 	const { newConfirmDialog } = useContext(ConfirmDialogContext);

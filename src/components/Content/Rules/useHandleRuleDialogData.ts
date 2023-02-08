@@ -51,6 +51,7 @@ type Props = {
 	readonly selectedRuleId: OptionT<string>;
 	readonly open: boolean;
 	readonly close: () => void;
+	readonly clearSelectedRule: () => void;
 };
 
 export type RuleFormData = {
@@ -162,9 +163,11 @@ const createDeleteRule =
 	(
 		selectedRuleId: OptionT<string>,
 		deleteRule: UseMutateAsyncFunction<void, Error, DeleteRuleParams>,
-		close: () => void
+		close: () => void,
+		clearSelectedRule: () => void
 	) =>
-	() =>
+	() => {
+		clearSelectedRule();
 		pipe(
 			selectedRuleId,
 			Option.fold(
@@ -176,6 +179,7 @@ const createDeleteRule =
 			),
 			Task.map(close)
 		)();
+	};
 
 export const useHandleRuleDialogData = (props: Props): Data => {
 	const { newConfirmDialog } = useContext(ConfirmDialogContext);
@@ -184,7 +188,7 @@ export const useHandleRuleDialogData = (props: Props): Data => {
 	const { data: maxOrdinalData, isFetching: maxOrdinalIsFetching } =
 		useGetMaxOrdinal();
 	const { data: ruleData, isFetching: ruleIsFetching } = useGetRule(
-		props.selectedRuleId
+		props.selectedRuleId // TODO the solution to the dialog loading error is to make this NONE
 	);
 	const form = useForm<RuleFormData>({
 		mode: 'onChange',
@@ -221,7 +225,8 @@ export const useHandleRuleDialogData = (props: Props): Data => {
 	const deleteRule = createDeleteRule(
 		props.selectedRuleId,
 		deleteRuleMutate,
-		props.close
+		props.close,
+		props.clearSelectedRule
 	);
 	const confirmAndDeleteRule = () =>
 		newConfirmDialog(

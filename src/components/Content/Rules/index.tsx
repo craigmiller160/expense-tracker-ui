@@ -43,6 +43,7 @@ type DialogState = {
 type DialogActions = {
 	readonly openDialog: (ruleId?: string) => void;
 	readonly closeDialog: () => void;
+	readonly clearSelectedRule: () => void;
 };
 
 const useDialogActions = (
@@ -59,9 +60,15 @@ const useDialogActions = (
 			draft.selectedRuleId = Option.none;
 		});
 
+	const clearSelectedRule = () =>
+		setDialogState((draft) => {
+			draft.selectedRuleId = Option.none;
+		});
+
 	return {
 		openDialog,
-		closeDialog
+		closeDialog,
+		clearSelectedRule
 	};
 };
 
@@ -90,7 +97,8 @@ export const Rules = () => {
 		setPaginationState,
 		forceUpdate
 	);
-	const { openDialog, closeDialog } = useDialogActions(setDialogState);
+	const { openDialog, closeDialog, clearSelectedRule } =
+		useDialogActions(setDialogState);
 
 	return (
 		<PageResponsiveWrapper className="AutoCategorizeRules">
@@ -115,6 +123,7 @@ export const Rules = () => {
 				selectedRuleId={dialogState.selectedRuleId}
 				open={dialogState.open}
 				close={closeDialog}
+				clearSelectedRule={clearSelectedRule}
 			/>
 		</PageResponsiveWrapper>
 	);

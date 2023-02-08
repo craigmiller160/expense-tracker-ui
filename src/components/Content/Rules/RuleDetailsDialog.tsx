@@ -43,6 +43,7 @@ const RuleDetailsDialogActions = (props: ActionsProps) => (
 type Props = {
 	readonly open: boolean;
 	readonly close: () => void;
+	readonly clearSelectedRule: () => void;
 	readonly selectedRuleId: OptionT<string>;
 };
 
@@ -61,7 +62,8 @@ export const RuleDetailsDialog = (props: Props) => {
 	} = useHandleRuleDialogData({
 		selectedRuleId: props.selectedRuleId,
 		open: props.open,
-		close: props.close
+		close: props.close,
+		clearSelectedRule: props.clearSelectedRule
 	});
 
 	const Actions = !isFetching ? (

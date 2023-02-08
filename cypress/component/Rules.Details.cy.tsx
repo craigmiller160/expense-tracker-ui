@@ -322,5 +322,7 @@ describe('Rule Details', () => {
 		confirmDialogPage.getConfirmButton().click();
 
 		cy.wait(`@deleteRule_${ruleId}`);
+
+		ruleDetailsPage.getHeaderTitle().should('not.be.visible');
 	});
 });

@@ -166,15 +166,11 @@ describe('Transactions Filters', () => {
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
-		await waitFor(() =>
-			expect(screen.queryByText('Expense Tracker')).toBeVisible()
-		);
-		await waitFor(() =>
-			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(1)
-		);
-		await waitFor(() =>
-			expect(screen.queryByText('Rows per page:')).toBeVisible()
-		);
+		await waitForVisibility([
+			{ text: 'Expense Tracker' },
+			{ text: 'Manage Transactions', occurs: 1, timeout: 3000 },
+			{ text: 'Rows per page:' }
+		]);
 
 		const filters = screen.getByTestId('transaction-filters');
 
@@ -196,15 +192,11 @@ describe('Transactions Filters', () => {
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
-		await waitFor(() =>
-			expect(screen.queryByText('Expense Tracker')).toBeVisible()
-		);
-		await waitFor(() =>
-			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(1)
-		);
-		await waitFor(() =>
-			expect(screen.queryByText('Rows per page:')).toBeVisible()
-		);
+		await waitForVisibility([
+			{ text: 'Expense Tracker' },
+			{ text: 'Manage Transactions', occurs: 1, timeout: 3000 },
+			{ text: 'Rows per page:' }
+		]);
 
 		const dates = screen.getAllByTestId('transaction-expense-date');
 		expect(dates.length).toEqual(25);
@@ -262,15 +254,11 @@ describe('Transactions Filters', () => {
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
-		await waitFor(() =>
-			expect(screen.queryByText('Expense Tracker')).toBeVisible()
-		);
-		await waitFor(() =>
-			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(1)
-		);
-		await waitFor(() =>
-			expect(screen.queryByText('Rows per page:')).toBeVisible()
-		);
+		await waitForVisibility([
+			{ text: 'Expense Tracker' },
+			{ text: 'Manage Transactions', occurs: 1, timeout: 3000 },
+			{ text: 'Rows per page:' }
+		]);
 
 		validateTransactionsInTable(25, (index, description) => {
 			expect(description.duplicate).toEqual(index === 0);
@@ -322,15 +310,11 @@ describe('Transactions Filters', () => {
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
-		await waitFor(() =>
-			expect(screen.queryByText('Expense Tracker')).toBeVisible()
-		);
-		await waitFor(() =>
-			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(1)
-		);
-		await waitFor(() =>
-			expect(screen.queryByText('Rows per page:')).toBeVisible()
-		);
+		await waitForVisibility([
+			{ text: 'Expense Tracker' },
+			{ text: 'Manage Transactions', occurs: 1, timeout: 3000 },
+			{ text: 'Rows per page:' }
+		]);
 		validateTransactionsInTable(25, (index, description) => {
 			expect(description.confirmed).toEqual(index !== 0);
 		});
@@ -383,15 +367,11 @@ describe('Transactions Filters', () => {
 		await renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
-		await waitFor(() =>
-			expect(screen.queryByText('Expense Tracker')).toBeVisible()
-		);
-		await waitFor(() =>
-			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(1)
-		);
-		await waitFor(() =>
-			expect(screen.queryByText('Rows per page:')).toBeVisible()
-		);
+		await waitForVisibility([
+			{ text: 'Expense Tracker' },
+			{ text: 'Manage Transactions', occurs: 1, timeout: 3000 },
+			{ text: 'Rows per page:' }
+		]);
 
 		validateTransactionsInTable(25, (index, description) => {
 			if (index === 0) {

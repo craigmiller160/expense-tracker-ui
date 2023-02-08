@@ -113,10 +113,11 @@ const createRoutes = (rules: RouteRules): RouteObject[] => [
 ];
 
 export const useAppRoutes = (): ReactElement | null => {
-	const { status } = useContext<KeycloakAuth>(KeycloakAuthContext);
+	const { status, isPostAuthorization } =
+		useContext<KeycloakAuth>(KeycloakAuthContext);
 	const routes = createRoutes({
 		isAuthorized: status === 'authorized',
-		hasCheckedAuthorization: status !== 'authorizing'
+		hasCheckedAuthorization: isPostAuthorization
 	});
 	return useRoutes(routes);
 };

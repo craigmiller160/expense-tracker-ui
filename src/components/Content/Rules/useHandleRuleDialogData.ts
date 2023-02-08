@@ -188,7 +188,7 @@ export const useHandleRuleDialogData = (props: Props): Data => {
 	const { data: maxOrdinalData, isFetching: maxOrdinalIsFetching } =
 		useGetMaxOrdinal();
 	const { data: ruleData, isFetching: ruleIsFetching } = useGetRule(
-		props.selectedRuleId // TODO the solution to the dialog loading error is to make this NONE
+		props.selectedRuleId
 	);
 	const form = useForm<RuleFormData>({
 		mode: 'onChange',

@@ -9,7 +9,8 @@ import {
 	parseDisplayDateTime,
 	parseServerDate,
 	parseServerDateTime,
-	serverDateToDisplayDate
+	serverDateToDisplayDate,
+	serverDateToReportMonth
 } from '../../src/utils/dateTimeUtils';
 import { pipe } from 'fp-ts/es6/function';
 
@@ -110,9 +111,9 @@ describe('dateTimeUtils', () => {
 		expect(actual).toEqual(expected);
 	});
 
-	it('serverDateTimeToReportMonth', () => {
+	it('serverDateToReportMonth', () => {
 		const expected = 'Feb 2022';
-		const actual = serverDateToDisplayDate('2022-02-01');
+		const actual = serverDateToReportMonth('2022-02-01');
 		expect(actual).toEqual(expected);
 	});
 

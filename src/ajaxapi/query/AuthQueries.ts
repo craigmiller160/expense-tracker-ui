@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { getAuthUser } from '../service/AuthService';
-import { QueryHookResult } from './index';
+import { QueryHookResult } from './types';
 import { AuthUserDto } from '../../types/generated/expense-tracker';
 
 export const GET_AUTH_USER = 'AuthQueries_getAuthUser';

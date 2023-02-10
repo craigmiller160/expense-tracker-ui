@@ -16,7 +16,7 @@ export const parseDisplayDate = Time.parse(DISPLAY_DATE_FORMAT);
 export const formatDisplayDate = Time.format(DISPLAY_DATE_FORMAT);
 export const parseServerDateTime = Time.parse(SERVER_DATE_TIME_FORMAT);
 export const formatServerDateTime = Time.format(SERVER_DATE_TIME_FORMAT);
-export const parseDisplayDateTime = Time.format(DISPLAY_DATE_TIME_FORMAT);
+export const parseDisplayDateTime = Time.parse(DISPLAY_DATE_TIME_FORMAT);
 export const formatDisplayDateTime = Time.format(DISPLAY_DATE_TIME_FORMAT);
 export const formatReportMonth = Time.format(REPORT_MONTH_FORMAT);
 

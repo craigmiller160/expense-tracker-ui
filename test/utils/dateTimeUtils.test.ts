@@ -1,5 +1,11 @@
 import { set } from 'date-fns/fp';
-import {formatDisplayDate, formatServerDate, parseDisplayDate, parseServerDate} from '../../src/utils/dateTimeUtils';
+import {
+	formatDisplayDate,
+	formatServerDate,
+	parseDisplayDate,
+	parseServerDate,
+	parseServerDateTime
+} from '../../src/utils/dateTimeUtils';
 
 // 2022-07-02T14:55:13.824209-04:00
 
@@ -48,7 +54,9 @@ describe('dateTimeUtils', () => {
 	});
 
 	it('parseServerDateTime', () => {
-		throw new Error();
+		const expected = createTimestamp();
+		const actual = parseServerDateTime('2022-02-01T01:01:01.001000Z');
+		expect(actual).toEqual(expected); // TODO how to fix timezone conversion consistently?
 	});
 
 	it('formatServerDateTime', () => {

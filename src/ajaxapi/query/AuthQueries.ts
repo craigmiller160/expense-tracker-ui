@@ -14,7 +14,9 @@ export const useGetAuthUser = (): QueryHookResult<
 	AuthUserDto,
 	GetAuthUserExtra
 > => {
-	const result = useQuery<AuthUserDto, Error>(GET_AUTH_USER, getAuthUser, {
+	const result = useQuery<AuthUserDto, Error>({
+		queryKey: [GET_AUTH_USER],
+		queryFn: getAuthUser,
 		refetchOnWindowFocus: true,
 		retry: false
 	});

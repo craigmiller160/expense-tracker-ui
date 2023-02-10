@@ -8,7 +8,8 @@ import {
 	parseDisplayDate,
 	parseDisplayDateTime,
 	parseServerDate,
-	parseServerDateTime
+	parseServerDateTime,
+	serverDateToDisplayDate
 } from '../../src/utils/dateTimeUtils';
 import { pipe } from 'fp-ts/es6/function';
 
@@ -98,15 +99,21 @@ describe('dateTimeUtils', () => {
 	});
 
 	it('serverDateToDisplayDate', () => {
-		throw new Error();
+		const expected = '02/01/2022';
+		const actual = serverDateToDisplayDate('2022-02-01');
+		expect(actual).toEqual(expected);
 	});
 
 	it('serverDateTimeToDisplayDateTime', () => {
-		throw new Error();
+		const expected = '02/01/2022 01:01:01 AM';
+		const actual = serverDateToDisplayDate('2022-02-01T01:01:01.001000Z');
+		expect(actual).toEqual(expected);
 	});
 
 	it('serverDateTimeToReportMonth', () => {
-		throw new Error();
+		const expected = 'Feb 2022';
+		const actual = serverDateToDisplayDate('2022-02-01');
+		expect(actual).toEqual(expected);
 	});
 
 	it('compareServerDates', () => {

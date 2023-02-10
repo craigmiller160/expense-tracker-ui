@@ -3,7 +3,7 @@ import {
 	useMutation,
 	useQuery,
 	useQueryClient
-} from 'react-query';
+} from '@tanstack/react-query';
 import {
 	createCategory,
 	deleteCategory,
@@ -15,10 +15,10 @@ import { CategoryResponse } from '../../types/generated/expense-tracker';
 export const GET_ALL_CATEGORIES = 'CategoryQueries_GetAllCategories';
 
 export const useGetAllCategories = () =>
-	useQuery<ReadonlyArray<CategoryResponse>, Error>(
-		GET_ALL_CATEGORIES,
-		getAllCategories
-	);
+	useQuery<ReadonlyArray<CategoryResponse>, Error>({
+		queryKey: [GET_ALL_CATEGORIES],
+		queryFn: getAllCategories
+	});
 
 interface UpdateCategoryParams {
 	readonly id: string;
@@ -36,7 +36,10 @@ export const useUpdateCategory = () => {
 	return useMutation<unknown, Error, UpdateCategoryParams>(
 		({ id, name }) => updateCategory(id, name),
 		{
-			onSuccess: () => queryClient.invalidateQueries(GET_ALL_CATEGORIES)
+			onSuccess: () =>
+				queryClient.invalidateQueries({
+					queryKey: [GET_ALL_CATEGORIES]
+				})
 		}
 	);
 };
@@ -56,7 +59,10 @@ export const useCreateCategory = () => {
 	return useMutation<CategoryResponse, Error, CreateCategoryParams>(
 		({ name }) => createCategory(name),
 		{
-			onSuccess: () => queryClient.invalidateQueries(GET_ALL_CATEGORIES)
+			onSuccess: () =>
+				queryClient.invalidateQueries({
+					queryKey: [GET_ALL_CATEGORIES]
+				})
 		}
 	);
 };
@@ -76,7 +82,10 @@ export const useDeleteCategory = () => {
 	return useMutation<unknown, Error, DeleteCategoryParams>(
 		({ id }) => deleteCategory(id),
 		{
-			onSuccess: () => queryClient.invalidateQueries(GET_ALL_CATEGORIES)
+			onSuccess: () =>
+				queryClient.invalidateQueries({
+					queryKey: [GET_ALL_CATEGORIES]
+				})
 		}
 	);
 };

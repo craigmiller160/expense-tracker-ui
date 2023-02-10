@@ -5,7 +5,7 @@ import {
 	useQuery,
 	useQueryClient,
 	UseQueryResult
-} from 'react-query';
+} from '@tanstack/react-query';
 import {
 	AutoCategorizeRulePageRequest,
 	AutoCategorizeRulePageResponse,
@@ -32,10 +32,10 @@ export const GET_MAX_ORDINAL = 'AutoCategorizeRuleQueries_GetMaxOrdinal';
 
 const invalidateRuleQueries = (queryClient: QueryClient): Promise<unknown> =>
 	Promise.all([
-		queryClient.invalidateQueries(GET_ALL_RULES),
-		queryClient.invalidateQueries(GET_RULE),
-		queryClient.invalidateQueries(GET_MAX_ORDINAL),
-		queryClient.invalidateQueries(GET_LAST_RULE_APPLIED)
+		queryClient.invalidateQueries({ queryKey: [GET_ALL_RULES] }),
+		queryClient.invalidateQueries({ queryKey: [GET_RULE] }),
+		queryClient.invalidateQueries({ queryKey: [GET_MAX_ORDINAL] }),
+		queryClient.invalidateQueries({ queryKey: [GET_LAST_RULE_APPLIED] })
 	]);
 
 type GetAllRulesKey = [string, AutoCategorizeRulePageRequest];
@@ -69,7 +69,10 @@ export const useGetRule = (
 	);
 
 export const useGetMaxOrdinal = (): UseQueryResult<MaxOrdinalResponse, Error> =>
-	useQuery<MaxOrdinalResponse, Error>(GET_MAX_ORDINAL, () => getMaxOrdinal());
+	useQuery<MaxOrdinalResponse, Error>({
+		queryKey: [GET_MAX_ORDINAL],
+		queryFn: getMaxOrdinal
+	});
 
 export type CreateRuleParams = {
 	readonly request: AutoCategorizeRuleRequest;

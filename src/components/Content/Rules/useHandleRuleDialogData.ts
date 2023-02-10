@@ -32,7 +32,7 @@ import {
 	formatServerDate,
 	parseServerDate
 } from '../../../utils/dateTimeUtils';
-import { UseMutateAsyncFunction } from 'react-query';
+import { UseMutateAsyncFunction } from '@tanstack/react-query';
 import { ConfirmDialogContext } from '../../UI/ConfirmDialog/ConfirmDialogProvider';
 import * as Task from 'fp-ts/es6/Task';
 

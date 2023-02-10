@@ -1,4 +1,4 @@
-import { useQuery, UseQueryResult } from 'react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { LastRuleAppliedResponse } from '../../types/generated/expense-tracker';
 import { getLastRuleApplied } from '../service/LastAppliedRuleService';
 import { OptionT } from '@craigmiller160/ts-functions/es/types';

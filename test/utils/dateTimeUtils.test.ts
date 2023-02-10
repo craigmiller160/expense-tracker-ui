@@ -2,6 +2,7 @@ import { set, addMinutes } from 'date-fns/fp';
 import {
 	formatDisplayDate,
 	formatServerDate,
+	formatServerDateTime,
 	parseDisplayDate,
 	parseServerDate,
 	parseServerDateTime
@@ -64,7 +65,10 @@ describe('dateTimeUtils', () => {
 	});
 
 	it('formatServerDateTime', () => {
-		throw new Error();
+		const date = createTimestamp();
+		const actual = formatServerDateTime(date);
+		const expected = '2022-02-01T01:01:01.001000Z';
+		expect(actual).toEqual(expected);
 	});
 
 	it('parseDisplayDateTime', () => {

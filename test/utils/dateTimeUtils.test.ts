@@ -1,6 +1,8 @@
 import { set, addMinutes, format, subMilliseconds } from 'date-fns/fp';
 import {
 	formatDisplayDate,
+	formatDisplayDateTime,
+	formatReportMonth,
 	formatServerDate,
 	formatServerDateTime,
 	parseDisplayDate,
@@ -82,11 +84,17 @@ describe('dateTimeUtils', () => {
 	});
 
 	it('formatDisplayDateTime', () => {
-		throw new Error();
+		const date = createTimestamp();
+		const expected = '02/01/2022 01:01:01 AM';
+		const actual = formatDisplayDateTime(date);
+		expect(actual).toEqual(expected);
 	});
 
 	it('formatReportMonth', () => {
-		throw new Error();
+		const date = createDate();
+		const expected = format('MMM yyyy')(date);
+		const actual = formatReportMonth(date);
+		expect(actual).toEqual(expected);
 	});
 
 	it('serverDateToDisplayDate', () => {

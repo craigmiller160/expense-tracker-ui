@@ -9,6 +9,7 @@ import {
 	parseDisplayDateTime,
 	parseServerDate,
 	parseServerDateTime,
+	serverDateTimeToDisplayDateTime,
 	serverDateToDisplayDate,
 	serverDateToReportMonth
 } from '../../src/utils/dateTimeUtils';
@@ -107,7 +108,9 @@ describe('dateTimeUtils', () => {
 
 	it('serverDateTimeToDisplayDateTime', () => {
 		const expected = '02/01/2022 01:01:01 AM';
-		const actual = serverDateToDisplayDate('2022-02-01T01:01:01.001000Z');
+		const actual = serverDateTimeToDisplayDateTime(
+			'2022-02-01T01:01:01.001000Z'
+		);
 		expect(actual).toEqual(expected);
 	});
 

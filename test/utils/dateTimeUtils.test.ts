@@ -39,7 +39,7 @@ const createTimestamp = (): Date =>
 	})(new Date());
 
 const toUtc = (date: Date): Date => addMinutes(date.getTimezoneOffset())(date);
-const getTimezoneSuffix = (): string => format('X')(new Date());
+const getTimezoneSuffix = (): string => format('XXX')(new Date());
 
 describe('dateTimeUtils', () => {
 	it('parseServerDate', () => {

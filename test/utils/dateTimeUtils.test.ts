@@ -74,8 +74,17 @@ describe('dateTimeUtils', () => {
 	});
 
 	it('parseServerDateTime with non-UTC timezome', () => {
-		// 2022-07-02T14:55:13.824209-04:00
-		throw new Error();
+		const expected = set({
+			year: 2022,
+			month: 8,
+			date: 2,
+			hours: 14,
+			minutes: 55,
+			seconds: 13,
+			milliseconds: 824
+		})(new Date());
+		const actual = parseServerDateTime('2022-07-02T14:55:13.824000-04:00');
+		expect(actual).toEqual(expected);
 	});
 
 	it('formatServerDateTime', () => {

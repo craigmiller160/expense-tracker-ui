@@ -1,4 +1,4 @@
-import { set } from 'date-fns/fp';
+import { set, addMinutes } from 'date-fns/fp';
 import {
 	formatDisplayDate,
 	formatServerDate,
@@ -6,6 +6,7 @@ import {
 	parseServerDate,
 	parseServerDateTime
 } from '../../src/utils/dateTimeUtils';
+import { pipe } from 'fp-ts/es6/function';
 
 // 2022-07-02T14:55:13.824209-04:00
 
@@ -55,8 +56,11 @@ describe('dateTimeUtils', () => {
 
 	it('parseServerDateTime', () => {
 		const expected = createTimestamp();
-		const actual = parseServerDateTime('2022-02-01T01:01:01.001000Z');
-		expect(actual).toEqual(expected); // TODO how to fix timezone conversion consistently?
+		const actual = pipe(
+			parseServerDateTime('2022-02-01T01:01:01.001000Z'),
+			(d) => addMinutes(d.getTimezoneOffset())(d)
+		);
+		expect(actual).toEqual(expected);
 	});
 
 	it('formatServerDateTime', () => {

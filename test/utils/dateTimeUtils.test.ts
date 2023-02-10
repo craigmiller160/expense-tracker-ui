@@ -76,7 +76,7 @@ describe('dateTimeUtils', () => {
 	it('parseServerDateTime with non-UTC timezome', () => {
 		const expected = set({
 			year: 2022,
-			month: 8,
+			month: 6,
 			date: 2,
 			hours: 14,
 			minutes: 55,

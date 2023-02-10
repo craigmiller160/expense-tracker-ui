@@ -29,6 +29,7 @@ export const useImportTransactions = (onSuccess: () => void) => {
 				'success',
 				`Successfully imported ${data.transactionsImported} transactions`
 			);
+			return Promise.resolve();
 		}
 	});
 };

@@ -5,7 +5,7 @@ import { match } from 'ts-pattern';
 import { pipe } from 'fp-ts/es6/function';
 
 const SERVER_DATE_FORMAT = 'yyyy-MM-dd';
-const SERVER_DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSX";
+const SERVER_DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSXXX";
 const DISPLAY_DATE_FORMAT = 'MM/dd/yyyy';
 const DISPLAY_DATE_TIME_FORMAT = 'MM/dd/yyyy hh:mm:ss a';
 const REPORT_MONTH_FORMAT = 'MMM yyyy';

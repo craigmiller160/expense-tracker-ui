@@ -1,4 +1,4 @@
-import { UseQueryResult } from 'react-query';
+import { UseQueryResult } from '@tanstack/react-query';
 
 export interface QueryHookResult<T, R = undefined> {
 	readonly result: UseQueryResult<T, Error>;

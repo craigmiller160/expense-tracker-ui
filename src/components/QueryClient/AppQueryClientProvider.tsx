@@ -5,7 +5,7 @@ import {
 	QueryCache,
 	QueryClient,
 	QueryClientProvider
-} from 'react-query';
+} from '@tanstack/react-query';
 import { match, P } from 'ts-pattern';
 import { NoAlertError } from '../../error/NoAlertError';
 import {

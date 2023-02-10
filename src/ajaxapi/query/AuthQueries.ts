@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import { getAuthUser } from '../service/AuthService';
 import { QueryHookResult } from './index';
 import { AuthUserDto } from '../../types/generated/expense-tracker';

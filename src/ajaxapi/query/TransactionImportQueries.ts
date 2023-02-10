@@ -1,5 +1,5 @@
 import { FileType } from '../../types/file';
-import { UseMutateFunction, useMutation } from 'react-query';
+import { UseMutateFunction, useMutation } from '@tanstack/react-query';
 import { importTransactions } from '../service/TransactionImportService';
 import { useContext } from 'react';
 import { AlertContext } from '../../components/UI/Alerts/AlertProvider';

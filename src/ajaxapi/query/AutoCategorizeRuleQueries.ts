@@ -5,7 +5,7 @@ import {
 	useQuery,
 	useQueryClient,
 	UseQueryResult
-} from 'react-query';
+} from '@tanstack/react-query';
 import {
 	AutoCategorizeRulePageRequest,
 	AutoCategorizeRulePageResponse,

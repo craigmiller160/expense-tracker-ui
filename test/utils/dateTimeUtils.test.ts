@@ -1,4 +1,4 @@
-import { set, addMinutes } from 'date-fns/fp';
+import { set, addMinutes, format } from 'date-fns/fp';
 import {
 	formatDisplayDate,
 	formatServerDate,
@@ -32,6 +32,8 @@ const createTimestamp = (): Date =>
 		milliseconds: 1
 	})(new Date());
 
+const toUtc = (date: Date): Date => addMinutes(date.getTimezoneOffset())(date);
+
 describe('dateTimeUtils', () => {
 	it('parseServerDate', () => {
 		const expected = createDate();
@@ -59,7 +61,7 @@ describe('dateTimeUtils', () => {
 		const expected = createTimestamp();
 		const actual = pipe(
 			parseServerDateTime('2022-02-01T01:01:01.001000Z'),
-			(d) => addMinutes(d.getTimezoneOffset())(d)
+			toUtc
 		);
 		expect(actual).toEqual(expected);
 	});
@@ -67,7 +69,8 @@ describe('dateTimeUtils', () => {
 	it('formatServerDateTime', () => {
 		const date = createTimestamp();
 		const actual = formatServerDateTime(date);
-		const expected = '2022-02-01T01:01:01.001000Z';
+		const tz = format('X')(date);
+		const expected = `2022-02-01T01:01:01.001000${tz}`;
 		expect(actual).toEqual(expected);
 	});
 

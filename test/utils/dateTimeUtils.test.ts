@@ -1,9 +1,9 @@
 import { set } from 'date-fns/fp';
-import { parseServerDate } from '../../src/utils/dateTimeUtils';
+import {formatDisplayDate, formatServerDate, parseDisplayDate, parseServerDate} from '../../src/utils/dateTimeUtils';
 
 // 2022-07-02T14:55:13.824209-04:00
 
-const createExpectedDate = (): Date =>
+const createDate = (): Date =>
 	set({
 		year: 2022,
 		month: 1,
@@ -13,7 +13,7 @@ const createExpectedDate = (): Date =>
 		seconds: 0,
 		milliseconds: 0
 	})(new Date());
-const createExpectedTimestamp = (): Date =>
+const createTimestamp = (): Date =>
 	set({
 		year: 2022,
 		month: 1,
@@ -26,21 +26,25 @@ const createExpectedTimestamp = (): Date =>
 
 describe('dateTimeUtils', () => {
 	it('parseServerDate', () => {
-		const expected = createExpectedDate();
+		const expected = createDate();
 		const actual = parseServerDate('2022-02-01');
 		expect(actual).toEqual(expected);
 	});
 
 	it('formatServerDate', () => {
-		throw new Error();
+		const date = createDate();
+		expect(formatServerDate(date)).toEqual('2022-02-01');
 	});
 
 	it('parseDisplayDate', () => {
-		throw new Error();
+		const expected = createDate();
+		const actual = parseDisplayDate('02/01/2022');
+		expect(actual).toEqual(expected);
 	});
 
 	it('formatDisplayDate', () => {
-		throw new Error();
+		const date = createDate();
+		expect(formatDisplayDate(date)).toEqual('02/01/2022');
 	});
 
 	it('parseServerDateTime', () => {

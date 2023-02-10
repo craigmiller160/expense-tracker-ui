@@ -1,5 +1,6 @@
-import { set, addMinutes, format, subMilliseconds } from 'date-fns/fp';
+import { addMinutes, format, set, subMilliseconds } from 'date-fns/fp';
 import {
+	compareServerDates,
 	formatDisplayDate,
 	formatDisplayDateTime,
 	formatReportMonth,
@@ -14,6 +15,7 @@ import {
 	serverDateToReportMonth
 } from '../../src/utils/dateTimeUtils';
 import { pipe } from 'fp-ts/es6/function';
+import { SortDirection } from '../../src/types/misc';
 
 // 2022-07-02T14:55:13.824209-04:00
 
@@ -123,6 +125,17 @@ describe('dateTimeUtils', () => {
 	});
 
 	it('compareServerDates', () => {
-		throw new Error();
+		const date1 = '2022-01-01';
+		const date2 = '2022-02-01';
+
+		expect(compareServerDates(date1, date2, SortDirection.ASC)).toEqual(-1);
+		expect(compareServerDates(date1, date1, SortDirection.ASC)).toEqual(0);
+		expect(compareServerDates(date2, date1, SortDirection.ASC)).toEqual(1);
+
+		expect(compareServerDates(date1, date2, SortDirection.DESC)).toEqual(1);
+		expect(compareServerDates(date1, date1, SortDirection.DESC)).toEqual(0);
+		expect(compareServerDates(date2, date1, SortDirection.DESC)).toEqual(
+			-1
+		);
 	});
 });

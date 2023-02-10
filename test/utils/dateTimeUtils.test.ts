@@ -17,8 +17,6 @@ import {
 import { pipe } from 'fp-ts/es6/function';
 import { SortDirection } from '../../src/types/misc';
 
-// 2022-07-02T14:55:13.824209-04:00
-
 const createDate = (): Date =>
 	set({
 		year: 2022,
@@ -73,6 +71,11 @@ describe('dateTimeUtils', () => {
 			toUtc
 		);
 		expect(actual).toEqual(expected);
+	});
+
+	it('parseServerDateTime with non-UTC timezome', () => {
+		// 2022-07-02T14:55:13.824209-04:00
+		throw new Error();
 	});
 
 	it('formatServerDateTime', () => {

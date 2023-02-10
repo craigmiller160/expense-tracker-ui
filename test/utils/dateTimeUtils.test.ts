@@ -109,7 +109,7 @@ describe('dateTimeUtils', () => {
 	it('serverDateTimeToDisplayDateTime', () => {
 		const expected = '02/01/2022 01:01:01 AM';
 		const actual = serverDateTimeToDisplayDateTime(
-			'2022-02-01T01:01:01.001000Z'
+			'2022-02-01T06:01:01.001000Z'
 		);
 		expect(actual).toEqual(expected);
 	});

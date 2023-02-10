@@ -43,11 +43,15 @@ export const GET_TRANSACTION_DETAILS =
 
 const invalidateTransactionQueries = (queryClient: QueryClient) =>
 	Promise.all([
-		queryClient.invalidateQueries(SEARCH_FOR_TRANSACTIONS),
-		queryClient.invalidateQueries(GET_NEEDS_ATTENTION),
-		queryClient.invalidateQueries(GET_TRANSACTION_DETAILS),
-		queryClient.invalidateQueries(GET_SPENDING_BY_MONTH_AND_CATEGORY)
-	]).then(() => queryClient.invalidateQueries(GET_POSSIBLE_DUPLICATES));
+		queryClient.invalidateQueries({ queryKey: [SEARCH_FOR_TRANSACTIONS] }),
+		queryClient.invalidateQueries({ queryKey: [GET_NEEDS_ATTENTION] }),
+		queryClient.invalidateQueries({ queryKey: [GET_TRANSACTION_DETAILS] }),
+		queryClient.invalidateQueries({
+			queryKey: [GET_SPENDING_BY_MONTH_AND_CATEGORY]
+		})
+	]).then(() =>
+		queryClient.invalidateQueries({ queryKey: [GET_POSSIBLE_DUPLICATES] })
+	);
 
 type SearchForTransactionsKey = [string, EnhancedSearchTransactionsRequest];
 

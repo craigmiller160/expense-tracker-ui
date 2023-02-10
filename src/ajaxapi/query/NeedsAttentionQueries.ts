@@ -8,6 +8,6 @@ export const useGetNeedsAttention = (): UseQueryResult<
 	NeedsAttentionResponse,
 	Error
 > =>
-	useQuery<NeedsAttentionResponse, Error>(GET_NEEDS_ATTENTION, () =>
+	useQuery<NeedsAttentionResponse, Error>([GET_NEEDS_ATTENTION], () =>
 		getNeedsAttention()
 	);

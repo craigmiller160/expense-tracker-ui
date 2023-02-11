@@ -1,17 +1,61 @@
 import { Alert, Stack } from '@mui/material';
 import './Alerts.scss';
-import { useContext } from 'react';
-import { AlertContext } from './AlertProvider';
+import { AlertData } from './types';
+import { useImmer } from 'use-immer';
+import { useCallback, useEffect } from 'react';
+import { alertManager } from './AlertManager';
+
+const ALERT_TIMEOUT = 6_000;
+
+type State = {
+	readonly alerts: ReadonlyArray<AlertData>;
+	readonly timeouts: ReadonlyArray<[string, number]>;
+};
 
 export const Alerts = () => {
-	const alertContext = useContext(AlertContext);
+	const [state, setState] = useImmer<State>({
+		alerts: [],
+		timeouts: []
+	});
+
+	const removeAlert = useCallback(
+		(id: string) =>
+			setState((draft) => {
+				const alertIndex = draft.alerts.findIndex(
+					(alert) => alert.id === id
+				);
+				if (alertIndex >= 0) {
+					draft.alerts.splice(alertIndex, 1);
+				}
+
+				const timeoutIndex = draft.timeouts.findIndex(
+					([alertId]) => alertId === id
+				);
+				if (timeoutIndex >= 0) {
+					clearTimeout(timeoutIndex);
+				}
+			}),
+		[setState]
+	);
+
+	useEffect(() => {
+		return alertManager.subscribe((alert) => {
+			const timeout = window.setTimeout(() => {
+				removeAlert(alert.id);
+			}, ALERT_TIMEOUT);
+			setState((draft) => {
+				draft.alerts.push(alert);
+				draft.timeouts.push([alert.id, timeout]);
+			});
+		});
+	}, [setState, removeAlert]);
 
 	return (
 		<div className="Alerts">
 			<Stack sx={{ width: '50%' }}>
-				{alertContext.alerts.map((alert) => (
+				{state.alerts.map((alert) => (
 					<Alert
-						onClose={() => alertContext.removeAlert(alert.id)}
+						onClose={() => removeAlert(alert.id)}
 						key={alert.id}
 						severity={alert.severity}
 					>

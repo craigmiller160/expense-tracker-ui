@@ -21,6 +21,7 @@ export const AlertContext = createContext<AlertContextValue>({
 	removeAlert: () => {} // eslint-disable-line  @typescript-eslint/no-empty-function
 });
 
+// TODO probably delete all this and move to new alert manager
 const createAddAlert =
 	(setState: Updater<State>, removeAlert: RemoveAlert): AddAlert =>
 	(severity, message) => {

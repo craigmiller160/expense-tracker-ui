@@ -6,7 +6,9 @@ import { ConfirmDialog } from './UI/ConfirmDialog';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { QueryClientProvider } from '@tanstack/react-query';
-import { queryClient } from '../ajaxapi/query/queryClient';
+import { newQueryClient } from '../ajaxapi/query/queryClient';
+
+const queryClient = newQueryClient();
 
 export const App = () => (
 	<QueryClientProvider client={queryClient}>

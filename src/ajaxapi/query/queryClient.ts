@@ -9,7 +9,6 @@ type CombinedErrorValues = {
 	readonly errorResponse?: ErrorResponse;
 };
 
-// TODO move to file
 const getCombinedErrorValues = (error: Error): CombinedErrorValues => {
 	const messages: string[] = [];
 	let baseError: Error | undefined = error;
@@ -50,15 +49,16 @@ const onError = (error: unknown) => {
 	}
 };
 
-export const queryClient = new QueryClient({
-	defaultOptions: {
-		queries: {
-			refetchOnWindowFocus: false,
-			cacheTime: 0,
-			onError
-		},
-		mutations: {
-			onError
+export const newQueryClient = () =>
+	new QueryClient({
+		defaultOptions: {
+			queries: {
+				refetchOnWindowFocus: false,
+				cacheTime: 0,
+				onError
+			},
+			mutations: {
+				onError
+			}
 		}
-	}
-});
+	});

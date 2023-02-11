@@ -9,7 +9,7 @@
     "registry": "https://nexus-craigmiller160.ddns.net/repository/npm-private/"
   },
   "scripts": {
-    "lint": "eslint --fix --max-warnings=0 **/**.{ts,tsx}",
+    "lint": "eslint --fix --max-warnings=0 '{src,test,cypress}/**/*.{ts,tsx}'",
     "start": "node scripts/startDev.js",
     "start:nocache": "node scripts/startDev.js --force",
     "prepare": "husky install",

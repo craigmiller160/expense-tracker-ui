@@ -120,6 +120,8 @@ export const AppQueryClientProvider = (props: PropsWithChildren) => {
 			}
 		}
 	});
+	// @ts-ignore
+	window.queryClient = queryClient;
 	return (
 		<QueryClientProvider client={queryClient}>
 			{props.children}

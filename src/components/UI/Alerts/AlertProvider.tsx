@@ -1,22 +1,13 @@
 import { createContext, PropsWithChildren } from 'react';
-import { AlertColor } from '@mui/material';
 import { Updater, useImmer } from 'use-immer';
 import { nanoid } from 'nanoid';
+import { AddAlert, AlertData, RemoveAlert } from './types';
 
 const ALERT_TIMEOUT = 6_000;
-
-export interface AlertData {
-	readonly id: string;
-	readonly severity: AlertColor;
-	readonly message: string;
-}
 
 interface State {
 	readonly alerts: ReadonlyArray<AlertData>;
 }
-
-type AddAlert = (severity: AlertColor, message: string) => void;
-type RemoveAlert = (id: string) => void;
 
 export interface AlertContextValue {
 	readonly alerts: ReadonlyArray<AlertData>;

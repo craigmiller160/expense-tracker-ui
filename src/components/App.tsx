@@ -9,11 +9,16 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from './ErrorBoundary';
 
+// TODO maybe delete this?
 const queryClient = new QueryClient({
 	defaultOptions: {
 		queries: {
 			refetchOnWindowFocus: false,
-			cacheTime: 0
+			cacheTime: 0,
+			useErrorBoundary: true
+		},
+		mutations: {
+			useErrorBoundary: true
 		}
 	}
 });

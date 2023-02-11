@@ -110,16 +110,14 @@ export const AppQueryClientProvider = (props: PropsWithChildren) => {
 	const alertContext = useContext(AlertContext);
 	const queryErrorSupport = useContext(QueryErrorSupportContext);
 	const queryClient = new QueryClient({
-		queryCache: new QueryCache({
-			onError: createErrorHandler(alertContext, queryErrorSupport)
-		}),
-		mutationCache: new MutationCache({
-			onError: createErrorHandler(alertContext, queryErrorSupport)
-		}),
 		defaultOptions: {
 			queries: {
 				refetchOnWindowFocus: false,
-				cacheTime: 0
+				cacheTime: 0,
+				onError: createErrorHandler(alertContext, queryErrorSupport)
+			},
+			mutations: {
+				onError: createErrorHandler(alertContext, queryErrorSupport)
 			}
 		}
 	});

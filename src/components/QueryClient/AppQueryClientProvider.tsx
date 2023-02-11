@@ -116,7 +116,8 @@ export const AppQueryClientProvider = (props: PropsWithChildren) => {
 		}),
 		defaultOptions: {
 			queries: {
-				refetchOnWindowFocus: false
+				refetchOnWindowFocus: false,
+				cacheTime: 0
 			}
 		}
 	});

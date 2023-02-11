@@ -58,10 +58,9 @@ const DEFAULT_TXN_VALUES: TransactionValues = {
 const useValuesFromSelectedTransaction = (
 	selectedTransactionId: OptionT<string>
 ): TransactionValues => {
-	const { data, isLoading, isFetching } = useGetTransactionDetails(
+	const { data, isInitialLoading } = useGetTransactionDetails(
 		selectedTransactionId
 	);
-	const realIsLoading = isLoading && isFetching;
 	return useMemo(
 		() =>
 			pipe(
@@ -69,11 +68,11 @@ const useValuesFromSelectedTransaction = (
 				Option.fold(
 					() => ({
 						...DEFAULT_TXN_VALUES,
-						isLoading: realIsLoading
+						isLoading: isInitialLoading
 					}),
 					(txn) => ({
 						...txn,
-						isLoading: realIsLoading,
+						isLoading: isInitialLoading,
 						expenseDate: serverDateToDisplayDate(txn.expenseDate),
 						category: itemWithCategoryToCategoryOption(txn),
 						created: serverDateTimeToDisplayDateTime(txn.created),
@@ -81,7 +80,7 @@ const useValuesFromSelectedTransaction = (
 					})
 				)
 			),
-		[data, realIsLoading]
+		[data, isInitialLoading]
 	);
 };
 

@@ -3,6 +3,7 @@ import { QueryErrorSupportProvider } from './QueryErrorSupportProvider';
 import { AppQueryClientProvider } from './AppQueryClientProvider';
 import { QueryErrorSupportHandler } from './QueryErrorSupportHandler';
 
+// TODO delete this
 export const AppQueryAndErrorHandlingProvider = (props: PropsWithChildren) => (
 	<QueryErrorSupportProvider>
 		<AppQueryClientProvider>

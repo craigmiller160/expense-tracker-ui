@@ -17,6 +17,8 @@ import { NoAlertOrStatusHandlingError } from '../../error/NoAlertOrStatusHandlin
 import { constVoid } from 'fp-ts/es6/function';
 import { ErrorResponse, isErrorResponse } from '../../types/error';
 
+// TODO delete this
+
 interface CombinedErrorValues {
 	readonly message: string;
 	readonly status?: number;

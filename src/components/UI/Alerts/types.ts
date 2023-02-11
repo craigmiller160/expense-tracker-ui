@@ -8,13 +8,13 @@ export type AlertData = {
 
 export type AddAlert = (severity: AlertColor, message: string) => void;
 export type RemoveAlert = (id: string) => void;
-export type AlertSubscription = {
-	readonly unsubscribe: () => void;
-};
-export type SubscribeForAlerts = (alertData: AlertData) => AlertSubscription;
+export type AlertUnsubscribe = () => void;
+export type AlertSubscription = (alertData: AlertData) => void;
+export type SubscribeForAlerts = (
+	subscription: AlertSubscription
+) => AlertUnsubscribe;
 
 export type AlertManager = {
 	readonly addAlert: AddAlert;
-	readonly removeAlert: RemoveAlert;
 	readonly subscribe: SubscribeForAlerts;
 };

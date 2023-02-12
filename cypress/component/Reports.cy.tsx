@@ -6,6 +6,7 @@ import * as RNonEmptyArray from 'fp-ts/es6/ReadonlyNonEmptyArray';
 import { pipe } from 'fp-ts/es6/function';
 import { formatCurrency, formatPercent } from '../../src/utils/formatNumbers';
 import { categoriesApi } from './testutils/apis/categories';
+import { needsAttentionApi } from './testutils/apis/needsAttention';
 
 const validateRootTableHeaders = () => {
 	reportsPage
@@ -54,6 +55,7 @@ describe('Reports', () => {
 	it('shows month-by-month report', () => {
 		reportsApi.getSpendingByMonthAndCategory();
 		categoriesApi.getAllCategories();
+		needsAttentionApi.getNeedsAttention_none();
 		mountApp({
 			initialRoute: '/expense-tracker/reports'
 		});

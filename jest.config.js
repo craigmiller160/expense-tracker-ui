@@ -8,9 +8,13 @@ const path = require('path');
 const modifiedJestConfig = {
 	...jestConfig,
 	transform: {
-		'^.+\\.jsx?$': '@swc/jest'
+		'^.+\\.(t|j)sx?$': '@swc/jest'
 	}
 };
+
+// TODO update the jest-config-ts lib
+delete jestTsConfig.transform;
+delete jestTsConfig.globals;
 
 module.exports = merge(modifiedJestConfig, jestTsConfig, {
 	setupFilesAfterEnv: [path.join(process.cwd(), 'test', 'setup.tsx')]

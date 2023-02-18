@@ -49,7 +49,7 @@ const path = require('path');
 
 // TODO update the jest-config-ts lib
 // delete jestTsConfig.transform;
-// delete jestTsConfig.globals;
+// delete jestTsConfig.globals;=
 
 module.exports = merge(jestConfig, {
 	setupFilesAfterEnv: [path.join(process.cwd(), 'test', 'setup.tsx')]

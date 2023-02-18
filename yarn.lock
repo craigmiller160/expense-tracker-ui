@@ -395,9 +395,9 @@
     "@typescript-eslint/parser" "^5.49.0"
 
 "@craigmiller160/jest-config@^2.0.0-beta":
-  version "2.0.0-beta.2"
-  resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@craigmiller160/jest-config/-/jest-config-2.0.0-beta.2.tgz#e1f06423177ebfa739b279e3847c5f9db985e75c"
-  integrity sha512-NuvdeXZ5Py5R4x8S/J0mjn8pu/CkERNDc++nFAfoK9bymNzL/fwGbrg4XUQs2YNCPUYQqB7OmmkrQVvFCDF0Jw==
+  version "2.0.0-beta.3"
+  resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@craigmiller160/jest-config/-/jest-config-2.0.0-beta.3.tgz#a64f6f119577ac840fe9aebb4353e65fa1a90c2a"
+  integrity sha512-bCXMc8SdIgq2TIfVHPpNW00bFjHSRq0juVVkjLf5OX0IgY3gTVF63X/Qw2ZAQyHi66oHcED3dFSVRw9DDLykwg==
   dependencies:
     "@swc/jest" "^0.2.24"
     cross-env "^7.0.3"
@@ -5434,10 +5434,15 @@ pump@^3.0.0:
     end-of-stream "^1.1.0"
     once "^1.3.1"
 
-punycode@^2.1.0, punycode@^2.1.1:
+punycode@^2.1.0:
   version "2.1.1"
   resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
+
+punycode@^2.1.1:
+  version "2.3.0"
+  resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/punycode/-/punycode-2.3.0.tgz#f67fa67c94da8f4d0cfff981aee4118064199b8f"
+  integrity sha512-rRV+zQD8tVFys26lAGR9WUuS4iUAngJScM+ZRSKtvl5tKeZ2t5bvdNFdNHBW9FWR4guGHlgmsZ1G7BSm2wTbuA==
 
 qs@^6.11.0:
   version "6.11.0"

@@ -7,11 +7,16 @@ const path = require('path');
 // TODO remove @swc/jest from this project and add to jest lib
 const modifiedJestConfig = {
 	...jestConfig,
+	transformIgnorePatterns: [],
 	transform: {
 		'^.+\\.(t|j)sx?$': [
 			'@swc/jest',
 			{
 				jsc: {
+					parser: {
+						syntax: 'typescript',
+						tsx: true
+					},
 					transform: {
 						react: {
 							runtime: 'automatic'

@@ -8,7 +8,22 @@ const path = require('path');
 const modifiedJestConfig = {
 	...jestConfig,
 	transform: {
-		'^.+\\.(t|j)sx?$': '@swc/jest'
+		'^.+\\.(t|j)sx?$': [
+			'@swc/jest',
+			{
+				jsc: {
+					// parser: {
+					// 	syntax: 'typescript',
+					// 	tsx: true
+					// },
+					transform: {
+						react: {
+							runtime: 'automatic'
+						}
+					}
+				}
+			}
+		]
 	}
 };
 

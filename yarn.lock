@@ -394,10 +394,10 @@
     "@typescript-eslint/eslint-plugin" "^5.49.0"
     "@typescript-eslint/parser" "^5.49.0"
 
-"@craigmiller160/jest-config@^2.0.0-beta":
-  version "2.0.0-beta.3"
-  resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@craigmiller160/jest-config/-/jest-config-2.0.0-beta.3.tgz#a64f6f119577ac840fe9aebb4353e65fa1a90c2a"
-  integrity sha512-bCXMc8SdIgq2TIfVHPpNW00bFjHSRq0juVVkjLf5OX0IgY3gTVF63X/Qw2ZAQyHi66oHcED3dFSVRw9DDLykwg==
+"@craigmiller160/jest-config@2.0.0":
+  version "2.0.0"
+  resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@craigmiller160/jest-config/-/jest-config-2.0.0.tgz#49cd0ec006b101614370daa8f7887fed2fa15204"
+  integrity sha512-iR0KrH7gilnCY4CgJZmbXti/RsqF4N1rwj9cz6Xo1PBD+sSs2PZPi8Nqoc4GtZ66thMx0S5ZQnlXUzhKcrHxSw==
   dependencies:
     "@swc/jest" "^0.2.24"
     cross-env "^7.0.3"

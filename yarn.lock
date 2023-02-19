@@ -1212,10 +1212,10 @@
   resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@craigmiller160/react-hook-form-material-ui/-/react-hook-form-material-ui-1.3.0.tgz#1f145da060053cf50e0420de4a039b327878258a"
   integrity sha512-hoXxZCT9K+am0kT3B2eIHKBqlCmzj8ROClzA2gLdadtEkGH6jKOmxwlOpooPZs9HU8k54AIzUGww4A1ysNsGSA==
 
-"@craigmiller160/react-keycloak@1.1.1":
-  version "1.1.1"
-  resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@craigmiller160/react-keycloak/-/react-keycloak-1.1.1.tgz#3c69c48a5953286d5e40ab1d2accc34038048cc7"
-  integrity sha512-rdkJnrzMwMXfYsUIkwQbyq7CQfIgedhpxefJP+8/33/Ry8e8DsWyzd4X6K4nzQNqAwnT1gOfDJu1oRmIChamrQ==
+"@craigmiller160/react-keycloak@^1.2.0-beta":
+  version "1.2.0-beta.1"
+  resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@craigmiller160/react-keycloak/-/react-keycloak-1.2.0-beta.1.tgz#655519ef3a19cccfb93bdee259791bba7cc8b2fc"
+  integrity sha512-C5Kv5zkQDhpv0sb1kUwAltvAeEGMbidwfbWQAP1ppeyRGTHu1f55+wM6nsAoOO5hL2GbqmUG1MEmFtuECez5Sw==
   dependencies:
     keycloak-js "^20.0.3"
 

@@ -39,7 +39,8 @@ const createTimestamp = (): Date =>
 	})(new Date());
 
 const toUtc = (date: Date): Date => addMinutes(date.getTimezoneOffset())(date);
-const getTimezoneSuffix = (): string => format('XXX')(new Date());
+const getTimezoneSuffix = (date: Date = new Date()): string =>
+	format('XXX')(date);
 
 describe('dateTimeUtils', () => {
 	it('parseServerDate', () => {
@@ -90,7 +91,7 @@ describe('dateTimeUtils', () => {
 	it('formatServerDateTime', () => {
 		const date = createTimestamp();
 		const actual = formatServerDateTime(date);
-		const tz = getTimezoneSuffix();
+		const tz = getTimezoneSuffix(date);
 		const expected = `2022-02-01T01:01:01.001000${tz}`;
 		expect(actual).toEqual(expected);
 	});

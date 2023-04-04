@@ -123,8 +123,9 @@ describe('dateTimeUtils', () => {
 	});
 
 	it('serverDateTimeToDisplayDateTime', () => {
+		const date = createTimestamp();
 		const expected = '02/01/2022 01:01:01 AM';
-		const tz = getTimezoneSuffix();
+		const tz = getTimezoneSuffix(date);
 		const actual = serverDateTimeToDisplayDateTime(
 			`2022-02-01T01:01:01.001000${tz}`
 		);

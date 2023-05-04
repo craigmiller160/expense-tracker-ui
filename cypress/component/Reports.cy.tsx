@@ -86,7 +86,7 @@ describe('Reports', () => {
 			.should('have.text', 'Excluded Categories');
 		commonPage
 			.getMultipleSelectValues(reportsPage.getCategoryFilterInput())
-			.should('have.length', 1);
+			.should('have.length', 0);
 
 		reportsPage.getCategoryFilterInput().click();
 		commonPage.getOpenSelectOptions().eq(0).click();

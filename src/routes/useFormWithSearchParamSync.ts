@@ -7,7 +7,7 @@ import {
 import { useEffect } from 'react';
 
 type Props<T extends object> = UseFormProps<T> & {
-	readonly formFromParam: SyncFromParams<T>;
+	readonly formFromParams: SyncFromParams<T>;
 	readonly formToParams: SyncToParams<T>;
 };
 
@@ -15,7 +15,7 @@ export const useFormWithSearchParamSync = <T extends object>(
 	props: Props<T>
 ): UseFormReturn<T> => {
 	const [params, setParams] = useSearchParamSync(
-		props.formFromParam,
+		props.formFromParams,
 		props.formToParams
 	);
 	const form = useForm<T>(props);

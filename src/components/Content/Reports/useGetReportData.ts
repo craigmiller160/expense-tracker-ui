@@ -72,7 +72,8 @@ const formFromParams =
 							categories?.find((dbCat) => dbCat.value === cat)
 								?.label ?? ''
 					})
-				) ?? [];
+				)
+				?.filter((option) => option.label !== '') ?? [];
 		return {
 			excludedCategories
 		};

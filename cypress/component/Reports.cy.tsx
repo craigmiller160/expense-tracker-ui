@@ -70,4 +70,18 @@ describe('Reports', () => {
 			RNonEmptyArray.map(validateReport)
 		);
 	});
+
+	it('can exclude a category', () => {
+		reportsApi.getSpendingByMonthAndCategory();
+		categoriesApi.getAllCategories();
+		needsAttentionApi.getNeedsAttention_none();
+		mountApp({
+			initialRoute: '/expense-tracker/reports'
+		});
+		reportsPage.getTitle().contains('Reports');
+		reportsPage.getTableTitle().contains('Spending by Month & Category');
+		reportsPage
+			.getCategoryFilterLabel()
+			.should('have.text', 'Excluded Categories');
+	});
 });

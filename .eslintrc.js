@@ -5,9 +5,7 @@ module.exports = {
 		'@craigmiller160/eslint-config-jest',
 		'@craigmiller160/eslint-config-react',
 		'@craigmiller160/eslint-config-tree-shaking-import-restrictions',
-		'@craigmiller160/eslint-config-ts'
-	],
-	plugins: [
-		'cypress'
+		'@craigmiller160/eslint-config-ts',
+		'plugin:cypress/recommended'
 	]
 };

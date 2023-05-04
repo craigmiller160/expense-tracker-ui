@@ -7,6 +7,7 @@ import { pipe } from 'fp-ts/es6/function';
 import { formatCurrency, formatPercent } from '../../src/utils/formatNumbers';
 import { categoriesApi } from './testutils/apis/categories';
 import { needsAttentionApi } from './testutils/apis/needsAttention';
+import { commonPage } from './testutils/pages/common';
 
 const validateRootTableHeaders = () => {
 	reportsPage
@@ -83,5 +84,14 @@ describe('Reports', () => {
 		reportsPage
 			.getCategoryFilterLabel()
 			.should('have.text', 'Excluded Categories');
+		commonPage
+			.getMultipleSelectValues(reportsPage.getCategoryFilterInput())
+			.should('have.length', 1);
+
+		reportsPage.getCategoryFilterInput().click();
+		commonPage.getOpenSelectOptions().eq(0).click();
+		commonPage
+			.getMultipleSelectValues(reportsPage.getCategoryFilterInput())
+			.should('have.length', 1);
 	});
 });

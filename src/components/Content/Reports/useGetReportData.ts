@@ -1,4 +1,4 @@
-import { useForm, UseFormHandleSubmit, UseFormReturn } from 'react-hook-form';
+import { UseFormHandleSubmit, UseFormReturn } from 'react-hook-form';
 import { Updater, useImmer } from 'use-immer';
 import { PaginationState } from '../../../utils/pagination';
 import { ForceUpdate, useForceUpdate } from '../../../utils/useForceUpdate';
@@ -8,7 +8,10 @@ import { ReportPageResponse } from '../../../types/generated/expense-tracker';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 import { useCategoriesToCategoryOptions } from '../../../utils/categoryUtils';
 import { useFormWithSearchParamSync } from '../../../routes/useFormWithSearchParamSync';
-import {SyncFromParams, SyncToParams} from '../../../routes/useSearchParamSync';
+import {
+	SyncFromParams,
+	SyncToParams
+} from '../../../routes/useSearchParamSync';
 
 export type ReportFilterFormData = {
 	readonly excludedCategories: ReadonlyArray<CategoryOption>;
@@ -53,9 +56,27 @@ const formToParams: SyncToParams<ReportFilterFormData> = (form) => {
 	return params;
 };
 
-const formFromParams = (categories: ReadonlyArray<CategoryOption>): SyncFromParams<ReportFilterFormData> => (params) => {
-
-};
+const formFromParams =
+	(
+		categories: ReadonlyArray<CategoryOption>
+	): SyncFromParams<ReportFilterFormData> =>
+	(params) => {
+		const excludedCategories =
+			params
+				.get('excludedCategories')
+				?.split(',')
+				?.map(
+					(cat): CategoryOption => ({
+						value: cat,
+						label:
+							categories.find((dbCat) => dbCat.value === cat)
+								?.label ?? ''
+					})
+				) ?? [];
+		return {
+			excludedCategories
+		};
+	};
 
 export const useGetReportData = (): ReportData => {
 	const [state, setState] = useImmer<PaginationState>({
@@ -70,7 +91,7 @@ export const useGetReportData = (): ReportData => {
 
 	const form = useFormWithSearchParamSync<ReportFilterFormData>({
 		formToParams,
-		formFromParams
+		formFromParams: formFromParams(categories)
 	});
 
 	const { isFetching: getReportIsFetching, data: reportData } =

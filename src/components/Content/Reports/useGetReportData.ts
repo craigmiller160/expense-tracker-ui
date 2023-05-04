@@ -58,7 +58,7 @@ const formToParams: SyncToParams<ReportFilterFormData> = (form) => {
 
 const formFromParams =
 	(
-		categories: ReadonlyArray<CategoryOption>
+		categories?: ReadonlyArray<CategoryOption>
 	): SyncFromParams<ReportFilterFormData> =>
 	(params) => {
 		const excludedCategories =
@@ -69,7 +69,7 @@ const formFromParams =
 					(cat): CategoryOption => ({
 						value: cat,
 						label:
-							categories.find((dbCat) => dbCat.value === cat)
+							categories?.find((dbCat) => dbCat.value === cat)
 								?.label ?? ''
 					})
 				) ?? [];
@@ -100,7 +100,7 @@ export const useGetReportData = (): ReportData => {
 			pageSize: state.pageSize,
 			excludeCategoryIds: form
 				.getValues()
-				.excludedCategories.map((cat) => cat.value)
+				.excludedCategories?.map((cat) => cat.value)
 		});
 
 	const forceUpdate = useForceUpdate();

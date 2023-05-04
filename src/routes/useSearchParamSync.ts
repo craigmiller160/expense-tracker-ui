@@ -5,7 +5,7 @@ export type SyncFromParams<T> = (params: URLSearchParams) => T;
 export type SyncToParams<T> = (value: T) => URLSearchParams;
 export type DoSync<T> = (value: T) => void;
 
-export const useSearchParamSync = <T>(
+export const useSearchParamSync = <T extends object>(
 	syncFromParams: SyncFromParams<T>,
 	syncToParams: SyncToParams<T>
 ): [T, DoSync<T>] => {

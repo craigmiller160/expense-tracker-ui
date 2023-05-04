@@ -1,4 +1,4 @@
-import { useForm, UseFormHandleSubmit, UseFormReturn } from 'react-hook-form';
+import { UseFormHandleSubmit, UseFormReturn } from 'react-hook-form';
 import { Updater, useImmer } from 'use-immer';
 import { PaginationState } from '../../../utils/pagination';
 import { ForceUpdate, useForceUpdate } from '../../../utils/useForceUpdate';
@@ -7,6 +7,11 @@ import { useGetSpendingByMonthAndCategory } from '../../../ajaxapi/query/ReportQ
 import { ReportPageResponse } from '../../../types/generated/expense-tracker';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 import { useCategoriesToCategoryOptions } from '../../../utils/categoryUtils';
+import { useFormWithSearchParamSync } from '../../../routes/useFormWithSearchParamSync';
+import {
+	SyncFromParams,
+	SyncToParams
+} from '../../../routes/useSearchParamSync';
 
 export type ReportFilterFormData = {
 	readonly excludedCategories: ReadonlyArray<CategoryOption>;
@@ -41,15 +46,53 @@ type ReportData = {
 	readonly onValueHasChanged: () => Promise<void>;
 };
 
+const formToParams: SyncToParams<ReportFilterFormData> = (form) => {
+	const params = new URLSearchParams();
+	const categoryString = form.excludedCategories
+		.map((cat) => cat.value)
+		.join(',');
+
+	params.set('excludedCategories', categoryString);
+	return params;
+};
+
+const formFromParams =
+	(
+		categories?: ReadonlyArray<CategoryOption>
+	): SyncFromParams<ReportFilterFormData> =>
+	(params) => {
+		const excludedCategories =
+			params
+				.get('excludedCategories')
+				?.split(',')
+				?.map(
+					(cat): CategoryOption => ({
+						value: cat,
+						label:
+							categories?.find((dbCat) => dbCat.value === cat)
+								?.label ?? ''
+					})
+				)
+				?.filter((option) => option.label !== '') ?? [];
+		return {
+			excludedCategories
+		};
+	};
+
 export const useGetReportData = (): ReportData => {
 	const [state, setState] = useImmer<PaginationState>({
 		pageNumber: 0,
 		pageSize: 10
 	});
-	const form = useForm<ReportFilterFormData>({
-		defaultValues: {
-			excludedCategories: []
-		}
+
+	const { isFetching: getCategoriesIsFetching, data: categoryData } =
+		useGetAllCategories();
+
+	const categories = useCategoriesToCategoryOptions(categoryData);
+
+	const form = useFormWithSearchParamSync<ReportFilterFormData>({
+		formToParams,
+		formFromParams: formFromParams(categories)
 	});
 
 	const { isFetching: getReportIsFetching, data: reportData } =
@@ -58,12 +101,8 @@ export const useGetReportData = (): ReportData => {
 			pageSize: state.pageSize,
 			excludeCategoryIds: form
 				.getValues()
-				.excludedCategories.map((cat) => cat.value)
+				.excludedCategories?.map((cat) => cat.value)
 		});
-	const { isFetching: getCategoriesIsFetching, data: categoryData } =
-		useGetAllCategories();
-
-	const categories = useCategoriesToCategoryOptions(categoryData);
 
 	const forceUpdate = useForceUpdate();
 	const onValueHasChanged = createOnValueHasChanged(

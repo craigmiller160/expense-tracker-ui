@@ -7,6 +7,7 @@ import { pipe } from 'fp-ts/es6/function';
 import { formatCurrency, formatPercent } from '../../src/utils/formatNumbers';
 import { categoriesApi } from './testutils/apis/categories';
 import { needsAttentionApi } from './testutils/apis/needsAttention';
+import { commonPage } from './testutils/pages/common';
 
 const validateRootTableHeaders = () => {
 	reportsPage
@@ -69,5 +70,28 @@ describe('Reports', () => {
 			RNonEmptyArray.range(0, reports.reports.length - 1),
 			RNonEmptyArray.map(validateReport)
 		);
+	});
+
+	it('can exclude a category', () => {
+		reportsApi.getSpendingByMonthAndCategory();
+		categoriesApi.getAllCategories();
+		needsAttentionApi.getNeedsAttention_none();
+		mountApp({
+			initialRoute: '/expense-tracker/reports'
+		});
+		reportsPage.getTitle().contains('Reports');
+		reportsPage.getTableTitle().contains('Spending by Month & Category');
+		reportsPage
+			.getCategoryFilterLabel()
+			.should('have.text', 'Excluded Categories');
+		commonPage
+			.getMultipleSelectValues(reportsPage.getCategoryFilterInput())
+			.should('have.length', 0);
+
+		reportsPage.getCategoryFilterInput().click();
+		commonPage.getOpenSelectOptions().eq(0).click();
+		commonPage
+			.getMultipleSelectValues(reportsPage.getCategoryFilterInput())
+			.should('have.length', 1);
 	});
 });

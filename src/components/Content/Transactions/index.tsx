@@ -8,13 +8,21 @@ import {
 } from './utils';
 import { TransactionTable } from './TransactionTable';
 import { TransactionSearchFilters } from './TransactionSearchFilters';
-import { useForm, UseFormHandleSubmit } from 'react-hook-form';
+import { UseFormHandleSubmit, UseFormReturn } from 'react-hook-form';
 import { ForceUpdate, useForceUpdate } from '../../../utils/useForceUpdate';
 import { NeedsAttentionNotice } from './NeedsAttentionNotice';
 import { PageResponsiveWrapper } from '../../UI/ResponsiveWrappers/PageResponsiveWrapper';
 import { TransactionDetailsDialog } from './TransactionDetailsDialog';
 import { useTransactionDetailsDialogActions } from './useTransactionDetailsDialogActions';
 import { PaginationState } from '../../../utils/pagination';
+import { useFormWithSearchParamSync } from '../../../routes/useFormWithSearchParamSync';
+import {
+	SyncFromParams,
+	SyncToParams
+} from '../../../routes/useSearchParamSync';
+import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
+import { useCategoriesToCategoryOptions } from '../../../utils/categoryUtils';
+import { CategoryOption } from '../../../types/categories';
 
 const createOnValueHasChanged = (
 	handleSubmit: UseFormHandleSubmit<TransactionSearchForm>,
@@ -31,18 +39,42 @@ const createOnValueHasChanged = (
 		})
 	);
 
+const formToParams: SyncToParams<TransactionSearchForm> = (form) => {
+	const params = new URLSearchParams();
+	// TODO finish this
+	return params;
+};
+
+const formFromParams =
+	(
+		categories: ReadonlyArray<CategoryOption>
+	): SyncFromParams<TransactionSearchForm> =>
+	(params) => {
+		// TODO finish this
+		throw new Error();
+	};
+
+const useSetupForm = (): UseFormReturn<TransactionSearchForm> => {
+	const { data } = useGetAllCategories();
+	const categories = useCategoriesToCategoryOptions(data);
+	return useFormWithSearchParamSync<TransactionSearchForm>({
+		formToParams,
+		formFromParams: formFromParams(categories),
+		formFromParamsDependencies: [categories],
+		mode: 'onBlur',
+		reValidateMode: 'onChange',
+		defaultValues: transactionSearchFormDefaultValues
+	});
+};
+
 export const Transactions = () => {
 	const [paginationState, setPaginationState] = useImmer<PaginationState>({
 		pageNumber: 0,
 		pageSize: DEFAULT_ROWS_PER_PAGE
 	});
 	const forceUpdate = useForceUpdate();
+	const form = useSetupForm();
 
-	const form = useForm<TransactionSearchForm>({
-		mode: 'onBlur',
-		reValidateMode: 'onChange',
-		defaultValues: transactionSearchFormDefaultValues
-	});
 	const { handleSubmit, getValues } = form;
 
 	const onValueHasChanged = createOnValueHasChanged(

@@ -92,7 +92,8 @@ export const useGetReportData = (): ReportData => {
 
 	const form = useFormWithSearchParamSync<ReportFilterFormData>({
 		formToParams,
-		formFromParams: formFromParams(categories)
+		formFromParams: formFromParams(categories),
+		formFromParamsDependencies: [categories]
 	});
 
 	const { isFetching: getReportIsFetching, data: reportData } =

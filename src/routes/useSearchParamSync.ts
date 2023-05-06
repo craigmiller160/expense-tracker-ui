@@ -8,6 +8,8 @@ export type DoSync<T> = (value: T) => void;
 export type UseSearchParamSyncProps<T extends object> = {
 	readonly syncFromParams: SyncFromParams<T>;
 	readonly syncToParams: SyncToParams<T>;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	readonly syncFromParamsDependencies?: ReadonlyArray<any>;
 };
 
 export const useSearchParamSync = <T extends object>(
@@ -17,7 +19,7 @@ export const useSearchParamSync = <T extends object>(
 	const parsedSearchParams = useMemo(
 		() => props.syncFromParams(searchParams),
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[searchParams]
+		[searchParams, ...(props.syncFromParamsDependencies ?? [])]
 	);
 	const doSync: DoSync<T> = (value) =>
 		setSearchParams(props.syncToParams(value));

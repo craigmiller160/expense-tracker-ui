@@ -1,4 +1,8 @@
-import {UseFormGetValues, UseFormReturn, UseFormSetValue} from 'react-hook-form';
+import {
+	UseFormGetValues,
+	UseFormReturn,
+	UseFormSetValue
+} from 'react-hook-form';
 import {
 	Autocomplete,
 	Checkbox,
@@ -7,14 +11,14 @@ import {
 	SelectOption,
 	ValueHasChanged
 } from '@craigmiller160/react-hook-form-material-ui';
-import {constVoid} from 'fp-ts/es6/function';
+import { constVoid } from 'fp-ts/es6/function';
 import './TransactionSearchFilters.scss';
-import {SortDirection} from '../../../types/misc';
-import {useGetAllCategories} from '../../../ajaxapi/query/CategoryQueries';
-import {TransactionSearchForm} from './utils';
-import {Paper} from '@mui/material';
-import {ResponsiveRow} from '../../UI/ResponsiveWrappers/ResponsiveRow';
-import {useCategoriesToCategoryOptions} from '../../../utils/categoryUtils';
+import { SortDirection } from '../../../types/misc';
+import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
+import { TransactionSearchForm } from './utils';
+import { Paper } from '@mui/material';
+import { ResponsiveRow } from '../../UI/ResponsiveWrappers/ResponsiveRow';
+import { useCategoriesToCategoryOptions } from '../../../utils/categoryUtils';
 
 const directionOptions: ReadonlyArray<SelectOption<SortDirection>> = [
 	{ value: SortDirection.DESC, label: 'Newest to Oldest' },

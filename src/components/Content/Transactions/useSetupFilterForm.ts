@@ -22,8 +22,8 @@ const formToParams: SyncToParams<TransactionSearchForm> = (form) => {
 	const params = new URLSearchParams();
 	const setOrDelete = setOrDeleteParam(params);
 	params.set('direction', form.direction);
-	params.set('startDate', formatServerDate(form.startDate));
-	params.set('endDate', formatServerDate(form.endDate));
+	setOrDelete('startDate', form.startDate, formatServerDate);
+	setOrDelete('endDate', form.endDate, formatServerDate);
 	setOrDelete('category', form.category?.value);
 	params.set('isNotConfirmed', form.isNotConfirmed.toString());
 	params.set('isDuplicate', form.isDuplicate.toString());

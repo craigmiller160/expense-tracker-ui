@@ -1,30 +1,16 @@
 import { PageTitle } from '../../UI/PageTitle';
 import './Transactions.scss';
 import { Updater, useImmer } from 'use-immer';
-import {
-	DEFAULT_ROWS_PER_PAGE,
-	TransactionSearchForm,
-	transactionSearchFormDefaultValues
-} from './utils';
+import { DEFAULT_ROWS_PER_PAGE, TransactionSearchForm } from './utils';
 import { TransactionTable } from './TransactionTable';
 import { TransactionSearchFilters } from './TransactionSearchFilters';
-import { UseFormHandleSubmit, UseFormReturn } from 'react-hook-form';
+import { UseFormHandleSubmit } from 'react-hook-form';
 import { ForceUpdate, useForceUpdate } from '../../../utils/useForceUpdate';
 import { NeedsAttentionNotice } from './NeedsAttentionNotice';
 import { PageResponsiveWrapper } from '../../UI/ResponsiveWrappers/PageResponsiveWrapper';
 import { TransactionDetailsDialog } from './TransactionDetailsDialog';
 import { useTransactionDetailsDialogActions } from './useTransactionDetailsDialogActions';
 import { PaginationState } from '../../../utils/pagination';
-import { useFormWithSearchParamSync } from '../../../routes/useFormWithSearchParamSync';
-import {
-	SyncFromParams,
-	SyncToParams
-} from '../../../routes/useSearchParamSync';
-import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
-import { useCategoriesToCategoryOptions } from '../../../utils/categoryUtils';
-import { CategoryOption } from '../../../types/categories';
-import { isSortDirection, SortDirection } from '../../../types/misc';
-import { parseServerDate } from '../../../utils/dateTimeUtils';
 import { useSetupFilterForm } from './useSetupFilterForm';
 
 const createOnValueHasChanged = (

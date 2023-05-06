@@ -63,8 +63,12 @@ export const useSearchForTransactions = (
 		Error,
 		TransactionsPageResponse,
 		SearchForTransactionsKey
-	>([SEARCH_FOR_TRANSACTIONS, request], ({ queryKey: [, req] }) =>
-		searchForTransactions(req)
+	>(
+		[SEARCH_FOR_TRANSACTIONS, request],
+		({ queryKey: [, req] }) => searchForTransactions(req),
+		{
+			enabled: !!request.startDate && !!request.endDate
+		}
 	);
 
 type GetPossibleDuplicatesKey = [

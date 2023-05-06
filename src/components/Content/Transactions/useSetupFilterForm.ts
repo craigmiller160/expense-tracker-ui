@@ -72,11 +72,11 @@ const formFromParams =
 		const direction = parseSortDirection(params.get('direction'));
 		const startDate = parseDate(
 			params.get('startDate'),
-			transactionSearchFormDefaultValues.startDate
+			transactionSearchFormDefaultValues.startDate // TODO this default breaks the "clear" operation
 		);
 		const endDate = parseDate(
 			params.get('endDate'),
-			transactionSearchFormDefaultValues.endDate
+			transactionSearchFormDefaultValues.endDate // TODO this default breaks the "clear" operation
 		);
 		const category = parseCategory(categories, params.get('category'));
 		const isNotConfirmed = parseBoolean(

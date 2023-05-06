@@ -8,8 +8,8 @@ import { CategoryOption } from '../../../types/categories';
 
 export interface TransactionSearchForm {
 	readonly direction: SortDirection;
-	readonly startDate: Date;
-	readonly endDate: Date;
+	readonly startDate: Date | null;
+	readonly endDate: Date | null;
 	readonly category: CategoryOption | null;
 	readonly isNotConfirmed: boolean;
 	readonly isDuplicate: boolean;

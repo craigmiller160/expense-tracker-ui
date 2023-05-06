@@ -4,7 +4,8 @@ import {
 	SyncToParams,
 	useSearchParamSync
 } from './useSearchParamSync';
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
+import { mergeWith } from 'lodash-es';
 
 type Props<T extends object> = UseFormProps<T> & {
 	readonly formFromParams: SyncFromParams<T>;
@@ -26,7 +27,18 @@ export const useFormWithSearchParamSync = <T extends object>(
 	const { reset, watch } = form;
 
 	useEffect(() => {
-		reset(params);
+		if (!hasRendered) {
+			console.log('PARAMS', params, props.defaultValues);
+			const merged = mergeWith(
+				{},
+				props.defaultValues ?? {},
+				params,
+				(a, b) => b ?? a
+			);
+			reset(merged);
+		} else {
+			reset(params);
+		}
 		setHasRendered(true);
 	}, [reset, params]);
 

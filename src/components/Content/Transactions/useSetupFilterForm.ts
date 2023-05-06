@@ -36,9 +36,9 @@ const parseSortDirection = (value: string | null): SortDirection =>
 	isSortDirection(value)
 		? value
 		: transactionSearchFormDefaultValues.direction;
-const parseDate = (value: string | null, defaultValue: Date): Date => {
+const parseDate = (value: string | null): Date | null => {
 	if (!value) {
-		return defaultValue;
+		return null;
 	}
 
 	return parseServerDate(value);
@@ -70,14 +70,8 @@ const formFromParams =
 	(params) => {
 		// TODO finish this
 		const direction = parseSortDirection(params.get('direction'));
-		const startDate = parseDate(
-			params.get('startDate'),
-			transactionSearchFormDefaultValues.startDate // TODO this default breaks the "clear" operation
-		);
-		const endDate = parseDate(
-			params.get('endDate'),
-			transactionSearchFormDefaultValues.endDate // TODO this default breaks the "clear" operation
-		);
+		const startDate = parseDate(params.get('startDate'));
+		const endDate = parseDate(params.get('endDate'));
 		const category = parseCategory(categories, params.get('category'));
 		const isNotConfirmed = parseBoolean(
 			params.get('isNotConfirmed'),

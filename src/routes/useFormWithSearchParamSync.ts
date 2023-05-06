@@ -4,7 +4,7 @@ import {
 	SyncToParams,
 	useSearchParamSync
 } from './useSearchParamSync';
-import { useEffect } from 'react';
+import {useEffect, useState} from 'react';
 
 type Props<T extends object> = UseFormProps<T> & {
 	readonly formFromParams: SyncFromParams<T>;
@@ -16,6 +16,7 @@ type Props<T extends object> = UseFormProps<T> & {
 export const useFormWithSearchParamSync = <T extends object>(
 	props: Props<T>
 ): UseFormReturn<T> => {
+	const [hasRendered, setHasRendered] = useState<boolean>(false);
 	const [params, setParams] = useSearchParamSync({
 		syncFromParams: props.formFromParams,
 		syncToParams: props.formToParams,
@@ -26,6 +27,7 @@ export const useFormWithSearchParamSync = <T extends object>(
 
 	useEffect(() => {
 		reset(params);
+		setHasRendered(true);
 	}, [reset, params]);
 
 	useEffect(() => {

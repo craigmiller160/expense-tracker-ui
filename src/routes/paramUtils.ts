@@ -10,7 +10,7 @@ export const setOrDeleteParam =
 			return;
 		}
 
-		if (typeof value === 'string' && !transform) {
+		if (typeof value !== 'string' && !transform) {
 			throw new Error(
 				'Must provide transform to set non-string value on params'
 			);

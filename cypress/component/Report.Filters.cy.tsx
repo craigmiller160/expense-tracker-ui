@@ -9,6 +9,7 @@ import {
 	orderedCategoryNames
 } from './testutils/constants/categories';
 import { Interception } from 'cypress/types/net-stubbing';
+import { needsAttentionApi } from './testutils/apis/needsAttention';
 
 const excludedIds = (): string =>
 	pipe(orderedCategoryIds.slice(0, 2).join(','), encodeURIComponent);
@@ -17,6 +18,7 @@ describe('Report Filters', () => {
 	it('can exclude categories', () => {
 		reportsApi.getSpendingByMonthAndCategory();
 		categoriesApi.getAllCategories();
+		needsAttentionApi.getNeedsAttention_none();
 		mountApp({
 			initialRoute: '/expense-tracker/reports'
 		});

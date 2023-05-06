@@ -99,9 +99,9 @@ export const useGetReportData = (): ReportData => {
 		useGetSpendingByMonthAndCategory({
 			pageNumber: state.pageNumber,
 			pageSize: state.pageSize,
-			excludeCategoryIds: form
-				.getValues()
-				.excludedCategories?.map((cat) => cat.value)
+			excludeCategoryIds:
+				form.getValues().excludedCategories?.map((cat) => cat.value) ??
+				[]
 		});
 
 	const forceUpdate = useForceUpdate();

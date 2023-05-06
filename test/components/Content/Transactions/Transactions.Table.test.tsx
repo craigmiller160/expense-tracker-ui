@@ -87,7 +87,7 @@ describe('Transactions Table', () => {
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 
-		validateTransactionsInTable(25, (index, description) => {
+		await validateTransactionsInTable(25, (index, description) => {
 			const expenseDate = pipe(
 				parseServerDate(description.expenseDate),
 				setToMidnight

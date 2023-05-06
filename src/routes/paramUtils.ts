@@ -7,6 +7,7 @@ export const setOrDeleteParam =
 	) => {
 		if (!value) {
 			params.delete(key);
+			return;
 		}
 
 		if (typeof value === 'string' && !transform) {
@@ -18,6 +19,7 @@ export const setOrDeleteParam =
 		if (typeof value !== 'string' && transform) {
 			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			params.set(key, transform(value!));
+			return;
 		}
 
 		params.set(key, value?.toString() ?? '');

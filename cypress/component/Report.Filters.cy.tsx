@@ -40,7 +40,7 @@ describe('Report Filters', () => {
 
 		cy.wait(300);
 		cy.get('@getSpendingByMonthAndCategory.all')
-			.should('have.length', 3)
+			.should('have.length', 4)
 			.then(($xhrs) => {
 				const xhr = (
 					$xhrs as unknown as ReadonlyArray<Interception>

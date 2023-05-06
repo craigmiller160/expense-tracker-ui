@@ -100,7 +100,8 @@ export const useHandleAllRulesData = (props: Props): GetAllRulesDataResult => {
 
 	const form = useFormWithSearchParamSync<RulesFiltersFormData>({
 		formToParams,
-		formFromParams: paramsToForm(categories)
+		formFromParams: paramsToForm(categories),
+		formFromParamsDependencies: [categories]
 	});
 	const { data: getAllRulesData, isFetching: getAllRulesIsFetching } =
 		useGetAllRules({

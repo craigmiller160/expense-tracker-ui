@@ -19,8 +19,8 @@ import { setOrDeleteParam } from '../../../routes/paramUtils';
 type Props = PaginationState;
 
 export type RulesFiltersFormData = {
-	readonly category?: CategoryOption;
-	readonly regex?: string;
+	readonly category: CategoryOption | null;
+	readonly regex: string;
 };
 
 type InternalReOrderActions = {
@@ -70,12 +70,12 @@ const getCategoryFromParams = (
 	params: URLSearchParams,
 	categories: ReadonlyArray<CategoryOption>,
 	categoryParam: string | null
-): CategoryOption | undefined => {
+): CategoryOption | null => {
 	if (!categoryParam) {
-		return undefined;
+		return null;
 	}
 
-	return categories.find((cat) => cat.value === categoryParam);
+	return categories.find((cat) => cat.value === categoryParam) ?? null;
 };
 
 const paramsToForm =
@@ -88,7 +88,7 @@ const paramsToForm =
 			categories,
 			params.get('category')
 		),
-		regex: params.get('regex') ?? undefined
+		regex: params.get('regex') ?? ''
 	});
 
 export const useHandleAllRulesData = (props: Props): GetAllRulesDataResult => {
@@ -101,14 +101,18 @@ export const useHandleAllRulesData = (props: Props): GetAllRulesDataResult => {
 	const form = useFormWithSearchParamSync<RulesFiltersFormData>({
 		formToParams,
 		formFromParams: paramsToForm(categories),
-		formFromParamsDependencies: [categories]
+		formFromParamsDependencies: [categories],
+		defaultValues: {
+			regex: '',
+			category: null
+		}
 	});
 	const { data: getAllRulesData, isFetching: getAllRulesIsFetching } =
 		useGetAllRules({
 			pageNumber: props.pageNumber,
 			pageSize: props.pageSize,
 			categoryId: form.getValues().category?.value,
-			regex: form.getValues().regex
+			regex: form.getValues().regex ?? undefined
 		});
 	const { data: getMaxOrdinalData, isFetching: getMaxOrdinalIsFetching } =
 		useGetMaxOrdinal();

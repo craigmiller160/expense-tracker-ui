@@ -23,6 +23,8 @@ import {
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 import { useCategoriesToCategoryOptions } from '../../../utils/categoryUtils';
 import { CategoryOption } from '../../../types/categories';
+import { isSortDirection, SortDirection } from '../../../types/misc';
+import { parseServerDate } from '../../../utils/dateTimeUtils';
 
 const createOnValueHasChanged = (
 	handleSubmit: UseFormHandleSubmit<TransactionSearchForm>,
@@ -45,13 +47,31 @@ const formToParams: SyncToParams<TransactionSearchForm> = (form) => {
 	return params;
 };
 
+const parseSortDirection = (value: string | null): SortDirection =>
+	isSortDirection(value)
+		? value
+		: transactionSearchFormDefaultValues.direction;
+const parseDate = (value: string | null, defaultValue: Date): Date => {
+	if (!value) {
+		return defaultValue;
+	}
+
+	return parseServerDate(value);
+};
+
 const formFromParams =
 	(
 		categories: ReadonlyArray<CategoryOption>
 	): SyncFromParams<TransactionSearchForm> =>
 	(params) => {
 		// TODO finish this
-		throw new Error();
+		const direction = parseSortDirection(params.get('direction'));
+		const startDate = parseDate(params.get('startDate'), transactionSearchFormDefaultValues.startDate);,
+
+		return {
+			direction,
+			startDate
+		};
 	};
 
 const useSetupForm = (): UseFormReturn<TransactionSearchForm> => {

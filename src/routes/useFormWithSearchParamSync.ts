@@ -14,10 +14,10 @@ type Props<T extends object> = UseFormProps<T> & {
 export const useFormWithSearchParamSync = <T extends object>(
 	props: Props<T>
 ): UseFormReturn<T> => {
-	const [params, setParams] = useSearchParamSync(
-		props.formFromParams,
-		props.formToParams
-	);
+	const [params, setParams] = useSearchParamSync({
+		syncFromParams: props.formFromParams,
+		syncToParams: props.formToParams
+	});
 	const form = useForm<T>(props);
 	const { reset, watch } = form;
 

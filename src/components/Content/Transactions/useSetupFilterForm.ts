@@ -26,6 +26,22 @@ const parseDate = (value: string | null, defaultValue: Date): Date => {
     return parseServerDate(value);
 };
 
+const parseCategory = (categories: ReadonlyArray<CategoryOption>, categoryId: string | null): CategoryOption | null => {
+    if (!categoryId) {
+        return null;
+    }
+
+    return categories.find((cat) => cat.value === categoryId) ?? null;
+};
+
+const parseBoolean = (value: string | null, defaultValue: boolean): boolean => {
+    if (!value) {
+        return defaultValue;
+    }
+
+    return /true/i.test(value);
+}
+
 const formFromParams =
     (
         categories: ReadonlyArray<CategoryOption>
@@ -34,10 +50,22 @@ const formFromParams =
             // TODO finish this
             const direction = parseSortDirection(params.get('direction'));
             const startDate = parseDate(params.get('startDate'), transactionSearchFormDefaultValues.startDate);,
+            const endDate = parseDate(params.get('endDate'), transactionSearchFormDefaultValues.endDate);
+            const category = parseCategory(categories, params.get('category'));
+            const isNotConfirmed = parseBoolean(params.get('isNotConfirmed'), transactionSearchFormDefaultValues.isNotConfirmed);
+            const isDuplicate = parseBoolean(params.get('isDuplicate'), transactionSearchFormDefaultValues.isDuplicate);
+            const isNotCategorized = parseBoolean(params.get('isNotCategorized'), transactionSearchFormDefaultValues.isNotCategorized);
+            const isPossibleRefund = parseBoolean(params.get('isPossibleRefund'), transactionSearchFormDefaultValues.isPossibleRefund);
 
             return {
                 direction,
-                startDate
+                startDate,
+                endDate,
+                category,
+                isNotCategorized,
+                isNotConfirmed,
+                isPossibleRefund,
+                isDuplicate
             };
         };
 

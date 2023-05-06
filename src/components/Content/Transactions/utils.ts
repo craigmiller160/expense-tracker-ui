@@ -1,16 +1,16 @@
-import { SelectOption } from '@craigmiller160/react-hook-form-material-ui';
 import { TransactionTableForm } from './useHandleTransactionTableData';
 import * as RArray from 'fp-ts/es6/ReadonlyArray';
 import { pipe } from 'fp-ts/es6/function';
 import { TransactionToUpdate } from '../../../types/generated/expense-tracker';
 import { SortDirection } from '../../../types/misc';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
+import { CategoryOption } from '../../../types/categories';
 
 export interface TransactionSearchForm {
 	readonly direction: SortDirection;
 	readonly startDate: Date;
 	readonly endDate: Date;
-	readonly category: SelectOption<string> | null;
+	readonly category: CategoryOption | null;
 	readonly isNotConfirmed: boolean;
 	readonly isDuplicate: boolean;
 	readonly isNotCategorized: boolean;

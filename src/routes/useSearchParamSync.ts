@@ -18,9 +18,7 @@ export const useSearchParamSync = <T extends object>(
 	const [searchParams, setSearchParams] = useSearchParams();
 	const parsedSearchParams = useMemo(
 		() => {
-			const result = props.syncFromParams(searchParams);
-			console.log('RUNNING', props.syncFromParamsDependencies, result);
-			return result;
+			return props.syncFromParams(searchParams);
 		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[searchParams, ...(props.syncFromParamsDependencies ?? [])]

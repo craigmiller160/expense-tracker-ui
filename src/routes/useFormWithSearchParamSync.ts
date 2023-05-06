@@ -25,7 +25,6 @@ export const useFormWithSearchParamSync = <T extends object>(
 	const { reset, watch } = form;
 
 	useEffect(() => {
-		console.log('RESETTING', params);
 		reset(params);
 	}, [reset, params]);
 

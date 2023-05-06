@@ -18,6 +18,7 @@ import { CategoryOption } from '../../../types/categories';
 import { categoryToCategoryOption } from '../../../utils/categoryUtils';
 import { useFormWithSearchParamSync } from '../../../routes/useFormWithSearchParamSync';
 import { SyncToParams } from '../../../routes/useSearchParamSync';
+import {setOrDeleteParam} from '../../../routes/paramUtils';
 
 type Props = PaginationState;
 
@@ -72,17 +73,9 @@ const formatCategories = (
 
 const formToParams: SyncToParams<RulesFiltersFormData> = (form) => {
 	const params = new URLSearchParams();
-	if (form.category) {
-		params.set('cateogry', form.category?.value);
-	} else {
-		params.delete('category');
-	}
-
-	if (form.regex) {
-		params.set('regex', form.regex);
-	} else {
-		params.delete('regex');
-	}
+	const setOrDelete = setOrDeleteParam(params);
+	setOrDelete('category', form.category?.value);
+	setOrDelete('regex', form.regex);
 	return params;
 };
 

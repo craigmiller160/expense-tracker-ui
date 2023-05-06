@@ -16,6 +16,8 @@ import * as Option from 'fp-ts/es6/Option';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { CategoryOption } from '../../../types/categories';
 import { categoryToCategoryOption } from '../../../utils/categoryUtils';
+import { useFormWithSearchParamSync } from '../../../routes/useFormWithSearchParamSync';
+import { SyncToParams } from '../../../routes/useSearchParamSync';
 
 type Props = PaginationState;
 
@@ -68,8 +70,29 @@ const formatCategories = (
 		RArray.map(categoryToCategoryOption)
 	);
 
+const formToParams: SyncToParams<RulesFiltersFormData> = (form) => {
+	const params = new URLSearchParams();
+	if (form.category) {
+		params.set('cateogry', form.category?.value);
+	} else {
+		params.delete('category');
+	}
+
+	if (form.regex) {
+		params.set('regex', form.regex);
+	} else {
+		params.delete('regex');
+	}
+	return params;
+};
+
 export const useHandleAllRulesData = (props: Props): GetAllRulesDataResult => {
-	const form = useForm<RulesFiltersFormData>();
+	const {
+		data: getAllCategoriesData,
+		isFetching: getAllCategoriesIsFetching
+	} = useGetAllCategories();
+
+	const form = useFormWithSearchParamSync<RulesFiltersFormData>();
 	const { data: getAllRulesData, isFetching: getAllRulesIsFetching } =
 		useGetAllRules({
 			pageNumber: props.pageNumber,
@@ -77,10 +100,6 @@ export const useHandleAllRulesData = (props: Props): GetAllRulesDataResult => {
 			categoryId: form.getValues().category?.value,
 			regex: form.getValues().regex
 		});
-	const {
-		data: getAllCategoriesData,
-		isFetching: getAllCategoriesIsFetching
-	} = useGetAllCategories();
 	const { data: getMaxOrdinalData, isFetching: getMaxOrdinalIsFetching } =
 		useGetMaxOrdinal();
 	const {

@@ -25,6 +25,7 @@ import { useCategoriesToCategoryOptions } from '../../../utils/categoryUtils';
 import { CategoryOption } from '../../../types/categories';
 import { isSortDirection, SortDirection } from '../../../types/misc';
 import { parseServerDate } from '../../../utils/dateTimeUtils';
+import { useSetupFilterForm } from './useSetupFilterForm';
 
 const createOnValueHasChanged = (
 	handleSubmit: UseFormHandleSubmit<TransactionSearchForm>,
@@ -41,59 +42,13 @@ const createOnValueHasChanged = (
 		})
 	);
 
-const formToParams: SyncToParams<TransactionSearchForm> = (form) => {
-	const params = new URLSearchParams();
-	// TODO finish this
-	return params;
-};
-
-const parseSortDirection = (value: string | null): SortDirection =>
-	isSortDirection(value)
-		? value
-		: transactionSearchFormDefaultValues.direction;
-const parseDate = (value: string | null, defaultValue: Date): Date => {
-	if (!value) {
-		return defaultValue;
-	}
-
-	return parseServerDate(value);
-};
-
-const formFromParams =
-	(
-		categories: ReadonlyArray<CategoryOption>
-	): SyncFromParams<TransactionSearchForm> =>
-	(params) => {
-		// TODO finish this
-		const direction = parseSortDirection(params.get('direction'));
-		const startDate = parseDate(params.get('startDate'), transactionSearchFormDefaultValues.startDate);,
-
-		return {
-			direction,
-			startDate
-		};
-	};
-
-const useSetupForm = (): UseFormReturn<TransactionSearchForm> => {
-	const { data } = useGetAllCategories();
-	const categories = useCategoriesToCategoryOptions(data);
-	return useFormWithSearchParamSync<TransactionSearchForm>({
-		formToParams,
-		formFromParams: formFromParams(categories),
-		formFromParamsDependencies: [categories],
-		mode: 'onBlur',
-		reValidateMode: 'onChange',
-		defaultValues: transactionSearchFormDefaultValues
-	});
-};
-
 export const Transactions = () => {
 	const [paginationState, setPaginationState] = useImmer<PaginationState>({
 		pageNumber: 0,
 		pageSize: DEFAULT_ROWS_PER_PAGE
 	});
 	const forceUpdate = useForceUpdate();
-	const form = useSetupForm();
+	const form = useSetupFilterForm();
 
 	const { handleSubmit, getValues } = form;
 

@@ -4,24 +4,23 @@ import {
 	useGetMaxOrdinal,
 	useReOrderRule
 } from '../../../ajaxapi/query/AutoCategorizeRuleQueries';
-import {
-	AutoCategorizeRuleResponse,
-	CategoryResponse
-} from '../../../types/generated/expense-tracker';
+import { AutoCategorizeRuleResponse } from '../../../types/generated/expense-tracker';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
-import { useMemo } from 'react';
-import * as RArray from 'fp-ts/es6/ReadonlyArray';
-import { pipe } from 'fp-ts/es6/function';
-import * as Option from 'fp-ts/es6/Option';
-import { useForm, UseFormReturn } from 'react-hook-form';
+import { UseFormReturn } from 'react-hook-form';
 import { CategoryOption } from '../../../types/categories';
-import { categoryToCategoryOption } from '../../../utils/categoryUtils';
+import { useCategoriesToCategoryOptions } from '../../../utils/categoryUtils';
+import { useFormWithSearchParamSync } from '../../../routes/useFormWithSearchParamSync';
+import {
+	SyncFromParams,
+	SyncToParams
+} from '../../../routes/useSearchParamSync';
+import { setOrDeleteParam } from '../../../routes/paramUtils';
 
 type Props = PaginationState;
 
 export type RulesFiltersFormData = {
-	readonly category?: CategoryOption;
-	readonly regex?: string;
+	readonly category: CategoryOption | null;
+	readonly regex: string;
 };
 
 type InternalReOrderActions = {
@@ -59,17 +58,55 @@ const useReOrderActions = (): InternalReOrderActions => {
 	};
 };
 
-const formatCategories = (
-	categories?: ReadonlyArray<CategoryResponse>
-): ReadonlyArray<CategoryOption> =>
-	pipe(
-		Option.fromNullable(categories),
-		Option.getOrElse((): ReadonlyArray<CategoryResponse> => []),
-		RArray.map(categoryToCategoryOption)
-	);
+const formToParams: SyncToParams<RulesFiltersFormData> = (form) => {
+	const params = new URLSearchParams();
+	const setOrDelete = setOrDeleteParam(params);
+	setOrDelete('category', form.category?.value);
+	setOrDelete('regex', form.regex);
+	return params;
+};
+
+const getCategoryFromParams = (
+	params: URLSearchParams,
+	categories: ReadonlyArray<CategoryOption>,
+	categoryParam: string | null
+): CategoryOption | null => {
+	if (!categoryParam) {
+		return null;
+	}
+
+	return categories.find((cat) => cat.value === categoryParam) ?? null;
+};
+
+const paramsToForm =
+	(
+		categories: ReadonlyArray<CategoryOption>
+	): SyncFromParams<RulesFiltersFormData> =>
+	(params) => ({
+		category: getCategoryFromParams(
+			params,
+			categories,
+			params.get('category')
+		),
+		regex: params.get('regex') ?? ''
+	});
 
 export const useHandleAllRulesData = (props: Props): GetAllRulesDataResult => {
-	const form = useForm<RulesFiltersFormData>();
+	const {
+		data: getAllCategoriesData,
+		isFetching: getAllCategoriesIsFetching
+	} = useGetAllCategories();
+	const categories = useCategoriesToCategoryOptions(getAllCategoriesData);
+
+	const form = useFormWithSearchParamSync<RulesFiltersFormData>({
+		formToParams,
+		formFromParams: paramsToForm(categories),
+		formFromParamsDependencies: [categories],
+		defaultValues: {
+			regex: '',
+			category: null
+		}
+	});
 	const { data: getAllRulesData, isFetching: getAllRulesIsFetching } =
 		useGetAllRules({
 			pageNumber: props.pageNumber,
@@ -77,10 +114,6 @@ export const useHandleAllRulesData = (props: Props): GetAllRulesDataResult => {
 			categoryId: form.getValues().category?.value,
 			regex: form.getValues().regex
 		});
-	const {
-		data: getAllCategoriesData,
-		isFetching: getAllCategoriesIsFetching
-	} = useGetAllCategories();
 	const { data: getMaxOrdinalData, isFetching: getMaxOrdinalIsFetching } =
 		useGetMaxOrdinal();
 	const {
@@ -88,11 +121,6 @@ export const useHandleAllRulesData = (props: Props): GetAllRulesDataResult => {
 		incrementRuleOrdinal,
 		decrementRuleOrdinal
 	} = useReOrderActions();
-
-	const categories = useMemo(
-		() => formatCategories(getAllCategoriesData),
-		[getAllCategoriesData]
-	);
 
 	return {
 		reOrder: {

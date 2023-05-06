@@ -39,17 +39,17 @@ describe('Rules Filters', () => {
 
 		cy.wait(300);
 		cy.get('@getAllRules.all')
-			.should('have.length', 2)
+			.should('have.length', 6)
 			.then(($xhrs) => {
 				const requests =
 					$xhrs as unknown as ReadonlyArray<Interception>;
 
 				validateQueryString(
 					requests[0].request.url,
-					'pageNumber=0&pageSize=25'
+					'pageNumber=0&pageSize=25&regex='
 				);
 				validateQueryString(
-					requests[1].request.url,
+					requests[5].request.url,
 					'pageNumber=0&pageSize=25&regex=Hello'
 				);
 			});
@@ -77,11 +77,11 @@ describe('Rules Filters', () => {
 
 				validateQueryString(
 					requests[0].request.url,
-					'pageNumber=0&pageSize=25'
+					'pageNumber=0&pageSize=25&regex='
 				);
 				validateQueryString(
 					requests[1].request.url,
-					`pageNumber=0&pageSize=25&categoryId=${orderedCategoryIds[0]}`
+					`pageNumber=0&pageSize=25&categoryId=${orderedCategoryIds[0]}&regex=`
 				);
 			});
 	});

@@ -112,7 +112,7 @@ export const useHandleAllRulesData = (props: Props): GetAllRulesDataResult => {
 			pageNumber: props.pageNumber,
 			pageSize: props.pageSize,
 			categoryId: form.getValues().category?.value,
-			regex: form.getValues().regex ?? undefined
+			regex: form.getValues().regex
 		});
 	const { data: getMaxOrdinalData, isFetching: getMaxOrdinalIsFetching } =
 		useGetMaxOrdinal();

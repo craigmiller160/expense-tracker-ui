@@ -17,13 +17,18 @@ import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 import { useCategoriesToCategoryOptions } from '../../../utils/categoryUtils';
 import { useFormWithSearchParamSync } from '../../../routes/useFormWithSearchParamSync';
 import { setOrDeleteParam } from '../../../routes/paramUtils';
+import isValid from 'date-fns/isValid/index';
 
 const formToParams: SyncToParams<TransactionSearchForm> = (form) => {
 	const params = new URLSearchParams();
 	const setOrDelete = setOrDeleteParam(params);
 	params.set('direction', form.direction);
-	setOrDelete('startDate', form.startDate, formatServerDate);
-	setOrDelete('endDate', form.endDate, formatServerDate);
+	const startDate =
+		form.startDate && isValid(form.startDate) ? form.startDate : undefined;
+	setOrDelete('startDate', startDate, formatServerDate);
+	const endDate =
+		form.endDate && isValid(form.endDate) ? form.endDate : undefined;
+	setOrDelete('endDate', endDate, formatServerDate);
 	setOrDelete('category', form.category?.value);
 	params.set('isNotConfirmed', form.isNotConfirmed.toString());
 	params.set('isDuplicate', form.isDuplicate.toString());

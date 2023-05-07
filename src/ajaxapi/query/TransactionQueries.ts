@@ -33,7 +33,6 @@ import { OptionT } from '@craigmiller160/ts-functions/es/types';
 import * as Option from 'fp-ts/es6/Option';
 import { GET_SPENDING_BY_MONTH_AND_CATEGORY } from './ReportQueries';
 import { GET_NEEDS_ATTENTION } from './NeedsAttentionQueries';
-import { useEffect } from 'react';
 
 export const SEARCH_FOR_TRANSACTIONS =
 	'TransactionQueries_SearchForTransactions';
@@ -58,26 +57,19 @@ type SearchForTransactionsKey = [string, EnhancedSearchTransactionsRequest];
 
 export const useSearchForTransactions = (
 	request: EnhancedSearchTransactionsRequest
-): UseQueryResult<TransactionsPageResponse, Error> => {
-	useEffect(() => {
-		console.log('CHANGE', request.startDate, request.endDate);
-	}, [request.startDate, request.endDate]);
-	return useQuery<
+): UseQueryResult<TransactionsPageResponse, Error> =>
+	useQuery<
 		TransactionsPageResponse,
 		Error,
 		TransactionsPageResponse,
 		SearchForTransactionsKey
 	>(
 		[SEARCH_FOR_TRANSACTIONS, request],
-		({ queryKey: [, req] }) => {
-			console.log('REQ', req);
-			return searchForTransactions(req);
-		},
+		({ queryKey: [, req] }) => searchForTransactions(req),
 		{
 			enabled: !!request.startDate && !!request.endDate
 		}
 	);
-};
 
 type GetPossibleDuplicatesKey = [
 	string,

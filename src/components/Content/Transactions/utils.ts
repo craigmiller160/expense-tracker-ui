@@ -17,8 +17,27 @@ export interface TransactionSearchForm {
 	readonly isPossibleRefund: boolean;
 }
 
-export const defaultStartDate = (): Date => Time.subMonths(1)(new Date());
-export const defaultEndDate = (): Date => new Date();
+export const defaultStartDate = (): Date =>
+	pipe(
+		new Date(),
+		Time.subMonths(1),
+		Time.set({
+			hours: 0,
+			minutes: 0,
+			seconds: 0,
+			milliseconds: 0
+		})
+	);
+export const defaultEndDate = (): Date =>
+	pipe(
+		new Date(),
+		Time.set({
+			hours: 0,
+			minutes: 0,
+			seconds: 0,
+			milliseconds: 0
+		})
+	);
 
 export const transactionSearchFormDefaultValues: TransactionSearchForm = {
 	direction: SortDirection.DESC,

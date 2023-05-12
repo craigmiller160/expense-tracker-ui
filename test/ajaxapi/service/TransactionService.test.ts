@@ -9,7 +9,9 @@ describe('TransactionService', () => {
 				pageNumber: 1,
 				pageSize: 10,
 				sortDirection: SortDirection.ASC,
-				sortKey: TransactionSortKey.EXPENSE_DATE
+				sortKey: TransactionSortKey.EXPENSE_DATE,
+				startDate: null,
+				endDate: null
 			});
 			expect(result).toEqual(
 				'pageNumber=1&pageSize=10&sortDirection=ASC&sortKey=EXPENSE_DATE'

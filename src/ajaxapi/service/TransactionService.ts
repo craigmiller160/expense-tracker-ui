@@ -19,7 +19,7 @@ import { expenseTrackerApi, getData } from './AjaxApi';
 import { formatServerDate } from '../../utils/dateTimeUtils';
 
 const handleOptionalValue = <T>(
-	value: T | undefined,
+	value: T | undefined | null,
 	formatter: (v: T) => string
 ): string | undefined =>
 	pipe(

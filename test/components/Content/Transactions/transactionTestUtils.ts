@@ -1,4 +1,4 @@
-import { screen, within } from '@testing-library/react';
+import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 import { TestTransactionDescription } from '../../../testutils/transactionDataUtils';
@@ -80,11 +80,13 @@ const validateNullableTextAndParse = (
 	);
 };
 
-export const validateTransactionsInTable = (
+export const validateTransactionsInTable = async (
 	count: number,
 	validateDescription: ValidateDescription
 ) => {
-	const descriptions = screen.getAllByTestId('transaction-description');
+	const descriptions = await waitFor(() =>
+		screen.getAllByTestId('transaction-description')
+	);
 	expect(descriptions).toHaveLength(count);
 	const result = pipe(
 		descriptions,

@@ -1,20 +1,17 @@
 import { PageTitle } from '../../UI/PageTitle';
 import './Transactions.scss';
 import { Updater, useImmer } from 'use-immer';
-import {
-	DEFAULT_ROWS_PER_PAGE,
-	TransactionSearchForm,
-	transactionSearchFormDefaultValues
-} from './utils';
+import { DEFAULT_ROWS_PER_PAGE, TransactionSearchForm } from './utils';
 import { TransactionTable } from './TransactionTable';
 import { TransactionSearchFilters } from './TransactionSearchFilters';
-import { useForm, UseFormHandleSubmit } from 'react-hook-form';
+import { UseFormHandleSubmit } from 'react-hook-form';
 import { ForceUpdate, useForceUpdate } from '../../../utils/useForceUpdate';
 import { NeedsAttentionNotice } from './NeedsAttentionNotice';
 import { PageResponsiveWrapper } from '../../UI/ResponsiveWrappers/PageResponsiveWrapper';
 import { TransactionDetailsDialog } from './TransactionDetailsDialog';
 import { useTransactionDetailsDialogActions } from './useTransactionDetailsDialogActions';
 import { PaginationState } from '../../../utils/pagination';
+import { useSetupFilterForm } from './useSetupFilterForm';
 
 const createOnValueHasChanged = (
 	handleSubmit: UseFormHandleSubmit<TransactionSearchForm>,
@@ -37,12 +34,8 @@ export const Transactions = () => {
 		pageSize: DEFAULT_ROWS_PER_PAGE
 	});
 	const forceUpdate = useForceUpdate();
+	const form = useSetupFilterForm();
 
-	const form = useForm<TransactionSearchForm>({
-		mode: 'onBlur',
-		reValidateMode: 'onChange',
-		defaultValues: transactionSearchFormDefaultValues
-	});
 	const { handleSubmit, getValues } = form;
 
 	const onValueHasChanged = createOnValueHasChanged(

@@ -5,21 +5,20 @@ import {
 } from 'react-hook-form';
 import {
 	Autocomplete,
+	Checkbox,
 	DatePicker,
 	Select,
 	SelectOption,
-	ValueHasChanged,
-	Checkbox
+	ValueHasChanged
 } from '@craigmiller160/react-hook-form-material-ui';
 import { constVoid } from 'fp-ts/es6/function';
 import './TransactionSearchFilters.scss';
 import { SortDirection } from '../../../types/misc';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
-import { useMemo } from 'react';
 import { TransactionSearchForm } from './utils';
 import { Paper } from '@mui/material';
 import { ResponsiveRow } from '../../UI/ResponsiveWrappers/ResponsiveRow';
-import { categoryToCategoryOption } from '../../../utils/categoryUtils';
+import { useCategoriesToCategoryOptions } from '../../../utils/categoryUtils';
 
 const directionOptions: ReadonlyArray<SelectOption<SortDirection>> = [
 	{ value: SortDirection.DESC, label: 'Newest to Oldest' },
@@ -50,11 +49,7 @@ export const TransactionSearchFilters = (props: Props) => {
 		form: { getValues, control, setValue }
 	} = props;
 	const { data } = useGetAllCategories();
-
-	const categoryOptions = useMemo(
-		() => data?.map(categoryToCategoryOption),
-		[data]
-	);
+	const categoryOptions = useCategoriesToCategoryOptions(data);
 
 	const onIsNotCategorizedChanged = createOnIsNotCategorizedChanged(
 		getValues,

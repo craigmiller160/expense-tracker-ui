@@ -1,5 +1,5 @@
 import { useSearchParams } from 'react-router-dom';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
 export type SyncFromParams<T> = (params: URLSearchParams) => T;
 export type SyncToParams<T> = (value: T) => URLSearchParams;
@@ -23,8 +23,11 @@ export const useSearchParamSync = <T extends object>(
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[searchParams, ...(props.syncFromParamsDependencies ?? [])]
 	);
-	const doSync: DoSync<T> = (value) =>
-		setSearchParams(props.syncToParams(value));
+	const doSync: DoSync<T> = useCallback(
+		(value) => setSearchParams(props.syncToParams(value)),
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[setSearchParams]
+	);
 
 	return [parsedSearchParams, doSync];
 };

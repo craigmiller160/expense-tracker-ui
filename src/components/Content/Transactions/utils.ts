@@ -1,24 +1,43 @@
-import { SelectOption } from '@craigmiller160/react-hook-form-material-ui';
 import { TransactionTableForm } from './useHandleTransactionTableData';
 import * as RArray from 'fp-ts/es6/ReadonlyArray';
 import { pipe } from 'fp-ts/es6/function';
 import { TransactionToUpdate } from '../../../types/generated/expense-tracker';
 import { SortDirection } from '../../../types/misc';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
+import { CategoryOption } from '../../../types/categories';
 
 export interface TransactionSearchForm {
 	readonly direction: SortDirection;
-	readonly startDate: Date;
-	readonly endDate: Date;
-	readonly category: SelectOption<string> | null;
+	readonly startDate: Date | null;
+	readonly endDate: Date | null;
+	readonly category: CategoryOption | null;
 	readonly isNotConfirmed: boolean;
 	readonly isDuplicate: boolean;
 	readonly isNotCategorized: boolean;
 	readonly isPossibleRefund: boolean;
 }
 
-export const defaultStartDate = (): Date => Time.subMonths(1)(new Date());
-export const defaultEndDate = (): Date => new Date();
+export const defaultStartDate = (): Date =>
+	pipe(
+		new Date(),
+		Time.subMonths(1),
+		Time.set({
+			hours: 0,
+			minutes: 0,
+			seconds: 0,
+			milliseconds: 0
+		})
+	);
+export const defaultEndDate = (): Date =>
+	pipe(
+		new Date(),
+		Time.set({
+			hours: 0,
+			minutes: 0,
+			seconds: 0,
+			milliseconds: 0
+		})
+	);
 
 export const transactionSearchFormDefaultValues: TransactionSearchForm = {
 	direction: SortDirection.DESC,

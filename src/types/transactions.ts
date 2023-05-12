@@ -4,6 +4,6 @@ export type EnhancedSearchTransactionsRequest = Omit<
 	SearchTransactionsRequest,
 	'startDate' | 'endDate'
 > & {
-	readonly startDate?: Date;
-	readonly endDate?: Date;
+	readonly startDate: Date | null;
+	readonly endDate: Date | null;
 };

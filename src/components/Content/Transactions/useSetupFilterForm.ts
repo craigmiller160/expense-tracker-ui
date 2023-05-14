@@ -33,7 +33,6 @@ const formToParams: SyncToParams<TransactionSearchForm> = (form, params) => {
 	params.set('isDuplicate', form.isDuplicate.toString());
 	params.set('isNotCategorized', form.isNotCategorized.toString());
 	params.set('isPossibleRefund', form.isPossibleRefund.toString());
-	return params;
 };
 
 const parseSortDirection = (value: string | null): SortDirection =>

@@ -21,7 +21,7 @@ export const useImmerWithSearchParamSync = <S extends object>(
 	props: Props<S>
 ): [S, Updater<S>] => {
 	const [hasRendered, setHasRendered] = useState<boolean>(false);
-	const { stateFromParams, initialState } = props;
+	const { stateFromParams } = props;
 	const [state, setState] = useImmer<S>(props.initialState);
 	const syncFromParams = useCallback(
 		(params: URLSearchParams) => {
@@ -45,7 +45,6 @@ export const useImmerWithSearchParamSync = <S extends object>(
 				params,
 				(a, b) => b ?? a
 			);
-			console.log('MERGED', merged);
 			setParams(merged);
 		}
 		setHasRendered(true);

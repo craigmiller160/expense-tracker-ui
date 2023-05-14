@@ -1,8 +1,7 @@
 import { SyncToParams, useSearchParamSync } from './useSearchParamSync';
 import { Updater, useImmer } from 'use-immer';
 import { Draft } from 'immer';
-import { useCallback, useEffect, useState } from 'react';
-import { mergeWith } from 'lodash-es';
+import { useCallback, useEffect } from 'react';
 
 export type StateFromParams<S> = (
 	draft: Draft<S>,
@@ -20,36 +19,21 @@ type Props<S extends object> = {
 export const useImmerWithSearchParamSync = <S extends object>(
 	props: Props<S>
 ): [S, Updater<S>] => {
-	const [hasRendered, setHasRendered] = useState<boolean>(false);
 	const { stateFromParams } = props;
 	const [state, setState] = useImmer<S>(props.initialState);
 	const syncFromParams = useCallback(
 		(params: URLSearchParams) => {
 			setState((draft) => stateFromParams(draft, params));
-			return state; // Return type doesn't matter here
+			// Return type will never be used, bypassing type system here
+			return null as unknown as S;
 		},
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[stateFromParams]
+		[stateFromParams, setState]
 	);
-	const [params, setParams] = useSearchParamSync<S>({
+	const [, setParams] = useSearchParamSync<S>({
 		syncFromParams,
 		syncToParams: props.stateToParams,
 		syncFromParamsDependencies: props.stateToParamsDependencies
 	});
-
-	useEffect(() => {
-		if (!hasRendered) {
-			const merged = mergeWith(
-				{},
-				props.initialState ?? {},
-				params,
-				(a, b) => b ?? a
-			);
-			setParams(merged);
-		}
-		setHasRendered(true);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [hasRendered, setParams]);
 
 	useEffect(() => {
 		setParams(state);

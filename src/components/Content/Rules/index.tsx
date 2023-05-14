@@ -10,8 +10,6 @@ import {
 } from './useHandleAllRulesData';
 import { RulesFilters } from './RulesFilters';
 import { UseFormHandleSubmit } from 'react-hook-form';
-import { ForceUpdate, useForceUpdate } from '../../../utils/useForceUpdate';
-import { useDebounce } from '../../../utils/useDebounce';
 import { RuleDetailsDialog } from './RuleDetailsDialog';
 import * as Option from 'fp-ts/es6/Option';
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
@@ -20,19 +18,16 @@ export const DEFAULT_ROWS_PER_PAGE = 25;
 
 const useOnValueHasChanged = (
 	handleSubmit: UseFormHandleSubmit<RulesFiltersFormData>,
-	setPaginationState: Updater<PaginationState>,
-	forceUpdate: ForceUpdate
+	setPaginationState: Updater<PaginationState>
 ) => {
 	const submitFn = handleSubmit(() =>
 		setPaginationState((draft) => {
-			if (draft.pageNumber === 0) {
-				forceUpdate();
-			} else {
+			if (draft.pageNumber !== 0) {
 				draft.pageNumber = 0;
 			}
 		})
 	);
-	return useDebounce(submitFn, 300);
+	return submitFn;
 };
 
 type DialogState = {
@@ -91,11 +86,9 @@ export const Rules = () => {
 		maxOrdinal,
 		reOrder
 	} = useHandleAllRulesData(paginationState);
-	const forceUpdate = useForceUpdate();
 	const onValueHasChanged = useOnValueHasChanged(
 		filtersForm.handleSubmit,
-		setPaginationState,
-		forceUpdate
+		setPaginationState
 	);
 	const { openDialog, closeDialog, clearSelectedRule } =
 		useDialogActions(setDialogState);

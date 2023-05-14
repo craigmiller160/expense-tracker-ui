@@ -5,7 +5,6 @@ import { DEFAULT_ROWS_PER_PAGE, TransactionSearchForm } from './utils';
 import { TransactionTable } from './TransactionTable';
 import { TransactionSearchFilters } from './TransactionSearchFilters';
 import { UseFormHandleSubmit } from 'react-hook-form';
-import { ForceUpdate, useForceUpdate } from '../../../utils/useForceUpdate';
 import { NeedsAttentionNotice } from './NeedsAttentionNotice';
 import { PageResponsiveWrapper } from '../../UI/ResponsiveWrappers/PageResponsiveWrapper';
 import { TransactionDetailsDialog } from './TransactionDetailsDialog';
@@ -15,14 +14,11 @@ import { useSetupFilterForm } from './useSetupFilterForm';
 
 const createOnValueHasChanged = (
 	handleSubmit: UseFormHandleSubmit<TransactionSearchForm>,
-	setPaginationState: Updater<PaginationState>,
-	forceUpdate: ForceUpdate
+	setPaginationState: Updater<PaginationState>
 ) =>
 	handleSubmit(() =>
 		setPaginationState((draft) => {
-			if (draft.pageNumber === 0) {
-				forceUpdate();
-			} else {
+			if (draft.pageNumber !== 0) {
 				draft.pageNumber = 0;
 			}
 		})
@@ -33,15 +29,13 @@ export const Transactions = () => {
 		pageNumber: 0,
 		pageSize: DEFAULT_ROWS_PER_PAGE
 	});
-	const forceUpdate = useForceUpdate();
 	const form = useSetupFilterForm();
 
 	const { handleSubmit, getValues } = form;
 
 	const onValueHasChanged = createOnValueHasChanged(
 		handleSubmit,
-		setPaginationState,
-		forceUpdate
+		setPaginationState
 	);
 
 	const {

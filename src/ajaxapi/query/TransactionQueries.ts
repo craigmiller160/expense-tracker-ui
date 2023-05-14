@@ -33,6 +33,8 @@ import { OptionT } from '@craigmiller160/ts-functions/es/types';
 import * as Option from 'fp-ts/es6/Option';
 import { GET_SPENDING_BY_MONTH_AND_CATEGORY } from './ReportQueries';
 import { GET_NEEDS_ATTENTION } from './NeedsAttentionQueries';
+import { debounceAsync } from '../../utils/debounceAsync';
+import { QUERY_DEBOUNCE } from './constants';
 
 export const SEARCH_FOR_TRANSACTIONS =
 	'TransactionQueries_SearchForTransactions';
@@ -54,7 +56,10 @@ const invalidateTransactionQueries = (queryClient: QueryClient) =>
 	);
 
 type SearchForTransactionsKey = [string, EnhancedSearchTransactionsRequest];
-
+const debounceSearchForTransactions = debounceAsync(
+	searchForTransactions,
+	QUERY_DEBOUNCE
+);
 export const useSearchForTransactions = (
 	request: EnhancedSearchTransactionsRequest
 ): UseQueryResult<TransactionsPageResponse, Error> =>
@@ -65,7 +70,7 @@ export const useSearchForTransactions = (
 		SearchForTransactionsKey
 	>(
 		[SEARCH_FOR_TRANSACTIONS, request],
-		({ queryKey: [, req] }) => searchForTransactions(req),
+		({ queryKey: [, req] }) => debounceSearchForTransactions(req),
 		{
 			enabled: !!request.startDate && !!request.endDate
 		}

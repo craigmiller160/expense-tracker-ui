@@ -10,7 +10,7 @@ export const debounceAsync = <T>(fn: AsyncFunction<T>, millis: number) => {
 	return (...args: any[]) => {
 		clearTimeout(timeoutId);
 
-		return new Promise((resolve, reject) => {
+		return new Promise<T>((resolve, reject) => {
 			timeoutId = setTimeout(() => {
 				fn(...args)
 					.then(resolve)

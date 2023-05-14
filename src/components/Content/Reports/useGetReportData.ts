@@ -1,7 +1,6 @@
 import { UseFormHandleSubmit, UseFormReturn } from 'react-hook-form';
 import { Updater, useImmer } from 'use-immer';
 import { PaginationState } from '../../../utils/pagination';
-import { ForceUpdate, useForceUpdate } from '../../../utils/useForceUpdate';
 import { CategoryOption } from '../../../types/categories';
 import { useGetSpendingByMonthAndCategory } from '../../../ajaxapi/query/ReportQueries';
 import { ReportPageResponse } from '../../../types/generated/expense-tracker';
@@ -19,16 +18,11 @@ export type ReportFilterFormData = {
 
 const createOnValueHasChanged = (
 	handleSubmit: UseFormHandleSubmit<ReportFilterFormData>,
-	setPaginationState: Updater<PaginationState>,
-	forceUpdate: ForceUpdate
+	setPaginationState: Updater<PaginationState>
 ) =>
 	handleSubmit(() =>
 		setPaginationState((draft) => {
-			if (draft.pageNumber === 0) {
-				forceUpdate();
-			} else {
-				draft.pageNumber = 0;
-			}
+			draft.pageNumber = 0;
 		})
 	);
 
@@ -43,7 +37,7 @@ type ReportData = {
 		readonly categories: ReadonlyArray<CategoryOption>;
 		readonly isFetching: boolean;
 	};
-	readonly onValueHasChanged: () => Promise<void>;
+	readonly onValueHasChanged: () => Promise<void> | undefined;
 };
 
 const formToParams: SyncToParams<ReportFilterFormData> = (form) => {
@@ -105,11 +99,9 @@ export const useGetReportData = (): ReportData => {
 				[]
 		});
 
-	const forceUpdate = useForceUpdate();
 	const onValueHasChanged = createOnValueHasChanged(
 		form.handleSubmit,
-		setState,
-		forceUpdate
+		setState
 	);
 
 	return {

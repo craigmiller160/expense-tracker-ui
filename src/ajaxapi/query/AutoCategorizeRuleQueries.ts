@@ -26,6 +26,7 @@ import { OptionT } from '@craigmiller160/ts-functions/es/types';
 import * as Option from 'fp-ts/es6/Option';
 import { GET_LAST_RULE_APPLIED } from './LastAppliedRuleQueries';
 import { debounceAsync } from '../../utils/debounceAsync';
+import { QUERY_DEBOUNCE } from './constants';
 
 export const GET_ALL_RULES = 'AutoCategorizeRuleQueries_GetAllRules';
 export const GET_RULE = 'AutoCategorizeRuleQueries_GetRule';
@@ -40,7 +41,7 @@ const invalidateRuleQueries = (queryClient: QueryClient): Promise<unknown> =>
 	]);
 
 type GetAllRulesKey = [string, AutoCategorizeRulePageRequest];
-const debounceGetAllRules = debounceAsync(getAllRules, 300);
+const debounceGetAllRules = debounceAsync(getAllRules, QUERY_DEBOUNCE);
 export const useGetAllRules = (
 	request: AutoCategorizeRulePageRequest
 ): UseQueryResult<AutoCategorizeRulePageResponse, Error> =>

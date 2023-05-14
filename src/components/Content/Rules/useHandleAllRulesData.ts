@@ -58,8 +58,7 @@ const useReOrderActions = (): InternalReOrderActions => {
 	};
 };
 
-const formToParams: SyncToParams<RulesFiltersFormData> = (form) => {
-	const params = new URLSearchParams();
+const formToParams: SyncToParams<RulesFiltersFormData> = (form, params) => {
 	const setOrDelete = setOrDeleteParam(params);
 	setOrDelete('category', form.category?.value);
 	setOrDelete('regex', form.regex);

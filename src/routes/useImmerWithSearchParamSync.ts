@@ -1,7 +1,7 @@
 import { SyncToParams, useSearchParamSync } from './useSearchParamSync';
-import { useImmer } from 'use-immer';
+import { Updater, useImmer } from 'use-immer';
 import { Draft } from 'immer';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 
 export type StateFromParams<S> = (
 	draft: Draft<S>,
@@ -18,7 +18,7 @@ type Props<S extends object> = {
 
 export const useImmerWithSearchParamSync = <S extends object>(
 	props: Props<S>
-): [S, (s: S) => void] => {
+): [S, Updater<S>] => {
 	const { stateFromParams } = props;
 	const [state, setState] = useImmer<S>(props.initialState);
 	const syncFromParams = useCallback(
@@ -35,5 +35,9 @@ export const useImmerWithSearchParamSync = <S extends object>(
 		syncFromParamsDependencies: props.stateToParamsDependencies
 	});
 
-	return [state, setParams];
+	useEffect(() => {
+		setParams(state);
+	}, [state, setState, setParams]);
+
+	return [state, setState];
 };

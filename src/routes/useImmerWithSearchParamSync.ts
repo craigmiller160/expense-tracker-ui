@@ -4,8 +4,8 @@ import { Draft } from 'immer';
 import { useCallback } from 'react';
 
 export type StateFromParams<S> = (
-	params: URLSearchParams,
-	draft: Draft<S>
+	draft: Draft<S>,
+	params: URLSearchParams
 ) => void;
 
 type Props<S extends object> = {
@@ -23,7 +23,7 @@ export const useImmerWithSearchParamSync = <S extends object>(
 	const [state, setState] = useImmer<S>(props.initialState);
 	const syncFromParams = useCallback(
 		(params: URLSearchParams) => {
-			setState((draft) => stateFromParams(params, draft));
+			setState((draft) => stateFromParams(draft, params));
 			return state; // Return type doesn't matter here
 		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps

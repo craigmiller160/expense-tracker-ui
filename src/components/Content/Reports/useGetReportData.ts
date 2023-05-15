@@ -40,8 +40,7 @@ type ReportData = {
 	readonly onValueHasChanged: () => Promise<void> | undefined;
 };
 
-const formToParams: SyncToParams<ReportFilterFormData> = (form) => {
-	const params = new URLSearchParams();
+const formToParams: SyncToParams<ReportFilterFormData> = (form, params) => {
 	const categoryString = form.excludedCategories
 		.map((cat) => cat.value)
 		.join(',');

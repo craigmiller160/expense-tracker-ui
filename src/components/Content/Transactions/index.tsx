@@ -1,6 +1,6 @@
 import { PageTitle } from '../../UI/PageTitle';
 import './Transactions.scss';
-import { Updater, useImmer } from 'use-immer';
+import { Updater } from 'use-immer';
 import { DEFAULT_ROWS_PER_PAGE, TransactionSearchForm } from './utils';
 import { TransactionTable } from './TransactionTable';
 import { TransactionSearchFilters } from './TransactionSearchFilters';
@@ -11,6 +11,11 @@ import { TransactionDetailsDialog } from './TransactionDetailsDialog';
 import { useTransactionDetailsDialogActions } from './useTransactionDetailsDialogActions';
 import { PaginationState } from '../../../utils/pagination';
 import { useSetupFilterForm } from './useSetupFilterForm';
+import {
+	StateFromParams,
+	useImmerWithSearchParamSync
+} from '../../../routes/useImmerWithSearchParamSync';
+import { SyncToParams } from '../../../routes/useSearchParamSync';
 
 const createOnValueHasChanged = (
 	handleSubmit: UseFormHandleSubmit<TransactionSearchForm>,
@@ -24,11 +29,32 @@ const createOnValueHasChanged = (
 		})
 	);
 
+const stateToParams: SyncToParams<PaginationState> = (state, params) => {
+	params.set('pageNumber', state.pageNumber.toString());
+	params.set('pageSize', state.pageSize.toString());
+};
+const stateFromParams: StateFromParams<PaginationState> = (draft, params) => {
+	const pageNumber = params.get('pageNumber');
+	if (pageNumber) {
+		draft.pageNumber = parseInt(pageNumber);
+	}
+
+	const pageSize = params.get('pageSize');
+	if (pageSize) {
+		draft.pageSize = parseInt(pageSize);
+	}
+};
+
 export const Transactions = () => {
-	const [paginationState, setPaginationState] = useImmer<PaginationState>({
-		pageNumber: 0,
-		pageSize: DEFAULT_ROWS_PER_PAGE
-	});
+	const [paginationState, setPaginationState] =
+		useImmerWithSearchParamSync<PaginationState>({
+			initialState: {
+				pageNumber: 0,
+				pageSize: DEFAULT_ROWS_PER_PAGE
+			},
+			stateToParams,
+			stateFromParams
+		});
 	const form = useSetupFilterForm();
 
 	const { handleSubmit, getValues } = form;

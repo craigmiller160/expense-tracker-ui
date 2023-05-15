@@ -2,7 +2,7 @@ import { useSearchParams } from 'react-router-dom';
 import { useCallback, useMemo } from 'react';
 
 export type SyncFromParams<T> = (params: URLSearchParams) => T;
-export type SyncToParams<T> = (value: T) => URLSearchParams;
+export type SyncToParams<T> = (value: T, params: URLSearchParams) => void;
 export type DoSync<T> = (value: T) => void;
 
 export type UseSearchParamSyncProps<T extends object> = {
@@ -16,17 +16,22 @@ export const useSearchParamSync = <T extends object>(
 	props: UseSearchParamSyncProps<T>
 ): [T, DoSync<T>] => {
 	const [searchParams, setSearchParams] = useSearchParams();
+	const { syncFromParams, syncToParams, syncFromParamsDependencies } = props;
+
 	const parsedSearchParams = useMemo(
-		() => {
-			return props.syncFromParams(searchParams);
-		},
+		() => syncFromParams(searchParams),
+
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[searchParams, ...(props.syncFromParamsDependencies ?? [])]
+		[searchParams, syncFromParams, ...(syncFromParamsDependencies ?? [])]
 	);
+
 	const doSync: DoSync<T> = useCallback(
-		(value) => setSearchParams(props.syncToParams(value)),
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[setSearchParams]
+		(value) => {
+			const newParams = new URLSearchParams(window.location.search);
+			syncToParams(value, newParams);
+			setSearchParams(newParams);
+		},
+		[setSearchParams, syncToParams]
 	);
 
 	return [parsedSearchParams, doSync];

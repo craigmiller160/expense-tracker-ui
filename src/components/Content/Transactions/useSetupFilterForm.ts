@@ -19,8 +19,7 @@ import { useFormWithSearchParamSync } from '../../../routes/useFormWithSearchPar
 import { setOrDeleteParam } from '../../../routes/paramUtils';
 import isValid from 'date-fns/isValid/index';
 
-const formToParams: SyncToParams<TransactionSearchForm> = (form) => {
-	const params = new URLSearchParams();
+const formToParams: SyncToParams<TransactionSearchForm> = (form, params) => {
 	const setOrDelete = setOrDeleteParam(params);
 	params.set('direction', form.direction);
 	const startDate =
@@ -34,7 +33,6 @@ const formToParams: SyncToParams<TransactionSearchForm> = (form) => {
 	params.set('isDuplicate', form.isDuplicate.toString());
 	params.set('isNotCategorized', form.isNotCategorized.toString());
 	params.set('isPossibleRefund', form.isPossibleRefund.toString());
-	return params;
 };
 
 const parseSortDirection = (value: string | null): SortDirection =>

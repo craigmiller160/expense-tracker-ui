@@ -39,8 +39,7 @@ export const useFormWithSearchParamSync = <T extends object>(
 			reset(params);
 		}
 		setHasRendered(true);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [reset, params, hasRendered]);
+	}, [reset, params, hasRendered, setParams, props.defaultValues]);
 
 	useEffect(() => {
 		const subscription = watch((value) => setParams(value as T));

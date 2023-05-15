@@ -25,7 +25,7 @@ export const useSearchParamSync = <T extends object>(
 	);
 	const doSync: DoSync<T> = useCallback(
 		(value) => {
-			const newParams = new URLSearchParams(searchParams);
+			const newParams = new URLSearchParams(window.location.search);
 			props.syncToParams(value, newParams);
 			setSearchParams(newParams);
 		},

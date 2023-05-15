@@ -16,21 +16,19 @@ export const useSearchParamSync = <T extends object>(
 	props: UseSearchParamSyncProps<T>
 ): [T, DoSync<T>] => {
 	const [searchParams, setSearchParams] = useSearchParams();
-	const parsedSearchParams = useMemo(
-		() => {
-			return props.syncFromParams(searchParams);
-		},
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[searchParams, ...(props.syncFromParamsDependencies ?? [])]
-	);
+	const { syncFromParams, syncToParams, syncFromParamsDependencies } = props;
+
+	const parsedSearchParams = useMemo(() => {
+		return syncFromParams(searchParams);
+	}, [searchParams, syncFromParams, ...(syncFromParamsDependencies ?? [])]);
+
 	const doSync: DoSync<T> = useCallback(
 		(value) => {
 			const newParams = new URLSearchParams(window.location.search);
-			props.syncToParams(value, newParams);
+			syncToParams(value, newParams);
 			setSearchParams(newParams);
 		},
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[setSearchParams]
+		[setSearchParams, syncToParams]
 	);
 
 	return [parsedSearchParams, doSync];

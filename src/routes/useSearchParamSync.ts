@@ -12,6 +12,20 @@ export type UseSearchParamSyncProps<T extends object> = {
 	readonly syncFromParamsDependencies?: ReadonlyArray<any>;
 };
 
+export const shouldSetParams = (
+	baseParams: URLSearchParams,
+	newParams: URLSearchParams
+) => {
+	const baseParamArray = Array.from(baseParams.entries());
+	if (baseParamArray.length === 0) {
+		return true;
+	}
+	return (
+		baseParamArray.filter(([key, value]) => newParams.get(key) !== value)
+			.length > 0
+	);
+};
+
 export const useSearchParamSync = <T extends object>(
 	props: UseSearchParamSyncProps<T>
 ): [T, DoSync<T>] => {
@@ -27,9 +41,12 @@ export const useSearchParamSync = <T extends object>(
 
 	const doSync: DoSync<T> = useCallback(
 		(value) => {
+			const baseParams = new URLSearchParams(window.location.search);
 			const newParams = new URLSearchParams(window.location.search);
 			syncToParams(value, newParams);
-			setSearchParams(newParams);
+			if (shouldSetParams(baseParams, newParams)) {
+				setSearchParams(newParams);
+			}
 		},
 		[setSearchParams, syncToParams]
 	);

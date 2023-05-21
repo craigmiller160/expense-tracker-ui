@@ -17,6 +17,7 @@ const validateQueryString = (url: string, expectedQuery: string) => {
 describe('Rules Filters', () => {
 	it('renders the filters', () => {
 		rulesApi.getAllRules();
+		rulesApi.getMaxOrdinal();
 		categoriesApi.getAllCategories();
 		mountApp({
 			initialRoute: '/expense-tracker/rules'
@@ -30,26 +31,25 @@ describe('Rules Filters', () => {
 
 	it('applies regex filter', () => {
 		rulesApi.getAllRules();
+		rulesApi.getMaxOrdinal();
 		categoriesApi.getAllCategories();
 		mountApp({
 			initialRoute: '/expense-tracker/rules'
 		});
 
 		rulesListFiltersPage.getRegexFilterInput().type('Hello');
+		rulesListFiltersPage
+			.getRegexFilterInput()
+			.should('have.value', 'Hello');
 
-		cy.wait(300);
 		cy.get('@getAllRules.all')
-			.should('have.length', 6)
+			.should('have.length', 1)
 			.then(($xhrs) => {
 				const requests =
 					$xhrs as unknown as ReadonlyArray<Interception>;
 
 				validateQueryString(
 					requests[0].request.url,
-					'pageNumber=0&pageSize=25&regex='
-				);
-				validateQueryString(
-					requests[5].request.url,
 					'pageNumber=0&pageSize=25&regex=Hello'
 				);
 			});
@@ -57,6 +57,7 @@ describe('Rules Filters', () => {
 
 	it('applies category filter', () => {
 		rulesApi.getAllRules();
+		rulesApi.getMaxOrdinal();
 		categoriesApi.getAllCategories();
 		mountApp({
 			initialRoute: '/expense-tracker/rules'
@@ -68,19 +69,13 @@ describe('Rules Filters', () => {
 			.getCategoryFilterInput()
 			.should('have.value', orderedCategoryNames[0]);
 
-		cy.wait(300);
 		cy.get('@getAllRules.all')
-			.should('have.length', 2)
+			.should('have.length', 1)
 			.then(($xhrs) => {
 				const requests =
 					$xhrs as unknown as ReadonlyArray<Interception>;
-
 				validateQueryString(
 					requests[0].request.url,
-					'pageNumber=0&pageSize=25&regex='
-				);
-				validateQueryString(
-					requests[1].request.url,
 					`pageNumber=0&pageSize=25&categoryId=${orderedCategoryIds[0]}&regex=`
 				);
 			});

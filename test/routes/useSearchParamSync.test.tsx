@@ -94,7 +94,16 @@ describe('useSearchParamSync', () => {
 		expect(screen.getByText(/Params/)).toHaveTextContent('Params Count: 1');
 	});
 
-	it('updates state for search params', () => {
-		throw new Error();
+	it('updates state for search params', async () => {
+		doRender('/?count=1');
+		await waitFor(() =>
+			expect(screen.getByText(/State/)).toHaveTextContent(
+				'State Count: 1'
+			)
+		);
+		expect(screen.getByText(/Params/)).toHaveTextContent('Params Count: 1');
+		expect(screen.getByText(/Search/)).toHaveTextContent(
+			'Search: ?count=1'
+		);
 	});
 });

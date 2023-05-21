@@ -17,6 +17,7 @@ const validateQueryString = (url: string, expectedQuery: string) => {
 describe('Rules Filters', () => {
 	it('renders the filters', () => {
 		rulesApi.getAllRules();
+		rulesApi.getMaxOrdinal();
 		categoriesApi.getAllCategories();
 		mountApp({
 			initialRoute: '/expense-tracker/rules'
@@ -30,6 +31,7 @@ describe('Rules Filters', () => {
 
 	it('applies regex filter', () => {
 		rulesApi.getAllRules();
+		rulesApi.getMaxOrdinal();
 		categoriesApi.getAllCategories();
 		mountApp({
 			initialRoute: '/expense-tracker/rules'
@@ -57,6 +59,7 @@ describe('Rules Filters', () => {
 
 	it('applies category filter', () => {
 		rulesApi.getAllRules();
+		rulesApi.getMaxOrdinal();
 		categoriesApi.getAllCategories();
 		mountApp({
 			initialRoute: '/expense-tracker/rules'

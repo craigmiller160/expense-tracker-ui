@@ -38,8 +38,10 @@ describe('Rules Filters', () => {
 		});
 
 		rulesListFiltersPage.getRegexFilterInput().type('Hello');
+		rulesListFiltersPage
+			.getRegexFilterInput()
+			.should('have.value', 'Hello');
 
-		cy.wait(300);
 		cy.get('@getAllRules.all')
 			.should('have.length', 6)
 			.then(($xhrs) => {
@@ -71,7 +73,6 @@ describe('Rules Filters', () => {
 			.getCategoryFilterInput()
 			.should('have.value', orderedCategoryNames[0]);
 
-		cy.wait(300);
 		cy.get('@getAllRules.all')
 			.should('have.length', 2)
 			.then(($xhrs) => {

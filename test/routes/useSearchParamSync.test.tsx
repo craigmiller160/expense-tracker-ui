@@ -111,17 +111,30 @@ describe('useSearchParamSync', () => {
 	});
 
 	it('updates state for search params', async () => {
-		doRender('/?count=1');
+		doRender('/');
+		expect(screen.getByText(/State Count/)).toHaveTextContent(
+			'State Count: 0'
+		);
+		expect(screen.getByText(/Params Count/)).toHaveTextContent(
+			'Params Count: 0'
+		);
 		await waitFor(() =>
-			expect(screen.getByText(/State Count/)).toHaveTextContent(
-				'State Count: 1'
+			expect(screen.getByText(/Search/)).toHaveTextContent(
+				'Search: ?count=0'
 			)
+		);
+
+		await userEvent.click(screen.getByText('Increment Params'));
+		expect(screen.getByText(/Search/)).toHaveTextContent(
+			'Search: ?count=1'
 		);
 		expect(screen.getByText(/Params Count/)).toHaveTextContent(
 			'Params Count: 1'
 		);
-		expect(screen.getByText(/Search/)).toHaveTextContent(
-			'Search: ?count=1'
+		await waitFor(() =>
+			expect(screen.getByText(/State Count/)).toHaveTextContent(
+				'State Count: 1'
+			)
 		);
 	});
 });

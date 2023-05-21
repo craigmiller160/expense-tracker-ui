@@ -137,4 +137,8 @@ describe('useSearchParamSync', () => {
 			)
 		);
 	});
+
+	it('something to validate the dependencies', () => {
+		throw new Error();
+	});
 });

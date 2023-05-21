@@ -15,6 +15,7 @@ import {
 	SyncToParams
 } from '../../../routes/useSearchParamSync';
 import { setOrDeleteParam } from '../../../routes/paramUtils';
+import { useCallback } from 'react';
 
 type Props = PaginationState;
 
@@ -96,10 +97,14 @@ export const useHandleAllRulesData = (props: Props): GetAllRulesDataResult => {
 		isFetching: getAllCategoriesIsFetching
 	} = useGetAllCategories();
 	const categories = useCategoriesToCategoryOptions(getAllCategoriesData);
+	const memoizedFormFromParams = useCallback(
+		(params: URLSearchParams) => paramsToForm(categories)(params),
+		[categories]
+	);
 
 	const form = useFormWithSearchParamSync<RulesFiltersFormData>({
 		formToParams,
-		formFromParams: paramsToForm(categories),
+		formFromParams: memoizedFormFromParams,
 		formFromParamsDependencies: [categories],
 		defaultValues: {
 			regex: '',

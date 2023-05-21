@@ -11,6 +11,7 @@ import {
 	SyncFromParams,
 	SyncToParams
 } from '../../../routes/useSearchParamSync';
+import { useCallback } from 'react';
 
 export type ReportFilterFormData = {
 	readonly excludedCategories: ReadonlyArray<CategoryOption>;
@@ -82,10 +83,14 @@ export const useGetReportData = (): ReportData => {
 		useGetAllCategories();
 
 	const categories = useCategoriesToCategoryOptions(categoryData);
+	const memoizedFormFromParams = useCallback(
+		(params: URLSearchParams) => formFromParams(categories)(params),
+		[categories]
+	);
 
 	const form = useFormWithSearchParamSync<ReportFilterFormData>({
 		formToParams,
-		formFromParams: formFromParams(categories),
+		formFromParams: memoizedFormFromParams,
 		formFromParamsDependencies: [categories]
 	});
 

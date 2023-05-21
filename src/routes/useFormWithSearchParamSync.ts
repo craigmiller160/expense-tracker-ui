@@ -27,6 +27,7 @@ export const useFormWithSearchParamSync = <T extends object>(
 	const { reset, watch } = form;
 
 	useEffect(() => {
+		// console.log('EFFECT RUNNING');
 		if (!hasRendered) {
 			const merged = mergeWith(
 				{},

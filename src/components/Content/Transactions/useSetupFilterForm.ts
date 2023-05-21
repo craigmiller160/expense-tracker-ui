@@ -18,6 +18,7 @@ import { useCategoriesToCategoryOptions } from '../../../utils/categoryUtils';
 import { useFormWithSearchParamSync } from '../../../routes/useFormWithSearchParamSync';
 import { setOrDeleteParam } from '../../../routes/paramUtils';
 import isValid from 'date-fns/isValid/index';
+import { useCallback } from 'react';
 
 const formToParams: SyncToParams<TransactionSearchForm> = (form, params) => {
 	const setOrDelete = setOrDeleteParam(params);
@@ -108,9 +109,13 @@ const formFromParams =
 export const useSetupFilterForm = (): UseFormReturn<TransactionSearchForm> => {
 	const { data } = useGetAllCategories();
 	const categories = useCategoriesToCategoryOptions(data);
+	const memoizedFormFromParams = useCallback(
+		(params: URLSearchParams) => formFromParams(categories)(params),
+		[categories]
+	);
 	return useFormWithSearchParamSync<TransactionSearchForm>({
 		formToParams,
-		formFromParams: formFromParams(categories),
+		formFromParams: memoizedFormFromParams,
 		formFromParamsDependencies: [categories],
 		mode: 'onBlur',
 		reValidateMode: 'onChange',

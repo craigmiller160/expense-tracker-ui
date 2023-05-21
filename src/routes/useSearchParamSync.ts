@@ -15,10 +15,16 @@ export type UseSearchParamSyncProps<T extends object> = {
 export const shouldSetParams = (
 	baseParams: URLSearchParams,
 	newParams: URLSearchParams
-) =>
-	Array.from(baseParams.entries()).filter(
-		([key, value]) => newParams.get(key) !== value
-	).length > 0;
+) => {
+	const baseParamArray = Array.from(baseParams.entries());
+	if (baseParamArray.length === 0) {
+		return true;
+	}
+	return (
+		baseParamArray.filter(([key, value]) => newParams.get(key) !== value)
+			.length > 0
+	);
+};
 
 export const useSearchParamSync = <T extends object>(
 	props: UseSearchParamSyncProps<T>

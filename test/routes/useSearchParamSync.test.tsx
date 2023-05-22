@@ -17,14 +17,20 @@ type State = {
 };
 
 type Dependencies = {
-	readonly modifier: number;
+	readonly modify: boolean;
 };
 
 const syncFromParams =
-	(modifier: number): SyncFromParams<State> =>
-	(params) => ({
-		count: parseInt(params.get('count') ?? '0') + modifier
-	});
+	(modify: boolean): SyncFromParams<State> =>
+	(params) => {
+		let base = parseInt(params.get('count') ?? '0');
+		if (modify && base % 2 !== 0) {
+			base++;
+		}
+		return {
+			count: base
+		};
+	};
 
 const syncToParams: SyncToParams<State> = (state, params) => {
 	params.set('count', state.count.toString());
@@ -35,15 +41,15 @@ const TestComponent = () => {
 		count: 0
 	});
 	const [dependencies, setDependencies] = useImmer<Dependencies>({
-		modifier: 0
+		modify: false
 	});
 	const location = useLocation();
 	const [, setSearchParams] = useSearchParams();
 
 	const memoizedSyncFromParams = useCallback(
 		(params: URLSearchParams) =>
-			syncFromParams(dependencies.modifier)(params),
-		[dependencies.modifier]
+			syncFromParams(dependencies.modify)(params),
+		[dependencies.modify]
 	);
 
 	const [params, setParams] = useSearchParamSync<State>({
@@ -56,9 +62,9 @@ const TestComponent = () => {
 			draft.count++;
 		});
 
-	const incrementModifier = () =>
+	const enableModifier = () =>
 		setDependencies((draft) => {
-			draft.modifier++;
+			draft.modify = true;
 		});
 
 	const incrementSearch = () => {
@@ -82,7 +88,7 @@ const TestComponent = () => {
 			<p>Search: {location.search}</p>
 			<button onClick={incrementState}>Increment State</button>
 			<button onClick={incrementSearch}>Increment Params</button>
-			<button onClick={incrementModifier}>Increment Modifier</button>
+			<button onClick={enableModifier}>Enable Modifier</button>
 		</div>
 	);
 };
@@ -163,7 +169,44 @@ describe('useSearchParamSync', () => {
 		);
 	});
 
-	it('handles changing dependencies with sync management functions', () => {
-		throw new Error();
+	it('handles changing dependencies with sync management functions', async () => {
+		doRender('/');
+		expect(screen.getByText(/State Count/)).toHaveTextContent(
+			'State Count: 0'
+		);
+		expect(screen.getByText(/Params Count/)).toHaveTextContent(
+			'Params Count: 0'
+		);
+		await waitFor(() =>
+			expect(screen.getByText(/Search/)).toHaveTextContent(
+				'Search: ?count=0'
+			)
+		);
+
+		await userEvent.click(screen.getByText('Increment Params'));
+		expect(screen.getByText(/Search/)).toHaveTextContent(
+			'Search: ?count=1'
+		);
+		expect(screen.getByText(/Params Count/)).toHaveTextContent(
+			'Params Count: 1'
+		);
+		await waitFor(() =>
+			expect(screen.getByText(/State Count/)).toHaveTextContent(
+				'State Count: 1'
+			)
+		);
+
+		await userEvent.click(screen.getByText('Enable Modifier'));
+		await waitFor(() =>
+			expect(screen.getByText(/State Count/)).toHaveTextContent(
+				'State Count: 2'
+			)
+		);
+		expect(screen.getByText(/Search/)).toHaveTextContent(
+			'Search: ?count=2'
+		);
+		expect(screen.getByText(/Params Count/)).toHaveTextContent(
+			'Params Count: 2'
+		);
 	});
 });

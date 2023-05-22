@@ -5,7 +5,7 @@ import {
 	useSearchParamSync
 } from '../../src/routes/useSearchParamSync';
 import { useImmer } from 'use-immer';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { MemoryRouter, useSearchParams } from 'react-router-dom';
 import { InitialEntry } from 'history';
 import { useLocation } from 'react-router';
@@ -16,9 +16,15 @@ type State = {
 	readonly count: number;
 };
 
-const syncFromParams: SyncFromParams<State> = (params) => ({
-	count: parseInt(params.get('count') ?? '0')
-});
+type Dependencies = {
+	readonly modifier: number;
+};
+
+const syncFromParams =
+	(modifier: number): SyncFromParams<State> =>
+	(params) => ({
+		count: parseInt(params.get('count') ?? '0') + modifier
+	});
 
 const syncToParams: SyncToParams<State> = (state, params) => {
 	params.set('count', state.count.toString());
@@ -28,17 +34,31 @@ const TestComponent = () => {
 	const [state, setState] = useImmer<State>({
 		count: 0
 	});
+	const [dependencies, setDependencies] = useImmer<Dependencies>({
+		modifier: 0
+	});
 	const location = useLocation();
 	const [, setSearchParams] = useSearchParams();
 
+	const memoizedSyncFromParams = useCallback(
+		(params: URLSearchParams) =>
+			syncFromParams(dependencies.modifier)(params),
+		[dependencies.modifier]
+	);
+
 	const [params, setParams] = useSearchParamSync<State>({
-		syncFromParams,
+		syncFromParams: memoizedSyncFromParams,
 		syncToParams
 	});
 
 	const incrementState = () =>
 		setState((draft) => {
 			draft.count++;
+		});
+
+	const incrementModifier = () =>
+		setDependencies((draft) => {
+			draft.modifier++;
 		});
 
 	const incrementSearch = () => {
@@ -62,6 +82,7 @@ const TestComponent = () => {
 			<p>Search: {location.search}</p>
 			<button onClick={incrementState}>Increment State</button>
 			<button onClick={incrementSearch}>Increment Params</button>
+			<button onClick={incrementModifier}>Increment Modifier</button>
 		</div>
 	);
 };
@@ -142,7 +163,7 @@ describe('useSearchParamSync', () => {
 		);
 	});
 
-	it('something to validate the dependencies', () => {
+	it('handles changing dependencies with sync management functions', () => {
 		throw new Error();
 	});
 });

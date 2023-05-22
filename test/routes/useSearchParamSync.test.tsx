@@ -46,6 +46,13 @@ const TestComponent = () => {
 	const location = useLocation();
 	const [, setSearchParams] = useSearchParams();
 
+	useEffect(() => {
+		const params = new URLSearchParams(location.search);
+		params.set('other', 'hello');
+		setSearchParams(params);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
 	const memoizedSyncFromParams = useCallback(
 		(params: URLSearchParams) =>
 			syncFromParams(dependencies.modify)(params),
@@ -123,14 +130,14 @@ describe('useSearchParamSync', () => {
 		);
 		await waitFor(() =>
 			expect(screen.getByText(/Search/)).toHaveTextContent(
-				'Search: ?count=0'
+				'Search: ?count=0&other=hello'
 			)
 		);
 
 		await userEvent.click(screen.getByText('Increment State'));
 		await waitFor(() =>
 			expect(screen.getByText(/Search/)).toHaveTextContent(
-				'Search: ?count=1'
+				'Search: ?count=1&other=hello'
 			)
 		);
 		expect(screen.getByText(/State Count/)).toHaveTextContent(
@@ -151,13 +158,13 @@ describe('useSearchParamSync', () => {
 		);
 		await waitFor(() =>
 			expect(screen.getByText(/Search/)).toHaveTextContent(
-				'Search: ?count=0'
+				'Search: ?count=0&other=hello'
 			)
 		);
 
 		await userEvent.click(screen.getByText('Increment Params'));
 		expect(screen.getByText(/Search/)).toHaveTextContent(
-			'Search: ?count=1'
+			'Search: ?count=1&other=hello'
 		);
 		expect(screen.getByText(/Params Count/)).toHaveTextContent(
 			'Params Count: 1'
@@ -179,13 +186,13 @@ describe('useSearchParamSync', () => {
 		);
 		await waitFor(() =>
 			expect(screen.getByText(/Search/)).toHaveTextContent(
-				'Search: ?count=0'
+				'Search: ?count=0&other=hello'
 			)
 		);
 
 		await userEvent.click(screen.getByText('Increment Params'));
 		expect(screen.getByText(/Search/)).toHaveTextContent(
-			'Search: ?count=1'
+			'Search: ?count=1&other=hello'
 		);
 		expect(screen.getByText(/Params Count/)).toHaveTextContent(
 			'Params Count: 1'
@@ -203,7 +210,7 @@ describe('useSearchParamSync', () => {
 			)
 		);
 		expect(screen.getByText(/Search/)).toHaveTextContent(
-			'Search: ?count=2'
+			'Search: ?count=2&other=hello'
 		);
 		expect(screen.getByText(/Params Count/)).toHaveTextContent(
 			'Params Count: 2'

@@ -51,6 +51,10 @@ const TestComponent = () => {
 		setParams(state);
 	}, [state, setParams]);
 
+	useEffect(() => {
+		setState(params);
+	}, [params, setState]);
+
 	return (
 		<div>
 			<p>State Count: {state.count}</p>

@@ -169,6 +169,10 @@ describe('useSearchParamSync', () => {
 		);
 	});
 
+	it('preserves additional params when modifying', async () => {
+		throw new Error();
+	});
+
 	it('handles changing dependencies with sync management functions', async () => {
 		doRender('/');
 		expect(screen.getByText(/State Count/)).toHaveTextContent(

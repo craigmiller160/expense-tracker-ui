@@ -142,7 +142,6 @@ describe('useSearchParamSync', () => {
 	});
 
 	it('updates state for search params', async () => {
-		// TODO has loop
 		doRender('/');
 		expect(screen.getByText(/State Count/)).toHaveTextContent(
 			'State Count: 0'
@@ -171,7 +170,25 @@ describe('useSearchParamSync', () => {
 	});
 
 	it('preserves additional params when modifying', async () => {
-		throw new Error();
+		doRender('/?other=hello');
+		expect(screen.getByText(/State Count/)).toHaveTextContent(
+			'State Count: 0'
+		);
+		expect(screen.getByText(/Params Count/)).toHaveTextContent(
+			'Params Count: 0'
+		);
+		await waitFor(() =>
+			expect(screen.getByText(/Search/)).toHaveTextContent(
+				'Search: ?other=hello'
+			)
+		);
+
+		await userEvent.click(screen.getByText('Increment Params'));
+		await waitFor(() =>
+			expect(screen.getByText(/Search/)).toHaveTextContent(
+				'Search: ?other=hello&count=1'
+			)
+		);
 	});
 
 	it('handles changing dependencies with sync management functions', async () => {

@@ -5,7 +5,8 @@ import {
 	useImmerWithSearchParamSync
 } from '../../src/routes/useImmerWithSearchParamSync';
 import { InitialEntry } from 'history';
-import { render } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 
 export {};
@@ -56,16 +57,40 @@ const doRender = (initialEntry: InitialEntry) =>
 describe('useImmerWithSearchParamSync', () => {
 	it('sets initial state in state and search params', () => {
 		doRender('/');
-		throw new Error();
+		expect(screen.getByText(/State Count/)).toHaveTextContent(
+			'State Count: 0'
+		);
+		expect(screen.getByText(/Search/)).toHaveTextContent(
+			'Search: ?count=0'
+		);
 	});
 
-	it('updates state and search params', () => {
+	it('updates state and search params', async () => {
 		doRender('/');
-		throw new Error();
+		expect(screen.getByText(/State Count/)).toHaveTextContent(
+			'State Count: 0'
+		);
+		expect(screen.getByText(/Search/)).toHaveTextContent(
+			'Search: ?count=0'
+		);
+		await userEvent.click(screen.getByText('Increment'));
+		await waitFor(() =>
+			expect(screen.getByText(/State Count/)).toHaveTextContent(
+				'State Count: 1'
+			)
+		);
+		expect(screen.getByText(/Search/)).toHaveTextContent(
+			'Search: ?count=1'
+		);
 	});
 
 	it('updates state for initial params values', () => {
 		doRender('/?count=12');
-		throw new Error();
+		expect(screen.getByText(/State Count/)).toHaveTextContent(
+			'State Count: 12'
+		);
+		expect(screen.getByText(/Search/)).toHaveTextContent(
+			'Search: ?count=12'
+		);
 	});
 });

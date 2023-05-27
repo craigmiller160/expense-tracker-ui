@@ -5,6 +5,9 @@ import {
 	SyncToParams
 } from '../../src/routes/useSearchParamSync';
 import { setOrDeleteParam } from '../../src/routes/paramUtils';
+import { InitialEntry } from 'history';
+import { render } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 
 type Form = {
 	readonly count: number;
@@ -44,16 +47,27 @@ const TestComponent = () => {
 		</div>
 	);
 };
+
+const doMount = (initialEntry: InitialEntry) =>
+	render(
+		<MemoryRouter initialEntries={[initialEntry]}>
+			<TestComponent />
+		</MemoryRouter>
+	);
+
 describe('useFormWithSearchParamSync', () => {
 	it('sets form default values in params', () => {
+		doMount('/');
 		throw new Error();
 	});
 
 	it('updates form and params', async () => {
+		doMount('/');
 		throw new Error();
 	});
 
 	it('merges initial params values with default form values', () => {
+		doMount('/?name=bob');
 		throw new Error();
 	});
 });

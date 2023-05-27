@@ -157,7 +157,7 @@ describe('useSearchParamSync', () => {
 
 		await userEvent.click(screen.getByText('Increment Params'));
 		expect(screen.getByText(/Search/)).toHaveTextContent(
-			'Search: ?count=1&'
+			'Search: ?count=1'
 		);
 		expect(screen.getByText(/Params Count/)).toHaveTextContent(
 			'Params Count: 1'
@@ -185,7 +185,7 @@ describe('useSearchParamSync', () => {
 
 		await userEvent.click(screen.getByText('Increment Params'));
 		expect(screen.getByText(/Search/)).toHaveTextContent(
-			'Search: ?count=1&'
+			'Search: ?count=1'
 		);
 		expect(screen.getByText(/Params Count/)).toHaveTextContent(
 			'Params Count: 1'
@@ -203,7 +203,7 @@ describe('useSearchParamSync', () => {
 			)
 		);
 		expect(screen.getByText(/Search/)).toHaveTextContent(
-			'Search: ?count=2&'
+			'Search: ?count=2'
 		);
 		expect(screen.getByText(/Params Count/)).toHaveTextContent(
 			'Params Count: 2'

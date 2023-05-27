@@ -50,7 +50,8 @@ export const useSearchParamSync = <T extends object>(
 				setSearchParams(newParams);
 			}
 		},
-		[setSearchParams, syncToParams, location.search]
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[setSearchParams, syncToParams]
 	);
 
 	return [parsedSearchParams, doSync];

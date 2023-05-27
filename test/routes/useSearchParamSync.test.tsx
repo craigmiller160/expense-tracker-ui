@@ -142,6 +142,7 @@ describe('useSearchParamSync', () => {
 	});
 
 	it('updates state for search params', async () => {
+		// TODO has loop
 		doRender('/');
 		expect(screen.getByText(/State Count/)).toHaveTextContent(
 			'State Count: 0'

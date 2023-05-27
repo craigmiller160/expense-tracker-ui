@@ -1,3 +1,4 @@
+// TODO write unit tests for this and make it the actual argument passed to callbacks
 export const setOrDeleteParam =
 	(params: URLSearchParams) =>
 	<T>(

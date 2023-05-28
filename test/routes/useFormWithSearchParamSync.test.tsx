@@ -97,14 +97,10 @@ describe('useFormWithSearchParamSync', () => {
 		expect(screen.getByText(/Name Value/)).toHaveTextContent(
 			'Name Value: bob'
 		);
-		await waitFor(
-			() =>
-				expect(screen.getByText(/Search Value/)).toHaveTextContent(
-					'Search Value: ?name=bob&count=0'
-				),
-			{
-				timeout: 2000
-			}
+		await waitFor(() =>
+			expect(screen.getByText(/Search Value/)).toHaveTextContent(
+				'Search Value: ?name=bob&count=0'
+			)
 		);
 	});
 });

@@ -12,6 +12,7 @@ import {
 	SyncToParams
 } from '../../../routes/useSearchParamSync';
 import { useCallback } from 'react';
+import { ParamsWrapper } from '../../../routes/ParamsWrapper';
 
 export type ReportFilterFormData = {
 	readonly excludedCategories: ReadonlyArray<CategoryOption>;
@@ -46,8 +47,7 @@ const formToParams: SyncToParams<ReportFilterFormData> = (form, params) => {
 		.map((cat) => cat.value)
 		.join(',');
 
-	params.set('excludedCategories', categoryString);
-	return params;
+	params.setOrDelete('excludedCategories', categoryString);
 };
 
 const formFromParams =
@@ -57,9 +57,9 @@ const formFromParams =
 	(params) => {
 		const excludedCategories =
 			params
-				.get('excludedCategories')
-				?.split(',')
-				?.map(
+				.getOrDefault('excludedCategories', '')
+				.split(',')
+				.map(
 					(cat): CategoryOption => ({
 						value: cat,
 						label:
@@ -67,7 +67,7 @@ const formFromParams =
 								?.label ?? ''
 					})
 				)
-				?.filter((option) => option.label !== '') ?? [];
+				.filter((option) => option.label !== '') ?? [];
 		return {
 			excludedCategories
 		};
@@ -84,7 +84,7 @@ export const useGetReportData = (): ReportData => {
 
 	const categories = useCategoriesToCategoryOptions(categoryData);
 	const memoizedFormFromParams = useCallback(
-		(params: URLSearchParams) => formFromParams(categories)(params),
+		(params: ParamsWrapper) => formFromParams(categories)(params),
 		[categories]
 	);
 

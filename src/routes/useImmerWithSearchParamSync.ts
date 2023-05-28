@@ -2,10 +2,11 @@ import { SyncToParams, useSearchParamSync } from './useSearchParamSync';
 import { Updater, useImmer } from 'use-immer';
 import { Draft } from 'immer';
 import { useCallback, useEffect } from 'react';
+import { ParamsWrapper } from './ParamsWrapper';
 
 export type StateFromParams<S> = (
 	draft: Draft<S>,
-	params: URLSearchParams
+	params: ParamsWrapper
 ) => void;
 
 type Props<S extends object> = {
@@ -22,7 +23,7 @@ export const useImmerWithSearchParamSync = <S extends object>(
 	const { stateFromParams } = props;
 	const [state, setState] = useImmer<S>(props.initialState);
 	const syncFromParams = useCallback(
-		(params: URLSearchParams) => {
+		(params: ParamsWrapper) => {
 			setState((draft) => stateFromParams(draft, params));
 			// Return type will never be used, bypassing type system here
 			return null as unknown as S;

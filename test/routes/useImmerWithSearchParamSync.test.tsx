@@ -16,11 +16,11 @@ type State = {
 };
 
 const stateToParams: SyncToParams<State> = (state, params) => {
-	params.set('count', state.count.toString());
+	params.setOrDelete('count', state.count.toString());
 };
 
 const stateFromParams: StateFromParams<State> = (draft, params) => {
-	draft.count = parseInt(params.get('count') ?? '0');
+	draft.count = params.getOrDefault('count', 0, parseInt);
 };
 
 const TestComponent = () => {

@@ -1,5 +1,5 @@
 import { UseFormHandleSubmit, UseFormReturn } from 'react-hook-form';
-import { Updater, useImmer } from 'use-immer';
+import { Updater } from 'use-immer';
 import { PaginationState } from '../../../utils/pagination';
 import { CategoryOption } from '../../../types/categories';
 import { useGetSpendingByMonthAndCategory } from '../../../ajaxapi/query/ReportQueries';
@@ -13,6 +13,10 @@ import {
 } from '../../../routes/useSearchParamSync';
 import { useCallback } from 'react';
 import { ParamsWrapper } from '../../../routes/ParamsWrapper';
+import {
+	StateFromParams,
+	useImmerWithSearchParamSync
+} from '../../../routes/useImmerWithSearchParamSync';
 
 export type ReportFilterFormData = {
 	readonly excludedCategories: ReadonlyArray<CategoryOption>;
@@ -73,10 +77,29 @@ const formFromParams =
 		};
 	};
 
+const DEFAULT_PAGE_SIZE = 10;
+
+const stateToParams: SyncToParams<PaginationState> = (state, params) => {
+	params.setOrDelete('pageNumber', state.pageNumber.toString());
+	params.setOrDelete('pageSize', state.pageSize.toString());
+};
+const stateFromParams: StateFromParams<PaginationState> = (draft, params) => {
+	draft.pageNumber = params.getOrDefault('pageNumber', 0, parseInt);
+	draft.pageSize = params.getOrDefault(
+		'pageSize',
+		DEFAULT_PAGE_SIZE,
+		parseInt
+	);
+};
+
 export const useGetReportData = (): ReportData => {
-	const [state, setState] = useImmer<PaginationState>({
-		pageNumber: 0,
-		pageSize: 10
+	const [state, setState] = useImmerWithSearchParamSync<PaginationState>({
+		stateToParams,
+		stateFromParams,
+		initialState: {
+			pageNumber: 0,
+			pageSize: DEFAULT_PAGE_SIZE
+		}
 	});
 
 	const { isFetching: getCategoriesIsFetching, data: categoryData } =

@@ -2,6 +2,7 @@ import { PropsWithChildren } from 'react';
 import { constVoid } from 'fp-ts/es6/function';
 import { apiServer } from './server';
 import '@testing-library/jest-dom';
+import '@relmify/jest-fp-ts';
 
 beforeEach(() => {
 	process.env.DEBUG_PRINT_LIMIT = '1000000000';

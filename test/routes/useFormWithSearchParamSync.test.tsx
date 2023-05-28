@@ -6,8 +6,9 @@ import {
 } from '../../src/routes/useSearchParamSync';
 import { setOrDeleteParam } from '../../src/routes/paramUtils';
 import { InitialEntry } from 'history';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import { useLocation } from 'react-router';
 
 type Form = {
 	readonly count: number;
@@ -26,13 +27,16 @@ const formFromParams: SyncFromParams<Form> = (params) => ({
 });
 
 const TestComponent = () => {
-	const { control } = useFormWithSearchParamSync<Form>({
+	const location = useLocation();
+	const { control, getValues } = useFormWithSearchParamSync<Form>({
 		formToParams,
 		formFromParams,
 		defaultValues: {
 			count: 0
 		}
 	});
+	const values = getValues();
+
 	return (
 		<div>
 			<form>
@@ -44,6 +48,9 @@ const TestComponent = () => {
 				/>
 				<TextField control={control} name="name" label="Name" />
 			</form>
+			<p>Count: {values.count}</p>
+			<p>Name: {values.name}</p>
+			<p>Search: {location.search}</p>
 		</div>
 	);
 };
@@ -58,7 +65,11 @@ const doMount = (initialEntry: InitialEntry) =>
 describe('useFormWithSearchParamSync', () => {
 	it('sets form default values in params', () => {
 		doMount('/');
-		throw new Error();
+		expect(screen.getByText(/Count/)).toHaveTextContent('Count: 0');
+		expect(screen.getByText(/Name/)).toHaveTextContent('Name: ');
+		expect(screen.getByText(/Search/)).toHaveTextContent(
+			'Search: ?count=0'
+		);
 	});
 
 	it('updates form and params', async () => {

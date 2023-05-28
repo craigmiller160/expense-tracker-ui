@@ -1,6 +1,5 @@
 import { useSearchParams } from 'react-router-dom';
 import { useCallback, useMemo } from 'react';
-import { useLocation } from 'react-router';
 import { ParamsWrapper, wrapParams } from './ParamsWrapper';
 
 export type SyncFromParams<T> = (params: ParamsWrapper) => T;
@@ -35,7 +34,6 @@ export const shouldSetParams = (
 export const useSearchParamSync = <T extends object>(
 	props: UseSearchParamSyncProps<T>
 ): [T, DoSync<T>] => {
-	const location = useLocation();
 	const [searchParams, setSearchParams] = useSearchParams();
 	const { syncFromParams, syncToParams, syncFromParamsDependencies } = props;
 
@@ -48,8 +46,8 @@ export const useSearchParamSync = <T extends object>(
 
 	const doSync: DoSync<T> = useCallback(
 		(value) => {
-			const baseParams = new URLSearchParams(location.search);
-			const newParams = new URLSearchParams(location.search);
+			const baseParams = new URLSearchParams(window.location.search);
+			const newParams = new URLSearchParams(window.location.search);
 			syncToParams(value, wrapParams(newParams));
 			if (shouldSetParams(baseParams, newParams)) {
 				setSearchParams(newParams);

@@ -4,7 +4,6 @@ import {
 	SyncFromParams,
 	SyncToParams
 } from '../../src/routes/useSearchParamSync';
-import { setOrDeleteParam } from '../../src/routes/ParamsWrapper';
 import { InitialEntry } from 'history';
 import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
@@ -17,14 +16,13 @@ type Form = {
 };
 
 const formToParams: SyncToParams<Form> = (form, params) => {
-	params.set('count', form.count.toString());
-	const setOrDelete = setOrDeleteParam(params);
-	setOrDelete('name', form.name);
+	params.setOrDelete('count', form.count.toString());
+	params.setOrDelete('name', form.name);
 };
 
 const formFromParams: SyncFromParams<Form> = (params) => ({
-	count: parseInt(params.get('count') ?? '0'),
-	name: params.get('name') ?? ''
+	count: params.getOrDefault('count', 0, parseInt),
+	name: params.getOrDefault('name', '')
 });
 
 const TestComponent = () => {

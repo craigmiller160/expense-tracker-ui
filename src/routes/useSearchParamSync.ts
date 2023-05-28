@@ -18,7 +18,11 @@ export const shouldSetParams = (
 	newParams: URLSearchParams
 ) => {
 	const baseParamArray = Array.from(baseParams.entries());
-	if (baseParamArray.length === 0) {
+	const newParamArray = Array.from(newParams.entries());
+	if (
+		baseParamArray.length === 0 ||
+		baseParamArray.length !== newParamArray.length
+	) {
 		return true;
 	}
 	return (

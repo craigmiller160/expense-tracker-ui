@@ -19,9 +19,9 @@ export const setOrDeleteParam =
 
 		if (typeof value !== 'string' && transform) {
 			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-			params.set(key, transform(value!));
+			params.set(key, transform(value));
 			return;
 		}
 
-		params.set(key, value?.toString() ?? '');
+		params.set(key, value.toString());
 	};

@@ -25,3 +25,9 @@ export const setOrDeleteParam =
 
 		params.set(key, value.toString());
 	};
+
+export const getOrDefaultParam =
+	(params: URLSearchParams) =>
+	<T>(key: string, defaultValue: T, transform?: (v: string) => T): T => {
+
+	};

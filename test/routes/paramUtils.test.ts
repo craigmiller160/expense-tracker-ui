@@ -64,11 +64,19 @@ describe('paramUtils', () => {
 			throw new Error();
 		});
 
-		it('gets and transforms param value', () => {
+		it('gets default non-string value for non-existent param', () => {
 			throw new Error();
 		});
 
-		it('gets default non-string value for non-existent param', () => {
+		it('transforms value into non-string output', () => {
+			throw new Error();
+		});
+
+		it('throws error when passing a non-string default with no transform', () => {
+			throw new Error();
+		});
+
+		it('returns null for non-existent param with null default', () => {
 			throw new Error();
 		});
 	});

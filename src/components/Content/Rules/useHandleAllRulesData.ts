@@ -14,7 +14,7 @@ import {
 	SyncFromParams,
 	SyncToParams
 } from '../../../routes/useSearchParamSync';
-import { setOrDeleteParam } from '../../../routes/paramUtils';
+import { setOrDeleteParam } from '../../../routes/ParamsWrapper';
 import { useCallback } from 'react';
 
 type Props = PaginationState;

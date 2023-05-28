@@ -1,4 +1,21 @@
-// TODO replace params in the callbacks with these functions
+export type ParamsWrapper = {
+	readonly setOrDelete: <T>(
+		key: string,
+		value: T | null | undefined,
+		transform?: (v: T) => string
+	) => void;
+	readonly getOrDefault: <T>(
+		key: string,
+		defaultValue: T,
+		transform?: (v: string) => T
+	) => T;
+};
+
+export const wrapParams = (params: URLSearchParams): ParamsWrapper => ({
+	setOrDelete: setOrDeleteParam(params),
+	getOrDefault: getOrDefaultParam(params)
+});
+
 export const setOrDeleteParam =
 	(params: URLSearchParams) =>
 	<T>(

@@ -1,7 +1,7 @@
 import {
 	getOrDefaultParam,
 	setOrDeleteParam
-} from '../../src/routes/paramUtils';
+} from '../../src/routes/ParamsWrapper';
 import { identity } from 'fp-ts/es6/function';
 import * as Try from '@craigmiller160/ts-functions/es/Try';
 

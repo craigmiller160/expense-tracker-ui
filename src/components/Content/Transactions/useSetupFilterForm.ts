@@ -16,7 +16,7 @@ import { UseFormReturn } from 'react-hook-form';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 import { useCategoriesToCategoryOptions } from '../../../utils/categoryUtils';
 import { useFormWithSearchParamSync } from '../../../routes/useFormWithSearchParamSync';
-import { setOrDeleteParam } from '../../../routes/paramUtils';
+import { setOrDeleteParam } from '../../../routes/ParamsWrapper';
 import isValid from 'date-fns/isValid/index';
 import { useCallback } from 'react';
 

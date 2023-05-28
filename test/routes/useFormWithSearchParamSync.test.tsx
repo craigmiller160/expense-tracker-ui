@@ -4,7 +4,7 @@ import {
 	SyncFromParams,
 	SyncToParams
 } from '../../src/routes/useSearchParamSync';
-import { setOrDeleteParam } from '../../src/routes/paramUtils';
+import { setOrDeleteParam } from '../../src/routes/ParamsWrapper';
 import { InitialEntry } from 'history';
 import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';

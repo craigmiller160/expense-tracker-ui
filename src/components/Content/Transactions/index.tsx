@@ -30,19 +30,16 @@ const createOnValueHasChanged = (
 	);
 
 const stateToParams: SyncToParams<PaginationState> = (state, params) => {
-	params.set('pageNumber', state.pageNumber.toString());
-	params.set('pageSize', state.pageSize.toString());
+	params.setOrDelete('pageNumber', state.pageNumber.toString());
+	params.setOrDelete('pageSize', state.pageSize.toString());
 };
 const stateFromParams: StateFromParams<PaginationState> = (draft, params) => {
-	const pageNumber = params.get('pageNumber');
-	if (pageNumber) {
-		draft.pageNumber = parseInt(pageNumber);
-	}
-
-	const pageSize = params.get('pageSize');
-	if (pageSize) {
-		draft.pageSize = parseInt(pageSize);
-	}
+	draft.pageNumber = params.getOrDefault('pageNumber', 0, parseInt);
+	draft.pageSize = params.getOrDefault(
+		'pageSize',
+		DEFAULT_ROWS_PER_PAGE,
+		parseInt
+	);
 };
 
 export const Transactions = () => {

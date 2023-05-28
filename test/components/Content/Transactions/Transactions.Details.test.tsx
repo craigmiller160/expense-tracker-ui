@@ -14,7 +14,6 @@ import {
 	defaultStartDate
 } from '../../../../src/components/Content/Transactions/utils';
 import { waitForVisibility } from '../../../testutils/dom-actions/wait-for-visibility';
-import '@relmify/jest-fp-ts';
 
 const testButton =
 	(isDisabled: boolean) => (detailsButton: HTMLElement, index: number) => {

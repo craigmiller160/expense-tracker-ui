@@ -14,7 +14,7 @@ import {
 	SyncFromParams,
 	SyncToParams
 } from '../../../routes/useSearchParamSync';
-import { setOrDeleteParam } from '../../../routes/paramUtils';
+import { ParamsWrapper } from '../../../routes/ParamsWrapper';
 import { useCallback } from 'react';
 
 type Props = PaginationState;
@@ -60,35 +60,31 @@ const useReOrderActions = (): InternalReOrderActions => {
 };
 
 const formToParams: SyncToParams<RulesFiltersFormData> = (form, params) => {
-	const setOrDelete = setOrDeleteParam(params);
-	setOrDelete('category', form.category?.value);
-	setOrDelete('regex', form.regex);
-	return params;
+	params.setOrDelete('category', form.category?.value);
+	params.setOrDelete('regex', form.regex);
 };
 
-const getCategoryFromParams = (
-	params: URLSearchParams,
-	categories: ReadonlyArray<CategoryOption>,
-	categoryParam: string | null
-): CategoryOption | null => {
-	if (!categoryParam) {
-		return null;
-	}
+const getCategoryFromParams =
+	(categories: ReadonlyArray<CategoryOption>) =>
+	(categoryParam: string | null): CategoryOption | null => {
+		if (!categoryParam) {
+			return null;
+		}
 
-	return categories.find((cat) => cat.value === categoryParam) ?? null;
-};
+		return categories.find((cat) => cat.value === categoryParam) ?? null;
+	};
 
 const paramsToForm =
 	(
 		categories: ReadonlyArray<CategoryOption>
 	): SyncFromParams<RulesFiltersFormData> =>
 	(params) => ({
-		category: getCategoryFromParams(
-			params,
-			categories,
-			params.get('category')
+		category: params.getOrDefault(
+			'category',
+			null,
+			getCategoryFromParams(categories)
 		),
-		regex: params.get('regex') ?? ''
+		regex: params.getOrDefault('regex', '')
 	});
 
 const defaultValues = {
@@ -103,7 +99,7 @@ export const useHandleAllRulesData = (props: Props): GetAllRulesDataResult => {
 	} = useGetAllCategories();
 	const categories = useCategoriesToCategoryOptions(getAllCategoriesData);
 	const memoizedFormFromParams = useCallback(
-		(params: URLSearchParams) => paramsToForm(categories)(params),
+		(params: ParamsWrapper) => paramsToForm(categories)(params),
 		[categories]
 	);
 

@@ -1,8 +1,10 @@
 import { useSearchParams } from 'react-router-dom';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useContext, useMemo } from 'react';
+import { ParamsWrapper, wrapParams } from './ParamsWrapper';
+import { NativeSearchProviderContext } from './NativeSearchProvider';
 
-export type SyncFromParams<T> = (params: URLSearchParams) => T;
-export type SyncToParams<T> = (value: T, params: URLSearchParams) => void;
+export type SyncFromParams<T> = (params: ParamsWrapper) => T;
+export type SyncToParams<T> = (value: T, params: ParamsWrapper) => void;
 export type DoSync<T> = (value: T) => void;
 
 export type UseSearchParamSyncProps<T extends object> = {
@@ -17,7 +19,11 @@ export const shouldSetParams = (
 	newParams: URLSearchParams
 ) => {
 	const baseParamArray = Array.from(baseParams.entries());
-	if (baseParamArray.length === 0) {
+	const newParamArray = Array.from(newParams.entries());
+	if (
+		baseParamArray.length === 0 ||
+		baseParamArray.length !== newParamArray.length
+	) {
 		return true;
 	}
 	return (
@@ -29,11 +35,12 @@ export const shouldSetParams = (
 export const useSearchParamSync = <T extends object>(
 	props: UseSearchParamSyncProps<T>
 ): [T, DoSync<T>] => {
+	const nativeSearchProvider = useContext(NativeSearchProviderContext);
 	const [searchParams, setSearchParams] = useSearchParams();
 	const { syncFromParams, syncToParams, syncFromParamsDependencies } = props;
 
 	const parsedSearchParams = useMemo(
-		() => syncFromParams(searchParams),
+		() => syncFromParams(wrapParams(searchParams)),
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[searchParams, syncFromParams, ...(syncFromParamsDependencies ?? [])]
@@ -41,13 +48,17 @@ export const useSearchParamSync = <T extends object>(
 
 	const doSync: DoSync<T> = useCallback(
 		(value) => {
-			const baseParams = new URLSearchParams(window.location.search);
-			const newParams = new URLSearchParams(window.location.search);
-			syncToParams(value, newParams);
+			// Using this as a solution to jsdom limitations for testing with window.location.search
+			const nativeSearch =
+				nativeSearchProvider?.() ?? window.location.search;
+			const baseParams = new URLSearchParams(nativeSearch);
+			const newParams = new URLSearchParams(nativeSearch);
+			syncToParams(value, wrapParams(newParams));
 			if (shouldSetParams(baseParams, newParams)) {
 				setSearchParams(newParams);
 			}
 		},
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[setSearchParams, syncToParams]
 	);
 

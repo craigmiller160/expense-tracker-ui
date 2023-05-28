@@ -35,14 +35,17 @@ export const useFormWithSearchParamSync = <T extends object>(
 				(a, b) => b ?? a
 			);
 			setParams(merged);
+			setHasRendered(true);
 		} else {
 			reset(params);
 		}
-		setHasRendered(true);
-	}, [reset, params, hasRendered, setParams, props.defaultValues]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [reset, params, hasRendered, setParams]);
 
 	useEffect(() => {
-		const subscription = watch((value) => setParams(value as T));
+		const subscription = watch((value) => {
+			setParams(value as T);
+		});
 		return subscription.unsubscribe;
 	}, [watch, setParams]);
 

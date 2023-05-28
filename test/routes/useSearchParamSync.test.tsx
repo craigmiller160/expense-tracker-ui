@@ -11,6 +11,7 @@ import { InitialEntry } from 'history';
 import { useLocation } from 'react-router';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { ParamsWrapper } from '../../src/routes/ParamsWrapper';
 
 type State = {
 	readonly count: number;
@@ -23,7 +24,7 @@ type Dependencies = {
 const syncFromParams =
 	(modify: boolean): SyncFromParams<State> =>
 	(params) => {
-		let base = parseInt(params.get('count') ?? '0');
+		let base = params.getOrDefault('count', 0, parseInt);
 		if (modify && base % 2 !== 0) {
 			base++;
 		}
@@ -33,7 +34,7 @@ const syncFromParams =
 	};
 
 const syncToParams: SyncToParams<State> = (state, params) => {
-	params.set('count', state.count.toString());
+	params.setOrDelete('count', state.count.toString());
 };
 
 const TestComponent = () => {
@@ -47,8 +48,7 @@ const TestComponent = () => {
 	const [, setSearchParams] = useSearchParams();
 
 	const memoizedSyncFromParams = useCallback(
-		(params: URLSearchParams) =>
-			syncFromParams(dependencies.modify)(params),
+		(params: ParamsWrapper) => syncFromParams(dependencies.modify)(params),
 		[dependencies.modify]
 	);
 

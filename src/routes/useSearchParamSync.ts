@@ -46,8 +46,8 @@ export const useSearchParamSync = <T extends object>(
 
 	const doSync: DoSync<T> = useCallback(
 		(value) => {
-			const baseParams = new URLSearchParams(window.location.search);
-			const newParams = new URLSearchParams(window.location.search);
+			const baseParams = new URLSearchParams(searchParams);
+			const newParams = new URLSearchParams(searchParams);
 			syncToParams(value, wrapParams(newParams));
 			if (shouldSetParams(baseParams, newParams)) {
 				setSearchParams(newParams);

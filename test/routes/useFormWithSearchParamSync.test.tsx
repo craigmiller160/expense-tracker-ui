@@ -97,7 +97,7 @@ describe('useFormWithSearchParamSync', () => {
 		);
 		await waitFor(() =>
 			expect(screen.getByText(/Search Value/)).toHaveTextContent(
-				'Search Value: ?count=0&name=bob'
+				'Search Value: ?name=bob&count=0'
 			)
 		);
 	});

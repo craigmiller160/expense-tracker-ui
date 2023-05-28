@@ -105,7 +105,8 @@ describe('paramUtils', () => {
 			const params = new URLSearchParams();
 			const result = getOrDefaultParam(params)<string | null>(
 				'foo',
-				null
+				null,
+				identity
 			);
 			expect(result).toEqual(null);
 		});

@@ -17,7 +17,6 @@ type Form = {
 };
 
 const formToParams: SyncToParams<Form> = (form, params) => {
-	console.log('FORM TO PARAMS', form);
 	params.set('count', form.count.toString());
 	const setOrDelete = setOrDeleteParam(params);
 	setOrDelete('name', form.name);

@@ -28,18 +28,15 @@ export const useFormWithSearchParamSync = <T extends object>(
 
 	useEffect(() => {
 		if (!hasRendered) {
-			console.log('INIT PARAMS', params);
 			const merged = mergeWith(
 				{},
 				props.defaultValues ?? {},
 				params,
 				(a, b) => b ?? a
 			);
-			console.log('MERGED', merged);
 			setParams(merged);
 			setHasRendered(true);
 		} else {
-			console.log('RESET', params)
 			reset(params);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -47,7 +44,6 @@ export const useFormWithSearchParamSync = <T extends object>(
 
 	useEffect(() => {
 		const subscription = watch((value) => {
-			console.log('SET PARAMS', value);
 			setParams(value as T);
 		});
 		return subscription.unsubscribe;

@@ -7,11 +7,14 @@ import {
 import { useImmer } from 'use-immer';
 import { useCallback, useEffect } from 'react';
 import { MemoryRouter, useSearchParams } from 'react-router-dom';
-import { InitialEntry } from 'history';
 import { useLocation } from 'react-router';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ParamsWrapper } from '../../src/routes/ParamsWrapper';
+import {
+	NativeSearchProvider,
+	NativeSearchProviderContext
+} from '../../src/routes/NativeSearchProvider';
 
 type State = {
 	readonly count: number;
@@ -93,12 +96,19 @@ const TestComponent = () => {
 	);
 };
 
-const doRender = (initialEntry: InitialEntry) =>
-	render(
+const QUERY_REGEX = /^.*(?<query>\?.*$)/;
+
+const doRender = (initialEntry: string) => {
+	const query = QUERY_REGEX.exec(initialEntry)?.groups?.query;
+	const provider: NativeSearchProvider = () => query ?? '';
+	return render(
 		<MemoryRouter initialEntries={[initialEntry]}>
-			<TestComponent />
+			<NativeSearchProviderContext.Provider value={provider}>
+				<TestComponent />
+			</NativeSearchProviderContext.Provider>
 		</MemoryRouter>
 	);
+};
 
 describe('useSearchParamSync', () => {
 	describe('shouldSetParams', () => {

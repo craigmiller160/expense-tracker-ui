@@ -6,9 +6,10 @@ import {
 } from '../../src/routes/useSearchParamSync';
 import { setOrDeleteParam } from '../../src/routes/paramUtils';
 import { InitialEntry } from 'history';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { useLocation } from 'react-router';
+import userEvent from '@testing-library/user-event';
 
 type Form = {
 	readonly count: number;
@@ -16,6 +17,7 @@ type Form = {
 };
 
 const formToParams: SyncToParams<Form> = (form, params) => {
+	console.log('FORM TO PARAMS', form);
 	params.set('count', form.count.toString());
 	const setOrDelete = setOrDeleteParam(params);
 	setOrDelete('name', form.name);
@@ -76,11 +78,34 @@ describe('useFormWithSearchParamSync', () => {
 
 	it('updates form and params', async () => {
 		doMount('/');
-		throw new Error();
+		await userEvent.type(screen.getByLabelText('Count'), '1');
+		await waitFor(() =>
+			expect(screen.getByText(/Count Value/)).toHaveTextContent(
+				'Count Value: 1'
+			)
+		);
+		expect(screen.getByText(/Name Value/)).toHaveTextContent('Name Value:');
+		expect(screen.getByText(/Search Value/)).toHaveTextContent(
+			'Search Value: ?count=1'
+		);
 	});
 
-	it('merges initial params values with default form values', () => {
+	it('merges initial params values with default form values', async () => {
 		doMount('/?name=bob');
-		throw new Error();
+		expect(screen.getByText(/Count Value/)).toHaveTextContent(
+			'Count Value: 0'
+		);
+		expect(screen.getByText(/Name Value/)).toHaveTextContent(
+			'Name Value: bob'
+		);
+		await waitFor(
+			() =>
+				expect(screen.getByText(/Search Value/)).toHaveTextContent(
+					'Search Value: ?name=bob&count=0'
+				),
+			{
+				timeout: 2000
+			}
+		);
 	});
 });

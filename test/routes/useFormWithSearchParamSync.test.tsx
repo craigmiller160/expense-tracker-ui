@@ -22,7 +22,7 @@ const formToParams: SyncToParams<Form> = (form, params) => {
 };
 
 const formFromParams: SyncFromParams<Form> = (params) => ({
-	count: parseInt(params.get('count') ?? ''),
+	count: parseInt(params.get('count') ?? '0'),
 	name: params.get('name') ?? ''
 });
 
@@ -48,9 +48,9 @@ const TestComponent = () => {
 				/>
 				<TextField control={control} name="name" label="Name" />
 			</form>
-			<p>Count: {values.count}</p>
-			<p>Name: {values.name}</p>
-			<p>Search: {location.search}</p>
+			<p>Count Value: {values.count}</p>
+			<p>Name Value: {values.name}</p>
+			<p>Search Value: {location.search}</p>
 		</div>
 	);
 };
@@ -65,10 +65,12 @@ const doMount = (initialEntry: InitialEntry) =>
 describe('useFormWithSearchParamSync', () => {
 	it('sets form default values in params', () => {
 		doMount('/');
-		expect(screen.getByText(/Count/)).toHaveTextContent('Count: 0');
-		expect(screen.getByText(/Name/)).toHaveTextContent('Name: ');
-		expect(screen.getByText(/Search/)).toHaveTextContent(
-			'Search: ?count=0'
+		expect(screen.getByText(/Count Value/)).toHaveTextContent(
+			'Count Value: 0'
+		);
+		expect(screen.getByText(/Name Value/)).toHaveTextContent('Name Value:');
+		expect(screen.getByText(/Search Value/)).toHaveTextContent(
+			'Search Value: ?count=0'
 		);
 	});
 

@@ -12,6 +12,7 @@ import { useLocation } from 'react-router';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ParamsWrapper } from '../../src/routes/ParamsWrapper';
+import {WindowLocationFix} from '../testutils/WindowLocationFix';
 
 type State = {
 	readonly count: number;
@@ -96,7 +97,9 @@ const TestComponent = () => {
 const doRender = (initialEntry: InitialEntry) =>
 	render(
 		<MemoryRouter initialEntries={[initialEntry]}>
-			<TestComponent />
+			<WindowLocationFix>
+				<TestComponent />
+			</WindowLocationFix>
 		</MemoryRouter>
 	);
 

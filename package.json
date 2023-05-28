@@ -1,6 +1,6 @@
 {
   "name": "@craigmiller160/expense-tracker-ui",
-  "version": "1.3.0",
+  "version": "1.4.0-beta",
   "sideEffects": false,
   "files": [
     "build"

@@ -1,4 +1,7 @@
-import { setOrDeleteParam } from '../../src/routes/paramUtils';
+import {
+	getOrDefaultParam,
+	setOrDeleteParam
+} from '../../src/routes/paramUtils';
 import { identity } from 'fp-ts/es6/function';
 import * as Try from '@craigmiller160/ts-functions/es/Try';
 
@@ -57,27 +60,54 @@ describe('paramUtils', () => {
 
 	describe('getOrDefaultParam', () => {
 		it('gets param value', () => {
-			throw new Error();
+			const params = new URLSearchParams();
+			params.set('foo', 'bar');
+			const result = getOrDefaultParam(params)('foo', 'default');
+			expect(result).toEqual('bar');
 		});
 
 		it('gets default value for non-existent param', () => {
-			throw new Error();
+			const params = new URLSearchParams();
+			const result = getOrDefaultParam(params)('foo', 'default');
+			expect(result).toEqual('default');
 		});
 
 		it('gets default non-string value for non-existent param', () => {
-			throw new Error();
+			const params = new URLSearchParams();
+			const result = getOrDefaultParam(params)('foo', 1, (v) =>
+				parseInt(v)
+			);
+			expect(result).toEqual(1);
 		});
 
 		it('transforms value into non-string output', () => {
-			throw new Error();
+			const params = new URLSearchParams();
+			params.set('foo', '2');
+			const result = getOrDefaultParam(params)('foo', 1, (v) =>
+				parseInt(v)
+			);
+			expect(result).toEqual(2);
 		});
 
 		it('throws error when passing a non-string default with no transform', () => {
-			throw new Error();
+			const params = new URLSearchParams();
+			const result = Try.tryCatch(() =>
+				getOrDefaultParam(params)('foo', 1)
+			);
+			expect(result).toEqualLeft(
+				new Error(
+					'Must provide a transform argument if a non-string default is set'
+				)
+			);
 		});
 
 		it('returns null for non-existent param with null default', () => {
-			throw new Error();
+			const params = new URLSearchParams();
+			const result = getOrDefaultParam(params)<string | null>(
+				'foo',
+				null
+			);
+			expect(result).toEqual(null);
 		});
 	});
 });

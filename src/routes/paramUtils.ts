@@ -29,5 +29,20 @@ export const setOrDeleteParam =
 export const getOrDefaultParam =
 	(params: URLSearchParams) =>
 	<T>(key: string, defaultValue: T, transform?: (v: string) => T): T => {
+		if (typeof defaultValue !== 'string' && !transform) {
+			throw new Error(
+				'Must provide a transform argument if a non-string default is set'
+			);
+		}
 
+		const value = params.get(key);
+		if (value && transform) {
+			return transform(value);
+		}
+
+		if (value) {
+			return value as T;
+		}
+
+		return defaultValue;
 	};

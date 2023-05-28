@@ -13,14 +13,14 @@ describe('paramUtils', () => {
 		const params = new URLSearchParams();
 		params.set('foo', 'bar');
 		setOrDeleteParam(params)('foo', null);
-		expect(params.get('foo')).toBeUndefined();
+		expect(params.get('foo')).toBeNull();
 	});
 
 	it('deletes param for undefined value', () => {
 		const params = new URLSearchParams();
 		params.set('foo', 'bar');
 		setOrDeleteParam(params)('foo', undefined);
-		expect(params.get('foo')).toBeUndefined();
+		expect(params.get('foo')).toBeNull();
 	});
 
 	it('sets param for falsy, non-nullish value', () => {
@@ -32,7 +32,7 @@ describe('paramUtils', () => {
 	it('transforms non-string param', () => {
 		const params = new URLSearchParams();
 		setOrDeleteParam(params)('foo', 1, (i) => i.toString());
-		expect(params.get('foo')).toEqual('bar');
+		expect(params.get('foo')).toEqual('1');
 	});
 
 	it('transforms string param', () => {

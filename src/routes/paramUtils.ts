@@ -6,7 +6,7 @@ export const setOrDeleteParam =
 		value: T | null | undefined,
 		transform?: (v: T) => string
 	) => {
-		if (!value) {
+		if (value === null || value === undefined) {
 			params.delete(key);
 			return;
 		}

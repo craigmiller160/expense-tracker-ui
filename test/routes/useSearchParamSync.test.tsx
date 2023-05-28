@@ -101,16 +101,45 @@ const doRender = (initialEntry: InitialEntry) =>
 	);
 
 describe('useSearchParamSync', () => {
-	it('shouldSetParams', () => {
-		const baseParams = new URLSearchParams();
-		baseParams.set('hello', 'world');
-		baseParams.set('goodbye', 'universe');
-		const newParams = new URLSearchParams();
-		newParams.set('hello', 'world');
-		newParams.set('goodbye', 'galaxy');
+	describe('shouldSetParams', () => {
+		it('has same params', () => {
+			const params = new URLSearchParams();
+			params.set('hello', 'world');
+			params.set('goodbye', 'universe');
+			expect(shouldSetParams(params, params)).toEqual(false);
+		});
 
-		expect(shouldSetParams(baseParams, baseParams)).toEqual(false);
-		expect(shouldSetParams(baseParams, newParams)).toEqual(true);
+		it('base params has more entries than new params', () => {
+			const baseParams = new URLSearchParams();
+			baseParams.set('hello', 'world');
+			baseParams.set('goodbye', 'universe');
+			baseParams.set('foo', 'bar');
+			const newParams = new URLSearchParams();
+			newParams.set('hello', 'world');
+			newParams.set('goodbye', 'universe');
+			expect(shouldSetParams(baseParams, newParams)).toEqual(true);
+		});
+
+		it('new params has more entries than base params', () => {
+			const baseParams = new URLSearchParams();
+			baseParams.set('hello', 'world');
+			baseParams.set('goodbye', 'universe');
+			const newParams = new URLSearchParams();
+			newParams.set('hello', 'world');
+			newParams.set('goodbye', 'universe');
+			newParams.set('foo', 'bar');
+			expect(shouldSetParams(baseParams, newParams)).toEqual(true);
+		});
+
+		it('param values are different', () => {
+			const baseParams = new URLSearchParams();
+			baseParams.set('hello', 'world');
+			baseParams.set('goodbye', 'universe');
+			const newParams = new URLSearchParams();
+			newParams.set('hello', 'world');
+			newParams.set('goodbye', 'galaxy');
+			expect(shouldSetParams(baseParams, newParams)).toEqual(true);
+		});
 	});
 
 	it('updates search params for state change', async () => {

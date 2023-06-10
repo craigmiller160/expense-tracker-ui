@@ -17,17 +17,18 @@ import {
 	StateFromParams,
 	useImmerWithSearchParamSync
 } from '../../../routes/useImmerWithSearchParamSync';
-import { SelectOption } from '@craigmiller160/react-hook-form-material-ui';
+import { ReportCategoryIdFilterOption } from '../../../types/reports';
 
 export type ReportFilterFormData = {
-	readonly categoryFilterType: SelectOption<string>;
+	readonly categoryFilterType: ReportCategoryIdFilterOption;
 	readonly categories: ReadonlyArray<CategoryOption>;
 };
 
-export const CATEGORY_FILTER_TYPES: ReadonlyArray<SelectOption<string>> = [
-	{ label: 'Include', value: 'INCLUDE' },
-	{ label: 'Exclude', value: 'EXCLUDE' }
-];
+export const CATEGORY_FILTER_TYPES: ReadonlyArray<ReportCategoryIdFilterOption> =
+	[
+		{ label: 'Include', value: 'INCLUDE' },
+		{ label: 'Exclude', value: 'EXCLUDE' }
+	];
 
 const createOnValueHasChanged = (
 	handleSubmit: UseFormHandleSubmit<ReportFilterFormData>,

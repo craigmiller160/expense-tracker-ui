@@ -35,15 +35,22 @@ describe('Report Filters', () => {
 			initialRoute: '/expense-tracker/reports'
 		});
 
+		reportsApi.getSpendingByMonthAndCategory(
+			'categoryIdType=EXCLUDE&categoryIds=',
+			'setTypeToExclude'
+		);
 		const categoryIds = orderedCategoryIds.slice(0, 2);
 		reportsApi.getSpendingByMonthAndCategory(
-			`categoryIds=${categoryIds[0]}`,
+			`categoryIdType=EXCLUDE&categoryIds=${categoryIds[0]}`,
 			'addFirstCategory'
 		);
 		reportsApi.getSpendingByMonthAndCategory(
-			`categoryIds=${categoryIds.join(',')}`,
+			`categoryIdType=EXCLUDE&categoryIds=${categoryIds.join(',')}`,
 			'addSecondCategory'
 		);
+
+		reportFiltersPage.getFilterTypeInput().click();
+		commonPage.getOpenSelectOptions().eq(1).click();
 
 		reportFiltersPage.getCategoryInput().click();
 		commonPage.getOpenSelectOptions().eq(0).click();
@@ -58,6 +65,7 @@ describe('Report Filters', () => {
 			expect($value.text()).eq(orderedCategoryNames[index])
 		);
 
+		cy.wait('@setTypeToExclude');
 		cy.wait('@addFirstCategory');
 		cy.wait('@addSecondCategory');
 	});

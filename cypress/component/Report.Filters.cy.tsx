@@ -20,9 +20,9 @@ describe('Report Filters', () => {
 		});
 
 		reportFiltersPage.getCategoryLabel().contains('Categories');
-		reportFiltersPage.getFilterTypeLabel().contains('Include');
+		reportFiltersPage.getFilterTypeLabel().contains('Filter Type');
 
-		reportFiltersPage.getFilterTypeInput().should('have.value', 'INCLUDE');
+		reportFiltersPage.getFilterTypeInput().should('have.value', 'Include');
 		pipe(
 			reportFiltersPage.getCategoryInput(),
 			commonPage.getMultipleSelectValues
@@ -89,7 +89,7 @@ describe('Report Filters', () => {
 		reportFiltersPage.getFilterTypeInput().click();
 		commonPage.getOpenSelectOptions().eq(1).click();
 
-		reportFiltersPage.getFilterTypeInput().should('have.value', 'EXCLUDE');
+		reportFiltersPage.getFilterTypeInput().should('have.value', 'Exclude');
 
 		reportFiltersPage.getCategoryInput().click();
 		commonPage.getOpenSelectOptions().eq(0).click();

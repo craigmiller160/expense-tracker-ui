@@ -17,18 +17,15 @@ import {
 	StateFromParams,
 	useImmerWithSearchParamSync
 } from '../../../routes/useImmerWithSearchParamSync';
-import { ReportCategoryIdFilterOption } from '../../../types/reports';
+import {
+	REPORT_CATEGORY_FILTER_OPTIONS,
+	ReportCategoryIdFilterOption
+} from '../../../types/reports';
 
 export type ReportFilterFormData = {
 	readonly categoryFilterType: ReportCategoryIdFilterOption;
 	readonly categories: ReadonlyArray<CategoryOption>;
 };
-
-export const CATEGORY_FILTER_TYPES: ReadonlyArray<ReportCategoryIdFilterOption> =
-	[
-		{ label: 'Include', value: 'INCLUDE' },
-		{ label: 'Exclude', value: 'EXCLUDE' }
-	];
 
 const createOnValueHasChanged = (
 	handleSubmit: UseFormHandleSubmit<ReportFilterFormData>,
@@ -81,14 +78,14 @@ const formFromParams =
 				.filter((option) => option.label !== '') ?? [];
 		const categoryFilterTypeValue = params.getOrDefault(
 			'categoryFilterType',
-			CATEGORY_FILTER_TYPES[0].value
+			REPORT_CATEGORY_FILTER_OPTIONS[0].value
 		);
 		return {
 			categories,
 			categoryFilterType:
-				CATEGORY_FILTER_TYPES.find(
+				REPORT_CATEGORY_FILTER_OPTIONS.find(
 					(type) => type.value === categoryFilterTypeValue
-				) ?? CATEGORY_FILTER_TYPES[0]
+				) ?? REPORT_CATEGORY_FILTER_OPTIONS[0]
 		};
 	};
 
@@ -138,7 +135,7 @@ export const useGetReportData = (): ReportData => {
 			pageSize: state.pageSize,
 			categoryIdType:
 				form.getValues().categoryFilterType?.value ??
-				CATEGORY_FILTER_TYPES[0].value,
+				REPORT_CATEGORY_FILTER_OPTIONS[0].value,
 			categoryIds:
 				form.getValues().categories?.map((cat) => cat.value) ?? []
 		});

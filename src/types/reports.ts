@@ -5,3 +5,9 @@ export type ReportCategoryIdFilterType = ReportRequest['categoryIdType'];
 
 export type ReportCategoryIdFilterOption =
 	SelectOption<ReportCategoryIdFilterType>;
+
+export const REPORT_CATEGORY_FILTER_OPTIONS: ReadonlyArray<ReportCategoryIdFilterOption> =
+	[
+		{ label: 'Include', value: 'INCLUDE' },
+		{ label: 'Exclude', value: 'EXCLUDE' }
+	];

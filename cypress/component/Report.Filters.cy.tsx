@@ -52,6 +52,8 @@ describe('Report Filters', () => {
 		reportFiltersPage.getFilterTypeInput().click();
 		commonPage.getOpenSelectOptions().eq(1).click();
 
+		reportFiltersPage.getFilterTypeInput().should('have.value', 'EXCLUDE');
+
 		reportFiltersPage.getCategoryInput().click();
 		commonPage.getOpenSelectOptions().eq(0).click();
 

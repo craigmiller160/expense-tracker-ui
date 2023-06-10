@@ -135,6 +135,9 @@ export const useGetReportData = (): ReportData => {
 		useGetSpendingByMonthAndCategory({
 			pageNumber: state.pageNumber,
 			pageSize: state.pageSize,
+			categoryIdType:
+				form.getValues().categoryFilterType?.value ??
+				CATEGORY_FILTER_TYPES[0].value,
 			categoryIds:
 				form.getValues().categories?.map((cat) => cat.value) ?? []
 		});

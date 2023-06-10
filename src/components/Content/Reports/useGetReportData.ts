@@ -17,10 +17,17 @@ import {
 	StateFromParams,
 	useImmerWithSearchParamSync
 } from '../../../routes/useImmerWithSearchParamSync';
+import { SelectOption } from '@craigmiller160/react-hook-form-material-ui';
 
 export type ReportFilterFormData = {
-	readonly excludedCategories: ReadonlyArray<CategoryOption>;
+	readonly categoryFilterType: SelectOption<string>;
+	readonly categories: ReadonlyArray<CategoryOption>;
 };
+
+export const CATEGORY_FILTER_TYPES: ReadonlyArray<SelectOption<string>> = [
+	{ label: 'Include', value: 'INCLUDE' },
+	{ label: 'Exclude', value: 'EXCLUDE' }
+];
 
 const createOnValueHasChanged = (
 	handleSubmit: UseFormHandleSubmit<ReportFilterFormData>,
@@ -47,33 +54,39 @@ type ReportData = {
 };
 
 const formToParams: SyncToParams<ReportFilterFormData> = (form, params) => {
-	const categoryString = form.excludedCategories
-		.map((cat) => cat.value)
-		.join(',');
+	const categoryString = form.categories.map((cat) => cat.value).join(',');
 
-	params.setOrDelete('excludedCategories', categoryString);
+	params.setOrDelete('categoryFilterType', form.categoryFilterType.value);
+	params.setOrDelete('categories', categoryString);
 };
 
 const formFromParams =
 	(
-		categories?: ReadonlyArray<CategoryOption>
+		allCategories?: ReadonlyArray<CategoryOption>
 	): SyncFromParams<ReportFilterFormData> =>
 	(params) => {
-		const excludedCategories =
+		const categories =
 			params
-				.getOrDefault('excludedCategories', '')
+				.getOrDefault('categories', '')
 				.split(',')
 				.map(
 					(cat): CategoryOption => ({
 						value: cat,
 						label:
-							categories?.find((dbCat) => dbCat.value === cat)
+							allCategories?.find((dbCat) => dbCat.value === cat)
 								?.label ?? ''
 					})
 				)
 				.filter((option) => option.label !== '') ?? [];
+		const categoryFilterTypeValue = params.getOrDefault(
+			'categoryFilterType',
+			CATEGORY_FILTER_TYPES[0].value
+		);
 		return {
-			excludedCategories
+			categories,
+			categoryFilterType: CATEGORY_FILTER_TYPES.find(
+				(type) => type.value === categoryFilterTypeValue
+			)
 		};
 	};
 
@@ -121,9 +134,8 @@ export const useGetReportData = (): ReportData => {
 		useGetSpendingByMonthAndCategory({
 			pageNumber: state.pageNumber,
 			pageSize: state.pageSize,
-			excludeCategoryIds:
-				form.getValues().excludedCategories?.map((cat) => cat.value) ??
-				[]
+			categoryIds:
+				form.getValues().categories?.map((cat) => cat.value) ?? []
 		});
 
 	const onValueHasChanged = createOnValueHasChanged(

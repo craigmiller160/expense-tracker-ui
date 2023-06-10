@@ -16,7 +16,7 @@ const excludedIds = (): string =>
 
 describe('Report Filters', () => {
 	it('renders filters correctly', () => {
-		reportsApi.getSpendingByMonthAndCategory();
+		reportsApi.getDefaultSpendingByMonthAndCategory();
 		categoriesApi.getAllCategories();
 		needsAttentionApi.getNeedsAttention_none();
 		mountApp({
@@ -32,7 +32,7 @@ describe('Report Filters', () => {
 	});
 
 	it('can exclude categories', () => {
-		reportsApi.getSpendingByMonthAndCategory();
+		reportsApi.getDefaultSpendingByMonthAndCategory();
 		categoriesApi.getAllCategories();
 		needsAttentionApi.getNeedsAttention_none();
 		mountApp({

@@ -15,6 +15,18 @@ const excludedIds = (): string =>
 	pipe(orderedCategoryIds.slice(0, 2).join(','), encodeURIComponent);
 
 describe('Report Filters', () => {
+	it('renders filters correctly', () => {
+		reportsApi.getSpendingByMonthAndCategory();
+		categoriesApi.getAllCategories();
+		needsAttentionApi.getNeedsAttention_none();
+		mountApp({
+			initialRoute: '/expense-tracker/reports'
+		});
+
+		reportFiltersPage.getCategoryLabel().contains('Categories');
+		reportFiltersPage.getFilterTypeLabel().contains('Include');
+	});
+
 	it('can include categories', () => {
 		throw new Error();
 	});
@@ -26,8 +38,6 @@ describe('Report Filters', () => {
 		mountApp({
 			initialRoute: '/expense-tracker/reports'
 		});
-
-		reportFiltersPage.getCategoryLabel().contains('Excluded Categories');
 
 		reportFiltersPage.getCategoryInput().click();
 		commonPage.getOpenSelectOptions().eq(0).click();
@@ -42,7 +52,7 @@ describe('Report Filters', () => {
 			expect($value.text()).eq(orderedCategoryNames[index])
 		);
 
-		cy.wait(300);
+		cy.wait(300); // TODO refactor all of this to use unique labels
 		cy.get('@getSpendingByMonthAndCategory.all')
 			.should('have.length', 3)
 			.then(($xhrs) => {

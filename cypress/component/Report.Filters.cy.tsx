@@ -15,6 +15,10 @@ const excludedIds = (): string =>
 	pipe(orderedCategoryIds.slice(0, 2).join(','), encodeURIComponent);
 
 describe('Report Filters', () => {
+	it('can include categories', () => {
+		throw new Error();
+	});
+
 	it('can exclude categories', () => {
 		reportsApi.getSpendingByMonthAndCategory();
 		categoriesApi.getAllCategories();

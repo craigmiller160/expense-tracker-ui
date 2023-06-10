@@ -84,9 +84,10 @@ const formFromParams =
 		);
 		return {
 			categories,
-			categoryFilterType: CATEGORY_FILTER_TYPES.find(
-				(type) => type.value === categoryFilterTypeValue
-			)
+			categoryFilterType:
+				CATEGORY_FILTER_TYPES.find(
+					(type) => type.value === categoryFilterTypeValue
+				) ?? CATEGORY_FILTER_TYPES[0]
 		};
 	};
 

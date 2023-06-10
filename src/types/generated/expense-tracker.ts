@@ -83,10 +83,6 @@ export type ImportTransactionsResponse = {
 	readonly transactionsImported: number;
 };
 
-export type AuthCodeLoginDto = {
-	readonly url: string;
-};
-
 export type CategoryResponse = {
 	readonly id: string;
 	readonly name: string;
@@ -167,7 +163,8 @@ export type ImportTypeResponse = {
 export type ReportRequest = {
 	readonly pageNumber: number;
 	readonly pageSize: number;
-	readonly excludeCategoryIds: ReadonlyArray<string>;
+	readonly categoryIdType: 'INCLUDE' | 'EXCLUDE';
+	readonly categoryIds: ReadonlyArray<string>;
 };
 
 export type ReportCategoryResponse = {
@@ -187,14 +184,6 @@ export type ReportPageResponse = {
 	readonly reports: ReadonlyArray<ReportMonthResponse>;
 	readonly pageNumber: number;
 	readonly totalItems: number;
-};
-
-export type AuthUserDto = {
-	readonly userId: number;
-	readonly username: string;
-	readonly roles: ReadonlyArray<string>;
-	readonly firstName: string;
-	readonly lastName: string;
 };
 
 export type CountAndOldest = {

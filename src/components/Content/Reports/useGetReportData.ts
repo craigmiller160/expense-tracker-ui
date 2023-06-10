@@ -17,9 +17,14 @@ import {
 	StateFromParams,
 	useImmerWithSearchParamSync
 } from '../../../routes/useImmerWithSearchParamSync';
+import {
+	REPORT_CATEGORY_FILTER_OPTIONS,
+	ReportCategoryIdFilterOption
+} from '../../../types/reports';
 
 export type ReportFilterFormData = {
-	readonly excludedCategories: ReadonlyArray<CategoryOption>;
+	readonly categoryFilterType: ReportCategoryIdFilterOption;
+	readonly categories: ReadonlyArray<CategoryOption>;
 };
 
 const createOnValueHasChanged = (
@@ -47,33 +52,40 @@ type ReportData = {
 };
 
 const formToParams: SyncToParams<ReportFilterFormData> = (form, params) => {
-	const categoryString = form.excludedCategories
-		.map((cat) => cat.value)
-		.join(',');
+	const categoryString = form.categories.map((cat) => cat.value).join(',');
 
-	params.setOrDelete('excludedCategories', categoryString);
+	params.setOrDelete('categoryFilterType', form.categoryFilterType.value);
+	params.setOrDelete('categories', categoryString);
 };
 
 const formFromParams =
 	(
-		categories?: ReadonlyArray<CategoryOption>
+		allCategories?: ReadonlyArray<CategoryOption>
 	): SyncFromParams<ReportFilterFormData> =>
 	(params) => {
-		const excludedCategories =
+		const categories =
 			params
-				.getOrDefault('excludedCategories', '')
+				.getOrDefault('categories', '')
 				.split(',')
 				.map(
 					(cat): CategoryOption => ({
 						value: cat,
 						label:
-							categories?.find((dbCat) => dbCat.value === cat)
+							allCategories?.find((dbCat) => dbCat.value === cat)
 								?.label ?? ''
 					})
 				)
 				.filter((option) => option.label !== '') ?? [];
+		const categoryFilterTypeValue = params.getOrDefault(
+			'categoryFilterType',
+			REPORT_CATEGORY_FILTER_OPTIONS[0].value
+		);
 		return {
-			excludedCategories
+			categories,
+			categoryFilterType:
+				REPORT_CATEGORY_FILTER_OPTIONS.find(
+					(type) => type.value === categoryFilterTypeValue
+				) ?? REPORT_CATEGORY_FILTER_OPTIONS[0]
 		};
 	};
 
@@ -121,9 +133,11 @@ export const useGetReportData = (): ReportData => {
 		useGetSpendingByMonthAndCategory({
 			pageNumber: state.pageNumber,
 			pageSize: state.pageSize,
-			excludeCategoryIds:
-				form.getValues().excludedCategories?.map((cat) => cat.value) ??
-				[]
+			categoryIdType:
+				form.getValues().categoryFilterType?.value ??
+				REPORT_CATEGORY_FILTER_OPTIONS[0].value,
+			categoryIds:
+				form.getValues().categories?.map((cat) => cat.value) ?? []
 		});
 
 	const onValueHasChanged = createOnValueHasChanged(

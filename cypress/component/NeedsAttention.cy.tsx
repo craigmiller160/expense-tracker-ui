@@ -143,7 +143,7 @@ describe('Needs Attention', () => {
 
 	describe('Reports Page', () => {
 		it('has duplicates', () => {
-			reportsApi.getSpendingByMonthAndCategory();
+			reportsApi.getDefaultSpendingByMonthAndCategory();
 			needsAttentionApi.getNeedsAttention_duplicates();
 			mountApp({
 				initialRoute: '/expense-tracker/reports'
@@ -154,7 +154,7 @@ describe('Needs Attention', () => {
 		});
 
 		it('has possible refunds', () => {
-			reportsApi.getSpendingByMonthAndCategory();
+			reportsApi.getDefaultSpendingByMonthAndCategory();
 			needsAttentionApi.getNeedsAttention_possibleRefund();
 			mountApp({
 				initialRoute: '/expense-tracker/reports'
@@ -165,7 +165,7 @@ describe('Needs Attention', () => {
 		});
 
 		it('has unconfirmed', () => {
-			reportsApi.getSpendingByMonthAndCategory();
+			reportsApi.getDefaultSpendingByMonthAndCategory();
 			needsAttentionApi.getNeedsAttention_unconfirmed();
 			mountApp({
 				initialRoute: '/expense-tracker/reports'
@@ -176,7 +176,7 @@ describe('Needs Attention', () => {
 		});
 
 		it('has uncategorized', () => {
-			reportsApi.getSpendingByMonthAndCategory();
+			reportsApi.getDefaultSpendingByMonthAndCategory();
 			needsAttentionApi.getNeedsAttention_uncategorized();
 			mountApp({
 				initialRoute: '/expense-tracker/reports'
@@ -187,7 +187,7 @@ describe('Needs Attention', () => {
 		});
 
 		it('has all', () => {
-			reportsApi.getSpendingByMonthAndCategory();
+			reportsApi.getDefaultSpendingByMonthAndCategory();
 			needsAttentionApi.getNeedsAttention_all();
 			mountApp({
 				initialRoute: '/expense-tracker/reports'
@@ -201,7 +201,7 @@ describe('Needs Attention', () => {
 		});
 
 		it('has none', () => {
-			reportsApi.getSpendingByMonthAndCategory();
+			reportsApi.getDefaultSpendingByMonthAndCategory();
 			needsAttentionApi.getNeedsAttention_none();
 			mountApp({
 				initialRoute: '/expense-tracker/reports'

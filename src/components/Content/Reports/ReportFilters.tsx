@@ -9,6 +9,7 @@ import { ResponsiveRow } from '../../UI/ResponsiveWrappers/ResponsiveRow';
 import './ReportFilters.scss';
 import { ReportFilterFormData } from './useGetReportData';
 import { CategoryOption } from '../../../types/categories';
+import { REPORT_CATEGORY_FILTER_OPTIONS } from '../../../types/reports';
 
 type Props = {
 	readonly form: UseFormReturn<ReportFilterFormData>;
@@ -26,11 +27,17 @@ export const ReportFilters = (props: Props) => {
 			<form onSubmit={constVoid}>
 				<ResponsiveRow>
 					<Autocomplete
+						options={REPORT_CATEGORY_FILTER_OPTIONS}
+						control={control}
+						name="categoryFilterType"
+						label="Filter Type"
+					/>
+					<Autocomplete
 						multiple
 						options={categories ?? []}
 						control={control}
-						name="excludedCategories"
-						label="Excluded Categories"
+						name="categories"
+						label="Categories"
 						onValueHasChanged={props.onValueHasChanged}
 					/>
 				</ResponsiveRow>

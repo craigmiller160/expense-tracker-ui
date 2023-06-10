@@ -1,8 +1,7 @@
-import { Database, USER_ID } from './Database';
+import { Database } from './Database';
 import * as Option from 'fp-ts/es6/Option';
 import { Server } from 'miragejs/server';
 import { createServer } from 'miragejs';
-import { createOAuthRoutes } from './routes/oauth';
 import { seedCategories } from './seedData/categories';
 import { createCategoriesRoutes } from './routes/categories';
 import { createImportRoutes } from './routes/import';
@@ -28,13 +27,7 @@ const createClearDefaultUser = (database: Database) => () =>
 
 const createSetInitialData = (database: Database) => () =>
 	database.updateData((draft) => {
-		draft.authUser = Option.some({
-			userId: USER_ID,
-			username: '',
-			firstName: '',
-			lastName: '',
-			roles: []
-		});
+		draft.authUser = Option.some(`User`);
 		seedCategories(draft);
 		seedTransactions(draft);
 	});
@@ -44,7 +37,6 @@ const database = new Database();
 const server: Server = createServer({
 	routes() {
 		this.namespace = '/expense-tracker/api';
-		createOAuthRoutes(database, this);
 		createCategoriesRoutes(database, this);
 		createImportRoutes(database, this);
 		createTransactionsRoutes(database, this);

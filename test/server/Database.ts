@@ -5,15 +5,12 @@ import * as Option from 'fp-ts/es6/Option';
 import { DbRecord } from '../../src/types/db';
 import { nanoid } from 'nanoid';
 import {
-	AuthUserDto,
 	CategoryResponse,
 	TransactionDetailsResponse
 } from '../../src/types/generated/expense-tracker';
 
-export const USER_ID = 1;
-
 export interface Data {
-	readonly authUser: OptionT<AuthUserDto>;
+	readonly authUser: OptionT<string>;
 	readonly categories: Record<string, CategoryResponse>;
 	readonly transactions: Record<string, TransactionDetailsResponse>;
 }

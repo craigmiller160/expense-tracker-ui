@@ -16,7 +16,7 @@ describe('Navigation', () => {
 	describe('Desktop', () => {
 		it('navigates to Reports', () => {
 			categoriesApi.getAllCategories();
-			reportsApi.getSpendingByMonthAndCategory();
+			reportsApi.getDefaultSpendingByMonthAndCategory();
 			mountApp({
 				initialRoute: '/expense-tracker/categories'
 			});
@@ -52,7 +52,7 @@ describe('Navigation', () => {
 		});
 
 		it('navigates to Categories', () => {
-			reportsApi.getSpendingByMonthAndCategory();
+			reportsApi.getDefaultSpendingByMonthAndCategory();
 			categoriesApi.getAllCategories();
 			mountApp({
 				initialRoute: '/expense-tracker/reports'
@@ -78,7 +78,7 @@ describe('Navigation', () => {
 	describe('Mobile', () => {
 		it('navigates to Reports', () => {
 			categoriesApi.getAllCategories();
-			reportsApi.getSpendingByMonthAndCategory();
+			reportsApi.getDefaultSpendingByMonthAndCategory();
 			mountApp({
 				viewport: 'mobile',
 				initialRoute: '/expense-tracker/categories'
@@ -126,7 +126,7 @@ describe('Navigation', () => {
 		});
 
 		it('navigates to Categories', () => {
-			reportsApi.getSpendingByMonthAndCategory();
+			reportsApi.getDefaultSpendingByMonthAndCategory();
 			categoriesApi.getAllCategories();
 			mountApp({
 				viewport: 'mobile',

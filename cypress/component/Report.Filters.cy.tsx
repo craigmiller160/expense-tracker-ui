@@ -8,11 +8,7 @@ import {
 	orderedCategoryIds,
 	orderedCategoryNames
 } from './testutils/constants/categories';
-import { Interception } from 'cypress/types/net-stubbing';
 import { needsAttentionApi } from './testutils/apis/needsAttention';
-
-const excludedIds = (): string =>
-	pipe(orderedCategoryIds.slice(0, 2).join(','), encodeURIComponent);
 
 describe('Report Filters', () => {
 	it('renders filters correctly', () => {
@@ -39,6 +35,16 @@ describe('Report Filters', () => {
 			initialRoute: '/expense-tracker/reports'
 		});
 
+		const categoryIds = orderedCategoryIds.slice(0, 2);
+		reportsApi.getSpendingByMonthAndCategory(
+			`categoryIds=${categoryIds[0]}`,
+			'addFirstCategory'
+		);
+		reportsApi.getSpendingByMonthAndCategory(
+			`categoryIds=${categoryIds.join(',')}`,
+			'addSecondCategory'
+		);
+
 		reportFiltersPage.getCategoryInput().click();
 		commonPage.getOpenSelectOptions().eq(0).click();
 
@@ -52,16 +58,7 @@ describe('Report Filters', () => {
 			expect($value.text()).eq(orderedCategoryNames[index])
 		);
 
-		cy.wait(300); // TODO refactor all of this to use unique labels
-		cy.get('@getSpendingByMonthAndCategory.all')
-			.should('have.length', 3)
-			.then(($xhrs) => {
-				const xhr = (
-					$xhrs as unknown as ReadonlyArray<Interception>
-				)[2];
-				expect(xhr.request.url).to.match(
-					RegExp(`^.*excludeCategoryIds=${excludedIds()}$`)
-				);
-			});
+		cy.wait('@addFirstCategory');
+		cy.wait('@addSecondCategory');
 	});
 });

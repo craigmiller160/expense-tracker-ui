@@ -43,15 +43,21 @@ describe('Report Filters', () => {
 			'addFirstCategory'
 		);
 		reportsApi.getSpendingByMonthAndCategory(
-			`categoryIdType=INCLUDE&categoryIds=${categoryIds.join(',')}`,
+			`categoryIdType=INCLUDE&categoryIds=${encodeURIComponent(
+				categoryIds.join(',')
+			)}`,
 			'addSecondCategory'
 		);
 
 		reportFiltersPage.getCategoryInput().click();
 		commonPage.getOpenSelectOptions().eq(0).click();
 
+		cy.wait('@addFirstCategory');
+
 		reportFiltersPage.getCategoryInput().click();
 		commonPage.getOpenSelectOptions().eq(1).click();
+
+		cy.wait('@addSecondCategory');
 
 		pipe(
 			reportFiltersPage.getCategoryInput(),
@@ -59,9 +65,6 @@ describe('Report Filters', () => {
 		).each(($value, index) =>
 			expect($value.text()).eq(orderedCategoryNames[index])
 		);
-
-		cy.wait('@addFirstCategory');
-		cy.wait('@addSecondCategory');
 	});
 
 	it('can exclude categories', () => {
@@ -73,7 +76,7 @@ describe('Report Filters', () => {
 		});
 
 		reportsApi.getSpendingByMonthAndCategory(
-			'categoryIdType=EXCLUDE&categoryIds=',
+			'categoryIdType=EXCLUDE',
 			'setTypeToExclude'
 		);
 		const categoryIds = orderedCategoryIds.slice(0, 2);
@@ -82,20 +85,28 @@ describe('Report Filters', () => {
 			'addFirstCategory'
 		);
 		reportsApi.getSpendingByMonthAndCategory(
-			`categoryIdType=EXCLUDE&categoryIds=${categoryIds.join(',')}`,
+			`categoryIdType=EXCLUDE&categoryIds=${encodeURIComponent(
+				categoryIds.join(',')
+			)}`,
 			'addSecondCategory'
 		);
 
 		reportFiltersPage.getFilterTypeInput().click();
 		commonPage.getOpenSelectOptions().eq(1).click();
 
+		cy.wait('@setTypeToExclude');
+
 		reportFiltersPage.getFilterTypeInput().should('have.value', 'Exclude');
 
 		reportFiltersPage.getCategoryInput().click();
 		commonPage.getOpenSelectOptions().eq(0).click();
 
+		cy.wait('@addFirstCategory');
+
 		reportFiltersPage.getCategoryInput().click();
 		commonPage.getOpenSelectOptions().eq(1).click();
+
+		cy.wait('@addSecondCategory');
 
 		pipe(
 			reportFiltersPage.getCategoryInput(),
@@ -103,9 +114,5 @@ describe('Report Filters', () => {
 		).each(($value, index) =>
 			expect($value.text()).eq(orderedCategoryNames[index])
 		);
-
-		cy.wait('@setTypeToExclude');
-		cy.wait('@addFirstCategory');
-		cy.wait('@addSecondCategory');
 	});
 });

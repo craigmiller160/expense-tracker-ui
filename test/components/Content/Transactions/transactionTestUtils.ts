@@ -17,9 +17,9 @@ export const getOrderByValueElement = (): HTMLElement | null | undefined => {
 	);
 };
 
-export const getCategoryValueElement = (): HTMLElement | null | undefined => {
+export const getSelectValueElement = (label: string): HTMLElement | null | undefined => {
 	const transactionFilters = screen.getByTestId('transaction-filters');
-	const categoryLabel = within(transactionFilters).getByLabelText('Category');
+	const categoryLabel = within(transactionFilters).getByLabelText(label);
 	return categoryLabel?.parentElement?.querySelector(
 		'.MuiOutlinedInput-input'
 	);

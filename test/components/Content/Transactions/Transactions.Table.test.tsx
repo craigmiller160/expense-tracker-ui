@@ -13,7 +13,7 @@ import {
 } from '../../../../src/components/Content/Transactions/utils';
 import { pipe } from 'fp-ts/es6/function';
 import {
-	getCategoryValueElement,
+	getSelectValueElement,
 	getOrderByValueElement,
 	getRecordRangeText,
 	getTotalDaysInRange,
@@ -68,23 +68,29 @@ describe('Transactions Table', () => {
 		expect(
 			within(transactionFilters).queryByLabelText('Category')
 		).toBeVisible();
-		expect(getCategoryValueElement()).toHaveTextContent('');
+		expect(getSelectValueElement('Category')).toHaveTextContent('');
 		expect(
 			within(transactionFilters).queryByLabelText('Order By')
 		).toBeVisible();
 		expect(getOrderByValueElement()).toHaveTextContent('Newest to Oldest');
 		expect(
 			within(transactionFilters).queryByLabelText('Duplicate')
-		).toHaveValue('ALL');
+		).toBeVisible();
+		expect(getSelectValueElement('Duplicate')).toHaveTextContent('All');
 		expect(
 			within(transactionFilters).queryByLabelText('Confirmed')
-		).toHaveValue('ALL');
+		).toBeVisible();
+		expect(getSelectValueElement('Confirmed')).toHaveTextContent('All');
 		expect(
 			within(transactionFilters).queryByLabelText('Categorized')
-		).toHaveValue('ALL');
+		).toBeVisible();
+		expect(getSelectValueElement('Categorized')).toHaveTextContent('All');
 		expect(
 			within(transactionFilters).queryByLabelText('Possible Refund')
-		).toHaveValue('ALL');
+		).toBeVisible();
+		expect(getSelectValueElement('Possible Refund')).toHaveTextContent(
+			'All'
+		);
 
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()

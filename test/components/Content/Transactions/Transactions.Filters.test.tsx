@@ -6,7 +6,7 @@ import {
 	within
 } from '@testing-library/react';
 import {
-	getCategoryValueElement,
+	getSelectValueElement,
 	getRecordRangeText,
 	getTotalDaysInRange,
 	selectDate,

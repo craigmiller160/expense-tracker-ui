@@ -113,7 +113,8 @@ export const useSetupFilterForm = (): UseFormReturn<TransactionSearchForm> => {
 	const { data } = useGetAllCategories();
 	const categories = useCategoriesToCategoryOptions(data);
 	const memoizedFormFromParams = useCallback(
-		(params: ParamsWrapper) => formFromParams(categories)(params),
+		(params: ParamsWrapper<TransactionSearchForm>) =>
+			formFromParams(categories)(params),
 		[categories]
 	);
 	return useFormWithSearchParamSync<TransactionSearchForm>({

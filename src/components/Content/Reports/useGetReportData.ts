@@ -128,7 +128,8 @@ export const useGetReportData = (): ReportData => {
 		unknownCategory
 	);
 	const memoizedFormFromParams = useCallback(
-		(params: ParamsWrapper) => formFromParams(categories)(params),
+		(params: ParamsWrapper<ReportFilterFormData>) =>
+			formFromParams(categories)(params),
 		[categories]
 	);
 

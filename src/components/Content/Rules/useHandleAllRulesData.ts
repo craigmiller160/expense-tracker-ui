@@ -99,7 +99,8 @@ export const useHandleAllRulesData = (props: Props): GetAllRulesDataResult => {
 	} = useGetAllCategories();
 	const categories = useCategoriesToCategoryOptions(getAllCategoriesData);
 	const memoizedFormFromParams = useCallback(
-		(params: ParamsWrapper) => paramsToForm(categories)(params),
+		(params: ParamsWrapper<RulesFiltersFormData>) =>
+			paramsToForm(categories)(params),
 		[categories]
 	);
 

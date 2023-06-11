@@ -1,3 +1,5 @@
+import { SelectOption } from '@craigmiller160/react-hook-form-material-ui';
+
 export enum SortDirection {
 	ASC = 'ASC',
 	DESC = 'DESC'
@@ -13,3 +15,10 @@ export const isSortDirection = (
 export enum TransactionSortKey {
 	EXPENSE_DATE = 'EXPENSE_DATE'
 }
+
+export type YesNoFilter = 'ALL' | 'YES' | 'NO';
+export const YES_NO_FILTER_OPTIONS: ReadonlyArray<SelectOption<YesNoFilter>> = [
+	{ value: 'ALL', label: 'All' },
+	{ value: 'YES', label: 'Yes' },
+	{ value: 'NO', label: 'No' }
+];

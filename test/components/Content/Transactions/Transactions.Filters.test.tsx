@@ -102,90 +102,92 @@ describe('Transactions Filters', () => {
 	});
 
 	it('is possible refund', async () => {
-		const { transactions } = await searchForTransactions({
-			startDate: defaultStartDate(),
-			endDate: defaultEndDate(),
-			pageNumber: 0,
-			pageSize: 25,
-			sortKey: TransactionSortKey.EXPENSE_DATE,
-			sortDirection: SortDirection.ASC
-		});
-		apiServer.database.updateData((draft) => {
-			draft.transactions[transactions[0].id] = createTransaction({
-				...transactions[0],
-				amount: transactions[0].amount * -1,
-				index: 0
-			});
-		});
-
-		await renderApp({
-			initialPath: '/expense-tracker/transactions'
-		});
-
-		await waitForVisibility([
-			{ text: 'Expense Tracker' },
-			{ text: 'Manage Transactions', occurs: 1 },
-			{ text: 'Rows per page:' }
-		]);
-
-		materialUiCheckbox({
-			type: 'label',
-			selector: 'Is Possible Refund'
-		}).click();
-
-		await waitForElementToBeRemoved(() =>
-			screen.queryByText('Rows per page:')
-		);
-		await waitFor(() =>
-			expect(screen.queryByText('Rows per page:')).toBeVisible()
-		);
-
-		validateTransactionsInTable(1, (index, description) => {
-			expect(description.amount).toEqual(transactions[0].amount * -1);
-		});
+		// const { transactions } = await searchForTransactions({
+		// 	startDate: defaultStartDate(),
+		// 	endDate: defaultEndDate(),
+		// 	pageNumber: 0,
+		// 	pageSize: 25,
+		// 	sortKey: TransactionSortKey.EXPENSE_DATE,
+		// 	sortDirection: SortDirection.ASC
+		// // });
+		// apiServer.database.updateData((draft) => {
+		// 	draft.transactions[transactions[0].id] = createTransaction({
+		// 		...transactions[0],
+		// 		amount: transactions[0].amount * -1,
+		// 		index: 0
+		// 	});
+		// });
+		//
+		// await renderApp({
+		// 	initialPath: '/expense-tracker/transactions'
+		// });
+		//
+		// await waitForVisibility([
+		// 	{ text: 'Expense Tracker' },
+		// 	{ text: 'Manage Transactions', occurs: 1 },
+		// 	{ text: 'Rows per page:' }
+		// ]);
+		//
+		// materialUiCheckbox({
+		// 	type: 'label',
+		// 	selector: 'Is Possible Refund'
+		// }).click();
+		//
+		// await waitForElementToBeRemoved(() =>
+		// 	screen.queryByText('Rows per page:')
+		// );
+		// await waitFor(() =>
+		// 	expect(screen.queryByText('Rows per page:')).toBeVisible()
+		// );
+		//
+		// validateTransactionsInTable(1, (index, description) => {
+		// 	expect(description.amount).toEqual(transactions[0].amount * -1);
+		// });
+		throw new Error();
 	});
 
 	it('category', async () => {
-		const { transactions } = await searchForTransactions({
-			startDate: defaultStartDate(),
-			endDate: defaultEndDate(),
-			pageNumber: 0,
-			pageSize: 25,
-			sortKey: TransactionSortKey.EXPENSE_DATE,
-			sortDirection: SortDirection.ASC
-		});
-		const categories = await getAllCategories();
-		apiServer.database.updateData((draft) => {
-			draft.transactions[transactions[0].id] = createTransaction({
-				...transactions[0],
-				categoryId: categories[0].id,
-				categoryName: categories[0].name,
-				index: 0
-			});
-		});
-		await renderApp({
-			initialPath: '/expense-tracker/transactions'
-		});
-		await waitForVisibility([
-			{ text: 'Expense Tracker' },
-			{ text: 'Manage Transactions', occurs: 1, timeout: 3000 },
-			{ text: 'Rows per page:' }
-		]);
-
-		const filters = screen.getByTestId('transaction-filters');
-
-		await userEvent.click(within(filters).getByLabelText('Category'));
-		expect(screen.getAllByText(categories[0].name)).toHaveLength(1);
-		await userEvent.click(screen.getByText(categories[0].name));
-		await Sleep.immediate();
-		await waitFor(() =>
-			expect(screen.queryByText('Rows per page:')).toBeVisible()
-		);
-
-		validateTransactionsInTable(1, (index, description) => {
-			expect(description.categoryId).toEqual(categories[0].id);
-			expect(description.categoryName).toEqual(categories[0].name);
-		});
+		// const { transactions } = await searchForTransactions({
+		// 	startDate: defaultStartDate(),
+		// 	endDate: defaultEndDate(),
+		// 	pageNumber: 0,
+		// 	pageSize: 25,
+		// 	sortKey: TransactionSortKey.EXPENSE_DATE,
+		// 	sortDirection: SortDirection.ASC
+		// });
+		// const categories = await getAllCategories();
+		// apiServer.database.updateData((draft) => {
+		// 	draft.transactions[transactions[0].id] = createTransaction({
+		// 		...transactions[0],
+		// 		categoryId: categories[0].id,
+		// 		categoryName: categories[0].name,
+		// 		index: 0
+		// 	});
+		// });
+		// await renderApp({
+		// 	initialPath: '/expense-tracker/transactions'
+		// });
+		// await waitForVisibility([
+		// 	{ text: 'Expense Tracker' },
+		// 	{ text: 'Manage Transactions', occurs: 1, timeout: 3000 },
+		// 	{ text: 'Rows per page:' }
+		// ]);
+		//
+		// const filters = screen.getByTestId('transaction-filters');
+		//
+		// await userEvent.click(within(filters).getByLabelText('Category'));
+		// expect(screen.getAllByText(categories[0].name)).toHaveLength(1);
+		// await userEvent.click(screen.getByText(categories[0].name));
+		// await Sleep.immediate();
+		// await waitFor(() =>
+		// 	expect(screen.queryByText('Rows per page:')).toBeVisible()
+		// );
+		//
+		// validateTransactionsInTable(1, (index, description) => {
+		// 	expect(description.categoryId).toEqual(categories[0].id);
+		// 	expect(description.categoryName).toEqual(categories[0].name);
+		// });
+		throw new Error();
 	});
 
 	it('order by', async () => {
@@ -236,177 +238,180 @@ describe('Transactions Filters', () => {
 	});
 
 	it('is duplicate', async () => {
-		const { transactions } = await searchForTransactions({
-			startDate: defaultStartDate(),
-			endDate: defaultEndDate(),
-			pageNumber: 0,
-			pageSize: 25,
-			sortKey: TransactionSortKey.EXPENSE_DATE,
-			sortDirection: SortDirection.DESC
-		});
-		apiServer.database.updateData((draft) => {
-			draft.transactions[transactions[0].id] = createTransaction({
-				...transactions[0],
-				duplicate: true,
-				index: 0
-			});
-		});
-		await renderApp({
-			initialPath: '/expense-tracker/transactions'
-		});
-		await waitForVisibility([
-			{ text: 'Expense Tracker' },
-			{ text: 'Manage Transactions', occurs: 1, timeout: 3000 },
-			{ text: 'Rows per page:' }
-		]);
-
-		validateTransactionsInTable(25, (index, description) => {
-			expect(description.duplicate).toEqual(index === 0);
-		});
-
-		await userEvent.click(screen.getByLabelText('Is Duplicate'));
-		expect(screen.getByLabelText('Is Duplicate')).toBeChecked();
-		await Sleep.immediate();
-		await waitFor(() =>
-			expect(screen.queryByText('Rows per page:')).toBeVisible()
-		);
-
-		validateTransactionsInTable(1, (index, description) => {
-			expect(description.duplicate).toEqual(true);
-		});
+		// const { transactions } = await searchForTransactions({
+		// 	startDate: defaultStartDate(),
+		// 	endDate: defaultEndDate(),
+		// 	pageNumber: 0,
+		// 	pageSize: 25,
+		// 	sortKey: TransactionSortKey.EXPENSE_DATE,
+		// 	sortDirection: SortDirection.DESC
+		// });
+		// apiServer.database.updateData((draft) => {
+		// 	draft.transactions[transactions[0].id] = createTransaction({
+		// 		...transactions[0],
+		// 		duplicate: true,
+		// 		index: 0
+		// 	});
+		// });
+		// await renderApp({
+		// 	initialPath: '/expense-tracker/transactions'
+		// });
+		// await waitForVisibility([
+		// 	{ text: 'Expense Tracker' },
+		// 	{ text: 'Manage Transactions', occurs: 1, timeout: 3000 },
+		// 	{ text: 'Rows per page:' }
+		// ]);
+		//
+		// validateTransactionsInTable(25, (index, description) => {
+		// 	expect(description.duplicate).toEqual(index === 0);
+		// });
+		//
+		// await userEvent.click(screen.getByLabelText('Is Duplicate'));
+		// expect(screen.getByLabelText('Is Duplicate')).toBeChecked();
+		// await Sleep.immediate();
+		// await waitFor(() =>
+		// 	expect(screen.queryByText('Rows per page:')).toBeVisible()
+		// );
+		//
+		// validateTransactionsInTable(1, (index, description) => {
+		// 	expect(description.duplicate).toEqual(true);
+		// });
+		throw new Error();
 	});
 
 	it('is not confirmed', async () => {
-		const { transactions } = await searchForTransactions({
-			startDate: defaultStartDate(),
-			endDate: defaultEndDate(),
-			pageNumber: 0,
-			pageSize: 25,
-			sortKey: TransactionSortKey.EXPENSE_DATE,
-			sortDirection: SortDirection.DESC
-		});
-		apiServer.database.updateData((draft) => {
-			draft.transactions = pipe(
-				Object.values(draft.transactions),
-				RArray.filter(
-					(transaction) => transaction.id !== transactions[0].id
-				),
-				RArray.map((transaction) =>
-					createTransaction({
-						...transaction,
-						confirmed: true,
-						index: 0
-					})
-				),
-				RArray.map(transactionToRecord),
-				Monoid.concatAll(transactionRecordMonoid)
-			);
-			draft.transactions[transactions[0].id] = {
-				...transactions[0],
-				created: '',
-				updated: ''
-			};
-		});
-		await renderApp({
-			initialPath: '/expense-tracker/transactions'
-		});
-		await waitForVisibility([
-			{ text: 'Expense Tracker' },
-			{ text: 'Manage Transactions', occurs: 1, timeout: 3000 },
-			{ text: 'Rows per page:' }
-		]);
-		validateTransactionsInTable(25, (index, description) => {
-			expect(description.confirmed).toEqual(index !== 0);
-		});
-
-		await userEvent.click(screen.getByLabelText('Is Not Confirmed'));
-		expect(screen.getByLabelText('Is Not Confirmed')).toBeChecked();
-		await Sleep.immediate();
-		await waitFor(() =>
-			expect(screen.queryByText('Rows per page:')).toBeVisible()
-		);
-
-		validateTransactionsInTable(1, (index, description) => {
-			expect(description.confirmed).toEqual(false);
-		});
+		// const { transactions } = await searchForTransactions({
+		// 	startDate: defaultStartDate(),
+		// 	endDate: defaultEndDate(),
+		// 	pageNumber: 0,
+		// 	pageSize: 25,
+		// 	sortKey: TransactionSortKey.EXPENSE_DATE,
+		// 	sortDirection: SortDirection.DESC
+		// });
+		// apiServer.database.updateData((draft) => {
+		// 	draft.transactions = pipe(
+		// 		Object.values(draft.transactions),
+		// 		RArray.filter(
+		// 			(transaction) => transaction.id !== transactions[0].id
+		// 		),
+		// 		RArray.map((transaction) =>
+		// 			createTransaction({
+		// 				...transaction,
+		// 				confirmed: true,
+		// 				index: 0
+		// 			})
+		// 		),
+		// 		RArray.map(transactionToRecord),
+		// 		Monoid.concatAll(transactionRecordMonoid)
+		// 	);
+		// 	draft.transactions[transactions[0].id] = {
+		// 		...transactions[0],
+		// 		created: '',
+		// 		updated: ''
+		// 	};
+		// });
+		// await renderApp({
+		// 	initialPath: '/expense-tracker/transactions'
+		// });
+		// await waitForVisibility([
+		// 	{ text: 'Expense Tracker' },
+		// 	{ text: 'Manage Transactions', occurs: 1, timeout: 3000 },
+		// 	{ text: 'Rows per page:' }
+		// ]);
+		// validateTransactionsInTable(25, (index, description) => {
+		// 	expect(description.confirmed).toEqual(index !== 0);
+		// });
+		//
+		// await userEvent.click(screen.getByLabelText('Is Not Confirmed'));
+		// expect(screen.getByLabelText('Is Not Confirmed')).toBeChecked();
+		// await Sleep.immediate();
+		// await waitFor(() =>
+		// 	expect(screen.queryByText('Rows per page:')).toBeVisible()
+		// );
+		//
+		// validateTransactionsInTable(1, (index, description) => {
+		// 	expect(description.confirmed).toEqual(false);
+		// });
+		throw new Error();
 	});
 
 	it('is not categorized', async () => {
-		const { transactions } = await searchForTransactions({
-			startDate: defaultStartDate(),
-			endDate: defaultEndDate(),
-			pageNumber: 0,
-			pageSize: 25,
-			sortKey: TransactionSortKey.EXPENSE_DATE,
-			sortDirection: SortDirection.DESC
-		});
-		const categories = await getAllCategories();
-		apiServer.database.updateData((draft) => {
-			draft.transactions = pipe(
-				Object.values(draft.transactions),
-				RArray.filter(
-					(transaction) => transaction.id !== transactions[0].id
-				),
-				RArray.map((transaction) =>
-					createTransaction({
-						...transaction,
-						categoryId: categories[0].id,
-						categoryName: categories[0].name,
-						index: 0
-					})
-				),
-				RArray.map(transactionToRecord),
-				Monoid.concatAll(transactionRecordMonoid)
-			);
-			draft.transactions[transactions[0].id] = {
-				...transactions[0],
-				created: '',
-				updated: ''
-			};
-		});
-		await renderApp({
-			initialPath: '/expense-tracker/transactions'
-		});
-		await waitForVisibility([
-			{ text: 'Expense Tracker' },
-			{ text: 'Manage Transactions', occurs: 1, timeout: 3000 },
-			{ text: 'Rows per page:' }
-		]);
-
-		validateTransactionsInTable(25, (index, description) => {
-			if (index === 0) {
-				expect(description.categoryId).toBeUndefined();
-				expect(description.categoryName).toBeUndefined();
-			} else {
-				expect(description.categoryId).toEqual(categories[0].id);
-				expect(description.categoryName).toEqual(categories[0].name);
-			}
-		});
-
-		const filters = screen.getByTestId('transaction-filters');
-		await userEvent.click(within(filters).getByLabelText('Category'));
-		expect(screen.getAllByText(categories[0].name)).toHaveLength(1);
-		await userEvent.click(screen.getByText(categories[0].name));
-		await Sleep.immediate();
-		await waitFor(() =>
-			expect(screen.queryByText('Rows per page:')).toBeVisible()
-		);
-		validateTransactionsInTable(25, (index, description) => {
-			expect(description.categoryId).toEqual(categories[0].id);
-			expect(description.categoryName).toEqual(categories[0].name);
-		});
-
-		await userEvent.click(screen.getByLabelText('Is Not Categorized'));
-		expect(screen.getByLabelText('Is Not Categorized')).toBeChecked();
-		await Sleep.immediate();
-		await waitFor(() =>
-			expect(screen.queryByText('Rows per page:')).toBeVisible()
-		);
-		expect(getCategoryValueElement()).toHaveTextContent('');
-
-		validateTransactionsInTable(1, (index, description) => {
-			expect(description.categoryId).toBeUndefined();
-			expect(description.categoryName).toBeUndefined();
-		});
+		// const { transactions } = await searchForTransactions({
+		// 	startDate: defaultStartDate(),
+		// 	endDate: defaultEndDate(),
+		// 	pageNumber: 0,
+		// 	pageSize: 25,
+		// 	sortKey: TransactionSortKey.EXPENSE_DATE,
+		// 	sortDirection: SortDirection.DESC
+		// });
+		// const categories = await getAllCategories();
+		// apiServer.database.updateData((draft) => {
+		// 	draft.transactions = pipe(
+		// 		Object.values(draft.transactions),
+		// 		RArray.filter(
+		// 			(transaction) => transaction.id !== transactions[0].id
+		// 		),
+		// 		RArray.map((transaction) =>
+		// 			createTransaction({
+		// 				...transaction,
+		// 				categoryId: categories[0].id,
+		// 				categoryName: categories[0].name,
+		// 				index: 0
+		// 			})
+		// 		),
+		// 		RArray.map(transactionToRecord),
+		// 		Monoid.concatAll(transactionRecordMonoid)
+		// 	);
+		// 	draft.transactions[transactions[0].id] = {
+		// 		...transactions[0],
+		// 		created: '',
+		// 		updated: ''
+		// 	};
+		// });
+		// await renderApp({
+		// 	initialPath: '/expense-tracker/transactions'
+		// });
+		// await waitForVisibility([
+		// 	{ text: 'Expense Tracker' },
+		// 	{ text: 'Manage Transactions', occurs: 1, timeout: 3000 },
+		// 	{ text: 'Rows per page:' }
+		// ]);
+		//
+		// validateTransactionsInTable(25, (index, description) => {
+		// 	if (index === 0) {
+		// 		expect(description.categoryId).toBeUndefined();
+		// 		expect(description.categoryName).toBeUndefined();
+		// 	} else {
+		// 		expect(description.categoryId).toEqual(categories[0].id);
+		// 		expect(description.categoryName).toEqual(categories[0].name);
+		// 	}
+		// });
+		//
+		// const filters = screen.getByTestId('transaction-filters');
+		// await userEvent.click(within(filters).getByLabelText('Category'));
+		// expect(screen.getAllByText(categories[0].name)).toHaveLength(1);
+		// await userEvent.click(screen.getByText(categories[0].name));
+		// await Sleep.immediate();
+		// await waitFor(() =>
+		// 	expect(screen.queryByText('Rows per page:')).toBeVisible()
+		// );
+		// validateTransactionsInTable(25, (index, description) => {
+		// 	expect(description.categoryId).toEqual(categories[0].id);
+		// 	expect(description.categoryName).toEqual(categories[0].name);
+		// });
+		//
+		// await userEvent.click(screen.getByLabelText('Is Not Categorized'));
+		// expect(screen.getByLabelText('Is Not Categorized')).toBeChecked();
+		// await Sleep.immediate();
+		// await waitFor(() =>
+		// 	expect(screen.queryByText('Rows per page:')).toBeVisible()
+		// );
+		// expect(getCategoryValueElement()).toHaveTextContent('');
+		//
+		// validateTransactionsInTable(1, (index, description) => {
+		// 	expect(description.categoryId).toBeUndefined();
+		// 	expect(description.categoryName).toBeUndefined();
+		// });
+		throw new Error();
 	});
 });

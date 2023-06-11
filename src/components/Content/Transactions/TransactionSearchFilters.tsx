@@ -29,14 +29,14 @@ interface Props {
 	readonly onValueHasChanged: ValueHasChanged;
 }
 
-const createOnIsNotCategorizedChanged =
+const createOnCategorizedChange =
 	(
 		getValues: UseFormGetValues<TransactionSearchForm>,
 		setValue: UseFormSetValue<TransactionSearchForm>,
 		onValueHasChanged: ValueHasChanged
 	) =>
 	() => {
-		if (getValues().isNotCategorized) {
+		if (getValues().categorized === 'NO') {
 			setValue('category', null);
 		}
 		onValueHasChanged();
@@ -50,7 +50,7 @@ export const TransactionSearchFilters = (props: Props) => {
 	const { data } = useGetAllCategories();
 	const categoryOptions = useCategoriesToCategoryOptions(data);
 
-	const onIsNotCategorizedChanged = createOnIsNotCategorizedChanged(
+	const onCategorizedChange = createOnCategorizedChange(
 		getValues,
 		setValue,
 		onValueHasChanged
@@ -115,7 +115,7 @@ export const TransactionSearchFilters = (props: Props) => {
 						name="categorized"
 						label="Categorized"
 						options={YES_NO_FILTER_OPTIONS}
-						onValueHasChanged={onIsNotCategorizedChanged}
+						onValueHasChanged={onCategorizedChange}
 					/>
 					<Select
 						control={control}

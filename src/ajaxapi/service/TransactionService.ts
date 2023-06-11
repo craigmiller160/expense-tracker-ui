@@ -17,6 +17,7 @@ import { pipe } from 'fp-ts/es6/function';
 import * as Option from 'fp-ts/es6/Option';
 import { expenseTrackerApi, getData } from './AjaxApi';
 import { formatServerDate } from '../../utils/dateTimeUtils';
+import { YesNoFilter } from '../../types/misc';
 
 const handleOptionalValue = <T>(
 	value: T | undefined | null,
@@ -29,10 +30,10 @@ const handleOptionalValue = <T>(
 	);
 
 const handleCategoryIds = (
-	isCategorized: boolean | undefined,
+	categorized: YesNoFilter,
 	categoryIds: ReadonlyArray<string> | undefined
 ): string | undefined => {
-	if (isCategorized === false) {
+	if ('NO' === categorized) {
 		return undefined;
 	}
 	return handleOptionalValue(categoryIds, (ids) => ids.join(','));
@@ -45,10 +46,7 @@ export const requestToQuery = (
 		...request,
 		startDate: handleOptionalValue(request.startDate, formatServerDate),
 		endDate: handleOptionalValue(request.endDate, formatServerDate),
-		categoryIds: handleCategoryIds(
-			request.isCategorized,
-			request.categoryIds
-		)
+		categoryIds: handleCategoryIds(request.categorized, request.categoryIds)
 	});
 
 export const searchForTransactions = (

@@ -32,12 +32,11 @@ describe('Report Filters', () => {
 		reportFiltersPage.getCategoryInput().click();
 		const categoryNames = [...orderedCategoryNames, 'Unknown'].sort();
 
-		pipe(
-			reportFiltersPage.getCategoryInput(),
-			commonPage.getMultipleSelectValues
-		).each(($value, index) =>
-			expect($value.text()).eq(categoryNames[index])
-		);
+		commonPage
+			.getOpenSelectOptions()
+			.each(($value, index) =>
+				expect($value.text()).eq(categoryNames[index])
+			);
 	});
 
 	it('can include categories', () => {

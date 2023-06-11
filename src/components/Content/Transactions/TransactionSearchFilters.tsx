@@ -95,7 +95,7 @@ export const TransactionSearchFilters = (props: Props) => {
 						onValueHasChanged={onValueHasChanged}
 					/>
 				</ResponsiveRow>
-				<ResponsiveRow>
+				<ResponsiveRow overrideChildWidth={{ sm: '15%' }}>
 					<Select
 						control={control}
 						name="duplicate"

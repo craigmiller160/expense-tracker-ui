@@ -52,7 +52,22 @@ describe('TransactionService', () => {
 		});
 
 		it('removes category ids if categorized is NO', () => {
-			throw new Error();
+			const result = requestToQuery({
+				pageNumber: 1,
+				pageSize: 10,
+				sortDirection: SortDirection.ASC,
+				sortKey: TransactionSortKey.EXPENSE_DATE,
+				startDate: null,
+				endDate: null,
+				categorized: 'NO',
+				confirmed: 'ALL',
+				duplicate: 'ALL',
+				possibleRefund: 'ALL',
+				categoryIds: ['1', '2']
+			});
+			expect(result).toEqual(
+				'pageNumber=1&pageSize=10&sortDirection=ASC&sortKey=EXPENSE_DATE&categorized=NO&confirmed=ALL&duplicate=ALL&possibleRefund=ALL'
+			);
 		});
 	});
 });

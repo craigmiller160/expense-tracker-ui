@@ -7,23 +7,23 @@ import {
 import { useEffect, useState } from 'react';
 import { mergeWith } from 'lodash-es';
 
-type Props<T extends object> = UseFormProps<T> & {
-	readonly formFromParams: SyncFromParams<T>;
-	readonly formToParams: SyncToParams<T>;
+type Props<Form extends object> = UseFormProps<Form> & {
+	readonly formFromParams: SyncFromParams<Form>;
+	readonly formToParams: SyncToParams<Form>;
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	readonly formFromParamsDependencies?: ReadonlyArray<any>;
 };
 
-export const useFormWithSearchParamSync = <T extends object>(
-	props: Props<T>
-): UseFormReturn<T> => {
+export const useFormWithSearchParamSync = <Form extends object>(
+	props: Props<Form>
+): UseFormReturn<Form> => {
 	const [hasRendered, setHasRendered] = useState<boolean>(false);
 	const [params, setParams] = useSearchParamSync({
 		syncFromParams: props.formFromParams,
 		syncToParams: props.formToParams,
 		syncFromParamsDependencies: props.formFromParamsDependencies
 	});
-	const form = useForm<T>(props);
+	const form = useForm<Form>(props);
 	const { reset, watch } = form;
 
 	useEffect(() => {
@@ -44,7 +44,7 @@ export const useFormWithSearchParamSync = <T extends object>(
 
 	useEffect(() => {
 		const subscription = watch((value) => {
-			setParams(value as T);
+			setParams(value as Form);
 		});
 		return subscription.unsubscribe;
 	}, [watch, setParams]);

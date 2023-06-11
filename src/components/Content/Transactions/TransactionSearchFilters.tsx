@@ -36,7 +36,7 @@ const createOnCategorizedChange =
 		onValueHasChanged: ValueHasChanged
 	) =>
 	() => {
-		if (getValues().categorized.value === 'NO') {
+		if (getValues().categorized === 'NO') {
 			setValue('category', null);
 		}
 		onValueHasChanged();
@@ -85,7 +85,7 @@ export const TransactionSearchFilters = (props: Props) => {
 						label="Category"
 						options={categoryOptions ?? []}
 						onValueHasChanged={onValueHasChanged}
-						disabled={getValues().categorized.value === 'NO'}
+						disabled={getValues().categorized === 'NO'}
 					/>
 					<Select
 						name="direction"

@@ -2,11 +2,7 @@ import { TransactionTableForm } from './useHandleTransactionTableData';
 import * as RArray from 'fp-ts/es6/ReadonlyArray';
 import { pipe } from 'fp-ts/es6/function';
 import { TransactionToUpdate } from '../../../types/generated/expense-tracker';
-import {
-	SortDirection,
-	YES_NO_FILTER_OPTIONS,
-	YesNoFilterOption
-} from '../../../types/misc';
+import { SortDirection, YesNoFilter } from '../../../types/misc';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 import { CategoryOption } from '../../../types/categories';
 
@@ -15,10 +11,10 @@ export interface TransactionSearchForm {
 	readonly startDate: Date | null;
 	readonly endDate: Date | null;
 	readonly category: CategoryOption | null;
-	readonly confirmed: YesNoFilterOption;
-	readonly duplicate: YesNoFilterOption;
-	readonly categorized: YesNoFilterOption;
-	readonly possibleRefund: YesNoFilterOption;
+	readonly confirmed: YesNoFilter;
+	readonly duplicate: YesNoFilter;
+	readonly categorized: YesNoFilter;
+	readonly possibleRefund: YesNoFilter;
 }
 
 export const defaultStartDate = (): Date =>
@@ -48,10 +44,10 @@ export const transactionSearchFormDefaultValues: TransactionSearchForm = {
 	startDate: defaultStartDate(),
 	endDate: defaultEndDate(),
 	category: null,
-	duplicate: YES_NO_FILTER_OPTIONS[0],
-	categorized: YES_NO_FILTER_OPTIONS[0],
-	confirmed: YES_NO_FILTER_OPTIONS[0],
-	possibleRefund: YES_NO_FILTER_OPTIONS[0]
+	duplicate: 'ALL',
+	categorized: 'ALL',
+	confirmed: 'ALL',
+	possibleRefund: 'ALL'
 };
 
 export const DEFAULT_ROWS_PER_PAGE = 25;

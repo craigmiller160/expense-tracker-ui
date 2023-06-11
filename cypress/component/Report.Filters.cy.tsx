@@ -12,6 +12,7 @@ import { needsAttentionApi } from './testutils/apis/needsAttention';
 
 describe('Report Filters', () => {
 	it('renders filters correctly', () => {
+		categoriesApi.getUnknownCategory();
 		reportsApi.getDefaultSpendingByMonthAndCategory();
 		categoriesApi.getAllCategories();
 		needsAttentionApi.getNeedsAttention_none();
@@ -30,6 +31,7 @@ describe('Report Filters', () => {
 	});
 
 	it('can include categories', () => {
+		categoriesApi.getUnknownCategory();
 		reportsApi.getDefaultSpendingByMonthAndCategory();
 		categoriesApi.getAllCategories();
 		needsAttentionApi.getNeedsAttention_none();
@@ -68,6 +70,7 @@ describe('Report Filters', () => {
 	});
 
 	it('can exclude categories', () => {
+		categoriesApi.getUnknownCategory();
 		reportsApi.getDefaultSpendingByMonthAndCategory();
 		categoriesApi.getAllCategories();
 		needsAttentionApi.getNeedsAttention_none();

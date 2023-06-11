@@ -17,7 +17,8 @@ export enum TransactionSortKey {
 }
 
 export type YesNoFilter = 'ALL' | 'YES' | 'NO';
-export const YES_NO_FILTER_OPTIONS: ReadonlyArray<SelectOption<YesNoFilter>> = [
+export type YesNoFilterOption = SelectOption<YesNoFilter>;
+export const YES_NO_FILTER_OPTIONS: ReadonlyArray<YesNoFilterOption> = [
 	{ value: 'ALL', label: 'All' },
 	{ value: 'YES', label: 'Yes' },
 	{ value: 'NO', label: 'No' }

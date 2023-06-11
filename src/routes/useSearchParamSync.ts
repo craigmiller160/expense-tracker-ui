@@ -3,13 +3,16 @@ import { useCallback, useContext, useMemo } from 'react';
 import { ParamsWrapper, wrapParams } from './ParamsWrapper';
 import { NativeSearchProviderContext } from './NativeSearchProvider';
 
-export type SyncFromParams<T> = (params: ParamsWrapper) => T;
-export type SyncToParams<T> = (value: T, params: ParamsWrapper) => void;
-export type DoSync<T> = (value: T) => void;
+export type SyncFromParams<Params> = (params: ParamsWrapper<Params>) => Params;
+export type SyncToParams<Params> = (
+	value: Params,
+	params: ParamsWrapper<Params>
+) => void;
+export type DoSync<Params> = (value: Params) => void;
 
-export type UseSearchParamSyncProps<T extends object> = {
-	readonly syncFromParams: SyncFromParams<T>;
-	readonly syncToParams: SyncToParams<T>;
+export type UseSearchParamSyncProps<Params extends object> = {
+	readonly syncFromParams: SyncFromParams<Params>;
+	readonly syncToParams: SyncToParams<Params>;
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	readonly syncFromParamsDependencies?: ReadonlyArray<any>;
 };
@@ -32,9 +35,9 @@ export const shouldSetParams = (
 	);
 };
 
-export const useSearchParamSync = <T extends object>(
-	props: UseSearchParamSyncProps<T>
-): [T, DoSync<T>] => {
+export const useSearchParamSync = <Params extends object>(
+	props: UseSearchParamSyncProps<Params>
+): [Params, DoSync<Params>] => {
 	const nativeSearchProvider = useContext(NativeSearchProviderContext);
 	const [searchParams, setSearchParams] = useSearchParams();
 	const { syncFromParams, syncToParams, syncFromParamsDependencies } = props;
@@ -46,7 +49,7 @@ export const useSearchParamSync = <T extends object>(
 		[searchParams, syncFromParams, ...(syncFromParamsDependencies ?? [])]
 	);
 
-	const doSync: DoSync<T> = useCallback(
+	const doSync: DoSync<Params> = useCallback(
 		(value) => {
 			// Using this as a solution to jsdom limitations for testing with window.location.search
 			const nativeSearch =

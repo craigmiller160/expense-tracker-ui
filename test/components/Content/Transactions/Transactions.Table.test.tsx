@@ -74,14 +74,17 @@ describe('Transactions Table', () => {
 		).toBeVisible();
 		expect(getOrderByValueElement()).toHaveTextContent('Newest to Oldest');
 		expect(
-			within(transactionFilters).queryByLabelText('Is Duplicate')
-		).not.toBeChecked();
+			within(transactionFilters).queryByLabelText('Duplicate')
+		).toHaveValue('ALL');
 		expect(
-			within(transactionFilters).queryByLabelText('Is Not Confirmed')
-		).not.toBeChecked();
+			within(transactionFilters).queryByLabelText('Confirmed')
+		).toHaveValue('ALL');
 		expect(
-			within(transactionFilters).queryByLabelText('Is Not Categorized')
-		).not.toBeChecked();
+			within(transactionFilters).queryByLabelText('Categorized')
+		).toHaveValue('ALL');
+		expect(
+			within(transactionFilters).queryByLabelText('Possible Refund')
+		).toHaveValue('ALL');
 
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()

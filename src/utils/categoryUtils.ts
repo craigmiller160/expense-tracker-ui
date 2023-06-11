@@ -11,11 +11,17 @@ export const categoryToCategoryOption = (
 });
 
 export const useCategoriesToCategoryOptions = (
-	categories: ReadonlyArray<CategoryResponse> | undefined
+	categories: ReadonlyArray<CategoryResponse> | undefined,
+	unknownCategory?: CategoryResponse
 ): ReadonlyArray<CategoryOption> =>
 	useMemo(
-		() => categories?.map(categoryToCategoryOption) ?? [],
-		[categories]
+		() =>
+			[...(categories ?? []), unknownCategory]
+				.filter((cat) => !!cat)
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+				.map((cat) => categoryToCategoryOption(cat!))
+				.sort((cat1, cat2) => cat1.label.localeCompare(cat2.label)),
+		[categories, unknownCategory]
 	);
 
 type Item = {

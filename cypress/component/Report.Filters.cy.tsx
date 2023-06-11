@@ -12,6 +12,7 @@ import { needsAttentionApi } from './testutils/apis/needsAttention';
 
 describe('Report Filters', () => {
 	it('renders filters correctly', () => {
+		categoriesApi.getUnknownCategory();
 		reportsApi.getDefaultSpendingByMonthAndCategory();
 		categoriesApi.getAllCategories();
 		needsAttentionApi.getNeedsAttention_none();
@@ -27,9 +28,19 @@ describe('Report Filters', () => {
 			reportFiltersPage.getCategoryInput(),
 			commonPage.getMultipleSelectValues
 		).should('have.length', 0);
+
+		reportFiltersPage.getCategoryInput().click();
+		const categoryNames = [...orderedCategoryNames, 'Unknown'].sort();
+
+		commonPage
+			.getOpenSelectOptions()
+			.each(($value, index) =>
+				expect($value.text()).eq(categoryNames[index])
+			);
 	});
 
 	it('can include categories', () => {
+		categoriesApi.getUnknownCategory();
 		reportsApi.getDefaultSpendingByMonthAndCategory();
 		categoriesApi.getAllCategories();
 		needsAttentionApi.getNeedsAttention_none();
@@ -68,6 +79,7 @@ describe('Report Filters', () => {
 	});
 
 	it('can exclude categories', () => {
+		categoriesApi.getUnknownCategory();
 		reportsApi.getDefaultSpendingByMonthAndCategory();
 		categoriesApi.getAllCategories();
 		needsAttentionApi.getNeedsAttention_none();

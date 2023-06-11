@@ -4,7 +4,10 @@ import { PaginationState } from '../../../utils/pagination';
 import { CategoryOption } from '../../../types/categories';
 import { useGetSpendingByMonthAndCategory } from '../../../ajaxapi/query/ReportQueries';
 import { ReportPageResponse } from '../../../types/generated/expense-tracker';
-import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
+import {
+	useGetAllCategories,
+	useGetUnknownCategory
+} from '../../../ajaxapi/query/CategoryQueries';
 import { useCategoriesToCategoryOptions } from '../../../utils/categoryUtils';
 import { useFormWithSearchParamSync } from '../../../routes/useFormWithSearchParamSync';
 import {
@@ -114,10 +117,16 @@ export const useGetReportData = (): ReportData => {
 		}
 	});
 
+	const { isFetching: getUnknownCategoryIsFetching, data: unknownCategory } =
+		useGetUnknownCategory();
+
 	const { isFetching: getCategoriesIsFetching, data: categoryData } =
 		useGetAllCategories();
 
-	const categories = useCategoriesToCategoryOptions(categoryData);
+	const categories = useCategoriesToCategoryOptions(
+		categoryData,
+		unknownCategory
+	);
 	const memoizedFormFromParams = useCallback(
 		(params: ParamsWrapper) => formFromParams(categories)(params),
 		[categories]
@@ -154,7 +163,10 @@ export const useGetReportData = (): ReportData => {
 		data: {
 			report: reportData,
 			categories,
-			isFetching: getReportIsFetching || getCategoriesIsFetching
+			isFetching:
+				getReportIsFetching ||
+				getCategoriesIsFetching ||
+				getUnknownCategoryIsFetching
 		},
 		onValueHasChanged
 	};

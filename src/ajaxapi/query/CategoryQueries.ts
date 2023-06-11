@@ -8,16 +8,24 @@ import {
 	createCategory,
 	deleteCategory,
 	getAllCategories,
+	getUnknownCategory,
 	updateCategory
 } from '../service/CategoryService';
 import { CategoryResponse } from '../../types/generated/expense-tracker';
 
 export const GET_ALL_CATEGORIES = 'CategoryQueries_GetAllCategories';
+export const GET_UNKNOWN_CATEGORY = 'CategoryQueries_GetUnknownCategory';
 
 export const useGetAllCategories = () =>
 	useQuery<ReadonlyArray<CategoryResponse>, Error>({
 		queryKey: [GET_ALL_CATEGORIES],
 		queryFn: getAllCategories
+	});
+
+export const useGetUnknownCategory = () =>
+	useQuery<CategoryResponse>({
+		queryKey: [GET_UNKNOWN_CATEGORY],
+		queryFn: getUnknownCategory
 	});
 
 interface UpdateCategoryParams {

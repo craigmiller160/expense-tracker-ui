@@ -53,6 +53,7 @@ const validateReport = (reportRowIndex: number) => {
 
 describe('Reports', () => {
 	it('shows month-by-month report', () => {
+		categoriesApi.getUnknownCategory();
 		reportsApi.getDefaultSpendingByMonthAndCategory();
 		categoriesApi.getAllCategories();
 		needsAttentionApi.getNeedsAttention_none();

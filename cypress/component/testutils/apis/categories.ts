@@ -5,6 +5,11 @@ const getAllCategories = (): Chainable<null> =>
 		fixture: 'allCategories.json'
 	});
 
+const getUnknownCategory = (): Chainable<null> =>
+	cy.intercept('/expense-tracker/api/categories/unknown', {
+		fixture: 'unknownCategory.json'
+	});
+
 const createCategory = (): Chainable<null> =>
 	cy
 		.intercept('post', '/expense-tracker/api/categories')
@@ -28,5 +33,6 @@ export const categoriesApi = {
 	getAllCategories,
 	createCategory,
 	deleteCategory,
-	updateCategory
+	updateCategory,
+	getUnknownCategory
 };

@@ -28,6 +28,16 @@ describe('Report Filters', () => {
 			reportFiltersPage.getCategoryInput(),
 			commonPage.getMultipleSelectValues
 		).should('have.length', 0);
+
+		reportFiltersPage.getCategoryInput().click();
+		const categoryNames = [...orderedCategoryNames, 'Unknown'].sort();
+
+		pipe(
+			reportFiltersPage.getCategoryInput(),
+			commonPage.getMultipleSelectValues
+		).each(($value, index) =>
+			expect($value.text()).eq(categoryNames[index])
+		);
 	});
 
 	it('can include categories', () => {

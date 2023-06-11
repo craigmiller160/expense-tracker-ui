@@ -5,7 +5,6 @@ import {
 } from 'react-hook-form';
 import {
 	Autocomplete,
-	Checkbox,
 	DatePicker,
 	Select,
 	SelectOption,
@@ -13,7 +12,7 @@ import {
 } from '@craigmiller160/react-hook-form-material-ui';
 import { constVoid } from 'fp-ts/es6/function';
 import './TransactionSearchFilters.scss';
-import { SortDirection } from '../../../types/misc';
+import { SortDirection, YES_NO_FILTER_OPTIONS } from '../../../types/misc';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 import { TransactionSearchForm } from './utils';
 import { Paper } from '@mui/material';
@@ -86,7 +85,7 @@ export const TransactionSearchFilters = (props: Props) => {
 						label="Category"
 						options={categoryOptions ?? []}
 						onValueHasChanged={onValueHasChanged}
-						disabled={getValues().isNotCategorized}
+						disabled={getValues().categorized === 'NO'}
 					/>
 					<Select
 						name="direction"
@@ -97,28 +96,32 @@ export const TransactionSearchFilters = (props: Props) => {
 					/>
 				</ResponsiveRow>
 				<ResponsiveRow>
-					<Checkbox
+					<Select
 						control={control}
-						name="isDuplicate"
-						label="Is Duplicate"
+						name="duplicate"
+						label="Duplicate"
+						options={YES_NO_FILTER_OPTIONS}
 						onValueHasChanged={onValueHasChanged}
 					/>
-					<Checkbox
+					<Select
 						control={control}
-						name="isNotConfirmed"
-						label="Is Not Confirmed"
+						name="confirmed"
+						label="Confirmed"
+						options={YES_NO_FILTER_OPTIONS}
 						onValueHasChanged={onValueHasChanged}
 					/>
-					<Checkbox
+					<Select
 						control={control}
-						name="isNotCategorized"
-						label="Is Not Categorized"
+						name="categorized"
+						label="Categorized"
+						options={YES_NO_FILTER_OPTIONS}
 						onValueHasChanged={onIsNotCategorizedChanged}
 					/>
-					<Checkbox
+					<Select
 						control={control}
-						name="isPossibleRefund"
-						label="Is Possible Refund"
+						name="possibleRefund"
+						label="Possible Refund"
+						options={YES_NO_FILTER_OPTIONS}
 						onValueHasChanged={onValueHasChanged}
 					/>
 				</ResponsiveRow>

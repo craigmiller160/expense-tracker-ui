@@ -1,30 +1,32 @@
-export type ParamsWrapper = {
-	readonly setOrDelete: <T>(
-		key: string,
-		value: T | null | undefined,
-		transform?: (v: T) => string
+export type ParamsWrapper<Params> = {
+	readonly setOrDelete: <Value>(
+		key: keyof Params,
+		value: Value | null | undefined,
+		transform?: (v: Value) => string
 	) => void;
-	readonly getOrDefault: <T>(
-		key: string,
-		defaultValue: T,
-		transform?: (v: string) => T
-	) => T;
+	readonly getOrDefault: <Value>(
+		key: keyof Params,
+		defaultValue: Value,
+		transform?: (v: string) => Value
+	) => Value;
 };
 
-export const wrapParams = (params: URLSearchParams): ParamsWrapper => ({
+export const wrapParams = <Params extends object>(
+	params: URLSearchParams
+): ParamsWrapper<Params> => ({
 	setOrDelete: setOrDeleteParam(params),
 	getOrDefault: getOrDefaultParam(params)
 });
 
 export const setOrDeleteParam =
 	(params: URLSearchParams) =>
-	<T>(
-		key: string,
-		value: T | null | undefined,
-		transform?: (v: T) => string
+	<Params extends object, Value>(
+		key: keyof Params,
+		value: Value | null | undefined,
+		transform?: (v: Value) => string
 	) => {
 		if (value === null || value === undefined) {
-			params.delete(key);
+			params.delete(key.toString());
 			return;
 		}
 
@@ -36,29 +38,33 @@ export const setOrDeleteParam =
 
 		if (typeof value !== 'string' && transform) {
 			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-			params.set(key, transform(value));
+			params.set(key.toString(), transform(value));
 			return;
 		}
 
-		params.set(key, value.toString());
+		params.set(key.toString(), value.toString());
 	};
 
 export const getOrDefaultParam =
 	(params: URLSearchParams) =>
-	<T>(key: string, defaultValue: T, transform?: (v: string) => T): T => {
+	<Params extends object, Value>(
+		key: keyof Params,
+		defaultValue: Value,
+		transform?: (v: string) => Value
+	): Value => {
 		if (typeof defaultValue !== 'string' && !transform) {
 			throw new Error(
 				'Must provide a transform argument if a non-string default is set'
 			);
 		}
 
-		const value = params.get(key);
+		const value = params.get(key.toString());
 		if (value && transform) {
 			return transform(value);
 		}
 
 		if (value) {
-			return value as T;
+			return value as Value;
 		}
 
 		return defaultValue;

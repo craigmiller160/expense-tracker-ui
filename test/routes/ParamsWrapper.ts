@@ -103,11 +103,10 @@ describe('paramUtils', () => {
 
 		it('returns null for non-existent param with null default', () => {
 			const params = new URLSearchParams();
-			const result = getOrDefaultParam(params)<string | null>(
-				'foo',
-				null,
-				identity
-			);
+			const result = getOrDefaultParam(params)<
+				{ foo: string | null },
+				string | null
+			>('foo', null, identity);
 			expect(result).toEqual(null);
 		});
 	});

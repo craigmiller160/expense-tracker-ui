@@ -51,7 +51,8 @@ const TestComponent = () => {
 	const [, setSearchParams] = useSearchParams();
 
 	const memoizedSyncFromParams = useCallback(
-		(params: ParamsWrapper) => syncFromParams(dependencies.modify)(params),
+		(params: ParamsWrapper<State>) =>
+			syncFromParams(dependencies.modify)(params),
 		[dependencies.modify]
 	);
 

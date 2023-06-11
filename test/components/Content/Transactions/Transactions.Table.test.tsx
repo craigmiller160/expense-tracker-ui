@@ -102,132 +102,135 @@ describe('Transactions Table', () => {
 	});
 
 	it('shows the correct flags for transactions, and can dynamically change them', async () => {
-		// const { transactions } = await searchForTransactions({
-		// 	startDate: defaultStartDate(),
-		// 	endDate: defaultEndDate(),
-		// 	pageNumber: 0,
-		// 	pageSize: 25,
-		// 	sortKey: TransactionSortKey.EXPENSE_DATE,
-		// 	sortDirection: SortDirection.DESC
-		// });
-		// const categories = await getAllCategories();
-		// apiServer.database.updateData((draft) => {
-		// 	draft.transactions[transactions[0].id] = {
-		// 		...transactions[0],
-		// 		categoryId: categories[0].id,
-		// 		categoryName: categories[0].name,
-		// 		updated: '',
-		// 		created: ''
-		// 	};
-		// 	draft.transactions[transactions[1].id] = {
-		// 		...transactions[1],
-		// 		confirmed: true,
-		// 		updated: '',
-		// 		created: ''
-		// 	};
-		// 	draft.transactions[transactions[2].id] = {
-		// 		...transactions[2],
-		// 		duplicate: true,
-		// 		confirmed: true,
-		// 		categoryId: categories[0].id,
-		// 		categoryName: categories[0].name,
-		// 		updated: '',
-		// 		created: ''
-		// 	};
-		// });
-		// await renderApp({
-		// 	initialPath: '/expense-tracker/transactions'
-		// });
-		// await waitFor(() =>
-		// 	expect(screen.queryByText('Expense Tracker')).toBeVisible()
-		// );
-		// await waitFor(() =>
-		// 	expect(screen.queryAllByText('Manage Transactions')).toHaveLength(1)
-		// );
-		//
-		// await waitFor(() =>
-		// 	expect(screen.queryByText('Rows per page:')).toBeVisible()
-		// );
-		//
-		// const [
-		// 	notConfirmedRow,
-		// 	noCategoryRow,
-		// 	duplicateRow,
-		// 	notConfirmedNoCategoryRow
-		// ] = screen.getAllByTestId('transaction-table-row');
-		// const validateRowIcons = async (
-		// 	row: HTMLElement,
-		// 	duplicateIcon: boolean,
-		// 	notConfirmedIcon: boolean,
-		// 	noCategoryIcon: boolean
-		// ) => {
-		// 	if (duplicateIcon) {
-		// 		await waitFor(() =>
-		// 			expect(
-		// 				within(row).getByTestId('duplicate-icon').className
-		// 			).toMatch(/visible/)
-		// 		);
-		// 	} else {
-		// 		await waitFor(() =>
-		// 			expect(
-		// 				within(row).getByTestId('duplicate-icon').className
-		// 			).not.toMatch(/visible/)
-		// 		);
-		// 	}
-		//
-		// 	if (notConfirmedIcon) {
-		// 		await waitFor(() =>
-		// 			expect(
-		// 				within(row).getByTestId('not-confirmed-icon').className
-		// 			).toMatch(/visible/)
-		// 		);
-		// 	} else {
-		// 		await waitFor(() =>
-		// 			expect(
-		// 				within(row).getByTestId('not-confirmed-icon').className
-		// 			).not.toMatch(/visible/)
-		// 		);
-		// 	}
-		//
-		// 	if (noCategoryIcon) {
-		// 		await waitFor(() =>
-		// 			expect(
-		// 				within(row).getByTestId('no-category-icon').className
-		// 			).toMatch(/visible/)
-		// 		);
-		// 	} else {
-		// 		await waitFor(() =>
-		// 			expect(
-		// 				within(row).getByTestId('no-category-icon').className
-		// 			).not.toMatch(/visible/)
-		// 		);
-		// 	}
-		// };
-		//
-		// await validateRowIcons(notConfirmedRow, false, true, false);
-		// await validateRowIcons(noCategoryRow, false, false, true);
-		// await validateRowIcons(duplicateRow, true, false, false);
-		// await validateRowIcons(notConfirmedNoCategoryRow, false, true, true);
-		//
-		// const notConfirmedConfirmCheckbox = within(notConfirmedRow).getByTestId(
-		// 	'confirm-transaction-checkbox'
-		// );
-		// await userEvent.click(notConfirmedConfirmCheckbox);
-		// expect(
-		// 	notConfirmedConfirmCheckbox.querySelector('input')
-		// ).toBeChecked();
-		// await validateRowIcons(notConfirmedRow, false, false, false);
-		//
-		// const noCategorySelect =
-		// 	within(noCategoryRow).getByLabelText('Category');
-		// expect(noCategorySelect).toHaveValue('');
-		// await userEvent.click(noCategorySelect);
-		// await userEvent.click(
-		// 	within(screen.getByRole('presentation')).getByText('Entertainment')
-		// );
-		// expect(noCategorySelect).toHaveValue('Entertainment');
-		// await validateRowIcons(noCategoryRow, false, false, false);
-		throw new Error();
+		const { transactions } = await searchForTransactions({
+			startDate: defaultStartDate(),
+			endDate: defaultEndDate(),
+			pageNumber: 0,
+			pageSize: 25,
+			sortKey: TransactionSortKey.EXPENSE_DATE,
+			sortDirection: SortDirection.DESC,
+			confirmed: 'ALL',
+			categorized: 'ALL',
+			duplicate: 'ALL',
+			possibleRefund: 'ALL'
+		});
+		const categories = await getAllCategories();
+		apiServer.database.updateData((draft) => {
+			draft.transactions[transactions[0].id] = {
+				...transactions[0],
+				categoryId: categories[0].id,
+				categoryName: categories[0].name,
+				updated: '',
+				created: ''
+			};
+			draft.transactions[transactions[1].id] = {
+				...transactions[1],
+				confirmed: true,
+				updated: '',
+				created: ''
+			};
+			draft.transactions[transactions[2].id] = {
+				...transactions[2],
+				duplicate: true,
+				confirmed: true,
+				categoryId: categories[0].id,
+				categoryName: categories[0].name,
+				updated: '',
+				created: ''
+			};
+		});
+		await renderApp({
+			initialPath: '/expense-tracker/transactions'
+		});
+		await waitFor(() =>
+			expect(screen.queryByText('Expense Tracker')).toBeVisible()
+		);
+		await waitFor(() =>
+			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(1)
+		);
+
+		await waitFor(() =>
+			expect(screen.queryByText('Rows per page:')).toBeVisible()
+		);
+
+		const [
+			notConfirmedRow,
+			noCategoryRow,
+			duplicateRow,
+			notConfirmedNoCategoryRow
+		] = screen.getAllByTestId('transaction-table-row');
+		const validateRowIcons = async (
+			row: HTMLElement,
+			duplicateIcon: boolean,
+			notConfirmedIcon: boolean,
+			noCategoryIcon: boolean
+		) => {
+			if (duplicateIcon) {
+				await waitFor(() =>
+					expect(
+						within(row).getByTestId('duplicate-icon').className
+					).toMatch(/visible/)
+				);
+			} else {
+				await waitFor(() =>
+					expect(
+						within(row).getByTestId('duplicate-icon').className
+					).not.toMatch(/visible/)
+				);
+			}
+
+			if (notConfirmedIcon) {
+				await waitFor(() =>
+					expect(
+						within(row).getByTestId('not-confirmed-icon').className
+					).toMatch(/visible/)
+				);
+			} else {
+				await waitFor(() =>
+					expect(
+						within(row).getByTestId('not-confirmed-icon').className
+					).not.toMatch(/visible/)
+				);
+			}
+
+			if (noCategoryIcon) {
+				await waitFor(() =>
+					expect(
+						within(row).getByTestId('no-category-icon').className
+					).toMatch(/visible/)
+				);
+			} else {
+				await waitFor(() =>
+					expect(
+						within(row).getByTestId('no-category-icon').className
+					).not.toMatch(/visible/)
+				);
+			}
+		};
+
+		await validateRowIcons(notConfirmedRow, false, true, false);
+		await validateRowIcons(noCategoryRow, false, false, true);
+		await validateRowIcons(duplicateRow, true, false, false);
+		await validateRowIcons(notConfirmedNoCategoryRow, false, true, true);
+
+		const notConfirmedConfirmCheckbox = within(notConfirmedRow).getByTestId(
+			'confirm-transaction-checkbox'
+		);
+		await userEvent.click(notConfirmedConfirmCheckbox);
+		expect(
+			notConfirmedConfirmCheckbox.querySelector('input')
+		).toBeChecked();
+		await validateRowIcons(notConfirmedRow, false, false, false);
+
+		const noCategorySelect =
+			within(noCategoryRow).getByLabelText('Category');
+		expect(noCategorySelect).toHaveValue('');
+		await userEvent.click(noCategorySelect);
+		await userEvent.click(
+			within(screen.getByRole('presentation')).getByText('Entertainment')
+		);
+		expect(noCategorySelect).toHaveValue('Entertainment');
+		await validateRowIcons(noCategoryRow, false, false, false);
 	});
 
 	it('can change the rows-per-page and automatically re-load the data', async () => {
@@ -356,34 +359,37 @@ describe('Transactions Table', () => {
 	});
 
 	it('shows the icon for possible refund transactions', async () => {
-		// const {
-		// 	transactions: [transaction]
-		// } = await searchForTransactions({
-		// 	startDate: defaultStartDate(),
-		// 	endDate: defaultEndDate(),
-		// 	pageNumber: 0,
-		// 	pageSize: 25,
-		// 	sortKey: TransactionSortKey.EXPENSE_DATE,
-		// 	sortDirection: SortDirection.DESC
-		// });
-		// apiServer.database.updateData((draft) => {
-		// 	draft.transactions[transaction.id].amount = transaction.amount * -1;
-		// });
-		//
-		// await renderApp({
-		// 	initialPath: '/expense-tracker/transactions'
-		// });
-		// await waitForVisibility([
-		// 	{ text: 'Expense Tracker' },
-		// 	{ text: 'Manage Transactions', occurs: 1 },
-		// 	{ text: 'Rows per page:' }
-		// ]);
-		//
-		// const allRows = screen.getAllByTestId('transaction-table-row');
-		//
-		// transactionIcon('possible-refund-icon', allRows[0]).isVisible();
-		// transactionIcon('possible-refund-icon', allRows[1]).isNotVisible();
-		throw new Error();
+		const {
+			transactions: [transaction]
+		} = await searchForTransactions({
+			startDate: defaultStartDate(),
+			endDate: defaultEndDate(),
+			pageNumber: 0,
+			pageSize: 25,
+			sortKey: TransactionSortKey.EXPENSE_DATE,
+			sortDirection: SortDirection.DESC,
+			confirmed: 'ALL',
+			categorized: 'ALL',
+			duplicate: 'ALL',
+			possibleRefund: 'ALL'
+		});
+		apiServer.database.updateData((draft) => {
+			draft.transactions[transaction.id].amount = transaction.amount * -1;
+		});
+
+		await renderApp({
+			initialPath: '/expense-tracker/transactions'
+		});
+		await waitForVisibility([
+			{ text: 'Expense Tracker' },
+			{ text: 'Manage Transactions', occurs: 1 },
+			{ text: 'Rows per page:' }
+		]);
+
+		const allRows = screen.getAllByTestId('transaction-table-row');
+
+		transactionIcon('possible-refund-icon', allRows[0]).isVisible();
+		transactionIcon('possible-refund-icon', allRows[1]).isNotVisible();
 	});
 
 	it('can set categories and confirm transactions', async () => {
@@ -441,58 +447,61 @@ describe('Transactions Table', () => {
 	});
 
 	it('can remove a category from a transaction', async () => {
-		// const { transactions } = await searchForTransactions({
-		// 	startDate: defaultStartDate(),
-		// 	endDate: defaultEndDate(),
-		// 	pageNumber: 0,
-		// 	pageSize: 25,
-		// 	sortKey: TransactionSortKey.EXPENSE_DATE,
-		// 	sortDirection: SortDirection.DESC
-		// });
-		// const categories = await getAllCategories();
-		// apiServer.database.updateData((draft) => {
-		// 	draft.transactions[transactions[0].id] = {
-		// 		...transactions[0],
-		// 		categoryId: categories[0].id,
-		// 		categoryName: categories[0].name,
-		// 		updated: '',
-		// 		created: ''
-		// 	};
-		// });
-		//
-		// const preparedTransaction =
-		// 	apiServer.database.data.transactions[transactions[0].id];
-		// expect(preparedTransaction.categoryId).toEqual(categories[0].id);
-		//
-		// await renderApp({
-		// 	initialPath: '/expense-tracker/transactions'
-		// });
-		// await waitFor(() =>
-		// 	expect(screen.queryByText('Expense Tracker')).toBeVisible()
-		// );
-		// await waitFor(() =>
-		// 	expect(screen.queryAllByText('Manage Transactions')).toHaveLength(1)
-		// );
-		// await waitFor(() =>
-		// 	expect(screen.queryByText('Rows per page:')).toBeVisible()
-		// );
-		//
-		// const clearButton = screen
-		// 	.getAllByTestId('transaction-table-row')[0]
-		// 	.querySelector('.MuiAutocomplete-clearIndicator');
-		// expect(clearButton).toBeTruthy();
-		// await userEvent.click(clearButton!); // eslint-disable-line @typescript-eslint/no-non-null-assertion
-		//
-		// await userEvent.click(screen.getByText('Save'));
-		//
-		// await waitFor(() =>
-		// 	expect(screen.queryByText('Rows per page:')).toBeVisible()
-		// );
-		//
-		// const modifiedTransaction =
-		// 	apiServer.database.data.transactions[transactions[0].id];
-		// expect(modifiedTransaction.categoryId).toBeUndefined();
-		throw new Error();
+		const { transactions } = await searchForTransactions({
+			startDate: defaultStartDate(),
+			endDate: defaultEndDate(),
+			pageNumber: 0,
+			pageSize: 25,
+			sortKey: TransactionSortKey.EXPENSE_DATE,
+			sortDirection: SortDirection.DESC,
+			confirmed: 'ALL',
+			categorized: 'ALL',
+			duplicate: 'ALL',
+			possibleRefund: 'ALL'
+		});
+		const categories = await getAllCategories();
+		apiServer.database.updateData((draft) => {
+			draft.transactions[transactions[0].id] = {
+				...transactions[0],
+				categoryId: categories[0].id,
+				categoryName: categories[0].name,
+				updated: '',
+				created: ''
+			};
+		});
+
+		const preparedTransaction =
+			apiServer.database.data.transactions[transactions[0].id];
+		expect(preparedTransaction.categoryId).toEqual(categories[0].id);
+
+		await renderApp({
+			initialPath: '/expense-tracker/transactions'
+		});
+		await waitFor(() =>
+			expect(screen.queryByText('Expense Tracker')).toBeVisible()
+		);
+		await waitFor(() =>
+			expect(screen.queryAllByText('Manage Transactions')).toHaveLength(1)
+		);
+		await waitFor(() =>
+			expect(screen.queryByText('Rows per page:')).toBeVisible()
+		);
+
+		const clearButton = screen
+			.getAllByTestId('transaction-table-row')[0]
+			.querySelector('.MuiAutocomplete-clearIndicator');
+		expect(clearButton).toBeTruthy();
+		await userEvent.click(clearButton!); // eslint-disable-line @typescript-eslint/no-non-null-assertion
+
+		await userEvent.click(screen.getByText('Save'));
+
+		await waitFor(() =>
+			expect(screen.queryByText('Rows per page:')).toBeVisible()
+		);
+
+		const modifiedTransaction =
+			apiServer.database.data.transactions[transactions[0].id];
+		expect(modifiedTransaction.categoryId).toBeUndefined();
 	});
 
 	it('confirm all checkbox works and can be reset', async () => {

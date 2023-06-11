@@ -32,62 +32,65 @@ const testButton =
 
 describe('Transaction Details Dialog', () => {
 	it('can delete transaction', async () => {
-		// const {
-		// 	transactions: [transaction]
-		// } = await searchForTransactions({
-		// 	startDate: defaultStartDate(),
-		// 	endDate: defaultEndDate(),
-		// 	pageNumber: 0,
-		// 	pageSize: 25,
-		// 	sortKey: TransactionSortKey.EXPENSE_DATE,
-		// 	sortDirection: SortDirection.DESC
-		// });
-		//
-		// await renderApp({
-		// 	initialPath: '/expense-tracker/transactions'
-		// });
-		// await waitForVisibility([
-		// 	{ text: 'Expense Tracker' },
-		// 	{ text: 'Manage Transactions', occurs: 1, timeout: 3000 },
-		// 	{ text: 'Rows per page:' }
-		// ]);
-		//
-		// await waitFor(() =>
-		// 	expect(
-		// 		screen.queryByText(transaction.description)
-		// 	).toBeInTheDocument()
-		// );
-		//
-		// const row = screen.getAllByTestId('transaction-table-row')[0];
-		// const detailsButton = within(row).getByText('Details');
-		// await userEvent.click(detailsButton);
-		//
-		// const transactionDialog = screen.getByTestId(
-		// 	'transaction-details-dialog'
-		// );
-		//
-		// const deleteButton = within(transactionDialog).getByText('Delete');
-		// await userEvent.click(deleteButton);
-		//
-		// const confirmDialog = screen.getByTestId('confirm-dialog');
-		// const confirmButton = within(confirmDialog).getByText('Confirm');
-		// await userEvent.click(confirmButton);
-		//
-		// // Confirming description is not here twice to handle the loading pause
-		// await waitForElementToBeRemoved(() =>
-		// 	screen.queryByText(transaction.description)
-		// );
-		// await waitFor(() =>
-		// 	expect(screen.getAllByTestId('transaction-table-row')).toHaveLength(
-		// 		25
-		// 	)
-		// );
-		// await waitFor(() =>
-		// 	expect(
-		// 		screen.queryByText(transaction.description)
-		// 	).not.toBeInTheDocument()
-		// );
-		throw new Error();
+		const {
+			transactions: [transaction]
+		} = await searchForTransactions({
+			startDate: defaultStartDate(),
+			endDate: defaultEndDate(),
+			pageNumber: 0,
+			pageSize: 25,
+			sortKey: TransactionSortKey.EXPENSE_DATE,
+			sortDirection: SortDirection.DESC,
+			confirmed: 'ALL',
+			categorized: 'ALL',
+			duplicate: 'ALL',
+			possibleRefund: 'ALL'
+		});
+
+		await renderApp({
+			initialPath: '/expense-tracker/transactions'
+		});
+		await waitForVisibility([
+			{ text: 'Expense Tracker' },
+			{ text: 'Manage Transactions', occurs: 1, timeout: 3000 },
+			{ text: 'Rows per page:' }
+		]);
+
+		await waitFor(() =>
+			expect(
+				screen.queryByText(transaction.description)
+			).toBeInTheDocument()
+		);
+
+		const row = screen.getAllByTestId('transaction-table-row')[0];
+		const detailsButton = within(row).getByText('Details');
+		await userEvent.click(detailsButton);
+
+		const transactionDialog = screen.getByTestId(
+			'transaction-details-dialog'
+		);
+
+		const deleteButton = within(transactionDialog).getByText('Delete');
+		await userEvent.click(deleteButton);
+
+		const confirmDialog = screen.getByTestId('confirm-dialog');
+		const confirmButton = within(confirmDialog).getByText('Confirm');
+		await userEvent.click(confirmButton);
+
+		// Confirming description is not here twice to handle the loading pause
+		await waitForElementToBeRemoved(() =>
+			screen.queryByText(transaction.description)
+		);
+		await waitFor(() =>
+			expect(screen.getAllByTestId('transaction-table-row')).toHaveLength(
+				25
+			)
+		);
+		await waitFor(() =>
+			expect(
+				screen.queryByText(transaction.description)
+			).not.toBeInTheDocument()
+		);
 	});
 
 	it('cannot open details dialog when table form is dirty', async () => {

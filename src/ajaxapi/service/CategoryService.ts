@@ -21,6 +21,14 @@ export const updateCategory = (id: string, name: string): Promise<unknown> =>
 		}
 	});
 
+export const getUnknownCategory = (): Promise<CategoryResponse> =>
+	expenseTrackerApi
+		.get<CategoryResponse>({
+			uri: '/categories/unknown',
+			errorCustomizer: 'Error getting unknown category'
+		})
+		.then(getData);
+
 export const createCategory = (name: string): Promise<CategoryResponse> =>
 	expenseTrackerApi
 		.post<CategoryResponse, CategoryRequest>({

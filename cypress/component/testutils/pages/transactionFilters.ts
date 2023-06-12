@@ -1,5 +1,7 @@
 import Chainable = Cypress.Chainable;
 
+const getFiltersRoot = (): Chainable<JQuery> =>
+	cy.get('.TransactionSearchFilters');
 const getStartDateLabel = (): Chainable<JQuery> =>
 	cy.get('#transactionStartDateFilter-label');
 const getStartDateInput = (): Chainable<JQuery> =>
@@ -49,5 +51,6 @@ export const transactionFilters = {
 	getPossibleRefundLabel,
 	getPossibleRefundInput,
 	getCategoryInput,
-	getCategoryLabel
+	getCategoryLabel,
+	getFiltersRoot
 };

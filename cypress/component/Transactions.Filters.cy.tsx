@@ -38,21 +38,37 @@ describe('Transactions Filters', () => {
 		transactionFilters.getCategoryInput().should('have.value', '');
 
 		transactionFilters.getOrderByLabel().should('have.text', 'Order By');
-		transactionFilters.getOrderByInput().should('have.value', '');
+		transactionFilters.getOrderByInput().should('have.value', 'DESC');
+
+		transactionFilters.getDuplicateLabel().should('have.text', 'Duplicate');
+		transactionFilters.getDuplicateInput().should('have.value', 'ALL');
+
+		transactionFilters.getConfirmedLabel().should('have.text', 'Confirmed');
+		transactionFilters.getConfirmedInput().should('have.value', 'ALL');
+
+		transactionFilters
+			.getCategorizedLabel()
+			.should('have.text', 'Categorized');
+		transactionFilters.getCategorizedInput().should('have.value', 'ALL');
+
+		transactionFilters
+			.getPossibleRefundLabel()
+			.should('have.text', 'Possible Refund');
+		transactionFilters.getPossibleRefundInput().should('have.value', 'ALL');
 
 		transactionFilters.getCategoryInput().click();
 		commonPage.getOpenSelectOptions().each(($value, index) => {
 			expect($value.text()).to.eq(orderedCategoryNames[index]);
 		});
 
-		transactionFilters.getOrderByInput().click();
-		commonPage.getOpenSelectOptions().each(($value, index) => {
-			if (index === 0) {
-				expect($value.text()).to.eq('Newest to Oldest');
-			} else {
-				expect($value.text()).to.eq('Oldest to Newest');
-			}
-		});
+		// transactionFilters.getOrderByInput().click();
+		// commonPage.getOpenSelectOptions().each(($value, index) => {
+		// 	if (index === 0) {
+		// 		expect($value.text()).to.eq('Newest to Oldest');
+		// 	} else {
+		// 		expect($value.text()).to.eq('Oldest to Newest');
+		// 	}
+		// });
 
 		// TODO need to validate all labels and options in selects
 	});

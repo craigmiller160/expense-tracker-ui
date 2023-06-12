@@ -5,6 +5,8 @@ import { mountApp } from './testutils/mountApp';
 import { transactionFilters } from './testutils/pages/transactionFilters';
 import { subMonths, format } from 'date-fns/fp';
 import { flow } from 'fp-ts/es6/function';
+import { commonPage } from './testutils/pages/common';
+import { orderedCategoryNames } from './testutils/constants/categories';
 
 const DATE_FORMAT = 'MM/dd/yyyy';
 
@@ -31,6 +33,26 @@ describe('Transactions Filters', () => {
 		transactionFilters
 			.getEndDateInput()
 			.should('have.value', defaultEndDate);
+
+		transactionFilters.getCategoryLabel().should('have.text', 'Category');
+		transactionFilters.getCategoryInput().should('have.value', '');
+
+		transactionFilters.getOrderByLabel().should('have.text', 'Order By');
+		transactionFilters.getOrderByInput().should('have.value', '');
+
+		transactionFilters.getCategoryInput().click();
+		commonPage.getOpenSelectOptions().each(($value, index) => {
+			expect($value.text()).to.eq(orderedCategoryNames[index]);
+		});
+
+		transactionFilters.getOrderByInput().click();
+		commonPage.getOpenSelectOptions().each(($value, index) => {
+			if (index === 0) {
+				expect($value.text()).to.eq('Newest to Oldest');
+			} else {
+				expect($value.text()).to.eq('Oldest to Newest');
+			}
+		});
 
 		// TODO need to validate all labels and options in selects
 	});

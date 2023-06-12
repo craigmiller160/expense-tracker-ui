@@ -33,7 +33,7 @@ const getPossibleRefundLabel = (): Chainable<JQuery> =>
 const getPossibleRefundInput = (): Chainable<JQuery> =>
 	cy.get('#transactionPossibleRefundFilter');
 
-export {
+export const transactionFilters = {
 	getStartDateLabel,
 	getStartDateInput,
 	getEndDateInput,

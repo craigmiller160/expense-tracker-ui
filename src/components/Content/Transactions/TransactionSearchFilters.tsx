@@ -64,6 +64,7 @@ export const TransactionSearchFilters = (props: Props) => {
 			<form onSubmit={constVoid}>
 				<ResponsiveRow>
 					<DatePicker
+						id="transactionStartDateFilter"
 						name="startDate"
 						control={control}
 						label="Start Date"
@@ -71,6 +72,7 @@ export const TransactionSearchFilters = (props: Props) => {
 						onValueHasChanged={onValueHasChanged}
 					/>
 					<DatePicker
+						id="transactionEndDateFilter"
 						name="endDate"
 						control={control}
 						label="End Date"
@@ -80,6 +82,7 @@ export const TransactionSearchFilters = (props: Props) => {
 				</ResponsiveRow>
 				<ResponsiveRow>
 					<Autocomplete
+						id="transactionCategoryFilter"
 						name="category"
 						control={control}
 						label="Category"
@@ -88,6 +91,7 @@ export const TransactionSearchFilters = (props: Props) => {
 						disabled={getValues().categorized === 'NO'}
 					/>
 					<Select
+						id="transactionOrderByFilter"
 						name="direction"
 						options={directionOptions}
 						control={control}
@@ -97,6 +101,7 @@ export const TransactionSearchFilters = (props: Props) => {
 				</ResponsiveRow>
 				<ResponsiveRow overrideChildWidth={{ sm: '15%' }}>
 					<Select
+						id="transactionDuplicateFilter"
 						control={control}
 						name="duplicate"
 						label="Duplicate"
@@ -104,6 +109,7 @@ export const TransactionSearchFilters = (props: Props) => {
 						onValueHasChanged={onValueHasChanged}
 					/>
 					<Select
+						id="transactionConfirmedFilter"
 						control={control}
 						name="confirmed"
 						label="Confirmed"
@@ -111,6 +117,7 @@ export const TransactionSearchFilters = (props: Props) => {
 						onValueHasChanged={onValueHasChanged}
 					/>
 					<Select
+						id="transactionCategorizedFilter"
 						control={control}
 						name="categorized"
 						label="Categorized"
@@ -118,6 +125,7 @@ export const TransactionSearchFilters = (props: Props) => {
 						onValueHasChanged={onCategorizedChange}
 					/>
 					<Select
+						id="transactionPossibleRefundFilter"
 						control={control}
 						name="possibleRefund"
 						label="Possible Refund"

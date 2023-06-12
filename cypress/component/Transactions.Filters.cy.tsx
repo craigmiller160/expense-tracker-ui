@@ -1,4 +1,8 @@
 describe('Transactions Filters', () => {
+	it('renders all filters', () => {
+		throw new Error();
+	});
+
 	it('possible refund control', () => {
 		throw new Error();
 	});

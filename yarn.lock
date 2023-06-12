@@ -399,10 +399,10 @@
   dependencies:
     prettier "^2.8.8"
 
-"@craigmiller160/react-hook-form-material-ui@1.3.2":
-  version "1.3.2"
-  resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@craigmiller160/react-hook-form-material-ui/-/react-hook-form-material-ui-1.3.2.tgz#cd671df9a8c41d0a629b47e61255b0107cc515fd"
-  integrity sha512-gn3M9NUNbdskeZCnpSQYnHgXvLRIU3jABhzmd4OyIlP19ywSjpup7x1ERDWOaQKfr8oxzpQvrRpK89XztUgzAg==
+"@craigmiller160/react-hook-form-material-ui@^1.4.0-beta":
+  version "1.4.0-beta.2"
+  resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@craigmiller160/react-hook-form-material-ui/-/react-hook-form-material-ui-1.4.0-beta.2.tgz#c3730170a053db731052a3ba3fabea3d6ffdc462"
+  integrity sha512-OMDW53rSSzKOEQby5xNbk3YLelRiyKarNrpci5r80x8PKti9kO+NdQpb3PEndiyV4OLy3dRawwEEo797uXR6hg==
 
 "@craigmiller160/react-keycloak@1.2.0":
   version "1.2.0"

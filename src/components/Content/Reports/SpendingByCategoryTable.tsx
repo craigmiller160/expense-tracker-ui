@@ -9,6 +9,7 @@ import { match } from 'ts-pattern';
 import { ReportCategoryOrderBy } from '../../../types/reports';
 import { UseFormReturn } from 'react-hook-form';
 import { ReportFilterFormData } from './useGetReportData';
+import { useMemo } from 'react';
 
 type Props = {
 	readonly categories: ReadonlyArray<ReportCategoryResponse>;
@@ -52,27 +53,34 @@ export const sortCategories = (
 	return RArray.sort(sortBy);
 };
 
-export const SpendingByCategoryTable = (props: Props) => (
-	<Table columns={COLUMNS} className="SpendingByCategoryTable">
-		{props.categories.map((category) => (
-			<TableRow key={category.name}>
+export const SpendingByCategoryTable = (props: Props) => {
+	const orderCategoriesBy = props.form.getValues().orderCategoriesBy;
+	const categories = useMemo(
+		() => sortCategories(orderCategoriesBy)(props.categories),
+		[orderCategoriesBy, props.categories]
+	);
+	return (
+		<Table columns={COLUMNS} className="SpendingByCategoryTable">
+			{categories.map((category) => (
+				<TableRow key={category.name}>
+					<TableCell>
+						<ColorBox color={category.color} />
+					</TableCell>
+					<TableCell>{category.name}</TableCell>
+					<TableCell>{formatCurrency(category.amount)}</TableCell>
+					<TableCell>{formatPercent(category.percent)}</TableCell>
+				</TableRow>
+			))}
+			<TableRow>
+				<TableCell />
 				<TableCell>
-					<ColorBox color={category.color} />
+					<strong>Total</strong>
 				</TableCell>
-				<TableCell>{category.name}</TableCell>
-				<TableCell>{formatCurrency(category.amount)}</TableCell>
-				<TableCell>{formatPercent(category.percent)}</TableCell>
+				<TableCell>
+					<strong>{formatCurrency(props.total)}</strong>
+				</TableCell>
+				<TableCell />
 			</TableRow>
-		))}
-		<TableRow>
-			<TableCell />
-			<TableCell>
-				<strong>Total</strong>
-			</TableCell>
-			<TableCell>
-				<strong>{formatCurrency(props.total)}</strong>
-			</TableCell>
-			<TableCell />
-		</TableRow>
-	</Table>
-);
+		</Table>
+	);
+};

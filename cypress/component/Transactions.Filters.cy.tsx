@@ -71,6 +71,7 @@ describe('Transactions Filters', () => {
 			.each(($value, index) =>
 				expect($value.text()).to.eq(orderByOptionNames[index])
 			);
+		commonPage.dismissPopupOptions();
 
 		transactionFilters.getConfirmedInputWrapper().click();
 		commonPage
@@ -78,6 +79,7 @@ describe('Transactions Filters', () => {
 			.each(($value, index) =>
 				expect($value.text()).to.eq(yesNoOptionNames[index])
 			);
+		commonPage.dismissPopupOptions();
 
 		transactionFilters.getCategorizedInputWrapper().click();
 		commonPage
@@ -85,6 +87,7 @@ describe('Transactions Filters', () => {
 			.each(($value, index) =>
 				expect($value.text()).to.eq(yesNoOptionNames[index])
 			);
+		commonPage.dismissPopupOptions();
 
 		transactionFilters.getPossibleRefundInputWrapper().click();
 		commonPage
@@ -92,8 +95,6 @@ describe('Transactions Filters', () => {
 			.each(($value, index) =>
 				expect($value.text()).to.eq(yesNoOptionNames[index])
 			);
-
-		// TODO need to validate all labels and options in selects
 	});
 
 	it('possible refund control', () => {

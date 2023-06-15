@@ -151,7 +151,7 @@ describe('Transactions Filters', () => {
 		});
 
 		transactionsApi.searchForTransactionsWithQuery(
-			`.*categoryIds=${orderedCategoryIds[0]}`,
+			`.*categoryIds=${orderedCategoryIds[0]}.*`,
 			'categorySearch'
 		);
 

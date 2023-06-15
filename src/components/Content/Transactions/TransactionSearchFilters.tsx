@@ -5,7 +5,6 @@ import {
 } from 'react-hook-form';
 import {
 	Autocomplete,
-	Checkbox,
 	DatePicker,
 	Select,
 	SelectOption,
@@ -13,7 +12,7 @@ import {
 } from '@craigmiller160/react-hook-form-material-ui';
 import { constVoid } from 'fp-ts/es6/function';
 import './TransactionSearchFilters.scss';
-import { SortDirection } from '../../../types/misc';
+import { SortDirection, YES_NO_FILTER_OPTIONS } from '../../../types/misc';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 import { TransactionSearchForm } from './utils';
 import { Paper } from '@mui/material';
@@ -30,14 +29,14 @@ interface Props {
 	readonly onValueHasChanged: ValueHasChanged;
 }
 
-const createOnIsNotCategorizedChanged =
+const createOnCategorizedChange =
 	(
 		getValues: UseFormGetValues<TransactionSearchForm>,
 		setValue: UseFormSetValue<TransactionSearchForm>,
 		onValueHasChanged: ValueHasChanged
 	) =>
 	() => {
-		if (getValues().isNotCategorized) {
+		if (getValues().categorized === 'NO') {
 			setValue('category', null);
 		}
 		onValueHasChanged();
@@ -51,7 +50,7 @@ export const TransactionSearchFilters = (props: Props) => {
 	const { data } = useGetAllCategories();
 	const categoryOptions = useCategoriesToCategoryOptions(data);
 
-	const onIsNotCategorizedChanged = createOnIsNotCategorizedChanged(
+	const onCategorizedChange = createOnCategorizedChange(
 		getValues,
 		setValue,
 		onValueHasChanged
@@ -65,6 +64,7 @@ export const TransactionSearchFilters = (props: Props) => {
 			<form onSubmit={constVoid}>
 				<ResponsiveRow>
 					<DatePicker
+						id="transactionStartDateFilter"
 						name="startDate"
 						control={control}
 						label="Start Date"
@@ -72,6 +72,7 @@ export const TransactionSearchFilters = (props: Props) => {
 						onValueHasChanged={onValueHasChanged}
 					/>
 					<DatePicker
+						id="transactionEndDateFilter"
 						name="endDate"
 						control={control}
 						label="End Date"
@@ -81,14 +82,16 @@ export const TransactionSearchFilters = (props: Props) => {
 				</ResponsiveRow>
 				<ResponsiveRow>
 					<Autocomplete
+						id="transactionCategoryFilter"
 						name="category"
 						control={control}
 						label="Category"
 						options={categoryOptions ?? []}
 						onValueHasChanged={onValueHasChanged}
-						disabled={getValues().isNotCategorized}
+						disabled={getValues().categorized === 'NO'}
 					/>
 					<Select
+						id="transactionOrderByFilter"
 						name="direction"
 						options={directionOptions}
 						control={control}
@@ -96,29 +99,37 @@ export const TransactionSearchFilters = (props: Props) => {
 						onValueHasChanged={onValueHasChanged}
 					/>
 				</ResponsiveRow>
-				<ResponsiveRow>
-					<Checkbox
+				<ResponsiveRow overrideChildWidth={{ sm: '15%' }}>
+					<Select
+						id="transactionDuplicateFilter"
 						control={control}
-						name="isDuplicate"
-						label="Is Duplicate"
+						name="duplicate"
+						label="Duplicate"
+						options={YES_NO_FILTER_OPTIONS}
 						onValueHasChanged={onValueHasChanged}
 					/>
-					<Checkbox
+					<Select
+						id="transactionConfirmedFilter"
 						control={control}
-						name="isNotConfirmed"
-						label="Is Not Confirmed"
+						name="confirmed"
+						label="Confirmed"
+						options={YES_NO_FILTER_OPTIONS}
 						onValueHasChanged={onValueHasChanged}
 					/>
-					<Checkbox
+					<Select
+						id="transactionCategorizedFilter"
 						control={control}
-						name="isNotCategorized"
-						label="Is Not Categorized"
-						onValueHasChanged={onIsNotCategorizedChanged}
+						name="categorized"
+						label="Categorized"
+						options={YES_NO_FILTER_OPTIONS}
+						onValueHasChanged={onCategorizedChange}
 					/>
-					<Checkbox
+					<Select
+						id="transactionPossibleRefundFilter"
 						control={control}
-						name="isPossibleRefund"
-						label="Is Possible Refund"
+						name="possibleRefund"
+						label="Possible Refund"
+						options={YES_NO_FILTER_OPTIONS}
 						onValueHasChanged={onValueHasChanged}
 					/>
 				</ResponsiveRow>

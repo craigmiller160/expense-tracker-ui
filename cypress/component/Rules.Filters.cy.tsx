@@ -64,7 +64,7 @@ describe('Rules Filters', () => {
 		});
 
 		rulesListFiltersPage.getCategoryFilterInput().click();
-		commonPage.getOpenSelectOptions().eq(0).click();
+		commonPage.getOpenAutoCompleteOptions().eq(0).click();
 		rulesListFiltersPage
 			.getCategoryFilterInput()
 			.should('have.value', orderedCategoryNames[0]);

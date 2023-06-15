@@ -11,10 +11,14 @@ describe('TransactionService', () => {
 				sortDirection: SortDirection.ASC,
 				sortKey: TransactionSortKey.EXPENSE_DATE,
 				startDate: null,
-				endDate: null
+				endDate: null,
+				categorized: 'ALL',
+				confirmed: 'ALL',
+				duplicate: 'ALL',
+				possibleRefund: 'ALL'
 			});
 			expect(result).toEqual(
-				'pageNumber=1&pageSize=10&sortDirection=ASC&sortKey=EXPENSE_DATE'
+				'pageNumber=1&pageSize=10&sortDirection=ASC&sortKey=EXPENSE_DATE&categorized=ALL&confirmed=ALL&duplicate=ALL&possibleRefund=ALL'
 			);
 		});
 
@@ -36,13 +40,33 @@ describe('TransactionService', () => {
 				sortKey: TransactionSortKey.EXPENSE_DATE,
 				startDate,
 				endDate,
-				isConfirmed: true,
-				isCategorized: true,
-				isDuplicate: false,
+				confirmed: 'ALL',
+				categorized: 'ALL',
+				duplicate: 'ALL',
+				possibleRefund: 'ALL',
 				categoryIds: ['1', '2']
 			});
 			expect(result).toEqual(
-				'pageNumber=1&pageSize=10&sortDirection=ASC&sortKey=EXPENSE_DATE&startDate=2022-01-01&endDate=2022-01-02&isConfirmed=true&isCategorized=true&isDuplicate=false&categoryIds=1%2C2'
+				'pageNumber=1&pageSize=10&sortDirection=ASC&sortKey=EXPENSE_DATE&startDate=2022-01-01&endDate=2022-01-02&confirmed=ALL&categorized=ALL&duplicate=ALL&possibleRefund=ALL&categoryIds=1%2C2'
+			);
+		});
+
+		it('removes category ids if categorized is NO', () => {
+			const result = requestToQuery({
+				pageNumber: 1,
+				pageSize: 10,
+				sortDirection: SortDirection.ASC,
+				sortKey: TransactionSortKey.EXPENSE_DATE,
+				startDate: null,
+				endDate: null,
+				categorized: 'NO',
+				confirmed: 'ALL',
+				duplicate: 'ALL',
+				possibleRefund: 'ALL',
+				categoryIds: ['1', '2']
+			});
+			expect(result).toEqual(
+				'pageNumber=1&pageSize=10&sortDirection=ASC&sortKey=EXPENSE_DATE&categorized=NO&confirmed=ALL&duplicate=ALL&possibleRefund=ALL'
 			);
 		});
 	});

@@ -96,10 +96,10 @@ export type SearchTransactionsRequest = {
 	readonly sortDirection: 'ASC' | 'DESC';
 	readonly startDate?: string;
 	readonly endDate?: string;
-	readonly isConfirmed?: boolean;
-	readonly isCategorized?: boolean;
-	readonly isDuplicate?: boolean;
-	readonly isPossibleRefund?: boolean;
+	readonly confirmed: 'ALL' | 'YES' | 'NO';
+	readonly categorized: 'ALL' | 'YES' | 'NO';
+	readonly duplicate: 'ALL' | 'YES' | 'NO';
+	readonly possibleRefund: 'ALL' | 'YES' | 'NO';
 	readonly categoryIds?: ReadonlyArray<string>;
 };
 

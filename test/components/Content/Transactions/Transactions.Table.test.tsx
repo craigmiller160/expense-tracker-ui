@@ -13,7 +13,7 @@ import {
 } from '../../../../src/components/Content/Transactions/utils';
 import { pipe } from 'fp-ts/es6/function';
 import {
-	getCategoryValueElement,
+	getSelectValueElement,
 	getOrderByValueElement,
 	getRecordRangeText,
 	getTotalDaysInRange,
@@ -68,20 +68,29 @@ describe('Transactions Table', () => {
 		expect(
 			within(transactionFilters).queryByLabelText('Category')
 		).toBeVisible();
-		expect(getCategoryValueElement()).toHaveTextContent('');
+		expect(getSelectValueElement('Category')).toHaveTextContent('');
 		expect(
 			within(transactionFilters).queryByLabelText('Order By')
-		).toBeVisible();
+		).toBeInTheDocument();
 		expect(getOrderByValueElement()).toHaveTextContent('Newest to Oldest');
 		expect(
-			within(transactionFilters).queryByLabelText('Is Duplicate')
-		).not.toBeChecked();
+			within(transactionFilters).queryByLabelText('Duplicate')
+		).toBeInTheDocument();
+		expect(getSelectValueElement('Duplicate')).toHaveTextContent('All');
 		expect(
-			within(transactionFilters).queryByLabelText('Is Not Confirmed')
-		).not.toBeChecked();
+			within(transactionFilters).queryByLabelText('Confirmed')
+		).toBeInTheDocument();
+		expect(getSelectValueElement('Confirmed')).toHaveTextContent('All');
 		expect(
-			within(transactionFilters).queryByLabelText('Is Not Categorized')
-		).not.toBeChecked();
+			within(transactionFilters).queryByLabelText('Categorized')
+		).toBeInTheDocument();
+		expect(getSelectValueElement('Categorized')).toHaveTextContent('All');
+		expect(
+			within(transactionFilters).queryByLabelText('Possible Refund')
+		).toBeInTheDocument();
+		expect(getSelectValueElement('Possible Refund')).toHaveTextContent(
+			'All'
+		);
 
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
@@ -108,7 +117,11 @@ describe('Transactions Table', () => {
 			pageNumber: 0,
 			pageSize: 25,
 			sortKey: TransactionSortKey.EXPENSE_DATE,
-			sortDirection: SortDirection.DESC
+			sortDirection: SortDirection.DESC,
+			confirmed: 'ALL',
+			categorized: 'ALL',
+			duplicate: 'ALL',
+			possibleRefund: 'ALL'
 		});
 		const categories = await getAllCategories();
 		apiServer.database.updateData((draft) => {
@@ -363,7 +376,11 @@ describe('Transactions Table', () => {
 			pageNumber: 0,
 			pageSize: 25,
 			sortKey: TransactionSortKey.EXPENSE_DATE,
-			sortDirection: SortDirection.DESC
+			sortDirection: SortDirection.DESC,
+			confirmed: 'ALL',
+			categorized: 'ALL',
+			duplicate: 'ALL',
+			possibleRefund: 'ALL'
 		});
 		apiServer.database.updateData((draft) => {
 			draft.transactions[transaction.id].amount = transaction.amount * -1;
@@ -445,7 +462,11 @@ describe('Transactions Table', () => {
 			pageNumber: 0,
 			pageSize: 25,
 			sortKey: TransactionSortKey.EXPENSE_DATE,
-			sortDirection: SortDirection.DESC
+			sortDirection: SortDirection.DESC,
+			confirmed: 'ALL',
+			categorized: 'ALL',
+			duplicate: 'ALL',
+			possibleRefund: 'ALL'
 		});
 		const categories = await getAllCategories();
 		apiServer.database.updateData((draft) => {

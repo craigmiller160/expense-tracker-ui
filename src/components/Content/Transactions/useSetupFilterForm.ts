@@ -29,10 +29,10 @@ const formToParams: SyncToParams<TransactionSearchForm> = (form, params) => {
 		form.endDate && isValid(form.endDate) ? form.endDate : undefined;
 	params.setOrDelete('endDate', endDate, formatServerDate);
 	params.setOrDelete('category', form.category?.value);
-	params.setOrDelete('isNotConfirmed', form.isNotConfirmed.toString());
-	params.setOrDelete('isDuplicate', form.isDuplicate.toString());
-	params.setOrDelete('isNotCategorized', form.isNotCategorized.toString());
-	params.setOrDelete('isPossibleRefund', form.isPossibleRefund.toString());
+	params.setOrDelete('confirmed', form.confirmed);
+	params.setOrDelete('duplicate', form.duplicate);
+	params.setOrDelete('categorized', form.categorized);
+	params.setOrDelete('possibleRefund', form.possibleRefund);
 };
 
 const parseSortDirection = (value: string | null): SortDirection =>
@@ -57,8 +57,6 @@ const parseCategory =
 		return categories.find((cat) => cat.value === categoryId) ?? null;
 	};
 
-const parseBoolean = (value: string): boolean => /true/i.test(value);
-
 const formFromParams =
 	(
 		categories: ReadonlyArray<CategoryOption>
@@ -76,25 +74,21 @@ const formFromParams =
 			null,
 			parseCategory(categories)
 		);
-		const isNotConfirmed = params.getOrDefault(
-			'isNotConfirmed',
-			transactionSearchFormDefaultValues.isNotConfirmed,
-			parseBoolean
+		const confirmed = params.getOrDefault(
+			'confirmed',
+			transactionSearchFormDefaultValues.confirmed
 		);
-		const isDuplicate = params.getOrDefault(
-			'isDuplicate',
-			transactionSearchFormDefaultValues.isDuplicate,
-			parseBoolean
+		const duplicate = params.getOrDefault(
+			'duplicate',
+			transactionSearchFormDefaultValues.duplicate
 		);
-		const isNotCategorized = params.getOrDefault(
-			'isNotCategorized',
-			transactionSearchFormDefaultValues.isNotCategorized,
-			parseBoolean
+		const categorized = params.getOrDefault(
+			'categorized',
+			transactionSearchFormDefaultValues.categorized
 		);
-		const isPossibleRefund = params.getOrDefault(
-			'isPossibleRefund',
-			transactionSearchFormDefaultValues.isPossibleRefund,
-			parseBoolean
+		const possibleRefund = params.getOrDefault(
+			'possibleRefund',
+			transactionSearchFormDefaultValues.possibleRefund
 		);
 
 		return {
@@ -102,10 +96,10 @@ const formFromParams =
 			startDate,
 			endDate,
 			category,
-			isNotCategorized,
-			isNotConfirmed,
-			isPossibleRefund,
-			isDuplicate
+			categorized,
+			confirmed,
+			possibleRefund,
+			duplicate
 		};
 	};
 

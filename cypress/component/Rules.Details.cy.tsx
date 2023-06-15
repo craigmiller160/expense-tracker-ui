@@ -118,7 +118,7 @@ describe('Rule Details', () => {
 		ruleDetailsPage.getSaveButton().should('be.disabled');
 
 		ruleDetailsPage.getCategoryInput().click();
-		commonPage.getOpenSelectOptions().eq(0).click();
+		commonPage.getOpenAutoCompleteOptions().eq(0).click();
 		ruleDetailsPage
 			.getCategoryInput()
 			.should('have.value', orderedCategoryNames[0]);
@@ -181,7 +181,7 @@ describe('Rule Details', () => {
 		ruleDetailsPage.getSaveButton().should('be.disabled');
 
 		ruleDetailsPage.getCategoryInput().click();
-		commonPage.getOpenSelectOptions().eq(0).click();
+		commonPage.getOpenAutoCompleteOptions().eq(0).click();
 		ruleDetailsPage
 			.getCategoryInput()
 			.should('have.value', orderedCategoryNames[0]);

@@ -133,10 +133,10 @@ export const useHandleTransactionTableData = (
 			startDate: filterValues.startDate,
 			endDate: filterValues.endDate,
 			categoryIds: handleCategoryIds(filterValues.category?.value),
-			isConfirmed: filterValues.isNotConfirmed ? false : undefined,
-			isDuplicate: filterValues.isDuplicate ? true : undefined,
-			isCategorized: filterValues.isNotCategorized ? false : undefined,
-			isPossibleRefund: filterValues.isPossibleRefund ? true : undefined
+			confirmed: filterValues.confirmed,
+			duplicate: filterValues.duplicate,
+			categorized: filterValues.categorized,
+			possibleRefund: filterValues.possibleRefund
 		});
 	const { mutate: updateTransactions, isLoading: updateIsLoading } =
 		useUpdateTransactions();

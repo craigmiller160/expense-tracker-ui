@@ -6,6 +6,7 @@ import {
 	KeycloakAuth,
 	KeycloakAuthContext
 } from '@craigmiller160/react-keycloak';
+import { newQueryClient } from '../../../src/ajaxapi/query/queryClient';
 
 const desktopViewport = (): Chainable<null> => cy.viewport(1920, 1080);
 const mobileViewport = (): Chainable<null> => cy.viewport(500, 500);
@@ -44,10 +45,11 @@ export const mountApp = (config?: Partial<MountConfig>): Chainable<unknown> => {
 	};
 	handleViewport(config);
 	const initialEntries = getInitialEntries(config);
+	const queryClient = newQueryClient();
 	return cy.mount(
 		<MemoryRouter initialEntries={initialEntries}>
 			<KeycloakAuthContext.Provider value={keycloakAuth}>
-				<App />
+				<App queryClient={queryClient} />
 			</KeycloakAuthContext.Provider>
 		</MemoryRouter>
 	);

@@ -5,20 +5,27 @@ import { ConfirmDialogProvider } from './UI/ConfirmDialog/ConfirmDialogProvider'
 import { ConfirmDialog } from './UI/ConfirmDialog';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { QueryClientProvider } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { newQueryClient } from '../ajaxapi/query/queryClient';
 
-const queryClient = newQueryClient();
+const defaultQueryClient = newQueryClient();
 
-export const App = () => (
-	<QueryClientProvider client={queryClient}>
-		<ConfirmDialogProvider>
-			<LocalizationProvider dateAdapter={AdapterDateFns}>
-				<CssBaseline />
-				<Navbar />
-				<Content />
-			</LocalizationProvider>
-			<ConfirmDialog />
-		</ConfirmDialogProvider>
-	</QueryClientProvider>
-);
+type Props = {
+	readonly queryClient?: QueryClient;
+};
+
+export const App = (props: Props) => {
+	const queryClient = props.queryClient ?? defaultQueryClient;
+	return (
+		<QueryClientProvider client={queryClient}>
+			<ConfirmDialogProvider>
+				<LocalizationProvider dateAdapter={AdapterDateFns}>
+					<CssBaseline />
+					<Navbar />
+					<Content />
+				</LocalizationProvider>
+				<ConfirmDialog />
+			</ConfirmDialogProvider>
+		</QueryClientProvider>
+	);
+};

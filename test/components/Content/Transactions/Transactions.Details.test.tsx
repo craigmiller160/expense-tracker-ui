@@ -40,7 +40,11 @@ describe('Transaction Details Dialog', () => {
 			pageNumber: 0,
 			pageSize: 25,
 			sortKey: TransactionSortKey.EXPENSE_DATE,
-			sortDirection: SortDirection.DESC
+			sortDirection: SortDirection.DESC,
+			confirmed: 'ALL',
+			categorized: 'ALL',
+			duplicate: 'ALL',
+			possibleRefund: 'ALL'
 		});
 
 		await renderApp({

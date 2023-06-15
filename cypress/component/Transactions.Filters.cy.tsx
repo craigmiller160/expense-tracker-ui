@@ -184,9 +184,7 @@ describe('Transactions Filters', () => {
 			initialRoute: '/expense-tracker/transactions'
 		});
 
-		transactionFilters
-			.getCategorizedLabel()
-			.should('have.text', 'Confirmed');
+		transactionFilters.getConfirmedLabel().should('have.text', 'Confirmed');
 		cy.wait('@confirmedAll');
 
 		transactionsApi.searchForTransactionsWithQuery(

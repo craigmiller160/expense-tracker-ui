@@ -6,7 +6,10 @@ import { transactionFilters } from './testutils/pages/transactionFilters';
 import { subMonths, format } from 'date-fns/fp';
 import { flow } from 'fp-ts/es6/function';
 import { commonPage } from './testutils/pages/common';
-import { orderedCategoryNames } from './testutils/constants/categories';
+import {
+	orderedCategoryIds,
+	orderedCategoryNames
+} from './testutils/constants/categories';
 import {
 	yesNoOptionNames,
 	orderByOptionNames
@@ -140,7 +143,22 @@ describe('Transactions Filters', () => {
 	});
 
 	it('category control', () => {
-		throw new Error();
+		categoriesApi.getAllCategories();
+		needsAttentionApi.getNeedsAttention_all();
+		transactionsApi.searchForTransactions();
+		mountApp({
+			initialRoute: '/expense-tracker/transactions'
+		});
+
+		transactionsApi.searchForTransactionsWithQuery(
+			`.*categoryIds=${orderedCategoryIds[0]}`,
+			'categorySearch'
+		);
+
+		transactionFilters.getCategoryLabel().should('have.text', 'Category');
+		transactionFilters.getCategoryInput().click();
+		commonPage.getOpenAutoCompleteOptions().eq(0).click();
+		cy.wait('@categorySearch');
 	});
 
 	it('duplicate control', () => {

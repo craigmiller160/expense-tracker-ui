@@ -28,6 +28,8 @@ const getConfirmedLabel = (): Chainable<JQuery> =>
 	cy.get('#transactionConfirmedFilter-label');
 const getConfirmedInput = (): Chainable<JQuery> =>
 	cy.get('#transactionConfirmedFilter');
+const getConfirmedInputWrapper = (): Chainable<JQuery> =>
+	cy.get('#transactionConfirmedFilter-wrapper');
 const getCategorizedLabel = (): Chainable<JQuery> =>
 	cy.get('#transactionCategorizedFilter-label');
 const getCategorizedInput = (): Chainable<JQuery> =>
@@ -55,5 +57,6 @@ export const transactionFilters = {
 	getCategoryInput,
 	getCategoryLabel,
 	getFiltersRoot,
-	getOrderByInputWrapper
+	getOrderByInputWrapper,
+	getConfirmedInputWrapper
 };

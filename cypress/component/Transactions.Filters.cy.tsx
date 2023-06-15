@@ -7,6 +7,10 @@ import { subMonths, format } from 'date-fns/fp';
 import { flow } from 'fp-ts/es6/function';
 import { commonPage } from './testutils/pages/common';
 import { orderedCategoryNames } from './testutils/constants/categories';
+import {
+	confirmedOptionNames,
+	orderByOptionNames
+} from './testutils/constants/transactions';
 
 const DATE_FORMAT = 'MM/dd/yyyy';
 
@@ -62,13 +66,18 @@ describe('Transactions Filters', () => {
 		});
 
 		transactionFilters.getOrderByInputWrapper().click();
-		commonPage.getOpenSelectOptions().each(($value, index) => {
-			if (index === 0) {
-				expect($value.text()).to.eq('Newest to Oldest');
-			} else {
-				expect($value.text()).to.eq('Oldest to Newest');
-			}
-		});
+		commonPage
+			.getOpenSelectOptions()
+			.each(($value, index) =>
+				expect($value.text()).to.eq(orderByOptionNames[index])
+			);
+
+		transactionFilters.getConfirmedInputWrapper().click();
+		commonPage
+			.getOpenSelectOptions()
+			.each(($value, index) =>
+				expect($value.text()).to.eq(confirmedOptionNames[index])
+			);
 
 		// TODO need to validate all labels and options in selects
 	});

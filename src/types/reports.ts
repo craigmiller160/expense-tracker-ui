@@ -12,9 +12,10 @@ export const REPORT_CATEGORY_FILTER_OPTIONS: ReadonlyArray<ReportCategoryIdFilte
 		{ label: 'Exclude', value: 'EXCLUDE' }
 	];
 
-export type ReportOrderBy = 'CATEGORY' | 'AMOUNT';
-export type ReportOrderByOption = SelectOption<ReportOrderBy>;
-export const REPORT_ORDER_BY_OPTIONS: ReadonlyArray<ReportOrderByOption> = [
-	{ label: 'Category', value: 'CATEGORY' },
-	{ label: 'Amount', value: 'AMOUNT' }
-];
+export type ReportCategoryOrderBy = 'CATEGORY' | 'AMOUNT';
+export type ReportCategoryOrderByOption = SelectOption<ReportCategoryOrderBy>;
+export const REPORT_CATEGORY_ORDER_BY_OPTIONS: ReadonlyArray<ReportCategoryOrderByOption> =
+	[
+		{ label: 'Category', value: 'CATEGORY' },
+		{ label: 'Amount', value: 'AMOUNT' }
+	];

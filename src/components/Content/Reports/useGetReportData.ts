@@ -22,12 +22,15 @@ import {
 } from '../../../routes/useImmerWithSearchParamSync';
 import {
 	REPORT_CATEGORY_FILTER_OPTIONS,
-	ReportCategoryIdFilterOption
+	REPORT_CATEGORY_ORDER_BY_OPTIONS,
+	ReportCategoryIdFilterOption,
+	ReportCategoryOrderByOption
 } from '../../../types/reports';
 
 export type ReportFilterFormData = {
 	readonly categoryFilterType: ReportCategoryIdFilterOption;
 	readonly categories: ReadonlyArray<CategoryOption>;
+	readonly orderCategoriesBy: ReportCategoryOrderByOption;
 };
 
 const createOnValueHasChanged = (
@@ -59,6 +62,7 @@ const formToParams: SyncToParams<ReportFilterFormData> = (form, params) => {
 
 	params.setOrDelete('categoryFilterType', form.categoryFilterType.value);
 	params.setOrDelete('categories', categoryString);
+	params.setOrDelete('orderCategoriesBy', form.orderCategoriesBy);
 };
 
 const formFromParams =
@@ -83,12 +87,20 @@ const formFromParams =
 			'categoryFilterType',
 			REPORT_CATEGORY_FILTER_OPTIONS[0].value
 		);
+		const orderCategoriesByValue = params.getOrDefault(
+			'orderCategoriesBy',
+			REPORT_CATEGORY_ORDER_BY_OPTIONS[0].value
+		);
 		return {
 			categories,
 			categoryFilterType:
 				REPORT_CATEGORY_FILTER_OPTIONS.find(
 					(type) => type.value === categoryFilterTypeValue
-				) ?? REPORT_CATEGORY_FILTER_OPTIONS[0]
+				) ?? REPORT_CATEGORY_FILTER_OPTIONS[0],
+			orderCategoriesBy:
+				REPORT_CATEGORY_ORDER_BY_OPTIONS.find(
+					(option) => option.value === orderCategoriesByValue
+				) ?? REPORT_CATEGORY_ORDER_BY_OPTIONS[0]
 		};
 	};
 

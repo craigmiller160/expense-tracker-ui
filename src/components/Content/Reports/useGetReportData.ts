@@ -24,13 +24,13 @@ import {
 	REPORT_CATEGORY_FILTER_OPTIONS,
 	REPORT_CATEGORY_ORDER_BY_OPTIONS,
 	ReportCategoryIdFilterOption,
-	ReportCategoryOrderByOption
+	ReportCategoryOrderBy
 } from '../../../types/reports';
 
 export type ReportFilterFormData = {
 	readonly categoryFilterType: ReportCategoryIdFilterOption;
 	readonly categories: ReadonlyArray<CategoryOption>;
-	readonly orderCategoriesBy: ReportCategoryOrderByOption;
+	readonly orderCategoriesBy: ReportCategoryOrderBy;
 };
 
 const createOnValueHasChanged = (
@@ -97,10 +97,7 @@ const formFromParams =
 				REPORT_CATEGORY_FILTER_OPTIONS.find(
 					(type) => type.value === categoryFilterTypeValue
 				) ?? REPORT_CATEGORY_FILTER_OPTIONS[0],
-			orderCategoriesBy:
-				REPORT_CATEGORY_ORDER_BY_OPTIONS.find(
-					(option) => option.value === orderCategoriesByValue
-				) ?? REPORT_CATEGORY_ORDER_BY_OPTIONS[0]
+			orderCategoriesBy: orderCategoriesByValue
 		};
 	};
 

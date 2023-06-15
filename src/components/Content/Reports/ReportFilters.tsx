@@ -3,13 +3,17 @@ import { Paper } from '@mui/material';
 import { constVoid } from 'fp-ts/es6/function';
 import {
 	Autocomplete,
+	Select,
 	ValueHasChanged
 } from '@craigmiller160/react-hook-form-material-ui';
 import { ResponsiveRow } from '../../UI/ResponsiveWrappers/ResponsiveRow';
 import './ReportFilters.scss';
 import { ReportFilterFormData } from './useGetReportData';
 import { CategoryOption } from '../../../types/categories';
-import { REPORT_CATEGORY_FILTER_OPTIONS } from '../../../types/reports';
+import {
+	REPORT_CATEGORY_FILTER_OPTIONS,
+	REPORT_CATEGORY_ORDER_BY_OPTIONS
+} from '../../../types/reports';
 
 type Props = {
 	readonly form: UseFormReturn<ReportFilterFormData>;
@@ -31,6 +35,7 @@ export const ReportFilters = (props: Props) => {
 						control={control}
 						name="categoryFilterType"
 						label="Filter Type"
+						onValueHasChanged={props.onValueHasChanged}
 					/>
 					<Autocomplete
 						multiple
@@ -39,6 +44,12 @@ export const ReportFilters = (props: Props) => {
 						name="categories"
 						label="Categories"
 						onValueHasChanged={props.onValueHasChanged}
+					/>
+					<Select
+						options={REPORT_CATEGORY_ORDER_BY_OPTIONS}
+						control={control}
+						name="orderCategoriesBy"
+						label="Order Categories By"
 					/>
 				</ResponsiveRow>
 			</form>

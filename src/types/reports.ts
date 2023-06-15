@@ -11,3 +11,10 @@ export const REPORT_CATEGORY_FILTER_OPTIONS: ReadonlyArray<ReportCategoryIdFilte
 		{ label: 'Include', value: 'INCLUDE' },
 		{ label: 'Exclude', value: 'EXCLUDE' }
 	];
+
+export type ReportOrderBy = 'CATEGORY' | 'AMOUNT';
+export type ReportOrderByOption = SelectOption<ReportOrderBy>;
+export const REPORT_ORDER_BY_OPTIONS: ReadonlyArray<ReportOrderByOption> = [
+	{ label: 'Category', value: 'CATEGORY' },
+	{ label: 'Amount', value: 'AMOUNT' }
+];

@@ -5,7 +5,8 @@ import { formatCurrency, formatPercent } from '../../../utils/formatNumbers';
 import { ColorBox } from '../../UI/ColorBox';
 import * as RArray from 'fp-ts/es6/ReadonlyArray';
 import { Ord } from 'fp-ts/es6/Ord';
-import { Ordering } from 'fp-ts/es6/Ordering';
+import { match } from 'ts-pattern';
+import { ReportCategoryOrderBy } from '../../../types/reports';
 
 type Props = {
 	readonly categories: ReadonlyArray<ReportCategoryResponse>;
@@ -35,6 +36,17 @@ export const sortByAmount: Ord<ReportCategoryResponse> = {
 		}
 		return 0;
 	}
+};
+const sortCategories = (
+	order: ReportCategoryOrderBy
+): ((
+	c: ReadonlyArray<ReportCategoryResponse>
+) => ReadonlyArray<ReportCategoryResponse>) => {
+	const sortBy = match(order)
+		.with('CATEGORY', () => sortByCategory)
+		.with('AMOUNT', () => sortByAmount)
+		.run();
+	return RArray.sort(sortBy);
 };
 
 export const SpendingByCategoryTable = (props: Props) => (

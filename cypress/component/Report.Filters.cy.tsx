@@ -144,6 +144,13 @@ describe('Report Filters', () => {
 	});
 
 	it('report category order by', () => {
+		categoriesApi.getUnknownCategory();
+		reportsApi.getDefaultSpendingByMonthAndCategory();
+		categoriesApi.getAllCategories();
+		needsAttentionApi.getNeedsAttention_none();
+		mountApp({
+			initialRoute: '/expense-tracker/reports'
+		});
 		throw new Error();
 	});
 });

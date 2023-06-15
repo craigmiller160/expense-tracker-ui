@@ -148,7 +148,7 @@ describe('Transactions Filters', () => {
 		needsAttentionApi.getNeedsAttention_all();
 		transactionsApi.searchForTransactionsWithQuery(
 			'.*duplicate=ALL.*',
-			'duplicatedAll'
+			'duplicateAll'
 		);
 		mountApp({
 			initialRoute: '/expense-tracker/transactions'
@@ -163,7 +163,7 @@ describe('Transactions Filters', () => {
 		);
 		transactionsApi.searchForTransactionsWithQuery(
 			'.*duplicate=NO.*',
-			'duplicatedNo'
+			'duplicateNo'
 		);
 
 		transactionFilters.getDuplicateInputWrapper().click();

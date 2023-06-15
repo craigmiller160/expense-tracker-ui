@@ -3,6 +3,9 @@ import { ReportCategoryResponse } from '../../../types/generated/expense-tracker
 import { TableCell, TableRow } from '@mui/material';
 import { formatCurrency, formatPercent } from '../../../utils/formatNumbers';
 import { ColorBox } from '../../UI/ColorBox';
+import * as RArray from 'fp-ts/es6/ReadonlyArray';
+import { Ord } from 'fp-ts/es6/Ord';
+import { Ordering } from 'fp-ts/es6/Ordering';
 
 type Props = {
 	readonly categories: ReadonlyArray<ReportCategoryResponse>;
@@ -10,6 +13,29 @@ type Props = {
 };
 
 const COLUMNS = ['', 'Category', 'Amount', 'Percent'];
+export const sortByCategory: Ord<ReportCategoryResponse> = {
+	equals: (a, b) => a.name === b.name,
+	compare: (a, b) => {
+		const result = a.name.localeCompare(b.name);
+		if (result < 0) {
+			return -1;
+		} else if (result > 0) {
+			return 1;
+		}
+		return 0;
+	}
+};
+export const sortByAmount: Ord<ReportCategoryResponse> = {
+	equals: (a, b) => a.amount === b.amount,
+	compare: (a, b) => {
+		if (a < b) {
+			return -1;
+		} else if (a > b) {
+			return 1;
+		}
+		return 0;
+	}
+};
 
 export const SpendingByCategoryTable = (props: Props) => (
 	<Table columns={COLUMNS} className="SpendingByCategoryTable">

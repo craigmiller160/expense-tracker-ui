@@ -9,6 +9,7 @@ import {
 	orderedCategoryNames
 } from './testutils/constants/categories';
 import { needsAttentionApi } from './testutils/apis/needsAttention';
+import { orderCategoriesByNames } from './testutils/constants/reports';
 
 describe('Report Filters', () => {
 	it('renders filters correctly', () => {
@@ -36,6 +37,20 @@ describe('Report Filters', () => {
 			.getOpenAutoCompleteOptions()
 			.each(($value, index) =>
 				expect($value.text()).eq(categoryNames[index])
+			);
+		commonPage.dismissPopupOptions();
+
+		reportFiltersPage
+			.getOrderCategoriesByLabel()
+			.should('have.text', 'Order Categories By');
+		reportFiltersPage
+			.getOrderCategoriesByInput()
+			.should('have.value', 'CATEGORY');
+		reportFiltersPage.getOrderCategoriesByInputWrapper().click();
+		commonPage
+			.getOpenSelectOptions()
+			.each(($value, index) =>
+				expect($value.text()).eq(orderCategoriesByNames[index])
 			);
 	});
 

@@ -5,7 +5,7 @@ const getDefaultSpendingByMonthAndCategory = (): Chainable<null> =>
 		.intercept(
 			'/expense-tracker/api/reports?pageNumber=0&pageSize=10&categoryIdType=INCLUDE',
 			{
-				fixture: 'reports.json'
+				fixture: 'report_categories.json'
 			}
 		)
 		.as('getSpendingByMonthAndCategory');
@@ -18,7 +18,7 @@ const getSpendingByMonthAndCategory = (
 		.intercept(
 			`/expense-tracker/api/reports?pageNumber=0&pageSize=10&${query}`,
 			{
-				fixture: 'reports.json'
+				fixture: 'report_categories.json'
 			}
 		)
 		.as(alias);

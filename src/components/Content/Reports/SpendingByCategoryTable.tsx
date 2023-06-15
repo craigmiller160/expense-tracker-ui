@@ -14,7 +14,7 @@ type Props = {
 };
 
 const COLUMNS = ['', 'Category', 'Amount', 'Percent'];
-export const sortByCategory: Ord<ReportCategoryResponse> = {
+const sortByCategory: Ord<ReportCategoryResponse> = {
 	equals: (a, b) => a.name === b.name,
 	compare: (a, b) => {
 		const result = a.name.localeCompare(b.name);
@@ -26,7 +26,7 @@ export const sortByCategory: Ord<ReportCategoryResponse> = {
 		return 0;
 	}
 };
-export const sortByAmount: Ord<ReportCategoryResponse> = {
+const sortByAmount: Ord<ReportCategoryResponse> = {
 	equals: (a, b) => a.amount === b.amount,
 	compare: (a, b) => {
 		if (a < b) {
@@ -37,7 +37,7 @@ export const sortByAmount: Ord<ReportCategoryResponse> = {
 		return 0;
 	}
 };
-const sortCategories = (
+export const sortCategories = (
 	order: ReportCategoryOrderBy
 ): ((
 	c: ReadonlyArray<ReportCategoryResponse>

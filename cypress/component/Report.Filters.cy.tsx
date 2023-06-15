@@ -127,4 +127,8 @@ describe('Report Filters', () => {
 			expect($value.text()).eq(orderedCategoryNames[index])
 		);
 	});
+
+	it('report category order by', () => {
+		throw new Error();
+	});
 });

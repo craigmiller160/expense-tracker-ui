@@ -140,10 +140,70 @@ describe('Transactions Filters', () => {
 	});
 
 	it('categorized control', () => {
-		throw new Error();
+		categoriesApi.getAllCategories();
+		needsAttentionApi.getNeedsAttention_all();
+		transactionsApi.searchForTransactionsWithQuery(
+			'.*categorized=ALL.*',
+			'categorizedAll'
+		);
+		mountApp({
+			initialRoute: '/expense-tracker/transactions'
+		});
+
+		transactionFilters
+			.getCategorizedLabel()
+			.should('have.text', 'Categorized');
+		cy.wait('@categorizedAll');
+
+		transactionsApi.searchForTransactionsWithQuery(
+			'.*categorized=YES.*',
+			'categorizedYes'
+		);
+		transactionsApi.searchForTransactionsWithQuery(
+			'.*categorized=NO.*',
+			'categorizedNo'
+		);
+
+		transactionFilters.getCategorizedInputWrapper().click();
+		commonPage.getOpenSelectOptions().eq(1).click();
+		cy.wait('@categorizedYes');
+
+		transactionFilters.getCategorizedInputWrapper().click();
+		commonPage.getOpenSelectOptions().eq(2).click();
+		cy.wait('@categorizedNo');
 	});
 
 	it('confirmed control', () => {
-		throw new Error();
+		categoriesApi.getAllCategories();
+		needsAttentionApi.getNeedsAttention_all();
+		transactionsApi.searchForTransactionsWithQuery(
+			'.*confirmed=ALL.*',
+			'confirmedAll'
+		);
+		mountApp({
+			initialRoute: '/expense-tracker/transactions'
+		});
+
+		transactionFilters
+			.getCategorizedLabel()
+			.should('have.text', 'Confirmed');
+		cy.wait('@confirmedAll');
+
+		transactionsApi.searchForTransactionsWithQuery(
+			'.*confirmed=YES.*',
+			'confirmedYes'
+		);
+		transactionsApi.searchForTransactionsWithQuery(
+			'.*confirmed=NO.*',
+			'confirmedNo'
+		);
+
+		transactionFilters.getConfirmedInputWrapper().click();
+		commonPage.getOpenSelectOptions().eq(1).click();
+		cy.wait('@confirmedYes');
+
+		transactionFilters.getConfirmedInputWrapper().click();
+		commonPage.getOpenSelectOptions().eq(2).click();
+		cy.wait('@confirmedNo');
 	});
 });

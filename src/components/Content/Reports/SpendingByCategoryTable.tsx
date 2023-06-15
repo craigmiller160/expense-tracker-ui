@@ -7,10 +7,13 @@ import * as RArray from 'fp-ts/es6/ReadonlyArray';
 import { Ord } from 'fp-ts/es6/Ord';
 import { match } from 'ts-pattern';
 import { ReportCategoryOrderBy } from '../../../types/reports';
+import { UseFormReturn } from 'react-hook-form';
+import { ReportFilterFormData } from './useGetReportData';
 
 type Props = {
 	readonly categories: ReadonlyArray<ReportCategoryResponse>;
 	readonly total: number;
+	readonly form: UseFormReturn<ReportFilterFormData>;
 };
 
 const COLUMNS = ['', 'Category', 'Amount', 'Percent'];

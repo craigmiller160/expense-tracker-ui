@@ -8,7 +8,7 @@ import { flow } from 'fp-ts/es6/function';
 import { commonPage } from './testutils/pages/common';
 import { orderedCategoryNames } from './testutils/constants/categories';
 import {
-	confirmedOptionNames,
+	yesNoOptionNames,
 	orderByOptionNames
 } from './testutils/constants/transactions';
 
@@ -76,7 +76,21 @@ describe('Transactions Filters', () => {
 		commonPage
 			.getOpenSelectOptions()
 			.each(($value, index) =>
-				expect($value.text()).to.eq(confirmedOptionNames[index])
+				expect($value.text()).to.eq(yesNoOptionNames[index])
+			);
+
+		transactionFilters.getCategorizedInputWrapper().click();
+		commonPage
+			.getOpenSelectOptions()
+			.each(($value, index) =>
+				expect($value.text()).to.eq(yesNoOptionNames[index])
+			);
+
+		transactionFilters.getPossibleRefundInputWrapper().click();
+		commonPage
+			.getOpenSelectOptions()
+			.each(($value, index) =>
+				expect($value.text()).to.eq(yesNoOptionNames[index])
 			);
 
 		// TODO need to validate all labels and options in selects

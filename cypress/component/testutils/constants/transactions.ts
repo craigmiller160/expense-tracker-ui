@@ -11,9 +11,9 @@ export const orderByOptions: ReadonlyArray<SelectOption<string>> = [
 ];
 export const orderByOptionNames = orderByOptions.map((_) => _.label);
 
-export const confirmedOptions: ReadonlyArray<SelectOption<string>> = [
+export const yesNoOptions: ReadonlyArray<SelectOption<string>> = [
 	{ value: 'ALL', label: 'All' },
 	{ value: 'YES', label: 'Yes' },
 	{ value: 'NO', label: 'No' }
 ];
-export const confirmedOptionNames = confirmedOptions.map((_) => _.label);
+export const yesNoOptionNames = yesNoOptions.map((_) => _.label);

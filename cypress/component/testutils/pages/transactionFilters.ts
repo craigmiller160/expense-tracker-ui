@@ -34,10 +34,14 @@ const getCategorizedLabel = (): Chainable<JQuery> =>
 	cy.get('#transactionCategorizedFilter-label');
 const getCategorizedInput = (): Chainable<JQuery> =>
 	cy.get('#transactionCategorizedFilter');
+const getCategorizedInputWrapper = (): Chainable<JQuery> =>
+	cy.get('#transactionCategorizedFilter-wrapper');
 const getPossibleRefundLabel = (): Chainable<JQuery> =>
 	cy.get('#transactionPossibleRefundFilter-label');
 const getPossibleRefundInput = (): Chainable<JQuery> =>
 	cy.get('#transactionPossibleRefundFilter');
+const getPossibleRefundInputWrapper = (): Chainable<JQuery> =>
+	cy.get('#transactionPossibleRefundFilter-wrapper');
 
 export const transactionFilters = {
 	getStartDateLabel,
@@ -58,5 +62,7 @@ export const transactionFilters = {
 	getCategoryLabel,
 	getFiltersRoot,
 	getOrderByInputWrapper,
-	getConfirmedInputWrapper
+	getConfirmedInputWrapper,
+	getCategorizedInputWrapper,
+	getPossibleRefundInputWrapper
 };

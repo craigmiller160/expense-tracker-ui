@@ -46,6 +46,7 @@ export const ReportFilters = (props: Props) => {
 						onValueHasChanged={props.onValueHasChanged}
 					/>
 					<Select
+						id="reportOrderCategoriesBy"
 						options={REPORT_CATEGORY_ORDER_BY_OPTIONS}
 						control={control}
 						name="orderCategoriesBy"

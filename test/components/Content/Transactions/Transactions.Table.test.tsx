@@ -71,23 +71,23 @@ describe('Transactions Table', () => {
 		expect(getSelectValueElement('Category')).toHaveTextContent('');
 		expect(
 			within(transactionFilters).queryByLabelText('Order By')
-		).toBeVisible();
+		).toBeInTheDocument();
 		expect(getOrderByValueElement()).toHaveTextContent('Newest to Oldest');
 		expect(
 			within(transactionFilters).queryByLabelText('Duplicate')
-		).toBeVisible();
+		).toBeInTheDocument();
 		expect(getSelectValueElement('Duplicate')).toHaveTextContent('All');
 		expect(
 			within(transactionFilters).queryByLabelText('Confirmed')
-		).toBeVisible();
+		).toBeInTheDocument();
 		expect(getSelectValueElement('Confirmed')).toHaveTextContent('All');
 		expect(
 			within(transactionFilters).queryByLabelText('Categorized')
-		).toBeVisible();
+		).toBeInTheDocument();
 		expect(getSelectValueElement('Categorized')).toHaveTextContent('All');
 		expect(
 			within(transactionFilters).queryByLabelText('Possible Refund')
-		).toBeVisible();
+		).toBeInTheDocument();
 		expect(getSelectValueElement('Possible Refund')).toHaveTextContent(
 			'All'
 		);

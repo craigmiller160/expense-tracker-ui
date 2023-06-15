@@ -33,7 +33,7 @@ describe('Report Filters', () => {
 		const categoryNames = [...orderedCategoryNames, 'Unknown'].sort();
 
 		commonPage
-			.getOpenSelectOptions()
+			.getOpenAutoCompleteOptions()
 			.each(($value, index) =>
 				expect($value.text()).eq(categoryNames[index])
 			);
@@ -61,12 +61,12 @@ describe('Report Filters', () => {
 		);
 
 		reportFiltersPage.getCategoryInput().click();
-		commonPage.getOpenSelectOptions().eq(0).click();
+		commonPage.getOpenAutoCompleteOptions().eq(0).click();
 
 		cy.wait('@addFirstCategory');
 
 		reportFiltersPage.getCategoryInput().click();
-		commonPage.getOpenSelectOptions().eq(1).click();
+		commonPage.getOpenAutoCompleteOptions().eq(1).click();
 
 		cy.wait('@addSecondCategory');
 
@@ -104,19 +104,19 @@ describe('Report Filters', () => {
 		);
 
 		reportFiltersPage.getFilterTypeInput().click();
-		commonPage.getOpenSelectOptions().eq(1).click();
+		commonPage.getOpenAutoCompleteOptions().eq(1).click();
 
 		cy.wait('@setTypeToExclude');
 
 		reportFiltersPage.getFilterTypeInput().should('have.value', 'Exclude');
 
 		reportFiltersPage.getCategoryInput().click();
-		commonPage.getOpenSelectOptions().eq(0).click();
+		commonPage.getOpenAutoCompleteOptions().eq(0).click();
 
 		cy.wait('@addFirstCategory');
 
 		reportFiltersPage.getCategoryInput().click();
-		commonPage.getOpenSelectOptions().eq(1).click();
+		commonPage.getOpenAutoCompleteOptions().eq(1).click();
 
 		cy.wait('@addSecondCategory');
 

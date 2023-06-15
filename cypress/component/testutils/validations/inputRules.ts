@@ -20,7 +20,7 @@ type RuleConfig = {
 
 const setValue = (getInput: Selector, type: InputType, value: string) => {
 	if (type === 'select') {
-		commonPage.getOpenSelectOptions().contains(value).click();
+		commonPage.getOpenAutoCompleteOptions().contains(value).click();
 	} else {
 		getInput().type(value);
 	}

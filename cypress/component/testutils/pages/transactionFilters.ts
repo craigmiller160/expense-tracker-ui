@@ -18,6 +18,8 @@ const getOrderByLabel = (): Chainable<JQuery> =>
 	cy.get('#transactionOrderByFilter-label');
 const getOrderByInput = (): Chainable<JQuery> =>
 	cy.get('#transactionOrderByFilter');
+const getOrderByInputWrapper = (): Chainable<JQuery> =>
+	cy.get('#transactionOrderByFilter-wrapper');
 const getDuplicateLabel = (): Chainable<JQuery> =>
 	cy.get('#transactionDuplicateFilter-label');
 const getDuplicateInput = (): Chainable<JQuery> =>
@@ -52,5 +54,6 @@ export const transactionFilters = {
 	getPossibleRefundInput,
 	getCategoryInput,
 	getCategoryLabel,
-	getFiltersRoot
+	getFiltersRoot,
+	getOrderByInputWrapper
 };

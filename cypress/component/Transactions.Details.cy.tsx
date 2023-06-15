@@ -479,7 +479,7 @@ describe('Transaction Details Dialog', () => {
 		transactionsListPage.getDetailsButtons().eq(0).click();
 		transactionDetailsPage.getSaveButton().should('be.disabled');
 		transactionDetailsPage.getCategorySelectInput().click();
-		commonPage.getOpenSelectOptions().eq(0).click();
+		commonPage.getOpenAutoCompleteOptions().eq(0).click();
 		transactionDetailsPage
 			.getCategorySelectInput()
 			.should('have.value', orderedCategoryNames[0]);

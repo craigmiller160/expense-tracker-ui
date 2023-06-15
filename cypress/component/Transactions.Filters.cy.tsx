@@ -57,18 +57,18 @@ describe('Transactions Filters', () => {
 		transactionFilters.getPossibleRefundInput().should('have.value', 'ALL');
 
 		transactionFilters.getCategoryInput().click();
-		commonPage.getOpenSelectOptions().each(($value, index) => {
+		commonPage.getOpenAutoCompleteOptions().each(($value, index) => {
 			expect($value.text()).to.eq(orderedCategoryNames[index]);
 		});
 
-		// transactionFilters.getOrderByInput().click();
-		// commonPage.getOpenSelectOptions().each(($value, index) => {
-		// 	if (index === 0) {
-		// 		expect($value.text()).to.eq('Newest to Oldest');
-		// 	} else {
-		// 		expect($value.text()).to.eq('Oldest to Newest');
-		// 	}
-		// });
+		transactionFilters.getOrderByInputWrapper().click();
+		commonPage.getOpenSelectOptions().each(($value, index) => {
+			if (index === 0) {
+				expect($value.text()).to.eq('Newest to Oldest');
+			} else {
+				expect($value.text()).to.eq('Oldest to Newest');
+			}
+		});
 
 		// TODO need to validate all labels and options in selects
 	});

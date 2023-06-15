@@ -26,7 +26,7 @@ describe('Transactions Table', () => {
 			.eq(0)
 			.should('have.value', '')
 			.click();
-		commonPage.getOpenSelectOptions().eq(0).click();
+		commonPage.getOpenAutoCompleteOptions().eq(0).click();
 		transactionsListPage
 			.getCategorySelects()
 			.eq(0)

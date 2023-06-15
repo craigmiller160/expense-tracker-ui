@@ -95,6 +95,14 @@ describe('Transactions Filters', () => {
 			.each(($value, index) =>
 				expect($value.text()).to.eq(yesNoOptionNames[index])
 			);
+		commonPage.dismissPopupOptions();
+
+		transactionFilters.getDuplicateInputWrapper().click();
+		commonPage
+			.getOpenSelectOptions()
+			.each(($value, index) =>
+				expect($value.text()).to.eq(yesNoOptionNames[index])
+			);
 	});
 
 	it('possible refund control', () => {
@@ -136,7 +144,35 @@ describe('Transactions Filters', () => {
 	});
 
 	it('duplicate control', () => {
-		throw new Error();
+		categoriesApi.getAllCategories();
+		needsAttentionApi.getNeedsAttention_all();
+		transactionsApi.searchForTransactionsWithQuery(
+			'.*duplicate=ALL.*',
+			'duplicatedAll'
+		);
+		mountApp({
+			initialRoute: '/expense-tracker/transactions'
+		});
+
+		transactionFilters.getDuplicateLabel().should('have.text', 'Duplicate');
+		cy.wait('@duplicateAll');
+
+		transactionsApi.searchForTransactionsWithQuery(
+			'.*duplicate=YES.*',
+			'duplicateYes'
+		);
+		transactionsApi.searchForTransactionsWithQuery(
+			'.*duplicate=NO.*',
+			'duplicatedNo'
+		);
+
+		transactionFilters.getDuplicateInputWrapper().click();
+		commonPage.getOpenSelectOptions().eq(1).click();
+		cy.wait('@duplicateYes');
+
+		transactionFilters.getDuplicateInputWrapper().click();
+		commonPage.getOpenSelectOptions().eq(2).click();
+		cy.wait('@duplicateNo');
 	});
 
 	it('categorized control', () => {

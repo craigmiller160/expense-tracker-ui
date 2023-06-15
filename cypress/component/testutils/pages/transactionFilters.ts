@@ -24,6 +24,8 @@ const getDuplicateLabel = (): Chainable<JQuery> =>
 	cy.get('#transactionDuplicateFilter-label');
 const getDuplicateInput = (): Chainable<JQuery> =>
 	cy.get('#transactionDuplicateFilter');
+const getDuplicateInputWrapper = (): Chainable<JQuery> =>
+	cy.get('#transactionDuplicateFilter-wrapper');
 const getConfirmedLabel = (): Chainable<JQuery> =>
 	cy.get('#transactionConfirmedFilter-label');
 const getConfirmedInput = (): Chainable<JQuery> =>
@@ -64,5 +66,6 @@ export const transactionFilters = {
 	getOrderByInputWrapper,
 	getConfirmedInputWrapper,
 	getCategorizedInputWrapper,
-	getPossibleRefundInputWrapper
+	getPossibleRefundInputWrapper,
+	getDuplicateInputWrapper
 };

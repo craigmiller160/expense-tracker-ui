@@ -98,7 +98,37 @@ describe('Transactions Filters', () => {
 	});
 
 	it('possible refund control', () => {
-		throw new Error();
+		categoriesApi.getAllCategories();
+		needsAttentionApi.getNeedsAttention_all();
+		transactionsApi.searchForTransactionsWithQuery(
+			'.*possibleRefund=ALL.*',
+			'possibleRefundAll'
+		);
+		mountApp({
+			initialRoute: '/expense-tracker/transactions'
+		});
+
+		transactionFilters
+			.getPossibleRefundLabel()
+			.should('have.text', 'Possible Refund');
+		cy.wait('@possibleRefundAll');
+
+		transactionsApi.searchForTransactionsWithQuery(
+			'.*possibleRefund=YES.*',
+			'possibleRefundYes'
+		);
+		transactionsApi.searchForTransactionsWithQuery(
+			'.*possibleRefund=NO.*',
+			'possibleRefundNo'
+		);
+
+		transactionFilters.getPossibleRefundInputWrapper().click();
+		commonPage.getOpenSelectOptions().eq(1).click();
+		cy.wait('@possibleRefundYes');
+
+		transactionFilters.getPossibleRefundInputWrapper().click();
+		commonPage.getOpenSelectOptions().eq(2).click();
+		cy.wait('@possibleRefundNo');
 	});
 
 	it('category control', () => {

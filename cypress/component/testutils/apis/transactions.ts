@@ -8,6 +8,19 @@ const searchForTransactions = (): Chainable<null> =>
 			fixture: 'allTransactions.json'
 		})
 		.as('searchForTransactions');
+
+const searchForTransactionsWithQuery = (
+	queryRegex: string,
+	alias: string
+): Chainable<null> =>
+	cy
+		.intercept(
+			RegExp(`\\/expense-tracker\\/api\\/transactions\\?${queryRegex}`),
+			{
+				fixture: 'allTransactions.json'
+			}
+		)
+		.as(alias);
 const getTransactionDetails = (id: string): Chainable<null> =>
 	cy
 		.fixture('transactionDetails.json')
@@ -97,5 +110,6 @@ export const transactionsApi = {
 	getTransactionDetails_possibleRefund,
 	getPossibleDuplicates,
 	getTransactionDetails_duplicate,
-	markNotDuplicate
+	markNotDuplicate,
+	searchForTransactionsWithQuery
 };

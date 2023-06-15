@@ -29,9 +29,9 @@ const sortByCategory: Ord<ReportCategoryResponse> = {
 const sortByAmount: Ord<ReportCategoryResponse> = {
 	equals: (a, b) => a.amount === b.amount,
 	compare: (a, b) => {
-		if (a < b) {
+		if (a.amount < b.amount) {
 			return -1;
-		} else if (a > b) {
+		} else if (a.amount > b.amount) {
 			return 1;
 		}
 		return 0;

@@ -10,6 +10,22 @@ import {
 } from './testutils/constants/categories';
 import { needsAttentionApi } from './testutils/apis/needsAttention';
 import { orderCategoriesByNames } from './testutils/constants/reports';
+import { reportsPage } from './testutils/pages/reports';
+
+const categoriesNameOrder = [
+	'Entertainment',
+	'Groceries',
+	'Restaurants',
+	'Travel',
+	'Unknown'
+];
+const categoriesAmountOrder = [
+	'Groceries',
+	'Restaurants',
+	'Entertainment',
+	'Unknown',
+	'Travel'
+];
 
 describe('Report Filters', () => {
 	it('renders filters correctly', () => {
@@ -151,6 +167,22 @@ describe('Report Filters', () => {
 		mountApp({
 			initialRoute: '/expense-tracker/reports'
 		});
-		throw new Error();
+
+		reportsPage
+			.getReportTableCategories(0)
+			.each(($elem, index) =>
+				expect($elem.text()).to.eq(categoriesNameOrder[index])
+			);
+		reportFiltersPage.getOrderCategoriesByInputWrapper().click();
+		commonPage.getOpenSelectOptions().eq(1).click();
+		reportFiltersPage
+			.getOrderCategoriesByInput()
+			.should('have.value', 'AMOUNT');
+
+		reportsPage
+			.getReportTableCategories(0)
+			.each(($elem, index) =>
+				expect($elem.text()).to.eq(categoriesAmountOrder[index])
+			);
 	});
 });

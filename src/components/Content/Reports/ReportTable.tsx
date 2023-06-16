@@ -10,6 +10,8 @@ import {
 	PaginationState
 } from '../../../utils/pagination';
 import { ReportPageResponse } from '../../../types/generated/expense-tracker';
+import { UseFormReturn } from 'react-hook-form';
+import { ReportFilterFormData } from './useGetReportData';
 
 const COLUMNS = ['Month', 'Data', 'Chart'];
 
@@ -18,6 +20,7 @@ type Props = {
 	readonly data?: ReportPageResponse;
 	readonly pagination: PaginationState;
 	readonly updatePagination: Updater<PaginationState>;
+	readonly form: UseFormReturn<ReportFilterFormData>;
 };
 
 export const ReportTable = (props: Props) => {
@@ -45,6 +48,7 @@ export const ReportTable = (props: Props) => {
 						<SpendingByCategoryTable
 							categories={report.categories}
 							total={report.total}
+							form={props.form}
 						/>
 					</TableCell>
 					<TableCell>

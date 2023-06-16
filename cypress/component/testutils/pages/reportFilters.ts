@@ -11,10 +11,19 @@ const getCategoryLabel = (): Chainable<JQuery> =>
 	cy.get('.ReportFilters label').eq(1);
 const getCategoryInput = (): Chainable<JQuery> =>
 	pipe(getCategoryLabel(), getInputForLabel);
+const getOrderCategoriesByInput = (): Chainable<JQuery> =>
+	cy.get('#reportOrderCategoriesBy');
+const getOrderCategoriesByInputWrapper = (): Chainable<JQuery> =>
+	cy.get('#reportOrderCategoriesBy-wrapper');
+const getOrderCategoriesByLabel = (): Chainable<JQuery> =>
+	cy.get('#reportOrderCategoriesBy-label');
 
 export const reportFiltersPage = {
 	getCategoryLabel,
 	getCategoryInput,
 	getFilterTypeLabel,
-	getFilterTypeInput
+	getFilterTypeInput,
+	getOrderCategoriesByInput,
+	getOrderCategoriesByLabel,
+	getOrderCategoriesByInputWrapper
 };

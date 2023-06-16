@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Groceries",
+    "color": "#c8ea4b",
+    "amount": -1930.85,
+    "percent": 0.48
+  },
+  {
+    "name": "Unknown",
+    "color": "#3e442a",
+    "amount": -213.95,
+    "percent": 0.05
+  },
+  {
+    "name": "Entertainment",
+    "color": "#6caf68",
+    "amount": -314.99,
+    "percent": 0.08
+  },
+  {
+    "name": "Restaurants",
+    "color": "#58c4b6",
+    "amount": -1434.75,
+    "percent": 0.36
+  },
+  {
+    "name": "Travel",
+    "color": "#cb6b3a",
+    "amount": -100.00,
+    "percent": 0.03
+  }
+]

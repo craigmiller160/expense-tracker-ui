@@ -9,6 +9,23 @@ import {
 	orderedCategoryNames
 } from './testutils/constants/categories';
 import { needsAttentionApi } from './testutils/apis/needsAttention';
+import { orderCategoriesByNames } from './testutils/constants/reports';
+import { reportsPage } from './testutils/pages/reports';
+
+const categoriesNameOrder = [
+	'Entertainment',
+	'Groceries',
+	'Restaurants',
+	'Travel',
+	'Unknown'
+];
+const categoriesAmountOrder = [
+	'Groceries',
+	'Restaurants',
+	'Entertainment',
+	'Unknown',
+	'Travel'
+];
 
 describe('Report Filters', () => {
 	it('renders filters correctly', () => {
@@ -36,6 +53,20 @@ describe('Report Filters', () => {
 			.getOpenAutoCompleteOptions()
 			.each(($value, index) =>
 				expect($value.text()).eq(categoryNames[index])
+			);
+		commonPage.dismissPopupOptions();
+
+		reportFiltersPage
+			.getOrderCategoriesByLabel()
+			.should('have.text', 'Order Categories By');
+		reportFiltersPage
+			.getOrderCategoriesByInput()
+			.should('have.value', 'CATEGORY');
+		reportFiltersPage.getOrderCategoriesByInputWrapper().click();
+		commonPage
+			.getOpenSelectOptions()
+			.each(($value, index) =>
+				expect($value.text()).eq(orderCategoriesByNames[index])
 			);
 	});
 
@@ -126,5 +157,32 @@ describe('Report Filters', () => {
 		).each(($value, index) =>
 			expect($value.text()).eq(orderedCategoryNames[index])
 		);
+	});
+
+	it('report category order by', () => {
+		categoriesApi.getUnknownCategory();
+		reportsApi.getDefaultSpendingByMonthAndCategory();
+		categoriesApi.getAllCategories();
+		needsAttentionApi.getNeedsAttention_none();
+		mountApp({
+			initialRoute: '/expense-tracker/reports'
+		});
+
+		reportsPage.getReportTableCategories(0).each(($elem, index) => {
+			if (index < categoriesNameOrder.length) {
+				expect($elem.text()).to.eq(categoriesNameOrder[index]);
+			}
+		});
+		reportFiltersPage.getOrderCategoriesByInputWrapper().click();
+		commonPage.getOpenSelectOptions().eq(1).click();
+		reportFiltersPage
+			.getOrderCategoriesByInput()
+			.should('have.value', 'AMOUNT');
+
+		reportsPage.getReportTableCategories(0).each(($elem, index) => {
+			if (index < categoriesAmountOrder.length) {
+				expect($elem.text()).to.eq(categoriesAmountOrder[index]);
+			}
+		});
 	});
 });

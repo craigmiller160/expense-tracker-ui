@@ -29,6 +29,7 @@ export const Reports = () => {
 				data={report}
 				pagination={state}
 				updatePagination={setState}
+				form={form}
 			/>
 		</PageResponsiveWrapper>
 	);

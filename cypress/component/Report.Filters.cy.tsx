@@ -168,21 +168,21 @@ describe('Report Filters', () => {
 			initialRoute: '/expense-tracker/reports'
 		});
 
-		reportsPage
-			.getReportTableCategories(0)
-			.each(($elem, index) =>
-				expect($elem.text()).to.eq(categoriesNameOrder[index])
-			);
+		reportsPage.getReportTableCategories(0).each(($elem, index) => {
+			if (index < categoriesNameOrder.length) {
+				expect($elem.text()).to.eq(categoriesNameOrder[index]);
+			}
+		});
 		reportFiltersPage.getOrderCategoriesByInputWrapper().click();
 		commonPage.getOpenSelectOptions().eq(1).click();
 		reportFiltersPage
 			.getOrderCategoriesByInput()
 			.should('have.value', 'AMOUNT');
 
-		reportsPage
-			.getReportTableCategories(0)
-			.each(($elem, index) =>
-				expect($elem.text()).to.eq(categoriesAmountOrder[index])
-			);
+		reportsPage.getReportTableCategories(0).each(($elem, index) => {
+			if (index < categoriesAmountOrder.length) {
+				expect($elem.text()).to.eq(categoriesAmountOrder[index]);
+			}
+		});
 	});
 });

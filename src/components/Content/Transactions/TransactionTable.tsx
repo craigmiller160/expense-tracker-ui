@@ -10,8 +10,14 @@ import {
 	Autocomplete,
 	Checkbox
 } from '@craigmiller160/react-hook-form-material-ui';
-import { Control, FormState } from 'react-hook-form';
-import { ReactNode } from 'react';
+import {
+	Control,
+	FieldPath,
+	FormState,
+	UseFormSetValue,
+	UseFormWatch
+} from 'react-hook-form';
+import { ReactNode, useEffect } from 'react';
 import { Updater } from 'use-immer';
 import { UpdateTransactionsMutation } from '../../../ajaxapi/query/TransactionQueries';
 import { pipe } from 'fp-ts/es6/function';
@@ -108,12 +114,38 @@ const createOnSubmit =
 			updateTransactions
 		);
 
+// TODO abstract into custom hook
+
+const CATEGORIZE_TRANSACTION_REGEX = /transactions\.(?<index>\d+)\.category/;
+type CategorizeTransactionRegexGroups = {
+	readonly index: string;
+};
+const useAutoConfirmOnCategorize = (
+	watch: UseFormWatch<TransactionTableForm>,
+	setValue: UseFormSetValue<TransactionTableForm>
+) => {
+	useEffect(() => {
+		const subscription = watch((values, { name }) => {
+			if (name) {
+				const groups = CATEGORIZE_TRANSACTION_REGEX.exec(name)
+					?.groups as CategorizeTransactionRegexGroups | undefined;
+				if (groups) {
+					const confirmedKey =
+						`transactions.${groups.index}.confirmed` as FieldPath<TransactionTableForm>;
+					setValue(confirmedKey, true);
+				}
+			}
+		});
+		return () => subscription.unsubscribe();
+	}, [watch, setValue]);
+};
+
 export const TransactionTable = (props: Props) => {
 	const {
 		data: { transactions, categories, isFetching },
 		pagination: { currentPage, totalRecords },
 		form: {
-			formReturn: { control, formState, handleSubmit, watch },
+			formReturn: { setValue, control, formState, handleSubmit, watch },
 			fields
 		},
 		actions: { resetFormToData, updateTransactions }
@@ -141,6 +173,8 @@ export const TransactionTable = (props: Props) => {
 
 	const editModeColumns = createEditModeColumns(control);
 	const watchedTransactions = watch('transactions');
+
+	useAutoConfirmOnCategorize(watch, setValue);
 
 	return (
 		<div className={`TransactionsTable ${editClass}`}>

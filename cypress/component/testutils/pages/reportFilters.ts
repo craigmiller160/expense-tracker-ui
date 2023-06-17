@@ -17,6 +17,8 @@ const getOrderCategoriesByInputWrapper = (): Chainable<JQuery> =>
 	cy.get('#reportOrderCategoriesBy-wrapper');
 const getOrderCategoriesByLabel = (): Chainable<JQuery> =>
 	cy.get('#reportOrderCategoriesBy-label');
+const getResetFiltersButton = (): Chainable<JQuery> =>
+	cy.get('#reportFilterResetButton');
 
 export const reportFiltersPage = {
 	getCategoryLabel,
@@ -25,5 +27,6 @@ export const reportFiltersPage = {
 	getFilterTypeInput,
 	getOrderCategoriesByInput,
 	getOrderCategoriesByLabel,
-	getOrderCategoriesByInputWrapper
+	getOrderCategoriesByInputWrapper,
+	getResetFiltersButton
 };

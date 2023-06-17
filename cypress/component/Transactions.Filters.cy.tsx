@@ -3,8 +3,7 @@ import { needsAttentionApi } from './testutils/apis/needsAttention';
 import { transactionsApi } from './testutils/apis/transactions';
 import { mountApp } from './testutils/mountApp';
 import { transactionFilters } from './testutils/pages/transactionFilters';
-import { subMonths, format } from 'date-fns/fp';
-import { flow } from 'fp-ts/es6/function';
+import { subMonths, format, subDays, addDays } from 'date-fns/fp';
 import { commonPage } from './testutils/pages/common';
 import {
 	orderedCategoryIds,
@@ -17,10 +16,79 @@ import {
 
 const DATE_FORMAT = 'MM/dd/yyyy';
 
-const defaultStartDate = flow(subMonths(1), format(DATE_FORMAT))(new Date());
-const defaultEndDate = format(DATE_FORMAT)(new Date());
+const defaultEndDate = new Date();
+const defaultStartDate = subMonths(1)(defaultEndDate);
+const defaultStartDateString = format(DATE_FORMAT)(defaultStartDate);
+const defaultEndDateString = format(DATE_FORMAT)(defaultEndDate);
+
+const newStartDate = subDays(1)(defaultStartDate);
+const newEndDate = addDays(1)(defaultEndDate);
+const newStartDateString = format(DATE_FORMAT)(newStartDate);
+const newEndDateString = format(DATE_FORMAT)(newEndDate);
 
 describe('Transactions Filters', () => {
+	it('clears all filters', () => {
+		categoriesApi.getAllCategories();
+		needsAttentionApi.getNeedsAttention_all();
+		transactionsApi.searchForTransactions();
+		mountApp({
+			initialRoute: '/expense-tracker/transactions'
+		});
+
+		transactionFilters.getStartDateInput().clear();
+		transactionFilters.getStartDateInput().type(newStartDateString);
+		transactionFilters
+			.getStartDateInput()
+			.should('have.value', newStartDateString);
+
+		transactionFilters.getEndDateInput().clear();
+		transactionFilters.getEndDateInput().type(newEndDateString);
+		transactionFilters
+			.getEndDateInput()
+			.should('have.value', newEndDateString);
+
+		transactionFilters.getCategoryInput().click();
+		commonPage.getOpenAutoCompleteOptions().eq(0).click();
+		transactionFilters
+			.getCategoryInput()
+			.should('have.value', orderedCategoryNames[0]);
+
+		transactionFilters.getOrderByInputWrapper().click();
+		commonPage.getOpenSelectOptions().eq(1).click();
+		transactionFilters.getOrderByInput().should('have.value', 'ASC');
+
+		transactionFilters.getDuplicateInputWrapper().click();
+		commonPage.getOpenSelectOptions().eq(1).click();
+		transactionFilters.getDuplicateInput().should('have.value', 'YES');
+
+		transactionFilters.getCategorizedInputWrapper().click();
+		commonPage.getOpenSelectOptions().eq(1).click();
+		transactionFilters.getCategorizedInput().should('have.value', 'YES');
+
+		transactionFilters.getConfirmedInputWrapper().click();
+		commonPage.getOpenSelectOptions().eq(1).click();
+		transactionFilters.getConfirmedInput().should('have.value', 'YES');
+
+		transactionFilters.getPossibleRefundInputWrapper().click();
+		commonPage.getOpenSelectOptions().eq(1).click();
+		transactionFilters.getPossibleRefundInput().should('have.value', 'YES');
+
+		transactionFilters.getResetFilterButton().click();
+
+		transactionFilters
+			.getStartDateInput()
+			.should('have.value', defaultStartDateString);
+		transactionFilters
+			.getEndDateInput()
+			.should('have.value', defaultEndDateString);
+		transactionFilters.getCategoryInput().should('have.value', '');
+		transactionFilters.getOrderByInput().should('have.value', 'DESC');
+		transactionFilters.getDuplicateInput().should('have.value', 'ALL');
+		transactionFilters.getCategorizedInput().should('have.value', 'ALL');
+		transactionFilters.getPossibleRefundInput().should('have.value', 'ALL');
+		transactionFilters.getConfirmedInput().should('have.value', 'ALL');
+	});
+
 	it('renders all filters', () => {
 		categoriesApi.getAllCategories();
 		needsAttentionApi.getNeedsAttention_all();
@@ -34,12 +102,12 @@ describe('Transactions Filters', () => {
 			.should('have.text', 'Start Date');
 		transactionFilters
 			.getStartDateInput()
-			.should('have.value', defaultStartDate);
+			.should('have.value', defaultStartDateString);
 
 		transactionFilters.getEndDateLabel().should('have.text', 'End Date');
 		transactionFilters
 			.getEndDateInput()
-			.should('have.value', defaultEndDate);
+			.should('have.value', defaultEndDateString);
 
 		transactionFilters.getCategoryLabel().should('have.text', 'Category');
 		transactionFilters.getCategoryInput().should('have.value', '');

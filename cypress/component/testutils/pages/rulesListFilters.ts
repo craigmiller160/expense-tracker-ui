@@ -10,10 +10,13 @@ const getRegexFilterInput = (): Chainable<JQuery> =>
 	pipe(getRegexFilterLabel(), getInputForLabel);
 const getCategoryFilterInput = (): Chainable<JQuery> =>
 	pipe(getCategoryFilterLabel(), getInputForLabel);
+const getResetFilterButton = (): Chainable<JQuery> =>
+	cy.get('#rulesFilterResetButton');
 
 export const rulesListFiltersPage = {
 	getRegexFilterLabel,
 	getCategoryFilterLabel,
 	getRegexFilterInput,
-	getCategoryFilterInput
+	getCategoryFilterInput,
+	getResetFilterButton
 };

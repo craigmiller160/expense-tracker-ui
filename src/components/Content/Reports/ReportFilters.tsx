@@ -1,5 +1,5 @@
 import { UseFormReturn } from 'react-hook-form';
-import { Paper } from '@mui/material';
+import { Button, Paper } from '@mui/material';
 import { constVoid } from 'fp-ts/es6/function';
 import {
 	Autocomplete,
@@ -8,7 +8,10 @@ import {
 } from '@craigmiller160/react-hook-form-material-ui';
 import { ResponsiveRow } from '../../UI/ResponsiveWrappers/ResponsiveRow';
 import './ReportFilters.scss';
-import { ReportFilterFormData } from './useGetReportData';
+import {
+	defaultReportFilterFormData,
+	ReportFilterFormData
+} from './useGetReportData';
 import { CategoryOption } from '../../../types/categories';
 import {
 	REPORT_CATEGORY_FILTER_OPTIONS,
@@ -23,9 +26,12 @@ type Props = {
 
 export const ReportFilters = (props: Props) => {
 	const {
-		form: { control },
+		form: { control, reset },
 		categories
 	} = props;
+
+	const resetFilters = () => reset(defaultReportFilterFormData);
+
 	return (
 		<Paper className="ReportFilters">
 			<form onSubmit={constVoid}>
@@ -52,6 +58,16 @@ export const ReportFilters = (props: Props) => {
 						name="orderCategoriesBy"
 						label="Order Categories By"
 					/>
+				</ResponsiveRow>
+				<ResponsiveRow>
+					<Button
+						id="reportFilterResetButton"
+						variant="contained"
+						color="info"
+						onClick={resetFilters}
+					>
+						Reset
+					</Button>
 				</ResponsiveRow>
 			</form>
 		</Paper>

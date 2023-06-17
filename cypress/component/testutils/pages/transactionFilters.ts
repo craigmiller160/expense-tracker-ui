@@ -44,6 +44,8 @@ const getPossibleRefundInput = (): Chainable<JQuery> =>
 	cy.get('#transactionPossibleRefundFilter');
 const getPossibleRefundInputWrapper = (): Chainable<JQuery> =>
 	cy.get('#transactionPossibleRefundFilter-wrapper');
+const getResetFilterButton = (): Chainable<JQuery> =>
+	cy.get('#transactionFilterResetButton');
 
 export const transactionFilters = {
 	getStartDateLabel,
@@ -67,5 +69,6 @@ export const transactionFilters = {
 	getConfirmedInputWrapper,
 	getCategorizedInputWrapper,
 	getPossibleRefundInputWrapper,
-	getDuplicateInputWrapper
+	getDuplicateInputWrapper,
+	getResetFilterButton
 };

@@ -1,11 +1,14 @@
-import { Paper } from '@mui/material';
+import { Button, Paper } from '@mui/material';
 import {
 	Autocomplete,
 	TextField,
 	ValueHasChanged
 } from '@craigmiller160/react-hook-form-material-ui';
 import { UseFormReturn } from 'react-hook-form';
-import { RulesFiltersFormData } from './useHandleAllRulesData';
+import {
+	defaultRulesFiltersFormData,
+	RulesFiltersFormData
+} from './useHandleAllRulesData';
 import './RulesFilters.scss';
 import { ResponsiveRow } from '../../UI/ResponsiveWrappers/ResponsiveRow';
 import { constVoid } from 'fp-ts/es6/function';
@@ -18,6 +21,7 @@ type Props = {
 };
 
 export const RulesFilters = (props: Props) => {
+	const resetFilters = () => props.form.reset(defaultRulesFiltersFormData);
 	return (
 		<Paper className="AutoCategorizeRulesFilters">
 			<form onSubmit={constVoid}>
@@ -35,6 +39,16 @@ export const RulesFilters = (props: Props) => {
 						label="Category"
 						onValueHasChanged={props.onValueHasChanged}
 					/>
+				</ResponsiveRow>
+				<ResponsiveRow>
+					<Button
+						id="rulesFilterResetButton"
+						variant="contained"
+						color="info"
+						onClick={resetFilters}
+					>
+						Reset
+					</Button>
 				</ResponsiveRow>
 			</form>
 		</Paper>

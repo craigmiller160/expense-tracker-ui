@@ -2,12 +2,9 @@ import Chainable = Cypress.Chainable;
 
 const getDefaultSpendingByMonthAndCategory = (): Chainable<null> =>
 	cy
-		.intercept(
-			'/expense-tracker/api/reports?pageNumber=0&pageSize=10&categoryIdType=INCLUDE',
-			{
-				fixture: 'reports.json'
-			}
-		)
+		.intercept('/expense-tracker/api/reports?*', {
+			fixture: 'reports.json'
+		})
 		.as('getSpendingByMonthAndCategory');
 
 const getSpendingByMonthAndCategory = (

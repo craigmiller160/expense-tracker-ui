@@ -15,6 +15,31 @@ const validateQueryString = (url: string, expectedQuery: string) => {
 };
 
 describe('Rules Filters', () => {
+	it('clears all filters', () => {
+		rulesApi.getAllRules();
+		rulesApi.getMaxOrdinal();
+		categoriesApi.getAllCategories();
+		mountApp({
+			initialRoute: '/expense-tracker/rules'
+		});
+
+		rulesListFiltersPage.getRegexFilterInput().type('Hello');
+		rulesListFiltersPage
+			.getRegexFilterInput()
+			.should('have.value', 'Hello');
+
+		rulesListFiltersPage.getCategoryFilterInput().click();
+		commonPage.getOpenAutoCompleteOptions().eq(0).click();
+		rulesListFiltersPage
+			.getCategoryFilterInput()
+			.should('have.value', orderedCategoryNames[0]);
+
+		rulesListFiltersPage.getResetFilterButton().click();
+
+		rulesListFiltersPage.getRegexFilterInput().should('have.value', '');
+		rulesListFiltersPage.getCategoryFilterInput().should('have.value', '');
+	});
+
 	it('renders the filters', () => {
 		rulesApi.getAllRules();
 		rulesApi.getMaxOrdinal();

@@ -1,5 +1,5 @@
 import { UseFormReturn } from 'react-hook-form';
-import { Paper } from '@mui/material';
+import { Button, Paper } from '@mui/material';
 import { constVoid } from 'fp-ts/es6/function';
 import {
 	Autocomplete,
@@ -52,6 +52,11 @@ export const ReportFilters = (props: Props) => {
 						name="orderCategoriesBy"
 						label="Order Categories By"
 					/>
+				</ResponsiveRow>
+				<ResponsiveRow>
+					<Button variant="contained" color="info">
+						Reset
+					</Button>
 				</ResponsiveRow>
 			</form>
 		</Paper>

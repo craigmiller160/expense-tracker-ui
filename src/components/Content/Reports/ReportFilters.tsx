@@ -54,7 +54,11 @@ export const ReportFilters = (props: Props) => {
 					/>
 				</ResponsiveRow>
 				<ResponsiveRow>
-					<Button variant="contained" color="info">
+					<Button
+						id="reportFilterResetButton"
+						variant="contained"
+						color="info"
+					>
 						Reset
 					</Button>
 				</ResponsiveRow>

@@ -7,6 +7,10 @@ import { orderedCategoryNames } from './testutils/constants/categories';
 import { needsAttentionApi } from './testutils/apis/needsAttention';
 
 describe('Transactions Table', () => {
+	it('can select a category on a record which is then auto-confirmed', () => {
+		throw new Error();
+	});
+
 	it('can reset in-progress changes on transactions', () => {
 		categoriesApi.getAllCategories();
 		needsAttentionApi.getNeedsAttention_all();

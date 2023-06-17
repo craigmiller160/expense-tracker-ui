@@ -68,13 +68,11 @@ export const useSearchForTransactions = (
 		Error,
 		TransactionsPageResponse,
 		SearchForTransactionsKey
-	>(
-		[SEARCH_FOR_TRANSACTIONS, request],
-		({ queryKey: [, req] }) => debounceSearchForTransactions(req),
-		{
-			enabled: !!request.startDate && !!request.endDate
-		}
-	);
+	>({
+		queryKey: [SEARCH_FOR_TRANSACTIONS, request],
+		queryFn: ({ queryKey: [, req] }) => debounceSearchForTransactions(req),
+		enabled: !!request.startDate && !!request.endDate
+	});
 
 type GetPossibleDuplicatesKey = [
 	string,
@@ -90,8 +88,8 @@ export const useGetPossibleDuplicates = (
 		Error,
 		TransactionDuplicatePageResponse,
 		GetPossibleDuplicatesKey
-	>(
-		[
+	>({
+		queryKey: [
 			GET_POSSIBLE_DUPLICATES,
 			{
 				transactionId,
@@ -99,9 +97,9 @@ export const useGetPossibleDuplicates = (
 				pageSize
 			}
 		],
-		({ queryKey: [, { transactionId, pageNumber, pageSize }] }) =>
+		queryFn: ({ queryKey: [, { transactionId, pageNumber, pageSize }] }) =>
 			getPossibleDuplicates(transactionId, pageNumber, pageSize)
-	);
+	});
 
 type GetTransactionDetailsKey = [string, OptionT<string>];
 export const useGetTransactionDetails = (
@@ -112,13 +110,13 @@ export const useGetTransactionDetails = (
 		Error,
 		TransactionDetailsResponse,
 		GetTransactionDetailsKey
-	>(
-		[GET_TRANSACTION_DETAILS, transactionId],
-		({ queryKey: [, id] }) =>
+	>({
+		queryKey: [GET_TRANSACTION_DETAILS, transactionId],
+		queryFn: ({ queryKey: [, id] }) =>
 			// Will never execute orElse condition
 			getTransactionDetails(Option.getOrElse(() => '')(id)),
-		{ enabled: Option.isSome(transactionId) }
-	);
+		enabled: Option.isSome(transactionId)
+	});
 
 interface CategorizeTransactionsParams {
 	readonly transactionsAndCategories: ReadonlyArray<TransactionAndCategory>;
@@ -130,13 +128,11 @@ export const useCategorizeTransactions = (): UseMutationResult<
 	CategorizeTransactionsParams
 > => {
 	const queryClient = useQueryClient();
-	return useMutation<unknown, Error, CategorizeTransactionsParams>(
-		({ transactionsAndCategories }) =>
+	return useMutation<unknown, Error, CategorizeTransactionsParams>({
+		mutationFn: ({ transactionsAndCategories }) =>
 			categorizeTransactions(transactionsAndCategories),
-		{
-			onSuccess: () => invalidateTransactionQueries(queryClient)
-		}
-	);
+		onSuccess: () => invalidateTransactionQueries(queryClient)
+	});
 };
 
 interface UpdateTransactionsParams {
@@ -155,12 +151,10 @@ export const useUpdateTransactions = (): UseMutationResult<
 	UpdateTransactionsParams
 > => {
 	const queryClient = useQueryClient();
-	return useMutation<unknown, Error, UpdateTransactionsParams>(
-		({ transactions }) => updateTransactions(transactions),
-		{
-			onSuccess: () => invalidateTransactionQueries(queryClient)
-		}
-	);
+	return useMutation<unknown, Error, UpdateTransactionsParams>({
+		mutationFn: ({ transactions }) => updateTransactions(transactions),
+		onSuccess: () => invalidateTransactionQueries(queryClient)
+	});
 };
 
 type MarkNotDuplicateParams = {
@@ -173,12 +167,10 @@ export const useMarkNotDuplicate = (): UseMutationResult<
 	MarkNotDuplicateParams
 > => {
 	const queryClient = useQueryClient();
-	return useMutation<unknown, Error, MarkNotDuplicateParams>(
-		({ id }) => markNotDuplicate(id),
-		{
-			onSuccess: () => invalidateTransactionQueries(queryClient)
-		}
-	);
+	return useMutation<unknown, Error, MarkNotDuplicateParams>({
+		mutationFn: ({ id }) => markNotDuplicate(id),
+		onSuccess: () => invalidateTransactionQueries(queryClient)
+	});
 };
 
 type DeleteTransactionsParams = {
@@ -187,12 +179,10 @@ type DeleteTransactionsParams = {
 
 export const useDeleteTransactions = () => {
 	const queryClient = useQueryClient();
-	return useMutation<void, Error, DeleteTransactionsParams>(
-		({ idsToDelete }) => deleteTransactions(idsToDelete),
-		{
-			onSuccess: () => invalidateTransactionQueries(queryClient)
-		}
-	);
+	return useMutation<void, Error, DeleteTransactionsParams>({
+		mutationFn: ({ idsToDelete }) => deleteTransactions(idsToDelete),
+		onSuccess: () => invalidateTransactionQueries(queryClient)
+	});
 };
 
 type UpdateTransactionDetailsParams = {
@@ -200,12 +190,10 @@ type UpdateTransactionDetailsParams = {
 };
 export const useUpdateTransactionDetails = () => {
 	const queryClient = useQueryClient();
-	return useMutation<void, Error, UpdateTransactionDetailsParams>(
-		({ request }) => updateTransactionDetails(request),
-		{
-			onSuccess: () => invalidateTransactionQueries(queryClient)
-		}
-	);
+	return useMutation<void, Error, UpdateTransactionDetailsParams>({
+		mutationFn: ({ request }) => updateTransactionDetails(request),
+		onSuccess: () => invalidateTransactionQueries(queryClient)
+	});
 };
 
 type CreateTransactionParams = {
@@ -213,10 +201,8 @@ type CreateTransactionParams = {
 };
 export const useCreateTransaction = () => {
 	const queryClient = useQueryClient();
-	return useMutation<TransactionResponse, Error, CreateTransactionParams>(
-		({ request }) => createTransaction(request),
-		{
-			onSuccess: () => invalidateTransactionQueries(queryClient)
-		}
-	);
+	return useMutation<TransactionResponse, Error, CreateTransactionParams>({
+		mutationFn: ({ request }) => createTransaction(request),
+		onSuccess: () => invalidateTransactionQueries(queryClient)
+	});
 };

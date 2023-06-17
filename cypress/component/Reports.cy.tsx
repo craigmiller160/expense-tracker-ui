@@ -90,7 +90,18 @@ describe('Reports', () => {
 			initialRoute: '/expense-tracker/reports'
 		});
 
-		throw new Error();
+		reportsPage
+			.getReportTableCategories(0)
+			.eq(4)
+			.should('have.text', 'Unknown');
+		reportsPage.getReportTableCategories(0).eq(4).click();
+
+		transactionFilters
+			.getStartDateInput()
+			.should('have.value', '11/01/2022');
+		transactionFilters.getEndDateInput().should('have.value', '11/30/2022');
+		transactionFilters.getCategorizedInput().should('have.value', 'NO');
+		transactionFilters.getCategoryInput().should('have.value', '');
 	});
 
 	it('clicking on month opens page of related transactions', () => {

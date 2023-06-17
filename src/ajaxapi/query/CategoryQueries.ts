@@ -41,15 +41,13 @@ export type UpdateCategoryMutation = UseMutateFunction<
 
 export const useUpdateCategory = () => {
 	const queryClient = useQueryClient();
-	return useMutation<unknown, Error, UpdateCategoryParams>(
-		({ id, name }) => updateCategory(id, name),
-		{
-			onSuccess: () =>
-				queryClient.invalidateQueries({
-					queryKey: [GET_ALL_CATEGORIES]
-				})
-		}
-	);
+	return useMutation<unknown, Error, UpdateCategoryParams>({
+		mutationFn: ({ id, name }) => updateCategory(id, name),
+		onSuccess: () =>
+			queryClient.invalidateQueries({
+				queryKey: [GET_ALL_CATEGORIES]
+			})
+	});
 };
 
 interface CreateCategoryParams {
@@ -64,15 +62,13 @@ export type CreateCategoryMutation = UseMutateFunction<
 
 export const useCreateCategory = () => {
 	const queryClient = useQueryClient();
-	return useMutation<CategoryResponse, Error, CreateCategoryParams>(
-		({ name }) => createCategory(name),
-		{
-			onSuccess: () =>
-				queryClient.invalidateQueries({
-					queryKey: [GET_ALL_CATEGORIES]
-				})
-		}
-	);
+	return useMutation<CategoryResponse, Error, CreateCategoryParams>({
+		mutationFn: ({ name }) => createCategory(name),
+		onSuccess: () =>
+			queryClient.invalidateQueries({
+				queryKey: [GET_ALL_CATEGORIES]
+			})
+	});
 };
 
 interface DeleteCategoryParams {
@@ -87,13 +83,11 @@ export type DeleteCategoryMutation = UseMutateFunction<
 
 export const useDeleteCategory = () => {
 	const queryClient = useQueryClient();
-	return useMutation<unknown, Error, DeleteCategoryParams>(
-		({ id }) => deleteCategory(id),
-		{
-			onSuccess: () =>
-				queryClient.invalidateQueries({
-					queryKey: [GET_ALL_CATEGORIES]
-				})
-		}
-	);
+	return useMutation<unknown, Error, DeleteCategoryParams>({
+		mutationFn: ({ id }) => deleteCategory(id),
+		onSuccess: () =>
+			queryClient.invalidateQueries({
+				queryKey: [GET_ALL_CATEGORIES]
+			})
+	});
 };

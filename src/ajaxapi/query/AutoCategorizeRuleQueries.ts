@@ -50,9 +50,10 @@ export const useGetAllRules = (
 		Error,
 		AutoCategorizeRulePageResponse,
 		GetAllRulesKey
-	>([GET_ALL_RULES, request], ({ queryKey: [, req] }) =>
-		debounceGetAllRules(req)
-	);
+	>({
+		queryKey: [GET_ALL_RULES, request],
+		queryFn: ({ queryKey: [, req] }) => debounceGetAllRules(req)
+	});
 
 type GetRuleKey = [string, OptionT<string>];
 export const useGetRule = (
@@ -63,15 +64,13 @@ export const useGetRule = (
 		Error,
 		AutoCategorizeRuleResponse,
 		GetRuleKey
-	>(
-		[GET_RULE, ruleId],
-		({ queryKey: [, id] }) =>
+	>({
+		queryKey: [GET_RULE, ruleId],
+		queryFn: ({ queryKey: [, id] }) =>
 			// Will never execute orElse condition
 			getRule(Option.getOrElse(() => '')(id)),
-		{
-			enabled: Option.isSome(ruleId)
-		}
-	);
+		enabled: Option.isSome(ruleId)
+	});
 
 export const useGetMaxOrdinal = (): UseQueryResult<MaxOrdinalResponse, Error> =>
 	useQuery<MaxOrdinalResponse, Error>({
@@ -88,12 +87,10 @@ export const useCreateRule = (): UseMutationResult<
 	CreateRuleParams
 > => {
 	const queryClient = useQueryClient();
-	return useMutation<AutoCategorizeRuleResponse, Error, CreateRuleParams>(
-		({ request }) => createRule(request),
-		{
-			onSuccess: () => invalidateRuleQueries(queryClient)
-		}
-	);
+	return useMutation<AutoCategorizeRuleResponse, Error, CreateRuleParams>({
+		mutationFn: ({ request }) => createRule(request),
+		onSuccess: () => invalidateRuleQueries(queryClient)
+	});
 };
 
 export type UpdateRuleParams = {
@@ -106,12 +103,10 @@ export const useUpdateRule = (): UseMutationResult<
 	UpdateRuleParams
 > => {
 	const queryClient = useQueryClient();
-	return useMutation<AutoCategorizeRuleResponse, Error, UpdateRuleParams>(
-		({ ruleId, request }) => updateRule(ruleId, request),
-		{
-			onSuccess: () => invalidateRuleQueries(queryClient)
-		}
-	);
+	return useMutation<AutoCategorizeRuleResponse, Error, UpdateRuleParams>({
+		mutationFn: ({ ruleId, request }) => updateRule(ruleId, request),
+		onSuccess: () => invalidateRuleQueries(queryClient)
+	});
 };
 
 export type DeleteRuleParams = {
@@ -123,12 +118,10 @@ export const useDeleteRule = (): UseMutationResult<
 	DeleteRuleParams
 > => {
 	const queryClient = useQueryClient();
-	return useMutation<void, Error, DeleteRuleParams>(
-		({ ruleId }) => deleteRule(ruleId),
-		{
-			onSuccess: () => invalidateRuleQueries(queryClient)
-		}
-	);
+	return useMutation<void, Error, DeleteRuleParams>({
+		mutationFn: ({ ruleId }) => deleteRule(ruleId),
+		onSuccess: () => invalidateRuleQueries(queryClient)
+	});
 };
 
 export type ReOrderRuleParams = {
@@ -141,10 +134,8 @@ export const useReOrderRule = (): UseMutationResult<
 	ReOrderRuleParams
 > => {
 	const queryClient = useQueryClient();
-	return useMutation<void, Error, ReOrderRuleParams>(
-		({ ruleId, ordinal }) => reOrderRule(ruleId, ordinal),
-		{
-			onSuccess: () => invalidateRuleQueries(queryClient)
-		}
-	);
+	return useMutation<void, Error, ReOrderRuleParams>({
+		mutationFn: ({ ruleId, ordinal }) => reOrderRule(ruleId, ordinal),
+		onSuccess: () => invalidateRuleQueries(queryClient)
+	});
 };

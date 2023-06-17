@@ -56,6 +56,10 @@ describe('Reports', () => {
 		throw new Error();
 	});
 
+	it('clicking on month opens page of related transactions', () => {
+		throw new Error();
+	});
+
 	it('shows month-by-month report', () => {
 		categoriesApi.getUnknownCategory();
 		reportsApi.getDefaultSpendingByMonthAndCategory();

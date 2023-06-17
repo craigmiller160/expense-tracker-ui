@@ -28,6 +28,10 @@ const categoriesAmountOrder = [
 ];
 
 describe('Report Filters', () => {
+	it('clears all filters', () => {
+		throw new Error();
+	});
+
 	it('renders filters correctly', () => {
 		categoriesApi.getUnknownCategory();
 		reportsApi.getDefaultSpendingByMonthAndCategory();

@@ -21,6 +21,10 @@ const defaultStartDate = flow(subMonths(1), format(DATE_FORMAT))(new Date());
 const defaultEndDate = format(DATE_FORMAT)(new Date());
 
 describe('Transactions Filters', () => {
+	it('clears all filters', () => {
+		throw new Error();
+	});
+
 	it('renders all filters', () => {
 		categoriesApi.getAllCategories();
 		needsAttentionApi.getNeedsAttention_all();

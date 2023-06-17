@@ -15,6 +15,10 @@ const validateQueryString = (url: string, expectedQuery: string) => {
 };
 
 describe('Rules Filters', () => {
+	it('clears all filters', () => {
+		throw new Error();
+	});
+
 	it('renders the filters', () => {
 		rulesApi.getAllRules();
 		rulesApi.getMaxOrdinal();

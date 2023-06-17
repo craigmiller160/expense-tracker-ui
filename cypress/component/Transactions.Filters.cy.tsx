@@ -45,6 +45,30 @@ describe('Transactions Filters', () => {
 			.getEndDateInput()
 			.should('have.value', newEndDateString);
 
+		transactionFilters.getCategoryInput().click();
+		commonPage.getOpenAutoCompleteOptions().eq(0).click();
+		transactionFilters
+			.getCategoryInput()
+			.should('have.value', orderedCategoryNames[0]);
+
+		transactionFilters.getOrderByInputWrapper().click();
+		commonPage.getOpenSelectOptions().eq(1).click();
+		transactionFilters
+			.getOrderByInput()
+			.should('have.value', 'Oldest to Newest');
+
+		transactionFilters.getDuplicateInputWrapper().click();
+		commonPage.getOpenSelectOptions().eq(1).click();
+		transactionFilters.getDuplicateInput().should('have.value', 'Yes');
+
+		transactionFilters.getCategorizedInputWrapper().click();
+		commonPage.getOpenSelectOptions().eq(1).click();
+		transactionFilters.getCategorizedInput().should('have.value', 'Yes');
+
+		transactionFilters.getConfirmedInputWrapper().click();
+		commonPage.getOpenSelectOptions().eq(1).click();
+		transactionFilters.getConfirmedInput().should('have.value', 'Yes');
+
 		transactionFilters.getPossibleRefundInputWrapper().click();
 		commonPage.getOpenSelectOptions().eq(1).click();
 		transactionFilters.getPossibleRefundInput().should('have.value', 'Yes');
@@ -57,17 +81,14 @@ describe('Transactions Filters', () => {
 		transactionFilters
 			.getEndDateInput()
 			.should('have.value', defaultEndDateString);
+		transactionFilters.getCategoryInput().should('have.value', '');
+		transactionFilters
+			.getOrderByInput()
+			.should('have.value', 'Newest to Oldest');
+		transactionFilters.getDuplicateInput().should('have.value', 'All');
+		transactionFilters.getCategorizedInput().should('have.value', 'All');
 		transactionFilters.getPossibleRefundInput().should('have.value', 'All');
-
-		/*
-		 * 3. Category
-		 * 4. Order By
-		 * 5. Duplicate
-		 * 6. Confirmed
-		 * 7. Categorized
-		 */
-
-		throw new Error();
+		transactionFilters.getConfirmedInput().should('have.value', 'All');
 	});
 
 	it('renders all filters', () => {

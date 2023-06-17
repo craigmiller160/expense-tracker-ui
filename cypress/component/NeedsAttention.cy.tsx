@@ -145,6 +145,8 @@ describe('Needs Attention', () => {
 		it('has duplicates', () => {
 			reportsApi.getDefaultSpendingByMonthAndCategory();
 			needsAttentionApi.getNeedsAttention_duplicates();
+			categoriesApi.getUnknownCategory();
+			categoriesApi.getAllCategories();
 			mountApp({
 				initialRoute: '/expense-tracker/reports'
 			});
@@ -156,6 +158,8 @@ describe('Needs Attention', () => {
 		it('has possible refunds', () => {
 			reportsApi.getDefaultSpendingByMonthAndCategory();
 			needsAttentionApi.getNeedsAttention_possibleRefund();
+			categoriesApi.getUnknownCategory();
+			categoriesApi.getAllCategories();
 			mountApp({
 				initialRoute: '/expense-tracker/reports'
 			});
@@ -167,6 +171,8 @@ describe('Needs Attention', () => {
 		it('has unconfirmed', () => {
 			reportsApi.getDefaultSpendingByMonthAndCategory();
 			needsAttentionApi.getNeedsAttention_unconfirmed();
+			categoriesApi.getUnknownCategory();
+			categoriesApi.getAllCategories();
 			mountApp({
 				initialRoute: '/expense-tracker/reports'
 			});
@@ -178,6 +184,8 @@ describe('Needs Attention', () => {
 		it('has uncategorized', () => {
 			reportsApi.getDefaultSpendingByMonthAndCategory();
 			needsAttentionApi.getNeedsAttention_uncategorized();
+			categoriesApi.getUnknownCategory();
+			categoriesApi.getAllCategories();
 			mountApp({
 				initialRoute: '/expense-tracker/reports'
 			});
@@ -189,6 +197,8 @@ describe('Needs Attention', () => {
 		it('has all', () => {
 			reportsApi.getDefaultSpendingByMonthAndCategory();
 			needsAttentionApi.getNeedsAttention_all();
+			categoriesApi.getUnknownCategory();
+			categoriesApi.getAllCategories();
 			mountApp({
 				initialRoute: '/expense-tracker/reports'
 			});
@@ -203,6 +213,8 @@ describe('Needs Attention', () => {
 		it('has none', () => {
 			reportsApi.getDefaultSpendingByMonthAndCategory();
 			needsAttentionApi.getNeedsAttention_none();
+			categoriesApi.getUnknownCategory();
+			categoriesApi.getAllCategories();
 			mountApp({
 				initialRoute: '/expense-tracker/reports'
 			});

@@ -39,7 +39,7 @@ describe('Report Filters', () => {
 
 		reportFiltersPage.getFilterTypeInput().click();
 		commonPage.getOpenAutoCompleteOptions().eq(1).click();
-		reportFiltersPage.getFilterTypeInput().should('have.value', 'EXCLUDE');
+		reportFiltersPage.getFilterTypeInput().should('have.value', 'Exclude');
 
 		reportFiltersPage.getCategoryInput().click();
 		commonPage.getOpenAutoCompleteOptions().eq(0).click();
@@ -56,7 +56,7 @@ describe('Report Filters', () => {
 
 		reportFiltersPage.getResetFiltersButton().click();
 
-		reportFiltersPage.getFilterTypeInput().should('have.value', 'EXCLUDE');
+		reportFiltersPage.getFilterTypeInput().should('have.value', 'Include');
 		pipe(
 			reportFiltersPage.getCategoryInput(),
 			commonPage.getMultipleSelectValues

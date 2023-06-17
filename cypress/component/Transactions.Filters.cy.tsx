@@ -35,11 +35,13 @@ describe('Transactions Filters', () => {
 			initialRoute: '/expense-tracker/transactions'
 		});
 
+		transactionFilters.getStartDateInput().clear();
 		transactionFilters.getStartDateInput().type(newStartDateString);
 		transactionFilters
 			.getStartDateInput()
 			.should('have.value', newStartDateString);
 
+		transactionFilters.getEndDateInput().clear();
 		transactionFilters.getEndDateInput().type(newEndDateString);
 		transactionFilters
 			.getEndDateInput()
@@ -53,42 +55,38 @@ describe('Transactions Filters', () => {
 
 		transactionFilters.getOrderByInputWrapper().click();
 		commonPage.getOpenSelectOptions().eq(1).click();
-		transactionFilters
-			.getOrderByInput()
-			.should('have.value', 'Oldest to Newest');
+		transactionFilters.getOrderByInput().should('have.value', 'ASC');
 
 		transactionFilters.getDuplicateInputWrapper().click();
 		commonPage.getOpenSelectOptions().eq(1).click();
-		transactionFilters.getDuplicateInput().should('have.value', 'Yes');
+		transactionFilters.getDuplicateInput().should('have.value', 'YES');
 
 		transactionFilters.getCategorizedInputWrapper().click();
 		commonPage.getOpenSelectOptions().eq(1).click();
-		transactionFilters.getCategorizedInput().should('have.value', 'Yes');
+		transactionFilters.getCategorizedInput().should('have.value', 'YES');
 
 		transactionFilters.getConfirmedInputWrapper().click();
 		commonPage.getOpenSelectOptions().eq(1).click();
-		transactionFilters.getConfirmedInput().should('have.value', 'Yes');
+		transactionFilters.getConfirmedInput().should('have.value', 'YES');
 
 		transactionFilters.getPossibleRefundInputWrapper().click();
 		commonPage.getOpenSelectOptions().eq(1).click();
-		transactionFilters.getPossibleRefundInput().should('have.value', 'Yes');
+		transactionFilters.getPossibleRefundInput().should('have.value', 'YES');
 
 		transactionFilters.getResetFilterButton().click();
 
 		transactionFilters
 			.getStartDateInput()
-			.should('have.value', defaultStartDate);
+			.should('have.value', defaultStartDateString);
 		transactionFilters
 			.getEndDateInput()
 			.should('have.value', defaultEndDateString);
 		transactionFilters.getCategoryInput().should('have.value', '');
-		transactionFilters
-			.getOrderByInput()
-			.should('have.value', 'Newest to Oldest');
-		transactionFilters.getDuplicateInput().should('have.value', 'All');
-		transactionFilters.getCategorizedInput().should('have.value', 'All');
-		transactionFilters.getPossibleRefundInput().should('have.value', 'All');
-		transactionFilters.getConfirmedInput().should('have.value', 'All');
+		transactionFilters.getOrderByInput().should('have.value', 'DESC');
+		transactionFilters.getDuplicateInput().should('have.value', 'ALL');
+		transactionFilters.getCategorizedInput().should('have.value', 'ALL');
+		transactionFilters.getPossibleRefundInput().should('have.value', 'ALL');
+		transactionFilters.getConfirmedInput().should('have.value', 'ALL');
 	});
 
 	it('renders all filters', () => {

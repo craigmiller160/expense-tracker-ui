@@ -19,7 +19,8 @@ export const getMonthLink = (dateString: string): string => {
 
 export const getMonthAndCategoryLink = (
 	dateString: string,
-	categoryId: string
+	categoryId: string,
+	unknownCategoryId: string
 ): string => {
 	const [startDate, endDate] = getStartAndEndDate(dateString);
 	return `/expense-tracker/transactions?startDate=${startDate}&endDate=${endDate}&category=${categoryId}`;

@@ -53,8 +53,7 @@ export const ReportTable = (props: Props) => {
 					</TableCell>
 					<TableCell>
 						<SpendingByCategoryTable
-							categories={report.categories}
-							total={report.total}
+							report={report}
 							form={props.form}
 						/>
 					</TableCell>

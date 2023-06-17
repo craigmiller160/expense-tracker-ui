@@ -29,7 +29,41 @@ const categoriesAmountOrder = [
 
 describe('Report Filters', () => {
 	it('clears all filters', () => {
-		throw new Error();
+		categoriesApi.getUnknownCategory();
+		reportsApi.getDefaultSpendingByMonthAndCategory();
+		categoriesApi.getAllCategories();
+		needsAttentionApi.getNeedsAttention_none();
+		mountApp({
+			initialRoute: '/expense-tracker/reports'
+		});
+
+		reportFiltersPage.getFilterTypeInput().click();
+		commonPage.getOpenAutoCompleteOptions().eq(1).click();
+		reportFiltersPage.getFilterTypeInput().should('have.value', 'EXCLUDE');
+
+		reportFiltersPage.getCategoryInput().click();
+		commonPage.getOpenAutoCompleteOptions().eq(0).click();
+		pipe(
+			reportFiltersPage.getCategoryInput(),
+			commonPage.getMultipleSelectValues
+		).should('have.length', 1);
+
+		reportFiltersPage.getOrderCategoriesByInputWrapper().click();
+		commonPage.getOpenSelectOptions().eq(1).click();
+		reportFiltersPage
+			.getOrderCategoriesByInput()
+			.should('have.value', 'AMOUNT');
+
+		reportFiltersPage.getResetFiltersButton().click();
+
+		reportFiltersPage.getFilterTypeInput().should('have.value', 'EXCLUDE');
+		pipe(
+			reportFiltersPage.getCategoryInput(),
+			commonPage.getMultipleSelectValues
+		).should('have.length', 0);
+		reportFiltersPage
+			.getOrderCategoriesByInput()
+			.should('have.value', 'CATEGORY');
 	});
 
 	it('renders filters correctly', () => {

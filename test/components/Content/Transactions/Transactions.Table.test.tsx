@@ -554,7 +554,7 @@ describe('Transactions Table', () => {
 		await userEvent.click(screen.getByLabelText('Confirm All'));
 		validateCheckboxes(true);
 
-		await userEvent.click(screen.getByText('Reset'));
+		await userEvent.click(screen.getAllByText('Reset')[1]);
 		validateCheckboxes(false);
 	});
 });

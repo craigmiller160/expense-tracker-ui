@@ -4,11 +4,15 @@ import { Spinner } from '../UI/Spinner';
 import { useGetAllCategories } from '../../ajaxapi/query/CategoryQueries';
 
 export const PreContentLoading = (props: PropsWithChildren) => {
-	const { isFetching } = useGetAllCategories();
+	const { isFetched } = useGetAllCategories();
 	return (
-		<PageResponsiveWrapper>
-			{isFetching && <Spinner />}
-			{!isFetching && props.children}
-		</PageResponsiveWrapper>
+		<>
+			{!isFetched && (
+				<PageResponsiveWrapper>
+					<Spinner />
+				</PageResponsiveWrapper>
+			)}
+			{isFetched && props.children}
+		</>
 	);
 };

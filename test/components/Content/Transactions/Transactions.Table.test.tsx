@@ -427,7 +427,8 @@ describe('Transactions Table', () => {
 			'confirm-transaction-checkbox'
 		);
 		await userEvent.click(confirmCheckbox);
-		expect(confirmCheckbox.querySelector('input')).toBeChecked();
+		// The auto-confirm means that this operation needs to be negated
+		expect(confirmCheckbox.querySelector('input')).not.toBeChecked();
 
 		await userEvent.click(screen.getByText('Save'));
 		await waitFor(() =>

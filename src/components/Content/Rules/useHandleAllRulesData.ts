@@ -24,6 +24,11 @@ export type RulesFiltersFormData = {
 	readonly regex: string;
 };
 
+export const defaultRulesFiltersFormData: RulesFiltersFormData = {
+	category: null,
+	regex: ''
+};
+
 type InternalReOrderActions = {
 	readonly isLoading: boolean;
 	readonly incrementRuleOrdinal: (rule: AutoCategorizeRuleResponse) => void;
@@ -71,7 +76,10 @@ const getCategoryFromParams =
 			return null;
 		}
 
-		return categories.find((cat) => cat.value === categoryParam) ?? null;
+		return (
+			categories.find((cat) => cat.value === categoryParam) ??
+			defaultRulesFiltersFormData.category
+		);
 	};
 
 const paramsToForm =
@@ -84,7 +92,7 @@ const paramsToForm =
 			null,
 			getCategoryFromParams(categories)
 		),
-		regex: params.getOrDefault('regex', '')
+		regex: params.getOrDefault('regex', defaultRulesFiltersFormData.regex)
 	});
 
 const defaultValues = {

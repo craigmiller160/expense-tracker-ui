@@ -95,11 +95,6 @@ const paramsToForm =
 		regex: params.getOrDefault('regex', defaultRulesFiltersFormData.regex)
 	});
 
-const defaultValues = {
-	regex: '',
-	category: null
-};
-
 export const useHandleAllRulesData = (props: Props): GetAllRulesDataResult => {
 	const {
 		data: getAllCategoriesData,
@@ -116,7 +111,7 @@ export const useHandleAllRulesData = (props: Props): GetAllRulesDataResult => {
 		formToParams,
 		formFromParams: memoizedFormFromParams,
 		formFromParamsDependencies: [categories],
-		defaultValues
+		defaultValues: defaultRulesFiltersFormData
 	});
 	const { data: getAllRulesData, isFetching: getAllRulesIsFetching } =
 		useGetAllRules({

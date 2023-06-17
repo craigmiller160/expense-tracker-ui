@@ -7,6 +7,7 @@ import { pipe } from 'fp-ts/es6/function';
 import { formatCurrency, formatPercent } from '../../src/utils/formatNumbers';
 import { categoriesApi } from './testutils/apis/categories';
 import { needsAttentionApi } from './testutils/apis/needsAttention';
+import { transactionsApi } from './testutils/apis/transactions';
 
 const validateRootTableHeaders = () => {
 	reportsPage
@@ -53,10 +54,26 @@ const validateReport = (reportRowIndex: number) => {
 
 describe('Reports', () => {
 	it('clicking on category opens page of related transactions', () => {
+		categoriesApi.getUnknownCategory();
+		reportsApi.getDefaultSpendingByMonthAndCategory();
+		categoriesApi.getAllCategories();
+		needsAttentionApi.getNeedsAttention_none();
+		transactionsApi.searchForTransactions();
+		mountApp({
+			initialRoute: '/expense-tracker/reports'
+		});
 		throw new Error();
 	});
 
 	it('clicking on month opens page of related transactions', () => {
+		categoriesApi.getUnknownCategory();
+		reportsApi.getDefaultSpendingByMonthAndCategory();
+		categoriesApi.getAllCategories();
+		needsAttentionApi.getNeedsAttention_none();
+		transactionsApi.searchForTransactions();
+		mountApp({
+			initialRoute: '/expense-tracker/reports'
+		});
 		throw new Error();
 	});
 

@@ -24,6 +24,8 @@ export const useGetSpendingByMonthAndCategory = (
 		Error,
 		ReportPageResponse,
 		GetSpendingByMonthAndCategoryKey
-	>([GET_SPENDING_BY_MONTH_AND_CATEGORY, request], ({ queryKey: [, req] }) =>
-		debounceGetSpendingByMonthAndCategory(req)
-	);
+	>({
+		queryKey: [GET_SPENDING_BY_MONTH_AND_CATEGORY, request],
+		queryFn: ({ queryKey: [, req] }) =>
+			debounceGetSpendingByMonthAndCategory(req)
+	});

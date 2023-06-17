@@ -17,12 +17,10 @@ export const useGetLastRuleApplied = (
 		Error,
 		LastRuleAppliedResponse,
 		GetLastRuleAppliedKey
-	>(
-		[GET_LAST_RULE_APPLIED, transactionId],
-		({ queryKey: [, id] }) =>
+	>({
+		queryKey: [GET_LAST_RULE_APPLIED, transactionId],
+		queryFn: ({ queryKey: [, id] }) =>
 			// OrElse will never be used
 			getLastRuleApplied(Option.getOrElse(() => '')(id)),
-		{
-			enabled: Option.isSome(transactionId) && isUnconfirmed
-		}
-	);
+		enabled: Option.isSome(transactionId) && isUnconfirmed
+	});

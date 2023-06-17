@@ -55,6 +55,7 @@ export const newQueryClient = () =>
 			queries: {
 				refetchOnWindowFocus: false,
 				cacheTime: 0,
+				staleTime: 300_000,
 				onError
 			},
 			mutations: {

@@ -8,6 +8,7 @@ import { formatCurrency, formatPercent } from '../../src/utils/formatNumbers';
 import { categoriesApi } from './testutils/apis/categories';
 import { needsAttentionApi } from './testutils/apis/needsAttention';
 import { transactionsApi } from './testutils/apis/transactions';
+import { transactionFilters } from './testutils/pages/transactionFilters';
 
 const validateRootTableHeaders = () => {
 	reportsPage
@@ -62,6 +63,7 @@ describe('Reports', () => {
 		mountApp({
 			initialRoute: '/expense-tracker/reports'
 		});
+
 		throw new Error();
 	});
 
@@ -74,7 +76,16 @@ describe('Reports', () => {
 		mountApp({
 			initialRoute: '/expense-tracker/reports'
 		});
-		throw new Error();
+
+		reportsPage.getReportTableDate(0).should('have.text', 'Nov 2022');
+		reportsPage.getReportTableDate(0).click();
+
+		transactionFilters
+			.getStartDateInput()
+			.should('have.value', '11/01/2022');
+		transactionFilters.getEndDateInput().should('have.value', '11/30/2022');
+		transactionFilters.getCategorizedInput().should('have.value', 'ALL');
+		transactionFilters.getCategoryInput().should('have.value', '');
 	});
 
 	it('shows month-by-month report', () => {

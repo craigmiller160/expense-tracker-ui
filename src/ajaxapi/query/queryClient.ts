@@ -54,7 +54,7 @@ export const newQueryClient = () =>
 		defaultOptions: {
 			queries: {
 				refetchOnWindowFocus: false,
-				cacheTime: 300_000,
+				cacheTime: 0,
 				staleTime: 300_000,
 				onError
 			},

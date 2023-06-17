@@ -33,6 +33,12 @@ export type ReportFilterFormData = {
 	readonly orderCategoriesBy: ReportCategoryOrderBy;
 };
 
+export const defaultReportFilterFormData: ReportFilterFormData = {
+	categoryFilterType: REPORT_CATEGORY_FILTER_OPTIONS[0],
+	categories: [],
+	orderCategoriesBy: REPORT_CATEGORY_ORDER_BY_OPTIONS[0].value
+};
+
 const createOnValueHasChanged = (
 	handleSubmit: UseFormHandleSubmit<ReportFilterFormData>,
 	setPaginationState: Updater<PaginationState>
@@ -82,14 +88,15 @@ const formFromParams =
 								?.label ?? ''
 					})
 				)
-				.filter((option) => option.label !== '') ?? [];
+				.filter((option) => option.label !== '') ??
+			defaultReportFilterFormData.categories;
 		const categoryFilterTypeValue = params.getOrDefault(
 			'categoryFilterType',
-			REPORT_CATEGORY_FILTER_OPTIONS[0].value
+			defaultReportFilterFormData.categoryFilterType.value
 		);
 		const orderCategoriesByValue = params.getOrDefault(
 			'orderCategoriesBy',
-			REPORT_CATEGORY_ORDER_BY_OPTIONS[0].value
+			defaultReportFilterFormData.orderCategoriesBy
 		);
 		return {
 			categories,

@@ -6,7 +6,8 @@ module.exports = {
 		'@craigmiller160/eslint-config-react',
 		'@craigmiller160/eslint-config-tree-shaking-import-restrictions',
 		'@craigmiller160/eslint-config-ts',
-		'plugin:cypress/recommended'
+		'plugin:cypress/recommended',
+		'plugin:@tanstack/eslint-plugin-query/recommended'
 	],
 	rules: {
 		'cypress/no-unnecessary-waiting': 0

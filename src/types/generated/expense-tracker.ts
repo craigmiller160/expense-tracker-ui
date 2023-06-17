@@ -168,6 +168,7 @@ export type ReportRequest = {
 };
 
 export type ReportCategoryResponse = {
+	readonly id: string;
 	readonly name: string;
 	readonly color: string;
 	readonly amount: number;

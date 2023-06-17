@@ -47,9 +47,8 @@ export const sortCategories = (
 	c: ReadonlyArray<ReportCategoryResponse>
 ) => ReadonlyArray<ReportCategoryResponse>) => {
 	const sortBy = match(order)
-		.with('CATEGORY', () => sortByCategory)
 		.with('AMOUNT', () => sortByAmount)
-		.run();
+		.otherwise(() => sortByCategory);
 	return RArray.sort(sortBy);
 };
 

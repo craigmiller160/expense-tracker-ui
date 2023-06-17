@@ -64,6 +64,32 @@ describe('Reports', () => {
 			initialRoute: '/expense-tracker/reports'
 		});
 
+		reportsPage
+			.getReportTableCategories(0)
+			.eq(0)
+			.should('have.text', 'Entertainment');
+		reportsPage.getReportTableCategories(0).eq(0).click();
+
+		transactionFilters
+			.getStartDateInput()
+			.should('have.value', '11/01/2022');
+		transactionFilters.getEndDateInput().should('have.value', '11/30/2022');
+		transactionFilters.getCategorizedInput().should('have.value', 'ALL');
+		transactionFilters
+			.getCategoryInput()
+			.should('have.value', 'Entertainment');
+	});
+
+	it('clicking on unknown category opens page of uncategorized transactions', () => {
+		categoriesApi.getUnknownCategory();
+		reportsApi.getDefaultSpendingByMonthAndCategory();
+		categoriesApi.getAllCategories();
+		needsAttentionApi.getNeedsAttention_none();
+		transactionsApi.searchForTransactions();
+		mountApp({
+			initialRoute: '/expense-tracker/reports'
+		});
+
 		throw new Error();
 	});
 

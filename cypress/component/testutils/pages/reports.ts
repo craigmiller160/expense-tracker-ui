@@ -13,7 +13,7 @@ const getReportChart = (rowIndex: number): Chainable<JQuery> =>
 const getReportTableRows = (tableRowIndex: number): Chainable<JQuery> =>
 	getReportTable(tableRowIndex).find('tbody tr');
 const getReportTableCategories = (tableIndex: number): Chainable<JQuery> =>
-	getReportTableRows(tableIndex).find('td:nth-child(2)');
+	getReportTableRows(tableIndex).find('td:nth-child(2) a');
 const getReportTableDate = (tableIndex: number): Chainable<JQuery> =>
 	getRootTableRows().eq(tableIndex).find('td a').eq(0);
 

@@ -4,6 +4,7 @@ import { TableCell, TableRow, Link } from '@mui/material';
 import { serverDateToReportMonth } from '../../../utils/dateTimeUtils';
 import { SpendingByCategoryTable } from './SpendingByCategoryTable';
 import { SpendingByCategoryChart } from './SpendingByCategoryChart';
+import { Link as RouterLink } from 'react-router-dom';
 import './ReportsTable.scss';
 import {
 	createTablePagination,
@@ -44,10 +45,11 @@ export const ReportTable = (props: Props) => {
 				<TableRow key={report.date}>
 					<TableCell>
 						<Link
+							component={RouterLink}
 							variant="body1"
 							underline="none"
 							color="secondary"
-							href={getMonthLink(report.date)}
+							to={getMonthLink(report.date)}
 						>
 							{serverDateToReportMonth(report.date)}
 						</Link>

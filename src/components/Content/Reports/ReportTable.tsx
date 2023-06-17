@@ -1,10 +1,9 @@
 import { Updater } from 'use-immer';
 import { Table } from '../../UI/Table';
-import { TableCell, TableRow, Link } from '@mui/material';
+import { TableCell, TableRow } from '@mui/material';
 import { serverDateToReportMonth } from '../../../utils/dateTimeUtils';
 import { SpendingByCategoryTable } from './SpendingByCategoryTable';
 import { SpendingByCategoryChart } from './SpendingByCategoryChart';
-import { Link as RouterLink } from 'react-router-dom';
 import './ReportsTable.scss';
 import {
 	createTablePagination,
@@ -14,6 +13,7 @@ import { ReportPageResponse } from '../../../types/generated/expense-tracker';
 import { UseFormReturn } from 'react-hook-form';
 import { ReportFilterFormData } from './useGetReportData';
 import { getMonthLink } from './utils';
+import { MuiRouterLink } from '../../UI/MuiRouterLink';
 
 const COLUMNS = ['Month', 'Data', 'Chart'];
 
@@ -44,15 +44,12 @@ export const ReportTable = (props: Props) => {
 			{props.data?.reports?.map((report) => (
 				<TableRow key={report.date}>
 					<TableCell>
-						<Link
-							component={RouterLink}
+						<MuiRouterLink
 							variant="body1"
-							underline="none"
-							color="secondary"
 							to={getMonthLink(report.date)}
 						>
 							{serverDateToReportMonth(report.date)}
-						</Link>
+						</MuiRouterLink>
 					</TableCell>
 					<TableCell>
 						<SpendingByCategoryTable

@@ -14,8 +14,11 @@ import { constVoid } from 'fp-ts/es6/function';
 import './TransactionSearchFilters.scss';
 import { SortDirection, YES_NO_FILTER_OPTIONS } from '../../../types/misc';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
-import { TransactionSearchForm } from './utils';
-import { Paper } from '@mui/material';
+import {
+	TransactionSearchForm,
+	transactionSearchFormDefaultValues
+} from './utils';
+import { Button, Paper } from '@mui/material';
 import { ResponsiveRow } from '../../UI/ResponsiveWrappers/ResponsiveRow';
 import { useCategoriesToCategoryOptions } from '../../../utils/categoryUtils';
 
@@ -45,7 +48,7 @@ const createOnCategorizedChange =
 export const TransactionSearchFilters = (props: Props) => {
 	const {
 		onValueHasChanged,
-		form: { getValues, control, setValue }
+		form: { getValues, control, setValue, reset }
 	} = props;
 	const { data } = useGetAllCategories();
 	const categoryOptions = useCategoriesToCategoryOptions(data);
@@ -55,6 +58,8 @@ export const TransactionSearchFilters = (props: Props) => {
 		setValue,
 		onValueHasChanged
 	);
+
+	const resetFilters = () => reset(transactionSearchFormDefaultValues);
 
 	return (
 		<Paper
@@ -132,6 +137,16 @@ export const TransactionSearchFilters = (props: Props) => {
 						options={YES_NO_FILTER_OPTIONS}
 						onValueHasChanged={onValueHasChanged}
 					/>
+				</ResponsiveRow>
+				<ResponsiveRow>
+					<Button
+						id="transactionFilterResetButton"
+						variant="contained"
+						color="info"
+						onClick={resetFilters}
+					>
+						Reset
+					</Button>
 				</ResponsiveRow>
 			</form>
 		</Paper>

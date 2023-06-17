@@ -29,6 +29,13 @@ describe('Reports utils', () => {
 	});
 
 	it('getMonthAndCategoryLink - category is unknown', () => {
-		throw new Error();
+		const link = getMonthAndCategoryLink(
+			DATE,
+			UNKNOWN_CATEGORY_ID,
+			UNKNOWN_CATEGORY_ID
+		);
+		expect(link).toEqual(
+			`/expense-tracker/transactions?startDate=${START_DATE}&endDate=${END_DATE}&categorized=NO`
+		);
 	});
 });

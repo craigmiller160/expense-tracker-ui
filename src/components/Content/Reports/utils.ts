@@ -22,6 +22,8 @@ export const getMonthAndCategoryLink = (
 	categoryId: string,
 	unknownCategoryId: string
 ): string => {
-	const [startDate, endDate] = getStartAndEndDate(dateString);
-	return `/expense-tracker/transactions?startDate=${startDate}&endDate=${endDate}&category=${categoryId}`;
+	if (categoryId === unknownCategoryId) {
+		return `${getMonthLink(dateString)}&categorized=NO`;
+	}
+	return `${getMonthLink(dateString)}&category=${categoryId}`;
 };

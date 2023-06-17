@@ -16,3 +16,11 @@ export const getMonthLink = (dateString: string): string => {
 	const [startDate, endDate] = getStartAndEndDate(dateString);
 	return `/expense-tracker/transactions?startDate=${startDate}&endDate=${endDate}`;
 };
+
+export const getMonthAndCategoryLink = (
+	dateString: string,
+	categoryId: string
+): string => {
+	const [startDate, endDate] = getStartAndEndDate(dateString);
+	return `/expense-tracker/transactions?startDate=${startDate}&endDate=${endDate}&category=${categoryId}`;
+};

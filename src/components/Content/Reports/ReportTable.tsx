@@ -12,6 +12,8 @@ import {
 import { ReportPageResponse } from '../../../types/generated/expense-tracker';
 import { UseFormReturn } from 'react-hook-form';
 import { ReportFilterFormData } from './useGetReportData';
+import { getMonthLink } from './utils';
+import { MuiRouterLink } from '../../UI/MuiRouterLink';
 
 const COLUMNS = ['Month', 'Data', 'Chart'];
 
@@ -42,12 +44,16 @@ export const ReportTable = (props: Props) => {
 			{props.data?.reports?.map((report) => (
 				<TableRow key={report.date}>
 					<TableCell>
-						{serverDateToReportMonth(report.date)}
+						<MuiRouterLink
+							variant="body1"
+							to={getMonthLink(report.date)}
+						>
+							{serverDateToReportMonth(report.date)}
+						</MuiRouterLink>
 					</TableCell>
 					<TableCell>
 						<SpendingByCategoryTable
-							categories={report.categories}
-							total={report.total}
+							report={report}
 							form={props.form}
 						/>
 					</TableCell>

@@ -7,6 +7,8 @@ import { pipe } from 'fp-ts/es6/function';
 import { formatCurrency, formatPercent } from '../../src/utils/formatNumbers';
 import { categoriesApi } from './testutils/apis/categories';
 import { needsAttentionApi } from './testutils/apis/needsAttention';
+import { transactionsApi } from './testutils/apis/transactions';
+import { transactionFilters } from './testutils/pages/transactionFilters';
 
 const validateRootTableHeaders = () => {
 	reportsPage
@@ -52,6 +54,77 @@ const validateReport = (reportRowIndex: number) => {
 };
 
 describe('Reports', () => {
+	it('clicking on category opens page of related transactions', () => {
+		categoriesApi.getUnknownCategory();
+		reportsApi.getDefaultSpendingByMonthAndCategory();
+		categoriesApi.getAllCategories();
+		needsAttentionApi.getNeedsAttention_none();
+		transactionsApi.searchForTransactions();
+		mountApp({
+			initialRoute: '/expense-tracker/reports'
+		});
+
+		reportsPage
+			.getReportTableCategories(0)
+			.eq(0)
+			.should('have.text', 'Entertainment');
+		reportsPage.getReportTableCategories(0).eq(0).click();
+
+		transactionFilters
+			.getStartDateInput()
+			.should('have.value', '11/01/2022');
+		transactionFilters.getEndDateInput().should('have.value', '11/30/2022');
+		transactionFilters.getCategorizedInput().should('have.value', 'ALL');
+		transactionFilters
+			.getCategoryInput()
+			.should('have.value', 'Entertainment');
+	});
+
+	it('clicking on unknown category opens page of uncategorized transactions', () => {
+		categoriesApi.getUnknownCategory();
+		reportsApi.getDefaultSpendingByMonthAndCategory();
+		categoriesApi.getAllCategories();
+		needsAttentionApi.getNeedsAttention_none();
+		transactionsApi.searchForTransactions();
+		mountApp({
+			initialRoute: '/expense-tracker/reports'
+		});
+
+		reportsPage
+			.getReportTableCategories(0)
+			.eq(4)
+			.should('have.text', 'Unknown');
+		reportsPage.getReportTableCategories(0).eq(4).click();
+
+		transactionFilters
+			.getStartDateInput()
+			.should('have.value', '11/01/2022');
+		transactionFilters.getEndDateInput().should('have.value', '11/30/2022');
+		transactionFilters.getCategorizedInput().should('have.value', 'NO');
+		transactionFilters.getCategoryInput().should('have.value', '');
+	});
+
+	it('clicking on month opens page of related transactions', () => {
+		categoriesApi.getUnknownCategory();
+		reportsApi.getDefaultSpendingByMonthAndCategory();
+		categoriesApi.getAllCategories();
+		needsAttentionApi.getNeedsAttention_none();
+		transactionsApi.searchForTransactions();
+		mountApp({
+			initialRoute: '/expense-tracker/reports'
+		});
+
+		reportsPage.getReportTableDate(0).should('have.text', 'Nov 2022');
+		reportsPage.getReportTableDate(0).click();
+
+		transactionFilters
+			.getStartDateInput()
+			.should('have.value', '11/01/2022');
+		transactionFilters.getEndDateInput().should('have.value', '11/30/2022');
+		transactionFilters.getCategorizedInput().should('have.value', 'ALL');
+		transactionFilters.getCategoryInput().should('have.value', '');
+	});
+
 	it('shows month-by-month report', () => {
 		categoriesApi.getUnknownCategory();
 		reportsApi.getDefaultSpendingByMonthAndCategory();

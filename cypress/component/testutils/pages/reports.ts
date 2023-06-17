@@ -12,8 +12,10 @@ const getReportChart = (rowIndex: number): Chainable<JQuery> =>
 	getRootTableRows().eq(rowIndex).find('.SpendingByCategoryChart');
 const getReportTableRows = (tableRowIndex: number): Chainable<JQuery> =>
 	getReportTable(tableRowIndex).find('tbody tr');
-const getReportTableCategories = (tableIndex: number) =>
-	getReportTableRows(tableIndex).find('td:nth-child(2)');
+const getReportTableCategories = (tableIndex: number): Chainable<JQuery> =>
+	getReportTableRows(tableIndex).find('td:nth-child(2) a');
+const getReportTableDate = (tableIndex: number): Chainable<JQuery> =>
+	getRootTableRows().eq(tableIndex).find('td a').eq(0);
 
 export const reportsPage = {
 	getTitle,
@@ -23,5 +25,6 @@ export const reportsPage = {
 	getReportTable,
 	getReportChart,
 	getReportTableRows,
-	getReportTableCategories
+	getReportTableCategories,
+	getReportTableDate
 };

@@ -8,31 +8,36 @@
           "name": "Entertainment",
           "color": "#6caf68",
           "amount": -314.99,
-          "percent": 0.08
+          "percent": 0.08,
+          "id": "a328e302-773d-48a0-9dbc-b3ec8e3f3412"
         },
         {
           "name": "Groceries",
           "color": "#c8ea4b",
           "amount": -1930.85,
-          "percent": 0.48
+          "percent": 0.48,
+          "id": "289184a9-093a-41cc-8b78-b91750eceb32"
         },
         {
           "name": "Restaurants",
           "color": "#58c4b6",
           "amount": -1434.75,
-          "percent": 0.36
+          "percent": 0.36,
+          "id": "4d5decba-a7bf-40c8-8135-8c68fb8436be"
         },
         {
           "name": "Travel",
           "color": "#cb6b3a",
-          "amount": -100.00,
-          "percent": 0.03
+          "amount": -100,
+          "percent": 0.03,
+          "id": "a658ef77-e67c-4b11-a820-981bd4cad531"
         },
         {
           "name": "Unknown",
           "color": "#3e442a",
           "amount": -213.95,
-          "percent": 0.05
+          "percent": 0.05,
+          "id": "d908ec89-4a38-4f35-a1bf-d11ecd326e07"
         }
       ]
     },
@@ -44,31 +49,36 @@
           "name": "Entertainment",
           "color": "#6caf68",
           "amount": -328.26,
-          "percent": 0.22
+          "percent": 0.22,
+          "id": "a328e302-773d-48a0-9dbc-b3ec8e3f3412"
         },
         {
           "name": "Groceries",
           "color": "#c8ea4b",
           "amount": -277.66,
-          "percent": 0.19
+          "percent": 0.19,
+          "id": "289184a9-093a-41cc-8b78-b91750eceb32"
         },
         {
           "name": "Restaurants",
           "color": "#58c4b6",
           "amount": -3.21,
-          "percent": 0.00
+          "percent": 0,
+          "id": "4d5decba-a7bf-40c8-8135-8c68fb8436be"
         },
         {
           "name": "Travel",
           "color": "#cb6b3a",
-          "amount": -270.00,
-          "percent": 0.18
+          "amount": -270,
+          "percent": 0.18,
+          "id": "a658ef77-e67c-4b11-a820-981bd4cad531"
         },
         {
           "name": "Unknown",
           "color": "#3e442a",
           "amount": -587.92,
-          "percent": 0.40
+          "percent": 0.4,
+          "id": "d908ec89-4a38-4f35-a1bf-d11ecd326e07"
         }
       ]
     },
@@ -80,31 +90,36 @@
           "name": "Entertainment",
           "color": "#6caf68",
           "amount": -124.93,
-          "percent": 0.10
+          "percent": 0.1,
+          "id": "a328e302-773d-48a0-9dbc-b3ec8e3f3412"
         },
         {
           "name": "Groceries",
           "color": "#c8ea4b",
           "amount": -63.22,
-          "percent": 0.05
+          "percent": 0.05,
+          "id": "289184a9-093a-41cc-8b78-b91750eceb32"
         },
         {
           "name": "Restaurants",
           "color": "#58c4b6",
           "amount": -455.52,
-          "percent": 0.35
+          "percent": 0.35,
+          "id": "4d5decba-a7bf-40c8-8135-8c68fb8436be"
         },
         {
           "name": "Travel",
           "color": "#cb6b3a",
           "amount": -219.81,
-          "percent": 0.17
+          "percent": 0.17,
+          "id": "a658ef77-e67c-4b11-a820-981bd4cad531"
         },
         {
           "name": "Unknown",
           "color": "#3e442a",
           "amount": -422.63,
-          "percent": 0.33
+          "percent": 0.33,
+          "id": "d908ec89-4a38-4f35-a1bf-d11ecd326e07"
         }
       ]
     },
@@ -116,13 +131,15 @@
           "name": "Entertainment",
           "color": "#6caf68",
           "amount": -7.63,
-          "percent": 0.08
+          "percent": 0.08,
+          "id": "a328e302-773d-48a0-9dbc-b3ec8e3f3412"
         },
         {
           "name": "Unknown",
           "color": "#3e442a",
           "amount": -86.09,
-          "percent": 0.92
+          "percent": 0.92,
+          "id": "d908ec89-4a38-4f35-a1bf-d11ecd326e07"
         }
       ]
     }

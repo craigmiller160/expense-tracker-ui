@@ -8,6 +8,7 @@ import {
 	KeycloakAuth,
 	KeycloakAuthContext
 } from '@craigmiller160/react-keycloak';
+import { newQueryClient } from '../../src/ajaxapi/query/queryClient';
 
 interface RenderConfig {
 	readonly initialPath?: string;
@@ -22,10 +23,11 @@ const keycloakAuth: KeycloakAuth = {
 
 export const renderApp = (config?: RenderConfig): Promise<RenderResult> => {
 	window.history.replaceState({}, '', config?.initialPath ?? '/');
+	const queryClient = newQueryClient();
 	const result = render(
 		<BrowserRouter basename="/">
 			<KeycloakAuthContext.Provider value={keycloakAuth}>
-				<App />
+				<App queryClient={queryClient} />
 			</KeycloakAuthContext.Provider>
 		</BrowserRouter>
 	);

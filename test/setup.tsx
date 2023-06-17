@@ -1,4 +1,3 @@
-import { PropsWithChildren } from 'react';
 import { constVoid } from 'fp-ts/es6/function';
 import { apiServer } from './server';
 import '@testing-library/jest-dom';
@@ -9,11 +8,6 @@ beforeEach(() => {
 	apiServer.actions.setInitialData();
 });
 
-jest.mock('react', () => {
-	const React = jest.requireActual('react');
-	React.Suspense = ({ children }: PropsWithChildren) => children;
-	return React;
-});
 jest.mock('@craigmiller160/react-keycloak', () => {
 	const reactKeycloak = jest.requireActual('@craigmiller160/react-keycloak');
 	return {

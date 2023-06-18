@@ -30,7 +30,10 @@ export const ReportFilters = (props: Props) => {
 		categories
 	} = props;
 
-	const resetFilters = () => reset(defaultReportFilterFormData);
+	const resetFilters = () => {
+		reset(defaultReportFilterFormData);
+		props.onValueHasChanged();
+	};
 
 	return (
 		<Paper className="ReportFilters">

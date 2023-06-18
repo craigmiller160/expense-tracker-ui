@@ -21,7 +21,10 @@ type Props = {
 };
 
 export const RulesFilters = (props: Props) => {
-	const resetFilters = () => props.form.reset(defaultRulesFiltersFormData);
+	const resetFilters = () => {
+		props.form.reset(defaultRulesFiltersFormData);
+		props.onValueHasChanged();
+	};
 	return (
 		<Paper className="AutoCategorizeRulesFilters">
 			<form onSubmit={constVoid}>

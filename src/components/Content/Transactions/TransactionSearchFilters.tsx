@@ -59,7 +59,10 @@ export const TransactionSearchFilters = (props: Props) => {
 		onValueHasChanged
 	);
 
-	const resetFilters = () => reset(transactionSearchFormDefaultValues);
+	const resetFilters = () => {
+		reset(transactionSearchFormDefaultValues);
+		onValueHasChanged();
+	};
 
 	return (
 		<Paper

@@ -1,6 +1,6 @@
 import './ImportTransactions.scss';
 import { Button, LinearProgress, Paper, useTheme } from '@mui/material';
-import { useForm, UseFormReset } from 'react-hook-form';
+import { useForm, UseFormReset, UseFormSetValue } from 'react-hook-form';
 import { FileType } from '../../../types/file';
 import {
 	Autocomplete,
@@ -72,10 +72,10 @@ const useTestFile = (reset: UseFormReset<FormData>): boolean => {
 const createReset =
 	(
 		ref: MutableRefObject<HTMLInputElement | undefined>,
-		reset: UseFormReset<FormData>
+		setValue: UseFormSetValue<FormData>
 	) =>
 	() => {
-		reset(defaultValues);
+		setValue('file', null);
 		if (ref.current) {
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore
@@ -84,12 +84,12 @@ const createReset =
 	};
 
 export const Import = () => {
-	const { control, handleSubmit, reset } = useForm<FormData>({
+	const { control, handleSubmit, reset, setValue } = useForm<FormData>({
 		defaultValues
 	});
 	const fileInputRef = useRef<HTMLInputElement>();
 	const { mutate, isLoading } = useImportTransactions(
-		createReset(fileInputRef, reset)
+		createReset(fileInputRef, setValue)
 	);
 	const theme = useTheme();
 	const onSubmit = createOnSubmit(mutate);

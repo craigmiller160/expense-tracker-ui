@@ -10,9 +10,9 @@ const getConfirmCheckboxes = (): Chainable<JQuery> =>
 const getCategorySelects = (): Chainable<JQuery> =>
 	cy.get('.ManageTransactions table .CategoryCell input');
 const getAddTransactionButton = (): Chainable<JQuery> =>
-	cy.get(
-		'.ManageTransactions .TransactionsTable .AboveTableActionWrapper button'
-	);
+	cy.get('#add-transaction-button');
+const getDeleteAllUnconfirmedTransactionsButton = () =>
+	cy.get('#delete-all-unconfirmed-transactions-button');
 const getResetButton = (): Chainable<JQuery> =>
 	cy
 		.get(
@@ -26,5 +26,6 @@ export const transactionsListPage = {
 	getAddTransactionButton,
 	getConfirmCheckboxes,
 	getCategorySelects,
-	getResetButton
+	getResetButton,
+	getDeleteAllUnconfirmedTransactionsButton
 };

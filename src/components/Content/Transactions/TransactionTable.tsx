@@ -84,14 +84,16 @@ const createAboveTableActions = (
 		);
 	return [
 		<Button
+			id="delete-all-unconfirmed-transactions-button"
 			key="delete-all-unconfirmed"
 			variant="contained"
 			color="error"
 			onClick={onDeleteAllUnconfirmedClick}
 		>
-			Delete All Unconfirmed
+			Delete All Unconfirmed Transactions
 		</Button>,
 		<Button
+			id="add-transaction-button"
 			key="add-transaction"
 			variant="contained"
 			color="primary"

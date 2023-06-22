@@ -114,8 +114,6 @@ const createOnSubmit =
 			updateTransactions
 		);
 
-// TODO abstract into custom hook
-
 const CATEGORIZE_TRANSACTION_REGEX = /transactions\.(?<index>\d+)\.category/;
 type CategorizeTransactionRegexGroups = {
 	readonly index: string;

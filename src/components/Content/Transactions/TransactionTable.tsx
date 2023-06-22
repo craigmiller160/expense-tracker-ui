@@ -79,7 +79,7 @@ const createAboveTableActions = (
 	const onDeleteAllUnconfirmedClick = () =>
 		newConfirmDialog(
 			'Delete All Unconfirmed Transactions',
-			'Are you sure you want to delete all unconfirmed transactions?',
+			'This will delete all unconfirmed transactions regardless of filter settings. Are you sure you want to proceed?',
 			deleteAllUnconfirmed
 		);
 	return [

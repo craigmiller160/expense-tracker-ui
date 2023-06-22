@@ -3,6 +3,7 @@ import {
 	CategorizeTransactionsRequest,
 	CreateTransactionRequest,
 	DeleteTransactionsRequest,
+	DeleteTransactionsResponse,
 	TransactionAndCategory,
 	TransactionDetailsResponse,
 	TransactionDuplicatePageResponse,
@@ -145,5 +146,13 @@ export const markNotDuplicate = (transactionId: string): Promise<void> =>
 		.put<void, void>({
 			uri: `/transactions/${transactionId}/notDuplicate`,
 			errorCustomizer: 'Error marking transaction as not duplicate'
+		})
+		.then(getData);
+
+export const deleteAllUnconfirmed = (): Promise<DeleteTransactionsResponse> =>
+	expenseTrackerApi
+		.delete<DeleteTransactionsResponse>({
+			uri: '/transactions/unconfirmed',
+			errorCustomizer: 'Error deleting all unconfirmed transactions'
 		})
 		.then(getData);

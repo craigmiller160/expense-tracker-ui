@@ -219,3 +219,7 @@ export type MaxOrdinalResponse = {
 export type DeleteTransactionsRequest = {
 	readonly ids: ReadonlyArray<string>;
 };
+
+export type DeleteTransactionsResponse = {
+	readonly transactionsDeleted: number;
+};

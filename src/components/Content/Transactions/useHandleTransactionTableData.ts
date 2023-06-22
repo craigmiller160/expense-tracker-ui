@@ -1,6 +1,7 @@
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 import {
 	UpdateTransactionsMutation,
+	useDeleteAllUnconfirmed,
 	useDeleteTransactions,
 	useSearchForTransactions,
 	useUpdateTransactions
@@ -141,6 +142,7 @@ export const useHandleTransactionTableData = (
 	const { mutate: updateTransactions, isLoading: updateIsLoading } =
 		useUpdateTransactions();
 	const { isLoading: deleteIsLoading } = useDeleteTransactions();
+	const { isLoading: deleteUnconfirmedIsLoading } = useDeleteAllUnconfirmed();
 	const form = useForm<TransactionTableForm>({
 		mode: 'onChange',
 		reValidateMode: 'onChange',
@@ -206,7 +208,8 @@ export const useHandleTransactionTableData = (
 				categoryIsFetching ||
 				testNumberOfFormRecords(form, transactionData) ||
 				updateIsLoading ||
-				deleteIsLoading
+				deleteIsLoading ||
+				deleteUnconfirmedIsLoading
 		},
 		pagination: {
 			currentPage: transactionData?.pageNumber ?? 0,

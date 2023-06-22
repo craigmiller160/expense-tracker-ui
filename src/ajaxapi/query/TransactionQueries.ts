@@ -1,6 +1,7 @@
 import { EnhancedSearchTransactionsRequest } from '../../types/transactions';
 import {
 	CreateTransactionRequest,
+	DeleteTransactionsResponse,
 	TransactionAndCategory,
 	TransactionDetailsResponse,
 	TransactionDuplicatePageResponse,
@@ -21,6 +22,7 @@ import {
 import {
 	categorizeTransactions,
 	createTransaction,
+	deleteAllUnconfirmed,
 	deleteTransactions,
 	getPossibleDuplicates,
 	getTransactionDetails,
@@ -203,6 +205,14 @@ export const useCreateTransaction = () => {
 	const queryClient = useQueryClient();
 	return useMutation<TransactionResponse, Error, CreateTransactionParams>({
 		mutationFn: ({ request }) => createTransaction(request),
+		onSuccess: () => invalidateTransactionQueries(queryClient)
+	});
+};
+
+export const useDeleteAllUnconfirmed = () => {
+	const queryClient = useQueryClient();
+	return useMutation<DeleteTransactionsResponse, Error>({
+		mutationFn: deleteAllUnconfirmed,
 		onSuccess: () => invalidateTransactionQueries(queryClient)
 	});
 };

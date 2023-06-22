@@ -65,6 +65,9 @@ interface Props {
 const createAboveTableActions = (
 	openDetailsDialog: () => void
 ): ReadonlyArray<ReactNode> => [
+	<Button key="delete-all-unconfirmed" variant="contained" color="error">
+		Delete All Unconfirmed
+	</Button>,
 	<Button
 		key="add-transaction"
 		variant="contained"

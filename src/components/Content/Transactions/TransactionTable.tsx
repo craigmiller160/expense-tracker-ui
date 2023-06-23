@@ -17,9 +17,12 @@ import {
 	UseFormSetValue,
 	UseFormWatch
 } from 'react-hook-form';
-import { ReactNode, useEffect } from 'react';
+import { ReactNode, useContext, useEffect } from 'react';
 import { Updater } from 'use-immer';
-import { UpdateTransactionsMutation } from '../../../ajaxapi/query/TransactionQueries';
+import {
+	UpdateTransactionsMutation,
+	useDeleteAllUnconfirmed
+} from '../../../ajaxapi/query/TransactionQueries';
 import { pipe } from 'fp-ts/es6/function';
 import { useIsAtLeastBreakpoint } from '../../../utils/breakpointHooks';
 import { DuplicateIcon } from './icons/DuplicateIcon';
@@ -31,6 +34,12 @@ import {
 	createTablePagination,
 	PaginationState
 } from '../../../utils/pagination';
+import { UseMutateFunction } from '@tanstack/react-query';
+import { DeleteTransactionsResponse } from '../../../types/generated/expense-tracker';
+import {
+	ConfirmDialogContext,
+	NewConfirmDialog
+} from '../../UI/ConfirmDialog/ConfirmDialogProvider';
 
 const COLUMNS: ReadonlyArray<string | ReactNode> = [
 	'Expense Date',
@@ -63,17 +72,37 @@ interface Props {
 }
 
 const createAboveTableActions = (
-	openDetailsDialog: () => void
-): ReadonlyArray<ReactNode> => [
-	<Button
-		key="add-transaction"
-		variant="contained"
-		color="primary"
-		onClick={() => openDetailsDialog()}
-	>
-		Add Transaction
-	</Button>
-];
+	openDetailsDialog: () => void,
+	deleteAllUnconfirmed: UseMutateFunction<DeleteTransactionsResponse>,
+	newConfirmDialog: NewConfirmDialog
+): ReadonlyArray<ReactNode> => {
+	const onDeleteAllUnconfirmedClick = () =>
+		newConfirmDialog(
+			'Delete All Unconfirmed Transactions',
+			'This will delete all unconfirmed transactions regardless of filter settings. Are you sure you want to proceed?',
+			deleteAllUnconfirmed
+		);
+	return [
+		<Button
+			id="delete-all-unconfirmed-transactions-button"
+			key="delete-all-unconfirmed"
+			variant="contained"
+			color="error"
+			onClick={onDeleteAllUnconfirmedClick}
+		>
+			Delete All Unconfirmed Transactions
+		</Button>,
+		<Button
+			id="add-transaction-button"
+			key="add-transaction"
+			variant="contained"
+			color="primary"
+			onClick={() => openDetailsDialog()}
+		>
+			Add Transaction
+		</Button>
+	];
+};
 
 const createBelowTableActions = (
 	formState: FormState<TransactionTableForm>,
@@ -114,8 +143,6 @@ const createOnSubmit =
 			updateTransactions
 		);
 
-// TODO abstract into custom hook
-
 const CATEGORIZE_TRANSACTION_REGEX = /transactions\.(?<index>\d+)\.category/;
 type CategorizeTransactionRegexGroups = {
 	readonly index: string;
@@ -141,6 +168,7 @@ const useAutoConfirmOnCategorize = (
 };
 
 export const TransactionTable = (props: Props) => {
+	const { newConfirmDialog } = useContext(ConfirmDialogContext);
 	const {
 		data: { transactions, categories, isFetching },
 		pagination: { currentPage, totalRecords },
@@ -160,7 +188,13 @@ export const TransactionTable = (props: Props) => {
 	const isAtLeastSm = useIsAtLeastBreakpoint('sm');
 	const editMode = process.env.NODE_ENV === 'test' || isAtLeastSm;
 
-	const aboveTableActions = createAboveTableActions(props.openDetailsDialog);
+	const { mutate: deleteAllUnconfirmed } = useDeleteAllUnconfirmed();
+
+	const aboveTableActions = createAboveTableActions(
+		props.openDetailsDialog,
+		deleteAllUnconfirmed,
+		newConfirmDialog
+	);
 	const belowTableActions = createBelowTableActions(
 		formState,
 		resetFormToData,

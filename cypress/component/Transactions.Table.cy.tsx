@@ -5,8 +5,49 @@ import { transactionsListPage } from './testutils/pages/transactionsList';
 import { commonPage } from './testutils/pages/common';
 import { orderedCategoryNames } from './testutils/constants/categories';
 import { needsAttentionApi } from './testutils/apis/needsAttention';
+import { confirmDialogPage } from './testutils/pages/confirmDialog';
+import { alertPage } from './testutils/pages/alert';
 
 describe('Transactions Table', () => {
+	it('can delete all unconfirmed transactions', () => {
+		categoriesApi.getAllCategories();
+		needsAttentionApi.getNeedsAttention_all();
+		transactionsApi.searchForTransactions();
+		mountApp({
+			initialRoute: '/expense-tracker/transactions'
+		});
+
+		transactionsListPage
+			.getDeleteAllUnconfirmedTransactionsButton()
+			.should('have.text', 'Delete All Unconfirmed Transactions');
+
+		transactionsListPage
+			.getDeleteAllUnconfirmedTransactionsButton()
+			.click();
+
+		confirmDialogPage
+			.getTitle()
+			.should('have.text', 'Delete All Unconfirmed Transactions');
+		confirmDialogPage
+			.getMessage()
+			.should(
+				'have.text',
+				'This will delete all unconfirmed transactions regardless of filter settings. Are you sure you want to proceed?'
+			);
+
+		transactionsApi.deleteAllUnconfirmed();
+		confirmDialogPage.getConfirmButton().click();
+		cy.wait('@deleteAllUnconfirmed');
+
+		alertPage
+			.getAlertMessage()
+			.should('have.length', 1)
+			.should(
+				'have.text',
+				'Successfully deleted 5 unconfirmed transactions'
+			);
+	});
+
 	it('can select a category on a record which is then auto-confirmed', () => {
 		categoriesApi.getAllCategories();
 		needsAttentionApi.getNeedsAttention_all();

@@ -9,6 +9,13 @@ const searchForTransactions = (): Chainable<null> =>
 		})
 		.as('searchForTransactions');
 
+const deleteAllUnconfirmed = (): Chainable<null> =>
+	cy
+		.intercept('delete', '/expense-tracker/api/transactions/unconfirmed', {
+			fixture: 'deleteAllUnconfirmed.json'
+		})
+		.as('deleteAllUnconfirmed');
+
 const searchForTransactionsWithQuery = (
 	queryRegex: string,
 	alias: string
@@ -111,5 +118,6 @@ export const transactionsApi = {
 	getPossibleDuplicates,
 	getTransactionDetails_duplicate,
 	markNotDuplicate,
-	searchForTransactionsWithQuery
+	searchForTransactionsWithQuery,
+	deleteAllUnconfirmed
 };

@@ -37,6 +37,7 @@ import { GET_SPENDING_BY_MONTH_AND_CATEGORY } from './ReportQueries';
 import { GET_NEEDS_ATTENTION } from './NeedsAttentionQueries';
 import { debounceAsync } from '../../utils/debounceAsync';
 import { QUERY_DEBOUNCE } from './constants';
+import { alertManager } from '../../components/UI/Alerts/AlertManager';
 
 export const SEARCH_FOR_TRANSACTIONS =
 	'TransactionQueries_SearchForTransactions';
@@ -213,6 +214,12 @@ export const useDeleteAllUnconfirmed = () => {
 	const queryClient = useQueryClient();
 	return useMutation<DeleteTransactionsResponse, Error>({
 		mutationFn: deleteAllUnconfirmed,
-		onSuccess: () => invalidateTransactionQueries(queryClient)
+		onSuccess: (response) => {
+			alertManager.addAlert(
+				'success',
+				`Successfully deleted ${response.transactionsDeleted} unconfirmed transactions`
+			);
+			return invalidateTransactionQueries(queryClient);
+		}
 	});
 };

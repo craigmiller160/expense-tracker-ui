@@ -91,6 +91,7 @@ export const TransactionSearchFilters = (props: Props) => {
 				</ResponsiveRow>
 				<ResponsiveRow overrideChildWidth={{ sm: '25%' }}>
 					<TextField
+						id="descriptionFilter"
 						control={control}
 						name="description"
 						label="Description"

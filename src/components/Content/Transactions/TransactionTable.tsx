@@ -35,7 +35,11 @@ import {
 } from '../../UI/ConfirmDialog/ConfirmDialogProvider';
 import { useDeleteAllUnconfirmed } from '../../../ajaxapi/query/TransactionQueries';
 import { CategoryOption } from '../../../types/categories';
-import { createTablePagination } from '../../../utils/pagination';
+import {
+	createTablePagination,
+	PaginationState
+} from '../../../utils/pagination';
+import { Updater } from 'use-immer';
 
 type Props = Readonly<{
 	transactions: ReadonlyArray<TransactionResponse>;
@@ -47,6 +51,7 @@ type Props = Readonly<{
 	openDetailsDialog: (transactionId?: string) => void;
 	resetFormToData: () => void;
 	pagination: TransactionTablePagination;
+	onPaginationChange: Updater<PaginationState>;
 }>;
 
 const COLUMNS: ReadonlyArray<string | ReactNode> = [
@@ -166,7 +171,8 @@ export const TransactionTable = memo((props: Props) => {
 		isFetching,
 		openDetailsDialog,
 		resetFormToData,
-		pagination: { currentPage, totalRecords }
+		pagination: { currentPage, totalRecords, pageSize },
+		onPaginationChange
 	} = props;
 
 	const editModeColumns = createEditModeColumns(control);
@@ -175,7 +181,7 @@ export const TransactionTable = memo((props: Props) => {
 	const { mutate: deleteAllUnconfirmed } = useDeleteAllUnconfirmed();
 
 	const aboveTableActions = createAboveTableActions(
-		props.openDetailsDialog,
+		openDetailsDialog,
 		deleteAllUnconfirmed,
 		newConfirmDialog
 	);
@@ -187,9 +193,9 @@ export const TransactionTable = memo((props: Props) => {
 
 	const tablePagination = createTablePagination(
 		currentPage,
-		props.pagination.pageSize,
+		pageSize,
 		totalRecords,
-		props.onPaginationChange
+		onPaginationChange
 	);
 
 	return (

@@ -50,6 +50,7 @@ export type TransactionTableUseFormReturn = Readonly<{
 export type TransactionTablePagination = Readonly<{
 	currentPage: number;
 	totalRecords: number;
+	pageSize: number;
 }>;
 
 export interface TransactionTableData {
@@ -206,9 +207,10 @@ export const useHandleTransactionTableData = (
 	const pagination: TransactionTablePagination = useMemo(
 		() => ({
 			currentPage: transactionData?.pageNumber ?? 0,
-			totalRecords: transactionData?.totalItems ?? 0
+			totalRecords: transactionData?.totalItems ?? 0,
+			pageSize: paginationState.pageSize
 		}),
-		[transactionData]
+		[transactionData, paginationState.pageSize]
 	);
 
 	return {

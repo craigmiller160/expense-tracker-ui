@@ -14,10 +14,7 @@ import { useEffect } from 'react';
 import { Updater } from 'use-immer';
 import { UpdateTransactionsMutation } from '../../../ajaxapi/query/TransactionQueries';
 import { pipe } from 'fp-ts/es6/function';
-import {
-	createTablePagination,
-	PaginationState
-} from '../../../utils/pagination';
+import { PaginationState } from '../../../utils/pagination';
 import { TransactionTable } from './TransactionTable';
 
 interface Props {
@@ -92,6 +89,7 @@ export const TransactionTableWrapper = (props: Props) => {
 			openDetailsDialog={props.openDetailsDialog}
 			resetFormToData={resetFormToData}
 			pagination={pagination}
+			onPaginationChange={props.onPaginationChange}
 		/>
 	);
 };

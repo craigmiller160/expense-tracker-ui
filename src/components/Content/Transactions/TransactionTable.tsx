@@ -24,14 +24,20 @@ import {
 import { useIsEditMode } from './TransactionTableUtils';
 import { ReactNode } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
-import { DeleteTransactionsResponse } from '../../../types/generated/expense-tracker';
+import {
+	DeleteTransactionsResponse,
+	TransactionResponse
+} from '../../../types/generated/expense-tracker';
 import {
 	ConfirmDialogContext,
 	NewConfirmDialog
 } from '../../UI/ConfirmDialog/ConfirmDialogProvider';
 import { useDeleteAllUnconfirmed } from '../../../ajaxapi/query/TransactionQueries';
+import { CategoryOption } from '../../../types/categories';
 
 type Props = Readonly<{
+	transactions: ReadonlyArray<TransactionResponse>;
+	categories: ReadonlyArray<CategoryOption>;
 	watchedTransactions: ReadonlyArray<DeepPartial<TransactionFormValues>>;
 	form: TransactionTableUseFormReturn;
 	onSubmit: (f: TransactionTableForm) => void;
@@ -146,6 +152,8 @@ export const TransactionTable = memo((props: Props) => {
 	const editMode = useIsEditMode();
 	const editClass = editMode ? 'edit' : '';
 	const {
+		transactions,
+		categories,
 		watchedTransactions,
 		form: {
 			formReturn: { setValue, control, handleSubmit, formState },

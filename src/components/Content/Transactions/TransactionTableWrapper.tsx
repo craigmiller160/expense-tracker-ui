@@ -104,6 +104,8 @@ export const TransactionTableWrapper = (props: Props) => {
 
 	return (
 		<TransactionTable
+			transactions={transactions}
+			categories={categories}
 			watchedTransactions={watchedTransactions}
 			form={form}
 			onSubmit={onSubmit}

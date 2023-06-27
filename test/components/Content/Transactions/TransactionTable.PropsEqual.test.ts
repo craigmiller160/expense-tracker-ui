@@ -29,14 +29,33 @@ describe('TransactionTable arePropsEqual', () => {
 	});
 
 	it('function has changed, everything else is equal', () => {
-		throw new Error();
+		const newProps: TransactionTableProps = {
+			...props,
+			onPaginationChange: jest.fn()
+		};
+		expect(props.onPaginationChange).not.toEqual(
+			newProps.onPaginationChange
+		);
+		expect(arePropsEqual(props, newProps)).toEqual(true);
 	});
 
 	it('primitive value has changed', () => {
-		throw new Error();
+		const newProps: TransactionTableProps = {
+			...props,
+			isFetching: true
+		};
+		expect(arePropsEqual(props, newProps)).toEqual(false);
 	});
 
 	it('object reference has changed', () => {
-		throw new Error();
+		const newProps: TransactionTableProps = {
+			...props,
+			pagination: {
+				totalRecords: 0,
+				pageSize: 0,
+				currentPage: 1
+			}
+		};
+		expect(arePropsEqual(props, newProps)).toEqual(false);
 	});
 });

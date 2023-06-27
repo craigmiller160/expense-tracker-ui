@@ -28,7 +28,22 @@ const newEndDateString = format(DATE_FORMAT)(newEndDate);
 
 describe('Transactions Filters', () => {
 	it('description control', () => {
-		throw new Error();
+		categoriesApi.getAllCategories();
+		needsAttentionApi.getNeedsAttention_all();
+		transactionsApi.searchForTransactions();
+		mountApp({
+			initialRoute: '/expense-tracker/transactions'
+		});
+
+		const description = 'Hello';
+
+		transactionsApi.searchForTransactionsWithQuery(
+			`.*description=${description}.*`,
+			'descriptionSearch'
+		);
+
+		transactionFilters.getDescriptionFilterInput().type(description);
+		cy.wait('@descriptionSearch');
 	});
 
 	it('clears all filters', () => {

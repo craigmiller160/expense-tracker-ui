@@ -75,6 +75,6 @@ export const transactionFilters = {
 	getPossibleRefundInputWrapper,
 	getDuplicateInputWrapper,
 	getResetFilterButton,
-	getDescriptionFilter,
+	getDescriptionFilterInput: getDescriptionFilter,
 	getDescriptionFilterLabel
 };

@@ -101,6 +101,7 @@ export type SearchTransactionsRequest = {
 	readonly duplicate: 'ALL' | 'YES' | 'NO';
 	readonly possibleRefund: 'ALL' | 'YES' | 'NO';
 	readonly categoryIds?: ReadonlyArray<string>;
+	readonly description?: string;
 };
 
 export type TransactionsPageResponse = {

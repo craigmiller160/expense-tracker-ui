@@ -27,6 +27,10 @@ const newStartDateString = format(DATE_FORMAT)(newStartDate);
 const newEndDateString = format(DATE_FORMAT)(newEndDate);
 
 describe('Transactions Filters', () => {
+	it('description control', () => {
+		throw new Error();
+	});
+
 	it('clears all filters', () => {
 		categoriesApi.getAllCategories();
 		needsAttentionApi.getNeedsAttention_all();

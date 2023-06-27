@@ -49,13 +49,20 @@ const createEditModeColumns = (
 ];
 
 // TODO need unit test for this
-const arePropsEqual = (prevProps: Props, nextProps: Props): boolean =>
-	Object.entries(nextProps).filter(([key, value]) => {
-		if (typeof value === 'function') {
-			return true;
-		}
-		return value === prevProps[key];
-	}).length === 0;
+const arePropsEqual = (prevProps: Props, nextProps: Props): boolean => {
+	const nextPropsEntries = Object.entries(nextProps) as ReadonlyArray<
+		[keyof Props, any]
+	>;
+	return (
+		nextPropsEntries.filter(([key, value]) => {
+			if (typeof value === 'function') {
+				return true;
+			}
+
+			return value === prevProps[key];
+		}).length === 0
+	);
+};
 
 export const TransactionTable = memo((props: Props) => {
 	const editMode = useIsEditMode();

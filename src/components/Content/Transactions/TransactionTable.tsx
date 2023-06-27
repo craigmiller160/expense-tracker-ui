@@ -19,6 +19,7 @@ import {
 import {
 	TransactionFormValues,
 	TransactionTableForm,
+	TransactionTablePagination,
 	TransactionTableUseFormReturn
 } from './useHandleTransactionTableData';
 import { useIsEditMode } from './TransactionTableUtils';
@@ -34,6 +35,7 @@ import {
 } from '../../UI/ConfirmDialog/ConfirmDialogProvider';
 import { useDeleteAllUnconfirmed } from '../../../ajaxapi/query/TransactionQueries';
 import { CategoryOption } from '../../../types/categories';
+import { createTablePagination } from '../../../utils/pagination';
 
 type Props = Readonly<{
 	transactions: ReadonlyArray<TransactionResponse>;
@@ -44,6 +46,7 @@ type Props = Readonly<{
 	isFetching: boolean;
 	openDetailsDialog: (transactionId?: string) => void;
 	resetFormToData: () => void;
+	pagination: TransactionTablePagination;
 }>;
 
 const COLUMNS: ReadonlyArray<string | ReactNode> = [
@@ -162,7 +165,8 @@ export const TransactionTable = memo((props: Props) => {
 		onSubmit,
 		isFetching,
 		openDetailsDialog,
-		resetFormToData
+		resetFormToData,
+		pagination: { currentPage, totalRecords }
 	} = props;
 
 	const editModeColumns = createEditModeColumns(control);
@@ -179,6 +183,13 @@ export const TransactionTable = memo((props: Props) => {
 		formState,
 		resetFormToData,
 		editMode
+	);
+
+	const tablePagination = createTablePagination(
+		currentPage,
+		props.pagination.pageSize,
+		totalRecords,
+		props.onPaginationChange
 	);
 
 	return (

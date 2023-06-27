@@ -4,34 +4,21 @@ import {
 	useHandleTransactionTableData
 } from './useHandleTransactionTableData';
 import './TransactionsTable.scss';
-import { Button, TableCell, TableRow } from '@mui/material';
 import {
-	Control,
 	FieldPath,
-	FormState,
 	UseFormSetValue,
 	UseFormWatch,
 	useWatch
 } from 'react-hook-form';
-import { ReactNode, useContext, useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { Updater } from 'use-immer';
-import {
-	UpdateTransactionsMutation,
-	useDeleteAllUnconfirmed
-} from '../../../ajaxapi/query/TransactionQueries';
+import { UpdateTransactionsMutation } from '../../../ajaxapi/query/TransactionQueries';
 import { pipe } from 'fp-ts/es6/function';
 import {
 	createTablePagination,
 	PaginationState
 } from '../../../utils/pagination';
-import { UseMutateFunction } from '@tanstack/react-query';
-import { DeleteTransactionsResponse } from '../../../types/generated/expense-tracker';
-import {
-	ConfirmDialogContext,
-	NewConfirmDialog
-} from '../../UI/ConfirmDialog/ConfirmDialogProvider';
 import { TransactionTable } from './TransactionTable';
-import { useIsEditMode } from './TransactionTableUtils';
 
 interface Props {
 	readonly pagination: PaginationState;
@@ -76,7 +63,7 @@ const useAutoConfirmOnCategorize = (
 export const TransactionTableWrapper = (props: Props) => {
 	const {
 		data: { transactions, categories, isFetching },
-		pagination: { currentPage, totalRecords },
+		pagination,
 		form,
 		actions: { resetFormToData, updateTransactions }
 	} = useHandleTransactionTableData(props.pagination, props.filterValues);
@@ -84,14 +71,6 @@ export const TransactionTableWrapper = (props: Props) => {
 		formReturn: { setValue, control, formState, handleSubmit, watch },
 		fields
 	} = form;
-
-	const tablePagination = createTablePagination(
-		currentPage,
-		props.pagination.pageSize,
-		totalRecords,
-		props.onPaginationChange
-	);
-	const editMode = useIsEditMode();
 
 	const onSubmit = createOnSubmit(updateTransactions);
 
@@ -112,6 +91,7 @@ export const TransactionTableWrapper = (props: Props) => {
 			isFetching={isFetching}
 			openDetailsDialog={props.openDetailsDialog}
 			resetFormToData={resetFormToData}
+			pagination={pagination}
 		/>
 	);
 };

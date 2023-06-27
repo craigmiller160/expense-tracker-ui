@@ -47,16 +47,18 @@ export type TransactionTableUseFormReturn = Readonly<{
 	>;
 }>;
 
+export type TransactionTablePagination = Readonly<{
+	currentPage: number;
+	totalRecords: number;
+}>;
+
 export interface TransactionTableData {
 	readonly data: {
 		readonly transactions: ReadonlyArray<TransactionResponse>;
 		readonly categories: ReadonlyArray<CategoryOption>;
 		readonly isFetching: boolean;
 	};
-	readonly pagination: {
-		readonly currentPage: number;
-		readonly totalRecords: number;
-	};
+	readonly pagination: TransactionTablePagination;
 	readonly form: TransactionTableUseFormReturn;
 	readonly actions: {
 		readonly resetFormToData: () => void;
@@ -122,15 +124,15 @@ const handleConfirmAll = (form: UseFormReturn<TransactionTableForm>) => {
 };
 
 export const useHandleTransactionTableData = (
-	pagination: PaginationState,
+	paginationState: PaginationState,
 	filterValues: TransactionSearchForm
 ): TransactionTableData => {
 	const { data: categoryData, isFetching: categoryIsFetching } =
 		useGetAllCategories();
 	const { data: transactionData, isFetching: transactionIsFetching } =
 		useSearchForTransactions({
-			pageNumber: pagination.pageNumber,
-			pageSize: pagination.pageSize,
+			pageNumber: paginationState.pageNumber,
+			pageSize: paginationState.pageSize,
 			sortKey: TransactionSortKey.EXPENSE_DATE,
 			sortDirection: filterValues.direction,
 			startDate: filterValues.startDate,
@@ -201,6 +203,14 @@ export const useHandleTransactionTableData = (
 		[transactionData]
 	);
 
+	const pagination: TransactionTablePagination = useMemo(
+		() => ({
+			currentPage: transactionData?.pageNumber ?? 0,
+			totalRecords: transactionData?.totalItems ?? 0
+		}),
+		[transactionData]
+	);
+
 	return {
 		data: {
 			transactions: transactions ?? [],
@@ -213,10 +223,7 @@ export const useHandleTransactionTableData = (
 				deleteIsLoading ||
 				deleteUnconfirmedIsLoading
 		},
-		pagination: {
-			currentPage: transactionData?.pageNumber ?? 0,
-			totalRecords: transactionData?.totalItems ?? 0
-		},
+		pagination,
 		form: {
 			formReturn: form,
 			fields

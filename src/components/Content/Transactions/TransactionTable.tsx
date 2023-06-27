@@ -15,7 +15,8 @@ import {
 	FieldPath,
 	FormState,
 	UseFormSetValue,
-	UseFormWatch
+	UseFormWatch,
+	useWatch
 } from 'react-hook-form';
 import { ReactNode, useContext, useEffect } from 'react';
 import { Updater } from 'use-immer';
@@ -206,7 +207,10 @@ export const TransactionTable = (props: Props) => {
 	const editClass = editMode ? 'edit' : '';
 
 	const editModeColumns = createEditModeColumns(control);
-	const watchedTransactions = watch('transactions');
+	const { transactions: watchedTransactions } =
+		useWatch<TransactionTableForm>({
+			control
+		});
 
 	useAutoConfirmOnCategorize(watch, setValue);
 
@@ -275,7 +279,7 @@ export const TransactionTable = (props: Props) => {
 										<div className="FlagRow">
 											<NotConfirmedIcon
 												transaction={
-													watchedTransactions[index]
+													watchedTransactions?.[index]
 												}
 											/>
 											<DuplicateIcon transaction={txn} />
@@ -283,7 +287,7 @@ export const TransactionTable = (props: Props) => {
 										<div className="FlagRow">
 											<NotCategorizedIcon
 												transaction={
-													watchedTransactions[index]
+													watchedTransactions?.[index]
 												}
 											/>
 											<PossibleRefundIcon

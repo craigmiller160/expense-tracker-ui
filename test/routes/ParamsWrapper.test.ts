@@ -5,7 +5,7 @@ import {
 import { identity } from 'fp-ts/es6/function';
 import * as Try from '@craigmiller160/ts-functions/es/Try';
 
-describe('paramUtils', () => {
+describe('ParamsWrapper', () => {
 	describe('setOrDeleteParam', () => {
 		it('sets param for string value', () => {
 			const params = new URLSearchParams();
@@ -70,6 +70,18 @@ describe('paramUtils', () => {
 			const params = new URLSearchParams();
 			const result = getOrDefaultParam(params)('foo', 'default');
 			expect(result).toEqual('default');
+		});
+
+		it('gets default value as null', () => {
+			const params = new URLSearchParams();
+			const result = getOrDefaultParam(params)('foo', null);
+			expect(result).toBeNull();
+		});
+
+		it('gets default value as undefined', () => {
+			const params = new URLSearchParams();
+			const result = getOrDefaultParam(params)('foo', undefined);
+			expect(result).toBeUndefined();
 		});
 
 		it('gets default non-string value for non-existent param', () => {

@@ -15,6 +15,7 @@ export interface TransactionSearchForm {
 	readonly duplicate: YesNoFilter;
 	readonly categorized: YesNoFilter;
 	readonly possibleRefund: YesNoFilter;
+	readonly description: string;
 }
 
 export const defaultStartDate = (): Date =>
@@ -47,7 +48,8 @@ export const transactionSearchFormDefaultValues: TransactionSearchForm = {
 	duplicate: 'ALL',
 	categorized: 'ALL',
 	confirmed: 'ALL',
-	possibleRefund: 'ALL'
+	possibleRefund: 'ALL',
+	description: ''
 };
 
 export const DEFAULT_ROWS_PER_PAGE = 25;

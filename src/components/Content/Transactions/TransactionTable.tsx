@@ -1,45 +1,53 @@
-import { formToUpdateRequest, TransactionSearchForm } from './utils';
-import {
-	TransactionTableForm,
-	useHandleTransactionTableData
-} from './useHandleTransactionTableData';
-import './TransactionsTable.scss';
+import { memo, useContext } from 'react';
 import { Table } from '../../UI/Table';
 import { Button, TableCell, TableRow } from '@mui/material';
 import {
 	Autocomplete,
 	Checkbox
 } from '@craigmiller160/react-hook-form-material-ui';
-import {
-	Control,
-	FieldPath,
-	FormState,
-	UseFormSetValue,
-	UseFormWatch
-} from 'react-hook-form';
-import { ReactNode, useContext, useEffect } from 'react';
-import { Updater } from 'use-immer';
-import {
-	UpdateTransactionsMutation,
-	useDeleteAllUnconfirmed
-} from '../../../ajaxapi/query/TransactionQueries';
-import { pipe } from 'fp-ts/es6/function';
-import { useIsAtLeastBreakpoint } from '../../../utils/breakpointHooks';
-import { DuplicateIcon } from './icons/DuplicateIcon';
-import { NotConfirmedIcon } from './icons/NotConfirmedIcon';
-import { NotCategorizedIcon } from './icons/NotCategorizedIcon';
 import { formatCurrency } from '../../../utils/formatNumbers';
+import { NotConfirmedIcon } from './icons/NotConfirmedIcon';
+import { DuplicateIcon } from './icons/DuplicateIcon';
+import { NotCategorizedIcon } from './icons/NotCategorizedIcon';
 import { PossibleRefundIcon } from './icons/PossibleRefundIcon';
+import { Control, DeepPartial, FormState } from 'react-hook-form';
 import {
-	createTablePagination,
-	PaginationState
-} from '../../../utils/pagination';
+	TransactionFormValues,
+	TransactionTableForm,
+	TransactionTablePagination,
+	TransactionTableUseFormReturn
+} from './useHandleTransactionTableData';
+import { useIsEditMode } from './TransactionTableUtils';
+import { ReactNode } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
-import { DeleteTransactionsResponse } from '../../../types/generated/expense-tracker';
+import {
+	DeleteTransactionsResponse,
+	TransactionResponse
+} from '../../../types/generated/expense-tracker';
 import {
 	ConfirmDialogContext,
 	NewConfirmDialog
 } from '../../UI/ConfirmDialog/ConfirmDialogProvider';
+import { useDeleteAllUnconfirmed } from '../../../ajaxapi/query/TransactionQueries';
+import { CategoryOption } from '../../../types/categories';
+import {
+	createTablePagination,
+	PaginationState
+} from '../../../utils/pagination';
+import { Updater } from 'use-immer';
+
+export type Props = Readonly<{
+	transactions: ReadonlyArray<TransactionResponse>;
+	categories: ReadonlyArray<CategoryOption>;
+	watchedTransactions: ReadonlyArray<DeepPartial<TransactionFormValues>>;
+	form: TransactionTableUseFormReturn;
+	onSubmit: (f: TransactionTableForm) => void;
+	isFetching: boolean;
+	openDetailsDialog: (transactionId?: string) => void;
+	resetFormToData: () => void;
+	pagination: TransactionTablePagination;
+	onPaginationChange: Updater<PaginationState>;
+}>;
 
 const COLUMNS: ReadonlyArray<string | ReactNode> = [
 	'Expense Date',
@@ -64,12 +72,22 @@ const createEditModeColumns = (
 	...COLUMNS
 ];
 
-interface Props {
-	readonly pagination: PaginationState;
-	readonly onPaginationChange: Updater<PaginationState>;
-	readonly filterValues: TransactionSearchForm;
-	readonly openDetailsDialog: (transactionId?: string) => void;
-}
+export const arePropsEqual = (prevProps: Props, nextProps: Props): boolean => {
+	const nextPropsEntries = Object.entries(nextProps) as ReadonlyArray<
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		[keyof Props, any]
+	>;
+
+	return (
+		nextPropsEntries.filter(([key, value]) => {
+			if (typeof value === 'function') {
+				return false;
+			}
+
+			return value !== prevProps[key];
+		}).length === 0
+	);
+};
 
 const createAboveTableActions = (
 	openDetailsDialog: () => void,
@@ -134,64 +152,32 @@ const createBelowTableActions = (
 	];
 };
 
-const createOnSubmit =
-	(updateTransactions: UpdateTransactionsMutation) =>
-	(values: TransactionTableForm) =>
-		pipe(
-			formToUpdateRequest(values),
-			(_) => ({ transactions: _ }),
-			updateTransactions
-		);
-
-const CATEGORIZE_TRANSACTION_REGEX = /transactions\.(?<index>\d+)\.category/;
-type CategorizeTransactionRegexGroups = {
-	readonly index: string;
-};
-const useAutoConfirmOnCategorize = (
-	watch: UseFormWatch<TransactionTableForm>,
-	setValue: UseFormSetValue<TransactionTableForm>
-) => {
-	useEffect(() => {
-		const subscription = watch((values, { name }) => {
-			if (name) {
-				const groups = CATEGORIZE_TRANSACTION_REGEX.exec(name)
-					?.groups as CategorizeTransactionRegexGroups | undefined;
-				if (groups) {
-					const confirmedKey =
-						`transactions.${groups.index}.confirmed` as FieldPath<TransactionTableForm>;
-					setValue(confirmedKey, true);
-				}
-			}
-		});
-		return () => subscription.unsubscribe();
-	}, [watch, setValue]);
-};
-
-export const TransactionTable = (props: Props) => {
-	const { newConfirmDialog } = useContext(ConfirmDialogContext);
+export const TransactionTable = memo((props: Props) => {
+	const editMode = useIsEditMode();
+	const editClass = editMode ? 'edit' : '';
 	const {
-		data: { transactions, categories, isFetching },
-		pagination: { currentPage, totalRecords },
+		transactions,
+		categories,
+		watchedTransactions,
 		form: {
-			formReturn: { setValue, control, formState, handleSubmit, watch },
+			formReturn: { control, handleSubmit, formState },
 			fields
 		},
-		actions: { resetFormToData, updateTransactions }
-	} = useHandleTransactionTableData(props.pagination, props.filterValues);
+		onSubmit,
+		isFetching,
+		openDetailsDialog,
+		resetFormToData,
+		pagination: { currentPage, totalRecords, pageSize },
+		onPaginationChange
+	} = props;
 
-	const tablePagination = createTablePagination(
-		currentPage,
-		props.pagination.pageSize,
-		totalRecords,
-		props.onPaginationChange
-	);
-	const isAtLeastSm = useIsAtLeastBreakpoint('sm');
-	const editMode = process.env.NODE_ENV === 'test' || isAtLeastSm;
+	const editModeColumns = createEditModeColumns(control);
 
+	const { newConfirmDialog } = useContext(ConfirmDialogContext);
 	const { mutate: deleteAllUnconfirmed } = useDeleteAllUnconfirmed();
 
 	const aboveTableActions = createAboveTableActions(
-		props.openDetailsDialog,
+		openDetailsDialog,
 		deleteAllUnconfirmed,
 		newConfirmDialog
 	);
@@ -201,14 +187,12 @@ export const TransactionTable = (props: Props) => {
 		editMode
 	);
 
-	const onSubmit = createOnSubmit(updateTransactions);
-
-	const editClass = editMode ? 'edit' : '';
-
-	const editModeColumns = createEditModeColumns(control);
-	const watchedTransactions = watch('transactions');
-
-	useAutoConfirmOnCategorize(watch, setValue);
+	const tablePagination = createTablePagination(
+		currentPage,
+		pageSize,
+		totalRecords,
+		onPaginationChange
+	);
 
 	return (
 		<div className={`TransactionsTable ${editClass}`}>
@@ -299,7 +283,7 @@ export const TransactionTable = (props: Props) => {
 										color="info"
 										disabled={formState.isDirty}
 										onClick={() =>
-											props.openDetailsDialog(txn.id)
+											openDetailsDialog(txn.id)
 										}
 									>
 										Details
@@ -312,4 +296,5 @@ export const TransactionTable = (props: Props) => {
 			</form>
 		</div>
 	);
-};
+}, arePropsEqual);
+TransactionTable.displayName = 'TransactionTable';

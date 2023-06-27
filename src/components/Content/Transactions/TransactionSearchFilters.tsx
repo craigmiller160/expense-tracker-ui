@@ -8,6 +8,7 @@ import {
 	DatePicker,
 	Select,
 	SelectOption,
+	TextField,
 	ValueHasChanged
 } from '@craigmiller160/react-hook-form-material-ui';
 import { constVoid } from 'fp-ts/es6/function';
@@ -88,7 +89,14 @@ export const TransactionSearchFilters = (props: Props) => {
 						onValueHasChanged={onValueHasChanged}
 					/>
 				</ResponsiveRow>
-				<ResponsiveRow>
+				<ResponsiveRow overrideChildWidth={{ sm: '25%' }}>
+					<TextField
+						id="descriptionFilter"
+						control={control}
+						name="description"
+						label="Description"
+						onValueHasChanged={onValueHasChanged}
+					/>
 					<Autocomplete
 						id="transactionCategoryFilter"
 						name="category"

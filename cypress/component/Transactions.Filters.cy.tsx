@@ -27,6 +27,25 @@ const newStartDateString = format(DATE_FORMAT)(newStartDate);
 const newEndDateString = format(DATE_FORMAT)(newEndDate);
 
 describe('Transactions Filters', () => {
+	it('description control', () => {
+		categoriesApi.getAllCategories();
+		needsAttentionApi.getNeedsAttention_all();
+		transactionsApi.searchForTransactions();
+		mountApp({
+			initialRoute: '/expense-tracker/transactions'
+		});
+
+		const description = 'Hello';
+
+		transactionsApi.searchForTransactionsWithQuery(
+			`.*description=${description}.*`,
+			'descriptionSearch'
+		);
+
+		transactionFilters.getDescriptionFilterInput().type(description);
+		cy.wait('@descriptionSearch');
+	});
+
 	it('clears all filters', () => {
 		categoriesApi.getAllCategories();
 		needsAttentionApi.getNeedsAttention_all();
@@ -174,6 +193,10 @@ describe('Transactions Filters', () => {
 			.each(($value, index) =>
 				expect($value.text()).to.eq(yesNoOptionNames[index])
 			);
+
+		transactionFilters
+			.getDescriptionFilterLabel()
+			.should('have.text', 'Description');
 	});
 
 	it('possible refund control', () => {

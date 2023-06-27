@@ -40,22 +40,27 @@ export interface TransactionTableForm {
 	readonly transactions: ReadonlyArray<TransactionFormValues>;
 }
 
+export type TransactionTableUseFormReturn = Readonly<{
+	formReturn: UseFormReturn<TransactionTableForm>;
+	fields: ReadonlyArray<
+		FieldArrayWithId<TransactionTableForm, 'transactions', 'id'>
+	>;
+}>;
+
+export type TransactionTablePagination = Readonly<{
+	currentPage: number;
+	totalRecords: number;
+	pageSize: number;
+}>;
+
 export interface TransactionTableData {
 	readonly data: {
 		readonly transactions: ReadonlyArray<TransactionResponse>;
 		readonly categories: ReadonlyArray<CategoryOption>;
 		readonly isFetching: boolean;
 	};
-	readonly pagination: {
-		readonly currentPage: number;
-		readonly totalRecords: number;
-	};
-	readonly form: {
-		readonly formReturn: UseFormReturn<TransactionTableForm>;
-		readonly fields: ReadonlyArray<
-			FieldArrayWithId<TransactionTableForm, 'transactions', 'id'>
-		>;
-	};
+	readonly pagination: TransactionTablePagination;
+	readonly form: TransactionTableUseFormReturn;
 	readonly actions: {
 		readonly resetFormToData: () => void;
 		readonly updateTransactions: UpdateTransactionsMutation;
@@ -120,15 +125,15 @@ const handleConfirmAll = (form: UseFormReturn<TransactionTableForm>) => {
 };
 
 export const useHandleTransactionTableData = (
-	pagination: PaginationState,
+	paginationState: PaginationState,
 	filterValues: TransactionSearchForm
 ): TransactionTableData => {
 	const { data: categoryData, isFetching: categoryIsFetching } =
 		useGetAllCategories();
 	const { data: transactionData, isFetching: transactionIsFetching } =
 		useSearchForTransactions({
-			pageNumber: pagination.pageNumber,
-			pageSize: pagination.pageSize,
+			pageNumber: paginationState.pageNumber,
+			pageSize: paginationState.pageSize,
 			sortKey: TransactionSortKey.EXPENSE_DATE,
 			sortDirection: filterValues.direction,
 			startDate: filterValues.startDate,
@@ -137,7 +142,8 @@ export const useHandleTransactionTableData = (
 			confirmed: filterValues.confirmed,
 			duplicate: filterValues.duplicate,
 			categorized: filterValues.categorized,
-			possibleRefund: filterValues.possibleRefund
+			possibleRefund: filterValues.possibleRefund,
+			description: filterValues.description
 		});
 	const { mutate: updateTransactions, isLoading: updateIsLoading } =
 		useUpdateTransactions();
@@ -199,6 +205,23 @@ export const useHandleTransactionTableData = (
 		[transactionData]
 	);
 
+	const pagination: TransactionTablePagination = useMemo(
+		() => ({
+			currentPage: transactionData?.pageNumber ?? 0,
+			totalRecords: transactionData?.totalItems ?? 0,
+			pageSize: paginationState.pageSize
+		}),
+		[transactionData, paginationState.pageSize]
+	);
+
+	const tableForm: TransactionTableUseFormReturn = useMemo(
+		() => ({
+			formReturn: form,
+			fields
+		}),
+		[form, fields]
+	);
+
 	return {
 		data: {
 			transactions: transactions ?? [],
@@ -211,14 +234,8 @@ export const useHandleTransactionTableData = (
 				deleteIsLoading ||
 				deleteUnconfirmedIsLoading
 		},
-		pagination: {
-			currentPage: transactionData?.pageNumber ?? 0,
-			totalRecords: transactionData?.totalItems ?? 0
-		},
-		form: {
-			formReturn: form,
-			fields
-		},
+		pagination,
+		form: tableForm,
 		actions: {
 			resetFormToData,
 			updateTransactions

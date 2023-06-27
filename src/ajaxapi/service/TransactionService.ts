@@ -47,7 +47,11 @@ export const requestToQuery = (
 		...request,
 		startDate: handleOptionalValue(request.startDate, formatServerDate),
 		endDate: handleOptionalValue(request.endDate, formatServerDate),
-		categoryIds: handleCategoryIds(request.categorized, request.categoryIds)
+		categoryIds: handleCategoryIds(
+			request.categorized,
+			request.categoryIds
+		),
+		description: request.description ? request.description : undefined
 	});
 
 export const searchForTransactions = (

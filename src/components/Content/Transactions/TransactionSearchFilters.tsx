@@ -94,6 +94,7 @@ export const TransactionSearchFilters = (props: Props) => {
 						control={control}
 						name="description"
 						label="Description"
+						onValueHasChanged={onValueHasChanged}
 					/>
 					<Autocomplete
 						id="transactionCategoryFilter"

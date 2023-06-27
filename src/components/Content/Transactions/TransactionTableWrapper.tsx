@@ -141,12 +141,13 @@ export const TransactionTableWrapper = (props: Props) => {
 	const {
 		data: { transactions, categories, isFetching },
 		pagination: { currentPage, totalRecords },
-		form: {
-			formReturn: { setValue, control, formState, handleSubmit, watch },
-			fields
-		},
+		form,
 		actions: { resetFormToData, updateTransactions }
 	} = useHandleTransactionTableData(props.pagination, props.filterValues);
+	const {
+		formReturn: { setValue, control, formState, handleSubmit, watch },
+		fields
+	} = form;
 
 	const tablePagination = createTablePagination(
 		currentPage,
@@ -178,5 +179,10 @@ export const TransactionTableWrapper = (props: Props) => {
 
 	useAutoConfirmOnCategorize(watch, setValue);
 
-	return <TransactionTable watchedTransactions={watchedTransactions} />;
+	return (
+		<TransactionTable
+			watchedTransactions={watchedTransactions}
+			form={form}
+		/>
+	);
 };

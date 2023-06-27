@@ -10,16 +10,18 @@ import { NotConfirmedIcon } from './icons/NotConfirmedIcon';
 import { DuplicateIcon } from './icons/DuplicateIcon';
 import { NotCategorizedIcon } from './icons/NotCategorizedIcon';
 import { PossibleRefundIcon } from './icons/PossibleRefundIcon';
-import { Control, DeepPartial } from 'react-hook-form';
+import { Control, DeepPartial, UseFormReturn } from 'react-hook-form';
 import {
 	TransactionFormValues,
-	TransactionTableForm
+	TransactionTableForm,
+	TransactionTableUseFormReturn
 } from './useHandleTransactionTableData';
 import { useIsEditMode } from './TransactionTableUtils';
 import { ReactNode } from 'react';
 
 type Props = Readonly<{
 	watchedTransactions: ReadonlyArray<DeepPartial<TransactionFormValues>>;
+	form: TransactionTableUseFormReturn;
 }>;
 
 const COLUMNS: ReadonlyArray<string | ReactNode> = [
@@ -48,7 +50,15 @@ const createEditModeColumns = (
 export const TransactionTable = memo((props: Props) => {
 	const editMode = useIsEditMode();
 	const editClass = editMode ? 'edit' : '';
+	const {
+		form: {
+			formReturn: { setValue, control, handleSubmit, formState },
+			fields
+		}
+	} = props;
+
 	const editModeColumns = createEditModeColumns(control);
+
 	return (
 		<div className={`TransactionsTable ${editClass}`}>
 			<form onSubmit={handleSubmit(onSubmit)}>

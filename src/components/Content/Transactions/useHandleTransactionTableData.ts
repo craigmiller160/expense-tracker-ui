@@ -40,6 +40,13 @@ export interface TransactionTableForm {
 	readonly transactions: ReadonlyArray<TransactionFormValues>;
 }
 
+export type TransactionTableUseFormReturn = Readonly<{
+	formReturn: UseFormReturn<TransactionTableForm>;
+	fields: ReadonlyArray<
+		FieldArrayWithId<TransactionTableForm, 'transactions', 'id'>
+	>;
+}>;
+
 export interface TransactionTableData {
 	readonly data: {
 		readonly transactions: ReadonlyArray<TransactionResponse>;
@@ -50,12 +57,7 @@ export interface TransactionTableData {
 		readonly currentPage: number;
 		readonly totalRecords: number;
 	};
-	readonly form: {
-		readonly formReturn: UseFormReturn<TransactionTableForm>;
-		readonly fields: ReadonlyArray<
-			FieldArrayWithId<TransactionTableForm, 'transactions', 'id'>
-		>;
-	};
+	readonly form: TransactionTableUseFormReturn;
 	readonly actions: {
 		readonly resetFormToData: () => void;
 		readonly updateTransactions: UpdateTransactionsMutation;

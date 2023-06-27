@@ -10,12 +10,7 @@ import { NotConfirmedIcon } from './icons/NotConfirmedIcon';
 import { DuplicateIcon } from './icons/DuplicateIcon';
 import { NotCategorizedIcon } from './icons/NotCategorizedIcon';
 import { PossibleRefundIcon } from './icons/PossibleRefundIcon';
-import {
-	Control,
-	DeepPartial,
-	FormState,
-	UseFormReturn
-} from 'react-hook-form';
+import { Control, DeepPartial, FormState } from 'react-hook-form';
 import {
 	TransactionFormValues,
 	TransactionTableForm,
@@ -80,6 +75,7 @@ const createEditModeColumns = (
 // TODO need unit test for this
 const arePropsEqual = (prevProps: Props, nextProps: Props): boolean => {
 	const nextPropsEntries = Object.entries(nextProps) as ReadonlyArray<
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		[keyof Props, any]
 	>;
 	return (
@@ -164,7 +160,7 @@ export const TransactionTable = memo((props: Props) => {
 		categories,
 		watchedTransactions,
 		form: {
-			formReturn: { setValue, control, handleSubmit, formState },
+			formReturn: { control, handleSubmit, formState },
 			fields
 		},
 		onSubmit,

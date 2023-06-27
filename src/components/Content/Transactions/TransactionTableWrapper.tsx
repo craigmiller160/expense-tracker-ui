@@ -65,8 +65,7 @@ export const TransactionTableWrapper = (props: Props) => {
 		actions: { resetFormToData, updateTransactions }
 	} = useHandleTransactionTableData(props.pagination, props.filterValues);
 	const {
-		formReturn: { setValue, control, formState, handleSubmit, watch },
-		fields
+		formReturn: { setValue, control, watch }
 	} = form;
 
 	const onSubmit = createOnSubmit(updateTransactions);

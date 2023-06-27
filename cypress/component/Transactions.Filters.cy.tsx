@@ -178,6 +178,8 @@ describe('Transactions Filters', () => {
 			.each(($value, index) =>
 				expect($value.text()).to.eq(yesNoOptionNames[index])
 			);
+
+		throw new Error('Add description control');
 	});
 
 	it('possible refund control', () => {

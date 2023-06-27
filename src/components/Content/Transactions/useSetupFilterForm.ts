@@ -33,6 +33,7 @@ const formToParams: SyncToParams<TransactionSearchForm> = (form, params) => {
 	params.setOrDelete('duplicate', form.duplicate);
 	params.setOrDelete('categorized', form.categorized);
 	params.setOrDelete('possibleRefund', form.possibleRefund);
+	params.setOrDelete('description', form.description);
 };
 
 const parseSortDirection = (value: string | null): SortDirection =>
@@ -90,6 +91,10 @@ const formFromParams =
 			'possibleRefund',
 			transactionSearchFormDefaultValues.possibleRefund
 		);
+		const description = params.getOrDefault(
+			'description',
+			transactionSearchFormDefaultValues.description
+		);
 
 		return {
 			direction,
@@ -99,7 +104,8 @@ const formFromParams =
 			categorized,
 			confirmed,
 			possibleRefund,
-			duplicate
+			duplicate,
+			description
 		};
 	};
 

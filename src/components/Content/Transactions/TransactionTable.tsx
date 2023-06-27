@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useContext } from 'react';
 import { Table } from '../../UI/Table';
 import { Button, TableCell, TableRow } from '@mui/material';
 import {
@@ -10,7 +10,12 @@ import { NotConfirmedIcon } from './icons/NotConfirmedIcon';
 import { DuplicateIcon } from './icons/DuplicateIcon';
 import { NotCategorizedIcon } from './icons/NotCategorizedIcon';
 import { PossibleRefundIcon } from './icons/PossibleRefundIcon';
-import { Control, DeepPartial, UseFormReturn } from 'react-hook-form';
+import {
+	Control,
+	DeepPartial,
+	FormState,
+	UseFormReturn
+} from 'react-hook-form';
 import {
 	TransactionFormValues,
 	TransactionTableForm,
@@ -18,6 +23,13 @@ import {
 } from './useHandleTransactionTableData';
 import { useIsEditMode } from './TransactionTableUtils';
 import { ReactNode } from 'react';
+import { UseMutateFunction } from '@tanstack/react-query';
+import { DeleteTransactionsResponse } from '../../../types/generated/expense-tracker';
+import {
+	ConfirmDialogContext,
+	NewConfirmDialog
+} from '../../UI/ConfirmDialog/ConfirmDialogProvider';
+import { useDeleteAllUnconfirmed } from '../../../ajaxapi/query/TransactionQueries';
 
 type Props = Readonly<{
 	watchedTransactions: ReadonlyArray<DeepPartial<TransactionFormValues>>;
@@ -25,6 +37,7 @@ type Props = Readonly<{
 	onSubmit: (f: TransactionTableForm) => void;
 	isFetching: boolean;
 	openDetailsDialog: (transactionId?: string) => void;
+	resetFormToData: () => void;
 }>;
 
 const COLUMNS: ReadonlyArray<string | ReactNode> = [
@@ -66,6 +79,69 @@ const arePropsEqual = (prevProps: Props, nextProps: Props): boolean => {
 	);
 };
 
+const createAboveTableActions = (
+	openDetailsDialog: () => void,
+	deleteAllUnconfirmed: UseMutateFunction<DeleteTransactionsResponse>,
+	newConfirmDialog: NewConfirmDialog
+): ReadonlyArray<ReactNode> => {
+	const onDeleteAllUnconfirmedClick = () =>
+		newConfirmDialog(
+			'Delete All Unconfirmed Transactions',
+			'This will delete all unconfirmed transactions regardless of filter settings. Are you sure you want to proceed?',
+			deleteAllUnconfirmed
+		);
+	return [
+		<Button
+			id="delete-all-unconfirmed-transactions-button"
+			key="delete-all-unconfirmed"
+			variant="contained"
+			color="error"
+			onClick={onDeleteAllUnconfirmedClick}
+		>
+			Delete All Unconfirmed Transactions
+		</Button>,
+		<Button
+			id="add-transaction-button"
+			key="add-transaction"
+			variant="contained"
+			color="primary"
+			onClick={() => openDetailsDialog()}
+		>
+			Add Transaction
+		</Button>
+	];
+};
+
+const createBelowTableActions = (
+	formState: FormState<TransactionTableForm>,
+	resetFormToData: () => void,
+	editMode: boolean
+): ReadonlyArray<ReactNode> => {
+	if (!editMode) {
+		return [];
+	}
+	return [
+		<Button
+			key="reset-button"
+			variant="contained"
+			color="secondary"
+			disabled={!formState.isDirty}
+			onClick={resetFormToData}
+		>
+			Reset
+		</Button>,
+		<Button
+			key="save-button"
+			variant="contained"
+			type="submit"
+			color="success"
+			disabled={!formState.isDirty}
+		>
+			Save
+		</Button>
+	];
+};
+
 export const TransactionTable = memo((props: Props) => {
 	const editMode = useIsEditMode();
 	const editClass = editMode ? 'edit' : '';
@@ -77,10 +153,25 @@ export const TransactionTable = memo((props: Props) => {
 		},
 		onSubmit,
 		isFetching,
-		openDetailsDialog
+		openDetailsDialog,
+		resetFormToData
 	} = props;
 
 	const editModeColumns = createEditModeColumns(control);
+
+	const { newConfirmDialog } = useContext(ConfirmDialogContext);
+	const { mutate: deleteAllUnconfirmed } = useDeleteAllUnconfirmed();
+
+	const aboveTableActions = createAboveTableActions(
+		props.openDetailsDialog,
+		deleteAllUnconfirmed,
+		newConfirmDialog
+	);
+	const belowTableActions = createBelowTableActions(
+		formState,
+		resetFormToData,
+		editMode
+	);
 
 	return (
 		<div className={`TransactionsTable ${editClass}`}>

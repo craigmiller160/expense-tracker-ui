@@ -36,7 +36,7 @@ import {
 } from '../../../utils/pagination';
 import { Updater } from 'use-immer';
 
-type Props = Readonly<{
+export type Props = Readonly<{
 	transactions: ReadonlyArray<TransactionResponse>;
 	categories: ReadonlyArray<CategoryOption>;
 	watchedTransactions: ReadonlyArray<DeepPartial<TransactionFormValues>>;
@@ -72,7 +72,7 @@ const createEditModeColumns = (
 	...COLUMNS
 ];
 
-const arePropsEqual = (prevProps: Props, nextProps: Props): boolean => {
+export const arePropsEqual = (prevProps: Props, nextProps: Props): boolean => {
 	const nextPropsEntries = Object.entries(nextProps) as ReadonlyArray<
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		[keyof Props, any]

@@ -184,6 +184,8 @@ export const TransactionTableWrapper = (props: Props) => {
 			watchedTransactions={watchedTransactions}
 			form={form}
 			onSubmit={onSubmit}
+			isFetching={isFetching}
+			openDetailsDialog={props.openDetailsDialog}
 		/>
 	);
 };

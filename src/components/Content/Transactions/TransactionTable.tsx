@@ -24,6 +24,7 @@ type Props = Readonly<{
 	form: TransactionTableUseFormReturn;
 	onSubmit: (f: TransactionTableForm) => void;
 	isFetching: boolean;
+	openDetailsDialog: (transactionId?: string) => void;
 }>;
 
 const COLUMNS: ReadonlyArray<string | ReactNode> = [
@@ -75,7 +76,8 @@ export const TransactionTable = memo((props: Props) => {
 			fields
 		},
 		onSubmit,
-		isFetching
+		isFetching,
+		openDetailsDialog
 	} = props;
 
 	const editModeColumns = createEditModeColumns(control);
@@ -169,7 +171,7 @@ export const TransactionTable = memo((props: Props) => {
 										color="info"
 										disabled={formState.isDirty}
 										onClick={() =>
-											props.openDetailsDialog(txn.id)
+											openDetailsDialog(txn.id)
 										}
 									>
 										Details

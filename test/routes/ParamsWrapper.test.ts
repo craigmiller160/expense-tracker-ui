@@ -78,6 +78,12 @@ describe('paramUtils', () => {
 			expect(result).toBeNull();
 		});
 
+		it('gets default value as undefined', () => {
+			const params = new URLSearchParams();
+			const result = getOrDefaultParam(params)('foo', undefined);
+			expect(result).toBeUndefined();
+		});
+
 		it('gets default non-string value for non-existent param', () => {
 			const params = new URLSearchParams();
 			const result = getOrDefaultParam(params)('foo', 1, (v) =>

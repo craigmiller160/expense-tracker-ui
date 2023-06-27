@@ -52,7 +52,12 @@ export const getOrDefaultParam =
 		defaultValue: Value,
 		transform?: (v: string) => Value
 	): Value => {
-		if (typeof defaultValue !== 'string' && !transform) {
+		if (
+			defaultValue !== null &&
+			defaultValue !== undefined &&
+			typeof defaultValue !== 'string' &&
+			!transform
+		) {
 			throw new Error(
 				'Must provide a transform argument if a non-string default is set'
 			);

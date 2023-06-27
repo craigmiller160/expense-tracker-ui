@@ -142,7 +142,8 @@ export const useHandleTransactionTableData = (
 			confirmed: filterValues.confirmed,
 			duplicate: filterValues.duplicate,
 			categorized: filterValues.categorized,
-			possibleRefund: filterValues.possibleRefund
+			possibleRefund: filterValues.possibleRefund,
+			description: filterValues.description
 		});
 	const { mutate: updateTransactions, isLoading: updateIsLoading } =
 		useUpdateTransactions();

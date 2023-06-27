@@ -48,6 +48,15 @@ const createEditModeColumns = (
 	...COLUMNS
 ];
 
+// TODO need unit test for this
+const arePropsEqual = (prevProps: Props, nextProps: Props): boolean =>
+	Object.entries(nextProps).filter(([key, value]) => {
+		if (typeof value === 'function') {
+			return true;
+		}
+		return value === prevProps[key];
+	}).length === 0;
+
 export const TransactionTable = memo((props: Props) => {
 	const editMode = useIsEditMode();
 	const editClass = editMode ? 'edit' : '';
@@ -164,5 +173,5 @@ export const TransactionTable = memo((props: Props) => {
 			</form>
 		</div>
 	);
-});
+}, arePropsEqual);
 TransactionTable.displayName = 'TransactionTable';

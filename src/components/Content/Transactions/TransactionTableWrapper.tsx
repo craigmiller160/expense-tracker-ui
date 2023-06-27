@@ -170,10 +170,7 @@ export const TransactionTableWrapper = (props: Props) => {
 		editMode
 	);
 
-	const onSubmit = useMemo(
-		() => createOnSubmit(updateTransactions),
-		[updateTransactions]
-	);
+	const onSubmit = createOnSubmit(updateTransactions);
 
 	const { transactions: watchedTransactions = [] } =
 		useWatch<TransactionTableForm>({

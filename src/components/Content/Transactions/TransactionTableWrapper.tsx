@@ -13,7 +13,7 @@ import {
 	UseFormWatch,
 	useWatch
 } from 'react-hook-form';
-import { ReactNode, useContext, useEffect } from 'react';
+import { ReactNode, useContext, useEffect, useMemo } from 'react';
 import { Updater } from 'use-immer';
 import {
 	UpdateTransactionsMutation,
@@ -170,7 +170,10 @@ export const TransactionTableWrapper = (props: Props) => {
 		editMode
 	);
 
-	const onSubmit = createOnSubmit(updateTransactions);
+	const onSubmit = useMemo(
+		() => createOnSubmit(updateTransactions),
+		[updateTransactions]
+	);
 
 	const { transactions: watchedTransactions = [] } =
 		useWatch<TransactionTableForm>({
@@ -183,6 +186,7 @@ export const TransactionTableWrapper = (props: Props) => {
 		<TransactionTable
 			watchedTransactions={watchedTransactions}
 			form={form}
+			onSubmit={onSubmit}
 		/>
 	);
 };

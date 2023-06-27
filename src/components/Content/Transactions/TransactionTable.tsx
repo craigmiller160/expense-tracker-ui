@@ -22,6 +22,7 @@ import { ReactNode } from 'react';
 type Props = Readonly<{
 	watchedTransactions: ReadonlyArray<DeepPartial<TransactionFormValues>>;
 	form: TransactionTableUseFormReturn;
+	onSubmit: (f: TransactionTableForm) => void;
 }>;
 
 const COLUMNS: ReadonlyArray<string | ReactNode> = [
@@ -51,10 +52,12 @@ export const TransactionTable = memo((props: Props) => {
 	const editMode = useIsEditMode();
 	const editClass = editMode ? 'edit' : '';
 	const {
+		watchedTransactions,
 		form: {
 			formReturn: { setValue, control, handleSubmit, formState },
 			fields
-		}
+		},
+		onSubmit
 	} = props;
 
 	const editModeColumns = createEditModeColumns(control);
@@ -124,7 +127,7 @@ export const TransactionTable = memo((props: Props) => {
 										<div className="FlagRow">
 											<NotConfirmedIcon
 												transaction={
-													watchedTransactions?.[index]
+													watchedTransactions[index]
 												}
 											/>
 											<DuplicateIcon transaction={txn} />
@@ -132,7 +135,7 @@ export const TransactionTable = memo((props: Props) => {
 										<div className="FlagRow">
 											<NotCategorizedIcon
 												transaction={
-													watchedTransactions?.[index]
+													watchedTransactions[index]
 												}
 											/>
 											<PossibleRefundIcon

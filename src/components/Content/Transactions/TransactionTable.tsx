@@ -72,7 +72,6 @@ const createEditModeColumns = (
 	...COLUMNS
 ];
 
-// TODO need unit test for this
 const arePropsEqual = (prevProps: Props, nextProps: Props): boolean => {
 	const nextPropsEntries = Object.entries(nextProps) as ReadonlyArray<
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any

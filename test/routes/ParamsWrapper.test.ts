@@ -5,7 +5,7 @@ import {
 import { identity } from 'fp-ts/es6/function';
 import * as Try from '@craigmiller160/ts-functions/es/Try';
 
-describe('paramUtils', () => {
+describe('ParamsWrapper', () => {
 	describe('setOrDeleteParam', () => {
 		it('sets param for string value', () => {
 			const params = new URLSearchParams();

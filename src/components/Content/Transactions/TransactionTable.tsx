@@ -77,6 +77,7 @@ export const arePropsEqual = (prevProps: Props, nextProps: Props): boolean => {
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		[keyof Props, any]
 	>;
+
 	return (
 		nextPropsEntries.filter(([key, value]) => {
 			if (typeof value === 'function') {

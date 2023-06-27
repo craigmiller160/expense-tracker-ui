@@ -213,6 +213,14 @@ export const useHandleTransactionTableData = (
 		[transactionData, paginationState.pageSize]
 	);
 
+	const tableForm: TransactionTableUseFormReturn = useMemo(
+		() => ({
+			formReturn: form,
+			fields
+		}),
+		[form, fields]
+	);
+
 	return {
 		data: {
 			transactions: transactions ?? [],
@@ -226,10 +234,7 @@ export const useHandleTransactionTableData = (
 				deleteUnconfirmedIsLoading
 		},
 		pagination,
-		form: {
-			formReturn: form,
-			fields
-		},
+		form: tableForm,
 		actions: {
 			resetFormToData,
 			updateTransactions

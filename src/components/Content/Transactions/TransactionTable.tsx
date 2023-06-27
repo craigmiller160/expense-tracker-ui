@@ -80,10 +80,10 @@ export const arePropsEqual = (prevProps: Props, nextProps: Props): boolean => {
 	return (
 		nextPropsEntries.filter(([key, value]) => {
 			if (typeof value === 'function') {
-				return true;
+				return false;
 			}
 
-			return value === prevProps[key];
+			return value !== prevProps[key];
 		}).length === 0
 	);
 };

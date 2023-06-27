@@ -2,7 +2,6 @@ import { PageTitle } from '../../UI/PageTitle';
 import './Transactions.scss';
 import { Updater } from 'use-immer';
 import { DEFAULT_ROWS_PER_PAGE, TransactionSearchForm } from './utils';
-import { TransactionTable } from './TransactionTable';
 import { TransactionSearchFilters } from './TransactionSearchFilters';
 import { UseFormHandleSubmit } from 'react-hook-form';
 import { NeedsAttentionNotice } from './NeedsAttentionNotice';
@@ -16,6 +15,7 @@ import {
 	useImmerWithSearchParamSync
 } from '../../../routes/useImmerWithSearchParamSync';
 import { SyncToParams } from '../../../routes/useSearchParamSync';
+import { TransactionTableWrapper } from './TransactionTableWrapper';
 
 const createOnValueHasChanged = (
 	handleSubmit: UseFormHandleSubmit<TransactionSearchForm>,
@@ -78,7 +78,7 @@ export const Transactions = () => {
 				onValueHasChanged={onValueHasChanged}
 			/>
 			<NeedsAttentionNotice />
-			<TransactionTable
+			<TransactionTableWrapper
 				filterValues={getValues()}
 				pagination={paginationState}
 				onPaginationChange={setPaginationState}

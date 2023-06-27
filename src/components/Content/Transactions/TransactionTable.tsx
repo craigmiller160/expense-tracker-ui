@@ -23,6 +23,7 @@ type Props = Readonly<{
 	watchedTransactions: ReadonlyArray<DeepPartial<TransactionFormValues>>;
 	form: TransactionTableUseFormReturn;
 	onSubmit: (f: TransactionTableForm) => void;
+	isFetching: boolean;
 }>;
 
 const COLUMNS: ReadonlyArray<string | ReactNode> = [
@@ -73,7 +74,8 @@ export const TransactionTable = memo((props: Props) => {
 			formReturn: { setValue, control, handleSubmit, formState },
 			fields
 		},
-		onSubmit
+		onSubmit,
+		isFetching
 	} = props;
 
 	const editModeColumns = createEditModeColumns(control);

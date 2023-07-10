@@ -52,7 +52,8 @@ export const useGetAllRules = (
 		GetAllRulesKey
 	>({
 		queryKey: [GET_ALL_RULES, request],
-		queryFn: ({ queryKey: [, req] }) => debounceGetAllRules(req)
+		queryFn: ({ queryKey: [, req], signal }) =>
+			debounceGetAllRules(req, signal)
 	});
 
 type GetRuleKey = [string, OptionT<string>];
@@ -66,16 +67,16 @@ export const useGetRule = (
 		GetRuleKey
 	>({
 		queryKey: [GET_RULE, ruleId],
-		queryFn: ({ queryKey: [, id] }) =>
+		queryFn: ({ queryKey: [, id], signal }) =>
 			// Will never execute orElse condition
-			getRule(Option.getOrElse(() => '')(id)),
+			getRule(Option.getOrElse(() => '')(id), signal),
 		enabled: Option.isSome(ruleId)
 	});
 
 export const useGetMaxOrdinal = (): UseQueryResult<MaxOrdinalResponse, Error> =>
 	useQuery<MaxOrdinalResponse, Error>({
 		queryKey: [GET_MAX_ORDINAL],
-		queryFn: getMaxOrdinal
+		queryFn: ({ signal }) => getMaxOrdinal(signal)
 	});
 
 export type CreateRuleParams = {

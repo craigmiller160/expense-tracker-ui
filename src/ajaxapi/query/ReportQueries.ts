@@ -26,6 +26,6 @@ export const useGetSpendingByMonthAndCategory = (
 		GetSpendingByMonthAndCategoryKey
 	>({
 		queryKey: [GET_SPENDING_BY_MONTH_AND_CATEGORY, request],
-		queryFn: ({ queryKey: [, req] }) =>
-			debounceGetSpendingByMonthAndCategory(req)
+		queryFn: ({ queryKey: [, req], signal }) =>
+			debounceGetSpendingByMonthAndCategory(req, signal)
 	});

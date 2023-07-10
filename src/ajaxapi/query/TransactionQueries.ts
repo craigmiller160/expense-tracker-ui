@@ -73,7 +73,8 @@ export const useSearchForTransactions = (
 		SearchForTransactionsKey
 	>({
 		queryKey: [SEARCH_FOR_TRANSACTIONS, request],
-		queryFn: ({ queryKey: [, req] }) => debounceSearchForTransactions(req),
+		queryFn: ({ queryKey: [, req], signal }) =>
+			debounceSearchForTransactions(req, signal),
 		enabled: !!request.startDate && !!request.endDate
 	});
 
@@ -100,8 +101,10 @@ export const useGetPossibleDuplicates = (
 				pageSize
 			}
 		],
-		queryFn: ({ queryKey: [, { transactionId, pageNumber, pageSize }] }) =>
-			getPossibleDuplicates(transactionId, pageNumber, pageSize)
+		queryFn: ({
+			queryKey: [, { transactionId, pageNumber, pageSize }],
+			signal
+		}) => getPossibleDuplicates(transactionId, pageNumber, pageSize, signal)
 	});
 
 type GetTransactionDetailsKey = [string, OptionT<string>];
@@ -115,9 +118,9 @@ export const useGetTransactionDetails = (
 		GetTransactionDetailsKey
 	>({
 		queryKey: [GET_TRANSACTION_DETAILS, transactionId],
-		queryFn: ({ queryKey: [, id] }) =>
+		queryFn: ({ queryKey: [, id], signal }) =>
 			// Will never execute orElse condition
-			getTransactionDetails(Option.getOrElse(() => '')(id)),
+			getTransactionDetails(Option.getOrElse(() => '')(id), signal),
 		enabled: Option.isSome(transactionId)
 	});
 

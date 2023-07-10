@@ -6,7 +6,8 @@ import { expenseTrackerApi, getData } from './AjaxApi';
 import qs from 'qs';
 
 export const getSpendingByMonthAndCategory = (
-	request: ReportRequest
+	request: ReportRequest,
+	signal?: AbortSignal
 ): Promise<ReportPageResponse> => {
 	const query = qs.stringify(request, {
 		arrayFormat: 'comma'
@@ -14,7 +15,10 @@ export const getSpendingByMonthAndCategory = (
 	return expenseTrackerApi
 		.get<ReportPageResponse>({
 			uri: `/reports?${query}`,
-			errorCustomizer: 'Error getting spending by month and category'
+			errorCustomizer: 'Error getting spending by month and category',
+			config: {
+				signal
+			}
 		})
 		.then(getData);
 };

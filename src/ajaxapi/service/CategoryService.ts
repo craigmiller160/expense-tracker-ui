@@ -4,11 +4,16 @@ import {
 } from '../../types/generated/expense-tracker';
 import { expenseTrackerApi, getData } from './AjaxApi';
 
-export const getAllCategories = (): Promise<ReadonlyArray<CategoryResponse>> =>
+export const getAllCategories = (
+	signal?: AbortSignal
+): Promise<ReadonlyArray<CategoryResponse>> =>
 	expenseTrackerApi
 		.get<ReadonlyArray<CategoryResponse>>({
 			uri: '/categories',
-			errorCustomizer: 'Error getting all categories'
+			errorCustomizer: 'Error getting all categories',
+			config: {
+				signal
+			}
 		})
 		.then(getData);
 
@@ -21,11 +26,16 @@ export const updateCategory = (id: string, name: string): Promise<unknown> =>
 		}
 	});
 
-export const getUnknownCategory = (): Promise<CategoryResponse> =>
+export const getUnknownCategory = (
+	signal?: AbortSignal
+): Promise<CategoryResponse> =>
 	expenseTrackerApi
 		.get<CategoryResponse>({
 			uri: '/categories/unknown',
-			errorCustomizer: 'Error getting unknown category'
+			errorCustomizer: 'Error getting unknown category',
+			config: {
+				signal
+			}
 		})
 		.then(getData);
 

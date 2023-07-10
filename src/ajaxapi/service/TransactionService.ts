@@ -55,13 +55,17 @@ export const requestToQuery = (
 	});
 
 export const searchForTransactions = (
-	request: EnhancedSearchTransactionsRequest
+	request: EnhancedSearchTransactionsRequest,
+	signal?: AbortSignal
 ): Promise<TransactionsPageResponse> => {
 	const query = requestToQuery(request);
 	return expenseTrackerApi
 		.get<TransactionsPageResponse>({
 			uri: `/transactions?${query}`,
-			errorCustomizer: 'Error searching for transactions'
+			errorCustomizer: 'Error searching for transactions',
+			config: {
+				signal
+			}
 		})
 		.then(getData);
 };
@@ -126,22 +130,30 @@ export const createTransaction = (
 export const getPossibleDuplicates = (
 	transactionId: string,
 	pageNumber: number,
-	pageSize: number
+	pageSize: number,
+	signal?: AbortSignal
 ): Promise<TransactionDuplicatePageResponse> =>
 	expenseTrackerApi
 		.get<TransactionDuplicatePageResponse>({
 			uri: `/transactions/${transactionId}/duplicates?pageNumber=${pageNumber}&pageSize=${pageSize}`,
-			errorCustomizer: 'Error finding possible duplicates'
+			errorCustomizer: 'Error finding possible duplicates',
+			config: {
+				signal
+			}
 		})
 		.then(getData);
 
 export const getTransactionDetails = (
-	transactionId: string
+	transactionId: string,
+	signal?: AbortSignal
 ): Promise<TransactionDetailsResponse> =>
 	expenseTrackerApi
 		.get<TransactionDetailsResponse>({
 			uri: `/transactions/${transactionId}/details`,
-			errorCustomizer: 'Error getting transaction details'
+			errorCustomizer: 'Error getting transaction details',
+			config: {
+				signal
+			}
 		})
 		.then(getData);
 

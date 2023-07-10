@@ -9,30 +9,45 @@ import qs from 'qs';
 import { expenseTrackerApi, getData } from './AjaxApi';
 
 export const getAllRules = (
-	request: AutoCategorizeRulePageRequest
+	request: AutoCategorizeRulePageRequest,
+	signal?: AbortSignal
 ): Promise<AutoCategorizeRulePageResponse> => {
 	const query = qs.stringify(request);
 	return expenseTrackerApi
 		.get<AutoCategorizeRulePageResponse>({
 			uri: `/categories/rules?${query}`,
-			errorCustomizer: 'Error getting all rules'
+			errorCustomizer: 'Error getting all rules',
+			config: {
+				signal
+			}
 		})
 		.then(getData);
 };
 
-export const getRule = (ruleId: string): Promise<AutoCategorizeRuleResponse> =>
+export const getRule = (
+	ruleId: string,
+	signal?: AbortSignal
+): Promise<AutoCategorizeRuleResponse> =>
 	expenseTrackerApi
 		.get<AutoCategorizeRuleResponse>({
 			uri: `/categories/rules/${ruleId}`,
-			errorCustomizer: 'Error getting rule'
+			errorCustomizer: 'Error getting rule',
+			config: {
+				signal
+			}
 		})
 		.then(getData);
 
-export const getMaxOrdinal = (): Promise<MaxOrdinalResponse> =>
+export const getMaxOrdinal = (
+	signal?: AbortSignal
+): Promise<MaxOrdinalResponse> =>
 	expenseTrackerApi
 		.get<MaxOrdinalResponse>({
 			uri: '/categories/rules/maxOrdinal',
-			errorCustomizer: 'Error getting max ordinal'
+			errorCustomizer: 'Error getting max ordinal',
+			config: {
+				signal
+			}
 		})
 		.then(getData);
 

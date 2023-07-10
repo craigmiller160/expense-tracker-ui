@@ -19,8 +19,8 @@ export const useGetLastRuleApplied = (
 		GetLastRuleAppliedKey
 	>({
 		queryKey: [GET_LAST_RULE_APPLIED, transactionId],
-		queryFn: ({ queryKey: [, id] }) =>
+		queryFn: ({ queryKey: [, id], signal }) =>
 			// OrElse will never be used
-			getLastRuleApplied(Option.getOrElse(() => '')(id)),
+			getLastRuleApplied(Option.getOrElse(() => '')(id), signal),
 		enabled: Option.isSome(transactionId) && isUnconfirmed
 	});

@@ -19,13 +19,13 @@ export const GET_UNKNOWN_CATEGORY = 'CategoryQueries_GetUnknownCategory';
 export const useGetAllCategories = () =>
 	useQuery<ReadonlyArray<CategoryResponse>, Error>({
 		queryKey: [GET_ALL_CATEGORIES],
-		queryFn: getAllCategories
+		queryFn: ({ signal }) => getAllCategories(signal)
 	});
 
 export const useGetUnknownCategory = () =>
 	useQuery<CategoryResponse>({
 		queryKey: [GET_UNKNOWN_CATEGORY],
-		queryFn: getUnknownCategory
+		queryFn: ({ signal }) => getUnknownCategory(signal)
 	});
 
 interface UpdateCategoryParams {

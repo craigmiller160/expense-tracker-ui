@@ -1,11 +1,9 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
-import {
-	ReportPageResponse,
-	ReportRequest
-} from '../../types/generated/expense-tracker';
+import { ReportPageResponse } from '../../types/generated/expense-tracker';
 import { getSpendingByMonthAndCategory } from '../service/ReportService';
 import { debounceAsync } from '../../utils/debounceAsync';
 import { QUERY_DEBOUNCE } from './constants';
+import { ReportRequest } from '../../types/reports';
 
 export const GET_SPENDING_BY_MONTH_AND_CATEGORY =
 	'ReportQueries_GetSpendingByMonthAndCategory';

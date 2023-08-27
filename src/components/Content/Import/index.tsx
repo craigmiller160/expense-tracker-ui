@@ -1,6 +1,6 @@
 import './ImportTransactions.scss';
 import { Button, LinearProgress, Paper, useTheme } from '@mui/material';
-import { useForm, UseFormReset, UseFormSetValue } from 'react-hook-form';
+import { useForm, UseFormSetValue } from 'react-hook-form';
 import { FileType } from '../../../types/file';
 import {
 	Autocomplete,
@@ -14,7 +14,7 @@ import {
 	useImportTransactions as useImportTransactionsFn,
 	UseImportTransactionsType
 } from '../../../ajaxapi/query/TransactionImportQueries';
-import { MutableRefObject, useEffect, useRef, useState } from 'react';
+import { MutableRefObject, useRef } from 'react';
 import { PageTitle } from '../../UI/PageTitle';
 import { PageResponsiveWrapper } from '../../UI/ResponsiveWrappers/PageResponsiveWrapper';
 
@@ -53,23 +53,6 @@ const createOnSubmit =
 		}
 	};
 
-const useTestFile = (reset: UseFormReset<FormData>): boolean => {
-	const [isTest, setIsTest] = useState(false);
-	const search = window.location.search;
-	useEffect(() => {
-		if (search.includes('IS_TEST=true')) {
-			reset({
-				...defaultValues,
-				file: new File([], 'Test.txt')
-			});
-			setIsTest(true);
-		} else {
-			setIsTest(false);
-		}
-	}, [search, reset]);
-	return isTest;
-};
-
 const createReset =
 	(
 		ref: MutableRefObject<HTMLInputElement | undefined>,
@@ -89,7 +72,7 @@ type Props = Readonly<{
 export const Import = ({
 	useImportTransactions = useImportTransactionsFn
 }: Props) => {
-	const { control, handleSubmit, reset, setValue } = useForm<FormData>({
+	const { control, handleSubmit, setValue } = useForm<FormData>({
 		defaultValues
 	});
 	const fileInputRef = useRef<HTMLInputElement>();
@@ -98,10 +81,7 @@ export const Import = ({
 	);
 	const theme = useTheme();
 	const onSubmit = createOnSubmit(mutate);
-	const isTest = useTestFile(reset);
-	const fileChooserRules = isTest
-		? undefined
-		: { required: 'File Type is required' };
+	const fileChooserRules = { required: 'File Type is required' };
 
 	return (
 		<PageResponsiveWrapper className="ImportTransactions">

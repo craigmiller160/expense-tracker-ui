@@ -78,9 +78,7 @@ const createReset =
 	() => {
 		setValue('file', null);
 		if (ref.current) {
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-ignore
-			ref.current.value = null;
+			ref.current.value = '';
 		}
 	};
 

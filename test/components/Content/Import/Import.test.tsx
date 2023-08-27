@@ -3,6 +3,7 @@ import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import { Import } from '../../../../src/components/Content/Import';
 import { UseImportTransactionsType } from '../../../../src/ajaxapi/query/TransactionImportQueries';
+import { materialUiSelect } from '../../../testutils/dom-actions/material-ui-select';
 
 const mutate = jest.fn();
 const file = new File([], 'Test.txt');
@@ -53,7 +54,12 @@ describe('Transaction Import', () => {
 	});
 
 	it('can change the import file type', async () => {
-		throw new Error();
+		await doRender();
+
+		const { selectItem, hasValue } = materialUiSelect('File Type');
+		await hasValue('Chase (CSV)');
+		await selectItem('Discover (CSV)');
+		await hasValue('Discover (CSV)');
 	});
 
 	it('prevents import of improperly filled out form', async () => {

@@ -11,7 +11,8 @@ import { match } from 'ts-pattern';
 import { StyledForm } from './StyledForm';
 import {
 	ImportTransactionsMutation,
-	useImportTransactions
+	useImportTransactions as useImportTransactionsFn,
+	UseImportTransactionsType
 } from '../../../ajaxapi/query/TransactionImportQueries';
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { PageTitle } from '../../UI/PageTitle';
@@ -83,7 +84,13 @@ const createReset =
 		}
 	};
 
-export const Import = () => {
+type Props = Readonly<{
+	useImportTransactions?: UseImportTransactionsType;
+}>;
+
+export const Import = ({
+	useImportTransactions = useImportTransactionsFn
+}: Props) => {
 	const { control, handleSubmit, reset, setValue } = useForm<FormData>({
 		defaultValues
 	});

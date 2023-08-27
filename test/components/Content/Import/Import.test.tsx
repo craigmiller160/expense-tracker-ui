@@ -1,26 +1,52 @@
 import { renderApp } from '../../../testutils/renderApp';
-import { screen, waitFor } from '@testing-library/react';
+import { screen, waitFor, render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
-import { waitForVisibility } from '../../../testutils/dom-actions/wait-for-visibility';
+import { Import } from '../../../../src/components/Content/Import';
+import { UseImportTransactionsType } from '../../../../src/ajaxapi/query/TransactionImportQueries';
+
+const mutate = jest.fn();
+const file = new File([], 'Test.txt');
+
+const useImportTransactions: UseImportTransactionsType = (onSuccess) => {
+	mutate.mockImplementation(() => onSuccess());
+	return {
+		mutate,
+		isLoading: false,
+		reset: () => null,
+		isError: false,
+		failureCount: 0,
+		isPaused: false,
+		mutateAsync: jest.fn(),
+		isSuccess: false,
+		data: undefined,
+		isIdle: true,
+		error: null,
+		context: undefined,
+		status: 'idle',
+		variables: undefined,
+		failureReason: null
+	};
+};
 
 describe('Transaction Import', () => {
-	it('imports file successfully', async () => {
-		await renderApp({
-			initialPath: '/expense-tracker/import?IS_TEST=true'
-		});
-		await waitForVisibility([
-			{ text: 'Expense Tracker' },
-			{ text: 'Import', occurs: 2 },
-			{ text: 'Import Transactions' }
-		]);
+	beforeEach(() => {
+		jest.resetAllMocks();
+	});
 
-		await userEvent.click(screen.getAllByText('Import')[1]);
+	it('imports file successfully', async () => {
+		render(<Import useImportTransactions={useImportTransactions} />);
+		await waitFor(() => screen.getByText('Import Transactions'));
+
+		const fileInput = screen.getByLabelText('Transaction File');
+		await userEvent.upload(fileInput, file);
 		await waitFor(() =>
-			expect(
-				screen.getByText('Successfully imported 10 transactions')
-			).toBeVisible()
+			expect(fileInput).toHaveValue('C:\\fakepath\\Test.txt')
 		);
+
+		await userEvent.click(screen.getByRole('button', { name: 'Import' }));
+		await waitFor(() => expect(fileInput).toHaveValue(''));
+		expect(mutate).toHaveBeenCalled();
 	});
 
 	it('displays error for invalid import', async () => {

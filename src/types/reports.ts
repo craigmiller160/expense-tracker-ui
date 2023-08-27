@@ -1,5 +1,11 @@
-import { ReportRequest } from './generated/expense-tracker';
 import { SelectOption } from '@craigmiller160/react-hook-form-material-ui';
+
+export type ReportRequest = {
+	readonly pageNumber: number;
+	readonly pageSize: number;
+	readonly categoryIdType: 'INCLUDE' | 'EXCLUDE';
+	readonly categoryIds: ReadonlyArray<string>;
+};
 
 export type ReportCategoryIdFilterType = ReportRequest['categoryIdType'];
 

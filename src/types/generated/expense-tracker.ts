@@ -89,30 +89,10 @@ export type CategoryResponse = {
 	readonly color: string;
 };
 
-export type SearchTransactionsRequest = {
-	readonly pageNumber: number;
-	readonly pageSize: number;
-	readonly sortKey: 'EXPENSE_DATE';
-	readonly sortDirection: 'ASC' | 'DESC';
-	readonly startDate?: string;
-	readonly endDate?: string;
-	readonly confirmed: 'ALL' | 'YES' | 'NO';
-	readonly categorized: 'ALL' | 'YES' | 'NO';
-	readonly duplicate: 'ALL' | 'YES' | 'NO';
-	readonly possibleRefund: 'ALL' | 'YES' | 'NO';
-	readonly categoryIds?: ReadonlyArray<string>;
-	readonly description?: string;
-};
-
 export type TransactionsPageResponse = {
 	readonly transactions: ReadonlyArray<TransactionResponse>;
 	readonly pageNumber: number;
 	readonly totalItems: number;
-};
-
-export type GetPossibleDuplicatesRequest = {
-	readonly pageNumber: number;
-	readonly pageSize: number;
 };
 
 export type TransactionDuplicatePageResponse = {
@@ -161,13 +141,6 @@ export type ImportTypeResponse = {
 	readonly displayName: string;
 };
 
-export type ReportRequest = {
-	readonly pageNumber: number;
-	readonly pageSize: number;
-	readonly categoryIdType: 'INCLUDE' | 'EXCLUDE';
-	readonly categoryIds: ReadonlyArray<string>;
-};
-
 export type ReportCategoryResponse = {
 	readonly id: string;
 	readonly name: string;
@@ -198,13 +171,6 @@ export type NeedsAttentionResponse = {
 	readonly uncategorized: CountAndOldest;
 	readonly duplicate: CountAndOldest;
 	readonly possibleRefund: CountAndOldest;
-};
-
-export type AutoCategorizeRulePageRequest = {
-	readonly pageNumber: number;
-	readonly pageSize: number;
-	readonly categoryId?: string;
-	readonly regex?: string;
 };
 
 export type AutoCategorizeRulePageResponse = {

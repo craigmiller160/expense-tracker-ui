@@ -26,3 +26,5 @@ export const useImportTransactions = (onSuccess: () => void) =>
 			);
 		}
 	});
+
+export type UseImportTransactionsType = typeof useImportTransactions;

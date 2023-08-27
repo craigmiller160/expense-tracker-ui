@@ -7,7 +7,6 @@ import {
 	UseQueryResult
 } from '@tanstack/react-query';
 import {
-	AutoCategorizeRulePageRequest,
 	AutoCategorizeRulePageResponse,
 	AutoCategorizeRuleRequest,
 	AutoCategorizeRuleResponse,
@@ -27,6 +26,7 @@ import * as Option from 'fp-ts/es6/Option';
 import { GET_LAST_RULE_APPLIED } from './LastAppliedRuleQueries';
 import { debounceAsync } from '../../utils/debounceAsync';
 import { QUERY_DEBOUNCE } from './constants';
+import { AutoCategorizeRulePageRequest } from '../../types/rules';
 
 export const GET_ALL_RULES = 'AutoCategorizeRuleQueries_GetAllRules';
 export const GET_RULE = 'AutoCategorizeRuleQueries_GetRule';

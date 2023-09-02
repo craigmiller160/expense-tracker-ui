@@ -9,8 +9,8 @@ dependencies:
     specifier: 2.2.0-beta.10
     version: 2.2.0-beta.10(axios@1.5.0)
   '@craigmiller160/react-hook-form-material-ui':
-    specifier: file:.yalc/@craigmiller160/react-hook-form-material-ui
-    version: file:.yalc/@craigmiller160/react-hook-form-material-ui(@mui/material@5.13.5)(@mui/x-date-pickers@5.0.0-alpha.7)(date-fns@2.29.3)(react-hook-form@7.44.3)(react@18.2.0)
+    specifier: 1.5.0-beta.1
+    version: 1.5.0-beta.1(@mui/material@5.13.5)(@mui/x-date-pickers@5.0.0-alpha.7)(date-fns@2.29.3)(react-hook-form@7.44.3)(react@18.2.0)
   '@craigmiller160/react-keycloak':
     specifier: 1.2.0
     version: 1.2.0(react@18.2.0)(vite@4.3.9)
@@ -1859,6 +1859,22 @@ packages:
     dependencies:
       prettier: 2.8.8
     dev: true
+
+  /@craigmiller160/react-hook-form-material-ui@1.5.0-beta.1(@mui/material@5.13.5)(@mui/x-date-pickers@5.0.0-alpha.7)(date-fns@2.29.3)(react-hook-form@7.44.3)(react@18.2.0):
+    resolution: {integrity: sha512-TcoP1/0TtKDHCX7ZJHIHSXmPrS6cR1vzVnub5GyooiSzQMfWmypL4Ip7SZ6H2Nn68Yg45ctslc7gw3ThRiLmJQ==}
+    peerDependencies:
+      '@mui/material': '>=5.8.6'
+      '@mui/x-date-pickers': '>=5.0.0-alpha.7'
+      date-fns: '>=2.28.0'
+      react: '>=18.2.0'
+      react-hook-form: '>=7.33.0'
+    dependencies:
+      '@mui/material': 5.13.5(@emotion/react@11.9.3)(@emotion/styled@11.9.3)(@types/react@18.0.14)(react-dom@18.2.0)(react@18.2.0)
+      '@mui/x-date-pickers': 5.0.0-alpha.7(@emotion/react@11.9.3)(@emotion/styled@11.9.3)(@mui/material@5.13.5)(@mui/system@5.14.7)(date-fns@2.29.3)(react-dom@18.2.0)(react@18.2.0)
+      date-fns: 2.29.3
+      react: 18.2.0
+      react-hook-form: 7.44.3(react@18.2.0)
+    dev: false
 
   /@craigmiller160/react-keycloak@1.2.0(react@18.2.0)(vite@4.3.9):
     resolution: {integrity: sha512-A5Qn2YrAWiDetUPRgz3GdZ6uJ/UKR11NtlyMDypjjmppvqYyeFLjfFrG9eyAH/xvtE9R5vkkZkb46Xs6BcAk/Q==}
@@ -10452,21 +10468,3 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
-
-  file:.yalc/@craigmiller160/react-hook-form-material-ui(@mui/material@5.13.5)(@mui/x-date-pickers@5.0.0-alpha.7)(date-fns@2.29.3)(react-hook-form@7.44.3)(react@18.2.0):
-    resolution: {directory: .yalc/@craigmiller160/react-hook-form-material-ui, type: directory}
-    id: file:.yalc/@craigmiller160/react-hook-form-material-ui
-    name: '@craigmiller160/react-hook-form-material-ui'
-    peerDependencies:
-      '@mui/material': '>=5.8.6'
-      '@mui/x-date-pickers': '>=5.0.0-alpha.7'
-      date-fns: '>=2.28.0'
-      react: '>=18.2.0'
-      react-hook-form: '>=7.33.0'
-    dependencies:
-      '@mui/material': 5.13.5(@emotion/react@11.9.3)(@emotion/styled@11.9.3)(@types/react@18.0.14)(react-dom@18.2.0)(react@18.2.0)
-      '@mui/x-date-pickers': 5.0.0-alpha.7(@emotion/react@11.9.3)(@emotion/styled@11.9.3)(@mui/material@5.13.5)(@mui/system@5.14.7)(date-fns@2.29.3)(react-dom@18.2.0)(react@18.2.0)
-      date-fns: 2.29.3
-      react: 18.2.0
-      react-hook-form: 7.44.3(react@18.2.0)
-    dev: false

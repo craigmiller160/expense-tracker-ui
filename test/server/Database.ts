@@ -1,6 +1,6 @@
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
 import produce from 'immer';
-import { WritableDraft } from 'immer/dist/types/types-external';
+import { Draft } from 'immer';
 import * as Option from 'fp-ts/es6/Option';
 import { DbRecord } from '../../src/types/db';
 import { nanoid } from 'nanoid';
@@ -15,7 +15,7 @@ export interface Data {
 	readonly transactions: Record<string, TransactionDetailsResponse>;
 }
 
-export type DataUpdater = (draft: WritableDraft<Data>) => void;
+export type DataUpdater = (draft: Draft<Data>) => void;
 
 export const ensureDbRecord = <T extends object>(record: T): T & DbRecord => {
 	if (

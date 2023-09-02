@@ -131,8 +131,8 @@ devDependencies:
     specifier: ^13.3.0
     version: 13.3.0(react-dom@18.2.0)(react@18.2.0)
   '@testing-library/user-event':
-    specifier: ^14.2.1
-    version: 14.2.1(@testing-library/dom@8.14.0)
+    specifier: ^14.4.3
+    version: 14.4.3(@testing-library/dom@8.14.0)
   '@types/lodash-es':
     specifier: ^4.17.6
     version: 4.17.6
@@ -151,6 +151,9 @@ devDependencies:
   '@types/react-dom':
     specifier: ^18.0.5
     version: 18.0.5
+  '@types/testing-library__jest-dom':
+    specifier: ^5.9.1
+    version: 5.14.5
   '@vitejs/plugin-react-swc':
     specifier: ^3.3.2
     version: 3.3.2(vite@4.3.9)
@@ -2153,8 +2156,8 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: true
 
-  /@testing-library/user-event@14.2.1(@testing-library/dom@8.14.0):
-    resolution: {integrity: sha512-HOr1QiODrq+0j9lKU5i10y9TbhxMBMRMGimNx10asdmau9cb8Xb1Vyg0GvTwyIL2ziQyh2kAloOtAQFBQVuecA==}
+  /@testing-library/user-event@14.4.3(@testing-library/dom@8.14.0):
+    resolution: {integrity: sha512-kCUc5MEwaEMakkO5x7aoD+DLi02ehmEM2QCGWvNqAS1dV/fAvORWEjnjsEIvml59M7Y5kCkWN6fCCyPOe8OL6Q==}
     engines: {node: '>=12', npm: '>=6'}
     peerDependencies:
       '@testing-library/dom': '>=7.21.4'

@@ -11,7 +11,7 @@ import {
 } from './useHandleAllRulesData';
 import './RulesFilters.scss';
 import { ResponsiveRow } from '../../UI/ResponsiveWrappers/ResponsiveRow';
-import { constVoid } from 'fp-ts/es6/function';
+import { constVoid } from 'fp-ts/function';
 import { CategoryOption } from '../../../types/categories';
 
 type Props = {

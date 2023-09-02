@@ -11,7 +11,7 @@ import {
 	TextField,
 	ValueHasChanged
 } from '@craigmiller160/react-hook-form-material-ui';
-import { constVoid } from 'fp-ts/es6/function';
+import { constVoid } from 'fp-ts/function';
 import './TransactionSearchFilters.scss';
 import { SortDirection, YES_NO_FILTER_OPTIONS } from '../../../types/misc';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';

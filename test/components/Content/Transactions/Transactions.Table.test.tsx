@@ -11,7 +11,7 @@ import {
 	defaultEndDate,
 	defaultStartDate
 } from '../../../../src/components/Content/Transactions/utils';
-import { pipe } from 'fp-ts/es6/function';
+import { pipe } from 'fp-ts/function';
 import {
 	getSelectValueElement,
 	getOrderByValueElement,

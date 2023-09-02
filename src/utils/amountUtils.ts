@@ -1,5 +1,5 @@
-import { identity, pipe } from 'fp-ts/es6/function';
-import * as Option from 'fp-ts/es6/Option';
+import { identity, pipe } from 'fp-ts/function';
+import * as Option from 'fp-ts/Option';
 
 export const formatAmountValue = (value: string): string => {
 	if (value.length === 0) {

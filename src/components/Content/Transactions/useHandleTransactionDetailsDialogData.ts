@@ -1,6 +1,6 @@
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
-import { pipe } from 'fp-ts/es6/function';
-import * as Option from 'fp-ts/es6/Option';
+import { pipe } from 'fp-ts/function';
+import * as Option from 'fp-ts/Option';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { useEffect, useMemo } from 'react';
 import {

@@ -1,7 +1,7 @@
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
 import produce from 'immer';
 import { Draft } from 'immer';
-import * as Option from 'fp-ts/es6/Option';
+import * as Option from 'fp-ts/Option';
 import { DbRecord } from '../../src/types/db';
 import { nanoid } from 'nanoid';
 import {

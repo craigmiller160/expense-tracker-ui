@@ -1,12 +1,12 @@
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
 import { useImmer } from 'use-immer';
-import * as Option from 'fp-ts/es6/Option';
+import * as Option from 'fp-ts/Option';
 import {
 	useCreateTransaction,
 	useDeleteTransactions,
 	useUpdateTransactionDetails
 } from '../../../ajaxapi/query/TransactionQueries';
-import { pipe } from 'fp-ts/es6/function';
+import { pipe } from 'fp-ts/function';
 import { useContext } from 'react';
 import { ConfirmDialogContext } from '../../UI/ConfirmDialog/ConfirmDialogProvider';
 import { TransactionDetailsFormData } from './useHandleTransactionDetailsDialogData';

@@ -1,10 +1,10 @@
 import { screen, waitFor } from '@testing-library/react';
-import * as RArray from 'fp-ts/es6/ReadonlyArray';
-import { constVoid, pipe } from 'fp-ts/es6/function';
+import * as RArray from 'fp-ts/ReadonlyArray';
+import { constVoid, pipe } from 'fp-ts/function';
 import { MonoidT, TaskTryT, TryT } from '@craigmiller160/ts-functions/es/types';
-import * as Monoid from 'fp-ts/es6/Monoid';
-import * as Either from 'fp-ts/es6/Either';
-import * as TaskEither from 'fp-ts/es6/TaskEither';
+import * as Monoid from 'fp-ts/Monoid';
+import * as Either from 'fp-ts/Either';
+import * as TaskEither from 'fp-ts/TaskEither';
 import * as TaskTry from '@craigmiller160/ts-functions/es/TaskTry';
 import * as Try from '@craigmiller160/ts-functions/es/Try';
 

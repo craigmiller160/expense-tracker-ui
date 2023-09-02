@@ -1,5 +1,5 @@
-import { pipe } from 'fp-ts/es6/function';
-import * as Option from 'fp-ts/es6/Option';
+import { pipe } from 'fp-ts/function';
+import * as Option from 'fp-ts/Option';
 import { screen, within } from '@testing-library/react';
 
 type SelectorParent = {

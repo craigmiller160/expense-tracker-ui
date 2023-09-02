@@ -19,8 +19,8 @@ import {
 	AutoCategorizeRuleRequest,
 	AutoCategorizeRuleResponse
 } from '../../../types/generated/expense-tracker';
-import { pipe } from 'fp-ts/es6/function';
-import * as Option from 'fp-ts/es6/Option';
+import { pipe } from 'fp-ts/function';
+import * as Option from 'fp-ts/Option';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { useContext, useEffect } from 'react';
 import {
@@ -34,7 +34,7 @@ import {
 } from '../../../utils/dateTimeUtils';
 import { UseMutateAsyncFunction } from '@tanstack/react-query';
 import { ConfirmDialogContext } from '../../UI/ConfirmDialog/ConfirmDialogProvider';
-import * as Task from 'fp-ts/es6/Task';
+import * as Task from 'fp-ts/Task';
 
 const parseRequestDate = (date: Date | null): string | undefined =>
 	pipe(

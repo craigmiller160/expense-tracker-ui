@@ -2,7 +2,7 @@ import {
 	getOrDefaultParam,
 	setOrDeleteParam
 } from '../../src/routes/ParamsWrapper';
-import { identity } from 'fp-ts/es6/function';
+import { identity } from 'fp-ts/function';
 import * as Try from '@craigmiller160/ts-functions/es/Try';
 
 describe('ParamsWrapper', () => {

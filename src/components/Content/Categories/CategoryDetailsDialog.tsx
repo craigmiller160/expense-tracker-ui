@@ -1,9 +1,9 @@
 import { Button, Typography } from '@mui/material';
 import { useEffect, useMemo } from 'react';
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
-import * as Option from 'fp-ts/es6/Option';
+import * as Option from 'fp-ts/Option';
 import { CategoryDetails } from '../../../types/categories';
-import { pipe } from 'fp-ts/es6/function';
+import { pipe } from 'fp-ts/function';
 import './CategoryDetailsDialog.scss';
 import { FormState, useForm, UseFormReset } from 'react-hook-form';
 import { TextField } from '@craigmiller160/react-hook-form-material-ui';

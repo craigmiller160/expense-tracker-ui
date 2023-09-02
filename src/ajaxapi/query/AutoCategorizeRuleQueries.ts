@@ -22,7 +22,7 @@ import {
 	updateRule
 } from '../service/AutoCategorizeRuleService';
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
-import * as Option from 'fp-ts/es6/Option';
+import * as Option from 'fp-ts/Option';
 import { GET_LAST_RULE_APPLIED } from './LastAppliedRuleQueries';
 import { debounceAsync } from '../../utils/debounceAsync';
 import { QUERY_DEBOUNCE } from './constants';

@@ -1,5 +1,5 @@
 import Chainable = Cypress.Chainable;
-import { pipe } from 'fp-ts/es6/function';
+import { pipe } from 'fp-ts/function';
 import { getInputForLabel } from './utils';
 
 const getFilterTypeLabel = (): Chainable<JQuery> =>

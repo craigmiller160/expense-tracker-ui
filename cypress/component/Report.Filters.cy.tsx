@@ -3,7 +3,7 @@ import { mountApp } from './testutils/mountApp';
 import { categoriesApi } from './testutils/apis/categories';
 import { reportFiltersPage } from './testutils/pages/reportFilters';
 import { commonPage } from './testutils/pages/common';
-import { pipe } from 'fp-ts/es6/function';
+import { pipe } from 'fp-ts/function';
 import {
 	orderedCategoryIds,
 	orderedCategoryNames

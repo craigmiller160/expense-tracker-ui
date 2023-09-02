@@ -1,4 +1,4 @@
-import { constVoid } from 'fp-ts/es6/function';
+import { constVoid } from 'fp-ts/function';
 import { apiServer } from './server';
 import '@testing-library/jest-dom';
 import '@relmify/jest-fp-ts';

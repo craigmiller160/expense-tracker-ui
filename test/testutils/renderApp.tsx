@@ -1,8 +1,8 @@
 import { render, RenderResult } from '@testing-library/react';
 import { App } from '../../src/components/App';
 import * as Sleep from '@craigmiller160/ts-functions/es/Sleep';
-import * as Task from 'fp-ts/es6/Task';
-import { pipe } from 'fp-ts/es6/function';
+import * as Task from 'fp-ts/Task';
+import { pipe } from 'fp-ts/function';
 import { BrowserRouter } from 'react-router-dom';
 import {
 	KeycloakAuth,

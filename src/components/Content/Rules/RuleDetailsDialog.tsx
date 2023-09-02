@@ -10,7 +10,7 @@ import {
 	TextField
 } from '@craigmiller160/react-hook-form-material-ui';
 import { formatAmountValue } from '../../../utils/amountUtils';
-import * as Option from 'fp-ts/es6/Option';
+import * as Option from 'fp-ts/Option';
 
 type ActionsProps = {
 	readonly deleteRule: () => void;

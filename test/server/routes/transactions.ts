@@ -12,11 +12,11 @@ import {
 	UpdateTransactionDetailsRequest,
 	UpdateTransactionsRequest
 } from '../../../src/types/generated/expense-tracker';
-import * as RArray from 'fp-ts/es6/ReadonlyArray';
-import { pipe } from 'fp-ts/es6/function';
+import * as RArray from 'fp-ts/ReadonlyArray';
+import { pipe } from 'fp-ts/function';
 import { match } from 'ts-pattern';
 import { SortDirection } from '../../../src/types/misc';
-import { Ord } from 'fp-ts/es6/Ord';
+import { Ord } from 'fp-ts/Ord';
 import { nanoid } from 'nanoid';
 import {
 	compareServerDates,

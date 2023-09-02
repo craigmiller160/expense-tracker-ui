@@ -1,6 +1,6 @@
 import { TransactionTableForm } from './useHandleTransactionTableData';
-import * as RArray from 'fp-ts/es6/ReadonlyArray';
-import { pipe } from 'fp-ts/es6/function';
+import * as RArray from 'fp-ts/ReadonlyArray';
+import { pipe } from 'fp-ts/function';
 import { TransactionToUpdate } from '../../../types/generated/expense-tracker';
 import { SortDirection, YesNoFilter } from '../../../types/misc';
 import * as Time from '@craigmiller160/ts-functions/es/Time';

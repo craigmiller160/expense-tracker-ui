@@ -1,8 +1,8 @@
 import { Database } from '../Database';
 import { Server } from 'miragejs/server';
-import { pipe } from 'fp-ts/es6/function';
-import * as RArray from 'fp-ts/es6/ReadonlyArray';
-import * as Monoid from 'fp-ts/es6/Monoid';
+import { pipe } from 'fp-ts/function';
+import * as RArray from 'fp-ts/ReadonlyArray';
+import * as Monoid from 'fp-ts/Monoid';
 import {
 	NeedsAttentionResponse,
 	TransactionResponse

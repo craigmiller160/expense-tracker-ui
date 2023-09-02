@@ -14,7 +14,7 @@ import {
 	serverDateToDisplayDate,
 	serverDateToReportMonth
 } from '../../src/utils/dateTimeUtils';
-import { pipe } from 'fp-ts/es6/function';
+import { pipe } from 'fp-ts/function';
 import { SortDirection } from '../../src/types/misc';
 
 const createDate = (): Date =>

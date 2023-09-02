@@ -1,6 +1,6 @@
 import { MonoidT } from '@craigmiller160/ts-functions/es/types';
 import { nanoid } from 'nanoid';
-import { pipe } from 'fp-ts/es6/function';
+import { pipe } from 'fp-ts/function';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 import { formatServerDateTime } from '../../src/utils/dateTimeUtils';
 import {

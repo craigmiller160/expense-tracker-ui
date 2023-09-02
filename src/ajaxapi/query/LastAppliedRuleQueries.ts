@@ -2,7 +2,7 @@ import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { LastRuleAppliedResponse } from '../../types/generated/expense-tracker';
 import { getLastRuleApplied } from '../service/LastAppliedRuleService';
 import { OptionT } from '@craigmiller160/ts-functions/es/types';
-import * as Option from 'fp-ts/es6/Option';
+import * as Option from 'fp-ts/Option';
 
 export const GET_LAST_RULE_APPLIED =
 	'LastRuleAppliedQueries_GetLastRuleApplied';

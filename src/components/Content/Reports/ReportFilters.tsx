@@ -1,6 +1,6 @@
 import { UseFormReturn } from 'react-hook-form';
 import { Button, Paper } from '@mui/material';
-import { constVoid } from 'fp-ts/es6/function';
+import { constVoid } from 'fp-ts/function';
 import {
 	Autocomplete,
 	Select,

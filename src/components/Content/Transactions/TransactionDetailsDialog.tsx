@@ -19,7 +19,7 @@ import {
 	useHandleTransactionDetailsDialogData
 } from './useHandleTransactionDetailsDialogData';
 import { PossibleRefundIcon } from './icons/PossibleRefundIcon';
-import * as Option from 'fp-ts/es6/Option';
+import * as Option from 'fp-ts/Option';
 import { TransactionDetailsDuplicatePanel } from './TransactionDetailsDuplicatePanel';
 import { useCategoriesToCategoryOptions } from '../../../utils/categoryUtils';
 import { formatAmountValue } from '../../../utils/amountUtils';

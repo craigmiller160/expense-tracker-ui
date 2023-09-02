@@ -12,7 +12,7 @@ import { RulesFilters } from './RulesFilters';
 import { UseFormHandleSubmit } from 'react-hook-form';
 import { RuleDetailsDialog } from './RuleDetailsDialog';
 import * as Option from 'fp-ts/Option';
-import { OptionT } from '@craigmiller160/ts-functions/es/types';
+import { OptionT } from '@craigmiller160/ts-functions/types';
 
 export const DEFAULT_ROWS_PER_PAGE = 25;
 

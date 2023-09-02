@@ -1,4 +1,4 @@
-import { OptionT } from '@craigmiller160/ts-functions/es/types';
+import { OptionT } from '@craigmiller160/ts-functions/types';
 import { pipe } from 'fp-ts/function';
 import * as Option from 'fp-ts/Option';
 import { useForm, UseFormReturn } from 'react-hook-form';

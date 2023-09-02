@@ -1,12 +1,12 @@
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import * as Time from '@craigmiller160/ts-functions/es/Time';
+import * as Time from '@craigmiller160/ts-functions/Time';
 import { TestTransactionDescription } from '../../../testutils/transactionDataUtils';
-import { TryT } from '@craigmiller160/ts-functions/es/types';
+import { TryT } from '@craigmiller160/ts-functions/types';
 import { flow, pipe } from 'fp-ts/function';
-import * as Try from '@craigmiller160/ts-functions/es/Try';
+import * as Try from '@craigmiller160/ts-functions/Try';
 import * as Either from 'fp-ts/Either';
-import * as Json from '@craigmiller160/ts-functions/es/Json';
+import * as Json from '@craigmiller160/ts-functions/Json';
 import * as RArray from 'fp-ts/ReadonlyArray';
 
 export const getOrderByValueElement = (): HTMLElement | null | undefined => {

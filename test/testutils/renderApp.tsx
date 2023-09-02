@@ -1,6 +1,6 @@
 import { render, RenderResult } from '@testing-library/react';
 import { App } from '../../src/components/App';
-import * as Sleep from '@craigmiller160/ts-functions/es/Sleep';
+import * as Sleep from '@craigmiller160/ts-functions/Sleep';
 import * as Task from 'fp-ts/Task';
 import { pipe } from 'fp-ts/function';
 import { BrowserRouter } from 'react-router-dom';

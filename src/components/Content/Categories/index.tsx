@@ -15,7 +15,7 @@ import { CategoryDetails } from '../../../types/categories';
 import { ReactNode } from 'react';
 import { CategoryDetailsDialog } from './CategoryDetailsDialog';
 import { Updater, useImmer } from 'use-immer';
-import { OptionT } from '@craigmiller160/ts-functions/es/types';
+import { OptionT } from '@craigmiller160/ts-functions/types';
 import * as Option from 'fp-ts/Option';
 import { match } from 'ts-pattern';
 import {

@@ -31,7 +31,7 @@ import {
 	updateTransactionDetails,
 	updateTransactions
 } from '../service/TransactionService';
-import { OptionT } from '@craigmiller160/ts-functions/es/types';
+import { OptionT } from '@craigmiller160/ts-functions/types';
 import * as Option from 'fp-ts/Option';
 import { GET_SPENDING_BY_MONTH_AND_CATEGORY } from './ReportQueries';
 import { GET_NEEDS_ATTENTION } from './NeedsAttentionQueries';

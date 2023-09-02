@@ -3,7 +3,7 @@ import {
 	setOrDeleteParam
 } from '../../src/routes/ParamsWrapper';
 import { identity } from 'fp-ts/function';
-import * as Try from '@craigmiller160/ts-functions/es/Try';
+import * as Try from '@craigmiller160/ts-functions/Try';
 
 describe('ParamsWrapper', () => {
 	describe('setOrDeleteParam', () => {

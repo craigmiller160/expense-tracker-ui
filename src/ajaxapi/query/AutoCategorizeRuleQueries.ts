@@ -21,7 +21,7 @@ import {
 	reOrderRule,
 	updateRule
 } from '../service/AutoCategorizeRuleService';
-import { OptionT } from '@craigmiller160/ts-functions/es/types';
+import { OptionT } from '@craigmiller160/ts-functions/types';
 import * as Option from 'fp-ts/Option';
 import { GET_LAST_RULE_APPLIED } from './LastAppliedRuleQueries';
 import { debounceAsync } from '../../utils/debounceAsync';

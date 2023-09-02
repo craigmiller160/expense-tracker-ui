@@ -3,7 +3,7 @@ import * as RArray from 'fp-ts/ReadonlyArray';
 import { pipe } from 'fp-ts/function';
 import { TransactionToUpdate } from '../../../types/generated/expense-tracker';
 import { SortDirection, YesNoFilter } from '../../../types/misc';
-import * as Time from '@craigmiller160/ts-functions/es/Time';
+import * as Time from '@craigmiller160/ts-functions/Time';
 import { CategoryOption } from '../../../types/categories';
 
 export interface TransactionSearchForm {

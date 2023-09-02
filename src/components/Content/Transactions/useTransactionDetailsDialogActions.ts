@@ -1,4 +1,4 @@
-import { OptionT } from '@craigmiller160/ts-functions/es/types';
+import { OptionT } from '@craigmiller160/ts-functions/types';
 import { useImmer } from 'use-immer';
 import * as Option from 'fp-ts/Option';
 import {

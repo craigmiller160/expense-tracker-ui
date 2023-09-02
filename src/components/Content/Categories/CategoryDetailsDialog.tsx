@@ -1,6 +1,6 @@
 import { Button, Typography } from '@mui/material';
 import { useEffect, useMemo } from 'react';
-import { OptionT } from '@craigmiller160/ts-functions/es/types';
+import { OptionT } from '@craigmiller160/ts-functions/types';
 import * as Option from 'fp-ts/Option';
 import { CategoryDetails } from '../../../types/categories';
 import { pipe } from 'fp-ts/function';

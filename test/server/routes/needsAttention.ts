@@ -7,9 +7,9 @@ import {
 	NeedsAttentionResponse,
 	TransactionResponse
 } from '../../../src/types/generated/expense-tracker';
-import { MonoidT } from '@craigmiller160/ts-functions/es/types';
+import { MonoidT } from '@craigmiller160/ts-functions/types';
 import { parseServerDate } from '../../../src/utils/dateTimeUtils';
-import * as Time from '@craigmiller160/ts-functions/es/Time';
+import * as Time from '@craigmiller160/ts-functions/Time';
 
 const getOldestDate = (
 	dateString1: string | undefined,

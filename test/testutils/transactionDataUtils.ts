@@ -1,7 +1,7 @@
-import { MonoidT } from '@craigmiller160/ts-functions/es/types';
+import { MonoidT } from '@craigmiller160/ts-functions/types';
 import crypto from 'crypto';
 import { pipe } from 'fp-ts/function';
-import * as Time from '@craigmiller160/ts-functions/es/Time';
+import * as Time from '@craigmiller160/ts-functions/Time';
 import { formatServerDateTime } from '../../src/utils/dateTimeUtils';
 import {
 	TransactionResponse,

@@ -1,4 +1,4 @@
-import { OptionT } from '@craigmiller160/ts-functions/es/types';
+import { OptionT } from '@craigmiller160/ts-functions/types';
 import { useHandleRuleDialogData } from './useHandleRuleDialogData';
 import { SideDialog } from '../../UI/SideDialog';
 import { Button, CircularProgress } from '@mui/material';

@@ -1,12 +1,9 @@
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import * as Time from '@craigmiller160/ts-functions/Time';
+import { Time, Try, types, Json } from '@craigmiller160/ts-functions';
 import { TestTransactionDescription } from '../../../testutils/transactionDataUtils';
-import { TryT } from '@craigmiller160/ts-functions/types';
 import { flow, pipe } from 'fp-ts/function';
-import * as Try from '@craigmiller160/ts-functions/Try';
 import * as Either from 'fp-ts/Either';
-import * as Json from '@craigmiller160/ts-functions/Json';
 import * as RArray from 'fp-ts/ReadonlyArray';
 
 export const getOrderByValueElement = (): HTMLElement | null | undefined => {
@@ -53,7 +50,10 @@ type ValidateDescription = (
 
 const validateTransactionDescription =
 	(validateDescription: ValidateDescription) =>
-	(index: number, description: TestTransactionDescription): TryT<unknown> =>
+	(
+		index: number,
+		description: TestTransactionDescription
+	): types.TryT<unknown> =>
 		pipe(
 			Try.tryCatch(() => validateDescription(index, description)),
 			Either.mapLeft(
@@ -71,7 +71,7 @@ const validateTransactionDescription =
 
 const validateNullableTextAndParse = (
 	descriptionElement: HTMLElement
-): TryT<TestTransactionDescription> => {
+): types.TryT<TestTransactionDescription> => {
 	if (descriptionElement.textContent === null) {
 		return Either.left(
 			new Error('Description text content cannot be null')

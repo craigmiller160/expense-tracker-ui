@@ -1,4 +1,4 @@
-import { OptionT } from '@craigmiller160/ts-functions/types';
+import { types } from '@craigmiller160/ts-functions';
 import produce from 'immer';
 import { Draft } from 'immer';
 import * as Option from 'fp-ts/Option';
@@ -10,7 +10,7 @@ import {
 } from '../../src/types/generated/expense-tracker';
 
 export interface Data {
-	readonly authUser: OptionT<string>;
+	readonly authUser: types.OptionT<string>;
 	readonly categories: Record<string, CategoryResponse>;
 	readonly transactions: Record<string, TransactionDetailsResponse>;
 }

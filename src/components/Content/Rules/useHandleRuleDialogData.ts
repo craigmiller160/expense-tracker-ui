@@ -1,4 +1,4 @@
-import { OptionT } from '@craigmiller160/ts-functions/types';
+import { types } from '@craigmiller160/ts-functions';
 import { CategoryOption } from '../../../types/categories';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 import {
@@ -48,7 +48,7 @@ const parseRequestAmount = (amount: string | null): number | undefined =>
 	);
 
 type Props = {
-	readonly selectedRuleId: OptionT<string>;
+	readonly selectedRuleId: types.OptionT<string>;
 	readonly open: boolean;
 	readonly close: () => void;
 	readonly clearSelectedRule: () => void;
@@ -117,7 +117,7 @@ const optionalRuleToValues = (
 
 const createSaveRule =
 	(
-		selectedRuleId: OptionT<string>,
+		selectedRuleId: types.OptionT<string>,
 		createRule: UseMutateAsyncFunction<
 			AutoCategorizeRuleResponse,
 			Error,
@@ -161,7 +161,7 @@ const createSaveRule =
 
 const createDeleteRule =
 	(
-		selectedRuleId: OptionT<string>,
+		selectedRuleId: types.OptionT<string>,
 		deleteRule: UseMutateAsyncFunction<void, Error, DeleteRuleParams>,
 		close: () => void,
 		clearSelectedRule: () => void

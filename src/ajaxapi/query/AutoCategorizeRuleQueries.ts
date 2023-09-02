@@ -21,7 +21,7 @@ import {
 	reOrderRule,
 	updateRule
 } from '../service/AutoCategorizeRuleService';
-import { OptionT } from '@craigmiller160/ts-functions/types';
+import { types } from '@craigmiller160/ts-functions';
 import * as Option from 'fp-ts/Option';
 import { GET_LAST_RULE_APPLIED } from './LastAppliedRuleQueries';
 import { debounceAsync } from '../../utils/debounceAsync';
@@ -56,9 +56,9 @@ export const useGetAllRules = (
 			debounceGetAllRules(req, signal)
 	});
 
-type GetRuleKey = [string, OptionT<string>];
+type GetRuleKey = [string, types.OptionT<string>];
 export const useGetRule = (
-	ruleId: OptionT<string>
+	ruleId: types.OptionT<string>
 ): UseQueryResult<AutoCategorizeRuleResponse, Error> =>
 	useQuery<
 		AutoCategorizeRuleResponse,

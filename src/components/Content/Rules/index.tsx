@@ -12,7 +12,7 @@ import { RulesFilters } from './RulesFilters';
 import { UseFormHandleSubmit } from 'react-hook-form';
 import { RuleDetailsDialog } from './RuleDetailsDialog';
 import * as Option from 'fp-ts/Option';
-import { OptionT } from '@craigmiller160/ts-functions/types';
+import { types } from '@craigmiller160/ts-functions';
 
 export const DEFAULT_ROWS_PER_PAGE = 25;
 
@@ -32,7 +32,7 @@ const useOnValueHasChanged = (
 
 type DialogState = {
 	readonly open: boolean;
-	readonly selectedRuleId: OptionT<string>;
+	readonly selectedRuleId: types.OptionT<string>;
 };
 
 type DialogActions = {

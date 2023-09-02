@@ -7,9 +7,8 @@ import {
 	NeedsAttentionResponse,
 	TransactionResponse
 } from '../../../src/types/generated/expense-tracker';
-import { MonoidT } from '@craigmiller160/ts-functions/types';
+import { Time, types } from '@craigmiller160/ts-functions';
 import { parseServerDate } from '../../../src/utils/dateTimeUtils';
-import * as Time from '@craigmiller160/ts-functions/Time';
 
 const getOldestDate = (
 	dateString1: string | undefined,
@@ -56,7 +55,7 @@ const transactionToNeedsAttention = (
 	}
 });
 
-const needsAttentionMonoid: MonoidT<NeedsAttentionResponse> = {
+const needsAttentionMonoid: types.MonoidT<NeedsAttentionResponse> = {
 	empty: {
 		unconfirmed: {
 			count: 0,

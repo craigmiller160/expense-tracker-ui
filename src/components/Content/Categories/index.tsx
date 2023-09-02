@@ -15,7 +15,7 @@ import { CategoryDetails } from '../../../types/categories';
 import { ReactNode } from 'react';
 import { CategoryDetailsDialog } from './CategoryDetailsDialog';
 import { Updater, useImmer } from 'use-immer';
-import { OptionT } from '@craigmiller160/ts-functions/types';
+import { types } from '@craigmiller160/ts-functions';
 import * as Option from 'fp-ts/Option';
 import { match } from 'ts-pattern';
 import {
@@ -29,7 +29,9 @@ import { ColorBox } from '../../UI/ColorBox';
 const COLUMNS = ['', 'Name', 'Actions'];
 
 const dataToRows = (
-	updateSelectCategoryDetails: (idOption: OptionT<CategoryDetails>) => void,
+	updateSelectCategoryDetails: (
+		idOption: types.OptionT<CategoryDetails>
+	) => void,
 	data?: ReadonlyArray<CategoryResponse>
 ): ReadonlyArray<ReactNode> =>
 	(data ?? []).map((category) => (
@@ -58,11 +60,11 @@ const dataToRows = (
 	));
 
 interface State {
-	readonly selectedCategoryDetails: OptionT<CategoryDetails>;
+	readonly selectedCategoryDetails: types.OptionT<CategoryDetails>;
 }
 
 const createUpdateSelectedCategoryDetails =
-	(setState: Updater<State>) => (category: OptionT<CategoryDetails>) =>
+	(setState: Updater<State>) => (category: types.OptionT<CategoryDetails>) =>
 		setState((draft) => {
 			draft.selectedCategoryDetails = category;
 		});

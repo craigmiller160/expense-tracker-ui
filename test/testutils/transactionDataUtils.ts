@@ -1,14 +1,13 @@
-import { MonoidT } from '@craigmiller160/ts-functions/types';
+import { types, Time } from '@craigmiller160/ts-functions';
 import crypto from 'crypto';
 import { pipe } from 'fp-ts/function';
-import * as Time from '@craigmiller160/ts-functions/Time';
 import { formatServerDateTime } from '../../src/utils/dateTimeUtils';
 import {
 	TransactionResponse,
 	TransactionDetailsResponse
 } from '../../src/types/generated/expense-tracker';
 
-export const transactionRecordMonoid: MonoidT<
+export const transactionRecordMonoid: types.MonoidT<
 	Record<string, TransactionDetailsResponse>
 > = {
 	empty: {},

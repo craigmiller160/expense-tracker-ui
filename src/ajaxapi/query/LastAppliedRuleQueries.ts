@@ -1,15 +1,15 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { LastRuleAppliedResponse } from '../../types/generated/expense-tracker';
 import { getLastRuleApplied } from '../service/LastAppliedRuleService';
-import { OptionT } from '@craigmiller160/ts-functions/types';
+import { types } from '@craigmiller160/ts-functions';
 import * as Option from 'fp-ts/Option';
 
 export const GET_LAST_RULE_APPLIED =
 	'LastRuleAppliedQueries_GetLastRuleApplied';
 
-type GetLastRuleAppliedKey = [string, OptionT<string>];
+type GetLastRuleAppliedKey = [string, types.OptionT<string>];
 export const useGetLastRuleApplied = (
-	transactionId: OptionT<string>,
+	transactionId: types.OptionT<string>,
 	isUnconfirmed: boolean
 ): UseQueryResult<LastRuleAppliedResponse, Error> =>
 	useQuery<

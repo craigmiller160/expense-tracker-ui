@@ -1,4 +1,4 @@
-import { OptionT } from '@craigmiller160/ts-functions/types';
+import { types } from '@craigmiller160/ts-functions';
 import { useImmer } from 'use-immer';
 import * as Option from 'fp-ts/Option';
 import {
@@ -14,11 +14,11 @@ import { formatServerDate } from '../../../utils/dateTimeUtils';
 
 interface TransactionDetailsDialogState {
 	readonly open: boolean;
-	readonly selectedTransactionId: OptionT<string>;
+	readonly selectedTransactionId: types.OptionT<string>;
 }
 
 interface TransactionDetailsDialogActions {
-	readonly selectedTransactionId: OptionT<string>;
+	readonly selectedTransactionId: types.OptionT<string>;
 	readonly openDetailsDialog: (transactionId?: string) => void;
 	readonly closeDetailsDialog: () => void;
 	readonly saveTransaction: (transaction: TransactionDetailsFormData) => void;

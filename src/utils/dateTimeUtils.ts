@@ -1,4 +1,4 @@
-import * as Time from '@craigmiller160/ts-functions/Time';
+import { Time } from '@craigmiller160/ts-functions';
 import { SortDirection } from '../types/misc';
 import { Ordering } from 'fp-ts/Ordering';
 import { match } from 'ts-pattern';

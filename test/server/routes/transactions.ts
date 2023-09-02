@@ -22,7 +22,7 @@ import {
 	compareServerDates,
 	parseServerDate
 } from '../../../src/utils/dateTimeUtils';
-import * as Time from '@craigmiller160/ts-functions/Time';
+import { Time } from '@craigmiller160/ts-functions';
 
 const createSortTransactionOrd = (
 	sortDirection: SortDirection

@@ -1,4 +1,4 @@
-import { OptionT } from '@craigmiller160/ts-functions/types';
+import { types } from '@craigmiller160/ts-functions';
 import { useHandleRuleDialogData } from './useHandleRuleDialogData';
 import { SideDialog } from '../../UI/SideDialog';
 import { Button, CircularProgress } from '@mui/material';
@@ -44,7 +44,7 @@ type Props = {
 	readonly open: boolean;
 	readonly close: () => void;
 	readonly clearSelectedRule: () => void;
-	readonly selectedRuleId: OptionT<string>;
+	readonly selectedRuleId: types.OptionT<string>;
 };
 
 export const RuleDetailsDialog = (props: Props) => {

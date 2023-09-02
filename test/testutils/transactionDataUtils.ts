@@ -1,5 +1,5 @@
 import { MonoidT } from '@craigmiller160/ts-functions/es/types';
-import { nanoid } from 'nanoid';
+import crypto from 'crypto';
 import { pipe } from 'fp-ts/function';
 import * as Time from '@craigmiller160/ts-functions/es/Time';
 import { formatServerDateTime } from '../../src/utils/dateTimeUtils';
@@ -38,7 +38,7 @@ export const createTransaction = (
 	transaction: TestTransactionDescription
 ): TransactionDetailsResponse => ({
 	...transaction,
-	id: nanoid(),
+	id: crypto.randomUUID(),
 	description: JSON.stringify({
 		...transaction,
 		id: undefined,

@@ -17,7 +17,7 @@ import { pipe } from 'fp-ts/function';
 import { match } from 'ts-pattern';
 import { SortDirection } from '../../../src/types/misc';
 import { Ord } from 'fp-ts/Ord';
-import { nanoid } from 'nanoid';
+import crypto from 'crypto';
 import {
 	compareServerDates,
 	parseServerDate
@@ -237,7 +237,7 @@ export const createTransactionsRoutes = (
 			request.requestBody
 		) as CreateTransactionRequest;
 
-		const id = nanoid();
+		const id = crypto.randomUUID();
 		const category: CategoryResponse | undefined =
 			database.data.categories[requestBody.categoryId ?? ''];
 		database.updateData((draft) => {

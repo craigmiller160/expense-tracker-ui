@@ -23,7 +23,7 @@
     "validate": "npm run type-check && npm run lint && npm run test && npm run cypress:headless"
   },
   "lint-staged": {
-    "*.{ts,tsx}": "eslint --fix --max-warnings=0"
+    "*.{ts,tsx}": "craig-lint"
   },
   "devDependencies": {
     "@craigmiller160/config-merge": "^1.0.1",

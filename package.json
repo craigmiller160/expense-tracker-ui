@@ -18,9 +18,9 @@
     "cypress:headless": "cypress run --component",
     "force-build": "vite build",
     "type-check": "tsc --noEmit",
-    "build": "yarn validate && yarn force-build",
+    "build": "npm run validate && npm run force-build",
     "generate-types": "craig-swagger expense-tracker https://127.0.0.1:8080/v3/api-docs",
-    "validate": "yarn type-check && yarn lint && yarn test && yarn cypress:headless"
+    "validate": "npm run type-check && npm run lint && npm run test && npm run cypress:headless"
   },
   "lint-staged": {
     "*.{ts,tsx}": "eslint --fix --max-warnings=0"

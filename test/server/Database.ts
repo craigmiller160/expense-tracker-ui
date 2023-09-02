@@ -3,7 +3,7 @@ import produce from 'immer';
 import { Draft } from 'immer';
 import * as Option from 'fp-ts/Option';
 import { DbRecord } from '../../src/types/db';
-import { nanoid } from 'nanoid';
+import crypto from 'crypto';
 import {
 	CategoryResponse,
 	TransactionDetailsResponse
@@ -26,7 +26,7 @@ export const ensureDbRecord = <T extends object>(record: T): T & DbRecord => {
 	}
 	return {
 		...record,
-		id: nanoid()
+		id: crypto.randomUUID()
 	};
 };
 

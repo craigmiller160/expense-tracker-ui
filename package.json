@@ -49,6 +49,7 @@
     "@types/react": "^18.0.14",
     "@types/react-dom": "^18.0.5",
     "@types/testing-library__jest-dom": "^5.9.1",
+    "@types/uuid": "^9.0.3",
     "@vitejs/plugin-react-swc": "^3.3.2",
     "cross-env": "^7.0.3",
     "cross-spawn": "^7.0.3",
@@ -92,6 +93,7 @@
     "react-router-dom": "^6.3.0",
     "recharts": "^2.1.16",
     "ts-pattern": "^4.0.3",
-    "use-immer": "^0.7.0"
+    "use-immer": "^0.7.0",
+    "uuid": "^9.0.0"
   }
 }

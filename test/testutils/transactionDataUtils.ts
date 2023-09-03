@@ -1,5 +1,5 @@
 import { types, Time } from '@craigmiller160/ts-functions';
-import crypto from 'crypto';
+import { v4 as uuidv4 } from 'uuid';
 import { pipe } from 'fp-ts/function';
 import { formatServerDateTime } from '../../src/utils/dateTimeUtils';
 import {
@@ -37,7 +37,7 @@ export const createTransaction = (
 	transaction: TestTransactionDescription
 ): TransactionDetailsResponse => ({
 	...transaction,
-	id: crypto.randomUUID(),
+	id: uuidv4(),
 	description: JSON.stringify({
 		...transaction,
 		id: undefined,

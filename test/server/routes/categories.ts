@@ -1,7 +1,7 @@
 import { Database } from '../Database';
 import { Server } from 'miragejs/server';
 import { Response } from 'miragejs';
-import crypto from 'crypto';
+import { v4 as uuidv4 } from 'uuid';
 import {
 	CategoryRequest,
 	CategoryResponse
@@ -17,7 +17,7 @@ export const createCategoriesRoutes = (database: Database, server: Server) => {
 	server.post('/categories', (schema, request) => {
 		const requestBody = JSON.parse(request.requestBody) as CategoryRequest;
 		const category: CategoryResponse = {
-			id: crypto.randomUUID(),
+			id: uuidv4(),
 			name: requestBody.name,
 			color: '#ffffff'
 		};

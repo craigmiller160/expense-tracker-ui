@@ -1,5 +1,5 @@
 import { AlertData, AlertManager, AlertSubscription } from './types';
-import crypto from 'crypto';
+import { v4 as uuidv4 } from 'uuid';
 
 type InternalAlertManager = AlertManager & {
 	readonly subscriptions: Record<string, AlertSubscription>;
@@ -9,7 +9,7 @@ export const alertManager: InternalAlertManager = {
 	subscriptions: {},
 	addAlert(severity, message) {
 		const alert: AlertData = {
-			id: crypto.randomUUID(),
+			id: uuidv4(),
 			severity,
 			message
 		};
@@ -18,7 +18,7 @@ export const alertManager: InternalAlertManager = {
 		);
 	},
 	subscribe(subscription) {
-		const id = crypto.randomUUID();
+		const id = uuidv4();
 		this.subscriptions[id] = subscription;
 		return () => {
 			delete this.subscriptions[id];

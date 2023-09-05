@@ -17,7 +17,7 @@
     "cypress": "cypress open",
     "cypress:headless": "cypress run --component",
     "force-build": "vite build",
-    "type-check": "tsc --noEmit",
+    "type-check": "tsc --noEmit && tsc --noEmit --project ./cypress/tsconfig.json",
     "build": "npm run validate && npm run force-build",
     "generate-types": "craig-swagger expense-tracker https://127.0.0.1:8080/v3/api-docs",
     "validate": "npm run type-check && npm run lint && npm run test && npm run cypress:headless"

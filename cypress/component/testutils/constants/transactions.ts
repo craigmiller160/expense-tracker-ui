@@ -2,22 +2,10 @@ import allTransactions from '../../../fixtures/allTransactions.json';
 import transactionDetails from '../../../fixtures/transactionDetails.json';
 import possibleDuplicatesJson from '../../../fixtures/possibleDuplicates.json';
 import { SelectOption } from '@craigmiller160/react-hook-form-material-ui';
+import { TransactionDuplicatePageResponse } from '../../../../src/types/generated/expense-tracker';
 
-type PossibleDuplicates = Readonly<{
-	transactions: ReadonlyArray<
-		Readonly<{
-			id: string;
-			created: string;
-			updated: string;
-			categoryName: string;
-			confirmed: boolean;
-		}>
-	>;
-	pageNumber: number;
-	totalItems: number;
-}>;
-
-export const possibleDuplicates = possibleDuplicatesJson as PossibleDuplicates;
+export const possibleDuplicates =
+	possibleDuplicatesJson as TransactionDuplicatePageResponse;
 
 export { allTransactions, transactionDetails };
 

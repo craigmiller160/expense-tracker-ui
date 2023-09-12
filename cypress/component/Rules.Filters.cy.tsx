@@ -8,6 +8,12 @@ import {
 	orderedCategoryNames
 } from './testutils/constants/categories';
 
+type Interception = Readonly<{
+	request: Readonly<{
+		url: string;
+	}>;
+}>;
+
 const validateQueryString = (url: string, expectedQuery: string) => {
 	const query = url.split('?')[1];
 	expect(query).eq(expectedQuery);

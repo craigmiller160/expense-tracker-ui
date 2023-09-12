@@ -13,12 +13,18 @@
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
     "declaration": false,
     "module": "es2022"
+  },
+  "ts-node": {
+    "compilerOptions": {
+      "module": "es2022",
+      "moduleResolution": "node"
+    }
   },
   "include": [
     "src/**/*",

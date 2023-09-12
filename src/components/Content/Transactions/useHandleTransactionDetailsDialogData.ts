@@ -1,6 +1,6 @@
-import { OptionT } from '@craigmiller160/ts-functions/es/types';
-import { pipe } from 'fp-ts/es6/function';
-import * as Option from 'fp-ts/es6/Option';
+import { types } from '@craigmiller160/ts-functions';
+import { pipe } from 'fp-ts/function';
+import * as Option from 'fp-ts/Option';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { useEffect, useMemo } from 'react';
 import {
@@ -56,7 +56,7 @@ const DEFAULT_TXN_VALUES: TransactionValues = {
 };
 
 const useValuesFromSelectedTransaction = (
-	selectedTransactionId: OptionT<string>
+	selectedTransactionId: types.OptionT<string>
 ): TransactionValues => {
 	const { data, isInitialLoading } = useGetTransactionDetails(
 		selectedTransactionId
@@ -85,7 +85,7 @@ const useValuesFromSelectedTransaction = (
 };
 
 export const useHandleTransactionDetailsDialogData = (
-	selectedTransactionId: OptionT<string>,
+	selectedTransactionId: types.OptionT<string>,
 	open: boolean
 ): TransactionDetailsDialogData => {
 	const transactionValues = useValuesFromSelectedTransaction(

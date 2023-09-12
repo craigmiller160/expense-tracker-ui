@@ -2,7 +2,7 @@ import {
 	formatServerDate,
 	parseServerDate
 } from '../../../utils/dateTimeUtils';
-import { flow } from 'fp-ts/es6/function';
+import { flow } from 'fp-ts/function';
 import { endOfMonth, startOfMonth } from 'date-fns/fp';
 
 const getStartAndEndDate = (dateString: string): [string, string] => {

@@ -1,16 +1,16 @@
 import { Button, Typography } from '@mui/material';
 import { useEffect, useMemo } from 'react';
-import { OptionT } from '@craigmiller160/ts-functions/es/types';
-import * as Option from 'fp-ts/es6/Option';
+import { types } from '@craigmiller160/ts-functions';
+import * as Option from 'fp-ts/Option';
 import { CategoryDetails } from '../../../types/categories';
-import { pipe } from 'fp-ts/es6/function';
+import { pipe } from 'fp-ts/function';
 import './CategoryDetailsDialog.scss';
 import { FormState, useForm, UseFormReset } from 'react-hook-form';
 import { TextField } from '@craigmiller160/react-hook-form-material-ui';
 import { SideDialog } from '../../UI/SideDialog';
 
 interface Props {
-	readonly selectedCategory: OptionT<CategoryDetails>;
+	readonly selectedCategory: types.OptionT<CategoryDetails>;
 	readonly onClose: () => void;
 	readonly saveCategory: (category: CategoryDetails) => void;
 	readonly deleteCategory: (id?: string) => void;
@@ -20,7 +20,7 @@ interface FormData {
 	readonly name: string;
 }
 
-const getTitle = (selectedCategory: OptionT<CategoryDetails>): string =>
+const getTitle = (selectedCategory: types.OptionT<CategoryDetails>): string =>
 	pipe(
 		selectedCategory,
 		Option.map((category) =>
@@ -29,7 +29,9 @@ const getTitle = (selectedCategory: OptionT<CategoryDetails>): string =>
 		Option.getOrElse(() => '')
 	);
 
-const isNewCategory = (selectedCategory: OptionT<CategoryDetails>): boolean =>
+const isNewCategory = (
+	selectedCategory: types.OptionT<CategoryDetails>
+): boolean =>
 	Option.fold<CategoryDetails, boolean>(
 		() => false,
 		(cat) => cat.isNew
@@ -37,7 +39,7 @@ const isNewCategory = (selectedCategory: OptionT<CategoryDetails>): boolean =>
 
 const createResetForm =
 	(reset: UseFormReset<FormData>) =>
-	(selectedCategory: OptionT<CategoryDetails>) => {
+	(selectedCategory: types.OptionT<CategoryDetails>) => {
 		const data = pipe(
 			selectedCategory,
 			Option.fold(
@@ -53,7 +55,7 @@ const createResetForm =
 	};
 
 const getCategoryId = (
-	selectedCategory: OptionT<CategoryDetails>
+	selectedCategory: types.OptionT<CategoryDetails>
 ): string | undefined =>
 	Option.fold<CategoryDetails, string | undefined>(
 		() => undefined,
@@ -61,7 +63,7 @@ const getCategoryId = (
 	)(selectedCategory);
 
 const prepareOutput = (
-	selectedCategory: OptionT<CategoryDetails>,
+	selectedCategory: types.OptionT<CategoryDetails>,
 	formData: FormData
 ): CategoryDetails =>
 	pipe(
@@ -84,7 +86,7 @@ const formHasErrors = (formState: FormState<FormData>): boolean =>
 	Object.keys(formState.errors).length > 0;
 
 interface DialogActionsProps {
-	readonly selectedCategory: OptionT<CategoryDetails>;
+	readonly selectedCategory: types.OptionT<CategoryDetails>;
 	readonly deleteCategory: (id?: string) => void;
 	readonly formState: FormState<FormData>;
 }

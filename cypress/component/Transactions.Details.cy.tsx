@@ -42,7 +42,9 @@ const testDuplicate = (getRecord: () => Chainable<JQuery>, index: number) => {
 	if (possibleDuplicates.transactions[index].categoryName) {
 		transactionDetailsPage
 			.getCategoryForDuplicateRecord(getRecord())
-			.contains(possibleDuplicates.transactions[index].categoryName);
+			.contains(
+				possibleDuplicates.transactions[index].categoryName ?? ''
+			);
 	} else {
 		transactionDetailsPage
 			.getCategoryForDuplicateRecord(getRecord())

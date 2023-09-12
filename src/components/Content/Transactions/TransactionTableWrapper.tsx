@@ -13,7 +13,7 @@ import {
 import { useEffect } from 'react';
 import { Updater } from 'use-immer';
 import { UpdateTransactionsMutation } from '../../../ajaxapi/query/TransactionQueries';
-import { pipe } from 'fp-ts/es6/function';
+import { pipe } from 'fp-ts/function';
 import { PaginationState } from '../../../utils/pagination';
 import { TransactionTable } from './TransactionTable';
 

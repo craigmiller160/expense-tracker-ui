@@ -5,7 +5,7 @@ import {
 	CountAndOldest,
 	NeedsAttentionResponse
 } from '../../../types/generated/expense-tracker';
-import { pipe } from 'fp-ts/es6/function';
+import { pipe } from 'fp-ts/function';
 import {
 	formatDisplayDate,
 	parseServerDate

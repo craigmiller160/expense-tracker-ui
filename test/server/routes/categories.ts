@@ -1,11 +1,11 @@
 import { Database } from '../Database';
 import { Server } from 'miragejs/server';
 import { Response } from 'miragejs';
+import { v4 as uuidv4 } from 'uuid';
 import {
 	CategoryRequest,
 	CategoryResponse
 } from '../../../src/types/generated/expense-tracker';
-import { nanoid } from 'nanoid';
 
 export const createCategoriesRoutes = (database: Database, server: Server) => {
 	server.get('/categories', () => {
@@ -17,7 +17,7 @@ export const createCategoriesRoutes = (database: Database, server: Server) => {
 	server.post('/categories', (schema, request) => {
 		const requestBody = JSON.parse(request.requestBody) as CategoryRequest;
 		const category: CategoryResponse = {
-			id: nanoid(),
+			id: uuidv4(),
 			name: requestBody.name,
 			color: '#ffffff'
 		};

@@ -1,4 +1,4 @@
-import { OptionT } from '@craigmiller160/ts-functions/es/types';
+import { types } from '@craigmiller160/ts-functions';
 import { CategoryOption } from '../../../types/categories';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 import {
@@ -19,8 +19,8 @@ import {
 	AutoCategorizeRuleRequest,
 	AutoCategorizeRuleResponse
 } from '../../../types/generated/expense-tracker';
-import { pipe } from 'fp-ts/es6/function';
-import * as Option from 'fp-ts/es6/Option';
+import { pipe } from 'fp-ts/function';
+import * as Option from 'fp-ts/Option';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { useContext, useEffect } from 'react';
 import {
@@ -34,7 +34,7 @@ import {
 } from '../../../utils/dateTimeUtils';
 import { UseMutateAsyncFunction } from '@tanstack/react-query';
 import { ConfirmDialogContext } from '../../UI/ConfirmDialog/ConfirmDialogProvider';
-import * as Task from 'fp-ts/es6/Task';
+import * as Task from 'fp-ts/Task';
 
 const parseRequestDate = (date: Date | null): string | undefined =>
 	pipe(
@@ -48,7 +48,7 @@ const parseRequestAmount = (amount: string | null): number | undefined =>
 	);
 
 type Props = {
-	readonly selectedRuleId: OptionT<string>;
+	readonly selectedRuleId: types.OptionT<string>;
 	readonly open: boolean;
 	readonly close: () => void;
 	readonly clearSelectedRule: () => void;
@@ -117,7 +117,7 @@ const optionalRuleToValues = (
 
 const createSaveRule =
 	(
-		selectedRuleId: OptionT<string>,
+		selectedRuleId: types.OptionT<string>,
 		createRule: UseMutateAsyncFunction<
 			AutoCategorizeRuleResponse,
 			Error,
@@ -161,7 +161,7 @@ const createSaveRule =
 
 const createDeleteRule =
 	(
-		selectedRuleId: OptionT<string>,
+		selectedRuleId: types.OptionT<string>,
 		deleteRule: UseMutateAsyncFunction<void, Error, DeleteRuleParams>,
 		close: () => void,
 		clearSelectedRule: () => void

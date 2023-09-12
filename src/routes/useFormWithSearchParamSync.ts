@@ -5,7 +5,7 @@ import {
 	useSearchParamSync
 } from './useSearchParamSync';
 import { useEffect, useState } from 'react';
-import { mergeWith } from 'lodash-es';
+import mergeWith from 'lodash.mergewith';
 
 type Props<Form extends object> = UseFormProps<Form> & {
 	readonly formFromParams: SyncFromParams<Form>;

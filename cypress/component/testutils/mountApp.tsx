@@ -7,6 +7,7 @@ import {
 	KeycloakAuthContext
 } from '@craigmiller160/react-keycloak';
 import { newQueryClient } from '../../../src/ajaxapi/query/queryClient';
+import { MountReturn } from 'cypress/react';
 
 const desktopViewport = (): Chainable<null> => cy.viewport(1920, 1080);
 const mobileViewport = (): Chainable<null> => cy.viewport(500, 500);
@@ -35,7 +36,9 @@ const getInitialEntries = (config?: Partial<MountConfig>): string[] =>
 		.with({ initialRoute: P.string }, ({ initialRoute }) => [initialRoute])
 		.otherwise(() => ['/expense-tracker']);
 
-export const mountApp = (config?: Partial<MountConfig>): Chainable<unknown> => {
+export const mountApp = (
+	config?: Partial<MountConfig>
+): Chainable<MountReturn> => {
 	const keycloakAuth: KeycloakAuth = {
 		status: 'authorized',
 		isPostAuthorization: true,

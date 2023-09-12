@@ -14,8 +14,8 @@ import {
 	UpdateTransactionsRequest
 } from '../../types/generated/expense-tracker';
 import qs from 'qs';
-import { pipe } from 'fp-ts/es6/function';
-import * as Option from 'fp-ts/es6/Option';
+import { pipe } from 'fp-ts/function';
+import * as Option from 'fp-ts/Option';
 import { expenseTrackerApi, getData } from './AjaxApi';
 import { formatServerDate } from '../../utils/dateTimeUtils';
 import { YesNoFilter } from '../../types/misc';

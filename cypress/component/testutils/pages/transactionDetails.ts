@@ -1,5 +1,5 @@
 import Chainable = Cypress.Chainable;
-import { pipe } from 'fp-ts/es6/function';
+import { pipe } from 'fp-ts/function';
 import { getHelperTextForLabel, getInputForLabel } from './utils';
 
 const getHeaderTitle = (): Chainable<JQuery> =>
@@ -70,7 +70,8 @@ const getConfirmedForDuplicateRecord = (
 ): Chainable<JQuery> => record.find('td').eq(3);
 const getOpenButtonForDuplicateRecord = (
 	record: Chainable<JQuery>
-): Chainable<JQuery> => record.find('td').eq(4).find('button');
+): Chainable<JQuery<HTMLButtonElement>> =>
+	record.find('td').eq(4).find('button');
 const getMarkNotDuplicateButton = (): Chainable<JQuery> =>
 	cy.get('.TransactionDetailsDuplicatePanel .MarkNotDuplicateSection button');
 const getLastRuleAppliedTitle = (): Chainable<JQuery> =>

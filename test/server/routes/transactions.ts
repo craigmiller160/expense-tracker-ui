@@ -12,17 +12,17 @@ import {
 	UpdateTransactionDetailsRequest,
 	UpdateTransactionsRequest
 } from '../../../src/types/generated/expense-tracker';
-import * as RArray from 'fp-ts/es6/ReadonlyArray';
-import { pipe } from 'fp-ts/es6/function';
+import * as RArray from 'fp-ts/ReadonlyArray';
+import { pipe } from 'fp-ts/function';
 import { match } from 'ts-pattern';
 import { SortDirection } from '../../../src/types/misc';
-import { Ord } from 'fp-ts/es6/Ord';
-import { nanoid } from 'nanoid';
+import { Ord } from 'fp-ts/Ord';
+import { v4 as uuidv4 } from 'uuid';
 import {
 	compareServerDates,
 	parseServerDate
 } from '../../../src/utils/dateTimeUtils';
-import * as Time from '@craigmiller160/ts-functions/es/Time';
+import { Time } from '@craigmiller160/ts-functions';
 
 const createSortTransactionOrd = (
 	sortDirection: SortDirection
@@ -237,7 +237,7 @@ export const createTransactionsRoutes = (
 			request.requestBody
 		) as CreateTransactionRequest;
 
-		const id = nanoid();
+		const id = uuidv4();
 		const category: CategoryResponse | undefined =
 			database.data.categories[requestBody.categoryId ?? ''];
 		database.updateData((draft) => {

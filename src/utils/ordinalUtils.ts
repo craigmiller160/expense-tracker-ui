@@ -1,5 +1,5 @@
-import * as RNonEmptyArray from 'fp-ts/es6/ReadonlyNonEmptyArray';
-import { pipe } from 'fp-ts/es6/function';
+import * as RNonEmptyArray from 'fp-ts/ReadonlyNonEmptyArray';
+import { pipe } from 'fp-ts/function';
 import { OrdinalOption } from '../types/rules';
 import { useMemo } from 'react';
 

@@ -6,8 +6,8 @@ import {
 import { TableCell, TableRow } from '@mui/material';
 import { formatCurrency, formatPercent } from '../../../utils/formatNumbers';
 import { ColorBox } from '../../UI/ColorBox';
-import * as RArray from 'fp-ts/es6/ReadonlyArray';
-import { Ord } from 'fp-ts/es6/Ord';
+import * as RArray from 'fp-ts/ReadonlyArray';
+import { Ord } from 'fp-ts/Ord';
 import { match } from 'ts-pattern';
 import { ReportCategoryOrderBy } from '../../../types/reports';
 import { UseFormReturn } from 'react-hook-form';

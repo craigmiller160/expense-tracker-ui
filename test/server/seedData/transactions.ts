@@ -1,9 +1,9 @@
 import { DataUpdater } from '../Database';
 import { TransactionDetailsResponse } from '../../../src/types/generated/expense-tracker';
-import * as Time from '@craigmiller160/ts-functions/es/Time';
-import { pipe } from 'fp-ts/es6/function';
-import * as RNonEmptyArray from 'fp-ts/es6/ReadonlyNonEmptyArray';
-import * as Monoid from 'fp-ts/es6/Monoid';
+import { Time } from '@craigmiller160/ts-functions';
+import { pipe } from 'fp-ts/function';
+import * as RNonEmptyArray from 'fp-ts/ReadonlyNonEmptyArray';
+import * as Monoid from 'fp-ts/Monoid';
 import {
 	createTransaction,
 	transactionRecordMonoid,

@@ -1,5 +1,5 @@
 import { Database } from './Database';
-import * as Option from 'fp-ts/es6/Option';
+import * as Option from 'fp-ts/Option';
 import { Server } from 'miragejs/server';
 import { createServer } from 'miragejs';
 import { seedCategories } from './seedData/categories';

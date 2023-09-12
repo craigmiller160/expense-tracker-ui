@@ -1,14 +1,13 @@
-import { MonoidT } from '@craigmiller160/ts-functions/es/types';
-import { nanoid } from 'nanoid';
-import { pipe } from 'fp-ts/es6/function';
-import * as Time from '@craigmiller160/ts-functions/es/Time';
+import { types, Time } from '@craigmiller160/ts-functions';
+import { v4 as uuidv4 } from 'uuid';
+import { pipe } from 'fp-ts/function';
 import { formatServerDateTime } from '../../src/utils/dateTimeUtils';
 import {
 	TransactionResponse,
 	TransactionDetailsResponse
 } from '../../src/types/generated/expense-tracker';
 
-export const transactionRecordMonoid: MonoidT<
+export const transactionRecordMonoid: types.MonoidT<
 	Record<string, TransactionDetailsResponse>
 > = {
 	empty: {},
@@ -38,7 +37,7 @@ export const createTransaction = (
 	transaction: TestTransactionDescription
 ): TransactionDetailsResponse => ({
 	...transaction,
-	id: nanoid(),
+	id: uuidv4(),
 	description: JSON.stringify({
 		...transaction,
 		id: undefined,

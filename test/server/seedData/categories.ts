@@ -1,9 +1,9 @@
 import { DataUpdater } from '../Database';
 import { CategoryResponse } from '../../../src/types/generated/expense-tracker';
-import { nanoid } from 'nanoid';
+import { v4 as uuidv4 } from 'uuid';
 
 const createCategory = (name: string): CategoryResponse => ({
-	id: nanoid(),
+	id: uuidv4(),
 	name,
 	color: '#ffffff'
 });

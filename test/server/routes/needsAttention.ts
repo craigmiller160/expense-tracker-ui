@@ -1,15 +1,14 @@
 import { Database } from '../Database';
 import { Server } from 'miragejs/server';
-import { pipe } from 'fp-ts/es6/function';
-import * as RArray from 'fp-ts/es6/ReadonlyArray';
-import * as Monoid from 'fp-ts/es6/Monoid';
+import { pipe } from 'fp-ts/function';
+import * as RArray from 'fp-ts/ReadonlyArray';
+import * as Monoid from 'fp-ts/Monoid';
 import {
 	NeedsAttentionResponse,
 	TransactionResponse
 } from '../../../src/types/generated/expense-tracker';
-import { MonoidT } from '@craigmiller160/ts-functions/es/types';
+import { Time, types } from '@craigmiller160/ts-functions';
 import { parseServerDate } from '../../../src/utils/dateTimeUtils';
-import * as Time from '@craigmiller160/ts-functions/es/Time';
 
 const getOldestDate = (
 	dateString1: string | undefined,
@@ -56,7 +55,7 @@ const transactionToNeedsAttention = (
 	}
 });
 
-const needsAttentionMonoid: MonoidT<NeedsAttentionResponse> = {
+const needsAttentionMonoid: types.MonoidT<NeedsAttentionResponse> = {
 	empty: {
 		unconfirmed: {
 			count: 0,

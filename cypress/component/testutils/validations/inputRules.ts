@@ -28,7 +28,7 @@ const setValue = (getInput: Selector, type: InputType, value: string) => {
 
 export const validateInputRules =
 	({ getSaveButton }: PageConfig) =>
-	({ getInput, getHelperText, type }: InputConfig) =>
+	({ getInput, getHelperText, type = 'text' }: InputConfig) =>
 	({ errorMessage, validValue, invalidValue }: RuleConfig) => {
 		getInput().clear();
 		if (invalidValue) {

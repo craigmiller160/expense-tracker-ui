@@ -1,21 +1,21 @@
-import { OptionT } from '@craigmiller160/ts-functions/es/types';
+import { types } from '@craigmiller160/ts-functions';
 import produce from 'immer';
-import { WritableDraft } from 'immer/dist/types/types-external';
-import * as Option from 'fp-ts/es6/Option';
+import { Draft } from 'immer';
+import * as Option from 'fp-ts/Option';
 import { DbRecord } from '../../src/types/db';
-import { nanoid } from 'nanoid';
+import { v4 as uuidv4 } from 'uuid';
 import {
 	CategoryResponse,
 	TransactionDetailsResponse
 } from '../../src/types/generated/expense-tracker';
 
 export interface Data {
-	readonly authUser: OptionT<string>;
+	readonly authUser: types.OptionT<string>;
 	readonly categories: Record<string, CategoryResponse>;
 	readonly transactions: Record<string, TransactionDetailsResponse>;
 }
 
-export type DataUpdater = (draft: WritableDraft<Data>) => void;
+export type DataUpdater = (draft: Draft<Data>) => void;
 
 export const ensureDbRecord = <T extends object>(record: T): T & DbRecord => {
 	if (
@@ -26,7 +26,7 @@ export const ensureDbRecord = <T extends object>(record: T): T & DbRecord => {
 	}
 	return {
 		...record,
-		id: nanoid()
+		id: uuidv4()
 	};
 };
 

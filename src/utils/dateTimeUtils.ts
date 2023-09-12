@@ -1,8 +1,8 @@
-import * as Time from '@craigmiller160/ts-functions/es/Time';
+import { Time } from '@craigmiller160/ts-functions';
 import { SortDirection } from '../types/misc';
-import { Ordering } from 'fp-ts/es6/Ordering';
+import { Ordering } from 'fp-ts/Ordering';
 import { match } from 'ts-pattern';
-import { pipe } from 'fp-ts/es6/function';
+import { pipe } from 'fp-ts/function';
 
 const SERVER_DATE_FORMAT = 'yyyy-MM-dd';
 const SERVER_DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSXXX";

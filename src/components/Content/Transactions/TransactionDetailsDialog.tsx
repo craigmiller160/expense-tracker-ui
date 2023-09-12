@@ -1,4 +1,4 @@
-import { OptionT } from '@craigmiller160/ts-functions/es/types';
+import { types } from '@craigmiller160/ts-functions';
 import { SideDialog } from '../../UI/SideDialog';
 import { Button, CircularProgress, Typography } from '@mui/material';
 import './TransactionDetailsDialog.scss';
@@ -19,7 +19,7 @@ import {
 	useHandleTransactionDetailsDialogData
 } from './useHandleTransactionDetailsDialogData';
 import { PossibleRefundIcon } from './icons/PossibleRefundIcon';
-import * as Option from 'fp-ts/es6/Option';
+import * as Option from 'fp-ts/Option';
 import { TransactionDetailsDuplicatePanel } from './TransactionDetailsDuplicatePanel';
 import { useCategoriesToCategoryOptions } from '../../../utils/categoryUtils';
 import { formatAmountValue } from '../../../utils/amountUtils';
@@ -32,7 +32,7 @@ import { RuleTableRow } from '../Rules/common/RuleTableRow';
 
 interface Props {
 	readonly open: boolean;
-	readonly selectedTransactionId: OptionT<string>;
+	readonly selectedTransactionId: types.OptionT<string>;
 	readonly onClose: () => void;
 	readonly saveTransaction: (transaction: TransactionDetailsFormData) => void;
 	readonly deleteTransaction: (id: string | null) => void;

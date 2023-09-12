@@ -6,12 +6,12 @@ import userEvent from '@testing-library/user-event';
 import { searchForTransactions } from '../../../../src/ajaxapi/service/TransactionService';
 import { SortDirection, TransactionSortKey } from '../../../../src/types/misc';
 import { getAllCategories } from '../../../../src/ajaxapi/service/CategoryService';
-import * as Time from '@craigmiller160/ts-functions/es/Time';
+import { Time } from '@craigmiller160/ts-functions';
 import {
 	defaultEndDate,
 	defaultStartDate
 } from '../../../../src/components/Content/Transactions/utils';
-import { pipe } from 'fp-ts/es6/function';
+import { pipe } from 'fp-ts/function';
 import {
 	getSelectValueElement,
 	getOrderByValueElement,

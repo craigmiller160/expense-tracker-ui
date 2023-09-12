@@ -2,7 +2,6 @@ import { rulesApi } from './testutils/apis/rules';
 import { categoriesApi } from './testutils/apis/categories';
 import { mountApp } from './testutils/mountApp';
 import { rulesListFiltersPage } from './testutils/pages/rulesListFilters';
-import { Interception } from 'cypress/types/net-stubbing';
 import { commonPage } from './testutils/pages/common';
 import {
 	orderedCategoryIds,

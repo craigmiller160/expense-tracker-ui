@@ -2,7 +2,7 @@ import Chainable = Cypress.Chainable;
 
 const getNeedsAttentionRoot = (): Chainable<JQuery> =>
 	cy.get('[data-testid="needs-attention-notice"]');
-const getNeedsAttentionTitle = (): Chainable<JQuery> =>
+const getNeedsAttentionTitle = (): Chainable<JQuery<HTMLHeadingElement>> =>
 	getNeedsAttentionRoot().find('h6');
 const getUncategorizedItem = (): Chainable<JQuery> =>
 	getNeedsAttentionRoot().find('.AttentionItem-Uncategorized');

@@ -9,7 +9,7 @@ const getMultipleSelectValues = (
 const getOpenSelectOptions = (): Chainable<JQuery> =>
 	cy.get('.MuiList-root li[role="option"]');
 
-const dismissPopupOptions = (): Chainable<JQuery> => cy.get('body').click(0, 0);
+const dismissPopupOptions = (): Chainable<JQuery<HTMLBodyElement>> => cy.get('body').click(0, 0);
 
 export const commonPage = {
 	getOpenAutoCompleteOptions,

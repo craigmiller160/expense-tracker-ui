@@ -3,18 +3,11 @@
   "compilerOptions": {
     "types": ["cypress", "node"]
   },
-  "ts-node": {
-    "compilerOptions": {
-      "module": "es2022",
-      "moduleResolution": "node"
-    }
-  },
   "include": ["**/*"],
   "exclude": [
     "node_modules",
     "lib",
     "build",
-    ".yalc",
-    "../test/**"
+    ".yalc"
   ]
 }

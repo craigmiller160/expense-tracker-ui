@@ -20,6 +20,7 @@
     "declaration": false,
     "module": "es2022"
   },
+  // This is just here for cypress
   "ts-node": {
     "compilerOptions": {
       "module": "es2022",

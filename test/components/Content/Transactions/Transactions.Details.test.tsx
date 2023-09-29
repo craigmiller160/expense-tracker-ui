@@ -47,7 +47,7 @@ describe('Transaction Details Dialog', () => {
 			possibleRefund: 'ALL'
 		});
 
-		await renderApp({
+		renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
 		await waitForVisibility([
@@ -90,7 +90,7 @@ describe('Transaction Details Dialog', () => {
 	});
 
 	it('cannot open details dialog when table form is dirty', async () => {
-		await renderApp({
+		renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
 		await waitForVisibility([
@@ -110,6 +110,7 @@ describe('Transaction Details Dialog', () => {
 		detailsButtons.forEach(testButton(false));
 
 		await userEvent.click(confirmCheckbox);
+		// eslint-disable-next-line testing-library/no-node-access
 		expect(confirmCheckbox.querySelector('input')).toBeChecked();
 
 		detailsButtons.forEach(testButton(true));

@@ -35,7 +35,7 @@ const setToMidnight = Time.set({
 
 describe('Transactions Table', () => {
 	it('loads and displays transactions', async () => {
-		await renderApp({
+		renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
 		await waitForVisibility([
@@ -148,7 +148,7 @@ describe('Transactions Table', () => {
 				created: ''
 			};
 		});
-		await renderApp({
+		renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
 		await waitFor(() =>
@@ -243,7 +243,7 @@ describe('Transactions Table', () => {
 	});
 
 	it('can change the rows-per-page and automatically re-load the data', async () => {
-		await renderApp({
+		renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
 		await waitFor(() =>
@@ -303,7 +303,7 @@ describe('Transactions Table', () => {
 	});
 
 	it('can paginate and load the correct data successfully', async () => {
-		await renderApp({
+		renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
 		await waitForVisibility([
@@ -386,7 +386,7 @@ describe('Transactions Table', () => {
 			draft.transactions[transaction.id].amount = transaction.amount * -1;
 		});
 
-		await renderApp({
+		renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
 		await waitForVisibility([
@@ -402,7 +402,7 @@ describe('Transactions Table', () => {
 	});
 
 	it('can set categories and confirm transactions', async () => {
-		await renderApp({
+		renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
 		await waitFor(() =>
@@ -486,7 +486,7 @@ describe('Transactions Table', () => {
 			apiServer.database.data.transactions[transactions[0].id];
 		expect(preparedTransaction.categoryId).toEqual(categories[0].id);
 
-		await renderApp({
+		renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
 		await waitFor(() =>
@@ -517,7 +517,7 @@ describe('Transactions Table', () => {
 	});
 
 	it('confirm all checkbox works and can be reset', async () => {
-		await renderApp({
+		renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
 		await waitFor(() =>
@@ -535,6 +535,7 @@ describe('Transactions Table', () => {
 				'confirm-transaction-checkbox'
 			);
 			checkboxes.forEach((checkbox, index) => {
+				// eslint-disable-next-line testing-library/no-node-access
 				const realCheckbox = checkbox.querySelector('input');
 				try {
 					if (checked) {

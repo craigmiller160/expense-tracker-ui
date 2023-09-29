@@ -1,4 +1,4 @@
-import { screen, waitFor, within } from '@testing-library/react';
+import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Time, Try, types, Json } from '@craigmiller160/ts-functions';
 import { TestTransactionDescription } from '../../../testutils/transactionDataUtils';
@@ -9,6 +9,7 @@ import * as RArray from 'fp-ts/ReadonlyArray';
 export const getOrderByValueElement = (): HTMLElement | null | undefined => {
 	const transactionFilters = screen.getByTestId('transaction-filters');
 	const orderByLabel = within(transactionFilters).getByLabelText('Order By');
+	// eslint-disable-next-line testing-library/no-node-access
 	return orderByLabel?.parentElement?.querySelector(
 		'.MuiOutlinedInput-input'
 	);
@@ -19,6 +20,7 @@ export const getSelectValueElement = (
 ): HTMLElement | null | undefined => {
 	const transactionFilters = screen.getByTestId('transaction-filters');
 	const categoryLabel = within(transactionFilters).getByLabelText(label);
+	// eslint-disable-next-line testing-library/no-node-access
 	return categoryLabel?.parentElement?.querySelector(
 		'.MuiOutlinedInput-input'
 	);

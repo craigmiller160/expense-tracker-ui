@@ -1,11 +1,11 @@
 @import "../../../styles/page";
 
 .ManageTransactions {
-  @include PageRoot;
+  @include page-root;
 
   >form {
     width: 100%;
 
-    @include ColumnAlignCenter;
+    @include column-align-center;
   }
 }

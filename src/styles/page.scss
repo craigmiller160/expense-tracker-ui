@@ -1,22 +1,22 @@
-@mixin ColumnAlignCenter {
+@mixin column-align-center {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-@mixin ColumnAlignStart {
+@mixin column-align-start {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 
-@mixin PageRoot {
-  @include ColumnAlignCenter;
+@mixin page-root {
+  @include column-align-center;
 
   padding: 2rem;
 }
 
-@mixin RightAlign {
+@mixin right-align {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;

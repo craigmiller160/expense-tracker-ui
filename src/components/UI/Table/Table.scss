@@ -20,7 +20,7 @@
     padding: $spacing;
     min-width: 100%;
 
-    @include RightAlign;
+    @include right-align;
 
     >* {
       margin-left: $spacing;

@@ -7,12 +7,12 @@
   padding: 1rem;
 
   .Header {
-    @include ColumnAlignCenter;
+    @include column-align-center;
 
     font-weight: bold;
   }
 
   .Items {
-    @include ColumnAlignStart;
+    @include column-align-start;
   }
 }

@@ -10,7 +10,7 @@
 
   >form {
     @include max-width;
-    @include ColumnAlignCenter;
+    @include column-align-center;
   }
 
   &.edit {

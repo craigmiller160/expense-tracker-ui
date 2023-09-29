@@ -39,7 +39,7 @@ interface Props {
 }
 
 export const Table = (props: PropsWithChildren<Props>) => {
-	const rootClasses = ['AppTable', props.className]
+	const rootClasses = ['app-table', props.className]
 		.filter((c) => !!c)
 		.join(' ');
 	const headerClass = props.className ? `${props.className}-header` : '';
@@ -48,12 +48,12 @@ export const Table = (props: PropsWithChildren<Props>) => {
 		<div className={rootClasses} data-testid={props['data-testid']}>
 			<TableContainer component={Paper}>
 				{props.tableTitle && (
-					<Typography className="TableTitle" variant="h6">
+					<Typography className="table-title" variant="h6">
 						{props.tableTitle}
 					</Typography>
 				)}
 				{!props.loading && (
-					<div className="ActionWrapper AboveTableActionWrapper">
+					<div className="action-wrapper AboveTableActionWrapper">
 						{props.aboveTableActions}
 					</div>
 				)}
@@ -96,7 +96,7 @@ export const Table = (props: PropsWithChildren<Props>) => {
 					<LinearProgress data-testid="table-loading" />
 				)}
 				{!props.loading && (
-					<div className="ActionWrapper BelowTableActionWrapper">
+					<div className="action-wrapper BelowTableActionWrapper">
 						{props.belowTableActions}
 					</div>
 				)}

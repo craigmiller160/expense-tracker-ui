@@ -1,19 +1,20 @@
 @import "../../../styles/page";
 
-.AppTable {
+.app-table {
   width: 100%;
 
-  .TableTitle {
+  .table-title {
     margin: 0.5rem auto;
   }
 
+  // stylelint-disable-next-line selector-class-pattern
   .MuiTable-root {
     thead th {
       font-weight: bold;
     }
   }
 
-  .ActionWrapper {
+  .action-wrapper {
     $spacing: 0.5rem;
 
     padding: $spacing;

@@ -1,5 +1,5 @@
 import { screen, within } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import userEvents from '@testing-library/user-event';
 import { Time, Try, types, Json } from '@craigmiller160/ts-functions';
 import { TestTransactionDescription } from '../../../testutils/transactionDataUtils';
 import { flow, pipe } from 'fp-ts/function';
@@ -31,8 +31,8 @@ export const selectDate = async (
 	dateString: string
 ) => {
 	const datePickerElement = screen.getByLabelText(datePickerLabel);
-	await userEvent.clear(datePickerElement);
-	await userEvent.type(datePickerElement, dateString);
+	await userEvents.clear(datePickerElement);
+	await userEvents.type(datePickerElement, dateString);
 	expect(datePickerElement).toHaveValue(dateString);
 };
 

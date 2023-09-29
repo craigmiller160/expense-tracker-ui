@@ -9,7 +9,7 @@ import { useCallback, useEffect } from 'react';
 import { MemoryRouter, useSearchParams } from 'react-router-dom';
 import { useLocation } from 'react-router';
 import { render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import userEvents from '@testing-library/user-event';
 import { ParamsWrapper } from '../../src/routes/ParamsWrapper';
 import {
 	NativeSearchProvider,
@@ -167,7 +167,7 @@ describe('useSearchParamSync', () => {
 			)
 		);
 
-		await userEvent.click(screen.getByText('Increment State'));
+		await userEvents.click(screen.getByText('Increment State'));
 		await waitFor(() =>
 			expect(screen.getByText(/Search/)).toHaveTextContent(
 				'Search: ?count=1'
@@ -195,7 +195,7 @@ describe('useSearchParamSync', () => {
 			)
 		);
 
-		await userEvent.click(screen.getByText('Increment Params'));
+		await userEvents.click(screen.getByText('Increment Params'));
 		expect(screen.getByText(/Search/)).toHaveTextContent(
 			'Search: ?count=1'
 		);
@@ -223,7 +223,7 @@ describe('useSearchParamSync', () => {
 			)
 		);
 
-		await userEvent.click(screen.getByText('Increment Params'));
+		await userEvents.click(screen.getByText('Increment Params'));
 		await waitFor(() =>
 			expect(screen.getByText(/Search/)).toHaveTextContent(
 				'Search: ?other=hello&count=1'
@@ -245,7 +245,7 @@ describe('useSearchParamSync', () => {
 			)
 		);
 
-		await userEvent.click(screen.getByText('Increment Params'));
+		await userEvents.click(screen.getByText('Increment Params'));
 		expect(screen.getByText(/Search/)).toHaveTextContent(
 			'Search: ?count=1'
 		);
@@ -258,7 +258,7 @@ describe('useSearchParamSync', () => {
 			)
 		);
 
-		await userEvent.click(screen.getByText('Enable Modifier'));
+		await userEvents.click(screen.getByText('Enable Modifier'));
 		await waitFor(() =>
 			expect(screen.getByText(/State Count/)).toHaveTextContent(
 				'State Count: 2'

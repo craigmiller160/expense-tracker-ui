@@ -1,6 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react';
+import { vi } from 'vitest';
 import '@testing-library/jest-dom';
-import userEvent from '@testing-library/user-event';
+import userEvents from '@testing-library/user-event';
 import { Import } from '../../../../src/components/Content/Import';
 import { UseImportTransactionsType } from '../../../../src/ajaxapi/query/TransactionImportQueries';
 import { materialUiSelect } from '../../../testutils/dom-actions/material-ui-select';
@@ -43,16 +44,17 @@ describe('Transaction Import', () => {
 		await doRender();
 
 		const fileInput = screen.getByLabelText('Transaction File');
-		await userEvent.upload(fileInput, file);
+		await userEvents.upload(fileInput, file);
 		await waitFor(() =>
 			expect(fileInput).toHaveValue('C:\\fakepath\\Test.txt')
 		);
 
-		await userEvent.click(screen.getByRole('button', { name: 'Import' }));
+		await userEvents.click(screen.getByRole('button', { name: 'Import' }));
 		await waitFor(() => expect(fileInput).toHaveValue(''));
 		expect(mutate).toHaveBeenCalled();
 	});
 
+	// eslint-disable-next-line vitest/expect-expect
 	it('can change the import file type', async () => {
 		await doRender();
 
@@ -66,15 +68,16 @@ describe('Transaction Import', () => {
 		await doRender();
 
 		const autocomplete = screen.getByLabelText('File Type');
+		// eslint-disable-next-line testing-library/no-node-access
 		const clearButton = autocomplete.parentElement?.querySelector(
 			'.MuiAutocomplete-clearIndicator'
 		);
 		expect(clearButton).toBeTruthy();
 		if (clearButton) {
-			await userEvent.click(clearButton);
+			await userEvents.click(clearButton);
 		}
 
-		await userEvent.click(screen.getByRole('button', { name: 'Import' }));
+		await userEvents.click(screen.getByRole('button', { name: 'Import' }));
 
 		await waitFor(() =>
 			expect(screen.queryByText('File is required')).toBeVisible()

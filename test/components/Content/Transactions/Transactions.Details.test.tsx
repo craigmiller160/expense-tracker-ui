@@ -6,7 +6,7 @@ import {
 	within
 } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import userEvent from '@testing-library/user-event';
+import userEvents from '@testing-library/user-event';
 import { searchForTransactions } from '../../../../src/ajaxapi/service/TransactionService';
 import { SortDirection, TransactionSortKey } from '../../../../src/types/misc';
 import {
@@ -60,18 +60,18 @@ describe('Transaction Details Dialog', () => {
 
 		const row = screen.getAllByTestId('transaction-table-row')[0];
 		const detailsButton = within(row).getByText('Details');
-		await userEvent.click(detailsButton);
+		await userEvents.click(detailsButton);
 
 		const transactionDialog = screen.getByTestId(
 			'transaction-details-dialog'
 		);
 
 		const deleteButton = within(transactionDialog).getByText('Delete');
-		await userEvent.click(deleteButton);
+		await userEvents.click(deleteButton);
 
 		const confirmDialog = screen.getByTestId('confirm-dialog');
 		const confirmButton = within(confirmDialog).getByText('Confirm');
-		await userEvent.click(confirmButton);
+		await userEvents.click(confirmButton);
 
 		// Confirming description is not here twice to handle the loading pause
 		await waitForElementToBeRemoved(() =>
@@ -109,7 +109,7 @@ describe('Transaction Details Dialog', () => {
 		expect(detailsButtons).toHaveLength(25);
 		detailsButtons.forEach(testButton(false));
 
-		await userEvent.click(confirmCheckbox);
+		await userEvents.click(confirmCheckbox);
 		// eslint-disable-next-line testing-library/no-node-access
 		expect(confirmCheckbox.querySelector('input')).toBeChecked();
 

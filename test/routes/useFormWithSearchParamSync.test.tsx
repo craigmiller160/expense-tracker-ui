@@ -8,7 +8,7 @@ import { InitialEntry } from 'history';
 import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { useLocation } from 'react-router';
-import userEvent from '@testing-library/user-event';
+import userEvents from '@testing-library/user-event';
 
 type Form = {
 	readonly count: number;
@@ -75,7 +75,7 @@ describe('useFormWithSearchParamSync', () => {
 
 	it('updates form and params', async () => {
 		doMount('/');
-		await userEvent.type(screen.getByLabelText('Count'), '1');
+		await userEvents.type(screen.getByLabelText('Count'), '1');
 		await waitFor(() =>
 			expect(screen.getByText(/Count Value/)).toHaveTextContent(
 				'Count Value: 1'

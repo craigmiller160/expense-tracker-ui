@@ -6,7 +6,7 @@ import {
 } from '../../src/routes/useImmerWithSearchParamSync';
 import { InitialEntry } from 'history';
 import { render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import userEvents from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 
 export {};
@@ -73,7 +73,7 @@ describe('useImmerWithSearchParamSync', () => {
 		expect(screen.getByText(/Search/)).toHaveTextContent(
 			'Search: ?count=0'
 		);
-		await userEvent.click(screen.getByText('Increment'));
+		await userEvents.click(screen.getByText('Increment'));
 		await waitFor(() =>
 			expect(screen.getByText(/State Count/)).toHaveTextContent(
 				'State Count: 1'

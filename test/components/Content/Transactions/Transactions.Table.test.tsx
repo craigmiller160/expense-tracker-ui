@@ -2,7 +2,7 @@ import { apiServer } from '../../../server';
 import { renderApp } from '../../../testutils/renderApp';
 import { screen, waitFor, within } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import userEvent from '@testing-library/user-event';
+import userEvents from '@testing-library/user-event';
 import { searchForTransactions } from '../../../../src/ajaxapi/service/TransactionService';
 import { SortDirection, TransactionSortKey } from '../../../../src/types/misc';
 import { getAllCategories } from '../../../../src/ajaxapi/service/CategoryService';
@@ -212,7 +212,7 @@ describe('Transactions Table', () => {
 		const notConfirmedConfirmCheckbox = within(notConfirmedRow).getByTestId(
 			'confirm-transaction-checkbox'
 		);
-		await userEvent.click(notConfirmedConfirmCheckbox);
+		await userEvents.click(notConfirmedConfirmCheckbox);
 		expect(
 			// eslint-disable-next-line testing-library/no-node-access
 			notConfirmedConfirmCheckbox.querySelector('input')
@@ -222,8 +222,8 @@ describe('Transactions Table', () => {
 		const noCategorySelect =
 			within(noCategoryRow).getByLabelText('Category');
 		expect(noCategorySelect).toHaveValue('');
-		await userEvent.click(noCategorySelect);
-		await userEvent.click(
+		await userEvents.click(noCategorySelect);
+		await userEvents.click(
 			within(screen.getByRole('presentation')).getByText('Entertainment')
 		);
 		expect(noCategorySelect).toHaveValue('Entertainment');
@@ -264,13 +264,13 @@ describe('Transactions Table', () => {
 			.querySelector('div.MuiTablePagination-select');
 		expect(rowsPerPageSelect).toBeVisible();
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		await userEvent.click(rowsPerPageSelect!);
+		await userEvents.click(rowsPerPageSelect!);
 
 		const allItemsWith10 = screen.getAllByText('10');
 		if (allItemsWith10.length === 2) {
-			await userEvent.click(screen.getAllByText('10')[1]);
+			await userEvents.click(screen.getAllByText('10')[1]);
 		} else {
-			await userEvent.click(screen.getAllByText('10')[0]);
+			await userEvents.click(screen.getAllByText('10')[0]);
 		}
 
 		await waitFor(() =>
@@ -326,7 +326,7 @@ describe('Transactions Table', () => {
 			.querySelector('button[title="Go to next page"]');
 		expect(nextPageButton).toBeVisible();
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		await userEvent.click(nextPageButton!);
+		await userEvents.click(nextPageButton!);
 
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
@@ -409,23 +409,23 @@ describe('Transactions Table', () => {
 		const row = screen.getAllByTestId('transaction-table-row')[0];
 		const rowCategorySelect = within(row).getByLabelText('Category');
 
-		await userEvent.click(rowCategorySelect);
+		await userEvents.click(rowCategorySelect);
 		expect(screen.queryByText('Groceries')).toBeVisible();
-		await userEvent.click(screen.getByText('Groceries'));
+		await userEvents.click(screen.getByText('Groceries'));
 		expect(rowCategorySelect).toHaveValue('Groceries');
 
 		const confirmCheckbox = within(row).getByTestId(
 			'confirm-transaction-checkbox'
 		);
-		await userEvent.click(confirmCheckbox);
+		await userEvents.click(confirmCheckbox);
 		// The auto-confirm means that this operation needs to be negated first
 		// eslint-disable-next-line testing-library/no-node-access
 		expect(confirmCheckbox.querySelector('input')).not.toBeChecked();
-		await userEvent.click(confirmCheckbox);
+		await userEvents.click(confirmCheckbox);
 		// eslint-disable-next-line testing-library/no-node-access
 		expect(confirmCheckbox.querySelector('input')).toBeChecked();
 
-		await userEvent.click(screen.getByText('Save'));
+		await userEvents.click(screen.getByText('Save'));
 		await waitFor(() =>
 			expect(screen.queryByTestId('table-loading')).toBeVisible()
 		);
@@ -497,9 +497,9 @@ describe('Transactions Table', () => {
 			// eslint-disable-next-line testing-library/no-node-access
 			.querySelector('.MuiAutocomplete-clearIndicator');
 		expect(clearButton).toBeTruthy();
-		await userEvent.click(clearButton!); // eslint-disable-line @typescript-eslint/no-non-null-assertion
+		await userEvents.click(clearButton!); // eslint-disable-line @typescript-eslint/no-non-null-assertion
 
-		await userEvent.click(screen.getByText('Save'));
+		await userEvents.click(screen.getByText('Save'));
 
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
@@ -549,10 +549,10 @@ describe('Transactions Table', () => {
 
 		validateCheckboxes(false);
 
-		await userEvent.click(screen.getByLabelText('Confirm All'));
+		await userEvents.click(screen.getByLabelText('Confirm All'));
 		validateCheckboxes(true);
 
-		await userEvent.click(screen.getAllByText('Reset')[1]);
+		await userEvents.click(screen.getAllByText('Reset')[1]);
 		validateCheckboxes(false);
 	});
 });

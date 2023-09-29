@@ -1,10 +1,10 @@
-.AutoCategorizeRuleTableRow {
-  .ActionsCell {
+.auto-categorize-rule-table-row {
+  .actions-cell {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
 
-    .ReOrderButtons {
+    .re-order-buttons {
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -14,7 +14,7 @@
       }
     }
 
-    .DetailsButton {
+    .details-button {
       display: flex;
       flex-direction: column;
       justify-content: center;

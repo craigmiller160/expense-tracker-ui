@@ -71,7 +71,7 @@ export const RuleTableRow = (props: Props) => {
 			: 'DownButton';
 
 	return (
-		<TableRow className="AutoCategorizeRuleTableRow">
+		<TableRow className="auto-categorize-rule-table-row">
 			<TableCell>{props.rule.ordinal}</TableCell>
 			<TableCell>{props.rule.categoryName}</TableCell>
 			<TableCell>
@@ -79,8 +79,8 @@ export const RuleTableRow = (props: Props) => {
 			</TableCell>
 			{props.actions && (
 				<TableCell>
-					<div className="ActionsCell">
-						<div className="ReOrderButtons">
+					<div className="actions-cell">
+						<div className="re-order-buttons">
 							<Button
 								className={upClassName}
 								onClick={() =>
@@ -102,7 +102,7 @@ export const RuleTableRow = (props: Props) => {
 								<ArrowDropDownIcon />
 							</Button>
 						</div>
-						<div className="DetailsButton">
+						<div className="details-button">
 							<Button
 								className="RuleDetailsButton"
 								variant="contained"

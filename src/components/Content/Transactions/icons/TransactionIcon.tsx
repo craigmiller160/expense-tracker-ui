@@ -19,7 +19,7 @@ const conditionalVisible = (condition: boolean): string =>
 	condition ? 'visible' : '';
 
 export const TransactionIcon = (props: Props) => {
-	const className = `TransactionIcon ${conditionalVisible(props.isVisible)}`;
+	const className = `transaction-icon ${conditionalVisible(props.isVisible)}`;
 
 	return (
 		<Popover

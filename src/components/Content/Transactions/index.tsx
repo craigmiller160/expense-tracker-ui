@@ -71,7 +71,7 @@ export const Transactions = () => {
 	} = useTransactionDetailsDialogActions();
 
 	return (
-		<PageResponsiveWrapper className="ManageTransactions">
+		<PageResponsiveWrapper className="manage-transactions">
 			<PageTitle title="Manage Transactions" />
 			<TransactionSearchFilters
 				form={form}

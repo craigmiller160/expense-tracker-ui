@@ -67,7 +67,7 @@ export const TransactionSearchFilters = (props: Props) => {
 
 	return (
 		<Paper
-			className="TransactionSearchFilters"
+			className="transaction-search-filters"
 			data-testid="transaction-filters"
 		>
 			<form onSubmit={constVoid}>

@@ -8,7 +8,7 @@ const getConfirmCheckboxes = (): Chainable<JQuery> =>
 		'.ManageTransactions table [data-testid="confirm-transaction-checkbox"] input'
 	);
 const getCategorySelects = (): Chainable<JQuery> =>
-	cy.get('.ManageTransactions table .CategoryCell input');
+	cy.get('.ManageTransactions table .category-cell input');
 const getAddTransactionButton = (): Chainable<JQuery> =>
 	cy.get('#add-transaction-button');
 const getDeleteAllUnconfirmedTransactionsButton = () =>
@@ -16,7 +16,7 @@ const getDeleteAllUnconfirmedTransactionsButton = () =>
 const getResetButton = (): Chainable<JQuery> =>
 	cy
 		.get(
-			'.ManageTransactions .TransactionsTable .BelowTableActionWrapper button'
+			'.ManageTransactions .transactions-table .BelowTableActionWrapper button'
 		)
 		.eq(0);
 

@@ -61,7 +61,7 @@ const createEditModeColumns = (
 	control: Control<TransactionTableForm>
 ): ReadonlyArray<string | ReactNode> => [
 	<Checkbox
-		className="ConfirmAllCheckbox"
+		className="confirm-all-checkbox"
 		key="confirmAll"
 		control={control}
 		name="confirmAll"
@@ -194,7 +194,7 @@ export const TransactionTable = memo((props: Props) => {
 	);
 
 	return (
-		<div className={`TransactionsTable ${editClass}`}>
+		<div className={`transactions-table ${editClass}`}>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<Table
 					columns={editMode ? editModeColumns : COLUMNS}
@@ -215,7 +215,7 @@ export const TransactionTable = memo((props: Props) => {
 								data-testid="transaction-table-row"
 							>
 								{editMode && (
-									<TableCell className="ConfirmedCell">
+									<TableCell className="confirmed-cell">
 										{!txn.confirmed && (
 											<Checkbox
 												testId="confirm-transaction-checkbox"
@@ -231,7 +231,7 @@ export const TransactionTable = memo((props: Props) => {
 									{txn.expenseDate}
 								</TableCell>
 								<TableCell
-									className="DescriptionCell"
+									className="description-cell"
 									data-testid="transaction-description"
 								>
 									{txn.description}
@@ -240,7 +240,7 @@ export const TransactionTable = memo((props: Props) => {
 									{formatCurrency(txn.amount)}
 								</TableCell>
 								<TableCell
-									className={`CategoryCell ${editClass}`}
+									className={`category-cell ${editClass}`}
 								>
 									{editMode && (
 										<Autocomplete
@@ -254,8 +254,8 @@ export const TransactionTable = memo((props: Props) => {
 									{!editMode && txn.categoryName}
 								</TableCell>
 								<TableCell>
-									<div className="FlagsWrapper">
-										<div className="FlagRow">
+									<div className="flags-wrapper">
+										<div className="flag-row">
 											<NotConfirmedIcon
 												transaction={
 													watchedTransactions[index]
@@ -263,7 +263,7 @@ export const TransactionTable = memo((props: Props) => {
 											/>
 											<DuplicateIcon transaction={txn} />
 										</div>
-										<div className="FlagRow">
+										<div className="flag-row">
 											<NotCategorizedIcon
 												transaction={
 													watchedTransactions[index]

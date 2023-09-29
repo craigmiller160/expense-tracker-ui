@@ -13,7 +13,7 @@ import {
 	UpdateTransactionDetailsRequest,
 	UpdateTransactionsRequest
 } from '../../types/generated/expense-tracker';
-import qs from 'qs';
+import { stringify } from 'qs';
 import { pipe } from 'fp-ts/function';
 import * as Option from 'fp-ts/Option';
 import { expenseTrackerApi, getData } from './AjaxApi';
@@ -43,7 +43,7 @@ const handleCategoryIds = (
 export const requestToQuery = (
 	request: EnhancedSearchTransactionsRequest
 ): string =>
-	qs.stringify({
+	stringify({
 		...request,
 		startDate: handleOptionalValue(request.startDate, formatServerDate),
 		endDate: handleOptionalValue(request.endDate, formatServerDate),

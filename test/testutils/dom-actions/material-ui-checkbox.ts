@@ -24,6 +24,7 @@ export const materialUiCheckbox = (selector: Selector): MaterialUiCheckbox => {
 	const checkbox = match(selector.type)
 		.with('testid', () => selectorParent.getByTestId(selector.selector))
 		.otherwise(() => selectorParent.getByLabelText(selector.selector));
+	// eslint-disable-next-line testing-library/no-node-access
 	const checkboxInput = checkbox.querySelector('input');
 
 	const click: NoArgVoidFn = () => userEvent.click(checkbox);

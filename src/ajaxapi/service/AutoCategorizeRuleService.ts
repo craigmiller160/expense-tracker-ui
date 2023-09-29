@@ -4,7 +4,7 @@ import {
 	AutoCategorizeRuleResponse,
 	MaxOrdinalResponse
 } from '../../types/generated/expense-tracker';
-import qs from 'qs';
+import { stringify } from 'qs';
 import { expenseTrackerApi, getData } from './AjaxApi';
 import { AutoCategorizeRulePageRequest } from '../../types/rules';
 
@@ -12,7 +12,7 @@ export const getAllRules = (
 	request: AutoCategorizeRulePageRequest,
 	signal?: AbortSignal
 ): Promise<AutoCategorizeRulePageResponse> => {
-	const query = qs.stringify(request);
+	const query = stringify(request);
 	return expenseTrackerApi
 		.get<AutoCategorizeRulePageResponse>({
 			uri: `/categories/rules?${query}`,

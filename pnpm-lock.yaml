@@ -9,8 +9,8 @@ dependencies:
     specifier: 2.2.0-beta.10
     version: 2.2.0-beta.10(axios@1.5.0)
   '@craigmiller160/js-config':
-    specifier: 1.0.0-beta.1
-    version: 1.0.0-beta.1(@relmify/jest-fp-ts@2.1.1)(@testing-library/dom@9.3.3)(@types/node@18.14.0)(cypress@13.1.0)(fp-ts@2.16.1)(io-ts@2.2.20)(ts-pattern@5.0.5)(vitest@0.34.5)
+    specifier: file:.yalc/@craigmiller160/js-config
+    version: file:.yalc/@craigmiller160/js-config(@relmify/jest-fp-ts@2.1.1)(@testing-library/dom@9.3.3)(@types/node@18.14.0)(cypress@13.1.0)(fp-ts@2.16.1)(io-ts@2.2.20)(ts-pattern@5.0.5)(vitest@0.34.5)
   '@craigmiller160/react-hook-form-material-ui':
     specifier: 1.5.0-beta.1
     version: 1.5.0-beta.1(@mui/material@5.13.5)(@mui/x-date-pickers@5.0.0-alpha.7)(date-fns@2.29.3)(react-hook-form@7.44.3)(react@18.2.0)
@@ -372,73 +372,6 @@ packages:
       axios: ^1.4.0
     dependencies:
       axios: 1.5.0
-    dev: false
-
-  /@craigmiller160/js-config@1.0.0-beta.1(@relmify/jest-fp-ts@2.1.1)(@testing-library/dom@9.3.3)(@types/node@18.14.0)(cypress@13.1.0)(fp-ts@2.16.1)(io-ts@2.2.20)(ts-pattern@5.0.5)(vitest@0.34.5):
-    resolution: {integrity: sha512-3tmQcJ/56UPRn5xtWTEumYMmWiFx3mM2QL1C3WmmdXntO8NpIuEzy32qT3VlYjjAYTgS8zf8ndb5pEQlbSvzbw==}
-    hasBin: true
-    requiresBuild: true
-    peerDependencies:
-      '@relmify/jest-fp-ts': ^2.1.1
-      cypress: '>=13.0.0'
-      fp-ts: ^2.16.1
-      io-ts: ^2.2.20
-      ts-pattern: ^5.0.5
-      vitest: ^0.34.3
-    peerDependenciesMeta:
-      '@relmify/jest-fp-ts':
-        optional: true
-      cypress:
-        optional: true
-    dependencies:
-      '@relmify/jest-fp-ts': 2.1.1(fp-ts@2.16.1)(io-ts@2.2.20)
-      '@swc/core': 1.3.85
-      '@typescript-eslint/eslint-plugin': 6.7.0(@typescript-eslint/parser@6.7.0)(eslint@8.48.0)(typescript@5.2.2)
-      '@typescript-eslint/parser': 6.7.0(eslint@8.48.0)(typescript@5.2.2)
-      '@vitejs/plugin-react-swc': 3.3.2(vite@4.4.9)
-      cypress: 13.1.0
-      eslint: 8.48.0
-      eslint-config-prettier: 9.0.0(eslint@8.48.0)
-      eslint-import-resolver-typescript: 3.6.0(@typescript-eslint/parser@6.7.0)(eslint-plugin-import@2.28.1)(eslint@8.48.0)
-      eslint-plugin-cypress: 2.14.0(eslint@8.48.0)
-      eslint-plugin-import: 2.28.1(@typescript-eslint/parser@6.7.0)(eslint-import-resolver-typescript@3.6.0)(eslint@8.48.0)
-      eslint-plugin-jest-dom: 5.1.0(@testing-library/dom@9.3.3)(eslint@8.48.0)
-      eslint-plugin-jsx-a11y: 6.7.1(eslint@8.48.0)
-      eslint-plugin-prettier: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.48.0)(prettier@3.0.3)
-      eslint-plugin-react: 7.33.2(eslint@8.48.0)
-      eslint-plugin-react-hooks: 4.6.0(eslint@8.48.0)
-      eslint-plugin-sonarjs: 0.21.0(eslint@8.48.0)
-      eslint-plugin-testing-library: 6.0.1(eslint@8.48.0)(typescript@5.2.2)
-      eslint-plugin-vitest: 0.3.1(@typescript-eslint/eslint-plugin@6.7.0)(eslint@8.48.0)(vitest@0.34.5)
-      fp-ts: 2.16.1
-      husky: 8.0.3
-      io-ts: 2.2.20(fp-ts@2.16.1)
-      io-ts-reporters: 2.0.1(fp-ts@2.16.1)(io-ts@2.2.20)
-      lint-staged: 14.0.1
-      postcss: 8.4.29
-      prettier: 3.0.3
-      sass: 1.67.0
-      stylelint: 15.10.3(typescript@5.2.2)
-      stylelint-config-standard-scss: 11.0.0(postcss@8.4.29)(stylelint@15.10.3)
-      ts-pattern: 5.0.5
-      typescript: 5.2.2
-      vite: 4.4.9(@types/node@18.14.0)(sass@1.67.0)
-      vitest: 0.34.5
-      winston: 3.10.0
-    transitivePeerDependencies:
-      - '@swc/helpers'
-      - '@testing-library/dom'
-      - '@types/eslint'
-      - '@types/node'
-      - enquirer
-      - eslint-import-resolver-node
-      - eslint-import-resolver-webpack
-      - less
-      - lightningcss
-      - stylus
-      - sugarss
-      - supports-color
-      - terser
     dev: false
 
   /@craigmiller160/keycloak-js@1.0.0-beta.4:
@@ -1340,28 +1273,10 @@ packages:
   /@sinclair/typebox@0.27.8:
     resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
 
-  /@swc/core-darwin-arm64@1.3.62:
-    resolution: {integrity: sha512-MmGilibITz68LEje6vJlKzc2gUUSgzvB3wGLSjEORikTNeM7P8jXVxE4A8fgZqDeudJUm9HVWrxCV+pHDSwXhA==}
-    engines: {node: '>=10'}
-    cpu: [arm64]
-    os: [darwin]
-    requiresBuild: true
-    dev: false
-    optional: true
-
   /@swc/core-darwin-arm64@1.3.85:
     resolution: {integrity: sha512-jTikp+i4nO4Ofe6qGm4I3sFeebD1OvueBCHITux5tQKD6umN1c2z4CRGv6K49NIz/qEpUcdr6Qny6K+3yibVFQ==}
     engines: {node: '>=10'}
     cpu: [arm64]
-    os: [darwin]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  /@swc/core-darwin-x64@1.3.62:
-    resolution: {integrity: sha512-Xl93MMB3sCWVlYWuQIB+v6EQgzoiuQYK5tNt9lsHoIEVu2zLdkQjae+5FUHZb1VYqCXIiWcULFfVz0R4Sjb7JQ==}
-    engines: {node: '>=10'}
-    cpu: [x64]
     os: [darwin]
     requiresBuild: true
     dev: false
@@ -1376,30 +1291,11 @@ packages:
     dev: false
     optional: true
 
-  /@swc/core-linux-arm-gnueabihf@1.3.62:
-    resolution: {integrity: sha512-nJsp6O7kCtAjTTMcIjVB0g5y1JNiYAa5q630eiwrnaHUusEFoANDdORI3Z9vXeikMkng+6yIv9/V8Rb093xLjQ==}
-    engines: {node: '>=10'}
-    cpu: [arm]
-    os: [linux]
-    requiresBuild: true
-    dev: false
-    optional: true
-
   /@swc/core-linux-arm-gnueabihf@1.3.85:
     resolution: {integrity: sha512-ouHzAHsFaEOkRuoTAOI/8n2m8BQAAnb4vr/xbMhhDOmix0lp5eNsW5Iac/EcJ2uG6B3n7P2K8oycj9SWkj+pfw==}
     engines: {node: '>=10'}
     cpu: [arm]
     os: [linux]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  /@swc/core-linux-arm64-gnu@1.3.62:
-    resolution: {integrity: sha512-XGsV93vpUAopDt5y6vPwbK1Nc/MlL55L77bAZUPIiosWD1cWWPHNtNSpriE6+I+JiMHe0pqtfS/SSTk6ZkFQVw==}
-    engines: {node: '>=10'}
-    cpu: [arm64]
-    os: [linux]
-    libc: [glibc]
     requiresBuild: true
     dev: false
     optional: true
@@ -1414,32 +1310,12 @@ packages:
     dev: false
     optional: true
 
-  /@swc/core-linux-arm64-musl@1.3.62:
-    resolution: {integrity: sha512-ESUmJjSlTTkoBy9dMG49opcNn8BmviqStMhwyeD1G8XRnmRVCZZgoBOKdvCXmJhw8bQXDhZumeaTUB+OFUKVXg==}
-    engines: {node: '>=10'}
-    cpu: [arm64]
-    os: [linux]
-    libc: [musl]
-    requiresBuild: true
-    dev: false
-    optional: true
-
   /@swc/core-linux-arm64-musl@1.3.85:
     resolution: {integrity: sha512-gfh7CfKavi076dbMBTzfdawSGcYfZ4+1Q+8aRkSesqepKHcIWIJti8Cf3zB4a6CHNhJe+VN0Gb7DEfumydAm1w==}
     engines: {node: '>=10'}
     cpu: [arm64]
     os: [linux]
     libc: [musl]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  /@swc/core-linux-x64-gnu@1.3.62:
-    resolution: {integrity: sha512-wnHJkt3ZBrax3SFnUHDcncG6mrSg9ZZjMhQV9Mc3JL1x1s1Gy9rGZCoBNnV/BUZWTemxIBcQbANRSDut/WO+9A==}
-    engines: {node: '>=10'}
-    cpu: [x64]
-    os: [linux]
-    libc: [glibc]
     requiresBuild: true
     dev: false
     optional: true
@@ -1454,16 +1330,6 @@ packages:
     dev: false
     optional: true
 
-  /@swc/core-linux-x64-musl@1.3.62:
-    resolution: {integrity: sha512-9oRbuTC/VshB66Rgwi3pTq3sPxSTIb8k9L1vJjES+dDMKa29DAjPtWCXG/pyZ00ufpFZgkGEuAHH5uqUcr1JQg==}
-    engines: {node: '>=10'}
-    cpu: [x64]
-    os: [linux]
-    libc: [musl]
-    requiresBuild: true
-    dev: false
-    optional: true
-
   /@swc/core-linux-x64-musl@1.3.85:
     resolution: {integrity: sha512-EPJmlfqC05TUetnlErxNRyIp7Nc3B2w9abET6oQ/EgldeAeQnZ3M6svMViET/c2QSomgrU3rdP+Qcozkt62/4A==}
     engines: {node: '>=10'}
@@ -1474,28 +1340,10 @@ packages:
     dev: false
     optional: true
 
-  /@swc/core-win32-arm64-msvc@1.3.62:
-    resolution: {integrity: sha512-zv14vlF2VRrxS061XkfzGjCYnOrEo5glKJjLK5PwUKysIoVrx/L8nAbFxjkX5cObdlyoqo+ekelyBPAO+4bS0w==}
-    engines: {node: '>=10'}
-    cpu: [arm64]
-    os: [win32]
-    requiresBuild: true
-    dev: false
-    optional: true
-
   /@swc/core-win32-arm64-msvc@1.3.85:
     resolution: {integrity: sha512-ibckJDZw8kNosciMexwk0z75ZyUhwtiFMV9rSBpup0opa7NNCUCoERCJ1e9LRyMdhsVUoLpZg/KZiHCdTw96hQ==}
     engines: {node: '>=10'}
     cpu: [arm64]
-    os: [win32]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  /@swc/core-win32-ia32-msvc@1.3.62:
-    resolution: {integrity: sha512-8MC/PZQSsOP2iA/81tAfNRqMWyEqTS/8zKUI67vPuLvpx6NAjRn3E9qBv7iFqH79iqZNzqSMo3awnLrKZyFbcw==}
-    engines: {node: '>=10'}
-    cpu: [ia32]
     os: [win32]
     requiresBuild: true
     dev: false
@@ -1510,15 +1358,6 @@ packages:
     dev: false
     optional: true
 
-  /@swc/core-win32-x64-msvc@1.3.62:
-    resolution: {integrity: sha512-GJSmUJ95HKHZXAxiuPUmrcm/S3ivQvEzXhOZaIqYBIwUsm02vFZkClsV7eIKzWjso1t0+I/8MjrnUNaSWqh1rQ==}
-    engines: {node: '>=10'}
-    cpu: [x64]
-    os: [win32]
-    requiresBuild: true
-    dev: false
-    optional: true
-
   /@swc/core-win32-x64-msvc@1.3.85:
     resolution: {integrity: sha512-ktxWOMFJ0iqKn6WUHtXqi4CS7xkyHmrRtjllGRuGqxmLmDX/HSOfuQ55Tm1KXKk5oHLacJkUbOSF2kBrpZ8dpg==}
     engines: {node: '>=10'}
@@ -1527,28 +1366,6 @@ packages:
     requiresBuild: true
     dev: false
     optional: true
-
-  /@swc/core@1.3.62:
-    resolution: {integrity: sha512-J58hWY+/G8vOr4J6ZH9hLg0lMSijZtqIIf4HofZezGog/pVX6sJyBJ40dZ1ploFkDIlWTWvJyqtpesBKS73gkQ==}
-    engines: {node: '>=10'}
-    requiresBuild: true
-    peerDependencies:
-      '@swc/helpers': ^0.5.0
-    peerDependenciesMeta:
-      '@swc/helpers':
-        optional: true
-    optionalDependencies:
-      '@swc/core-darwin-arm64': 1.3.62
-      '@swc/core-darwin-x64': 1.3.62
-      '@swc/core-linux-arm-gnueabihf': 1.3.62
-      '@swc/core-linux-arm64-gnu': 1.3.62
-      '@swc/core-linux-arm64-musl': 1.3.62
-      '@swc/core-linux-x64-gnu': 1.3.62
-      '@swc/core-linux-x64-musl': 1.3.62
-      '@swc/core-win32-arm64-msvc': 1.3.62
-      '@swc/core-win32-ia32-msvc': 1.3.62
-      '@swc/core-win32-x64-msvc': 1.3.62
-    dev: false
 
   /@swc/core@1.3.85:
     resolution: {integrity: sha512-qnoxp+2O0GtvRdYnXgR1v8J7iymGGYpx6f6yCK9KxipOZOjrlKILFANYlghQxZyPUfXwK++TFxfSlX4r9wK+kg==}
@@ -2057,7 +1874,7 @@ packages:
     peerDependencies:
       vite: ^4
     dependencies:
-      '@swc/core': 1.3.62
+      '@swc/core': 1.3.85
       vite: 4.4.9(@types/node@18.14.0)(sass@1.67.0)
     transitivePeerDependencies:
       - '@swc/helpers'
@@ -7189,3 +7006,72 @@ packages:
   /yocto-queue@1.0.0:
     resolution: {integrity: sha512-9bnSc/HEW2uRy67wc+T8UwauLuPJVn28jb+GtJY16iiKWyvmYJRXVT4UamsAEGQfPohgr2q4Tq0sQbQlxTfi1g==}
     engines: {node: '>=12.20'}
+
+  file:.yalc/@craigmiller160/js-config(@relmify/jest-fp-ts@2.1.1)(@testing-library/dom@9.3.3)(@types/node@18.14.0)(cypress@13.1.0)(fp-ts@2.16.1)(io-ts@2.2.20)(ts-pattern@5.0.5)(vitest@0.34.5):
+    resolution: {directory: .yalc/@craigmiller160/js-config, type: directory}
+    id: file:.yalc/@craigmiller160/js-config
+    name: '@craigmiller160/js-config'
+    hasBin: true
+    requiresBuild: true
+    peerDependencies:
+      '@relmify/jest-fp-ts': ^2.1.1
+      cypress: '>=13.0.0'
+      fp-ts: ^2.16.1
+      io-ts: ^2.2.20
+      ts-pattern: ^5.0.5
+      vitest: ^0.34.3
+    peerDependenciesMeta:
+      '@relmify/jest-fp-ts':
+        optional: true
+      cypress:
+        optional: true
+    dependencies:
+      '@relmify/jest-fp-ts': 2.1.1(fp-ts@2.16.1)(io-ts@2.2.20)
+      '@swc/core': 1.3.85
+      '@typescript-eslint/eslint-plugin': 6.7.0(@typescript-eslint/parser@6.7.0)(eslint@8.48.0)(typescript@5.2.2)
+      '@typescript-eslint/parser': 6.7.0(eslint@8.48.0)(typescript@5.2.2)
+      '@vitejs/plugin-react-swc': 3.3.2(vite@4.4.9)
+      cypress: 13.1.0
+      eslint: 8.48.0
+      eslint-config-prettier: 9.0.0(eslint@8.48.0)
+      eslint-import-resolver-typescript: 3.6.0(@typescript-eslint/parser@6.7.0)(eslint-plugin-import@2.28.1)(eslint@8.48.0)
+      eslint-plugin-cypress: 2.14.0(eslint@8.48.0)
+      eslint-plugin-import: 2.28.1(@typescript-eslint/parser@6.7.0)(eslint-import-resolver-typescript@3.6.0)(eslint@8.48.0)
+      eslint-plugin-jest-dom: 5.1.0(@testing-library/dom@9.3.3)(eslint@8.48.0)
+      eslint-plugin-jsx-a11y: 6.7.1(eslint@8.48.0)
+      eslint-plugin-prettier: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.48.0)(prettier@3.0.3)
+      eslint-plugin-react: 7.33.2(eslint@8.48.0)
+      eslint-plugin-react-hooks: 4.6.0(eslint@8.48.0)
+      eslint-plugin-sonarjs: 0.21.0(eslint@8.48.0)
+      eslint-plugin-testing-library: 6.0.1(eslint@8.48.0)(typescript@5.2.2)
+      eslint-plugin-vitest: 0.3.1(@typescript-eslint/eslint-plugin@6.7.0)(eslint@8.48.0)(vitest@0.34.5)
+      fp-ts: 2.16.1
+      husky: 8.0.3
+      io-ts: 2.2.20(fp-ts@2.16.1)
+      io-ts-reporters: 2.0.1(fp-ts@2.16.1)(io-ts@2.2.20)
+      lint-staged: 14.0.1
+      postcss: 8.4.29
+      prettier: 3.0.3
+      sass: 1.67.0
+      stylelint: 15.10.3(typescript@5.2.2)
+      stylelint-config-standard-scss: 11.0.0(postcss@8.4.29)(stylelint@15.10.3)
+      ts-pattern: 5.0.5
+      typescript: 5.2.2
+      vite: 4.4.9(@types/node@18.14.0)(sass@1.67.0)
+      vitest: 0.34.5
+      winston: 3.10.0
+    transitivePeerDependencies:
+      - '@swc/helpers'
+      - '@testing-library/dom'
+      - '@types/eslint'
+      - '@types/node'
+      - enquirer
+      - eslint-import-resolver-node
+      - eslint-import-resolver-webpack
+      - less
+      - lightningcss
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+    dev: false

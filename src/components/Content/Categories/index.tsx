@@ -158,9 +158,9 @@ export const Categories = () => {
 	];
 
 	return (
-		<PageResponsiveWrapper className="Categories">
+		<PageResponsiveWrapper className="categories">
 			<PageTitle title="Manage Categories" />
-			<div className="TableWrapper">
+			<div className="table-wrapper">
 				<Table
 					columns={COLUMNS}
 					loading={isLoading}

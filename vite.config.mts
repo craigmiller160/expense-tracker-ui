@@ -1,5 +1,4 @@
 import { defineConfig } from '@craigmiller160/js-config/configs/vite/vite.config.mjs';
-import path from 'path';
 
 export default defineConfig({
     server: {

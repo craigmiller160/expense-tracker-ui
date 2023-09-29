@@ -37,6 +37,7 @@
 
   .Info {
     @include Section;
+
     width: 100%;
     display: flex;
     flex-direction: column;

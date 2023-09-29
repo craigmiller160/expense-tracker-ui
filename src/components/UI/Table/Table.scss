@@ -15,8 +15,10 @@
 
   .ActionWrapper {
     $spacing: 0.5rem;
+
     padding: $spacing;
     min-width: 100%;
+
     @include RightAlign;
 
     >* {

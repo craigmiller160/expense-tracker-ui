@@ -60,40 +60,28 @@ describe('Transactions Table', () => {
 		const transactionFilters = screen.getByTestId('transaction-filters');
 
 		expect(
-			within(transactionFilters).queryByLabelText('Start Date')
+			within(transactionFilters).getByLabelText('Start Date')
 		).toHaveValue(formatDisplayDate(defaultStartDate()));
 		expect(
-			within(transactionFilters).queryByLabelText('End Date')
+			within(transactionFilters).getByLabelText('End Date')
 		).toHaveValue(formatDisplayDate(defaultEndDate()));
-		expect(
-			within(transactionFilters).queryByLabelText('Category')
-		).toBeVisible();
+		within(transactionFilters).getByLabelText('Category')
 		expect(getSelectValueElement('Category')).toHaveTextContent('');
-		expect(
-			within(transactionFilters).queryByLabelText('Order By')
-		).toBeInTheDocument();
+		within(transactionFilters).getByLabelText('Order By');
 		expect(getOrderByValueElement()).toHaveTextContent('Newest to Oldest');
-		expect(
-			within(transactionFilters).queryByLabelText('Duplicate')
-		).toBeInTheDocument();
+		within(transactionFilters).getByLabelText('Duplicate')
 		expect(getSelectValueElement('Duplicate')).toHaveTextContent('All');
-		expect(
-			within(transactionFilters).queryByLabelText('Confirmed')
-		).toBeInTheDocument();
+		within(transactionFilters).getByLabelText('Confirmed')
 		expect(getSelectValueElement('Confirmed')).toHaveTextContent('All');
-		expect(
-			within(transactionFilters).queryByLabelText('Categorized')
-		).toBeInTheDocument();
+		within(transactionFilters).getByLabelText('Categorized')
 		expect(getSelectValueElement('Categorized')).toHaveTextContent('All');
-		expect(
-			within(transactionFilters).queryByLabelText('Possible Refund')
-		).toBeInTheDocument();
+		within(transactionFilters).getByLabelText('Possible Refund');
 		expect(getSelectValueElement('Possible Refund')).toHaveTextContent(
 			'All'
 		);
 
 		await waitFor(() =>
-			expect(screen.queryByText('Rows per page:')).toBeVisible()
+			expect(screen.getByText('Rows per page:')).toBeVisible()
 		);
 
 		await validateTransactionsInTable(25, (index, description) => {
@@ -396,6 +384,7 @@ describe('Transactions Table', () => {
 		]);
 
 		const allRows = screen.getAllByTestId('transaction-table-row');
+		expect(allRows).toHaveLength(2);
 
 		transactionIcon('possible-refund-icon', allRows[0]).isVisible();
 		transactionIcon('possible-refund-icon', allRows[1]).isNotVisible();

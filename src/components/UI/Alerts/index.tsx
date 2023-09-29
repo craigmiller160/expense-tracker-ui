@@ -51,7 +51,7 @@ export const Alerts = () => {
 	}, [setState, removeAlert]);
 
 	return (
-		<div className="Alerts">
+		<div className="alerts">
 			<Stack sx={{ width: '50%' }}>
 				{state.alerts.map((alert) => (
 					<Alert

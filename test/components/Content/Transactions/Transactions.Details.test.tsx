@@ -56,11 +56,7 @@ describe('Transaction Details Dialog', () => {
 			{ text: 'Rows per page:' }
 		]);
 
-		await waitFor(() =>
-			expect(
-				screen.queryByText(transaction.description)
-			).toBeInTheDocument()
-		);
+		await screen.findByText(transaction.description);
 
 		const row = screen.getAllByTestId('transaction-table-row')[0];
 		const detailsButton = within(row).getByText('Details');

@@ -329,7 +329,7 @@ describe('Transactions Table', () => {
 			);
 			expect(Time.compare(expenseDate)(endDate)).toBeLessThanOrEqual(0);
 		});
-		expect(getRecordRangeText()).toEqual(`1-25 of ${totalDaysInRange}`);
+		expect(getRecordRangeText()).toBe(`1-25 of ${totalDaysInRange}`);
 
 		const nextPageButton = screen
 			.getByTestId('table-pagination')
@@ -344,7 +344,7 @@ describe('Transactions Table', () => {
 		await waitFor(() =>
 			expect(screen.queryByText(/.*26–\d+ of \d.*/)).toBeVisible()
 		);
-		expect(getRecordRangeText()).toEqual(
+		expect(getRecordRangeText()).toBe(
 			`26-${totalDaysInRange} of ${totalDaysInRange}`
 		);
 		const expectedSecondPageCount = totalDaysInRange - 25;

@@ -86,8 +86,8 @@ export const validateTransactionsInTable = async (
 	count: number,
 	validateDescription: ValidateDescription
 ) => {
-	const descriptions = await waitFor(() =>
-		screen.getAllByTestId('transaction-description')
+	const descriptions = await screen.findAllByTestId(
+		'transaction-description'
 	);
 	expect(descriptions).toHaveLength(count);
 	const result = pipe(

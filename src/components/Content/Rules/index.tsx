@@ -20,14 +20,13 @@ const useOnValueHasChanged = (
 	handleSubmit: UseFormHandleSubmit<RulesFiltersFormData>,
 	setPaginationState: Updater<PaginationState>
 ) => {
-	const submitFn = handleSubmit(() =>
+	return handleSubmit(() =>
 		setPaginationState((draft) => {
 			if (draft.pageNumber !== 0) {
 				draft.pageNumber = 0;
 			}
 		})
 	);
-	return submitFn;
 };
 
 type DialogState = {

@@ -12,7 +12,7 @@ const END_DATE = '2022-01-31';
 describe('Reports utils', () => {
 	it('getMonthLink', () => {
 		const link = getMonthLink(DATE);
-		expect(link).toEqual(
+		expect(link).toBe(
 			`/expense-tracker/transactions?startDate=${START_DATE}&endDate=${END_DATE}`
 		);
 	});
@@ -23,7 +23,7 @@ describe('Reports utils', () => {
 			CATEGORY_ID,
 			UNKNOWN_CATEGORY_ID
 		);
-		expect(link).toEqual(
+		expect(link).toBe(
 			`/expense-tracker/transactions?startDate=${START_DATE}&endDate=${END_DATE}&category=${CATEGORY_ID}`
 		);
 	});
@@ -34,7 +34,7 @@ describe('Reports utils', () => {
 			UNKNOWN_CATEGORY_ID,
 			UNKNOWN_CATEGORY_ID
 		);
-		expect(link).toEqual(
+		expect(link).toBe(
 			`/expense-tracker/transactions?startDate=${START_DATE}&endDate=${END_DATE}&categorized=NO`
 		);
 	});

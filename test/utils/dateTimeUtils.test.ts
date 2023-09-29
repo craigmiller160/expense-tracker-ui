@@ -51,7 +51,7 @@ describe('dateTimeUtils', () => {
 
 	it('formatServerDate', () => {
 		const date = createDate();
-		expect(formatServerDate(date)).toEqual('2022-02-01');
+		expect(formatServerDate(date)).toBe('2022-02-01');
 	});
 
 	it('parseDisplayDate', () => {
@@ -62,7 +62,7 @@ describe('dateTimeUtils', () => {
 
 	it('formatDisplayDate', () => {
 		const date = createDate();
-		expect(formatDisplayDate(date)).toEqual('02/01/2022');
+		expect(formatDisplayDate(date)).toBe('02/01/2022');
 	});
 
 	it('parseServerDateTime', () => {
@@ -142,14 +142,12 @@ describe('dateTimeUtils', () => {
 		const date1 = '2022-01-01';
 		const date2 = '2022-02-01';
 
-		expect(compareServerDates(date1, date2, SortDirection.ASC)).toEqual(-1);
-		expect(compareServerDates(date1, date1, SortDirection.ASC)).toEqual(0);
-		expect(compareServerDates(date2, date1, SortDirection.ASC)).toEqual(1);
+		expect(compareServerDates(date1, date2, SortDirection.ASC)).toBe(-1);
+		expect(compareServerDates(date1, date1, SortDirection.ASC)).toBe(0);
+		expect(compareServerDates(date2, date1, SortDirection.ASC)).toBe(1);
 
-		expect(compareServerDates(date1, date2, SortDirection.DESC)).toEqual(1);
-		expect(compareServerDates(date1, date1, SortDirection.DESC)).toEqual(0);
-		expect(compareServerDates(date2, date1, SortDirection.DESC)).toEqual(
-			-1
-		);
+		expect(compareServerDates(date1, date2, SortDirection.DESC)).toBe(1);
+		expect(compareServerDates(date1, date1, SortDirection.DESC)).toBe(0);
+		expect(compareServerDates(date2, date1, SortDirection.DESC)).toBe(-1);
 	});
 });

@@ -1,4 +1,4 @@
-import { memo, useContext } from 'react';
+import { memo, useContext, ReactNode } from 'react';
 import { Table } from '../../UI/Table';
 import { Button, TableCell, TableRow } from '@mui/material';
 import {
@@ -18,7 +18,6 @@ import {
 	TransactionTableUseFormReturn
 } from './useHandleTransactionTableData';
 import { useIsEditMode } from './TransactionTableUtils';
-import { ReactNode } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
 import {
 	DeleteTransactionsResponse,

@@ -25,7 +25,7 @@ const props: TransactionTableProps = {
 
 describe('TransactionTable arePropsEqual', () => {
 	it('everything is equal', () => {
-		expect(arePropsEqual(props, props)).toEqual(true);
+		expect(arePropsEqual(props, props)).toBe(true);
 	});
 
 	it('function has changed, everything else is equal', () => {
@@ -36,7 +36,7 @@ describe('TransactionTable arePropsEqual', () => {
 		expect(props.onPaginationChange).not.toEqual(
 			newProps.onPaginationChange
 		);
-		expect(arePropsEqual(props, newProps)).toEqual(true);
+		expect(arePropsEqual(props, newProps)).toBe(true);
 	});
 
 	it('primitive value has changed', () => {
@@ -44,7 +44,7 @@ describe('TransactionTable arePropsEqual', () => {
 			...props,
 			isFetching: true
 		};
-		expect(arePropsEqual(props, newProps)).toEqual(false);
+		expect(arePropsEqual(props, newProps)).toBe(false);
 	});
 
 	it('object reference has changed', () => {
@@ -56,6 +56,6 @@ describe('TransactionTable arePropsEqual', () => {
 				currentPage: 1
 			}
 		};
-		expect(arePropsEqual(props, newProps)).toEqual(false);
+		expect(arePropsEqual(props, newProps)).toBe(false);
 	});
 });

@@ -117,7 +117,7 @@ describe('useSearchParamSync', () => {
 			const params = new URLSearchParams();
 			params.set('hello', 'world');
 			params.set('goodbye', 'universe');
-			expect(shouldSetParams(params, params)).toEqual(false);
+			expect(shouldSetParams(params, params)).toBe(false);
 		});
 
 		it('base params has more entries than new params', () => {
@@ -128,7 +128,7 @@ describe('useSearchParamSync', () => {
 			const newParams = new URLSearchParams();
 			newParams.set('hello', 'world');
 			newParams.set('goodbye', 'universe');
-			expect(shouldSetParams(baseParams, newParams)).toEqual(true);
+			expect(shouldSetParams(baseParams, newParams)).toBe(true);
 		});
 
 		it('new params has more entries than base params', () => {
@@ -139,7 +139,7 @@ describe('useSearchParamSync', () => {
 			newParams.set('hello', 'world');
 			newParams.set('goodbye', 'universe');
 			newParams.set('foo', 'bar');
-			expect(shouldSetParams(baseParams, newParams)).toEqual(true);
+			expect(shouldSetParams(baseParams, newParams)).toBe(true);
 		});
 
 		it('param values are different', () => {
@@ -149,7 +149,7 @@ describe('useSearchParamSync', () => {
 			const newParams = new URLSearchParams();
 			newParams.set('hello', 'world');
 			newParams.set('goodbye', 'galaxy');
-			expect(shouldSetParams(baseParams, newParams)).toEqual(true);
+			expect(shouldSetParams(baseParams, newParams)).toBe(true);
 		});
 	});
 

@@ -31,7 +31,7 @@ const useImportTransactions: UseImportTransactionsType = (onSuccess) => {
 
 const doRender = async () => {
 	render(<Import useImportTransactions={useImportTransactions} />);
-	await waitFor(() => screen.getByText('Import Transactions'));
+	await screen.findByText('Import Transactions');
 };
 
 describe('Transaction Import', () => {

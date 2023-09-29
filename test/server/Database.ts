@@ -1,6 +1,5 @@
 import { types } from '@craigmiller160/ts-functions';
-import produce from 'immer';
-import { Draft } from 'immer';
+import produce, { Draft } from 'immer';
 import * as Option from 'fp-ts/Option';
 import { DbRecord } from '../../src/types/db';
 import { v4 as uuidv4 } from 'uuid';

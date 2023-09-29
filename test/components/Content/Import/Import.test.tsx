@@ -5,7 +5,7 @@ import { Import } from '../../../../src/components/Content/Import';
 import { UseImportTransactionsType } from '../../../../src/ajaxapi/query/TransactionImportQueries';
 import { materialUiSelect } from '../../../testutils/dom-actions/material-ui-select';
 
-const mutate = jest.fn();
+const mutate = vi.fn();
 const file = new File([], 'Test.txt');
 
 const useImportTransactions: UseImportTransactionsType = (onSuccess) => {
@@ -17,7 +17,7 @@ const useImportTransactions: UseImportTransactionsType = (onSuccess) => {
 		isError: false,
 		failureCount: 0,
 		isPaused: false,
-		mutateAsync: jest.fn(),
+		mutateAsync: vi.fn(),
 		isSuccess: false,
 		data: undefined,
 		isIdle: true,

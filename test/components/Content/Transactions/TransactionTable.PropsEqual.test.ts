@@ -11,16 +11,16 @@ const props: TransactionTableProps = {
 		formReturn: {},
 		fields: []
 	},
-	onSubmit: jest.fn(),
+	onSubmit: vi.fn(),
 	isFetching: false,
-	openDetailsDialog: jest.fn(),
-	resetFormToData: jest.fn(),
+	openDetailsDialog: vi.fn(),
+	resetFormToData: vi.fn(),
 	pagination: {
 		totalRecords: 0,
 		pageSize: 0,
 		currentPage: 0
 	},
-	onPaginationChange: jest.fn()
+	onPaginationChange: vi.fn()
 };
 
 describe('TransactionTable arePropsEqual', () => {
@@ -31,7 +31,7 @@ describe('TransactionTable arePropsEqual', () => {
 	it('function has changed, everything else is equal', () => {
 		const newProps: TransactionTableProps = {
 			...props,
-			onPaginationChange: jest.fn()
+			onPaginationChange: vi.fn()
 		};
 		expect(props.onPaginationChange).not.toEqual(
 			newProps.onPaginationChange

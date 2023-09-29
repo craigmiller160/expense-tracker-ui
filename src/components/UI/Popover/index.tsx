@@ -27,7 +27,7 @@ export const Popover = (props: PropsWithChildren<Props>) => {
 		setState((draft) => {
 			draft.target = null;
 		});
-	const classes = ['AppPopover', props.className]
+	const classes = ['app-popover', props.className]
 		.filter((c) => c !== undefined)
 		.join(' ');
 	return (

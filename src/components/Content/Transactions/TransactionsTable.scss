@@ -1,15 +1,15 @@
 @import "../../../styles/page";
 
-@mixin MaxWidth {
+@mixin max-width {
   width: 100%;
   max-width: 100%;
 }
 
 .transactions-table {
-  @include MaxWidth;
+  @include max-width;
 
   >form {
-    @include MaxWidth;
+    @include max-width;
     @include ColumnAlignCenter;
   }
 

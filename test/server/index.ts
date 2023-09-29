@@ -1,7 +1,6 @@
 import { Database } from './Database';
 import * as Option from 'fp-ts/Option';
-import { Server } from 'miragejs/server';
-import { createServer } from 'miragejs';
+import { createServer, Server } from 'miragejs';
 import { seedCategories } from './seedData/categories';
 import { createCategoriesRoutes } from './routes/categories';
 import { createImportRoutes } from './routes/import';

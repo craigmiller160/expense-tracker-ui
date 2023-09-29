@@ -1,5 +1,5 @@
 import { Database } from '../Database';
-import { Server } from 'miragejs/server';
+import { Server } from 'miragejs';
 import { pipe } from 'fp-ts/function';
 import * as RArray from 'fp-ts/ReadonlyArray';
 import * as Monoid from 'fp-ts/Monoid';

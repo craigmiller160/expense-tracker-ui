@@ -1,6 +1,5 @@
 import { Database } from '../Database';
-import { Server } from 'miragejs/server';
-import { Response } from 'miragejs';
+import { Response, Server } from 'miragejs';
 import {
 	CategorizeTransactionsRequest,
 	CategoryResponse,

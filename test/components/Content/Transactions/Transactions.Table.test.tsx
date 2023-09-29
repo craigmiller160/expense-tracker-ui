@@ -45,6 +45,7 @@ describe('Transactions Table', () => {
 
 		const tableHeader = screen
 			.getByTestId('transactions-table')
+			// eslint-disable-next-line testing-library/no-node-access
 			.querySelector('thead');
 		expect(tableHeader).not.toBeNull();
 
@@ -65,24 +66,22 @@ describe('Transactions Table', () => {
 		expect(
 			within(transactionFilters).getByLabelText('End Date')
 		).toHaveValue(formatDisplayDate(defaultEndDate()));
-		within(transactionFilters).getByLabelText('Category')
+		within(transactionFilters).getByLabelText('Category');
 		expect(getSelectValueElement('Category')).toHaveTextContent('');
 		within(transactionFilters).getByLabelText('Order By');
 		expect(getOrderByValueElement()).toHaveTextContent('Newest to Oldest');
-		within(transactionFilters).getByLabelText('Duplicate')
+		within(transactionFilters).getByLabelText('Duplicate');
 		expect(getSelectValueElement('Duplicate')).toHaveTextContent('All');
-		within(transactionFilters).getByLabelText('Confirmed')
+		within(transactionFilters).getByLabelText('Confirmed');
 		expect(getSelectValueElement('Confirmed')).toHaveTextContent('All');
-		within(transactionFilters).getByLabelText('Categorized')
+		within(transactionFilters).getByLabelText('Categorized');
 		expect(getSelectValueElement('Categorized')).toHaveTextContent('All');
 		within(transactionFilters).getByLabelText('Possible Refund');
 		expect(getSelectValueElement('Possible Refund')).toHaveTextContent(
 			'All'
 		);
 
-		await waitFor(() =>
-			expect(screen.getByText('Rows per page:')).toBeVisible()
-		);
+		await screen.findByText('Rows per page:');
 
 		await validateTransactionsInTable(25, (index, description) => {
 			const expenseDate = pipe(
@@ -215,6 +214,7 @@ describe('Transactions Table', () => {
 		);
 		await userEvent.click(notConfirmedConfirmCheckbox);
 		expect(
+			// eslint-disable-next-line testing-library/no-node-access
 			notConfirmedConfirmCheckbox.querySelector('input')
 		).toBeChecked();
 		await validateRowIcons(notConfirmedRow, false, false, false);
@@ -260,6 +260,7 @@ describe('Transactions Table', () => {
 
 		const rowsPerPageSelect = screen
 			.getByTestId('table-pagination')
+			// eslint-disable-next-line testing-library/no-node-access
 			.querySelector('div.MuiTablePagination-select');
 		expect(rowsPerPageSelect).toBeVisible();
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -321,6 +322,7 @@ describe('Transactions Table', () => {
 
 		const nextPageButton = screen
 			.getByTestId('table-pagination')
+			// eslint-disable-next-line testing-library/no-node-access
 			.querySelector('button[title="Go to next page"]');
 		expect(nextPageButton).toBeVisible();
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -417,8 +419,10 @@ describe('Transactions Table', () => {
 		);
 		await userEvent.click(confirmCheckbox);
 		// The auto-confirm means that this operation needs to be negated first
+		// eslint-disable-next-line testing-library/no-node-access
 		expect(confirmCheckbox.querySelector('input')).not.toBeChecked();
 		await userEvent.click(confirmCheckbox);
+		// eslint-disable-next-line testing-library/no-node-access
 		expect(confirmCheckbox.querySelector('input')).toBeChecked();
 
 		await userEvent.click(screen.getByText('Save'));
@@ -490,6 +494,7 @@ describe('Transactions Table', () => {
 
 		const clearButton = screen
 			.getAllByTestId('transaction-table-row')[0]
+			// eslint-disable-next-line testing-library/no-node-access
 			.querySelector('.MuiAutocomplete-clearIndicator');
 		expect(clearButton).toBeTruthy();
 		await userEvent.click(clearButton!); // eslint-disable-line @typescript-eslint/no-non-null-assertion

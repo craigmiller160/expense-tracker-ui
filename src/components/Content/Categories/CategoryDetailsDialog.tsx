@@ -92,7 +92,7 @@ interface DialogActionsProps {
 }
 
 const CategoryDetailsDialogActions = (props: DialogActionsProps) => (
-	<div className="CategoryDetailsActions">
+	<div className="category-details-actions">
 		<Button
 			variant="contained"
 			color="success"
@@ -153,13 +153,13 @@ export const CategoryDetailsDialog = (props: Props) => {
 			formSubmit={handleSubmit(onSubmit)}
 		>
 			<div
-				className="CategoryDetailsDialog"
+				className="category-details-dialog"
 				data-testid="category-details-form"
 			>
 				<Typography variant="h6">Category Information</Typography>
-				<div className="CategoryDetailsForm">
+				<div className="category-details-form">
 					<TextField
-						className="NameField"
+						className="name-field"
 						testId="name-field"
 						name="name"
 						control={control}

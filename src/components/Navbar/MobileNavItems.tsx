@@ -140,7 +140,7 @@ export const MobileNavItems = () => {
 	);
 
 	return (
-		<div className="MobileNavItems">
+		<div className="mobile-nav-items">
 			{isAuthorized && (
 				<Button
 					id="mobile-nav-items-button"

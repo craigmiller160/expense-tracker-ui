@@ -84,12 +84,12 @@ export const Import = ({
 	const fileChooserRules = { required: 'File Type is required' };
 
 	return (
-		<PageResponsiveWrapper className="ImportTransactions">
+		<PageResponsiveWrapper className="import-transactions">
 			<PageTitle title="Import Transactions" />
-			<Paper className="ImportFormContainer">
+			<Paper className="import-form-container">
 				<StyledForm
 					breakpoints={theme.breakpoints}
-					className="ImportForm"
+					className="import-form"
 					onSubmit={handleSubmit(onSubmit)}
 				>
 					<Autocomplete

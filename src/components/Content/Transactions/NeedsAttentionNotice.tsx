@@ -54,15 +54,15 @@ export const NeedsAttentionNotice = () => {
 
 	return (
 		<Paper
-			className="NeedsAttentionNotice"
+			className="needs-attention-notice"
 			data-testid="needs-attention-notice"
 		>
-			<div className="Header">
+			<div className="header">
 				<Typography variant="h6">
 					Transactions Need Attention
 				</Typography>
 			</div>
-			<ul className="Items">
+			<ul className="items">
 				<AttentionItem
 					countAndOldest={data.duplicate}
 					label="Duplicates"

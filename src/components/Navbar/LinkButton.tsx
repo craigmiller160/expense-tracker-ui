@@ -11,7 +11,7 @@ interface Props {
 export const LinkButton = (props: Props) => {
 	const location = useLocation();
 	const isActive = location.pathname.startsWith(props.to);
-	const classes = ['LinkButton', 'NavbarItem', isActive ? 'active' : null]
+	const classes = ['link-button', 'NavbarItem', isActive ? 'active' : null]
 		.filter((c) => c !== null)
 		.join(' ');
 	return (

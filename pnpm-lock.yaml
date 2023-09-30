@@ -104,6 +104,9 @@ dependencies:
   uuid:
     specifier: ^9.0.0
     version: 9.0.0
+  vite:
+    specifier: ^4.4.9
+    version: 4.4.9(@types/node@18.14.0)(sass@1.67.0)
 
 devDependencies:
   '@babel/core':

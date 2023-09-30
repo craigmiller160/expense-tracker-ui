@@ -93,7 +93,7 @@ export const Rules = () => {
 		useDialogActions(setDialogState);
 
 	return (
-		<PageResponsiveWrapper className="AutoCategorizeRules">
+		<PageResponsiveWrapper className="auto-categorize-rules">
 			<PageTitle title="Auto-Categorization Rules" />
 			<RulesFilters
 				form={filtersForm}

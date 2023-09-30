@@ -12,31 +12,31 @@ const getDeleteButton = (): Chainable<JQuery> =>
 	cy.get('#RuleDetailsDialog-footer button').eq(1);
 const getOrdinalLabel = (): Chainable<JQuery> =>
 	cy
-		.get('#RuleDetailsDialog-body .AutoCategorizeRuleDetailsForm label')
+		.get('#RuleDetailsDialog-body .auto-categorize-rule-details-form label')
 		.eq(0);
 const getCategoryLabel = (): Chainable<JQuery> =>
 	cy
-		.get('#RuleDetailsDialog-body .AutoCategorizeRuleDetailsForm label')
+		.get('#RuleDetailsDialog-body .auto-categorize-rule-details-form label')
 		.eq(1);
 const getRegexLabel = (): Chainable<JQuery> =>
 	cy
-		.get('#RuleDetailsDialog-body .AutoCategorizeRuleDetailsForm label')
+		.get('#RuleDetailsDialog-body .auto-categorize-rule-details-form label')
 		.eq(2);
 const getStartDateLabel = (): Chainable<JQuery> =>
 	cy
-		.get('#RuleDetailsDialog-body .AutoCategorizeRuleDetailsForm label')
+		.get('#RuleDetailsDialog-body .auto-categorize-rule-details-form label')
 		.eq(3);
 const getEndDateLabel = (): Chainable<JQuery> =>
 	cy
-		.get('#RuleDetailsDialog-body .AutoCategorizeRuleDetailsForm label')
+		.get('#RuleDetailsDialog-body .auto-categorize-rule-details-form label')
 		.eq(4);
 const getMinAmountLabel = (): Chainable<JQuery> =>
 	cy
-		.get('#RuleDetailsDialog-body .AutoCategorizeRuleDetailsForm label')
+		.get('#RuleDetailsDialog-body .auto-categorize-rule-details-form label')
 		.eq(5);
 const getMaxAmountLabel = (): Chainable<JQuery> =>
 	cy
-		.get('#RuleDetailsDialog-body .AutoCategorizeRuleDetailsForm label')
+		.get('#RuleDetailsDialog-body .auto-categorize-rule-details-form label')
 		.eq(6);
 const getOrdinalInput = (): Chainable<JQuery> =>
 	pipe(getOrdinalLabel(), getInputForLabel);

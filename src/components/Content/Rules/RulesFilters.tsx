@@ -26,7 +26,7 @@ export const RulesFilters = (props: Props) => {
 		props.onValueHasChanged();
 	};
 	return (
-		<Paper className="AutoCategorizeRulesFilters">
+		<Paper className="auto-categorize-rules-filters">
 			<form onSubmit={constVoid}>
 				<ResponsiveRow>
 					<TextField

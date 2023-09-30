@@ -1,5 +1,3 @@
-/// <reference types="vite/client" />
-
 import { PropsWithChildren } from 'react';
 import {
 	KeycloakAuthProvider,

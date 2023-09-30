@@ -2,9 +2,9 @@ import Chainable = Cypress.Chainable;
 
 const getTitle = (): Chainable<JQuery> => cy.get('.AutoCategorizeRules h4');
 const getColumnHeaders = (): Chainable<JQuery> =>
-	cy.get('.AutoCategorizeRules .AutoCategorizeRulesTable th');
+	cy.get('.AutoCategorizeRules .auto-categorize-rules-table th');
 const getRuleRows = (): Chainable<JQuery> =>
-	cy.get('.AutoCategorizeRules .AutoCategorizeRulesTable tbody tr');
+	cy.get('.AutoCategorizeRules .auto-categorize-rules-table tbody tr');
 const getOrdinalCell = (row: Chainable<JQuery>): Chainable<JQuery> =>
 	row.find('td').eq(0);
 const getCategoryCell = (row: Chainable<JQuery>): Chainable<JQuery> =>

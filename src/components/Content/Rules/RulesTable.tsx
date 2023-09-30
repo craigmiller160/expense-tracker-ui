@@ -50,7 +50,7 @@ export const RulesTable = (props: Props) => {
 	const aboveTableActions = createAboveTableActions(() => props.openDialog());
 
 	return (
-		<div className="AutoCategorizeRulesTable">
+		<div className="auto-categorize-rules-table">
 			<Table
 				columns={COLUMNS}
 				loading={props.isFetching}

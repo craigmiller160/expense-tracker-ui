@@ -46,7 +46,7 @@ interface DialogActionsProps {
 }
 
 const TransactionDetailsDialogActions = (props: DialogActionsProps) => (
-	<div className="TransactionDetailsActions">
+	<div className="transaction-details-actions">
 		<Button
 			variant="contained"
 			color="success"
@@ -75,7 +75,7 @@ const useGetCategoryComponent = (
 	const categoryOptions = useCategoriesToCategoryOptions(categoryData);
 	if (categoryIsFetching) {
 		return (
-			<div className="CategorySpinner">
+			<div className="category-spinner">
 				<CircularProgress />
 			</div>
 		);
@@ -137,15 +137,15 @@ export const TransactionDetailsDialog = (props: Props) => {
 			formSubmit={handleSubmit(onSubmit)}
 			data-testid="transaction-details-dialog"
 		>
-			<div className="TransactionDetailsDialog">
+			<div className="transaction-details-dialog">
 				{isLoading && (
-					<div className="DetailsSpinner">
+					<div className="details-spinner">
 						<CircularProgress />
 					</div>
 				)}
 				{!isLoading && (
 					<>
-						<div className="Flags">
+						<div className="flags">
 							<DuplicateIcon transaction={transactionValues} />
 							<NotConfirmedIcon
 								transaction={watchedTransaction}
@@ -158,7 +158,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 							/>
 						</div>
 						<hr />
-						<div className="Info">
+						<div className="info">
 							<ResponsiveRow
 								overrideChildWidth={fullWidthResponsiveRows}
 							>
@@ -205,7 +205,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 						<hr />
 						{!transactionValues.confirmed && lastRuleApplied && (
 							<>
-								<div className="LastRuleApplied">
+								<div className="last-rule-applied">
 									<Typography variant="h6">
 										Auto-Categorize Rule Applied
 									</Typography>

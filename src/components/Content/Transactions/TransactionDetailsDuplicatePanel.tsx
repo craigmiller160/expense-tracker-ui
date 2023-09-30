@@ -45,7 +45,7 @@ export const TransactionDetailsDuplicatePanel = (props: Props) => {
 	);
 
 	return (
-		<div className="TransactionDetailsDuplicatePanel">
+		<div className="transaction-details-duplicate-panel">
 			<Typography variant="h5" className="header">
 				Possible Duplicates
 			</Typography>
@@ -81,7 +81,7 @@ export const TransactionDetailsDuplicatePanel = (props: Props) => {
 					</TableRow>
 				))}
 			</Table>
-			<div className="MarkNotDuplicateSection">
+			<div className="mark-not-duplicate-selection">
 				<Button
 					variant="contained"
 					onClick={() =>

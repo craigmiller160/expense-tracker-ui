@@ -1,6 +1,6 @@
 @import "../../../styles/dialog";
 
-@mixin Section {
+@mixin section {
   margin: 2rem auto;
 }
 
@@ -36,7 +36,7 @@
   }
 
   .Info {
-    @include Section;
+    @include section;
 
     width: 100%;
     display: flex;

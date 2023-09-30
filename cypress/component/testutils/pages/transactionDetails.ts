@@ -53,9 +53,9 @@ const getCreatedTimestamp = (): Chainable<JQuery> =>
 const getUpdatedTimestamp = (): Chainable<JQuery> =>
 	cy.get('#TransactionDetailsDialog-body .Timestamps span:nth-child(2)');
 const getDuplicateTitle = (): Chainable<JQuery> =>
-	cy.get('.TransactionDetailsDuplicatePanel h5');
+	cy.get('.transaction-details-duplicate-panel h5');
 const getDuplicateRecords = (): Chainable<JQuery> =>
-	cy.get('.TransactionDetailsDuplicatePanel tbody tr');
+	cy.get('.transaction-details-duplicate-panel tbody tr');
 const getCreatedTimestampForDuplicateRecord = (
 	record: Chainable<JQuery>
 ): Chainable<JQuery> => record.find('td').eq(0);
@@ -73,7 +73,7 @@ const getOpenButtonForDuplicateRecord = (
 ): Chainable<JQuery<HTMLButtonElement>> =>
 	record.find('td').eq(4).find('button');
 const getMarkNotDuplicateButton = (): Chainable<JQuery> =>
-	cy.get('.TransactionDetailsDuplicatePanel .MarkNotDuplicateSection button');
+	cy.get('.transaction-details-duplicate-panel .mark-not-duplicate-selection button');
 const getLastRuleAppliedTitle = (): Chainable<JQuery> =>
 	cy.get('#TransactionDetailsDialog-body .LastRuleApplied h6');
 const getLastRuleOrdinal = (): Chainable<JQuery> =>

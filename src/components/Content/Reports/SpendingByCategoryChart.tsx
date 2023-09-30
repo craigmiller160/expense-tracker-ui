@@ -10,7 +10,7 @@ type Props = {
 const getLabel = (category: ReportCategoryResponse): string => category.name;
 
 export const SpendingByCategoryChart = (props: Props) => (
-	<div className="SpendingByCategoryChart">
+	<div className="spending-by-category-chart">
 		<PieChart width={500} height={300}>
 			<Pie
 				data={castDraft(props.categories)}

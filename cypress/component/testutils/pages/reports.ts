@@ -9,7 +9,7 @@ const getRootTableRows = (): Chainable<JQuery> =>
 const getReportTable = (rowIndex: number): Chainable<JQuery> =>
 	getRootTableRows().eq(rowIndex).find('.SpendingByCategoryTable');
 const getReportChart = (rowIndex: number): Chainable<JQuery> =>
-	getRootTableRows().eq(rowIndex).find('.SpendingByCategoryChart');
+	getRootTableRows().eq(rowIndex).find('.spending-by-category-chart');
 const getReportTableRows = (tableRowIndex: number): Chainable<JQuery> =>
 	getReportTable(tableRowIndex).find('tbody tr');
 const getReportTableCategories = (tableIndex: number): Chainable<JQuery> =>

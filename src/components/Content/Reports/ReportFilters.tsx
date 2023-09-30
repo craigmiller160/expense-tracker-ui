@@ -36,7 +36,7 @@ export const ReportFilters = (props: Props) => {
 	};
 
 	return (
-		<Paper className="ReportFilters">
+		<Paper className="report-filters">
 			<form onSubmit={constVoid}>
 				<ResponsiveRow>
 					<Autocomplete

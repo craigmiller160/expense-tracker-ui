@@ -14,7 +14,7 @@ export const Reports = () => {
 		onValueHasChanged
 	} = useGetReportData();
 	return (
-		<PageResponsiveWrapper className="Reports">
+		<PageResponsiveWrapper className="reports">
 			<PageTitle title="Reports" />
 			{!isFetching && (
 				<ReportFilters

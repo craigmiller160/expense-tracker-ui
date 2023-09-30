@@ -35,7 +35,7 @@ export const ReportTable = (props: Props) => {
 
 	return (
 		<Table
-			className="ReportsTable"
+			className="reports-table"
 			pagination={pagination}
 			loading={props.isFetching}
 			columns={COLUMNS}

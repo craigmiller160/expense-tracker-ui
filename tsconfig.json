@@ -1,5 +1,8 @@
 {
   "extends": "@craigmiller160/js-config/configs/typescript/tsconfig.json",
+  "compilerOptions": {
+    "module": "ES2022"
+  },
   "include": [
     "src/**/*"
   ],

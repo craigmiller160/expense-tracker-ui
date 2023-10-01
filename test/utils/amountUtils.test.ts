@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { formatAmountValue } from '../../src/utils/amountUtils';
 
 describe('amountUtils', () => {

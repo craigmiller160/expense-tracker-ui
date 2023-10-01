@@ -1,7 +1,6 @@
 import { beforeAll, afterAll, beforeEach, vi } from 'vitest';
 import { constVoid } from 'fp-ts/function';
 import { apiServer } from './server';
-import '@testing-library/jest-dom/vitest'; // TODO move to lib
 
 beforeEach(() => {
 	process.env.DEBUG_PRINT_LIMIT = '1000000000';

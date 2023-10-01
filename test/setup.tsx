@@ -7,8 +7,8 @@ beforeEach(() => {
 	apiServer.actions.setInitialData();
 });
 
-vi.mock('@craigmiller160/react-keycloak', () => {
-	const reactKeycloak = jest.requireActual('@craigmiller160/react-keycloak');
+vi.mock('@craigmiller160/react-keycloak', async () => {
+	const reactKeycloak = await vi.importActual<object>('@craigmiller160/react-keycloak');
 	return {
 		...reactKeycloak,
 		KeycloakAuthProvider: null

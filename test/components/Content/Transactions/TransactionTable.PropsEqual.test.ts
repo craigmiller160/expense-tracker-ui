@@ -1,4 +1,4 @@
-import { vi } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import type { Props as TransactionTableProps } from '../../../../src/components/Content/Transactions/TransactionTable';
 import { arePropsEqual } from '../../../../src/components/Content/Transactions/TransactionTable';
 

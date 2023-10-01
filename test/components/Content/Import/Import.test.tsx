@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvents from '@testing-library/user-event';
 import { Import } from '../../../../src/components/Content/Import';
@@ -36,7 +36,7 @@ const doRender = async () => {
 
 describe('Transaction Import', () => {
 	beforeEach(() => {
-		jest.resetAllMocks();
+		vi.resetAllMocks();
 	});
 
 	it('imports file successfully', async () => {

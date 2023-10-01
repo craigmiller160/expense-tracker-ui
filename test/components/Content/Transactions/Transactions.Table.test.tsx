@@ -1,7 +1,7 @@
+import { describe, it, expect } from 'vitest';
 import { apiServer } from '../../../server';
 import { renderApp } from '../../../testutils/renderApp';
 import { screen, waitFor, within } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import userEvents from '@testing-library/user-event';
 import { searchForTransactions } from '../../../../src/ajaxapi/service/TransactionService';
 import { SortDirection, TransactionSortKey } from '../../../../src/types/misc';

@@ -1,7 +1,5 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
-import { vi } from 'vitest';
-import '@testing-library/jest-dom';
 import userEvents from '@testing-library/user-event';
 import { Import } from '../../../../src/components/Content/Import';
 import { UseImportTransactionsType } from '../../../../src/ajaxapi/query/TransactionImportQueries';

@@ -1,3 +1,4 @@
+import { expect } from 'vitest';
 import { TransactionIconTestId } from '../../../src/components/Content/Transactions/icons/TransactionIcon';
 import { getSelectorParent } from './utils';
 

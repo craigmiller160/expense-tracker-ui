@@ -1,3 +1,4 @@
+import { expect } from 'vitest';
 import { getSelectorParent } from './utils';
 import { match } from 'ts-pattern';
 import userEvents from '@testing-library/user-event';

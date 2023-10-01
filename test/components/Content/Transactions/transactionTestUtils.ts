@@ -1,3 +1,4 @@
+import { expect } from 'vitest';
 import { screen, within } from '@testing-library/react';
 import userEvents from '@testing-library/user-event';
 import { Time, Try, types, Json } from '@craigmiller160/ts-functions';

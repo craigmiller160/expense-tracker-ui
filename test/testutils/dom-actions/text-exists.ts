@@ -1,3 +1,4 @@
+import { expect } from 'vitest';
 import { getSelectorParent } from './utils';
 
 export type Item = {

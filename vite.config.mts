@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import { defineConfig } from '@craigmiller160/js-config/configs/vite/vite.config.mjs';
 
 export default defineConfig({
@@ -12,5 +13,8 @@ export default defineConfig({
                     path.replace(/^\/expense-tracker\/api/, '')
             }
         }
+    },
+    test: {
+        environment: 'jsdom'
     }
 });

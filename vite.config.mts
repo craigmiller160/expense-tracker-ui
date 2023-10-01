@@ -1,5 +1,6 @@
 /// <reference types="vitest" />
 import { defineConfig } from '@craigmiller160/js-config/configs/vite/vite.config.mjs';
+import path from 'path';
 
 export default defineConfig({
     server: {
@@ -15,6 +16,9 @@ export default defineConfig({
         }
     },
     test: {
-        environment: 'jsdom'
+        environment: 'jsdom',
+        setupFiles: [
+            path.join(process.cwd(), 'test', 'setup.tsx')
+        ]
     }
 });

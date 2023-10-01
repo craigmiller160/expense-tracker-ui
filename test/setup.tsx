@@ -1,14 +1,14 @@
+import { beforeAll, afterAll, beforeEach, vi } from 'vitest';
 import { constVoid } from 'fp-ts/function';
 import { apiServer } from './server';
-import '@testing-library/jest-dom';
-import '@relmify/jest-fp-ts';
+import '@testing-library/jest-dom/vitest'; // TODO move to lib
 
 beforeEach(() => {
 	process.env.DEBUG_PRINT_LIMIT = '1000000000';
 	apiServer.actions.setInitialData();
 });
 
-jest.mock('@craigmiller160/react-keycloak', () => {
+vi.mock('@craigmiller160/react-keycloak', () => {
 	const reactKeycloak = jest.requireActual('@craigmiller160/react-keycloak');
 	return {
 		...reactKeycloak,

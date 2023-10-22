@@ -1,4 +1,5 @@
-import { memo, useContext, ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import { memo, useContext } from 'react';
 import { Table } from '../../UI/Table';
 import { Button, TableCell, TableRow } from '@mui/material';
 import {
@@ -10,30 +11,26 @@ import { NotConfirmedIcon } from './icons/NotConfirmedIcon';
 import { DuplicateIcon } from './icons/DuplicateIcon';
 import { NotCategorizedIcon } from './icons/NotCategorizedIcon';
 import { PossibleRefundIcon } from './icons/PossibleRefundIcon';
-import { Control, DeepPartial, FormState } from 'react-hook-form';
-import {
+import type { Control, DeepPartial, FormState } from 'react-hook-form';
+import type {
 	TransactionFormValues,
 	TransactionTableForm,
 	TransactionTablePagination,
 	TransactionTableUseFormReturn
 } from './useHandleTransactionTableData';
 import { useIsEditMode } from './TransactionTableUtils';
-import { UseMutateFunction } from '@tanstack/react-query';
-import {
+import type { UseMutateFunction } from '@tanstack/react-query';
+import type {
 	DeleteTransactionsResponse,
 	TransactionResponse
 } from '../../../types/generated/expense-tracker';
-import {
-	ConfirmDialogContext,
-	NewConfirmDialog
-} from '../../UI/ConfirmDialog/ConfirmDialogProvider';
+import type { NewConfirmDialog } from '../../UI/ConfirmDialog/ConfirmDialogProvider';
+import { ConfirmDialogContext } from '../../UI/ConfirmDialog/ConfirmDialogProvider';
 import { useDeleteAllUnconfirmed } from '../../../ajaxapi/query/TransactionQueries';
-import { CategoryOption } from '../../../types/categories';
-import {
-	createTablePagination,
-	PaginationState
-} from '../../../utils/pagination';
-import { Updater } from 'use-immer';
+import type { CategoryOption } from '../../../types/categories';
+import type { PaginationState } from '../../../utils/pagination';
+import { createTablePagination } from '../../../utils/pagination';
+import type { Updater } from 'use-immer';
 
 export type Props = Readonly<{
 	transactions: ReadonlyArray<TransactionResponse>;

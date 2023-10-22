@@ -1,20 +1,15 @@
-import { formToUpdateRequest, TransactionSearchForm } from './utils';
-import {
-	TransactionTableForm,
-	useHandleTransactionTableData
-} from './useHandleTransactionTableData';
+import type { TransactionSearchForm } from './utils';
+import { formToUpdateRequest } from './utils';
+import type { TransactionTableForm } from './useHandleTransactionTableData';
+import { useHandleTransactionTableData } from './useHandleTransactionTableData';
 import './TransactionsTable.scss';
-import {
-	FieldPath,
-	UseFormSetValue,
-	UseFormWatch,
-	useWatch
-} from 'react-hook-form';
+import type { FieldPath, UseFormSetValue, UseFormWatch } from 'react-hook-form';
+import { useWatch } from 'react-hook-form';
 import { useEffect } from 'react';
-import { Updater } from 'use-immer';
-import { UpdateTransactionsMutation } from '../../../ajaxapi/query/TransactionQueries';
+import type { Updater } from 'use-immer';
+import type { UpdateTransactionsMutation } from '../../../ajaxapi/query/TransactionQueries';
 import { pipe } from 'fp-ts/function';
-import { PaginationState } from '../../../utils/pagination';
+import type { PaginationState } from '../../../utils/pagination';
 import { TransactionTable } from './TransactionTable';
 
 interface Props {

@@ -1,7 +1,8 @@
 import { types } from '@craigmiller160/ts-functions';
 import { pipe } from 'fp-ts/function';
 import * as Option from 'fp-ts/Option';
-import { useForm, UseFormReturn } from 'react-hook-form';
+import type { UseFormReturn } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useEffect, useMemo } from 'react';
 import {
 	parseDisplayDate,
@@ -9,10 +10,10 @@ import {
 	serverDateToDisplayDate
 } from '../../../utils/dateTimeUtils';
 import { useGetTransactionDetails } from '../../../ajaxapi/query/TransactionQueries';
-import { CategoryOption } from '../../../types/categories';
+import type { CategoryOption } from '../../../types/categories';
 import { itemWithCategoryToCategoryOption } from '../../../utils/categoryUtils';
 import { useGetLastRuleApplied } from '../../../ajaxapi/query/LastAppliedRuleQueries';
-import { LastRuleAppliedResponse } from '../../../types/generated/expense-tracker';
+import type { LastRuleAppliedResponse } from '../../../types/generated/expense-tracker';
 
 export type TransactionDetailsFormData = {
 	readonly confirmed: boolean;

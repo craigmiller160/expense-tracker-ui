@@ -2,6 +2,7 @@
   "name": "@craigmiller160/expense-tracker-ui",
   "version": "1.6.0-beta",
   "sideEffects": false,
+  "type": "module",
   "files": [
     "build"
   ],

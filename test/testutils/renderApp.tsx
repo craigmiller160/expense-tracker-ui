@@ -1,11 +1,10 @@
 import { vi } from 'vitest';
-import { render, RenderResult } from '@testing-library/react';
+import type { RenderResult } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { App } from '../../src/components/App';
 import { BrowserRouter } from 'react-router-dom';
-import {
-	KeycloakAuth,
-	KeycloakAuthContext
-} from '@craigmiller160/react-keycloak';
+import type { KeycloakAuth } from '@craigmiller160/react-keycloak';
+import { KeycloakAuthContext } from '@craigmiller160/react-keycloak';
 import { newQueryClient } from '../../src/ajaxapi/query/queryClient';
 
 interface RenderConfig {

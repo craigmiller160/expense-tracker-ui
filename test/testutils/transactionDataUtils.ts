@@ -2,7 +2,7 @@ import { types, Time } from '@craigmiller160/ts-functions';
 import { v4 as uuidv4 } from 'uuid';
 import { pipe } from 'fp-ts/function';
 import { formatServerDateTime } from '../../src/utils/dateTimeUtils';
-import {
+import type {
 	TransactionResponse,
 	TransactionDetailsResponse
 } from '../../src/types/generated/expense-tracker';

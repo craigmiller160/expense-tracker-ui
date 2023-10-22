@@ -9,7 +9,7 @@ import {
 import { pipe } from 'fp-ts/function';
 import { useContext } from 'react';
 import { ConfirmDialogContext } from '../../UI/ConfirmDialog/ConfirmDialogProvider';
-import { TransactionDetailsFormData } from './useHandleTransactionDetailsDialogData';
+import type { TransactionDetailsFormData } from './useHandleTransactionDetailsDialogData';
 import { formatServerDate } from '../../../utils/dateTimeUtils';
 
 interface TransactionDetailsDialogState {

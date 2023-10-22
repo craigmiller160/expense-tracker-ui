@@ -1,10 +1,8 @@
 /// <reference types="vite/client" />
 
-import { PropsWithChildren } from 'react';
-import {
-	KeycloakAuthProvider,
-	RequiredRoles
-} from '@craigmiller160/react-keycloak';
+import type { PropsWithChildren } from 'react';
+import type { RequiredRoles } from '@craigmiller160/react-keycloak';
+import { KeycloakAuthProvider } from '@craigmiller160/react-keycloak';
 import { BEARER_TOKEN_KEY } from '@craigmiller160/ajax-api';
 
 const getRealm = (): string => {

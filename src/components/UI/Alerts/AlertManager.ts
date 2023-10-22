@@ -1,4 +1,4 @@
-import { AlertData, AlertManager, AlertSubscription } from './types';
+import type { AlertData, AlertManager, AlertSubscription } from './types';
 import { v4 as uuidv4 } from 'uuid';
 
 type InternalAlertManager = AlertManager & {

@@ -1,4 +1,4 @@
-import { PropsWithChildren, MouseEvent } from 'react';
+import type { PropsWithChildren, MouseEvent } from 'react';
 import MuiPopover from '@mui/material/Popover';
 import { useImmer } from 'use-immer';
 import { Typography } from '@mui/material';

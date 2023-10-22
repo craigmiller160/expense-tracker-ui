@@ -1,10 +1,11 @@
-import { TransactionTableForm } from './useHandleTransactionTableData';
+import type { TransactionTableForm } from './useHandleTransactionTableData';
 import * as RArray from 'fp-ts/ReadonlyArray';
 import { pipe } from 'fp-ts/function';
-import { TransactionToUpdate } from '../../../types/generated/expense-tracker';
-import { SortDirection, YesNoFilter } from '../../../types/misc';
+import type { TransactionToUpdate } from '../../../types/generated/expense-tracker';
+import type { YesNoFilter } from '../../../types/misc';
+import { SortDirection } from '../../../types/misc';
 import { Time } from '@craigmiller160/ts-functions';
-import { CategoryOption } from '../../../types/categories';
+import type { CategoryOption } from '../../../types/categories';
 
 export interface TransactionSearchForm {
 	readonly direction: SortDirection;

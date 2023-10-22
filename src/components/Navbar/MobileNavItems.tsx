@@ -1,10 +1,12 @@
-import { MouseEvent, useEffect } from 'react';
+import type { MouseEvent } from 'react';
+import { useEffect } from 'react';
 import { useDeriveNavbarFromAuthUser } from './useDeriveNavbarFromAuthUser';
 import { useImmer } from 'use-immer';
 import { castDraft } from 'immer';
 import { Box, Button, Menu, MenuItem } from '@mui/material';
 import './MobileNavItems.scss';
 import { useLocation, useNavigate } from 'react-router';
+import type { NavbarItem } from './items';
 import {
 	IMPORT_TRANSACTIONS_LABEL,
 	IMPORT_TRANSACTIONS_TO,
@@ -13,7 +15,6 @@ import {
 	MANAGE_TRANSACTIONS_LABEL,
 	MANAGE_TRANSACTIONS_TO,
 	NAVBAR_ITEMS,
-	NavbarItem,
 	REPORTS_LABEL,
 	REPORTS_TO,
 	RULES_LABEL,

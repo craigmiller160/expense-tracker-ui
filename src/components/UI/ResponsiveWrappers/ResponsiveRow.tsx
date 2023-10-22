@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { InnerDivProps } from './utils';
+import type { InnerDivProps } from './utils';
 import { addThemeToWrapper } from './addThemeToWrapper';
 
 export type OverrideChildWidth = {

@@ -1,8 +1,10 @@
 import { describe, it, expect } from 'vitest';
+import type {
+	SyncFromParams,
+	SyncToParams
+} from '../../src/routes/useSearchParamSync';
 import {
 	shouldSetParams,
-	SyncFromParams,
-	SyncToParams,
 	useSearchParamSync
 } from '../../src/routes/useSearchParamSync';
 import { useImmer } from 'use-immer';
@@ -11,11 +13,9 @@ import { MemoryRouter, useSearchParams } from 'react-router-dom';
 import { useLocation } from 'react-router';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvents from '@testing-library/user-event';
-import { ParamsWrapper } from '../../src/routes/ParamsWrapper';
-import {
-	NativeSearchProvider,
-	NativeSearchProviderContext
-} from '../../src/routes/NativeSearchProvider';
+import type { ParamsWrapper } from '../../src/routes/ParamsWrapper';
+import type { NativeSearchProvider } from '../../src/routes/NativeSearchProvider';
+import { NativeSearchProviderContext } from '../../src/routes/NativeSearchProvider';
 
 type State = {
 	readonly count: number;

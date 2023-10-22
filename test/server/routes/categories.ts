@@ -1,7 +1,7 @@
 import { Database } from '../Database';
 import { Response, Server } from 'miragejs';
 import { v4 as uuidv4 } from 'uuid';
-import {
+import type {
 	CategoryRequest,
 	CategoryResponse
 } from '../../../src/types/generated/expense-tracker';

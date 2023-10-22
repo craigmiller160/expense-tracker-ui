@@ -1,5 +1,5 @@
-import { DataUpdater } from '../Database';
-import { CategoryResponse } from '../../../src/types/generated/expense-tracker';
+import type { DataUpdater } from '../Database';
+import type { CategoryResponse } from '../../../src/types/generated/expense-tracker';
 import { v4 as uuidv4 } from 'uuid';
 
 const createCategory = (name: string): CategoryResponse => ({

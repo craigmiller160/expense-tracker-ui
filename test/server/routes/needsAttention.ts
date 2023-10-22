@@ -3,7 +3,7 @@ import { Server } from 'miragejs';
 import { pipe } from 'fp-ts/function';
 import * as RArray from 'fp-ts/ReadonlyArray';
 import * as Monoid from 'fp-ts/Monoid';
-import {
+import type {
 	NeedsAttentionResponse,
 	TransactionResponse
 } from '../../../src/types/generated/expense-tracker';

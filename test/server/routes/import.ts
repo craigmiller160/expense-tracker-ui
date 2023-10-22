@@ -2,8 +2,8 @@ import { Database } from '../Database';
 import { Response, Server } from 'miragejs';
 import { FileType } from '../../../src/types/file';
 import { match } from 'ts-pattern';
-import { ImportTransactionsResponse } from '../../../src/types/generated/expense-tracker';
-import { ErrorResponse } from '../../../src/types/error';
+import type { ImportTransactionsResponse } from '../../../src/types/generated/expense-tracker';
+import type { ErrorResponse } from '../../../src/types/error';
 
 const error: ErrorResponse = {
 	timestamp: '123',

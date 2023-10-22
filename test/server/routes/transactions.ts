@@ -1,6 +1,6 @@
 import { Database } from '../Database';
 import { Response, Server } from 'miragejs';
-import {
+import type {
 	CategorizeTransactionsRequest,
 	CategoryResponse,
 	CreateTransactionRequest,
@@ -15,7 +15,7 @@ import * as RArray from 'fp-ts/ReadonlyArray';
 import { pipe } from 'fp-ts/function';
 import { match } from 'ts-pattern';
 import { SortDirection } from '../../../src/types/misc';
-import { Ord } from 'fp-ts/Ord';
+import type { Ord } from 'fp-ts/Ord';
 import { v4 as uuidv4 } from 'uuid';
 import {
 	compareServerDates,

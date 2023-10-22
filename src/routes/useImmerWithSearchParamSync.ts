@@ -1,8 +1,10 @@
-import { SyncToParams, useSearchParamSync } from './useSearchParamSync';
-import { Updater, useImmer } from 'use-immer';
-import { Draft } from 'immer';
+import type { SyncToParams } from './useSearchParamSync';
+import { useSearchParamSync } from './useSearchParamSync';
+import type { Updater } from 'use-immer';
+import { useImmer } from 'use-immer';
+import type { Draft } from 'immer';
 import { useCallback, useEffect } from 'react';
-import { ParamsWrapper } from './ParamsWrapper';
+import type { ParamsWrapper } from './ParamsWrapper';
 
 export type StateFromParams<State> = (
 	draft: Draft<State>,

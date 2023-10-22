@@ -1,6 +1,7 @@
 import { useSearchParams } from 'react-router-dom';
 import { useCallback, useContext, useMemo } from 'react';
-import { ParamsWrapper, wrapParams } from './ParamsWrapper';
+import type { ParamsWrapper } from './ParamsWrapper';
+import { wrapParams } from './ParamsWrapper';
 import { NativeSearchProviderContext } from './NativeSearchProvider';
 
 export type SyncFromParams<Params> = (params: ParamsWrapper<Params>) => Params;

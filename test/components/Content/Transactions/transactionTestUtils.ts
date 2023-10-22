@@ -2,7 +2,7 @@ import { expect } from 'vitest';
 import { screen, within } from '@testing-library/react';
 import userEvents from '@testing-library/user-event';
 import { Time, Try, types, Json } from '@craigmiller160/ts-functions';
-import { TestTransactionDescription } from '../../../testutils/transactionDataUtils';
+import type { TestTransactionDescription } from '../../../testutils/transactionDataUtils';
 import { flow, pipe } from 'fp-ts/function';
 import * as Either from 'fp-ts/Either';
 import * as RArray from 'fp-ts/ReadonlyArray';

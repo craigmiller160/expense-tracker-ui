@@ -1,6 +1,6 @@
-import { CategoryResponse } from '../types/generated/expense-tracker';
+import type { CategoryResponse } from '../types/generated/expense-tracker';
 import { useMemo } from 'react';
-import { CategoryOption } from '../types/categories';
+import type { CategoryOption } from '../types/categories';
 import { match, P } from 'ts-pattern';
 
 export const categoryToCategoryOption = (

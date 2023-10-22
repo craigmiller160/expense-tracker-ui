@@ -1,4 +1,4 @@
-import { SelectOption } from '@craigmiller160/react-hook-form-material-ui';
+import type { SelectOption } from '@craigmiller160/react-hook-form-material-ui';
 
 export type AutoCategorizeRulePageRequest = {
 	readonly pageNumber: number;

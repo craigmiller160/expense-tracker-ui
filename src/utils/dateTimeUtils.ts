@@ -1,6 +1,6 @@
 import { Time } from '@craigmiller160/ts-functions';
 import { SortDirection } from '../types/misc';
-import { Ordering } from 'fp-ts/Ordering';
+import type { Ordering } from 'fp-ts/Ordering';
 import { match } from 'ts-pattern';
 import { pipe } from 'fp-ts/function';
 

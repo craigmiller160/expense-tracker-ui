@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvents from '@testing-library/user-event';
 import { Import } from '../../../../src/components/Content/Import';
-import { UseImportTransactionsType } from '../../../../src/ajaxapi/query/TransactionImportQueries';
+import type { UseImportTransactionsType } from '../../../../src/ajaxapi/query/TransactionImportQueries';
 import { materialUiSelect } from '../../../testutils/dom-actions/material-ui-select';
 
 const mutate = vi.fn();

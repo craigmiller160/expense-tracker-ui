@@ -1,11 +1,11 @@
 import { describe, it, expect } from 'vitest';
 import { TextField } from '@craigmiller160/react-hook-form-material-ui';
 import { useFormWithSearchParamSync } from '../../src/routes/useFormWithSearchParamSync';
-import {
+import type {
 	SyncFromParams,
 	SyncToParams
 } from '../../src/routes/useSearchParamSync';
-import { InitialEntry } from 'history';
+import type { InitialEntry } from 'history';
 import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { useLocation } from 'react-router';

@@ -2,7 +2,8 @@
   "extends": "@craigmiller160/js-config/configs/typescript/tsconfig.json",
   "compilerOptions": {
     "moduleResolution": "bundler",
-    "module": "ES2022"
+    "module": "ES2022",
+    "verbatimModuleSyntax": true
   },
   "include": [
     "src/**/*"

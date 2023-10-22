@@ -11,7 +11,12 @@ import {
 	TableRow,
 	Typography
 } from '@mui/material';
-import { ChangeEvent, MouseEvent, PropsWithChildren, ReactNode } from 'react';
+import type {
+	ChangeEvent,
+	MouseEvent,
+	PropsWithChildren,
+	ReactNode
+} from 'react';
 import './Table.scss';
 
 export interface TablePaginationConfig {

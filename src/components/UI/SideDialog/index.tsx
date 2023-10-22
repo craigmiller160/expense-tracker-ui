@@ -9,14 +9,9 @@ import {
 	Toolbar,
 	Typography
 } from '@mui/material';
-import {
-	forwardRef,
-	PropsWithChildren,
-	ReactElement,
-	ReactNode,
-	Ref
-} from 'react';
-import { TransitionProps } from '@mui/material/transitions';
+import { forwardRef } from 'react';
+import type { PropsWithChildren, ReactElement, ReactNode, Ref } from 'react';
+import type { TransitionProps } from '@mui/material/transitions';
 import CloseIcon from '@mui/icons-material/Close';
 import './SideDialog.scss';
 import { ResponsiveSlideDialogWrapper } from './ResponsiveSlideDialogWrapper';

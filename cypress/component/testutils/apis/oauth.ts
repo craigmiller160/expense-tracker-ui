@@ -1,4 +1,4 @@
-import Chainable = Cypress.Chainable;
+type Chainable<T> = Cypress.Chainable<T>;
 
 const getAuthUser_isAuthorized = (): Chainable<null> =>
 	cy.intercept('/expense-tracker/api/oauth/user', {

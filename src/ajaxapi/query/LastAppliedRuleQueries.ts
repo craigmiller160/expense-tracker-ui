@@ -1,5 +1,6 @@
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
-import { LastRuleAppliedResponse } from '../../types/generated/expense-tracker';
+import type { UseQueryResult } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
+import type { LastRuleAppliedResponse } from '../../types/generated/expense-tracker';
 import { getLastRuleApplied } from '../service/LastAppliedRuleService';
 import { types } from '@craigmiller160/ts-functions';
 import * as Option from 'fp-ts/Option';

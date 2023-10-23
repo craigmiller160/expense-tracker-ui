@@ -1,5 +1,6 @@
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
-import { NeedsAttentionResponse } from '../../types/generated/expense-tracker';
+import type { UseQueryResult } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
+import type { NeedsAttentionResponse } from '../../types/generated/expense-tracker';
 import { getNeedsAttention } from '../service/NeedsAttentionService';
 
 export const GET_NEEDS_ATTENTION = 'NeedsAttentionQueries_GetNeedsAttention';

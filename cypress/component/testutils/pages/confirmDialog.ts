@@ -1,4 +1,4 @@
-import Chainable = Cypress.Chainable;
+type Chainable<T> = Cypress.Chainable<T>;
 
 const getTitle = (): Chainable<JQuery> => cy.get('#ConfirmDialog h2');
 const getMessage = (): Chainable<JQuery> =>

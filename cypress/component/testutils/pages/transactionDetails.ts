@@ -1,6 +1,7 @@
-import Chainable = Cypress.Chainable;
 import { pipe } from 'fp-ts/function';
 import { getHelperTextForLabel, getInputForLabel } from './utils';
+
+type Chainable<T> = Cypress.Chainable<T>;
 
 const getHeaderTitle = (): Chainable<JQuery> =>
 	cy.get('#TransactionDetailsDialog-header .MuiToolbar-root h6');

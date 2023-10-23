@@ -1,5 +1,5 @@
 import rawReports from '../../../fixtures/reports.json';
-import { ReportPageResponse } from '../../../../src/types/generated/expense-tracker';
+import type { ReportPageResponse } from '../../../../src/types/generated/expense-tracker';
 import { REPORT_CATEGORY_ORDER_BY_OPTIONS } from '../../../../src/types/reports';
 
 export const reports: ReportPageResponse = rawReports;

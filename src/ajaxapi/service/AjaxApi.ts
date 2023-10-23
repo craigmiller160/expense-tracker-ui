@@ -1,5 +1,5 @@
 import { createApi } from '@craigmiller160/ajax-api';
-import { AxiosResponse } from 'axios';
+import type { AxiosResponse } from 'axios';
 
 // TODO need error handler
 export const expenseTrackerApi = createApi({

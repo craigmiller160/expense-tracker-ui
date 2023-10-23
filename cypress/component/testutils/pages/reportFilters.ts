@@ -1,6 +1,7 @@
-import Chainable = Cypress.Chainable;
 import { pipe } from 'fp-ts/function';
 import { getInputForLabel } from './utils';
+
+type Chainable<T> = Cypress.Chainable<T>;
 
 const getFilterTypeLabel = (): Chainable<JQuery> =>
 	cy.get('.report-filters label').eq(0);

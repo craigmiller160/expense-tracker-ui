@@ -1,4 +1,4 @@
-import Chainable = Cypress.Chainable;
+type Chainable<T> = Cypress.Chainable<T>;
 
 const getAllCategories = (): Chainable<null> =>
 	cy.intercept('/expense-tracker/api/categories', {

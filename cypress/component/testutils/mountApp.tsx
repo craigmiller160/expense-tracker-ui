@@ -1,13 +1,12 @@
-import Chainable = Cypress.Chainable;
 import { match, P } from 'ts-pattern';
 import { App } from '../../../src/components/App';
 import { MemoryRouter } from 'react-router-dom';
-import {
-	KeycloakAuth,
-	KeycloakAuthContext
-} from '@craigmiller160/react-keycloak';
+import type { KeycloakAuth } from '@craigmiller160/react-keycloak';
+import { KeycloakAuthContext } from '@craigmiller160/react-keycloak';
 import { newQueryClient } from '../../../src/ajaxapi/query/queryClient';
-import { MountReturn } from 'cypress/react';
+import type { MountReturn } from 'cypress/react';
+
+type Chainable<T> = Cypress.Chainable<T>;
 
 const desktopViewport = (): Chainable<null> => cy.viewport(1920, 1080);
 const mobileViewport = (): Chainable<null> => cy.viewport(500, 500);

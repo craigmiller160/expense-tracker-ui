@@ -1,4 +1,4 @@
-import Chainable = Cypress.Chainable;
+type Chainable<T> = Cypress.Chainable<T>;
 
 const getNeedsAttentionRoot = (): Chainable<JQuery> =>
 	cy.get('[data-testid="needs-attention-notice"]');

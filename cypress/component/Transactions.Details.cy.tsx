@@ -8,7 +8,7 @@ import {
 } from './testutils/constants/transactions';
 import { transactionsListPage } from './testutils/pages/transactionsList';
 import { transactionDetailsPage } from './testutils/pages/transactionDetails';
-import { TransactionDetailsResponse } from '../../src/types/generated/expense-tracker';
+import type { TransactionDetailsResponse } from '../../src/types/generated/expense-tracker';
 import { categoriesApi } from './testutils/apis/categories';
 import {
 	serverDateTimeToDisplayDateTime,
@@ -20,9 +20,10 @@ import {
 	orderedCategoryNames
 } from './testutils/constants/categories';
 import { validateInputRules } from './testutils/validations/inputRules';
-import Chainable = Cypress.Chainable;
 import { lastAppliedApi } from './testutils/apis/lastApplied';
 import { match } from 'ts-pattern';
+
+type Chainable<T> = Cypress.Chainable<T>;
 
 const testDuplicate = (getRecord: () => Chainable<JQuery>, index: number) => {
 	transactionDetailsPage

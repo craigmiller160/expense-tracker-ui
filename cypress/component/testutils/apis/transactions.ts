@@ -1,6 +1,7 @@
-import Chainable = Cypress.Chainable;
-import { TransactionDetailsResponse } from '../../../../src/types/generated/expense-tracker';
+import type { TransactionDetailsResponse } from '../../../../src/types/generated/expense-tracker';
 import { allCategories } from '../constants/categories';
+
+type Chainable<T> = Cypress.Chainable<T>;
 
 const searchForTransactions = (): Chainable<null> =>
 	cy

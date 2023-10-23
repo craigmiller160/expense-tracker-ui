@@ -1,5 +1,6 @@
-import Chainable = Cypress.Chainable;
 import { commonPage } from '../pages/common';
+
+type Chainable<T> = Cypress.Chainable<T>;
 
 type Selector = () => Chainable<JQuery>;
 

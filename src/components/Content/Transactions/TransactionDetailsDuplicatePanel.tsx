@@ -8,10 +8,8 @@ import './TransactionDetailsDuplicatePanel.scss';
 import { useMemo } from 'react';
 import { useImmer } from 'use-immer';
 import { serverDateTimeToDisplayDateTime } from '../../../utils/dateTimeUtils';
-import {
-	createTablePagination,
-	PaginationState
-} from '../../../utils/pagination';
+import type { PaginationState } from '../../../utils/pagination';
+import { createTablePagination } from '../../../utils/pagination';
 
 type Props = {
 	readonly transactionId: string;

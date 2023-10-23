@@ -2,7 +2,7 @@ import { types } from '@craigmiller160/ts-functions';
 import { SideDialog } from '../../UI/SideDialog';
 import { Button, CircularProgress, Typography } from '@mui/material';
 import './TransactionDetailsDialog.scss';
-import { Control } from 'react-hook-form';
+import type { Control } from 'react-hook-form';
 import { DuplicateIcon } from './icons/DuplicateIcon';
 import { NotConfirmedIcon } from './icons/NotConfirmedIcon';
 import { NotCategorizedIcon } from './icons/NotCategorizedIcon';
@@ -13,20 +13,16 @@ import {
 	TextField
 } from '@craigmiller160/react-hook-form-material-ui';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
-import { ReactNode } from 'react';
-import {
-	TransactionDetailsFormData,
-	useHandleTransactionDetailsDialogData
-} from './useHandleTransactionDetailsDialogData';
+import type { ReactNode } from 'react';
+import type { TransactionDetailsFormData } from './useHandleTransactionDetailsDialogData';
+import { useHandleTransactionDetailsDialogData } from './useHandleTransactionDetailsDialogData';
 import { PossibleRefundIcon } from './icons/PossibleRefundIcon';
 import * as Option from 'fp-ts/Option';
 import { TransactionDetailsDuplicatePanel } from './TransactionDetailsDuplicatePanel';
 import { useCategoriesToCategoryOptions } from '../../../utils/categoryUtils';
 import { formatAmountValue } from '../../../utils/amountUtils';
-import {
-	OverrideChildWidth,
-	ResponsiveRow
-} from '../../UI/ResponsiveWrappers/ResponsiveRow';
+import type { OverrideChildWidth } from '../../UI/ResponsiveWrappers/ResponsiveRow';
+import { ResponsiveRow } from '../../UI/ResponsiveWrappers/ResponsiveRow';
 import { Table } from '../../UI/Table';
 import { RuleTableRow } from '../Rules/common/RuleTableRow';
 

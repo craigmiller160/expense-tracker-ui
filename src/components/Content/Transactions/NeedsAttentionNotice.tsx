@@ -1,7 +1,7 @@
 import { Paper, Typography } from '@mui/material';
 import './NeedsAttentionNotice.scss';
 import { useGetNeedsAttention } from '../../../ajaxapi/query/NeedsAttentionQueries';
-import {
+import type {
 	CountAndOldest,
 	NeedsAttentionResponse
 } from '../../../types/generated/expense-tracker';

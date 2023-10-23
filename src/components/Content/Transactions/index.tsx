@@ -1,20 +1,19 @@
 import { PageTitle } from '../../UI/PageTitle';
 import './Transactions.scss';
-import { Updater } from 'use-immer';
-import { DEFAULT_ROWS_PER_PAGE, TransactionSearchForm } from './utils';
+import type { Updater } from 'use-immer';
+import type { TransactionSearchForm } from './utils';
+import { DEFAULT_ROWS_PER_PAGE } from './utils';
 import { TransactionSearchFilters } from './TransactionSearchFilters';
-import { UseFormHandleSubmit } from 'react-hook-form';
+import type { UseFormHandleSubmit } from 'react-hook-form';
 import { NeedsAttentionNotice } from './NeedsAttentionNotice';
 import { PageResponsiveWrapper } from '../../UI/ResponsiveWrappers/PageResponsiveWrapper';
 import { TransactionDetailsDialog } from './TransactionDetailsDialog';
 import { useTransactionDetailsDialogActions } from './useTransactionDetailsDialogActions';
-import { PaginationState } from '../../../utils/pagination';
+import type { PaginationState } from '../../../utils/pagination';
 import { useSetupFilterForm } from './useSetupFilterForm';
-import {
-	StateFromParams,
-	useImmerWithSearchParamSync
-} from '../../../routes/useImmerWithSearchParamSync';
-import { SyncToParams } from '../../../routes/useSearchParamSync';
+import type { StateFromParams } from '../../../routes/useImmerWithSearchParamSync';
+import { useImmerWithSearchParamSync } from '../../../routes/useImmerWithSearchParamSync';
+import type { SyncToParams } from '../../../routes/useSearchParamSync';
 import { TransactionTableWrapper } from './TransactionTableWrapper';
 
 const createOnValueHasChanged = (

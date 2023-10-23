@@ -1,7 +1,7 @@
 import CategoryIcon from '@mui/icons-material/Category';
 import { TransactionIcon } from './TransactionIcon';
-import { CategoryOption } from '../../../../types/categories';
-import { DeepPartial } from 'react-hook-form';
+import type { CategoryOption } from '../../../../types/categories';
+import type { DeepPartial } from 'react-hook-form';
 
 type PartialTransactionForm = {
 	readonly category: CategoryOption | null;

@@ -1,20 +1,20 @@
-import { PaginationState } from '../../../utils/pagination';
+import type { PaginationState } from '../../../utils/pagination';
 import {
 	useGetAllRules,
 	useGetMaxOrdinal,
 	useReOrderRule
 } from '../../../ajaxapi/query/AutoCategorizeRuleQueries';
-import { AutoCategorizeRuleResponse } from '../../../types/generated/expense-tracker';
+import type { AutoCategorizeRuleResponse } from '../../../types/generated/expense-tracker';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
-import { UseFormReturn } from 'react-hook-form';
-import { CategoryOption } from '../../../types/categories';
+import type { UseFormReturn } from 'react-hook-form';
+import type { CategoryOption } from '../../../types/categories';
 import { useCategoriesToCategoryOptions } from '../../../utils/categoryUtils';
 import { useFormWithSearchParamSync } from '../../../routes/useFormWithSearchParamSync';
-import {
+import type {
 	SyncFromParams,
 	SyncToParams
 } from '../../../routes/useSearchParamSync';
-import { ParamsWrapper } from '../../../routes/ParamsWrapper';
+import type { ParamsWrapper } from '../../../routes/ParamsWrapper';
 import { useCallback } from 'react';
 
 type Props = PaginationState;

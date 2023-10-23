@@ -1,6 +1,6 @@
 import './TransactionIcon.scss';
 import { Popover } from '../../../UI/Popover';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 export type TransactionIconTestId =
 	| 'no-category-icon'

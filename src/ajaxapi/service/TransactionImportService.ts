@@ -1,6 +1,6 @@
 import { FileType } from '../../types/file';
 import { expenseTrackerApi, getData } from './AjaxApi';
-import { ImportTransactionsResponse } from '../../types/generated/expense-tracker';
+import type { ImportTransactionsResponse } from '../../types/generated/expense-tracker';
 
 export const importTransactions = (type: FileType, file: File) => {
 	const form = new FormData();

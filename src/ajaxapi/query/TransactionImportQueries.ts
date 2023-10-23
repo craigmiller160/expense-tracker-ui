@@ -1,7 +1,8 @@
 import { FileType } from '../../types/file';
-import { UseMutateFunction, useMutation } from '@tanstack/react-query';
+import type { UseMutateFunction } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { importTransactions } from '../service/TransactionImportService';
-import { ImportTransactionsResponse } from '../../types/generated/expense-tracker';
+import type { ImportTransactionsResponse } from '../../types/generated/expense-tracker';
 import { alertManager } from '../../components/UI/Alerts/AlertManager';
 
 interface ImportTransactionsParams {

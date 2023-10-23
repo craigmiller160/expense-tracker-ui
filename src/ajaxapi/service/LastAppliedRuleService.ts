@@ -1,4 +1,4 @@
-import { LastRuleAppliedResponse } from '../../types/generated/expense-tracker';
+import type { LastRuleAppliedResponse } from '../../types/generated/expense-tracker';
 import { expenseTrackerApi, getData } from './AjaxApi';
 
 export const getLastRuleApplied = (

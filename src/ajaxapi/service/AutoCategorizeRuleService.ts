@@ -1,4 +1,4 @@
-import {
+import type {
 	AutoCategorizeRulePageResponse,
 	AutoCategorizeRuleRequest,
 	AutoCategorizeRuleResponse,
@@ -6,7 +6,7 @@ import {
 } from '../../types/generated/expense-tracker';
 import { stringify } from 'qs';
 import { expenseTrackerApi, getData } from './AjaxApi';
-import { AutoCategorizeRulePageRequest } from '../../types/rules';
+import type { AutoCategorizeRulePageRequest } from '../../types/rules';
 
 export const getAllRules = (
 	request: AutoCategorizeRulePageRequest,

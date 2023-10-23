@@ -1,4 +1,4 @@
-import {
+import type {
 	CategoryResponse,
 	CategoryRequest
 } from '../../types/generated/expense-tracker';

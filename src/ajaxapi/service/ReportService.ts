@@ -1,7 +1,7 @@
-import { ReportPageResponse } from '../../types/generated/expense-tracker';
+import type { ReportPageResponse } from '../../types/generated/expense-tracker';
 import { expenseTrackerApi, getData } from './AjaxApi';
 import { stringify } from 'qs';
-import { ReportRequest } from '../../types/reports';
+import type { ReportRequest } from '../../types/reports';
 
 export const getSpendingByMonthAndCategory = (
 	request: ReportRequest,

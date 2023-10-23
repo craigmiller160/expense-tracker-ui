@@ -2,10 +2,11 @@ import { Button, Typography } from '@mui/material';
 import { useEffect, useMemo } from 'react';
 import { types } from '@craigmiller160/ts-functions';
 import * as Option from 'fp-ts/Option';
-import { CategoryDetails } from '../../../types/categories';
+import type { CategoryDetails } from '../../../types/categories';
 import { pipe } from 'fp-ts/function';
 import './CategoryDetailsDialog.scss';
-import { FormState, useForm, UseFormReset } from 'react-hook-form';
+import type { FormState, UseFormReset } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { TextField } from '@craigmiller160/react-hook-form-material-ui';
 import { SideDialog } from '../../UI/SideDialog';
 

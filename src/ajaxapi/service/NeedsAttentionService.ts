@@ -1,4 +1,4 @@
-import { NeedsAttentionResponse } from '../../types/generated/expense-tracker';
+import type { NeedsAttentionResponse } from '../../types/generated/expense-tracker';
 import { expenseTrackerApi, getData } from './AjaxApi';
 
 export const getNeedsAttention = (

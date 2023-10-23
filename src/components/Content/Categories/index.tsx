@@ -1,27 +1,28 @@
 import { Button, TableCell, TableRow } from '@mui/material';
 import './Categories.scss';
-import {
+import type {
 	CreateCategoryMutation,
 	DeleteCategoryMutation,
-	UpdateCategoryMutation,
+	UpdateCategoryMutation
+} from '../../../ajaxapi/query/CategoryQueries';
+import {
 	useCreateCategory,
 	useDeleteCategory,
 	useGetAllCategories,
 	useUpdateCategory
 } from '../../../ajaxapi/query/CategoryQueries';
 import { Table } from '../../UI/Table';
-import { CategoryResponse } from '../../../types/generated/expense-tracker';
-import { CategoryDetails } from '../../../types/categories';
-import { ReactNode } from 'react';
+import type { CategoryResponse } from '../../../types/generated/expense-tracker';
+import type { CategoryDetails } from '../../../types/categories';
+import type { ReactNode } from 'react';
 import { CategoryDetailsDialog } from './CategoryDetailsDialog';
-import { Updater, useImmer } from 'use-immer';
+import type { Updater } from 'use-immer';
+import { useImmer } from 'use-immer';
 import { types } from '@craigmiller160/ts-functions';
 import * as Option from 'fp-ts/Option';
 import { match } from 'ts-pattern';
-import {
-	NewConfirmDialog,
-	useNewConfirmDialog
-} from '../../UI/ConfirmDialog/ConfirmDialogProvider';
+import type { NewConfirmDialog } from '../../UI/ConfirmDialog/ConfirmDialogProvider';
+import { useNewConfirmDialog } from '../../UI/ConfirmDialog/ConfirmDialogProvider';
 import { PageTitle } from '../../UI/PageTitle';
 import { PageResponsiveWrapper } from '../../UI/ResponsiveWrappers/PageResponsiveWrapper';
 import { ColorBox } from '../../UI/ColorBox';

@@ -1,18 +1,16 @@
-import { UseFormReturn } from 'react-hook-form';
+import type { UseFormReturn } from 'react-hook-form';
 import { Button, Paper } from '@mui/material';
 import { constVoid } from 'fp-ts/function';
+import type { ValueHasChanged } from '@craigmiller160/react-hook-form-material-ui';
 import {
 	Autocomplete,
-	Select,
-	ValueHasChanged
+	Select
 } from '@craigmiller160/react-hook-form-material-ui';
 import { ResponsiveRow } from '../../UI/ResponsiveWrappers/ResponsiveRow';
 import './ReportFilters.scss';
-import {
-	defaultReportFilterFormData,
-	ReportFilterFormData
-} from './useGetReportData';
-import { CategoryOption } from '../../../types/categories';
+import type { ReportFilterFormData } from './useGetReportData';
+import { defaultReportFilterFormData } from './useGetReportData';
+import type { CategoryOption } from '../../../types/categories';
 import {
 	REPORT_CATEGORY_FILTER_OPTIONS,
 	REPORT_CATEGORY_ORDER_BY_OPTIONS

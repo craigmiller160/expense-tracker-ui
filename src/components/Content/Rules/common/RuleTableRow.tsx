@@ -1,9 +1,9 @@
 import './RuleTableRow.scss';
-import { AutoCategorizeRuleResponse } from '../../../../types/generated/expense-tracker';
+import type { AutoCategorizeRuleResponse } from '../../../../types/generated/expense-tracker';
 import { Button, TableCell, TableRow } from '@mui/material';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { ReOrderActions } from '../useHandleAllRulesData';
+import type { ReOrderActions } from '../useHandleAllRulesData';
 import { pipe } from 'fp-ts/function';
 import * as Option from 'fp-ts/Option';
 import { serverDateToDisplayDate } from '../../../../utils/dateTimeUtils';

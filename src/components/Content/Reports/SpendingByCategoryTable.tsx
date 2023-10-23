@@ -1,5 +1,5 @@
 import { Table } from '../../UI/Table';
-import {
+import type {
 	ReportCategoryResponse,
 	ReportMonthResponse
 } from '../../../types/generated/expense-tracker';
@@ -7,11 +7,11 @@ import { TableCell, TableRow } from '@mui/material';
 import { formatCurrency, formatPercent } from '../../../utils/formatNumbers';
 import { ColorBox } from '../../UI/ColorBox';
 import * as RArray from 'fp-ts/ReadonlyArray';
-import { Ord } from 'fp-ts/Ord';
+import type { Ord } from 'fp-ts/Ord';
 import { match } from 'ts-pattern';
-import { ReportCategoryOrderBy } from '../../../types/reports';
-import { UseFormReturn } from 'react-hook-form';
-import { ReportFilterFormData } from './useGetReportData';
+import type { ReportCategoryOrderBy } from '../../../types/reports';
+import type { UseFormReturn } from 'react-hook-form';
+import type { ReportFilterFormData } from './useGetReportData';
 import { useMemo } from 'react';
 import { useGetUnknownCategory } from '../../../ajaxapi/query/CategoryQueries';
 import { Spinner } from '../../UI/Spinner';

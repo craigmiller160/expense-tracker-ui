@@ -1,5 +1,5 @@
-import { EnhancedSearchTransactionsRequest } from '../../types/transactions';
-import {
+import type { EnhancedSearchTransactionsRequest } from '../../types/transactions';
+import type {
 	CreateTransactionRequest,
 	DeleteTransactionsResponse,
 	TransactionAndCategory,
@@ -10,14 +10,16 @@ import {
 	TransactionToUpdate,
 	UpdateTransactionDetailsRequest
 } from '../../types/generated/expense-tracker';
+import type {
+	UseMutateFunction,
+	UseMutationResult,
+	UseQueryResult
+} from '@tanstack/react-query';
 import {
 	QueryClient,
-	UseMutateFunction,
 	useMutation,
-	UseMutationResult,
 	useQuery,
-	useQueryClient,
-	UseQueryResult
+	useQueryClient
 } from '@tanstack/react-query';
 import {
 	categorizeTransactions,

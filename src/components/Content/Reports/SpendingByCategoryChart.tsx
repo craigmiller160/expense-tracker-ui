@@ -1,4 +1,4 @@
-import { ReportCategoryResponse } from '../../../types/generated/expense-tracker';
+import type { ReportCategoryResponse } from '../../../types/generated/expense-tracker';
 import { Cell, Pie, PieChart } from 'recharts';
 import { castDraft } from 'immer';
 import './SpendingByCategoryChart.scss';

@@ -6,9 +6,7 @@ import { namedLazy } from '../utils/reactWrappers';
 import { match } from 'ts-pattern';
 import { LazySuspenseWrapper } from '../components/UI/LazySuspenseWrapper';
 import type { KeycloakAuth } from '@craigmiller160/react-keycloak';
-import {
-	KeycloakAuthContext
-} from '@craigmiller160/react-keycloak';
+import { KeycloakAuthContext } from '@craigmiller160/react-keycloak';
 
 const Welcome = namedLazy(
 	() => import('../components/Content/Welcome'),

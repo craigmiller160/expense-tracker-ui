@@ -1,11 +1,5 @@
-import type {
-	UseMutateFunction
-} from '@tanstack/react-query';
-import {
-	useMutation,
-	useQuery,
-	useQueryClient
-} from '@tanstack/react-query';
+import type { UseMutateFunction } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
 	createCategory,
 	deleteCategory,

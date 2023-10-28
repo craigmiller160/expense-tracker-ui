@@ -164,7 +164,7 @@ export const MobileNavItems = () => {
 			>
 				{NAVBAR_ITEMS.map((item) => (
 					<MenuItem
-						className="NavbarItem"
+						className="navbar-item"
 						key={item.to}
 						onClick={selectNavItem(item)}
 					>

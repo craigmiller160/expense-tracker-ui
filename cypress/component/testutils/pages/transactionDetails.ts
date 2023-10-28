@@ -82,19 +82,19 @@ const getLastRuleAppliedTitle = (): Chainable<JQuery> =>
 const getLastRuleOrdinal = (): Chainable<JQuery> =>
 	cy
 		.get(
-			'#TransactionDetailsDialog-body .last-rule-applied .AutoCategorizeRuleTableRow td'
+			'#TransactionDetailsDialog-body .last-rule-applied .auto-categorize-rule-table-row td'
 		)
 		.eq(0);
 const getLastRuleCategory = (): Chainable<JQuery> =>
 	cy
 		.get(
-			'#TransactionDetailsDialog-body .last-rule-applied .AutoCategorizeRuleTableRow td'
+			'#TransactionDetailsDialog-body .last-rule-applied .auto-categorize-rule-table-row td'
 		)
 		.eq(1);
 const getLastRuleInfo = (): Chainable<JQuery> =>
 	cy
 		.get(
-			'#TransactionDetailsDialog-body .last-rule-applied .AutoCategorizeRuleTableRow td'
+			'#TransactionDetailsDialog-body .last-rule-applied .auto-categorize-rule-table-row td'
 		)
 		.eq(2);
 

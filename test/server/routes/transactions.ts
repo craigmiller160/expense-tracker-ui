@@ -112,24 +112,38 @@ export const createTransactionsRoutes = (
 			Object.values(database.data.transactions),
 			RArray.sort(createSortTransactionOrd(sortDirection)),
 			RArray.filter(
-				createStartDateFilter(request.queryParams?.startDate)
-			),
-			RArray.filter(createEndDateFilter(request.queryParams?.endDate)),
-			RArray.filter(
-				createCategoryIdFilter(request.queryParams?.categoryIds)
+				createStartDateFilter(
+					request.queryParams?.startDate as string | undefined
+				)
 			),
 			RArray.filter(
-				createIsCategorizedFilter(request.queryParams?.isCategorized)
+				createEndDateFilter(
+					request.queryParams?.endDate as string | undefined
+				)
 			),
 			RArray.filter(
-				createIsConfirmedFilter(request.queryParams?.isConfirmed)
+				createCategoryIdFilter(
+					request.queryParams?.categoryIds as string | undefined
+				)
 			),
 			RArray.filter(
-				createIsDuplicateFilter(request.queryParams?.isDuplicate)
+				createIsCategorizedFilter(
+					request.queryParams?.isCategorized as string | undefined
+				)
+			),
+			RArray.filter(
+				createIsConfirmedFilter(
+					request.queryParams?.isConfirmed as string | undefined
+				)
+			),
+			RArray.filter(
+				createIsDuplicateFilter(
+					request.queryParams?.isDuplicate as string | undefined
+				)
 			),
 			RArray.filter(
 				createIsPossibleRefundFilter(
-					request.queryParams?.isPossibleRefund
+					request.queryParams?.isPossibleRefund as string | undefined
 				)
 			)
 		);

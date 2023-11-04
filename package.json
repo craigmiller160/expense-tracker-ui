@@ -33,7 +33,7 @@
     "@types/uuid": "^9.0.3",
     "cypress": "^13.1.0",
     "io-ts": "^2.2.20",
-    "miragejs": "^0.1.45",
+    "miragejs": "^0.1.48",
     "vitest": "^0.34.5"
   },
   "dependencies": {

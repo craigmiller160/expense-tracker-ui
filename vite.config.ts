@@ -18,6 +18,9 @@ export default defineConfig({
 	},
 	test: {
 		environment: 'jsdom',
+		environmentOptions: {
+			url: 'http://localhost'
+		},
 		setupFiles: [path.join(process.cwd(), 'test', 'setup.tsx')]
 	}
 });

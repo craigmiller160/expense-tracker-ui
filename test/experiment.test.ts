@@ -6,6 +6,7 @@ import {
 	defaultStartDate
 } from '../src/components/Content/Transactions/utils';
 import { SortDirection, TransactionSortKey } from '../src/types/misc';
+import axios from 'axios';
 
 describe('experiment', () => {
 	it('test', async () => {
@@ -18,18 +19,8 @@ describe('experiment', () => {
 		});
 
 		try {
-			const result = await searchForTransactions({
-				startDate: defaultStartDate(),
-				endDate: defaultEndDate(),
-				pageNumber: 0,
-				pageSize: 25,
-				sortKey: TransactionSortKey.EXPENSE_DATE,
-				sortDirection: SortDirection.DESC,
-				confirmed: 'ALL',
-				categorized: 'ALL',
-				duplicate: 'ALL',
-				possibleRefund: 'ALL'
-			});
+			const result = await axios.get('/expense-tracker/api/transactions');
+			console.log(result.data);
 			console.log('RESULT', result);
 		} catch (ex) {
 			console.log(ex);

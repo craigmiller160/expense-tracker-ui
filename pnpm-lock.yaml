@@ -10,7 +10,7 @@ dependencies:
     version: 2.2.0-beta.10(axios@1.5.0)
   '@craigmiller160/js-config':
     specifier: file:.yalc/@craigmiller160/js-config
-    version: file:.yalc/@craigmiller160/js-config(@relmify/jest-fp-ts@2.1.1)(@testing-library/dom@9.3.3)(@types/node@18.14.0)(cypress@13.1.0)(fp-ts@2.16.1)(io-ts@2.2.20)(ts-pattern@5.0.5)(vitest@0.34.5)
+    version: file:.yalc/@craigmiller160/js-config(@relmify/jest-fp-ts@2.1.1)(@testing-library/dom@9.3.3)(@types/node@18.14.0)(cross-env@7.0.3)(cypress@13.1.0)(fp-ts@2.16.1)(io-ts@2.2.20)(ts-pattern@5.0.5)(vitest@0.34.5)
   '@craigmiller160/react-hook-form-material-ui':
     specifier: 1.5.0-beta.1
     version: 1.5.0-beta.1(@mui/material@5.13.5)(@mui/x-date-pickers@5.0.0-alpha.7)(date-fns@2.29.3)(react-hook-form@7.44.3)(react@18.2.0)
@@ -141,7 +141,7 @@ devDependencies:
     version: 18.14.0
   '@types/qs':
     specifier: ^6.9.7
-    version: 6.9.7
+    version: 6.9.10
   '@types/react':
     specifier: ^18.0.14
     version: 18.0.14
@@ -154,6 +154,9 @@ devDependencies:
   '@types/uuid':
     specifier: ^9.0.3
     version: 9.0.3
+  cross-env:
+    specifier: ^7.0.3
+    version: 7.0.3
   cypress:
     specifier: ^13.1.0
     version: 13.1.0
@@ -1619,8 +1622,8 @@ packages:
   /@types/prop-types@15.7.5:
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
 
-  /@types/qs@6.9.7:
-    resolution: {integrity: sha512-FGa1F62FT09qcrueBA6qYTrJPVDzah9a+493+o2PCXsesWHIn27G98TsSMs3WPNbZIEj4+VJf6saSFpvD+3Zsw==}
+  /@types/qs@6.9.10:
+    resolution: {integrity: sha512-3Gnx08Ns1sEoCrWssEgTSJs/rsT2vhGP+Ja9cnnk9k4ALxinORlQneLXFeFKOTJMOeZUFD1s7w+w2AphTpvzZw==}
     dev: true
 
   /@types/react-dom@18.0.5:
@@ -2575,7 +2578,6 @@ packages:
     hasBin: true
     dependencies:
       cross-spawn: 7.0.3
-    dev: false
 
   /cross-spawn@7.0.3:
     resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
@@ -7094,7 +7096,7 @@ packages:
     resolution: {integrity: sha512-9bnSc/HEW2uRy67wc+T8UwauLuPJVn28jb+GtJY16iiKWyvmYJRXVT4UamsAEGQfPohgr2q4Tq0sQbQlxTfi1g==}
     engines: {node: '>=12.20'}
 
-  file:.yalc/@craigmiller160/js-config(@relmify/jest-fp-ts@2.1.1)(@testing-library/dom@9.3.3)(@types/node@18.14.0)(cypress@13.1.0)(fp-ts@2.16.1)(io-ts@2.2.20)(ts-pattern@5.0.5)(vitest@0.34.5):
+  file:.yalc/@craigmiller160/js-config(@relmify/jest-fp-ts@2.1.1)(@testing-library/dom@9.3.3)(@types/node@18.14.0)(cross-env@7.0.3)(cypress@13.1.0)(fp-ts@2.16.1)(io-ts@2.2.20)(ts-pattern@5.0.5)(vitest@0.34.5):
     resolution: {directory: .yalc/@craigmiller160/js-config, type: directory}
     id: file:.yalc/@craigmiller160/js-config
     name: '@craigmiller160/js-config'
@@ -7102,6 +7104,7 @@ packages:
     requiresBuild: true
     peerDependencies:
       '@relmify/jest-fp-ts': ^2.1.1
+      cross-env: ^7.0.3
       cypress: '>=13.0.0'
       fp-ts: ^2.16.1
       io-ts: ^2.2.20

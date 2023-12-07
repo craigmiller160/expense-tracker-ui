@@ -176,10 +176,16 @@ export const TransactionDetailsDialog = (props: Props) => {
 									label="Amount ($)"
 									rules={{
 										required: 'Amount is required',
-										validate: (value: unknown) =>
-											/^0\.00$/.test(`${value}`)
-												? 'Must provide amount'
-												: undefined
+										validate: (value: unknown) => {
+											const message =
+												'Must provide amount';
+											if (typeof value === 'string') {
+												return /^0\.00$/.test(value)
+													? message
+													: undefined;
+											}
+											return message;
+										}
 									}}
 									onBlurTransform={formatAmountValue}
 								/>

@@ -30,6 +30,7 @@ export const useFormWithSearchParamSync = <Form extends object>(
 				{},
 				props.defaultValues ?? {},
 				params,
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-return
 				(a, b) => b ?? a
 			);
 			setParams(merged);

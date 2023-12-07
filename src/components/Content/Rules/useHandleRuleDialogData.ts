@@ -85,7 +85,7 @@ type Data = {
 	readonly isFetching: boolean;
 	readonly form: UseFormReturn<RuleFormData>;
 	readonly ordinalOptions: ReadonlyArray<OrdinalOption>;
-	readonly saveRule: (values: RuleFormData) => void;
+	readonly saveRule: (values: RuleFormData) => Promise<void>;
 	readonly deleteRule: () => void;
 };
 
@@ -133,7 +133,7 @@ const createSaveRule =
 		>,
 		close: () => void
 	) =>
-	(values: RuleFormData): void => {
+	(values: RuleFormData): Promise<void> => {
 		// Validations are enforced both in the form controls
 		// and server-side, so the defaults won't be an issue
 		const request: AutoCategorizeRuleRequest = {
@@ -145,7 +145,7 @@ const createSaveRule =
 			minAmount: parseRequestAmount(values.minAmount),
 			maxAmount: parseRequestAmount(values.maxAmount)
 		};
-		pipe(
+		return pipe(
 			selectedRuleId,
 			Option.fold(
 				() => () =>
@@ -169,9 +169,9 @@ const createDeleteRule =
 		close: () => void,
 		clearSelectedRule: () => void
 	) =>
-	() => {
+	(): Promise<void> => {
 		clearSelectedRule();
-		pipe(
+		return pipe(
 			selectedRuleId,
 			Option.fold(
 				() => () => Promise.resolve(),

@@ -30,7 +30,7 @@ export const useImmerWithSearchParamSync = <State extends object>(
 			// Return type will never be used, bypassing type system here
 			return null as unknown as State;
 		},
-		// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps, @typescript-eslint/no-unsafe-assignment
 		[stateFromParams, setState, ...(props.stateToParamsDependencies ?? [])]
 	);
 	const [, setParams] = useSearchParamSync<State>({

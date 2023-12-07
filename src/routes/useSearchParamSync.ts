@@ -46,7 +46,7 @@ export const useSearchParamSync = <Params extends object>(
 	const parsedSearchParams = useMemo(
 		() => syncFromParams(wrapParams(searchParams)),
 
-		// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps, @typescript-eslint/no-unsafe-assignment
 		[searchParams, syncFromParams, ...(syncFromParamsDependencies ?? [])]
 	);
 

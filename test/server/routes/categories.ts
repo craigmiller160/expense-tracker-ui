@@ -27,7 +27,7 @@ export const createCategoriesRoutes = (database: Database, server: Server) => {
 	});
 
 	server.put('/categories/:id', (schema, request) => {
-		const id = request.params.id as string;
+		const id = request.params.id;
 		const requestBody = JSON.parse(request.requestBody) as CategoryRequest;
 		database.updateData((draft) => {
 			const existing = draft.categories[id];
@@ -43,7 +43,7 @@ export const createCategoriesRoutes = (database: Database, server: Server) => {
 	});
 
 	server.delete('/categories/:id', (schema, request) => {
-		const id = request.params.id as string;
+		const id = request.params.id;
 		database.updateData((draft) => {
 			delete draft.categories[id];
 		});

@@ -22,6 +22,7 @@ import {
 	parseServerDate
 } from '../../../src/utils/dateTimeUtils';
 import { Time } from '@craigmiller160/ts-functions';
+import { getQueryParamFromRequest } from '../serverUtils';
 
 const createSortTransactionOrd = (
 	sortDirection: SortDirection
@@ -106,8 +107,9 @@ export const createTransactionsRoutes = (
 	server.get('/transactions', (schema, request) => {
 		const sortDirection = request.queryParams
 			?.sortDirection as SortDirection;
-		const pageNumber = parseInt(`${request.queryParams?.pageNumber}`);
-		const pageSize = parseInt(`${request.queryParams?.pageSize}`);
+		const getQueryParam = getQueryParamFromRequest(request);
+		const pageNumber = parseInt(`${getQueryParam('pageNumber') ?? '0'}`);
+		const pageSize = parseInt(`${getQueryParam('pageSize') ?? '0'}`);
 		const transactions = pipe(
 			Object.values(database.data.transactions),
 			RArray.sort(createSortTransactionOrd(sortDirection)),
@@ -220,7 +222,7 @@ export const createTransactionsRoutes = (
 	});
 
 	server.put('/transactions/:id/details', (schema, request) => {
-		const id = request.params.id as string;
+		const id = request.params.id;
 		const requestBody = JSON.parse(
 			request.requestBody
 		) as UpdateTransactionDetailsRequest;
@@ -271,7 +273,7 @@ export const createTransactionsRoutes = (
 	});
 
 	server.get('/transactions/:transactionId/details', (schema, request) => {
-		const transactionId = request.params.transactionId as string;
+		const transactionId = request.params.transactionId;
 		return Object.values(database.data.transactions).filter(
 			(txn) => txn.id === transactionId
 		)[0];
@@ -282,9 +284,10 @@ export const createTransactionsRoutes = (
 	});
 
 	server.get('/transactions/:transactionId/duplicates', (schema, request) => {
-		const transactionId = request.params.transactionId as string;
-		const pageNumber = parseInt(`${request.queryParams?.pageNumber}`);
-		const pageSize = parseInt(`${request.queryParams?.pageSize}`);
+		const transactionId = request.params.transactionId;
+		const getQueryParam = getQueryParamFromRequest(request);
+		const pageNumber = parseInt(`${getQueryParam('pageNumber') ?? '0'}`);
+		const pageSize = parseInt(`${getQueryParam('pageSize') ?? '0'}`);
 		const matchingTxn = database.data.transactions[transactionId];
 		const duplicates = Object.values(database.data.transactions)
 			.filter((txn) => txn.duplicate)

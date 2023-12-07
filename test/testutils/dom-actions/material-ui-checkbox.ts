@@ -12,10 +12,9 @@ type Selector = {
 	readonly root?: HTMLElement;
 };
 
-type NoArgVoidFn = () => void;
 type NoArgVoidPromiseFn = () => Promise<void>;
 export type MaterialUiCheckbox = {
-	click: NoArgVoidFn;
+	click: NoArgVoidPromiseFn;
 	isChecked: NoArgVoidPromiseFn;
 	isNotChecked: NoArgVoidPromiseFn;
 };
@@ -30,7 +29,7 @@ export const materialUiCheckbox = (selector: Selector): MaterialUiCheckbox => {
 	// eslint-disable-next-line testing-library/no-node-access
 	const checkboxInput = checkbox.querySelector('input');
 
-	const click: NoArgVoidFn = () => userEvents.click(checkbox);
+	const click: NoArgVoidPromiseFn = () => userEvents.click(checkbox);
 	const isChecked: NoArgVoidPromiseFn = () =>
 		waitFor(() => expect(checkboxInput).toBeChecked());
 	const isNotChecked: NoArgVoidPromiseFn = () =>

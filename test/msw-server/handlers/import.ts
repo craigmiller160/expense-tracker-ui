@@ -17,7 +17,7 @@ const transactionImportHandler: HttpHandler = http.post<
 	PathParams,
 	DefaultBodyType,
 	ImportTransactionsResponse | ErrorResponse
->('/transaction-import', ({ request }) => {
+>('/expense-tracker/api/transaction-import', ({ request }) => {
 	const url = new URL(request.url);
 	const type = url.searchParams.get('type') as FileType;
 	return match(type)

@@ -280,13 +280,16 @@ const getTransactionDetailsHandler: HttpHandler = http.get<
 	{ transactionId: string },
 	DefaultBodyType,
 	TransactionDetailsResponse
->('/transactions/:transactionId/details', ({ params }) => {
-	const transactionId = params.transactionId;
-	const result = Object.values(database.data.transactions).filter(
-		(txn) => txn.id === transactionId
-	)[0];
-	return HttpResponse.json(result);
-});
+>(
+	'http://localhost/expense-tracker/api/transactions/:transactionId/details',
+	({ params }) => {
+		const transactionId = params.transactionId;
+		const result = Object.values(database.data.transactions).filter(
+			(txn) => txn.id === transactionId
+		)[0];
+		return HttpResponse.json(result);
+	}
+);
 
 const getLastRuleAppliedHandler: HttpHandler = http.get<{
 	transactionId: string;

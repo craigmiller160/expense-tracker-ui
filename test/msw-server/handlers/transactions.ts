@@ -294,7 +294,7 @@ const getTransactionDetailsHandler: HttpHandler = http.get<
 const getLastRuleAppliedHandler: HttpHandler = http.get<{
 	transactionId: string;
 }>(
-	'http://localhost/expense-tracker/api/transactions/rules/lastApplied/:transactionId',
+	'http://localhost/expense-tracker/api/transactions/rules/last-applied/:transactionId',
 	() =>
 		new HttpResponse(null, {
 			status: 204

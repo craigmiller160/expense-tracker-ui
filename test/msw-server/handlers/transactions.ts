@@ -1,9 +1,15 @@
 import { SortDirection } from '../../../src/types/misc';
 import type { Ord } from 'fp-ts/Ord';
 import type {
+	CategorizeTransactionsRequest,
+	CreateTransactionRequest,
+	DeleteTransactionsRequest,
 	TransactionDetailsResponse,
+	TransactionDuplicatePageResponse,
+	TransactionDuplicateResponse,
 	TransactionResponse,
-	TransactionsPageResponse
+	TransactionsPageResponse,
+	UpdateTransactionsRequest
 } from '../../../src/types/generated/expense-tracker';
 import {
 	compareServerDates,
@@ -16,6 +22,11 @@ import { http, HttpResponse } from 'msw';
 import { pipe } from 'fp-ts/function';
 import * as RArray from 'fp-ts/ReadonlyArray';
 import { database } from '../Database';
+import {
+	CategoryResponse,
+	UpdateTransactionDetailsRequest
+} from '../../../src/types/generated/expense-tracker';
+import { v4 as uuidv4 } from 'uuid';
 
 const createSortTransactionOrd = (
 	sortDirection: SortDirection
@@ -137,3 +148,194 @@ const getAllTransactionsHandler: HttpHandler = http.get<
 		totalItems: transactions.length
 	});
 });
+
+const categorizeTransactionHandler: HttpHandler = http.put<
+	PathParams,
+	CategorizeTransactionsRequest
+>(
+	'http://localhost/expense-tracker/api/transactions/categorize',
+	async ({ request }) => {
+		const body = await request.json();
+		const newTransactions = body.transactionsAndCategories.map(
+			(txnAndCat) => {
+				const txn = database.data.transactions[txnAndCat.transactionId];
+				const cat = txnAndCat.categoryId
+					? database.data.categories[txnAndCat.categoryId]
+					: undefined;
+				return {
+					...txn,
+					categoryId: txnAndCat.categoryId ?? undefined,
+					categoryName: cat?.name,
+					confirmed: txn.confirmed || !!txnAndCat.categoryId
+				};
+			}
+		);
+		database.updateData((draft) => {
+			newTransactions.forEach((txn) => {
+				draft.transactions[txn.id] = txn;
+			});
+		});
+		return HttpResponse.json('', {
+			status: 204
+		});
+	}
+);
+
+const updateTransactions: HttpHandler = http.put<
+	PathParams,
+	UpdateTransactionsRequest
+>('http://localhost/expense-tracker/api/transactions', async ({ request }) => {
+	const body = await request.json();
+	database.updateData((draft) => {
+		body.transactions.forEach(
+			({ transactionId, categoryId, confirmed }) => {
+				draft.transactions[transactionId] = {
+					...draft.transactions[transactionId],
+					categoryId: categoryId ?? undefined,
+					categoryName: categoryId
+						? draft.categories[categoryId].name
+						: undefined,
+					confirmed
+				};
+			}
+		);
+	});
+	return HttpResponse.json('', {
+		status: 204
+	});
+});
+
+const deleteTransactions: HttpHandler = http.delete<
+	PathParams,
+	DeleteTransactionsRequest
+>('http://localhost/expense-tracker/api/transactions', async ({ request }) => {
+	const body = await request.json();
+	database.updateData((draft) => {
+		body.ids.forEach((id) => {
+			delete draft.transactions[id];
+		});
+	});
+	return HttpResponse.json('', {
+		status: 204
+	});
+});
+
+const updateTransactionDetails: HttpHandler = http.put<
+	{ id: string },
+	UpdateTransactionDetailsRequest
+>(
+	'http://localhost/expense-tracker/api/transactions/:id/details',
+	async ({ params, request }) => {
+		const id = params.id;
+		const requestBody = await request.json();
+		database.updateData((draft) => {
+			const existing = draft.transactions[id];
+			if (existing) {
+				draft.transactions[id] = {
+					...existing,
+					confirmed: requestBody.confirmed,
+					expenseDate: requestBody.expenseDate,
+					description: requestBody.description,
+					amount: requestBody.amount,
+					categoryId: requestBody.categoryId
+				};
+
+				if (requestBody.categoryId) {
+					const category = draft.categories[requestBody.categoryId];
+					draft.transactions[id].categoryName = category.name;
+				}
+			}
+		});
+		return HttpResponse.json('', {
+			status: 204
+		});
+	}
+);
+
+const createTransaction: HttpHandler = http.post<
+	PathParams,
+	CreateTransactionRequest,
+	TransactionDetailsResponse
+>('http://localhost/expense-tracker/api/transactions', async ({ request }) => {
+	const requestBody = await request.json();
+	const id = uuidv4();
+	const category: CategoryResponse | undefined =
+		database.data.categories[requestBody.categoryId ?? ''];
+	database.updateData((draft) => {
+		draft.transactions[id] = {
+			id,
+			categoryId: category?.id,
+			categoryName: category?.name,
+			description: requestBody.description,
+			amount: requestBody.amount,
+			confirmed: true,
+			duplicate: false,
+			expenseDate: requestBody.expenseDate,
+			created: '',
+			updated: ''
+		};
+	});
+	return HttpResponse.json(database.data.transactions[id]);
+});
+
+const getTransactionDetails: HttpHandler = http.get<
+	{ transactionId: string },
+	DefaultBodyType,
+	TransactionDetailsResponse
+>('/transactions/:transactionId/details', ({ params }) => {
+	const transactionId = params.transactionId;
+	const result = Object.values(database.data.transactions).filter(
+		(txn) => txn.id === transactionId
+	)[0];
+	return HttpResponse.json(result);
+});
+
+const getLastRuleApplied: HttpHandler = http.get<{ transactionId: string }>(
+	'http://localhost/expense-tracker/api/transactions/rules/lastApplied/:transactionId',
+	() =>
+		HttpResponse.json('', {
+			status: 204
+		})
+);
+
+const getPossibleDuplicates: HttpHandler = http.get<
+	{ transactionId: string },
+	DefaultBodyType,
+	TransactionDuplicatePageResponse
+>(
+	'http://localhost/expense-tracker/api/transactions/:transactionId/duplicates',
+	({ params, request }) => {
+		const transactionId = params.transactionId;
+		const url = new URL(request.url);
+		const pageNumber = parseInt(url.searchParams.get('pageNumber') ?? '0');
+		const pageSize = parseInt(url.searchParams.get('pageSize') ?? '0');
+		const matchingTxn = database.data.transactions[transactionId];
+		const duplicates = Object.values(database.data.transactions)
+			.filter((txn) => txn.duplicate)
+			.filter(
+				(txn) =>
+					matchingTxn.expenseDate === txn.expenseDate &&
+					matchingTxn.amount === txn.amount &&
+					matchingTxn.description === txn.description &&
+					matchingTxn.id !== txn.id
+			);
+		const paginatedDuplicates = paginateTransactions(
+			pageNumber,
+			pageSize
+		)(duplicates);
+		const response: TransactionDuplicatePageResponse = {
+			transactions: paginatedDuplicates.map(
+				(txn): TransactionDuplicateResponse => ({
+					id: txn.id,
+					created: txn.created,
+					updated: txn.updated,
+					categoryName: txn.categoryName,
+					confirmed: false
+				})
+			),
+			pageNumber,
+			totalItems: duplicates.length
+		};
+		return HttpResponse.json(response);
+	}
+);

@@ -173,7 +173,7 @@ const categorizeTransactionHandler: HttpHandler = http.put<
 				draft.transactions[txn.id] = txn;
 			});
 		});
-		return HttpResponse.json('', {
+		return new HttpResponse(null, {
 			status: 204
 		});
 	}
@@ -198,7 +198,7 @@ const updateTransactionsHandler: HttpHandler = http.put<
 			}
 		);
 	});
-	return HttpResponse.json('', {
+	return new HttpResponse(null, {
 		status: 204
 	});
 });
@@ -213,7 +213,7 @@ const deleteTransactionsHandler: HttpHandler = http.delete<
 			delete draft.transactions[id];
 		});
 	});
-	return HttpResponse.json('', {
+	return new HttpResponse(null, {
 		status: 204
 	});
 });
@@ -244,7 +244,7 @@ const updateTransactionDetailsHandler: HttpHandler = http.put<
 				}
 			}
 		});
-		return HttpResponse.json('', {
+		return new HttpResponse(null, {
 			status: 204
 		});
 	}
@@ -296,7 +296,7 @@ const getLastRuleAppliedHandler: HttpHandler = http.get<{
 }>(
 	'http://localhost/expense-tracker/api/transactions/rules/lastApplied/:transactionId',
 	() =>
-		HttpResponse.json('', {
+		new HttpResponse(null, {
 			status: 204
 		})
 );

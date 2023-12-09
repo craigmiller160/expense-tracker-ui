@@ -386,7 +386,7 @@ describe('Transactions Table', () => {
 		]);
 
 		const allRows = screen.getAllByTestId('transaction-table-row');
-		expect(allRows).toHaveLength(2);
+		expect(allRows).toHaveLength(25);
 
 		transactionIcon('possible-refund-icon', allRows[0]).isVisible();
 		transactionIcon('possible-refund-icon', allRows[1]).isNotVisible();

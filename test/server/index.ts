@@ -1,10 +1,10 @@
-import { Database } from './Database';
+import { Database } from '../msw-server/Database';
 import * as Option from 'fp-ts/Option';
 import { createServer, Server } from 'miragejs';
-import { seedCategories } from './seedData/categories';
+import { seedCategories } from '../msw-server/seedData/categories';
 import { createCategoriesRoutes } from './routes/categories';
 import { createImportRoutes } from './routes/import';
-import { seedTransactions } from './seedData/transactions';
+import { seedTransactions } from '../msw-server/seedData/transactions';
 import { createTransactionsRoutes } from './routes/transactions';
 import { createNeedsAttentionRoutes } from './routes/needsAttention';
 

@@ -1,4 +1,4 @@
-import { Database } from '../Database';
+import { Database } from '../../msw-server/Database';
 import { Server } from 'miragejs';
 import { pipe } from 'fp-ts/function';
 import * as RArray from 'fp-ts/ReadonlyArray';

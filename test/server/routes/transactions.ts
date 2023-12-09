@@ -1,4 +1,4 @@
-import { Database } from '../Database';
+import { Database } from '../../msw-server/Database';
 import { Response, Server } from 'miragejs';
 import type {
 	CategorizeTransactionsRequest,

@@ -37,8 +37,7 @@ const createCategory: RequestHandler = http.post<
 
 const updateCategory: RequestHandler = http.put<
 	{ id: string },
-	CategoryRequest,
-	CategoryResponse
+	CategoryRequest
 >(
 	'http://localhost/expense-tracker/api/categories/:id',
 	async ({ request, params }) => {

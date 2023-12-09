@@ -21,6 +21,6 @@ export default defineConfig({
 		environmentOptions: {
 			url: 'http://localhost'
 		},
-		// setupFiles: [path.join(process.cwd(), 'test', 'setup.tsx')]
+		setupFiles: [path.join(process.cwd(), 'test', 'setup.tsx')]
 	}
 });

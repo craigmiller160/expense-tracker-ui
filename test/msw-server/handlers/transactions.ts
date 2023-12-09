@@ -2,7 +2,8 @@ import { SortDirection } from '../../../src/types/misc';
 import type { Ord } from 'fp-ts/Ord';
 import type {
 	TransactionDetailsResponse,
-	TransactionResponse
+	TransactionResponse,
+	TransactionsPageResponse
 } from '../../../src/types/generated/expense-tracker';
 import {
 	compareServerDates,
@@ -10,6 +11,11 @@ import {
 } from '../../../src/utils/dateTimeUtils';
 import { Time } from '@craigmiller160/ts-functions';
 import { match } from 'ts-pattern';
+import type { DefaultBodyType, HttpHandler, PathParams } from 'msw';
+import { http, HttpResponse } from 'msw';
+import { pipe } from 'fp-ts/function';
+import * as RArray from 'fp-ts/ReadonlyArray';
+import { database } from '../Database';
 
 const createSortTransactionOrd = (
 	sortDirection: SortDirection
@@ -30,7 +36,7 @@ const paginateTransactions =
 		);
 
 const createStartDateFilter =
-	(startDateString?: string) =>
+	(startDateString: string | null) =>
 	(transaction: TransactionResponse): boolean => {
 		if (!startDateString) {
 			return true;
@@ -40,7 +46,7 @@ const createStartDateFilter =
 		return Time.compare(startDate)(txnDate) <= 0;
 	};
 const createEndDateFilter =
-	(endDateString?: string) =>
+	(endDateString: string | null) =>
 	(transaction: TransactionResponse): boolean => {
 		if (!endDateString) {
 			return true;
@@ -49,7 +55,7 @@ const createEndDateFilter =
 		const endDate = parseServerDate(endDateString);
 		return Time.compare(endDate)(txnDate) >= 0;
 	};
-const createCategoryIdFilter = (categoryIdString?: string) => {
+const createCategoryIdFilter = (categoryIdString: string | null) => {
 	if (!categoryIdString) {
 		return () => true;
 	}
@@ -58,31 +64,76 @@ const createCategoryIdFilter = (categoryIdString?: string) => {
 		categoryIds.includes(transaction.categoryId ?? '');
 };
 const createIsCategorizedFilter =
-	(isCategorized?: string) =>
+	(isCategorized: string | null) =>
 	(transaction: TransactionResponse): boolean =>
 		match(isCategorized)
-			.with(undefined, () => true)
+			.with(null, () => true)
 			.with('true', () => transaction.categoryId !== undefined)
 			.otherwise(() => transaction.categoryId === undefined);
 const createIsConfirmedFilter =
-	(isConfirmed?: string) =>
+	(isConfirmed: string | null) =>
 	(transaction: TransactionResponse): boolean =>
 		match(isConfirmed)
-			.with(undefined, () => true)
+			.with(null, () => true)
 			.with('true', () => transaction.confirmed === true)
 			.otherwise(() => transaction.confirmed === false);
 const createIsDuplicateFilter =
-	(isDuplicate?: string) =>
+	(isDuplicate: string | null) =>
 	(transaction: TransactionResponse): boolean =>
 		match(isDuplicate)
-			.with(undefined, () => true)
+			.with(null, () => true)
 			.with('true', () => transaction.duplicate === true)
 			.otherwise(() => transaction.duplicate === false);
 
 const createIsPossibleRefundFilter =
-	(isPossibleRefund?: string) =>
+	(isPossibleRefund: string | null) =>
 	(transaction: TransactionResponse): boolean =>
 		match(isPossibleRefund)
-			.with(undefined, () => true)
+			.with(null, () => true)
 			.with('true', () => transaction.amount > 0)
 			.otherwise(() => transaction.amount <= 0);
+
+const getAllTransactionsHandler: HttpHandler = http.get<
+	PathParams,
+	DefaultBodyType,
+	TransactionsPageResponse
+>('http://localhost/expense-tracker/api/transactions', ({ request }) => {
+	const url = new URL(request.url);
+	const sortDirection = url.searchParams.get(
+		'sortDirection'
+	) as SortDirection;
+	const pageNumber = parseInt(url.searchParams.get('pageNumber') ?? '0');
+	const pageSize = parseInt(url.searchParams.get('pageSize') ?? '0');
+	const transactions = pipe(
+		Object.values(database.data.transactions),
+		RArray.sort(createSortTransactionOrd(sortDirection)),
+		RArray.filter(createStartDateFilter(url.searchParams.get('startDate'))),
+		RArray.filter(createEndDateFilter(url.searchParams.get('endDate'))),
+		RArray.filter(
+			createCategoryIdFilter(url.searchParams.get('categoryIds'))
+		),
+		RArray.filter(
+			createIsCategorizedFilter(url.searchParams.get('isCategorized'))
+		),
+		RArray.filter(
+			createIsConfirmedFilter(url.searchParams.get('isConfirmed'))
+		),
+		RArray.filter(
+			createIsDuplicateFilter(url.searchParams.get('isDuplicate'))
+		),
+		RArray.filter(
+			createIsPossibleRefundFilter(
+				url.searchParams.get('isPossibleRefund')
+			)
+		)
+	);
+	const paginatedTransactions = paginateTransactions(
+		pageNumber,
+		pageSize
+	)(transactions);
+	return HttpResponse.json({
+		transactions: paginatedTransactions,
+		pageNumber,
+		totalItems: transactions.length
+	});
+});

@@ -17,15 +17,15 @@ const transactionImportHandler: HttpHandler = http.post<
 	PathParams,
 	DefaultBodyType,
 	ImportTransactionsResponse | ErrorResponse
->('/expense-tracker/api/transaction-import', ({ request }) => {
+>('http://localhost/expense-tracker/api/transaction-import', ({ request }) => {
 	const url = new URL(request.url);
 	const type = url.searchParams.get('type') as FileType;
 	return match(type)
-		.with(FileType.CHASE_CSV, () => {
+		.with(FileType.CHASE_CSV, () =>
 			HttpResponse.json<ImportTransactionsResponse>({
 				transactionsImported: 10
-			});
-		})
+			})
+		)
 		.otherwise(() =>
 			HttpResponse.json<ErrorResponse>(error, {
 				status: 400

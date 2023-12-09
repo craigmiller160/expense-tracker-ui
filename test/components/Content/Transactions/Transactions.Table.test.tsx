@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { apiServer } from '../../../server';
+import { mswServer } from '../../../msw-server';
 import { renderApp } from '../../../testutils/renderApp';
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvents from '@testing-library/user-event';
@@ -111,7 +111,7 @@ describe('Transactions Table', () => {
 			possibleRefund: 'ALL'
 		});
 		const categories = await getAllCategories();
-		apiServer.database.updateData((draft) => {
+		mswServer.database.updateData((draft) => {
 			draft.transactions[transactions[0].id] = {
 				...transactions[0],
 				categoryId: categories[0].id,
@@ -372,7 +372,7 @@ describe('Transactions Table', () => {
 			duplicate: 'ALL',
 			possibleRefund: 'ALL'
 		});
-		apiServer.database.updateData((draft) => {
+		mswServer.database.updateData((draft) => {
 			draft.transactions[transaction.id].amount = transaction.amount * -1;
 		});
 
@@ -465,7 +465,7 @@ describe('Transactions Table', () => {
 			possibleRefund: 'ALL'
 		});
 		const categories = await getAllCategories();
-		apiServer.database.updateData((draft) => {
+		mswServer.database.updateData((draft) => {
 			draft.transactions[transactions[0].id] = {
 				...transactions[0],
 				categoryId: categories[0].id,
@@ -476,7 +476,7 @@ describe('Transactions Table', () => {
 		});
 
 		const preparedTransaction =
-			apiServer.database.data.transactions[transactions[0].id];
+			mswServer.database.data.transactions[transactions[0].id];
 		expect(preparedTransaction.categoryId).toEqual(categories[0].id);
 
 		renderApp({
@@ -506,7 +506,7 @@ describe('Transactions Table', () => {
 		);
 
 		const modifiedTransaction =
-			apiServer.database.data.transactions[transactions[0].id];
+			mswServer.database.data.transactions[transactions[0].id];
 		expect(modifiedTransaction.categoryId).toBeUndefined();
 	});
 

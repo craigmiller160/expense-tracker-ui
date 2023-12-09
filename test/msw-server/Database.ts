@@ -41,3 +41,5 @@ export class Database {
 		this.data = produce(this.data, updater);
 	}
 }
+
+export const database = new Database();

@@ -1,7 +1,8 @@
 import { importHandlers } from './handlers/import';
+import { needsAttentionHandlers } from './handlers/needsAttention';
 import { setupServer } from 'msw/node';
 import type { SetupServer } from 'msw/node';
-import { Database } from './Database';
+import { database, Database } from './Database';
 import * as Option from 'fp-ts/Option';
 import { seedCategories } from './seedData/categories';
 import { seedTransactions } from './seedData/transactions';
@@ -18,8 +19,9 @@ export type MswServer = Readonly<{
 	actions: MswServerActions;
 }>;
 
-const database: Database = new Database();
-const server: SetupServer = setupServer(...[...importHandlers]);
+const server: SetupServer = setupServer(
+	...[...importHandlers, ...needsAttentionHandlers]
+);
 
 const clearDefaultUser = () =>
 	database.updateData((draft) => {

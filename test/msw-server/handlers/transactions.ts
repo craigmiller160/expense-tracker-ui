@@ -9,7 +9,9 @@ import type {
 	TransactionDuplicateResponse,
 	TransactionResponse,
 	TransactionsPageResponse,
-	UpdateTransactionsRequest
+	UpdateTransactionsRequest,
+	CategoryResponse,
+	UpdateTransactionDetailsRequest
 } from '../../../src/types/generated/expense-tracker';
 import {
 	compareServerDates,
@@ -22,10 +24,6 @@ import { http, HttpResponse } from 'msw';
 import { pipe } from 'fp-ts/function';
 import * as RArray from 'fp-ts/ReadonlyArray';
 import { database } from '../Database';
-import {
-	CategoryResponse,
-	UpdateTransactionDetailsRequest
-} from '../../../src/types/generated/expense-tracker';
 import { v4 as uuidv4 } from 'uuid';
 
 const createSortTransactionOrd = (
@@ -181,7 +179,7 @@ const categorizeTransactionHandler: HttpHandler = http.put<
 	}
 );
 
-const updateTransactions: HttpHandler = http.put<
+const updateTransactionsHandler: HttpHandler = http.put<
 	PathParams,
 	UpdateTransactionsRequest
 >('http://localhost/expense-tracker/api/transactions', async ({ request }) => {
@@ -205,7 +203,7 @@ const updateTransactions: HttpHandler = http.put<
 	});
 });
 
-const deleteTransactions: HttpHandler = http.delete<
+const deleteTransactionsHandler: HttpHandler = http.delete<
 	PathParams,
 	DeleteTransactionsRequest
 >('http://localhost/expense-tracker/api/transactions', async ({ request }) => {
@@ -220,7 +218,7 @@ const deleteTransactions: HttpHandler = http.delete<
 	});
 });
 
-const updateTransactionDetails: HttpHandler = http.put<
+const updateTransactionDetailsHandler: HttpHandler = http.put<
 	{ id: string },
 	UpdateTransactionDetailsRequest
 >(
@@ -252,7 +250,7 @@ const updateTransactionDetails: HttpHandler = http.put<
 	}
 );
 
-const createTransaction: HttpHandler = http.post<
+const createTransactionHandler: HttpHandler = http.post<
 	PathParams,
 	CreateTransactionRequest,
 	TransactionDetailsResponse
@@ -278,7 +276,7 @@ const createTransaction: HttpHandler = http.post<
 	return HttpResponse.json(database.data.transactions[id]);
 });
 
-const getTransactionDetails: HttpHandler = http.get<
+const getTransactionDetailsHandler: HttpHandler = http.get<
 	{ transactionId: string },
 	DefaultBodyType,
 	TransactionDetailsResponse
@@ -290,7 +288,9 @@ const getTransactionDetails: HttpHandler = http.get<
 	return HttpResponse.json(result);
 });
 
-const getLastRuleApplied: HttpHandler = http.get<{ transactionId: string }>(
+const getLastRuleAppliedHandler: HttpHandler = http.get<{
+	transactionId: string;
+}>(
 	'http://localhost/expense-tracker/api/transactions/rules/lastApplied/:transactionId',
 	() =>
 		HttpResponse.json('', {
@@ -298,7 +298,7 @@ const getLastRuleApplied: HttpHandler = http.get<{ transactionId: string }>(
 		})
 );
 
-const getPossibleDuplicates: HttpHandler = http.get<
+const getPossibleDuplicatesHandler: HttpHandler = http.get<
 	{ transactionId: string },
 	DefaultBodyType,
 	TransactionDuplicatePageResponse
@@ -339,3 +339,15 @@ const getPossibleDuplicates: HttpHandler = http.get<
 		return HttpResponse.json(response);
 	}
 );
+
+export const transactionHandlers: ReadonlyArray<HttpHandler> = [
+	getAllTransactionsHandler,
+	categorizeTransactionHandler,
+	updateTransactionDetailsHandler,
+	updateTransactionsHandler,
+	deleteTransactionsHandler,
+	createTransactionHandler,
+	getLastRuleAppliedHandler,
+	getTransactionDetailsHandler,
+	getPossibleDuplicatesHandler
+];

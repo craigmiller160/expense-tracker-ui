@@ -7,6 +7,7 @@ import * as Option from 'fp-ts/Option';
 import { seedCategories } from './seedData/categories';
 import { seedTransactions } from './seedData/transactions';
 import { categoryHandlers } from './handlers/categories';
+import { transactionHandlers } from './handlers/transactions';
 
 type MswServerActions = Readonly<{
 	clearDefaultUser: () => void;
@@ -21,7 +22,12 @@ export type MswServer = Readonly<{
 }>;
 
 const server: SetupServer = setupServer(
-	...[...importHandlers, ...needsAttentionHandlers, ...categoryHandlers]
+	...[
+		...importHandlers,
+		...needsAttentionHandlers,
+		...categoryHandlers,
+		...transactionHandlers
+	]
 );
 
 const clearDefaultUser = () =>

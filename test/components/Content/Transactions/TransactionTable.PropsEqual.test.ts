@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from 'vitest';
 import type { Props as TransactionTableProps } from '../../../../src/components/Content/Transactions/TransactionTable';
 import { arePropsEqual } from '../../../../src/components/Content/Transactions/TransactionTable';
 
@@ -11,32 +12,32 @@ const props: TransactionTableProps = {
 		formReturn: {},
 		fields: []
 	},
-	onSubmit: jest.fn(),
+	onSubmit: vi.fn(),
 	isFetching: false,
-	openDetailsDialog: jest.fn(),
-	resetFormToData: jest.fn(),
+	openDetailsDialog: vi.fn(),
+	resetFormToData: vi.fn(),
 	pagination: {
 		totalRecords: 0,
 		pageSize: 0,
 		currentPage: 0
 	},
-	onPaginationChange: jest.fn()
+	onPaginationChange: vi.fn()
 };
 
 describe('TransactionTable arePropsEqual', () => {
 	it('everything is equal', () => {
-		expect(arePropsEqual(props, props)).toEqual(true);
+		expect(arePropsEqual(props, props)).toBe(true);
 	});
 
 	it('function has changed, everything else is equal', () => {
 		const newProps: TransactionTableProps = {
 			...props,
-			onPaginationChange: jest.fn()
+			onPaginationChange: vi.fn()
 		};
 		expect(props.onPaginationChange).not.toEqual(
 			newProps.onPaginationChange
 		);
-		expect(arePropsEqual(props, newProps)).toEqual(true);
+		expect(arePropsEqual(props, newProps)).toBe(true);
 	});
 
 	it('primitive value has changed', () => {
@@ -44,7 +45,7 @@ describe('TransactionTable arePropsEqual', () => {
 			...props,
 			isFetching: true
 		};
-		expect(arePropsEqual(props, newProps)).toEqual(false);
+		expect(arePropsEqual(props, newProps)).toBe(false);
 	});
 
 	it('object reference has changed', () => {
@@ -56,6 +57,6 @@ describe('TransactionTable arePropsEqual', () => {
 				currentPage: 1
 			}
 		};
-		expect(arePropsEqual(props, newProps)).toEqual(false);
+		expect(arePropsEqual(props, newProps)).toBe(false);
 	});
 });

@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { requestToQuery } from '../../../src/ajaxapi/service/TransactionService';
 import { SortDirection, TransactionSortKey } from '../../../src/types/misc';
 import { Time } from '@craigmiller160/ts-functions';
@@ -17,7 +18,7 @@ describe('TransactionService', () => {
 				duplicate: 'ALL',
 				possibleRefund: 'ALL'
 			});
-			expect(result).toEqual(
+			expect(result).toBe(
 				'pageNumber=1&pageSize=10&sortDirection=ASC&sortKey=EXPENSE_DATE&categorized=ALL&confirmed=ALL&duplicate=ALL&possibleRefund=ALL'
 			);
 		});
@@ -46,7 +47,7 @@ describe('TransactionService', () => {
 				possibleRefund: 'ALL',
 				categoryIds: ['1', '2']
 			});
-			expect(result).toEqual(
+			expect(result).toBe(
 				'pageNumber=1&pageSize=10&sortDirection=ASC&sortKey=EXPENSE_DATE&startDate=2022-01-01&endDate=2022-01-02&confirmed=ALL&categorized=ALL&duplicate=ALL&possibleRefund=ALL&categoryIds=1%2C2'
 			);
 		});
@@ -65,7 +66,7 @@ describe('TransactionService', () => {
 				possibleRefund: 'ALL',
 				categoryIds: ['1', '2']
 			});
-			expect(result).toEqual(
+			expect(result).toBe(
 				'pageNumber=1&pageSize=10&sortDirection=ASC&sortKey=EXPENSE_DATE&categorized=NO&confirmed=ALL&duplicate=ALL&possibleRefund=ALL'
 			);
 		});

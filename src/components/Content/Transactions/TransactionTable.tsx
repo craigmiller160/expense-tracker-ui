@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { memo, useContext } from 'react';
 import { Table } from '../../UI/Table';
 import { Button, TableCell, TableRow } from '@mui/material';
@@ -10,31 +11,26 @@ import { NotConfirmedIcon } from './icons/NotConfirmedIcon';
 import { DuplicateIcon } from './icons/DuplicateIcon';
 import { NotCategorizedIcon } from './icons/NotCategorizedIcon';
 import { PossibleRefundIcon } from './icons/PossibleRefundIcon';
-import { Control, DeepPartial, FormState } from 'react-hook-form';
-import {
+import type { Control, DeepPartial, FormState } from 'react-hook-form';
+import type {
 	TransactionFormValues,
 	TransactionTableForm,
 	TransactionTablePagination,
 	TransactionTableUseFormReturn
 } from './useHandleTransactionTableData';
 import { useIsEditMode } from './TransactionTableUtils';
-import { ReactNode } from 'react';
-import { UseMutateFunction } from '@tanstack/react-query';
-import {
+import type { UseMutateFunction } from '@tanstack/react-query';
+import type {
 	DeleteTransactionsResponse,
 	TransactionResponse
 } from '../../../types/generated/expense-tracker';
-import {
-	ConfirmDialogContext,
-	NewConfirmDialog
-} from '../../UI/ConfirmDialog/ConfirmDialogProvider';
+import type { NewConfirmDialog } from '../../UI/ConfirmDialog/ConfirmDialogProvider';
+import { ConfirmDialogContext } from '../../UI/ConfirmDialog/ConfirmDialogProvider';
 import { useDeleteAllUnconfirmed } from '../../../ajaxapi/query/TransactionQueries';
-import { CategoryOption } from '../../../types/categories';
-import {
-	createTablePagination,
-	PaginationState
-} from '../../../utils/pagination';
-import { Updater } from 'use-immer';
+import type { CategoryOption } from '../../../types/categories';
+import type { PaginationState } from '../../../utils/pagination';
+import { createTablePagination } from '../../../utils/pagination';
+import type { Updater } from 'use-immer';
 
 export type Props = Readonly<{
 	transactions: ReadonlyArray<TransactionResponse>;
@@ -62,7 +58,7 @@ const createEditModeColumns = (
 	control: Control<TransactionTableForm>
 ): ReadonlyArray<string | ReactNode> => [
 	<Checkbox
-		className="ConfirmAllCheckbox"
+		className="confirm-all-checkbox"
 		key="confirmAll"
 		control={control}
 		name="confirmAll"
@@ -195,7 +191,7 @@ export const TransactionTable = memo((props: Props) => {
 	);
 
 	return (
-		<div className={`TransactionsTable ${editClass}`}>
+		<div className={`transactions-table ${editClass}`}>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<Table
 					columns={editMode ? editModeColumns : COLUMNS}
@@ -216,7 +212,7 @@ export const TransactionTable = memo((props: Props) => {
 								data-testid="transaction-table-row"
 							>
 								{editMode && (
-									<TableCell className="ConfirmedCell">
+									<TableCell className="confirmed-cell">
 										{!txn.confirmed && (
 											<Checkbox
 												testId="confirm-transaction-checkbox"
@@ -232,7 +228,7 @@ export const TransactionTable = memo((props: Props) => {
 									{txn.expenseDate}
 								</TableCell>
 								<TableCell
-									className="DescriptionCell"
+									className="description-cell"
 									data-testid="transaction-description"
 								>
 									{txn.description}
@@ -241,7 +237,7 @@ export const TransactionTable = memo((props: Props) => {
 									{formatCurrency(txn.amount)}
 								</TableCell>
 								<TableCell
-									className={`CategoryCell ${editClass}`}
+									className={`category-cell ${editClass}`}
 								>
 									{editMode && (
 										<Autocomplete
@@ -255,8 +251,8 @@ export const TransactionTable = memo((props: Props) => {
 									{!editMode && txn.categoryName}
 								</TableCell>
 								<TableCell>
-									<div className="FlagsWrapper">
-										<div className="FlagRow">
+									<div className="flags-wrapper">
+										<div className="flag-row">
 											<NotConfirmedIcon
 												transaction={
 													watchedTransactions[index]
@@ -264,7 +260,7 @@ export const TransactionTable = memo((props: Props) => {
 											/>
 											<DuplicateIcon transaction={txn} />
 										</div>
-										<div className="FlagRow">
+										<div className="flag-row">
 											<NotCategorizedIcon
 												transaction={
 													watchedTransactions[index]

@@ -1,6 +1,6 @@
 import * as RNonEmptyArray from 'fp-ts/ReadonlyNonEmptyArray';
 import { pipe } from 'fp-ts/function';
-import { OrdinalOption } from '../types/rules';
+import type { OrdinalOption } from '../types/rules';
 import { useMemo } from 'react';
 
 export const getTrueMaxOrdinal = (

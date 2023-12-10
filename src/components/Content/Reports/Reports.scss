@@ -1,6 +1,7 @@
 @import "../../../styles/page";
 
-.Reports {
-  @include PageRoot;
+.reports {
+  @include page-root;
+
   text-align: center;
 }

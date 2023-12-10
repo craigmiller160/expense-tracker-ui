@@ -1,6 +1,7 @@
+import { describe, it, expect } from 'vitest';
 import reportCategories from '../../../__data__/report_categories.json';
 import { sortCategories } from '../../../../src/components/Content/Reports/SpendingByCategoryTable';
-import { ReportCategoryResponse } from '../../../../src/types/generated/expense-tracker';
+import type { ReportCategoryResponse } from '../../../../src/types/generated/expense-tracker';
 
 const getName = (cat: ReportCategoryResponse): string => cat.name;
 

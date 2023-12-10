@@ -1,12 +1,12 @@
-import { ReactElement, useContext } from 'react';
-import { Navigate, RouteObject, useRoutes } from 'react-router';
+import type { ReactElement } from 'react';
+import { useContext } from 'react';
+import type { RouteObject } from 'react-router';
+import { Navigate, useRoutes } from 'react-router';
 import { namedLazy } from '../utils/reactWrappers';
 import { match } from 'ts-pattern';
 import { LazySuspenseWrapper } from '../components/UI/LazySuspenseWrapper';
-import {
-	KeycloakAuth,
-	KeycloakAuthContext
-} from '@craigmiller160/react-keycloak';
+import type { KeycloakAuth } from '@craigmiller160/react-keycloak';
+import { KeycloakAuthContext } from '@craigmiller160/react-keycloak';
 
 const Welcome = namedLazy(
 	() => import('../components/Content/Welcome'),

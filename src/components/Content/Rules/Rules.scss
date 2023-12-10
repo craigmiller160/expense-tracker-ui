@@ -1,6 +1,7 @@
 @import "../../../styles/page";
 
-.AutoCategorizeRules {
-  @include PageRoot;
+.auto-categorize-rules {
+  @include page-root;
+
   text-align: center;
 }

@@ -1,4 +1,5 @@
-import { ComponentType, lazy } from 'react';
+import type { ComponentType } from 'react';
+import { lazy } from 'react';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export const namedLazy = (

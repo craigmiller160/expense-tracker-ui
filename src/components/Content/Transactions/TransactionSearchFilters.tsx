@@ -1,24 +1,24 @@
-import {
+import type {
 	UseFormGetValues,
 	UseFormReturn,
 	UseFormSetValue
 } from 'react-hook-form';
+import type {
+	SelectOption,
+	ValueHasChanged
+} from '@craigmiller160/react-hook-form-material-ui';
 import {
 	Autocomplete,
 	DatePicker,
 	Select,
-	SelectOption,
-	TextField,
-	ValueHasChanged
+	TextField
 } from '@craigmiller160/react-hook-form-material-ui';
 import { constVoid } from 'fp-ts/function';
 import './TransactionSearchFilters.scss';
 import { SortDirection, YES_NO_FILTER_OPTIONS } from '../../../types/misc';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
-import {
-	TransactionSearchForm,
-	transactionSearchFormDefaultValues
-} from './utils';
+import type { TransactionSearchForm } from './utils';
+import { transactionSearchFormDefaultValues } from './utils';
 import { Button, Paper } from '@mui/material';
 import { ResponsiveRow } from '../../UI/ResponsiveWrappers/ResponsiveRow';
 import { useCategoriesToCategoryOptions } from '../../../utils/categoryUtils';
@@ -67,7 +67,7 @@ export const TransactionSearchFilters = (props: Props) => {
 
 	return (
 		<Paper
-			className="TransactionSearchFilters"
+			className="transaction-search-filters"
 			data-testid="transaction-filters"
 		>
 			<form onSubmit={constVoid}>

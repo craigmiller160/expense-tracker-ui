@@ -6,10 +6,11 @@ export interface ErrorResponse {
 	readonly message: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const isErrorResponse = (value: any): value is ErrorResponse =>
-	!!value.timestamp &&
-	!!value.method &&
-	!!value.path &&
-	!!value.status &&
-	!!value.message;
+export const isErrorResponse = (value: unknown): value is ErrorResponse =>
+	!!value &&
+	typeof value === 'object' &&
+	Object.hasOwn(value, 'timestamp') &&
+	Object.hasOwn(value, 'method') &&
+	Object.hasOwn(value, 'path') &&
+	Object.hasOwn(value, 'status') &&
+	Object.hasOwn(value, 'message');

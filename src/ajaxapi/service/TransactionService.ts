@@ -1,5 +1,5 @@
-import { EnhancedSearchTransactionsRequest } from '../../types/transactions';
-import {
+import type { EnhancedSearchTransactionsRequest } from '../../types/transactions';
+import type {
 	CategorizeTransactionsRequest,
 	CreateTransactionRequest,
 	DeleteTransactionsRequest,
@@ -13,12 +13,12 @@ import {
 	UpdateTransactionDetailsRequest,
 	UpdateTransactionsRequest
 } from '../../types/generated/expense-tracker';
-import qs from 'qs';
+import { stringify } from 'qs';
 import { pipe } from 'fp-ts/function';
 import * as Option from 'fp-ts/Option';
 import { expenseTrackerApi, getData } from './AjaxApi';
 import { formatServerDate } from '../../utils/dateTimeUtils';
-import { YesNoFilter } from '../../types/misc';
+import type { YesNoFilter } from '../../types/misc';
 
 const handleOptionalValue = <T>(
 	value: T | undefined | null,
@@ -43,7 +43,7 @@ const handleCategoryIds = (
 export const requestToQuery = (
 	request: EnhancedSearchTransactionsRequest
 ): string =>
-	qs.stringify({
+	stringify({
 		...request,
 		startDate: handleOptionalValue(request.startDate, formatServerDate),
 		endDate: handleOptionalValue(request.endDate, formatServerDate),

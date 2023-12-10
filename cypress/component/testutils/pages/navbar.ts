@@ -1,9 +1,9 @@
-import Chainable = Cypress.Chainable;
+type Chainable<T> = Cypress.Chainable<T>;
 
 const getTitle = (): Chainable<JQuery> =>
 	cy.get('#expense-tracker-navbar-title');
 const getAuthButton = (): Chainable<JQuery> => cy.get('#navbar-auth-button');
-const getNavbarItems = (): Chainable<JQuery> => cy.get('.NavbarItem');
+const getNavbarItems = (): Chainable<JQuery> => cy.get('.navbar-item');
 const getReportsItem = (): Chainable<JQuery> => getNavbarItems().eq(0);
 const getTransactionsItem = (): Chainable<JQuery> => getNavbarItems().eq(1);
 const getCategoriesItem = (): Chainable<JQuery> => getNavbarItems().eq(2);

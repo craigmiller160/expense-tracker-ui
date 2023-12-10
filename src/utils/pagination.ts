@@ -1,5 +1,5 @@
-import { Updater } from 'use-immer';
-import { TablePaginationConfig } from '../components/UI/Table';
+import type { Updater } from 'use-immer';
+import type { TablePaginationConfig } from '../components/UI/Table';
 
 export type PaginationState = {
 	readonly pageNumber: number;

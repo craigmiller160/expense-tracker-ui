@@ -1,4 +1,4 @@
-import { Breakpoints } from '@mui/material';
+import type { Breakpoints } from '@mui/material';
 import styled from '@emotion/styled';
 
 interface StyledFormProps {

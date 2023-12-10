@@ -1,4 +1,4 @@
-import Chainable = Cypress.Chainable;
+type Chainable<T> = Cypress.Chainable<T>;
 
 const getAllRules = (): Chainable<null> =>
 	cy

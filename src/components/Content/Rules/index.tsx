@@ -1,15 +1,14 @@
 import './Rules.scss';
 import { PageResponsiveWrapper } from '../../UI/ResponsiveWrappers/PageResponsiveWrapper';
 import { PageTitle } from '../../UI/PageTitle';
-import { Updater, useImmer } from 'use-immer';
-import { PaginationState } from '../../../utils/pagination';
+import type { Updater } from 'use-immer';
+import { useImmer } from 'use-immer';
+import type { PaginationState } from '../../../utils/pagination';
 import { RulesTable } from './RulesTable';
-import {
-	RulesFiltersFormData,
-	useHandleAllRulesData
-} from './useHandleAllRulesData';
+import type { RulesFiltersFormData } from './useHandleAllRulesData';
+import { useHandleAllRulesData } from './useHandleAllRulesData';
 import { RulesFilters } from './RulesFilters';
-import { UseFormHandleSubmit } from 'react-hook-form';
+import type { UseFormHandleSubmit } from 'react-hook-form';
 import { RuleDetailsDialog } from './RuleDetailsDialog';
 import * as Option from 'fp-ts/Option';
 import { types } from '@craigmiller160/ts-functions';
@@ -20,14 +19,13 @@ const useOnValueHasChanged = (
 	handleSubmit: UseFormHandleSubmit<RulesFiltersFormData>,
 	setPaginationState: Updater<PaginationState>
 ) => {
-	const submitFn = handleSubmit(() =>
+	return handleSubmit(() =>
 		setPaginationState((draft) => {
 			if (draft.pageNumber !== 0) {
 				draft.pageNumber = 0;
 			}
 		})
 	);
-	return submitFn;
 };
 
 type DialogState = {
@@ -94,7 +92,7 @@ export const Rules = () => {
 		useDialogActions(setDialogState);
 
 	return (
-		<PageResponsiveWrapper className="AutoCategorizeRules">
+		<PageResponsiveWrapper className="auto-categorize-rules">
 			<PageTitle title="Auto-Categorization Rules" />
 			<RulesFilters
 				form={filtersForm}

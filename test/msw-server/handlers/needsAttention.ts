@@ -1,14 +1,14 @@
-import { Database } from '../Database';
-import { Server } from 'miragejs/server';
-import { pipe } from 'fp-ts/function';
-import * as RArray from 'fp-ts/ReadonlyArray';
-import * as Monoid from 'fp-ts/Monoid';
-import {
+import { parseServerDate } from '../../../src/utils/dateTimeUtils';
+import { Time, types } from '@craigmiller160/ts-functions';
+import type {
 	NeedsAttentionResponse,
 	TransactionResponse
 } from '../../../src/types/generated/expense-tracker';
-import { Time, types } from '@craigmiller160/ts-functions';
-import { parseServerDate } from '../../../src/utils/dateTimeUtils';
+import { pipe } from 'fp-ts/function';
+import * as RArray from 'fp-ts/ReadonlyArray';
+import * as Monoid from 'fp-ts/Monoid';
+import { database } from '../Database';
+import { http, HttpHandler, HttpResponse } from 'msw';
 
 const getOldestDate = (
 	dateString1: string | undefined,
@@ -103,15 +103,18 @@ const needsAttentionMonoid: types.MonoidT<NeedsAttentionResponse> = {
 	})
 };
 
-export const createNeedsAttentionRoutes = (
-	database: Database,
-	server: Server
-) => {
-	server.get('/needs-attention', () => {
-		return pipe(
+const needsAttentionHandler: HttpHandler = http.get(
+	'http://localhost/expense-tracker/api/needs-attention',
+	() => {
+		const results = pipe(
 			Object.values(database.data.transactions),
 			RArray.map(transactionToNeedsAttention),
 			Monoid.concatAll(needsAttentionMonoid)
 		);
-	});
-};
+		return HttpResponse.json(results);
+	}
+);
+
+export const needsAttentionHandlers: ReadonlyArray<HttpHandler> = [
+	needsAttentionHandler
+];

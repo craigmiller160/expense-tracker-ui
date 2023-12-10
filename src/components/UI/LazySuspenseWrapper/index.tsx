@@ -1,4 +1,5 @@
-import { ComponentType, LazyExoticComponent, Suspense } from 'react';
+import type { ComponentType, LazyExoticComponent } from 'react';
+import { Suspense } from 'react';
 import { Fallback } from './Fallback';
 
 interface Props {

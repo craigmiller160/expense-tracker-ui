@@ -1,9 +1,5 @@
-import {
-	UseMutateFunction,
-	useMutation,
-	useQuery,
-	useQueryClient
-} from '@tanstack/react-query';
+import type { UseMutateFunction } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
 	createCategory,
 	deleteCategory,
@@ -11,7 +7,7 @@ import {
 	getUnknownCategory,
 	updateCategory
 } from '../service/CategoryService';
-import { CategoryResponse } from '../../types/generated/expense-tracker';
+import type { CategoryResponse } from '../../types/generated/expense-tracker';
 
 export const GET_ALL_CATEGORIES = 'CategoryQueries_GetAllCategories';
 export const GET_UNKNOWN_CATEGORY = 'CategoryQueries_GetUnknownCategory';

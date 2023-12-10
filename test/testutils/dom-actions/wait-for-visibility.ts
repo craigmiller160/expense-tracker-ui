@@ -1,3 +1,4 @@
+import { expect } from 'vitest';
 import { screen, waitFor } from '@testing-library/react';
 import * as RArray from 'fp-ts/ReadonlyArray';
 import { constVoid, pipe } from 'fp-ts/function';

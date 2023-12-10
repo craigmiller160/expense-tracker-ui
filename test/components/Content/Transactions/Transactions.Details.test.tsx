@@ -1,12 +1,7 @@
+import { describe, it, expect } from 'vitest';
 import { renderApp } from '../../../testutils/renderApp';
-import {
-	screen,
-	waitFor,
-	waitForElementToBeRemoved,
-	within
-} from '@testing-library/react';
-import '@testing-library/jest-dom';
-import userEvent from '@testing-library/user-event';
+import { screen, waitFor, within } from '@testing-library/react';
+import userEvents from '@testing-library/user-event';
 import { searchForTransactions } from '../../../../src/ajaxapi/service/TransactionService';
 import { SortDirection, TransactionSortKey } from '../../../../src/types/misc';
 import {
@@ -47,7 +42,7 @@ describe('Transaction Details Dialog', () => {
 			possibleRefund: 'ALL'
 		});
 
-		await renderApp({
+		renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
 		await waitForVisibility([
@@ -56,31 +51,26 @@ describe('Transaction Details Dialog', () => {
 			{ text: 'Rows per page:' }
 		]);
 
-		await waitFor(() =>
-			expect(
-				screen.queryByText(transaction.description)
-			).toBeInTheDocument()
-		);
+		await screen.findByText(transaction.description);
 
 		const row = screen.getAllByTestId('transaction-table-row')[0];
 		const detailsButton = within(row).getByText('Details');
-		await userEvent.click(detailsButton);
+		await userEvents.click(detailsButton);
 
 		const transactionDialog = screen.getByTestId(
 			'transaction-details-dialog'
 		);
 
 		const deleteButton = within(transactionDialog).getByText('Delete');
-		await userEvent.click(deleteButton);
+		await userEvents.click(deleteButton);
+
+		expect(screen.getAllByText(transaction.description)).toHaveLength(2);
 
 		const confirmDialog = screen.getByTestId('confirm-dialog');
 		const confirmButton = within(confirmDialog).getByText('Confirm');
-		await userEvent.click(confirmButton);
+		await userEvents.click(confirmButton);
 
-		// Confirming description is not here twice to handle the loading pause
-		await waitForElementToBeRemoved(() =>
-			screen.queryByText(transaction.description)
-		);
+		expect(screen.queryAllByText(transaction.description)).toHaveLength(0);
 		await waitFor(() =>
 			expect(screen.getAllByTestId('transaction-table-row')).toHaveLength(
 				25
@@ -94,7 +84,7 @@ describe('Transaction Details Dialog', () => {
 	});
 
 	it('cannot open details dialog when table form is dirty', async () => {
-		await renderApp({
+		renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
 		await waitForVisibility([
@@ -113,7 +103,8 @@ describe('Transaction Details Dialog', () => {
 		expect(detailsButtons).toHaveLength(25);
 		detailsButtons.forEach(testButton(false));
 
-		await userEvent.click(confirmCheckbox);
+		await userEvents.click(confirmCheckbox);
+		// eslint-disable-next-line testing-library/no-node-access
 		expect(confirmCheckbox.querySelector('input')).toBeChecked();
 
 		detailsButtons.forEach(testButton(true));

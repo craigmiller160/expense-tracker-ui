@@ -9,14 +9,9 @@ import {
 	Toolbar,
 	Typography
 } from '@mui/material';
-import {
-	forwardRef,
-	PropsWithChildren,
-	ReactElement,
-	ReactNode,
-	Ref
-} from 'react';
-import { TransitionProps } from '@mui/material/transitions';
+import { forwardRef } from 'react';
+import type { PropsWithChildren, ReactElement, ReactNode, Ref } from 'react';
+import type { TransitionProps } from '@mui/material/transitions';
 import CloseIcon from '@mui/icons-material/Close';
 import './SideDialog.scss';
 import { ResponsiveSlideDialogWrapper } from './ResponsiveSlideDialogWrapper';
@@ -45,7 +40,7 @@ interface FormProps {
 }
 
 const DialogForm = ({ formSubmit, children }: PropsWithChildren<FormProps>) => (
-	<form className="DialogForm" onSubmit={formSubmit}>
+	<form className="dialog-form" onSubmit={formSubmit}>
 		{children}
 	</form>
 );
@@ -63,7 +58,7 @@ export const SideDialog = (props: PropsWithChildren<Props>) => {
 			open={props.open}
 			TransitionComponent={Transition}
 			PaperComponent={ResponsiveSlideDialogWrapper}
-			className="SlideDialog"
+			className="slide-dialog"
 			data-testid={props['data-testid']}
 		>
 			<Form formSubmit={props.formSubmit}>
@@ -80,7 +75,7 @@ export const SideDialog = (props: PropsWithChildren<Props>) => {
 						</IconButton>
 					</Toolbar>
 				</AppBar>
-				<DialogContent id={`${props.id}-body`} className="Body">
+				<DialogContent id={`${props.id}-body`} className="body">
 					{props.children}
 				</DialogContent>
 				<DialogActions id={`${props.id}-footer`}>

@@ -1,6 +1,7 @@
 import { useSearchParams } from 'react-router-dom';
 import { useCallback, useContext, useMemo } from 'react';
-import { ParamsWrapper, wrapParams } from './ParamsWrapper';
+import type { ParamsWrapper } from './ParamsWrapper';
+import { wrapParams } from './ParamsWrapper';
 import { NativeSearchProviderContext } from './NativeSearchProvider';
 
 export type SyncFromParams<Params> = (params: ParamsWrapper<Params>) => Params;
@@ -45,7 +46,7 @@ export const useSearchParamSync = <Params extends object>(
 	const parsedSearchParams = useMemo(
 		() => syncFromParams(wrapParams(searchParams)),
 
-		// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps, @typescript-eslint/no-unsafe-assignment
 		[searchParams, syncFromParams, ...(syncFromParamsDependencies ?? [])]
 	);
 

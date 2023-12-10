@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react';
+import type { PropsWithChildren } from 'react';
 import { PageResponsiveWrapper } from '../UI/ResponsiveWrappers/PageResponsiveWrapper';
 import { Spinner } from '../UI/Spinner';
 import { useGetAllCategories } from '../../ajaxapi/query/CategoryQueries';

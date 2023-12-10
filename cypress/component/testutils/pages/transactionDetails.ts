@@ -1,6 +1,7 @@
-import Chainable = Cypress.Chainable;
 import { pipe } from 'fp-ts/function';
 import { getHelperTextForLabel, getInputForLabel } from './utils';
+
+type Chainable<T> = Cypress.Chainable<T>;
 
 const getHeaderTitle = (): Chainable<JQuery> =>
 	cy.get('#TransactionDetailsDialog-header .MuiToolbar-root h6');
@@ -21,19 +22,19 @@ const getCategorySelectLabel = (): Chainable<JQuery> =>
 const getCategorySelectInput = (): Chainable<JQuery> =>
 	pipe(getCategorySelectLabel(), getInputForLabel);
 const getExpenseDateLabel = (): Chainable<JQuery> =>
-	cy.get('#TransactionDetailsDialog-body .Info label').eq(0);
+	cy.get('#TransactionDetailsDialog-body .info label').eq(0);
 const getExpenseDateInput = (): Chainable<JQuery> =>
 	pipe(getExpenseDateLabel(), getInputForLabel);
 const getExpenseDateInputHelperText = (): Chainable<JQuery> =>
 	pipe(getExpenseDateLabel(), getHelperTextForLabel);
 const getAmountLabel = (): Chainable<JQuery> =>
-	cy.get('#TransactionDetailsDialog-body .Info label').eq(1);
+	cy.get('#TransactionDetailsDialog-body .info label').eq(1);
 const getAmountInput = (): Chainable<JQuery> =>
 	pipe(getAmountLabel(), getInputForLabel);
 const getAmountInputHelperText = (): Chainable<JQuery> =>
 	pipe(getAmountLabel(), getHelperTextForLabel);
 const getDescriptionLabel = (): Chainable<JQuery> =>
-	cy.get('#TransactionDetailsDialog-body .Info label').eq(2);
+	cy.get('#TransactionDetailsDialog-body .info label').eq(2);
 const getDescriptionInput = (): Chainable<JQuery> =>
 	pipe(getDescriptionLabel(), getInputForLabel);
 const getDescriptionHelperText = (): Chainable<JQuery> =>
@@ -53,9 +54,9 @@ const getCreatedTimestamp = (): Chainable<JQuery> =>
 const getUpdatedTimestamp = (): Chainable<JQuery> =>
 	cy.get('#TransactionDetailsDialog-body .Timestamps span:nth-child(2)');
 const getDuplicateTitle = (): Chainable<JQuery> =>
-	cy.get('.TransactionDetailsDuplicatePanel h5');
+	cy.get('.transaction-details-duplicate-panel h5');
 const getDuplicateRecords = (): Chainable<JQuery> =>
-	cy.get('.TransactionDetailsDuplicatePanel tbody tr');
+	cy.get('.transaction-details-duplicate-panel tbody tr');
 const getCreatedTimestampForDuplicateRecord = (
 	record: Chainable<JQuery>
 ): Chainable<JQuery> => record.find('td').eq(0);
@@ -73,25 +74,27 @@ const getOpenButtonForDuplicateRecord = (
 ): Chainable<JQuery<HTMLButtonElement>> =>
 	record.find('td').eq(4).find('button');
 const getMarkNotDuplicateButton = (): Chainable<JQuery> =>
-	cy.get('.TransactionDetailsDuplicatePanel .MarkNotDuplicateSection button');
+	cy.get(
+		'.transaction-details-duplicate-panel .mark-not-duplicate-selection button'
+	);
 const getLastRuleAppliedTitle = (): Chainable<JQuery> =>
-	cy.get('#TransactionDetailsDialog-body .LastRuleApplied h6');
+	cy.get('#TransactionDetailsDialog-body .last-rule-applied h6');
 const getLastRuleOrdinal = (): Chainable<JQuery> =>
 	cy
 		.get(
-			'#TransactionDetailsDialog-body .LastRuleApplied .AutoCategorizeRuleTableRow td'
+			'#TransactionDetailsDialog-body .last-rule-applied .auto-categorize-rule-table-row td'
 		)
 		.eq(0);
 const getLastRuleCategory = (): Chainable<JQuery> =>
 	cy
 		.get(
-			'#TransactionDetailsDialog-body .LastRuleApplied .AutoCategorizeRuleTableRow td'
+			'#TransactionDetailsDialog-body .last-rule-applied .auto-categorize-rule-table-row td'
 		)
 		.eq(1);
 const getLastRuleInfo = (): Chainable<JQuery> =>
 	cy
 		.get(
-			'#TransactionDetailsDialog-body .LastRuleApplied .AutoCategorizeRuleTableRow td'
+			'#TransactionDetailsDialog-body .last-rule-applied .auto-categorize-rule-table-row td'
 		)
 		.eq(2);
 

@@ -1,17 +1,15 @@
-import { Updater } from 'use-immer';
+import type { Updater } from 'use-immer';
 import { Table } from '../../UI/Table';
 import { TableCell, TableRow } from '@mui/material';
 import { serverDateToReportMonth } from '../../../utils/dateTimeUtils';
 import { SpendingByCategoryTable } from './SpendingByCategoryTable';
 import { SpendingByCategoryChart } from './SpendingByCategoryChart';
 import './ReportsTable.scss';
-import {
-	createTablePagination,
-	PaginationState
-} from '../../../utils/pagination';
-import { ReportPageResponse } from '../../../types/generated/expense-tracker';
-import { UseFormReturn } from 'react-hook-form';
-import { ReportFilterFormData } from './useGetReportData';
+import type { PaginationState } from '../../../utils/pagination';
+import { createTablePagination } from '../../../utils/pagination';
+import type { ReportPageResponse } from '../../../types/generated/expense-tracker';
+import type { UseFormReturn } from 'react-hook-form';
+import type { ReportFilterFormData } from './useGetReportData';
 import { getMonthLink } from './utils';
 import { MuiRouterLink } from '../../UI/MuiRouterLink';
 
@@ -35,7 +33,7 @@ export const ReportTable = (props: Props) => {
 
 	return (
 		<Table
-			className="ReportsTable"
+			className="reports-table"
 			pagination={pagination}
 			loading={props.isFetching}
 			columns={COLUMNS}

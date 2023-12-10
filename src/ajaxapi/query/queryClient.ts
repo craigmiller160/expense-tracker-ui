@@ -1,4 +1,5 @@
-import { ErrorResponse, isErrorResponse } from '../../types/error';
+import type { ErrorResponse } from '../../types/error';
+import { isErrorResponse } from '../../types/error';
 import { isAxiosError } from '@craigmiller160/ajax-api';
 import { alertManager } from '../../components/UI/Alerts/AlertManager';
 import { QueryClient } from '@tanstack/react-query';

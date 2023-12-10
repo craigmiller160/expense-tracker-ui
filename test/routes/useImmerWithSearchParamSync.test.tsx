@@ -1,15 +1,12 @@
+import { describe, it, expect } from 'vitest';
 import { useLocation } from 'react-router';
-import { SyncToParams } from '../../src/routes/useSearchParamSync';
-import {
-	StateFromParams,
-	useImmerWithSearchParamSync
-} from '../../src/routes/useImmerWithSearchParamSync';
-import { InitialEntry } from 'history';
+import type { SyncToParams } from '../../src/routes/useSearchParamSync';
+import type { StateFromParams } from '../../src/routes/useImmerWithSearchParamSync';
+import { useImmerWithSearchParamSync } from '../../src/routes/useImmerWithSearchParamSync';
+import type { InitialEntry } from 'history';
 import { render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import userEvents from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
-
-export {};
 
 type State = {
 	readonly count: number;
@@ -73,7 +70,7 @@ describe('useImmerWithSearchParamSync', () => {
 		expect(screen.getByText(/Search/)).toHaveTextContent(
 			'Search: ?count=0'
 		);
-		await userEvent.click(screen.getByText('Increment'));
+		await userEvents.click(screen.getByText('Increment'));
 		await waitFor(() =>
 			expect(screen.getByText(/State Count/)).toHaveTextContent(
 				'State Count: 1'

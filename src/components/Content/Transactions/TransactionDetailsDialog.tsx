@@ -2,7 +2,7 @@ import { types } from '@craigmiller160/ts-functions';
 import { SideDialog } from '../../UI/SideDialog';
 import { Button, CircularProgress, Typography } from '@mui/material';
 import './TransactionDetailsDialog.scss';
-import { Control } from 'react-hook-form';
+import type { Control } from 'react-hook-form';
 import { DuplicateIcon } from './icons/DuplicateIcon';
 import { NotConfirmedIcon } from './icons/NotConfirmedIcon';
 import { NotCategorizedIcon } from './icons/NotCategorizedIcon';
@@ -13,20 +13,16 @@ import {
 	TextField
 } from '@craigmiller160/react-hook-form-material-ui';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
-import { ReactNode } from 'react';
-import {
-	TransactionDetailsFormData,
-	useHandleTransactionDetailsDialogData
-} from './useHandleTransactionDetailsDialogData';
+import type { ReactNode } from 'react';
+import type { TransactionDetailsFormData } from './useHandleTransactionDetailsDialogData';
+import { useHandleTransactionDetailsDialogData } from './useHandleTransactionDetailsDialogData';
 import { PossibleRefundIcon } from './icons/PossibleRefundIcon';
 import * as Option from 'fp-ts/Option';
 import { TransactionDetailsDuplicatePanel } from './TransactionDetailsDuplicatePanel';
 import { useCategoriesToCategoryOptions } from '../../../utils/categoryUtils';
 import { formatAmountValue } from '../../../utils/amountUtils';
-import {
-	OverrideChildWidth,
-	ResponsiveRow
-} from '../../UI/ResponsiveWrappers/ResponsiveRow';
+import type { OverrideChildWidth } from '../../UI/ResponsiveWrappers/ResponsiveRow';
+import { ResponsiveRow } from '../../UI/ResponsiveWrappers/ResponsiveRow';
 import { Table } from '../../UI/Table';
 import { RuleTableRow } from '../Rules/common/RuleTableRow';
 
@@ -46,7 +42,7 @@ interface DialogActionsProps {
 }
 
 const TransactionDetailsDialogActions = (props: DialogActionsProps) => (
-	<div className="TransactionDetailsActions">
+	<div className="transaction-details-actions">
 		<Button
 			variant="contained"
 			color="success"
@@ -75,7 +71,7 @@ const useGetCategoryComponent = (
 	const categoryOptions = useCategoriesToCategoryOptions(categoryData);
 	if (categoryIsFetching) {
 		return (
-			<div className="CategorySpinner">
+			<div className="category-spinner">
 				<CircularProgress />
 			</div>
 		);
@@ -137,15 +133,15 @@ export const TransactionDetailsDialog = (props: Props) => {
 			formSubmit={handleSubmit(onSubmit)}
 			data-testid="transaction-details-dialog"
 		>
-			<div className="TransactionDetailsDialog">
+			<div className="transaction-details-dialog">
 				{isLoading && (
-					<div className="DetailsSpinner">
+					<div className="details-spinner">
 						<CircularProgress />
 					</div>
 				)}
 				{!isLoading && (
 					<>
-						<div className="Flags">
+						<div className="flags">
 							<DuplicateIcon transaction={transactionValues} />
 							<NotConfirmedIcon
 								transaction={watchedTransaction}
@@ -158,7 +154,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 							/>
 						</div>
 						<hr />
-						<div className="Info">
+						<div className="info">
 							<ResponsiveRow
 								overrideChildWidth={fullWidthResponsiveRows}
 							>
@@ -180,10 +176,16 @@ export const TransactionDetailsDialog = (props: Props) => {
 									label="Amount ($)"
 									rules={{
 										required: 'Amount is required',
-										validate: (value: unknown) =>
-											/^0\.00$/.test(`${value}`)
-												? 'Must provide amount'
-												: undefined
+										validate: (value: unknown) => {
+											const message =
+												'Must provide amount';
+											if (typeof value === 'string') {
+												return /^0\.00$/.test(value)
+													? message
+													: undefined;
+											}
+											return message;
+										}
 									}}
 									onBlurTransform={formatAmountValue}
 								/>
@@ -205,7 +207,7 @@ export const TransactionDetailsDialog = (props: Props) => {
 						<hr />
 						{!transactionValues.confirmed && lastRuleApplied && (
 							<>
-								<div className="LastRuleApplied">
+								<div className="last-rule-applied">
 									<Typography variant="h6">
 										Auto-Categorize Rule Applied
 									</Typography>

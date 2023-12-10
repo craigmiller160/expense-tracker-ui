@@ -2,10 +2,11 @@ import { Button, Typography } from '@mui/material';
 import { useEffect, useMemo } from 'react';
 import { types } from '@craigmiller160/ts-functions';
 import * as Option from 'fp-ts/Option';
-import { CategoryDetails } from '../../../types/categories';
+import type { CategoryDetails } from '../../../types/categories';
 import { pipe } from 'fp-ts/function';
 import './CategoryDetailsDialog.scss';
-import { FormState, useForm, UseFormReset } from 'react-hook-form';
+import type { FormState, UseFormReset } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { TextField } from '@craigmiller160/react-hook-form-material-ui';
 import { SideDialog } from '../../UI/SideDialog';
 
@@ -92,7 +93,7 @@ interface DialogActionsProps {
 }
 
 const CategoryDetailsDialogActions = (props: DialogActionsProps) => (
-	<div className="CategoryDetailsActions">
+	<div className="category-details-actions">
 		<Button
 			variant="contained"
 			color="success"
@@ -153,13 +154,13 @@ export const CategoryDetailsDialog = (props: Props) => {
 			formSubmit={handleSubmit(onSubmit)}
 		>
 			<div
-				className="CategoryDetailsDialog"
+				className="category-details-dialog"
 				data-testid="category-details-form"
 			>
 				<Typography variant="h6">Category Information</Typography>
-				<div className="CategoryDetailsForm">
+				<div className="category-details-form">
 					<TextField
-						className="NameField"
+						className="name-field"
 						testId="name-field"
 						name="name"
 						control={control}

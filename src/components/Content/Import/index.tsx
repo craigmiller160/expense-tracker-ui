@@ -1,20 +1,22 @@
 import './ImportTransactions.scss';
 import { Button, LinearProgress, Paper, useTheme } from '@mui/material';
-import { useForm, UseFormSetValue } from 'react-hook-form';
+import type { UseFormSetValue } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { FileType } from '../../../types/file';
+import type { SelectOption } from '@craigmiller160/react-hook-form-material-ui';
 import {
 	Autocomplete,
-	FileChooser,
-	SelectOption
+	FileChooser
 } from '@craigmiller160/react-hook-form-material-ui';
 import { match } from 'ts-pattern';
 import { StyledForm } from './StyledForm';
-import {
+import type {
 	ImportTransactionsMutation,
-	useImportTransactions as useImportTransactionsFn,
 	UseImportTransactionsType
 } from '../../../ajaxapi/query/TransactionImportQueries';
-import { MutableRefObject, useRef } from 'react';
+import { useImportTransactions as useImportTransactionsFn } from '../../../ajaxapi/query/TransactionImportQueries';
+import type { MutableRefObject } from 'react';
+import { useRef } from 'react';
 import { PageTitle } from '../../UI/PageTitle';
 import { PageResponsiveWrapper } from '../../UI/ResponsiveWrappers/PageResponsiveWrapper';
 
@@ -84,12 +86,12 @@ export const Import = ({
 	const fileChooserRules = { required: 'File Type is required' };
 
 	return (
-		<PageResponsiveWrapper className="ImportTransactions">
+		<PageResponsiveWrapper className="import-transactions">
 			<PageTitle title="Import Transactions" />
-			<Paper className="ImportFormContainer">
+			<Paper className="import-form-container">
 				<StyledForm
 					breakpoints={theme.breakpoints}
-					className="ImportForm"
+					className="import-form"
 					onSubmit={handleSubmit(onSubmit)}
 				>
 					<Autocomplete

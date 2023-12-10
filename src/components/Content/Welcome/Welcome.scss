@@ -1,6 +1,7 @@
 @import "../../../styles/page";
 
-.Welcome {
-  @include PageRoot;
+.welcome {
+  @include page-root;
+
   text-align: center;
 }

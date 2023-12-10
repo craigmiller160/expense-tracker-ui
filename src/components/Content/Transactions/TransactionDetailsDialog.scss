@@ -1,13 +1,13 @@
 @import "../../../styles/dialog";
 
-@mixin Section {
+@mixin section {
   margin: 2rem auto;
 }
 
-.TransactionDetailsDialog {
+.transaction-details-dialog {
   width: 100%;
 
-  .LastRuleApplied {
+  .last-rule-applied {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -17,7 +17,7 @@
     }
   }
 
-  .DetailsSpinner {
+  .details-spinner {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -27,7 +27,7 @@
     border-color: cyan;
   }
 
-  .Flags {
+  .flags {
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -35,8 +35,9 @@
     margin-bottom: 1rem;
   }
 
-  .Info {
-    @include Section;
+  .info {
+    @include section;
+
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -47,10 +48,10 @@
   }
 }
 
-.CategorySpinner {
+.category-spinner {
   text-align: center;
 }
 
-.TransactionDetailsActions {
-  @include DialogActions;
+.transaction-details-actions {
+  @include dialog-actions;
 }

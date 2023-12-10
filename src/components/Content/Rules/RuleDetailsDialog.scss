@@ -1,6 +1,6 @@
 @import "../../../styles/dialog";
 
-.AutoCategorizeRuleDetailsForm {
+.auto-categorize-rule-details-form {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -10,6 +10,6 @@
   }
 }
 
-.AutoCategorizeRuleDetailsActions {
-  @include DialogActions;
+.auto-categorize-rule-details-actions {
+  @include dialog-actions;
 }

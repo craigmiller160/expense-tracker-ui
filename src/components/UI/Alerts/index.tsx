@@ -1,6 +1,6 @@
 import { Alert, Stack } from '@mui/material';
 import './Alerts.scss';
-import { AlertData } from './types';
+import type { AlertData } from './types';
 import { useImmer } from 'use-immer';
 import { useCallback, useEffect } from 'react';
 import { alertManager } from './AlertManager';
@@ -51,7 +51,7 @@ export const Alerts = () => {
 	}, [setState, removeAlert]);
 
 	return (
-		<div className="Alerts">
+		<div className="alerts">
 			<Stack sx={{ width: '50%' }}>
 				{state.alerts.map((alert) => (
 					<Alert

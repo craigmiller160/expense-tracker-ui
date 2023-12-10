@@ -1,4 +1,5 @@
-import { TransactionIconTestId } from '../../../src/components/Content/Transactions/icons/TransactionIcon';
+import { expect } from 'vitest';
+import type { TransactionIconTestId } from '../../../src/components/Content/Transactions/icons/TransactionIcon';
 import { getSelectorParent } from './utils';
 
 type NoArgVoidFn = () => void;

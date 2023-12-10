@@ -1,6 +1,9 @@
 import styled from '@emotion/styled';
-import { InnerDivProps, WrapperOuterProps } from '../ResponsiveWrappers/utils';
-import { PropsWithChildren } from 'react';
+import type {
+	InnerDivProps,
+	WrapperOuterProps
+} from '../ResponsiveWrappers/utils';
+import type { PropsWithChildren } from 'react';
 import { Paper, useTheme } from '@mui/material';
 
 const InnerDiv = styled.div<InnerDivProps>`

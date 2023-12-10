@@ -1,9 +1,10 @@
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
-import { ReportPageResponse } from '../../types/generated/expense-tracker';
+import type { UseQueryResult } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
+import type { ReportPageResponse } from '../../types/generated/expense-tracker';
 import { getSpendingByMonthAndCategory } from '../service/ReportService';
 import { debounceAsync } from '../../utils/debounceAsync';
 import { QUERY_DEBOUNCE } from './constants';
-import { ReportRequest } from '../../types/reports';
+import type { ReportRequest } from '../../types/reports';
 
 export const GET_SPENDING_BY_MONTH_AND_CATEGORY =
 	'ReportQueries_GetSpendingByMonthAndCategory';

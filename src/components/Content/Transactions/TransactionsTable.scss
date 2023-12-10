@@ -1,16 +1,16 @@
 @import "../../../styles/page";
 
-@mixin MaxWidth {
+@mixin max-width {
   width: 100%;
   max-width: 100%;
 }
 
-.TransactionsTable {
-  @include MaxWidth;
+.transactions-table {
+  @include max-width;
 
   >form {
-    @include MaxWidth;
-    @include ColumnAlignCenter;
+    @include max-width;
+    @include column-align-center;
   }
 
   &.edit {
@@ -22,36 +22,37 @@
     }
   }
 
-  .ConfirmAllCheckbox {
+  .confirm-all-checkbox {
+    // stylelint-disable-next-line selector-class-pattern
     .MuiFormControlLabel-label {
       font-weight: bold;
       font-size: 0.875rem;
     }
   }
 
-  .ConfirmedCell {
+  .confirmed-cell {
     text-align: center;
   }
 
-  .CategoryCell {
+  .category-cell {
     &.edit {
       width: 30%;
     }
   }
 
-  td.DescriptionCell {
+  td.description-cell {
     max-width: 20rem;
     word-wrap: break-word;
   }
 
-  .FlagsWrapper {
+  .flags-wrapper {
     display: flex;
     flex-direction: column;
     flex: 1;
     height: 100%;
     width: 100%;
 
-    .FlagRow {
+    .flag-row {
       display: flex;
       flex-direction: row;
     }

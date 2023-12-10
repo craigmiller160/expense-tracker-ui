@@ -1,14 +1,12 @@
-import {
-	createTablePagination,
-	PaginationState
-} from '../../../utils/pagination';
-import { Updater } from 'use-immer';
+import type { PaginationState } from '../../../utils/pagination';
+import { createTablePagination } from '../../../utils/pagination';
+import type { Updater } from 'use-immer';
 import { Table } from '../../UI/Table';
 import { Button } from '@mui/material';
 import './RulesTable.scss';
-import { AutoCategorizeRuleResponse } from '../../../types/generated/expense-tracker';
-import { ReactNode } from 'react';
-import { ReOrderActions } from './useHandleAllRulesData';
+import type { AutoCategorizeRuleResponse } from '../../../types/generated/expense-tracker';
+import type { ReactNode } from 'react';
+import type { ReOrderActions } from './useHandleAllRulesData';
 import { RuleTableRow } from './common/RuleTableRow';
 
 const COLUMNS = ['Ordinal', 'Category', 'Rule', 'Actions'];
@@ -50,7 +48,7 @@ export const RulesTable = (props: Props) => {
 	const aboveTableActions = createAboveTableActions(() => props.openDialog());
 
 	return (
-		<div className="AutoCategorizeRulesTable">
+		<div className="auto-categorize-rules-table">
 			<Table
 				columns={COLUMNS}
 				loading={props.isFetching}

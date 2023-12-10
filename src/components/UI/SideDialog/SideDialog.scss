@@ -1,4 +1,5 @@
-.SlideDialog {
+.slide-dialog {
+  // stylelint-disable-next-line selector-class-pattern
   .MuiDialog-container {
     width: 100%;
     display: flex;
@@ -6,14 +7,14 @@
     justify-content: flex-end;
   }
 
-  .DialogForm {
+  .dialog-form {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     max-height: none;
     height: 100%;
 
-    .Body {
+    .body {
       margin: 1rem;
       display: flex;
       flex-direction: column;

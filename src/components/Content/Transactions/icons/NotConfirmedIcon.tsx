@@ -1,6 +1,6 @@
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import { TransactionIcon } from './TransactionIcon';
-import { DeepPartial } from 'react-hook-form';
+import type { DeepPartial } from 'react-hook-form';
 
 type PartialTransactionForm = {
 	readonly confirmed: boolean;

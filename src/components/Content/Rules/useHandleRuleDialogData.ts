@@ -1,38 +1,41 @@
 import { types } from '@craigmiller160/ts-functions';
-import { CategoryOption } from '../../../types/categories';
+import type { CategoryOption } from '../../../types/categories';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 import {
 	categoryToCategoryOption,
 	itemWithCategoryToCategoryOption
 } from '../../../utils/categoryUtils';
-import {
+import type {
 	CreateRuleParams,
 	DeleteRuleParams,
-	UpdateRuleParams,
+	UpdateRuleParams
+} from '../../../ajaxapi/query/AutoCategorizeRuleQueries';
+import {
 	useCreateRule,
 	useDeleteRule,
 	useGetMaxOrdinal,
 	useGetRule,
 	useUpdateRule
 } from '../../../ajaxapi/query/AutoCategorizeRuleQueries';
-import {
+import type {
 	AutoCategorizeRuleRequest,
 	AutoCategorizeRuleResponse
 } from '../../../types/generated/expense-tracker';
 import { pipe } from 'fp-ts/function';
 import * as Option from 'fp-ts/Option';
-import { useForm, UseFormReturn } from 'react-hook-form';
+import type { UseFormReturn } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useContext, useEffect } from 'react';
 import {
 	getTrueMaxOrdinal,
 	useCreateOrdinalOptions
 } from '../../../utils/ordinalUtils';
-import { OrdinalOption } from '../../../types/rules';
+import type { OrdinalOption } from '../../../types/rules';
 import {
 	formatServerDate,
 	parseServerDate
 } from '../../../utils/dateTimeUtils';
-import { UseMutateAsyncFunction } from '@tanstack/react-query';
+import type { UseMutateAsyncFunction } from '@tanstack/react-query';
 import { ConfirmDialogContext } from '../../UI/ConfirmDialog/ConfirmDialogProvider';
 import * as Task from 'fp-ts/Task';
 
@@ -82,7 +85,7 @@ type Data = {
 	readonly isFetching: boolean;
 	readonly form: UseFormReturn<RuleFormData>;
 	readonly ordinalOptions: ReadonlyArray<OrdinalOption>;
-	readonly saveRule: (values: RuleFormData) => void;
+	readonly saveRule: (values: RuleFormData) => Promise<void>;
 	readonly deleteRule: () => void;
 };
 
@@ -130,7 +133,7 @@ const createSaveRule =
 		>,
 		close: () => void
 	) =>
-	(values: RuleFormData): void => {
+	(values: RuleFormData): Promise<void> => {
 		// Validations are enforced both in the form controls
 		// and server-side, so the defaults won't be an issue
 		const request: AutoCategorizeRuleRequest = {
@@ -142,7 +145,7 @@ const createSaveRule =
 			minAmount: parseRequestAmount(values.minAmount),
 			maxAmount: parseRequestAmount(values.maxAmount)
 		};
-		pipe(
+		return pipe(
 			selectedRuleId,
 			Option.fold(
 				() => () =>
@@ -166,9 +169,9 @@ const createDeleteRule =
 		close: () => void,
 		clearSelectedRule: () => void
 	) =>
-	() => {
+	(): Promise<void> => {
 		clearSelectedRule();
-		pipe(
+		return pipe(
 			selectedRuleId,
 			Option.fold(
 				() => () => Promise.resolve(),

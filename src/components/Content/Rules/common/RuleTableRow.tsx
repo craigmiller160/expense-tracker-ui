@@ -1,9 +1,9 @@
 import './RuleTableRow.scss';
-import { AutoCategorizeRuleResponse } from '../../../../types/generated/expense-tracker';
+import type { AutoCategorizeRuleResponse } from '../../../../types/generated/expense-tracker';
 import { Button, TableCell, TableRow } from '@mui/material';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { ReOrderActions } from '../useHandleAllRulesData';
+import type { ReOrderActions } from '../useHandleAllRulesData';
 import { pipe } from 'fp-ts/function';
 import * as Option from 'fp-ts/Option';
 import { serverDateToDisplayDate } from '../../../../utils/dateTimeUtils';
@@ -71,7 +71,7 @@ export const RuleTableRow = (props: Props) => {
 			: 'DownButton';
 
 	return (
-		<TableRow className="AutoCategorizeRuleTableRow">
+		<TableRow className="auto-categorize-rule-table-row">
 			<TableCell>{props.rule.ordinal}</TableCell>
 			<TableCell>{props.rule.categoryName}</TableCell>
 			<TableCell>
@@ -79,8 +79,8 @@ export const RuleTableRow = (props: Props) => {
 			</TableCell>
 			{props.actions && (
 				<TableCell>
-					<div className="ActionsCell">
-						<div className="ReOrderButtons">
+					<div className="actions-cell">
+						<div className="re-order-buttons">
 							<Button
 								className={upClassName}
 								onClick={() =>
@@ -102,7 +102,7 @@ export const RuleTableRow = (props: Props) => {
 								<ArrowDropDownIcon />
 							</Button>
 						</div>
-						<div className="DetailsButton">
+						<div className="details-button">
 							<Button
 								className="RuleDetailsButton"
 								variant="contained"

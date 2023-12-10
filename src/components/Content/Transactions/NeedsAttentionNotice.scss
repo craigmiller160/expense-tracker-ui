@@ -1,17 +1,18 @@
 @import "../../../styles/page";
 
-.NeedsAttentionNotice {
+.needs-attention-notice {
   width: 100%;
   margin: 1rem auto;
   color: red;
   padding: 1rem;
 
-  .Header {
-    @include ColumnAlignCenter;
+  .header {
+    @include column-align-center;
+
     font-weight: bold;
   }
 
-  .Items {
-    @include ColumnAlignStart;
+  .items {
+    @include column-align-start;
   }
 }

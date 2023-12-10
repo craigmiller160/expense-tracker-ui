@@ -1,7 +1,7 @@
 import { Link as RouterLink } from 'react-router-dom';
 import { Link } from '@mui/material';
-import { PropsWithChildren } from 'react';
-import { TypographyProps } from '@mui/material/Typography';
+import type { PropsWithChildren } from 'react';
+import type { TypographyProps } from '@mui/material/Typography';
 
 type Props = {
 	readonly variant: TypographyProps['variant'];

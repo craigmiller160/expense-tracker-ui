@@ -1,13 +1,13 @@
-import { ReportPageResponse } from '../../types/generated/expense-tracker';
+import type { ReportPageResponse } from '../../types/generated/expense-tracker';
 import { expenseTrackerApi, getData } from './AjaxApi';
-import qs from 'qs';
-import { ReportRequest } from '../../types/reports';
+import { stringify } from 'qs';
+import type { ReportRequest } from '../../types/reports';
 
 export const getSpendingByMonthAndCategory = (
 	request: ReportRequest,
 	signal?: AbortSignal
 ): Promise<ReportPageResponse> => {
-	const query = qs.stringify(request, {
+	const query = stringify(request, {
 		arrayFormat: 'comma'
 	});
 	return expenseTrackerApi

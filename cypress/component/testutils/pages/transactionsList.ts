@@ -1,14 +1,14 @@
-import Chainable = Cypress.Chainable;
+type Chainable<T> = Cypress.Chainable<T>;
 
-const getTitle = (): Chainable<JQuery> => cy.get('.ManageTransactions h4');
+const getTitle = (): Chainable<JQuery> => cy.get('.manage-transactions h4');
 const getDetailsButtons = (): Chainable<JQuery> =>
-	cy.get('.ManageTransactions table .DetailsButton');
+	cy.get('.manage-transactions table .DetailsButton');
 const getConfirmCheckboxes = (): Chainable<JQuery> =>
 	cy.get(
-		'.ManageTransactions table [data-testid="confirm-transaction-checkbox"] input'
+		'.manage-transactions table [data-testid="confirm-transaction-checkbox"] input'
 	);
 const getCategorySelects = (): Chainable<JQuery> =>
-	cy.get('.ManageTransactions table .CategoryCell input');
+	cy.get('.manage-transactions table .category-cell input');
 const getAddTransactionButton = (): Chainable<JQuery> =>
 	cy.get('#add-transaction-button');
 const getDeleteAllUnconfirmedTransactionsButton = () =>
@@ -16,7 +16,7 @@ const getDeleteAllUnconfirmedTransactionsButton = () =>
 const getResetButton = (): Chainable<JQuery> =>
 	cy
 		.get(
-			'.ManageTransactions .TransactionsTable .BelowTableActionWrapper button'
+			'.manage-transactions .transactions-table .BelowTableActionWrapper button'
 		)
 		.eq(0);
 

@@ -1,10 +1,10 @@
 import { types } from '@craigmiller160/ts-functions';
 import produce from 'immer';
-import { Draft } from 'immer';
+import type { Draft } from 'immer';
 import * as Option from 'fp-ts/Option';
-import { DbRecord } from '../../src/types/db';
+import type { DbRecord } from '../../src/types/db';
 import { v4 as uuidv4 } from 'uuid';
-import {
+import type {
 	CategoryResponse,
 	TransactionDetailsResponse
 } from '../../src/types/generated/expense-tracker';
@@ -41,3 +41,5 @@ export class Database {
 		this.data = produce(this.data, updater);
 	}
 }
+
+export const database = new Database();

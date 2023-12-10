@@ -1,24 +1,16 @@
+import { beforeAll, afterAll, beforeEach, vi } from 'vitest';
 import { constVoid } from 'fp-ts/function';
-import { apiServer } from './server';
-import '@testing-library/jest-dom';
-import '@relmify/jest-fp-ts';
+import { mswServer } from './msw-server';
 
 beforeEach(() => {
 	process.env.DEBUG_PRINT_LIMIT = '1000000000';
-	apiServer.actions.setInitialData();
-});
-
-jest.mock('@craigmiller160/react-keycloak', () => {
-	const reactKeycloak = jest.requireActual('@craigmiller160/react-keycloak');
-	return {
-		...reactKeycloak,
-		KeycloakAuthProvider: null
-	};
+	mswServer.actions.resetServer();
 });
 
 let originalMatchMedia: (query: string) => MediaQueryList;
 
 beforeAll(() => {
+	mswServer.actions.startServer();
 	originalMatchMedia = window.matchMedia;
 	// add window.matchMedia
 	// this is necessary for the date picker to be rendered in desktop mode.
@@ -40,8 +32,19 @@ beforeAll(() => {
 });
 
 afterAll(() => {
+	mswServer.actions.stopServer();
 	Object.defineProperty(window, 'matchMedia', {
 		writable: true,
 		value: originalMatchMedia
 	});
+});
+
+vi.mock('@craigmiller160/react-keycloak', async () => {
+	const reactKeycloak = await vi.importActual<object>(
+		'@craigmiller160/react-keycloak'
+	);
+	return {
+		...reactKeycloak,
+		KeycloakAuthProvider: null
+	};
 });

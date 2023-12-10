@@ -1,4 +1,4 @@
-import { AlertColor } from '@mui/material';
+import type { AlertColor } from '@mui/material';
 
 export type AlertData = {
 	readonly id: string;

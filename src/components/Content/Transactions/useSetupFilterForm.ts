@@ -1,22 +1,20 @@
-import {
+import type {
 	SyncFromParams,
 	SyncToParams
 } from '../../../routes/useSearchParamSync';
-import {
-	TransactionSearchForm,
-	transactionSearchFormDefaultValues
-} from './utils';
+import type { TransactionSearchForm } from './utils';
+import { transactionSearchFormDefaultValues } from './utils';
 import { isSortDirection, SortDirection } from '../../../types/misc';
 import {
 	formatServerDate,
 	parseServerDate
 } from '../../../utils/dateTimeUtils';
-import { CategoryOption } from '../../../types/categories';
-import { UseFormReturn } from 'react-hook-form';
+import type { CategoryOption } from '../../../types/categories';
+import type { UseFormReturn } from 'react-hook-form';
 import { useGetAllCategories } from '../../../ajaxapi/query/CategoryQueries';
 import { useCategoriesToCategoryOptions } from '../../../utils/categoryUtils';
 import { useFormWithSearchParamSync } from '../../../routes/useFormWithSearchParamSync';
-import { ParamsWrapper } from '../../../routes/ParamsWrapper';
+import type { ParamsWrapper } from '../../../routes/ParamsWrapper';
 import isValid from 'date-fns/isValid/index';
 import { useCallback } from 'react';
 

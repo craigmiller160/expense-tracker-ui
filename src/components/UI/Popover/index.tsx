@@ -1,4 +1,4 @@
-import { PropsWithChildren, MouseEvent } from 'react';
+import type { PropsWithChildren, MouseEvent } from 'react';
 import MuiPopover from '@mui/material/Popover';
 import { useImmer } from 'use-immer';
 import { Typography } from '@mui/material';
@@ -27,7 +27,7 @@ export const Popover = (props: PropsWithChildren<Props>) => {
 		setState((draft) => {
 			draft.target = null;
 		});
-	const classes = ['AppPopover', props.className]
+	const classes = ['app-popover', props.className]
 		.filter((c) => c !== undefined)
 		.join(' ');
 	return (

@@ -19,7 +19,7 @@ type ActionsProps = {
 };
 
 const RuleDetailsDialogActions = (props: ActionsProps) => (
-	<div className="AutoCategorizeRuleDetailsActions">
+	<div className="auto-categorize-rule-details-actions">
 		<Button
 			color="success"
 			variant="contained"
@@ -85,7 +85,7 @@ export const RuleDetailsDialog = (props: Props) => {
 		>
 			{isFetching && <CircularProgress />}
 			{!isFetching && (
-				<div className="AutoCategorizeRuleDetailsForm">
+				<div className="auto-categorize-rule-details-form">
 					<ResponsiveRow>
 						<Autocomplete
 							options={ordinalOptions}

@@ -1,7 +1,10 @@
+import { describe, it, expect } from 'vitest';
+import type {
+	SyncFromParams,
+	SyncToParams
+} from '../../src/routes/useSearchParamSync';
 import {
 	shouldSetParams,
-	SyncFromParams,
-	SyncToParams,
 	useSearchParamSync
 } from '../../src/routes/useSearchParamSync';
 import { useImmer } from 'use-immer';
@@ -9,12 +12,10 @@ import { useCallback, useEffect } from 'react';
 import { MemoryRouter, useSearchParams } from 'react-router-dom';
 import { useLocation } from 'react-router';
 import { render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { ParamsWrapper } from '../../src/routes/ParamsWrapper';
-import {
-	NativeSearchProvider,
-	NativeSearchProviderContext
-} from '../../src/routes/NativeSearchProvider';
+import userEvents from '@testing-library/user-event';
+import type { ParamsWrapper } from '../../src/routes/ParamsWrapper';
+import type { NativeSearchProvider } from '../../src/routes/NativeSearchProvider';
+import { NativeSearchProviderContext } from '../../src/routes/NativeSearchProvider';
 
 type State = {
 	readonly count: number;
@@ -117,7 +118,7 @@ describe('useSearchParamSync', () => {
 			const params = new URLSearchParams();
 			params.set('hello', 'world');
 			params.set('goodbye', 'universe');
-			expect(shouldSetParams(params, params)).toEqual(false);
+			expect(shouldSetParams(params, params)).toBe(false);
 		});
 
 		it('base params has more entries than new params', () => {
@@ -128,7 +129,7 @@ describe('useSearchParamSync', () => {
 			const newParams = new URLSearchParams();
 			newParams.set('hello', 'world');
 			newParams.set('goodbye', 'universe');
-			expect(shouldSetParams(baseParams, newParams)).toEqual(true);
+			expect(shouldSetParams(baseParams, newParams)).toBe(true);
 		});
 
 		it('new params has more entries than base params', () => {
@@ -139,7 +140,7 @@ describe('useSearchParamSync', () => {
 			newParams.set('hello', 'world');
 			newParams.set('goodbye', 'universe');
 			newParams.set('foo', 'bar');
-			expect(shouldSetParams(baseParams, newParams)).toEqual(true);
+			expect(shouldSetParams(baseParams, newParams)).toBe(true);
 		});
 
 		it('param values are different', () => {
@@ -149,7 +150,7 @@ describe('useSearchParamSync', () => {
 			const newParams = new URLSearchParams();
 			newParams.set('hello', 'world');
 			newParams.set('goodbye', 'galaxy');
-			expect(shouldSetParams(baseParams, newParams)).toEqual(true);
+			expect(shouldSetParams(baseParams, newParams)).toBe(true);
 		});
 	});
 
@@ -167,7 +168,7 @@ describe('useSearchParamSync', () => {
 			)
 		);
 
-		await userEvent.click(screen.getByText('Increment State'));
+		await userEvents.click(screen.getByText('Increment State'));
 		await waitFor(() =>
 			expect(screen.getByText(/Search/)).toHaveTextContent(
 				'Search: ?count=1'
@@ -195,7 +196,7 @@ describe('useSearchParamSync', () => {
 			)
 		);
 
-		await userEvent.click(screen.getByText('Increment Params'));
+		await userEvents.click(screen.getByText('Increment Params'));
 		expect(screen.getByText(/Search/)).toHaveTextContent(
 			'Search: ?count=1'
 		);
@@ -223,7 +224,7 @@ describe('useSearchParamSync', () => {
 			)
 		);
 
-		await userEvent.click(screen.getByText('Increment Params'));
+		await userEvents.click(screen.getByText('Increment Params'));
 		await waitFor(() =>
 			expect(screen.getByText(/Search/)).toHaveTextContent(
 				'Search: ?other=hello&count=1'
@@ -245,7 +246,7 @@ describe('useSearchParamSync', () => {
 			)
 		);
 
-		await userEvent.click(screen.getByText('Increment Params'));
+		await userEvents.click(screen.getByText('Increment Params'));
 		expect(screen.getByText(/Search/)).toHaveTextContent(
 			'Search: ?count=1'
 		);
@@ -258,7 +259,7 @@ describe('useSearchParamSync', () => {
 			)
 		);
 
-		await userEvent.click(screen.getByText('Enable Modifier'));
+		await userEvents.click(screen.getByText('Enable Modifier'));
 		await waitFor(() =>
 			expect(screen.getByText(/State Count/)).toHaveTextContent(
 				'State Count: 2'

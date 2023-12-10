@@ -1,12 +1,11 @@
+import type { UseMutationResult, UseQueryResult } from '@tanstack/react-query';
 import {
 	QueryClient,
 	useMutation,
-	UseMutationResult,
 	useQuery,
-	useQueryClient,
-	UseQueryResult
+	useQueryClient
 } from '@tanstack/react-query';
-import {
+import type {
 	AutoCategorizeRulePageResponse,
 	AutoCategorizeRuleRequest,
 	AutoCategorizeRuleResponse,
@@ -26,7 +25,7 @@ import * as Option from 'fp-ts/Option';
 import { GET_LAST_RULE_APPLIED } from './LastAppliedRuleQueries';
 import { debounceAsync } from '../../utils/debounceAsync';
 import { QUERY_DEBOUNCE } from './constants';
-import { AutoCategorizeRulePageRequest } from '../../types/rules';
+import type { AutoCategorizeRulePageRequest } from '../../types/rules';
 
 export const GET_ALL_RULES = 'AutoCategorizeRuleQueries_GetAllRules';
 export const GET_RULE = 'AutoCategorizeRuleQueries_GetRule';

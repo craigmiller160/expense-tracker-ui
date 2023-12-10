@@ -1,5 +1,6 @@
 import { useImmer } from 'use-immer';
-import { createContext, PropsWithChildren, useContext } from 'react';
+import type { PropsWithChildren } from 'react';
+import { createContext, useContext } from 'react';
 
 type OnConfirmAction = () => void;
 export type NewConfirmDialog = (

@@ -1,10 +1,11 @@
 @import "../../../styles/page";
 
-.Categories {
-  .TableWrapper {
+.categories {
+  .table-wrapper {
     width: 100%;
+
     th:nth-child(3) {
-      @include RightAlign;
+      @include right-align;
     }
 
     td:nth-child(1) {
@@ -12,7 +13,7 @@
     }
 
     td:nth-child(3) {
-      @include RightAlign
+      @include right-align
     }
   }
 }

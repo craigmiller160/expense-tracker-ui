@@ -1,8 +1,8 @@
-import { apiServer } from '../../../server';
+import { describe, it, expect } from 'vitest';
+import { mswServer } from '../../../msw-server';
 import { renderApp } from '../../../testutils/renderApp';
 import { screen, waitFor, within } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import userEvent from '@testing-library/user-event';
+import userEvents from '@testing-library/user-event';
 import { searchForTransactions } from '../../../../src/ajaxapi/service/TransactionService';
 import { SortDirection, TransactionSortKey } from '../../../../src/types/misc';
 import { getAllCategories } from '../../../../src/ajaxapi/service/CategoryService';
@@ -35,7 +35,7 @@ const setToMidnight = Time.set({
 
 describe('Transactions Table', () => {
 	it('loads and displays transactions', async () => {
-		await renderApp({
+		renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
 		await waitForVisibility([
@@ -45,6 +45,7 @@ describe('Transactions Table', () => {
 
 		const tableHeader = screen
 			.getByTestId('transactions-table')
+			// eslint-disable-next-line testing-library/no-node-access
 			.querySelector('thead');
 		expect(tableHeader).not.toBeNull();
 
@@ -60,41 +61,27 @@ describe('Transactions Table', () => {
 		const transactionFilters = screen.getByTestId('transaction-filters');
 
 		expect(
-			within(transactionFilters).queryByLabelText('Start Date')
+			within(transactionFilters).getByLabelText('Start Date')
 		).toHaveValue(formatDisplayDate(defaultStartDate()));
 		expect(
-			within(transactionFilters).queryByLabelText('End Date')
+			within(transactionFilters).getByLabelText('End Date')
 		).toHaveValue(formatDisplayDate(defaultEndDate()));
-		expect(
-			within(transactionFilters).queryByLabelText('Category')
-		).toBeVisible();
+		within(transactionFilters).getByLabelText('Category');
 		expect(getSelectValueElement('Category')).toHaveTextContent('');
-		expect(
-			within(transactionFilters).queryByLabelText('Order By')
-		).toBeInTheDocument();
+		within(transactionFilters).getByLabelText('Order By');
 		expect(getOrderByValueElement()).toHaveTextContent('Newest to Oldest');
-		expect(
-			within(transactionFilters).queryByLabelText('Duplicate')
-		).toBeInTheDocument();
+		within(transactionFilters).getByLabelText('Duplicate');
 		expect(getSelectValueElement('Duplicate')).toHaveTextContent('All');
-		expect(
-			within(transactionFilters).queryByLabelText('Confirmed')
-		).toBeInTheDocument();
+		within(transactionFilters).getByLabelText('Confirmed');
 		expect(getSelectValueElement('Confirmed')).toHaveTextContent('All');
-		expect(
-			within(transactionFilters).queryByLabelText('Categorized')
-		).toBeInTheDocument();
+		within(transactionFilters).getByLabelText('Categorized');
 		expect(getSelectValueElement('Categorized')).toHaveTextContent('All');
-		expect(
-			within(transactionFilters).queryByLabelText('Possible Refund')
-		).toBeInTheDocument();
+		within(transactionFilters).getByLabelText('Possible Refund');
 		expect(getSelectValueElement('Possible Refund')).toHaveTextContent(
 			'All'
 		);
 
-		await waitFor(() =>
-			expect(screen.queryByText('Rows per page:')).toBeVisible()
-		);
+		await screen.findByText('Rows per page:');
 
 		await validateTransactionsInTable(25, (index, description) => {
 			const expenseDate = pipe(
@@ -124,7 +111,7 @@ describe('Transactions Table', () => {
 			possibleRefund: 'ALL'
 		});
 		const categories = await getAllCategories();
-		apiServer.database.updateData((draft) => {
+		mswServer.database.updateData((draft) => {
 			draft.transactions[transactions[0].id] = {
 				...transactions[0],
 				categoryId: categories[0].id,
@@ -148,7 +135,7 @@ describe('Transactions Table', () => {
 				created: ''
 			};
 		});
-		await renderApp({
+		renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
 		await waitFor(() =>
@@ -225,8 +212,9 @@ describe('Transactions Table', () => {
 		const notConfirmedConfirmCheckbox = within(notConfirmedRow).getByTestId(
 			'confirm-transaction-checkbox'
 		);
-		await userEvent.click(notConfirmedConfirmCheckbox);
+		await userEvents.click(notConfirmedConfirmCheckbox);
 		expect(
+			// eslint-disable-next-line testing-library/no-node-access
 			notConfirmedConfirmCheckbox.querySelector('input')
 		).toBeChecked();
 		await validateRowIcons(notConfirmedRow, false, false, false);
@@ -234,8 +222,8 @@ describe('Transactions Table', () => {
 		const noCategorySelect =
 			within(noCategoryRow).getByLabelText('Category');
 		expect(noCategorySelect).toHaveValue('');
-		await userEvent.click(noCategorySelect);
-		await userEvent.click(
+		await userEvents.click(noCategorySelect);
+		await userEvents.click(
 			within(screen.getByRole('presentation')).getByText('Entertainment')
 		);
 		expect(noCategorySelect).toHaveValue('Entertainment');
@@ -243,7 +231,7 @@ describe('Transactions Table', () => {
 	});
 
 	it('can change the rows-per-page and automatically re-load the data', async () => {
-		await renderApp({
+		renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
 		await waitFor(() =>
@@ -272,16 +260,17 @@ describe('Transactions Table', () => {
 
 		const rowsPerPageSelect = screen
 			.getByTestId('table-pagination')
+			// eslint-disable-next-line testing-library/no-node-access
 			.querySelector('div.MuiTablePagination-select');
 		expect(rowsPerPageSelect).toBeVisible();
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		await userEvent.click(rowsPerPageSelect!);
+		await userEvents.click(rowsPerPageSelect!);
 
 		const allItemsWith10 = screen.getAllByText('10');
 		if (allItemsWith10.length === 2) {
-			await userEvent.click(screen.getAllByText('10')[1]);
+			await userEvents.click(screen.getAllByText('10')[1]);
 		} else {
-			await userEvent.click(screen.getAllByText('10')[0]);
+			await userEvents.click(screen.getAllByText('10')[0]);
 		}
 
 		await waitFor(() =>
@@ -303,7 +292,7 @@ describe('Transactions Table', () => {
 	});
 
 	it('can paginate and load the correct data successfully', async () => {
-		await renderApp({
+		renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
 		await waitForVisibility([
@@ -329,14 +318,15 @@ describe('Transactions Table', () => {
 			);
 			expect(Time.compare(expenseDate)(endDate)).toBeLessThanOrEqual(0);
 		});
-		expect(getRecordRangeText()).toEqual(`1-25 of ${totalDaysInRange}`);
+		expect(getRecordRangeText()).toBe(`1-25 of ${totalDaysInRange}`);
 
 		const nextPageButton = screen
 			.getByTestId('table-pagination')
+			// eslint-disable-next-line testing-library/no-node-access
 			.querySelector('button[title="Go to next page"]');
 		expect(nextPageButton).toBeVisible();
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		await userEvent.click(nextPageButton!);
+		await userEvents.click(nextPageButton!);
 
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
@@ -344,7 +334,7 @@ describe('Transactions Table', () => {
 		await waitFor(() =>
 			expect(screen.queryByText(/.*26–\d+ of \d.*/)).toBeVisible()
 		);
-		expect(getRecordRangeText()).toEqual(
+		expect(getRecordRangeText()).toBe(
 			`26-${totalDaysInRange} of ${totalDaysInRange}`
 		);
 		const expectedSecondPageCount = totalDaysInRange - 25;
@@ -382,11 +372,11 @@ describe('Transactions Table', () => {
 			duplicate: 'ALL',
 			possibleRefund: 'ALL'
 		});
-		apiServer.database.updateData((draft) => {
+		mswServer.database.updateData((draft) => {
 			draft.transactions[transaction.id].amount = transaction.amount * -1;
 		});
 
-		await renderApp({
+		renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
 		await waitForVisibility([
@@ -396,13 +386,14 @@ describe('Transactions Table', () => {
 		]);
 
 		const allRows = screen.getAllByTestId('transaction-table-row');
+		expect(allRows).toHaveLength(25);
 
 		transactionIcon('possible-refund-icon', allRows[0]).isVisible();
 		transactionIcon('possible-refund-icon', allRows[1]).isNotVisible();
 	});
 
 	it('can set categories and confirm transactions', async () => {
-		await renderApp({
+		renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
 		await waitFor(() =>
@@ -418,21 +409,23 @@ describe('Transactions Table', () => {
 		const row = screen.getAllByTestId('transaction-table-row')[0];
 		const rowCategorySelect = within(row).getByLabelText('Category');
 
-		await userEvent.click(rowCategorySelect);
+		await userEvents.click(rowCategorySelect);
 		expect(screen.queryByText('Groceries')).toBeVisible();
-		await userEvent.click(screen.getByText('Groceries'));
+		await userEvents.click(screen.getByText('Groceries'));
 		expect(rowCategorySelect).toHaveValue('Groceries');
 
 		const confirmCheckbox = within(row).getByTestId(
 			'confirm-transaction-checkbox'
 		);
-		await userEvent.click(confirmCheckbox);
+		await userEvents.click(confirmCheckbox);
 		// The auto-confirm means that this operation needs to be negated first
+		// eslint-disable-next-line testing-library/no-node-access
 		expect(confirmCheckbox.querySelector('input')).not.toBeChecked();
-		await userEvent.click(confirmCheckbox);
+		await userEvents.click(confirmCheckbox);
+		// eslint-disable-next-line testing-library/no-node-access
 		expect(confirmCheckbox.querySelector('input')).toBeChecked();
 
-		await userEvent.click(screen.getByText('Save'));
+		await userEvents.click(screen.getByText('Save'));
 		await waitFor(() =>
 			expect(screen.queryByTestId('table-loading')).toBeVisible()
 		);
@@ -472,7 +465,7 @@ describe('Transactions Table', () => {
 			possibleRefund: 'ALL'
 		});
 		const categories = await getAllCategories();
-		apiServer.database.updateData((draft) => {
+		mswServer.database.updateData((draft) => {
 			draft.transactions[transactions[0].id] = {
 				...transactions[0],
 				categoryId: categories[0].id,
@@ -483,10 +476,10 @@ describe('Transactions Table', () => {
 		});
 
 		const preparedTransaction =
-			apiServer.database.data.transactions[transactions[0].id];
+			mswServer.database.data.transactions[transactions[0].id];
 		expect(preparedTransaction.categoryId).toEqual(categories[0].id);
 
-		await renderApp({
+		renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
 		await waitFor(() =>
@@ -501,23 +494,24 @@ describe('Transactions Table', () => {
 
 		const clearButton = screen
 			.getAllByTestId('transaction-table-row')[0]
+			// eslint-disable-next-line testing-library/no-node-access
 			.querySelector('.MuiAutocomplete-clearIndicator');
 		expect(clearButton).toBeTruthy();
-		await userEvent.click(clearButton!); // eslint-disable-line @typescript-eslint/no-non-null-assertion
+		await userEvents.click(clearButton!); // eslint-disable-line @typescript-eslint/no-non-null-assertion
 
-		await userEvent.click(screen.getByText('Save'));
+		await userEvents.click(screen.getByText('Save'));
 
 		await waitFor(() =>
 			expect(screen.queryByText('Rows per page:')).toBeVisible()
 		);
 
 		const modifiedTransaction =
-			apiServer.database.data.transactions[transactions[0].id];
+			mswServer.database.data.transactions[transactions[0].id];
 		expect(modifiedTransaction.categoryId).toBeUndefined();
 	});
 
 	it('confirm all checkbox works and can be reset', async () => {
-		await renderApp({
+		renderApp({
 			initialPath: '/expense-tracker/transactions'
 		});
 		await waitFor(() =>
@@ -535,6 +529,7 @@ describe('Transactions Table', () => {
 				'confirm-transaction-checkbox'
 			);
 			checkboxes.forEach((checkbox, index) => {
+				// eslint-disable-next-line testing-library/no-node-access
 				const realCheckbox = checkbox.querySelector('input');
 				try {
 					if (checked) {
@@ -554,10 +549,10 @@ describe('Transactions Table', () => {
 
 		validateCheckboxes(false);
 
-		await userEvent.click(screen.getByLabelText('Confirm All'));
+		await userEvents.click(screen.getByLabelText('Confirm All'));
 		validateCheckboxes(true);
 
-		await userEvent.click(screen.getAllByText('Reset')[1]);
+		await userEvents.click(screen.getAllByText('Reset')[1]);
 		validateCheckboxes(false);
 	});
 });

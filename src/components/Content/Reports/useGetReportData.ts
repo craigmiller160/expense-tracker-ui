@@ -1,30 +1,30 @@
-import { UseFormHandleSubmit, UseFormReturn } from 'react-hook-form';
-import { Updater } from 'use-immer';
-import { PaginationState } from '../../../utils/pagination';
-import { CategoryOption } from '../../../types/categories';
+import type { UseFormHandleSubmit, UseFormReturn } from 'react-hook-form';
+import type { Updater } from 'use-immer';
+import type { PaginationState } from '../../../utils/pagination';
+import type { CategoryOption } from '../../../types/categories';
 import { useGetSpendingByMonthAndCategory } from '../../../ajaxapi/query/ReportQueries';
-import { ReportPageResponse } from '../../../types/generated/expense-tracker';
+import type { ReportPageResponse } from '../../../types/generated/expense-tracker';
 import {
 	useGetAllCategories,
 	useGetUnknownCategory
 } from '../../../ajaxapi/query/CategoryQueries';
 import { useCategoriesToCategoryOptions } from '../../../utils/categoryUtils';
 import { useFormWithSearchParamSync } from '../../../routes/useFormWithSearchParamSync';
-import {
+import type {
 	SyncFromParams,
 	SyncToParams
 } from '../../../routes/useSearchParamSync';
 import { useCallback } from 'react';
-import { ParamsWrapper } from '../../../routes/ParamsWrapper';
-import {
-	StateFromParams,
-	useImmerWithSearchParamSync
-} from '../../../routes/useImmerWithSearchParamSync';
-import {
-	REPORT_CATEGORY_FILTER_OPTIONS,
-	REPORT_CATEGORY_ORDER_BY_OPTIONS,
+import type { ParamsWrapper } from '../../../routes/ParamsWrapper';
+import type { StateFromParams } from '../../../routes/useImmerWithSearchParamSync';
+import { useImmerWithSearchParamSync } from '../../../routes/useImmerWithSearchParamSync';
+import type {
 	ReportCategoryIdFilterOption,
 	ReportCategoryOrderBy
+} from '../../../types/reports';
+import {
+	REPORT_CATEGORY_FILTER_OPTIONS,
+	REPORT_CATEGORY_ORDER_BY_OPTIONS
 } from '../../../types/reports';
 
 export type ReportFilterFormData = {

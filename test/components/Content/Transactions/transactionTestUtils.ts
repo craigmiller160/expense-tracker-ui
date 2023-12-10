@@ -1,7 +1,8 @@
-import { screen, waitFor, within } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { expect } from 'vitest';
+import { screen, within } from '@testing-library/react';
+import userEvents from '@testing-library/user-event';
 import { Time, Try, types, Json } from '@craigmiller160/ts-functions';
-import { TestTransactionDescription } from '../../../testutils/transactionDataUtils';
+import type { TestTransactionDescription } from '../../../testutils/transactionDataUtils';
 import { flow, pipe } from 'fp-ts/function';
 import * as Either from 'fp-ts/Either';
 import * as RArray from 'fp-ts/ReadonlyArray';
@@ -9,6 +10,7 @@ import * as RArray from 'fp-ts/ReadonlyArray';
 export const getOrderByValueElement = (): HTMLElement | null | undefined => {
 	const transactionFilters = screen.getByTestId('transaction-filters');
 	const orderByLabel = within(transactionFilters).getByLabelText('Order By');
+	// eslint-disable-next-line testing-library/no-node-access
 	return orderByLabel?.parentElement?.querySelector(
 		'.MuiOutlinedInput-input'
 	);
@@ -19,6 +21,7 @@ export const getSelectValueElement = (
 ): HTMLElement | null | undefined => {
 	const transactionFilters = screen.getByTestId('transaction-filters');
 	const categoryLabel = within(transactionFilters).getByLabelText(label);
+	// eslint-disable-next-line testing-library/no-node-access
 	return categoryLabel?.parentElement?.querySelector(
 		'.MuiOutlinedInput-input'
 	);
@@ -29,8 +32,8 @@ export const selectDate = async (
 	dateString: string
 ) => {
 	const datePickerElement = screen.getByLabelText(datePickerLabel);
-	await userEvent.clear(datePickerElement);
-	await userEvent.type(datePickerElement, dateString);
+	await userEvents.clear(datePickerElement);
+	await userEvents.type(datePickerElement, dateString);
 	expect(datePickerElement).toHaveValue(dateString);
 };
 
@@ -86,8 +89,8 @@ export const validateTransactionsInTable = async (
 	count: number,
 	validateDescription: ValidateDescription
 ) => {
-	const descriptions = await waitFor(() =>
-		screen.getAllByTestId('transaction-description')
+	const descriptions = await screen.findAllByTestId(
+		'transaction-description'
 	);
 	expect(descriptions).toHaveLength(count);
 	const result = pipe(

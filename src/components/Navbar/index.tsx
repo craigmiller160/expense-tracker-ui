@@ -7,12 +7,12 @@ import { MobileNavItems } from './MobileNavItems';
 
 export const Navbar = () => {
 	const isMobile = useIsExactlyBreakpoint('xs');
-	const toolbarClass = isMobile ? 'MobileToolbar' : '';
+	const toolbarClass = isMobile ? 'mobile-toolbar' : '';
 	const titleSpace = isMobile ? <br /> : ' ';
 	return (
 		<Box
 			sx={{ flexGrow: 1, display: 'flex' }}
-			className="Navbar"
+			className="navbar"
 			id="navbar"
 		>
 			<AppBar position="static" component="nav">

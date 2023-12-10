@@ -1,9 +1,7 @@
-import { useForm, UseFormProps, UseFormReturn } from 'react-hook-form';
-import {
-	SyncFromParams,
-	SyncToParams,
-	useSearchParamSync
-} from './useSearchParamSync';
+import type { UseFormProps, UseFormReturn } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
+import type { SyncFromParams, SyncToParams } from './useSearchParamSync';
+import { useSearchParamSync } from './useSearchParamSync';
 import { useEffect, useState } from 'react';
 import mergeWith from 'lodash.mergewith';
 
@@ -32,6 +30,7 @@ export const useFormWithSearchParamSync = <Form extends object>(
 				{},
 				props.defaultValues ?? {},
 				params,
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-return
 				(a, b) => b ?? a
 			);
 			setParams(merged);

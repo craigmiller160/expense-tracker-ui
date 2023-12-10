@@ -1,10 +1,10 @@
-@mixin MaxWidth {
+@mixin max-width {
   width: 100%;
   max-width: 100%;
 }
 
-.AutoCategorizeRulesTable {
-  @include MaxWidth;
+.auto-categorize-rules-table {
+  @include max-width;
 
   thead {
     th:nth-child(4) {

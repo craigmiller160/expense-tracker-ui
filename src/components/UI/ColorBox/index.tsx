@@ -5,5 +5,5 @@ type Props = {
 };
 
 export const ColorBox = (props: Props) => (
-	<div className="ColorBox" style={{ backgroundColor: props.color }} />
+	<div className="color-box" style={{ backgroundColor: props.color }} />
 );

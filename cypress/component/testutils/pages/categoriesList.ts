@@ -1,6 +1,9 @@
 type Chainable<T> = Cypress.Chainable<T>;
 
-const getTitle = (): Chainable<JQuery> => cy.get('.categories h4');
+const getTitle = (): Chainable<JQuery> =>
+	cy.findByRole('heading', {
+		level: 4
+	});
 const getTableRows = (): Chainable<JQuery> =>
 	cy.get('.categories table tbody tr');
 const getCategoryNames = (): Chainable<JQuery> =>

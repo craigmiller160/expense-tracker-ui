@@ -1,5 +1,6 @@
 import { importHandlers } from './handlers/import';
 import { needsAttentionHandlers } from './handlers/needsAttention';
+// eslint-disable-next-line import/no-unresolved
 import { setupServer } from 'msw/node';
 import type { SetupServer } from 'msw/node';
 import { database, Database } from './Database';

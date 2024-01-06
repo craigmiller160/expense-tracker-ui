@@ -98,7 +98,7 @@ const handleCategoryIds = (
 ): ReadonlyArray<string> | undefined =>
 	match(categoryId)
 		.with(undefined, () => undefined)
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
 		.otherwise(() => [categoryId!]);
 
 const handleConfirmAll = (form: UseFormReturn<TransactionTableForm>) => {

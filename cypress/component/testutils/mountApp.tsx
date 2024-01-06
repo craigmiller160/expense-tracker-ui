@@ -42,7 +42,7 @@ export const mountApp = (
 		status: 'authorized',
 		isPostAuthorization: true,
 		isPreAuthorization: false,
-		// eslint-disable-next-line @typescript-eslint/no-empty-function
+
 		logout: () => {}
 	};
 	handleViewport(config);

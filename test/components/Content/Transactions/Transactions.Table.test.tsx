@@ -49,13 +49,12 @@ describe('Transactions Table', () => {
 			.querySelector('thead');
 		expect(tableHeader).not.toBeNull();
 
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		expect(within(tableHeader!).queryByText('Expense Date')).toBeVisible();
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
 		expect(within(tableHeader!).queryByText('Description')).toBeVisible();
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
 		expect(within(tableHeader!).queryByText('Amount')).toBeVisible();
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
 		expect(within(tableHeader!).queryByText('Category')).toBeVisible();
 
 		const transactionFilters = screen.getByTestId('transaction-filters');
@@ -263,7 +262,7 @@ describe('Transactions Table', () => {
 			// eslint-disable-next-line testing-library/no-node-access
 			.querySelector('div.MuiTablePagination-select');
 		expect(rowsPerPageSelect).toBeVisible();
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
 		await userEvents.click(rowsPerPageSelect!);
 
 		const allItemsWith10 = screen.getAllByText('10');
@@ -325,7 +324,7 @@ describe('Transactions Table', () => {
 			// eslint-disable-next-line testing-library/no-node-access
 			.querySelector('button[title="Go to next page"]');
 		expect(nextPageButton).toBeVisible();
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
 		await userEvents.click(nextPageButton!);
 
 		await waitFor(() =>
@@ -497,7 +496,7 @@ describe('Transactions Table', () => {
 			// eslint-disable-next-line testing-library/no-node-access
 			.querySelector('.MuiAutocomplete-clearIndicator');
 		expect(clearButton).toBeTruthy();
-		await userEvents.click(clearButton!); // eslint-disable-line @typescript-eslint/no-non-null-assertion
+		await userEvents.click(clearButton!);
 
 		await userEvents.click(screen.getByText('Save'));
 

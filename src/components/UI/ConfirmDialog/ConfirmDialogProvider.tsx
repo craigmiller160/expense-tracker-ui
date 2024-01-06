@@ -29,9 +29,9 @@ export const ConfirmDialogContext = createContext<ConfirmDialogContextValue>({
 	open: false,
 	title: '',
 	message: '',
-	onConfirmAction: () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
-	onClose: () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
-	newConfirmDialog: () => {} // eslint-disable-line @typescript-eslint/no-empty-function
+	onConfirmAction: () => {},
+	onClose: () => {},
+	newConfirmDialog: () => {}
 });
 
 export const useNewConfirmDialog = (): NewConfirmDialog =>
@@ -42,7 +42,7 @@ export const ConfirmDialogProvider = (props: PropsWithChildren) => {
 		open: false,
 		title: '',
 		message: '',
-		onConfirmAction: () => {} // eslint-disable-line @typescript-eslint/no-empty-function
+		onConfirmAction: () => {}
 	});
 
 	const contextValue: ConfirmDialogContextValue = {

@@ -85,7 +85,7 @@ const createSaveCategory =
 			)
 			.otherwise((c) =>
 				updateMutate({
-					id: c.id!, // eslint-disable-line @typescript-eslint/no-non-null-assertion
+					id: c.id!,
 					name: c.name
 				})
 			);

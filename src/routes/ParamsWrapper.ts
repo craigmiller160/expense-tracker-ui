@@ -37,7 +37,6 @@ export const setOrDeleteParam =
 		}
 
 		if (typeof value !== 'string' && transform) {
-			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			params.set(key.toString(), transform(value));
 			return;
 		}

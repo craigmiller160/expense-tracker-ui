@@ -18,7 +18,7 @@ export const useCategoriesToCategoryOptions = (
 		() =>
 			[...(categories ?? []), unknownCategory]
 				.filter((cat) => !!cat)
-				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
 				.map((cat) => categoryToCategoryOption(cat!))
 				.sort((cat1, cat2) => cat1.label.localeCompare(cat2.label)),
 		[categories, unknownCategory]
@@ -36,8 +36,8 @@ export const itemWithCategoryToCategoryOption = (
 		.with(
 			{ categoryId: P.not(P.nullish) },
 			(t): CategoryOption => ({
-				value: t.categoryId!, // eslint-disable-line @typescript-eslint/no-non-null-assertion
-				label: t.categoryName! // eslint-disable-line @typescript-eslint/no-non-null-assertion
+				value: t.categoryId!,
+				label: t.categoryName!
 			})
 		)
 		.otherwise(() => null);

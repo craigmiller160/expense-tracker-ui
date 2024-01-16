@@ -12,7 +12,7 @@ app_deployment:
     name: expense-tracker-ingress
     backendIsHttps: true
     hosts:
-      - name: apps-craigmiller160.ddns.net
+      - name: apps.craigmiller160.us
         services:
           - path: /(expense-tracker(/.*)?)
             serviceName: expense-tracker-ui

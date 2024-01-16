@@ -42,12 +42,12 @@ resource "keycloak_openid_client" "expense_tracker_ui_prod" {
   access_type = local.client_common.access_type
   standard_flow_enabled = local.client_common.standard_flow_enabled
   valid_redirect_uris = [
-    "https://apps-craigmiller160.ddns.net/expense-tracker/*"
+    "https://apps.craigmiller160.us/expense-tracker/*"
   ]
   valid_post_logout_redirect_uris = [
-    "https://apps-craigmiller160.ddns.net/expense-tracker/*"
+    "https://apps.craigmiller160.us/expense-tracker/*"
   ]
   web_origins = [
-    "https://apps-craigmiller160.ddns.net"
+    "https://apps.craigmiller160.us"
   ]
 }

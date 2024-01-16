@@ -9,8 +9,8 @@ dependencies:
     specifier: 2.2.0-beta.10
     version: 2.2.0-beta.10(axios@1.5.0)
   '@craigmiller160/js-config':
-    specifier: 1.0.0-beta.4
-    version: 1.0.0-beta.4(@relmify/jest-fp-ts@2.1.1)(@testing-library/dom@9.3.3)(@types/node@18.14.0)(cross-env@7.0.3)(cypress@13.1.0)(fp-ts@2.16.1)(io-ts@2.2.20)(ts-pattern@5.0.5)(vitest@0.34.5)
+    specifier: 1.0.0-beta.5
+    version: 1.0.0-beta.5(@relmify/jest-fp-ts@2.1.1)(@testing-library/dom@9.3.3)(@types/node@18.14.0)(cross-env@7.0.3)(cypress@13.1.0)(fp-ts@2.16.1)(io-ts@2.2.20)(ts-pattern@5.0.5)(vitest@0.34.5)
   '@craigmiller160/react-hook-form-material-ui':
     specifier: 1.5.0-beta.1
     version: 1.5.0-beta.1(@mui/material@5.13.5)(@mui/x-date-pickers@5.0.0-alpha.7)(date-fns@2.29.3)(react-hook-form@7.44.3)(react@18.2.0)
@@ -409,8 +409,8 @@ packages:
       axios: 1.5.0
     dev: false
 
-  /@craigmiller160/js-config@1.0.0-beta.4(@relmify/jest-fp-ts@2.1.1)(@testing-library/dom@9.3.3)(@types/node@18.14.0)(cross-env@7.0.3)(cypress@13.1.0)(fp-ts@2.16.1)(io-ts@2.2.20)(ts-pattern@5.0.5)(vitest@0.34.5):
-    resolution: {integrity: sha512-7Zjox8cyYeEApVXNLhw6IW9ZWEZ6r9GOFFfHEPy5xnl0TrWcZ59qZPXLAtMBlU5SqY2K8l/4WJrj3/g3ec/iXg==}
+  /@craigmiller160/js-config@1.0.0-beta.5(@relmify/jest-fp-ts@2.1.1)(@testing-library/dom@9.3.3)(@types/node@18.14.0)(cross-env@7.0.3)(cypress@13.1.0)(fp-ts@2.16.1)(io-ts@2.2.20)(ts-pattern@5.0.5)(vitest@0.34.5):
+    resolution: {integrity: sha512-zu+V393SvI2j3ppDeZwLGMEkiFUUPzE6SUQVFOM6SdYs4AP4CgGB2Aip4qSgALS5XcG8cD3BXj34toWwmU4NsQ==}
     hasBin: true
     requiresBuild: true
     peerDependencies:

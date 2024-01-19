@@ -41,7 +41,7 @@
     "@tanstack/eslint-plugin-query": "^4.29.9",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
-    "@testing-library/user-event": "^14.2.1",
+    "@testing-library/user-event": "^14.5.2",
     "@types/lodash-es": "^4.17.6",
     "@types/lodash.debounce": "^4.0.7",
     "@types/node": "^18.0.0",
@@ -63,7 +63,7 @@
   "dependencies": {
     "@craigmiller160/ajax-api": "2.1.0",
     "@craigmiller160/react-hook-form-material-ui": "1.4.0",
-    "@craigmiller160/react-keycloak": "1.2.0",
+    "@craigmiller160/react-keycloak": "1.2.1",
     "@craigmiller160/ts-functions": "1.6.0",
     "@date-io/date-fns": "^2.14.0",
     "@emotion/react": "^11.9.3",

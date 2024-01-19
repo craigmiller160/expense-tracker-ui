@@ -392,6 +392,13 @@
     jest-environment-jsdom "^29.5.0"
     jsdom "^22.1.0"
 
+"@craigmiller160/keycloak-js@1.0.0":
+  version "1.0.0"
+  resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@craigmiller160/keycloak-js/-/keycloak-js-1.0.0.tgz#d78d265575193db68e1bb1c68f63385b80f013c2"
+  integrity sha512-gg/irNVjtZKW6+iqGschIOtC6wwGcH5YkbbJk57VV0vdVxgx6L3hk2KCIymyL4l5SZz61vIYf0qonvW2sjkviA==
+  dependencies:
+    keycloak-js "^20.0.3"
+
 "@craigmiller160/prettier-config@^1.0.2":
   version "1.0.2"
   resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@craigmiller160/prettier-config/-/prettier-config-1.0.2.tgz#2510781091f6aee0f0837f5a4b08217fb756c4ac"
@@ -404,12 +411,12 @@
   resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@craigmiller160/react-hook-form-material-ui/-/react-hook-form-material-ui-1.4.0.tgz#c991e5bdbb954519173b1f58d5d871c2471e4e31"
   integrity sha512-DvI6i4f+rah9DP0rWISM6R5lmZaIURfIVGC7vSowGDwA5mnAwohR2Fmpi+C1dAu5qjJJA6yNqtPmX6+VZF765w==
 
-"@craigmiller160/react-keycloak@1.2.0":
-  version "1.2.0"
-  resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@craigmiller160/react-keycloak/-/react-keycloak-1.2.0.tgz#778765898d3da4f2328d832ea98bfdc2d440d99b"
-  integrity sha512-A5Qn2YrAWiDetUPRgz3GdZ6uJ/UKR11NtlyMDypjjmppvqYyeFLjfFrG9eyAH/xvtE9R5vkkZkb46Xs6BcAk/Q==
+"@craigmiller160/react-keycloak@1.2.1":
+  version "1.2.1"
+  resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@craigmiller160/react-keycloak/-/react-keycloak-1.2.1.tgz#8eb652442eb1d804fbbcbdca828aff306b882c66"
+  integrity sha512-8U8EgsV4M+Q5MLZHgpiqkDWR0zP+3Ap4KITkSxfgHajTxNE4nAU49cnIbzTwSmUPaVfCynf1E8B4QtLSncr7xw==
   dependencies:
-    "@vitejs/plugin-react-swc" "^3.2.0"
+    "@craigmiller160/keycloak-js" "1.0.0"
     keycloak-js "^20.0.3"
 
 "@craigmiller160/swagger-typescript-api-formatted@1.0.0":
@@ -1408,10 +1415,10 @@
     "@testing-library/dom" "^8.5.0"
     "@types/react-dom" "^18.0.0"
 
-"@testing-library/user-event@^14.2.1":
-  version "14.2.1"
-  resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@testing-library/user-event/-/user-event-14.2.1.tgz#8c5ff2d004544bb2220e1d864f7267fe7eb6c556"
-  integrity sha512-HOr1QiODrq+0j9lKU5i10y9TbhxMBMRMGimNx10asdmau9cb8Xb1Vyg0GvTwyIL2ziQyh2kAloOtAQFBQVuecA==
+"@testing-library/user-event@^14.5.2":
+  version "14.5.2"
+  resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@testing-library/user-event/-/user-event-14.5.2.tgz#db7257d727c891905947bd1c1a99da20e03c2ebd"
+  integrity sha512-YAh82Wh4TIrxYLmfGcixwD18oIjyC1pFQC2Y01F2lzV2HTMiYrI0nze0FD0ocB//CKS/7jIUgae+adPqxK5yCQ==
 
 "@tootallnate/once@2":
   version "2.0.0"
@@ -1831,7 +1838,7 @@
     "@typescript-eslint/types" "5.59.9"
     eslint-visitor-keys "^3.3.0"
 
-"@vitejs/plugin-react-swc@^3.2.0", "@vitejs/plugin-react-swc@^3.3.2":
+"@vitejs/plugin-react-swc@^3.3.2":
   version "3.3.2"
   resolved "https://nexus-craigmiller160.ddns.net/repository/npm-group/@vitejs/plugin-react-swc/-/plugin-react-swc-3.3.2.tgz#34a82c1728066f48a86dfecb2f15df60f89207fb"
   integrity sha512-VJFWY5sfoZerQRvJrh518h3AcQt6f/yTuWn4/TRB+dqmYU0NX1qz7qM5Wfd+gOQqUzQW4gxKqKN3KpE/P3+zrA==

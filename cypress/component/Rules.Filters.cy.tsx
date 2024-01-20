@@ -95,7 +95,7 @@ describe('Rules Filters', () => {
 		needsAttentionApi.getNeedsAttention_all();
 		reportsApi.getDefaultSpendingByMonthAndCategory();
 		mountApp({
-			initialRoute: '/expense-tracker/rules'
+			initialRoute: '/rules'
 		});
 
 		rulesListFiltersPage.getCategoryFilterInput().click();

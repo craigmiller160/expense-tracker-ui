@@ -433,7 +433,7 @@ describe('Transaction Details Dialog', () => {
 		transactionsApi.getTransactionDetails(transactionId);
 		lastAppliedApi.getLastRuleApplied_noRule(transactionId);
 		mountApp({
-			initialRoute: '/expense-tracker/transactions'
+			initialRoute: '/transactions'
 		});
 
 		transactionsListPage.getDetailsButtons().eq(0).click();
@@ -476,7 +476,7 @@ describe('Transaction Details Dialog', () => {
 		lastAppliedApi.getLastRuleApplied_noRule(transactionId);
 
 		mountApp({
-			initialRoute: '/expense-tracker/transactions'
+			initialRoute: '/transactions'
 		});
 
 		transactionsListPage.getDetailsButtons().eq(0).click();
@@ -518,7 +518,7 @@ describe('Transaction Details Dialog', () => {
 		transactionsApi.updateTransactionDetails(transactionId);
 		lastAppliedApi.getLastRuleApplied_noRule(transactionId);
 		mountApp({
-			initialRoute: '/expense-tracker/transactions'
+			initialRoute: '/transactions'
 		});
 
 		transactionsListPage.getDetailsButtons().eq(0).click();
@@ -559,7 +559,7 @@ describe('Transaction Details Dialog', () => {
 		transactionsApi.getPossibleDuplicates(transactionId);
 		transactionsApi.getTransactionDetails(secondId);
 		mountApp({
-			initialRoute: '/expense-tracker/transactions'
+			initialRoute: '/transactions'
 		});
 
 		transactionsListPage.getDetailsButtons().eq(0).click();
@@ -586,7 +586,7 @@ describe('Transaction Details Dialog', () => {
 		transactionsApi.getPossibleDuplicates(transactionId);
 		transactionsApi.markNotDuplicate(transactionId);
 		mountApp({
-			initialRoute: '/expense-tracker/transactions'
+			initialRoute: '/transactions'
 		});
 
 		transactionsListPage.getDetailsButtons().eq(0).click();
@@ -628,7 +628,7 @@ describe('Transaction Details Dialog', () => {
 		transactionsApi.getTransactionDetails(transactionId);
 		lastAppliedApi.getLastRuleApplied_noRule(transactionId);
 		mountApp({
-			initialRoute: '/expense-tracker/transactions'
+			initialRoute: '/transactions'
 		});
 
 		transactionsListPage.getDetailsButtons().eq(0).click();

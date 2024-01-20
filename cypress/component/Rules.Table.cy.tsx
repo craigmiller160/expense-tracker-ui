@@ -101,7 +101,7 @@ describe('Rules Table', () => {
 		rulesApi.getMaxOrdinal();
 		categoriesApi.getAllCategories();
 		mountApp({
-			initialRoute: '/expense-tracker/rules'
+			initialRoute: '/rules'
 		});
 
 		rulesListPage.getTitle().contains('Auto-Categorization Rules');
@@ -126,7 +126,7 @@ describe('Rules Table', () => {
 		categoriesApi.getAllCategories();
 
 		mountApp({
-			initialRoute: '/expense-tracker/rules'
+			initialRoute: '/rules'
 		});
 
 		const row = rulesListPage
@@ -145,7 +145,7 @@ describe('Rules Table', () => {
 		categoriesApi.getAllCategories();
 
 		mountApp({
-			initialRoute: '/expense-tracker/rules'
+			initialRoute: '/rules'
 		});
 
 		const row = rulesListPage

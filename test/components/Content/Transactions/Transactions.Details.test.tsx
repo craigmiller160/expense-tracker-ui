@@ -43,7 +43,7 @@ describe('Transaction Details Dialog', () => {
 		});
 
 		renderApp({
-			initialPath: '/expense-tracker/transactions'
+			initialPath: '/transactions'
 		});
 		await waitForVisibility([
 			{ text: 'Expense Tracker' },
@@ -85,7 +85,7 @@ describe('Transaction Details Dialog', () => {
 
 	it('cannot open details dialog when table form is dirty', async () => {
 		renderApp({
-			initialPath: '/expense-tracker/transactions'
+			initialPath: '/transactions'
 		});
 		await waitForVisibility([
 			{ text: 'Expense Tracker' },

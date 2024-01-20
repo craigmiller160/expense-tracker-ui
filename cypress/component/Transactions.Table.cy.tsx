@@ -14,7 +14,7 @@ describe('Transactions Table', () => {
 		needsAttentionApi.getNeedsAttention_all();
 		transactionsApi.searchForTransactions();
 		mountApp({
-			initialRoute: '/expense-tracker/transactions'
+			initialRoute: '/transactions'
 		});
 
 		transactionsListPage
@@ -53,7 +53,7 @@ describe('Transactions Table', () => {
 		needsAttentionApi.getNeedsAttention_all();
 		transactionsApi.searchForTransactions();
 		mountApp({
-			initialRoute: '/expense-tracker/transactions'
+			initialRoute: '/transactions'
 		});
 
 		transactionsListPage
@@ -76,7 +76,7 @@ describe('Transactions Table', () => {
 		needsAttentionApi.getNeedsAttention_all();
 		transactionsApi.searchForTransactions();
 		mountApp({
-			initialRoute: '/expense-tracker/transactions'
+			initialRoute: '/transactions'
 		});
 
 		transactionsListPage

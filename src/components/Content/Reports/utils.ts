@@ -14,7 +14,7 @@ const getStartAndEndDate = (dateString: string): [string, string] => {
 
 export const getMonthLink = (dateString: string): string => {
 	const [startDate, endDate] = getStartAndEndDate(dateString);
-	return `/expense-tracker/transactions?startDate=${startDate}&endDate=${endDate}`;
+	return `/transactions?startDate=${startDate}&endDate=${endDate}`;
 };
 
 export const getMonthAndCategoryLink = (

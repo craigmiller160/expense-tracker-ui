@@ -25,7 +25,7 @@ describe('Rules Filters', () => {
 		rulesApi.getMaxOrdinal();
 		categoriesApi.getAllCategories();
 		mountApp({
-			initialRoute: '/expense-tracker/rules'
+			initialRoute: '/rules'
 		});
 
 		rulesListFiltersPage.getRegexFilterInput().type('Hello');
@@ -50,7 +50,7 @@ describe('Rules Filters', () => {
 		rulesApi.getMaxOrdinal();
 		categoriesApi.getAllCategories();
 		mountApp({
-			initialRoute: '/expense-tracker/rules'
+			initialRoute: '/rules'
 		});
 
 		rulesListFiltersPage.getRegexFilterLabel().should('have.text', 'Regex');
@@ -64,7 +64,7 @@ describe('Rules Filters', () => {
 		rulesApi.getMaxOrdinal();
 		categoriesApi.getAllCategories();
 		mountApp({
-			initialRoute: '/expense-tracker/rules'
+			initialRoute: '/rules'
 		});
 
 		rulesListFiltersPage.getRegexFilterInput().type('Hello');

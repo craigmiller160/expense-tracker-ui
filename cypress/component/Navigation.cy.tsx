@@ -18,7 +18,7 @@ describe('Navigation', () => {
 			categoriesApi.getAllCategories();
 			reportsApi.getDefaultSpendingByMonthAndCategory();
 			mountApp({
-				initialRoute: '/expense-tracker/categories'
+				initialRoute: '/categories'
 			});
 			categoriesListPage.getTitle().should('be.visible');
 			navbarPage.getReportsItem().click();
@@ -30,7 +30,7 @@ describe('Navigation', () => {
 			categoriesApi.getAllCategories();
 			rulesApi.getAllRules();
 			mountApp({
-				initialRoute: '/expense-tracker/categories'
+				initialRoute: '/categories'
 			});
 			categoriesListPage.getTitle().should('be.visible');
 			navbarPage.getRulesItem().click();
@@ -43,7 +43,7 @@ describe('Navigation', () => {
 			transactionsApi.searchForTransactions();
 			needsAttentionApi.getNeedsAttention_all();
 			mountApp({
-				initialRoute: '/expense-tracker/categories'
+				initialRoute: '/categories'
 			});
 			categoriesListPage.getTitle().should('be.visible');
 			navbarPage.getTransactionsItem().click();
@@ -55,7 +55,7 @@ describe('Navigation', () => {
 			reportsApi.getDefaultSpendingByMonthAndCategory();
 			categoriesApi.getAllCategories();
 			mountApp({
-				initialRoute: '/expense-tracker/reports'
+				initialRoute: '/reports'
 			});
 			reportsPage.getTitle().should('be.visible');
 			navbarPage.getCategoriesItem().click();
@@ -66,7 +66,7 @@ describe('Navigation', () => {
 		it('navigates to Import', () => {
 			categoriesApi.getAllCategories();
 			mountApp({
-				initialRoute: '/expense-tracker/categories'
+				initialRoute: '/categories'
 			});
 			categoriesListPage.getTitle().should('be.visible');
 			navbarPage.getImportItem().click();
@@ -81,7 +81,7 @@ describe('Navigation', () => {
 			reportsApi.getDefaultSpendingByMonthAndCategory();
 			mountApp({
 				viewport: 'mobile',
-				initialRoute: '/expense-tracker/categories'
+				initialRoute: '/categories'
 			});
 			categoriesListPage.getTitle().should('be.visible');
 			navbarPage.getMobileNavItemsButton().click();
@@ -98,7 +98,7 @@ describe('Navigation', () => {
 			needsAttentionApi.getNeedsAttention_all();
 			mountApp({
 				viewport: 'mobile',
-				initialRoute: '/expense-tracker/categories'
+				initialRoute: '/categories'
 			});
 			categoriesListPage.getTitle().should('be.visible');
 			navbarPage.getMobileNavItemsButton().click();
@@ -114,7 +114,7 @@ describe('Navigation', () => {
 			rulesApi.getAllRules();
 			mountApp({
 				viewport: 'mobile',
-				initialRoute: '/expense-tracker/categories'
+				initialRoute: '/categories'
 			});
 			categoriesListPage.getTitle().should('be.visible');
 			navbarPage.getMobileNavItemsButton().click();
@@ -130,7 +130,7 @@ describe('Navigation', () => {
 			categoriesApi.getAllCategories();
 			mountApp({
 				viewport: 'mobile',
-				initialRoute: '/expense-tracker/reports'
+				initialRoute: '/reports'
 			});
 			reportsPage.getTitle().should('be.visible');
 			navbarPage.getMobileNavItemsButton().click();
@@ -145,7 +145,7 @@ describe('Navigation', () => {
 			categoriesApi.getAllCategories();
 			mountApp({
 				viewport: 'mobile',
-				initialRoute: '/expense-tracker/categories'
+				initialRoute: '/categories'
 			});
 			categoriesListPage.getTitle().should('be.visible');
 			navbarPage.getMobileNavItemsButton().click();

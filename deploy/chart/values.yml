@@ -12,8 +12,8 @@ app_deployment:
     name: expense-tracker-ingress
     backendIsHttps: true
     hosts:
-      - name: apps.craigmiller160.us
+      - name: expense-tracker.craigmiller160.us
         services:
-          - path: /(expense-tracker(/.*)?)
+          - path: /(.*)
             serviceName: expense-tracker-ui
             portNumber: 443

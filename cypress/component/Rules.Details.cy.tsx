@@ -57,7 +57,7 @@ describe('Rule Details', () => {
 		rulesApi.getMaxOrdinal();
 		rulesApi.getRule_minimum(ruleId);
 		mountApp({
-			initialRoute: '/expense-tracker/rules'
+			initialRoute: '/rules'
 		});
 
 		const row = rulesListPage.getRuleRows().eq(0);
@@ -78,7 +78,7 @@ describe('Rule Details', () => {
 		rulesApi.getMaxOrdinal();
 		rulesApi.getRule_maximum(ruleId);
 		mountApp({
-			initialRoute: '/expense-tracker/rules'
+			initialRoute: '/rules'
 		});
 
 		const row = rulesListPage.getRuleRows().eq(0);
@@ -102,7 +102,7 @@ describe('Rule Details', () => {
 		rulesApi.getMaxOrdinal();
 		rulesApi.createRule();
 		mountApp({
-			initialRoute: '/expense-tracker/rules'
+			initialRoute: '/rules'
 		});
 
 		rulesListPage.getAddRuleButton().click();
@@ -165,7 +165,7 @@ describe('Rule Details', () => {
 		rulesApi.getMaxOrdinal();
 		rulesApi.createRule();
 		mountApp({
-			initialRoute: '/expense-tracker/rules'
+			initialRoute: '/rules'
 		});
 
 		rulesListPage.getAddRuleButton().click();
@@ -210,7 +210,7 @@ describe('Rule Details', () => {
 		rulesApi.getRule_maximum(ruleId);
 		rulesApi.updateRule(ruleId);
 		mountApp({
-			initialRoute: '/expense-tracker/rules'
+			initialRoute: '/rules'
 		});
 
 		const row = rulesListPage.getRuleRows().eq(0);
@@ -247,7 +247,7 @@ describe('Rule Details', () => {
 		rulesApi.getMaxOrdinal();
 		rulesApi.getRule_maximum(ruleId);
 		mountApp({
-			initialRoute: '/expense-tracker/rules'
+			initialRoute: '/rules'
 		});
 
 		const row = rulesListPage.getRuleRows().eq(0);
@@ -310,7 +310,7 @@ describe('Rule Details', () => {
 		rulesApi.getRule_maximum(ruleId);
 		rulesApi.deleteRule(ruleId);
 		mountApp({
-			initialRoute: '/expense-tracker/rules'
+			initialRoute: '/rules'
 		});
 
 		const row = rulesListPage.getRuleRows().eq(0);

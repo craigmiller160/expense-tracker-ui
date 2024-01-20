@@ -34,7 +34,7 @@ describe('Report Filters', () => {
 		categoriesApi.getAllCategories();
 		needsAttentionApi.getNeedsAttention_none();
 		mountApp({
-			initialRoute: '/expense-tracker/reports'
+			initialRoute: '/reports'
 		});
 
 		reportFiltersPage.getFilterTypeInput().click();
@@ -72,7 +72,7 @@ describe('Report Filters', () => {
 		categoriesApi.getAllCategories();
 		needsAttentionApi.getNeedsAttention_none();
 		mountApp({
-			initialRoute: '/expense-tracker/reports'
+			initialRoute: '/reports'
 		});
 
 		reportFiltersPage.getCategoryLabel().contains('Categories');
@@ -114,7 +114,7 @@ describe('Report Filters', () => {
 		categoriesApi.getAllCategories();
 		needsAttentionApi.getNeedsAttention_none();
 		mountApp({
-			initialRoute: '/expense-tracker/reports'
+			initialRoute: '/reports'
 		});
 
 		const categoryIds = orderedCategoryIds.slice(0, 2);
@@ -153,7 +153,7 @@ describe('Report Filters', () => {
 		categoriesApi.getAllCategories();
 		needsAttentionApi.getNeedsAttention_none();
 		mountApp({
-			initialRoute: '/expense-tracker/reports'
+			initialRoute: '/reports'
 		});
 
 		reportsApi.getSpendingByMonthAndCategory(
@@ -203,7 +203,7 @@ describe('Report Filters', () => {
 		categoriesApi.getAllCategories();
 		needsAttentionApi.getNeedsAttention_none();
 		mountApp({
-			initialRoute: '/expense-tracker/reports'
+			initialRoute: '/reports'
 		});
 
 		reportsPage.getReportTableCategories(0).each(($elem, index) => {

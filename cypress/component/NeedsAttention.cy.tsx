@@ -72,7 +72,7 @@ describe('Needs Attention', () => {
 			categoriesApi.getAllCategories();
 			needsAttentionApi.getNeedsAttention_duplicates();
 			mountApp({
-				initialRoute: '/expense-tracker/transactions'
+				initialRoute: '/transactions'
 			});
 			validateNeedsAttention({
 				hasDuplicates: true
@@ -84,7 +84,7 @@ describe('Needs Attention', () => {
 			categoriesApi.getAllCategories();
 			needsAttentionApi.getNeedsAttention_possibleRefund();
 			mountApp({
-				initialRoute: '/expense-tracker/transactions'
+				initialRoute: '/transactions'
 			});
 			validateNeedsAttention({
 				hasPossibleRefunds: true

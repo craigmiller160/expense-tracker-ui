@@ -32,7 +32,7 @@ describe('Transactions Filters', () => {
 		needsAttentionApi.getNeedsAttention_all();
 		transactionsApi.searchForTransactions();
 		mountApp({
-			initialRoute: '/expense-tracker/transactions'
+			initialRoute: '/transactions'
 		});
 
 		const description = 'Hello';
@@ -51,7 +51,7 @@ describe('Transactions Filters', () => {
 		needsAttentionApi.getNeedsAttention_all();
 		transactionsApi.searchForTransactions();
 		mountApp({
-			initialRoute: '/expense-tracker/transactions'
+			initialRoute: '/transactions'
 		});
 
 		transactionFilters.getStartDateInput().clear();
@@ -113,7 +113,7 @@ describe('Transactions Filters', () => {
 		needsAttentionApi.getNeedsAttention_all();
 		transactionsApi.searchForTransactions();
 		mountApp({
-			initialRoute: '/expense-tracker/transactions'
+			initialRoute: '/transactions'
 		});
 
 		transactionFilters

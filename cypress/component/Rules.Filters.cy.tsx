@@ -7,6 +7,8 @@ import {
 	orderedCategoryIds,
 	orderedCategoryNames
 } from './testutils/constants/categories';
+import { needsAttentionApi } from './testutils/apis/needsAttention';
+import { reportsApi } from './testutils/apis/reports';
 
 type Interception = Readonly<{
 	request: Readonly<{
@@ -89,6 +91,9 @@ describe('Rules Filters', () => {
 		rulesApi.getAllRules();
 		rulesApi.getMaxOrdinal();
 		categoriesApi.getAllCategories();
+		categoriesApi.getUnknownCategory();
+		needsAttentionApi.getNeedsAttention_all();
+		reportsApi.getDefaultSpendingByMonthAndCategory();
 		mountApp({
 			initialRoute: '/expense-tracker/rules'
 		});

@@ -14,7 +14,7 @@ describe('Reports utils', () => {
 	it('getMonthLink', () => {
 		const link = getMonthLink(DATE);
 		expect(link).toBe(
-			`/expense-tracker/transactions?startDate=${START_DATE}&endDate=${END_DATE}`
+			`/transactions?startDate=${START_DATE}&endDate=${END_DATE}`
 		);
 	});
 
@@ -25,7 +25,7 @@ describe('Reports utils', () => {
 			UNKNOWN_CATEGORY_ID
 		);
 		expect(link).toBe(
-			`/expense-tracker/transactions?startDate=${START_DATE}&endDate=${END_DATE}&category=${CATEGORY_ID}`
+			`/transactions?startDate=${START_DATE}&endDate=${END_DATE}&category=${CATEGORY_ID}`
 		);
 	});
 
@@ -36,7 +36,7 @@ describe('Reports utils', () => {
 			UNKNOWN_CATEGORY_ID
 		);
 		expect(link).toBe(
-			`/expense-tracker/transactions?startDate=${START_DATE}&endDate=${END_DATE}&categorized=NO`
+			`/transactions?startDate=${START_DATE}&endDate=${END_DATE}&categorized=NO`
 		);
 	});
 });

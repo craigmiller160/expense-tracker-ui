@@ -61,7 +61,7 @@ describe('Reports', () => {
 		needsAttentionApi.getNeedsAttention_none();
 		transactionsApi.searchForTransactions();
 		mountApp({
-			initialRoute: '/expense-tracker/reports'
+			initialRoute: '/reports'
 		});
 
 		reportsPage
@@ -87,7 +87,7 @@ describe('Reports', () => {
 		needsAttentionApi.getNeedsAttention_none();
 		transactionsApi.searchForTransactions();
 		mountApp({
-			initialRoute: '/expense-tracker/reports'
+			initialRoute: '/reports'
 		});
 
 		reportsPage
@@ -111,7 +111,7 @@ describe('Reports', () => {
 		needsAttentionApi.getNeedsAttention_none();
 		transactionsApi.searchForTransactions();
 		mountApp({
-			initialRoute: '/expense-tracker/reports'
+			initialRoute: '/reports'
 		});
 
 		reportsPage.getReportTableDate(0).should('have.text', 'Nov 2022');
@@ -131,7 +131,7 @@ describe('Reports', () => {
 		categoriesApi.getAllCategories();
 		needsAttentionApi.getNeedsAttention_none();
 		mountApp({
-			initialRoute: '/expense-tracker/reports'
+			initialRoute: '/reports'
 		});
 		reportsPage.getTitle().contains('Reports');
 		reportsPage.getTableTitle().contains('Spending by Month & Category');

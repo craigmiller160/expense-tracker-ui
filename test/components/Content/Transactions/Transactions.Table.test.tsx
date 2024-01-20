@@ -36,7 +36,7 @@ const setToMidnight = Time.set({
 describe('Transactions Table', () => {
 	it('loads and displays transactions', async () => {
 		renderApp({
-			initialPath: '/expense-tracker/transactions'
+			initialPath: '/transactions'
 		});
 		await waitForVisibility([
 			{ text: 'Expense Tracker' },
@@ -135,7 +135,7 @@ describe('Transactions Table', () => {
 			};
 		});
 		renderApp({
-			initialPath: '/expense-tracker/transactions'
+			initialPath: '/transactions'
 		});
 		await waitFor(() =>
 			expect(screen.queryByText('Expense Tracker')).toBeVisible()
@@ -231,7 +231,7 @@ describe('Transactions Table', () => {
 
 	it('can change the rows-per-page and automatically re-load the data', async () => {
 		renderApp({
-			initialPath: '/expense-tracker/transactions'
+			initialPath: '/transactions'
 		});
 		await waitFor(() =>
 			expect(screen.queryByText('Expense Tracker')).toBeVisible()
@@ -292,7 +292,7 @@ describe('Transactions Table', () => {
 
 	it('can paginate and load the correct data successfully', async () => {
 		renderApp({
-			initialPath: '/expense-tracker/transactions'
+			initialPath: '/transactions'
 		});
 		await waitForVisibility([
 			{ text: 'Expense Tracker' },
@@ -376,7 +376,7 @@ describe('Transactions Table', () => {
 		});
 
 		renderApp({
-			initialPath: '/expense-tracker/transactions'
+			initialPath: '/transactions'
 		});
 		await waitForVisibility([
 			{ text: 'Expense Tracker' },
@@ -393,7 +393,7 @@ describe('Transactions Table', () => {
 
 	it('can set categories and confirm transactions', async () => {
 		renderApp({
-			initialPath: '/expense-tracker/transactions'
+			initialPath: '/transactions'
 		});
 		await waitFor(() =>
 			expect(screen.queryByText('Expense Tracker')).toBeVisible()
@@ -479,7 +479,7 @@ describe('Transactions Table', () => {
 		expect(preparedTransaction.categoryId).toEqual(categories[0].id);
 
 		renderApp({
-			initialPath: '/expense-tracker/transactions'
+			initialPath: '/transactions'
 		});
 		await waitFor(() =>
 			expect(screen.queryByText('Expense Tracker')).toBeVisible()
@@ -511,7 +511,7 @@ describe('Transactions Table', () => {
 
 	it('confirm all checkbox works and can be reset', async () => {
 		renderApp({
-			initialPath: '/expense-tracker/transactions'
+			initialPath: '/transactions'
 		});
 		await waitFor(() =>
 			expect(screen.queryByText('Expense Tracker')).toBeVisible()

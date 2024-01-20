@@ -3,7 +3,7 @@ import { defineConfig } from '@craigmiller160/js-config/configs/vite/vite.config
 import path from 'path';
 
 export default defineConfig({
-	base: '/expense-tracker/',
+	base: '/',
 	server: {
 		port: 3002,
 		proxy: {

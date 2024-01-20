@@ -32,7 +32,7 @@ describe('Transactions Filters', () => {
 		needsAttentionApi.getNeedsAttention_all();
 		transactionsApi.searchForTransactions();
 		mountApp({
-			initialRoute: '/expense-tracker/transactions'
+			initialRoute: '/transactions'
 		});
 
 		const description = 'Hello';
@@ -51,7 +51,7 @@ describe('Transactions Filters', () => {
 		needsAttentionApi.getNeedsAttention_all();
 		transactionsApi.searchForTransactions();
 		mountApp({
-			initialRoute: '/expense-tracker/transactions'
+			initialRoute: '/transactions'
 		});
 
 		transactionFilters.getStartDateInput().clear();
@@ -113,7 +113,7 @@ describe('Transactions Filters', () => {
 		needsAttentionApi.getNeedsAttention_all();
 		transactionsApi.searchForTransactions();
 		mountApp({
-			initialRoute: '/expense-tracker/transactions'
+			initialRoute: '/transactions'
 		});
 
 		transactionFilters
@@ -207,7 +207,7 @@ describe('Transactions Filters', () => {
 			'possibleRefundAll'
 		);
 		mountApp({
-			initialRoute: '/expense-tracker/transactions'
+			initialRoute: '/transactions'
 		});
 
 		transactionFilters
@@ -238,7 +238,7 @@ describe('Transactions Filters', () => {
 		needsAttentionApi.getNeedsAttention_all();
 		transactionsApi.searchForTransactions();
 		mountApp({
-			initialRoute: '/expense-tracker/transactions'
+			initialRoute: '/transactions'
 		});
 
 		transactionsApi.searchForTransactionsWithQuery(
@@ -260,7 +260,7 @@ describe('Transactions Filters', () => {
 			'duplicateAll'
 		);
 		mountApp({
-			initialRoute: '/expense-tracker/transactions'
+			initialRoute: '/transactions'
 		});
 
 		transactionFilters.getDuplicateLabel().should('have.text', 'Duplicate');
@@ -292,7 +292,7 @@ describe('Transactions Filters', () => {
 			'categorizedAll'
 		);
 		mountApp({
-			initialRoute: '/expense-tracker/transactions'
+			initialRoute: '/transactions'
 		});
 
 		transactionFilters
@@ -326,7 +326,7 @@ describe('Transactions Filters', () => {
 			'confirmedAll'
 		);
 		mountApp({
-			initialRoute: '/expense-tracker/transactions'
+			initialRoute: '/transactions'
 		});
 
 		transactionFilters.getConfirmedLabel().should('have.text', 'Confirmed');

@@ -7,6 +7,8 @@ import {
 	orderedCategoryIds,
 	orderedCategoryNames
 } from './testutils/constants/categories';
+import { needsAttentionApi } from './testutils/apis/needsAttention';
+import { reportsApi } from './testutils/apis/reports';
 
 type Interception = Readonly<{
 	request: Readonly<{
@@ -25,7 +27,7 @@ describe('Rules Filters', () => {
 		rulesApi.getMaxOrdinal();
 		categoriesApi.getAllCategories();
 		mountApp({
-			initialRoute: '/expense-tracker/rules'
+			initialRoute: '/rules'
 		});
 
 		rulesListFiltersPage.getRegexFilterInput().type('Hello');
@@ -50,7 +52,7 @@ describe('Rules Filters', () => {
 		rulesApi.getMaxOrdinal();
 		categoriesApi.getAllCategories();
 		mountApp({
-			initialRoute: '/expense-tracker/rules'
+			initialRoute: '/rules'
 		});
 
 		rulesListFiltersPage.getRegexFilterLabel().should('have.text', 'Regex');
@@ -64,7 +66,7 @@ describe('Rules Filters', () => {
 		rulesApi.getMaxOrdinal();
 		categoriesApi.getAllCategories();
 		mountApp({
-			initialRoute: '/expense-tracker/rules'
+			initialRoute: '/rules'
 		});
 
 		rulesListFiltersPage.getRegexFilterInput().type('Hello');
@@ -89,8 +91,11 @@ describe('Rules Filters', () => {
 		rulesApi.getAllRules();
 		rulesApi.getMaxOrdinal();
 		categoriesApi.getAllCategories();
+		categoriesApi.getUnknownCategory();
+		needsAttentionApi.getNeedsAttention_all();
+		reportsApi.getDefaultSpendingByMonthAndCategory();
 		mountApp({
-			initialRoute: '/expense-tracker/rules'
+			initialRoute: '/rules'
 		});
 
 		rulesListFiltersPage.getCategoryFilterInput().click();

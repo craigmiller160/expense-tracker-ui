@@ -14,7 +14,7 @@ describe('Manage Categories', () => {
 	it('displays all categories on the server', () => {
 		categoriesApi.getAllCategories();
 		mountApp({
-			initialRoute: '/expense-tracker/categories'
+			initialRoute: '/categories'
 		});
 		navbarPage
 			.getNavbarItems()
@@ -39,7 +39,7 @@ describe('Manage Categories', () => {
 		categoriesApi.getAllCategories();
 		categoriesApi.createCategory();
 		mountApp({
-			initialRoute: '/expense-tracker/categories'
+			initialRoute: '/categories'
 		});
 		categoriesListPage.getAddButton().contains('Add Category').click();
 		categoryDetailsPage.getHeaderTitle().contains('New Category');
@@ -69,7 +69,7 @@ describe('Manage Categories', () => {
 	it('will not save category without name', () => {
 		categoriesApi.getAllCategories();
 		mountApp({
-			initialRoute: '/expense-tracker/categories'
+			initialRoute: '/categories'
 		});
 		categoriesListPage.getDetailsButtons().eq(0).click();
 		categoryDetailsPage
@@ -104,7 +104,7 @@ describe('Manage Categories', () => {
 		categoriesApi.getAllCategories();
 		categoriesApi.updateCategory(firstCategoryId);
 		mountApp({
-			initialRoute: '/expense-tracker/categories'
+			initialRoute: '/categories'
 		});
 		categoriesListPage.getDetailsButtons().eq(0).click();
 		categoryDetailsPage.getHeaderTitle().contains(allCategories[0].name);
@@ -136,7 +136,7 @@ describe('Manage Categories', () => {
 		categoriesApi.getAllCategories();
 		categoriesApi.deleteCategory(firstCategoryId);
 		mountApp({
-			initialRoute: '/expense-tracker/categories'
+			initialRoute: '/categories'
 		});
 		categoriesListPage.getDetailsButtons().eq(0).click();
 		categoryDetailsPage.getHeaderTitle().should('be.visible');

@@ -95,10 +95,10 @@ const createPreAuthorizeRoutes = (): RouteObject[] => [
 const createRoutes = (rules: RouteRules): RouteObject[] => [
 	{
 		path: '/',
-		element: <Navigate to="/expense-tracker" />
+		element: <Navigate to="/" />
 	},
 	{
-		path: '/expense-tracker',
+		path: '/',
 		children: match(rules)
 			.with(
 				{ isAuthorized: true, hasCheckedAuthorization: true },

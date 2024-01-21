@@ -18,8 +18,8 @@ dependencies:
     specifier: 1.2.1
     version: 1.2.1(react@18.2.0)
   '@craigmiller160/ts-functions':
-    specifier: 1.7.0-beta.13
-    version: 1.7.0-beta.13(date-fns@2.29.3)(fp-ts@2.16.1)(ts-pattern@5.0.5)
+    specifier: 1.7.0
+    version: 1.7.0(date-fns@2.29.3)(fp-ts@2.16.1)(ts-pattern@5.0.5)
   '@date-io/date-fns':
     specifier: ^2.14.0
     version: 2.14.0(date-fns@2.29.3)
@@ -528,8 +528,9 @@ packages:
       - encoding
     dev: true
 
-  /@craigmiller160/ts-functions@1.7.0-beta.13(date-fns@2.29.3)(fp-ts@2.16.1)(ts-pattern@5.0.5):
-    resolution: {integrity: sha512-wItsUdX1/LJw5M0zQSQvhJYkiDinrApdXAUy06DeYUmfBR2e+8WbP52oSvSnLLVwIuCw5OGbndScRd4rPJUwBw==}
+  /@craigmiller160/ts-functions@1.7.0(date-fns@2.29.3)(fp-ts@2.16.1)(ts-pattern@5.0.5):
+    resolution: {integrity: sha512-9AmOkVFMoykkK/epZ++p38mMAmjXglFKjgowVovWzPRjw2JIB52JSrel1LLurzOUUsNM+8K3flSZUjuG4fdW3w==}
+    requiresBuild: true
     peerDependencies:
       date-fns: ^2.28.0
       fp-ts: ^2.16.1

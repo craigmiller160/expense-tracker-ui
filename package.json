@@ -41,8 +41,8 @@
     "vitest": "^0.34.5"
   },
   "dependencies": {
-    "@craigmiller160/ajax-api": "2.2.0-beta.11",
-    "@craigmiller160/js-config": "1.0.3",
+    "@craigmiller160/ajax-api": "2.2.0-beta.12",
+    "@craigmiller160/js-config": "1.0.4",
     "@craigmiller160/react-hook-form-material-ui": "1.5.0-beta.1",
     "@craigmiller160/react-keycloak": "1.2.1",
     "@craigmiller160/ts-functions": "1.7.0-beta.13",

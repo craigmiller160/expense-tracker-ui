@@ -6,11 +6,11 @@ settings:
 
 dependencies:
   '@craigmiller160/ajax-api':
-    specifier: 2.2.0-beta.10
-    version: 2.2.0-beta.10(axios@1.5.0)
+    specifier: 2.2.0-beta.12
+    version: 2.2.0-beta.12(axios@1.5.0)
   '@craigmiller160/js-config':
-    specifier: 1.0.3
-    version: 1.0.3(@relmify/jest-fp-ts@2.1.1)(@testing-library/dom@9.3.3)(@types/node@18.14.0)(cross-env@7.0.3)(cypress@13.1.0)(fp-ts@2.16.1)(io-ts@2.2.20)(ts-pattern@5.0.5)(vitest@0.34.5)
+    specifier: 1.0.4
+    version: 1.0.4(@relmify/jest-fp-ts@2.1.1)(@testing-library/dom@9.3.3)(@types/node@18.14.0)(cross-env@7.0.3)(cypress@13.1.0)(fp-ts@2.16.1)(io-ts@2.2.20)(ts-pattern@5.0.5)(vitest@0.34.5)
   '@craigmiller160/react-hook-form-material-ui':
     specifier: 1.5.0-beta.1
     version: 1.5.0-beta.1(@mui/material@5.13.5)(@mui/x-date-pickers@5.0.0-alpha.7)(date-fns@2.29.3)(react-hook-form@7.44.3)(react@18.2.0)
@@ -401,16 +401,17 @@ packages:
     engines: {node: '>=0.1.90'}
     requiresBuild: true
 
-  /@craigmiller160/ajax-api@2.2.0-beta.10(axios@1.5.0):
-    resolution: {integrity: sha512-UUpybv8xEwHC3KaDyy7kmOZXcTMni+DlhXcv2CW7ckpmcArRNeLl1Qc8FPele7PYuN2Isu6+MI3o9yWm6wRIrw==}
+  /@craigmiller160/ajax-api@2.2.0-beta.12(axios@1.5.0):
+    resolution: {integrity: sha512-0OEMEsjTRLpk87Tu1jNSZvvl0BF6iARL4OhBO4OOSv1V67H2BwgUClzP3DevxxDVWBEEBsuqegLvSwER2N8EJA==}
+    requiresBuild: true
     peerDependencies:
       axios: ^1.4.0
     dependencies:
       axios: 1.5.0
     dev: false
 
-  /@craigmiller160/js-config@1.0.3(@relmify/jest-fp-ts@2.1.1)(@testing-library/dom@9.3.3)(@types/node@18.14.0)(cross-env@7.0.3)(cypress@13.1.0)(fp-ts@2.16.1)(io-ts@2.2.20)(ts-pattern@5.0.5)(vitest@0.34.5):
-    resolution: {integrity: sha512-xQIBYu36DDgkstouJHVbPxug+qvZOUpRKVDKmBMm3ucFXKWB6k6TmW7XM8dmrN0BtWQIPHoQEraP0hu7DDgzbw==}
+  /@craigmiller160/js-config@1.0.4(@relmify/jest-fp-ts@2.1.1)(@testing-library/dom@9.3.3)(@types/node@18.14.0)(cross-env@7.0.3)(cypress@13.1.0)(fp-ts@2.16.1)(io-ts@2.2.20)(ts-pattern@5.0.5)(vitest@0.34.5):
+    resolution: {integrity: sha512-AMOrPyTHrJ7SOLLPfnOp7oxyg4RK9M+xLV/+t0Lo9ATy88puA+5s4rygOOBGKsvgzqFxLKZyiql7kQ474ghmHQ==}
     hasBin: true
     requiresBuild: true
     peerDependencies:

@@ -12,8 +12,8 @@ dependencies:
     specifier: 1.0.5
     version: 1.0.5(@relmify/jest-fp-ts@2.1.1)(@testing-library/dom@9.3.3)(@types/node@18.14.0)(cross-env@7.0.3)(cypress@13.1.0)(fp-ts@2.16.1)(io-ts@2.2.20)(ts-pattern@5.0.5)(vitest@0.34.5)
   '@craigmiller160/react-hook-form-material-ui':
-    specifier: 1.5.0-beta.1
-    version: 1.5.0-beta.1(@mui/material@5.13.5)(@mui/x-date-pickers@5.0.0-alpha.7)(date-fns@2.29.3)(react-hook-form@7.44.3)(react@18.2.0)
+    specifier: 1.5.0
+    version: 1.5.0(@mui/material@5.13.5)(date-fns@2.29.3)(react-hook-form@7.44.3)(react@18.2.0)
   '@craigmiller160/react-keycloak':
     specifier: 1.2.1
     version: 1.2.1(react@18.2.0)
@@ -492,17 +492,16 @@ packages:
       keycloak-js: 20.0.3
     dev: false
 
-  /@craigmiller160/react-hook-form-material-ui@1.5.0-beta.1(@mui/material@5.13.5)(@mui/x-date-pickers@5.0.0-alpha.7)(date-fns@2.29.3)(react-hook-form@7.44.3)(react@18.2.0):
-    resolution: {integrity: sha512-TcoP1/0TtKDHCX7ZJHIHSXmPrS6cR1vzVnub5GyooiSzQMfWmypL4Ip7SZ6H2Nn68Yg45ctslc7gw3ThRiLmJQ==}
+  /@craigmiller160/react-hook-form-material-ui@1.5.0(@mui/material@5.13.5)(date-fns@2.29.3)(react-hook-form@7.44.3)(react@18.2.0):
+    resolution: {integrity: sha512-iN0SEeVKFPQb1XG5M8cHVeeIb9Ct2fHolr2E+ySLUa22Q7xXKIIJvw6LoSpqvwxAR9DnDnOcxO4ixNmD3TxoRw==}
+    requiresBuild: true
     peerDependencies:
       '@mui/material': '>=5.8.6'
-      '@mui/x-date-pickers': '>=5.0.0-alpha.7'
       date-fns: '>=2.28.0'
       react: '>=18.2.0'
       react-hook-form: '>=7.33.0'
     dependencies:
       '@mui/material': 5.13.5(@emotion/react@11.9.3)(@emotion/styled@11.9.3)(@types/react@18.0.14)(react-dom@18.2.0)(react@18.2.0)
-      '@mui/x-date-pickers': 5.0.0-alpha.7(@emotion/react@11.9.3)(@emotion/styled@11.9.3)(@mui/material@5.13.5)(@mui/system@5.13.5)(date-fns@2.29.3)(react-dom@18.2.0)(react@18.2.0)
       date-fns: 2.29.3
       react: 18.2.0
       react-hook-form: 7.44.3(react@18.2.0)

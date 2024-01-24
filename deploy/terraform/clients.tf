@@ -24,10 +24,12 @@ resource "keycloak_openid_client" "expense_tracker_ui_dev" {
   access_type = local.client_common.access_type
   standard_flow_enabled = local.client_common.standard_flow_enabled
   valid_redirect_uris = [
-    "https://localhost:3002/*"
+    "https://localhost:3002/*",
+    "https://localhost:3002"
   ]
   valid_post_logout_redirect_uris = [
-    "https://localhost:3002/*"
+    "https://localhost:3002/*",
+    "https://localhost:3002"
   ]
   web_origins = [
     "https://localhost:3002"

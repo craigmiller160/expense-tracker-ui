@@ -1,14 +1,18 @@
 type Chainable<T> = Cypress.Chainable<T>;
 
 const getAllCategories = (): Chainable<null> =>
-	cy.intercept('/expense-tracker/api/categories', {
-		fixture: 'allCategories.json'
-	});
+	cy
+		.intercept('/expense-tracker/api/categories', {
+			fixture: 'allCategories.json'
+		})
+		.as('getAllCategories');
 
 const getUnknownCategory = (): Chainable<null> =>
-	cy.intercept('/expense-tracker/api/categories/unknown', {
-		fixture: 'unknownCategory.json'
-	});
+	cy
+		.intercept('/expense-tracker/api/categories/unknown', {
+			fixture: 'unknownCategory.json'
+		})
+		.as('getUnknownCategory');
 
 const createCategory = (): Chainable<null> =>
 	cy

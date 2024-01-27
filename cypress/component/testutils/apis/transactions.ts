@@ -44,6 +44,7 @@ const getTransactionDetails_confirmedAndCategorized = (
 ): Chainable<null> =>
 	cy
 		.fixture('transactionDetails.json')
+		.as('getTransactionDetails_confirmedAndCategorized')
 		.then((fixture: TransactionDetailsResponse) =>
 			cy.intercept(`/expense-tracker/api/transactions/${id}/details`, {
 				...fixture,
@@ -56,6 +57,7 @@ const getTransactionDetails_confirmedAndCategorized = (
 const getTransactionDetails_possibleRefund = (id: string): Chainable<null> =>
 	cy
 		.fixture('transactionDetails.json')
+		.as('getTransactionDetails_possibleRefund')
 		.then((fixture: TransactionDetailsResponse) =>
 			cy.intercept(`/expense-tracker/api/transactions/${id}/details`, {
 				...fixture,

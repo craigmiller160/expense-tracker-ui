@@ -8,14 +8,18 @@ const getAllRules = (): Chainable<null> =>
 		.as('getAllRules');
 
 const getRule_minimum = (id: string): Chainable<null> =>
-	cy.intercept(`/expense-tracker/api/categories/rules/${id}`, {
-		fixture: 'ruleDetails_minimum.json'
-	});
+	cy
+		.intercept(`/expense-tracker/api/categories/rules/${id}`, {
+			fixture: 'ruleDetails_minimum.json'
+		})
+		.as('getRule_minimum');
 
 const getRule_maximum = (id: string): Chainable<null> =>
-	cy.intercept(`/expense-tracker/api/categories/rules/${id}`, {
-		fixture: 'ruleDetails_maximum.json'
-	});
+	cy
+		.intercept(`/expense-tracker/api/categories/rules/${id}`, {
+			fixture: 'ruleDetails_maximum.json'
+		})
+		.as('getRule_maximum');
 
 const createRule = (): Chainable<null> =>
 	cy
@@ -41,7 +45,8 @@ const deleteRule = (id: string): Chainable<null> =>
 const getMaxOrdinal = (): Chainable<null> =>
 	cy.intercept('/expense-tracker/api/categories/rules/maxOrdinal', {
 		fixture: 'maxOrdinal.json'
-	});
+	})
+		.as('getMaxOrdinal');
 
 const reOrderRule = (id: string, ordinal: number): Chainable<null> =>
 	cy

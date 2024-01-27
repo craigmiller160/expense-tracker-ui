@@ -1,5 +1,5 @@
 {
-  "extends": "@craigmiller160/js-config/configs/typescript/tsconfig.module.json",
+  "extends": "@craigmiller160/js-config/configs/typescript/tsconfig.module.app.json",
   "include": [
     "src/**/*"
   ],

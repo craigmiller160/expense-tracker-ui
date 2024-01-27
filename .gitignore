@@ -9,7 +9,7 @@ build
 coverage
 deploy/build
 cypress/videos
-cypress/results/report/assets/screenshots
+cypress/screenshots
 deploy/build
 deploy/chart/charts
 *.tgz

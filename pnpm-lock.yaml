@@ -139,6 +139,9 @@ devDependencies:
   '@types/lodash.mergewith':
     specifier: ^4.6.7
     version: 4.6.7
+  '@types/mochawesome':
+    specifier: ^6.2.4
+    version: 6.2.4
   '@types/node':
     specifier: ^18.0.0
     version: 18.14.0
@@ -1747,6 +1750,16 @@ packages:
   /@types/minimist@1.2.2:
     resolution: {integrity: sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==}
     dev: false
+
+  /@types/mocha@10.0.6:
+    resolution: {integrity: sha512-dJvrYWxP/UcXm36Qn36fxhUKu8A/xMRXVT2cliFF1Z7UA9liG5Psj3ezNSZw+5puH2czDXRLcXQxf8JbJt0ejg==}
+    dev: true
+
+  /@types/mochawesome@6.2.4:
+    resolution: {integrity: sha512-tWnTmoWX1bpxutRYyrrgVtLeOUvaLxmoPsO+sMw8pvVFQ90UT2TkOQwu8usUGgGbEajMOIIarSW3hpaA7AavOQ==}
+    dependencies:
+      '@types/mocha': 10.0.6
+    dev: true
 
   /@types/node@16.18.50:
     resolution: {integrity: sha512-OiDU5xRgYTJ203v4cprTs0RwOCd5c5Zjv+K5P8KSqfiCsB1W3LcamTUMcnQarpq5kOYbhHfSOgIEJvdPyb5xyw==}

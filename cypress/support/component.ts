@@ -20,6 +20,9 @@ import './commands';
 // require('./commands')
 
 import { mount } from 'cypress/react18';
+import addContext from 'mochawesome/addContext';
+import fs from 'fs';
+import path from 'path';
 
 // Augment the Cypress namespace to include type definitions for
 // your custom command.
@@ -35,6 +38,22 @@ declare global {
 }
 
 Cypress.Commands.add('mount', mount);
+Cypress.on('test:after:run', (test, runnable) => {
+	if (test.state === 'failed') {
+		const screenshotDir = path.join(
+			process.cwd(),
+			'cypress',
+			'screenshots',
+			Cypress.spec.name
+		);
+		fs.readdirSync(screenshotDir)
+			.filter((file) =>
+				file.startsWith(`${runnable.parent?.title} -- ${test.title}`)
+			)
+			.map((file) => path.join(screenshotDir, file))
+			.forEach((file) => addContext({ test }, file));
+	}
+});
 
 // Example use:
 // cy.mount(<MyComponent />)

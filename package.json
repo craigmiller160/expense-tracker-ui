@@ -14,7 +14,8 @@
     "forceBuild": "c-build-app",
     "build": "c-validate && c-build-app",
     "generate-types": "craig-swagger expense-tracker https://127.0.0.1:8080/v3/api-docs",
-    "postinstall": "c-init"
+    "postinstall": "c-init",
+    "cypress-report": "mochawesome-merge cypress/results/json/*.json > cypress/results/mochawesome-all.json && marge cypress/results/mochawesome-all.json -o cypress/results/report"
   },
   "devDependencies": {
     "@babel/core": "~7.0.0",
@@ -27,6 +28,7 @@
     "@testing-library/user-event": "^14.5.1",
     "@types/lodash.debounce": "^4.0.7",
     "@types/lodash.mergewith": "^4.6.7",
+    "@types/mochawesome": "^6.2.4",
     "@types/node": "^18.0.0",
     "@types/qs": "^6.9.7",
     "@types/react": "^18.0.14",
@@ -37,6 +39,10 @@
     "cypress": "^13.1.0",
     "io-ts": "^2.2.20",
     "miragejs": "^0.1.48",
+    "mocha": "^10.2.0",
+    "mochawesome": "^7.1.3",
+    "mochawesome-merge": "^4.3.0",
+    "mochawesome-report-generator": "^6.2.0",
     "msw": "^2.0.10",
     "vitest": "^0.34.5"
   },

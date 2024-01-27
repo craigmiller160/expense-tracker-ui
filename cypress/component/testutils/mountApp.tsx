@@ -48,16 +48,15 @@ export const mountApp = (
 	handleViewport(config);
 	const initialEntries = getInitialEntries(config);
 	const queryClient = newQueryClient();
-	return (
-		cy
-			.mount(
-				<MemoryRouter initialEntries={initialEntries}>
-					<KeycloakAuthContext.Provider value={keycloakAuth}>
-						<App queryClient={queryClient} />
-					</KeycloakAuthContext.Provider>
-				</MemoryRouter>
-			)
-			// eslint-disable-next-line cypress/no-unnecessary-waiting
-			.then((res) => cy.wait(100).then(() => res))
+	// eslint-disable-next-line  cypress/no-assigning-return-values
+	const result = cy.mount(
+		<MemoryRouter initialEntries={initialEntries}>
+			<KeycloakAuthContext.Provider value={keycloakAuth}>
+				<App queryClient={queryClient} />
+			</KeycloakAuthContext.Provider>
+		</MemoryRouter>
 	);
+	// eslint-disable-next-line cypress/no-unnecessary-waiting
+	cy.wait(100);
+	return result;
 };

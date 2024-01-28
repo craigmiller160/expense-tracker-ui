@@ -14,4 +14,4 @@ deploy/build
 deploy/chart/charts
 *.tgz
 deploy/terraform/.terraform/
-cypress/results
+cypress-results

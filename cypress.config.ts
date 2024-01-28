@@ -3,7 +3,7 @@ import { defineConfig } from 'cypress';
 export default defineConfig({
 	reporter: 'mochawesome',
 	reporterOptions: {
-		reportDir: 'cypress/results/json',
+		reportDir: 'cypress-results/json',
 		overwrite: false,
 		html: false,
 		json: true,

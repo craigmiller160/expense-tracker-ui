@@ -15,7 +15,7 @@
     "build": "c-validate && c-build-app",
     "generate-types": "craig-swagger expense-tracker https://127.0.0.1:8080/v3/api-docs",
     "postinstall": "c-init app",
-    "cypress-report": "mochawesome-merge cypress/results/json/*.json > cypress/results/mochawesome-all.json && marge cypress/results/mochawesome-all.json -o cypress/results/report"
+    "cypress-report": "mochawesome-merge cypress-results/json/*.json > cypress-results/mochawesome-all.json && marge cypress-results/mochawesome-all.json -o cypress-results/report"
   },
   "devDependencies": {
     "@babel/core": "~7.0.0",

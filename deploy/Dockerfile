@@ -1,4 +1,4 @@
-FROM nexus-docker-craigmiller160.ddns.net/nginx-base:1.1.3
+FROM nexus-docker.craigmiller160.us/nginx-base:1.1.3
 
 COPY ./build/expense-tracker-ui-*.tgz /var/www/expense-tracker-ui.tgz
 RUN tar xvf /var/www/expense-tracker-ui.tgz -C /var/www/

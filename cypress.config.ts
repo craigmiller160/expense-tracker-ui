@@ -8,6 +8,10 @@ export default defineConfig({
 		html: false,
 		json: true,
 	},
+	retries: {
+		openMode: 0,
+		runMode: 2
+	},
 	screenshotOnRunFailure: true,
 	video: false,
 	component: {

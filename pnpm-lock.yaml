@@ -110,8 +110,8 @@ devDependencies:
     specifier: ~7.0.0
     version: 7.0.1
   '@craigmiller160/js-config':
-    specifier: 1.0.8
-    version: 1.0.8(@relmify/jest-fp-ts@2.1.1)(@testing-library/dom@9.3.3)(@types/node@18.14.0)(cross-env@7.0.3)(cypress@13.6.3)(fp-ts@2.16.1)(io-ts@2.2.20)(ts-pattern@5.0.5)(vitest@0.34.5)
+    specifier: 1.0.10
+    version: 1.0.10(@relmify/jest-fp-ts@2.1.1)(@testing-library/dom@9.3.3)(@types/node@18.14.0)(cross-env@7.0.3)(cypress@13.6.3)(fp-ts@2.16.1)(io-ts@2.2.20)(ts-pattern@5.0.5)(vitest@0.34.5)
   '@craigmiller160/swagger-typescript-api-formatted':
     specifier: 1.0.0
     version: 1.0.0
@@ -423,8 +423,8 @@ packages:
       axios: 1.5.0
     dev: false
 
-  /@craigmiller160/js-config@1.0.8(@relmify/jest-fp-ts@2.1.1)(@testing-library/dom@9.3.3)(@types/node@18.14.0)(cross-env@7.0.3)(cypress@13.6.3)(fp-ts@2.16.1)(io-ts@2.2.20)(ts-pattern@5.0.5)(vitest@0.34.5):
-    resolution: {integrity: sha512-LZIk2aExmEk0HXfL9l0Ir7AAGfK86cevfFSG1E43AkkN4Qll1C1m/2omfujdRvWhFExRqblOO8JRunYq9ha4Og==}
+  /@craigmiller160/js-config@1.0.10(@relmify/jest-fp-ts@2.1.1)(@testing-library/dom@9.3.3)(@types/node@18.14.0)(cross-env@7.0.3)(cypress@13.6.3)(fp-ts@2.16.1)(io-ts@2.2.20)(ts-pattern@5.0.5)(vitest@0.34.5):
+    resolution: {integrity: sha512-0RAuxiBc+t38W5WreKJ7Ct7+f4lnJxOgpxiVCTvqyTNGhZtKTm+olrFXUxOgl4J4D9wI5GIoCJolruZldNhSLw==}
     hasBin: true
     peerDependencies:
       '@relmify/jest-fp-ts': ^2.1.1

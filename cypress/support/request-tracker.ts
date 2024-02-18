@@ -16,6 +16,7 @@ type ProxyLogging = Readonly<{
  * Ugly but the only way to access these internal APIs
  */
 const getProxyLogging = (): ProxyLogging =>
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	(Cypress as any).ProxyLogging as ProxyLogging;
 
 afterEach(() => {

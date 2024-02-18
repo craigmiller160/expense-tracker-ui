@@ -24,7 +24,7 @@ type Props = Readonly<{
 	previousMonthReport?: ReportMonthResponse;
 }>;
 
-const COLUMNS = ['', 'Category', 'Amount', 'Percent'];
+const COLUMNS = ['', 'Category', 'Amount', 'Change', 'Percent'];
 const sortByCategory: Ord<ReportCategoryResponse> = {
 	equals: (a, b) => a.name === b.name,
 	compare: (a, b) => {
@@ -95,6 +95,7 @@ export const SpendingByCategoryTable = (props: Props) => {
 						</MuiRouterLink>
 					</TableCell>
 					<TableCell>{formatCurrency(category.amount)}</TableCell>
+					<TableCell>N/A</TableCell>
 					<TableCell>{formatPercent(category.percent)}</TableCell>
 				</TableRow>
 			))}
@@ -107,6 +108,9 @@ export const SpendingByCategoryTable = (props: Props) => {
 					<strong>
 						{formatCurrency(props.currentMonthReport.total)}
 					</strong>
+				</TableCell>
+				<TableCell>
+					<strong>N/A</strong>
 				</TableCell>
 				<TableCell />
 			</TableRow>

@@ -59,9 +59,18 @@ export const sortCategories = (
 	return RArray.sort(sortBy);
 };
 
+type ChangeCellContentProps = Readonly<{
+	currentMonthAmount: number;
+	previousMonthAmount?: number;
+}>;
+
+const ChangeCellContent = (props: ChangeCellContentProps) => {
+	return <div />;
+};
+
 export const SpendingByCategoryTable = (props: Props) => {
 	const orderCategoriesBy = props.form.getValues().orderCategoriesBy;
-	const categories = useMemo(
+	const currentMonthCategories = useMemo(
 		() =>
 			sortCategories(orderCategoriesBy)(
 				props.currentMonthReport.categories
@@ -77,28 +86,52 @@ export const SpendingByCategoryTable = (props: Props) => {
 
 	return (
 		<Table columns={COLUMNS} className="SpendingByCategoryTable">
-			{categories.map((category) => (
-				<TableRow key={category.name}>
-					<TableCell>
-						<ColorBox color={category.color} />
-					</TableCell>
-					<TableCell>
-						<MuiRouterLink
-							variant="body2"
-							to={getMonthAndCategoryLink(
-								props.currentMonthReport.date,
-								category.id,
-								unknownCategory?.id ?? ''
+			{currentMonthCategories.map((currentMonthCategory) => {
+				const previousMonthCategory =
+					props.previousMonthReport?.categories.find(
+						(prevCategory) =>
+							prevCategory.name === currentMonthCategory.name
+					);
+				return (
+					<TableRow key={currentMonthCategory.name}>
+						<TableCell>
+							<ColorBox color={currentMonthCategory.color} />
+						</TableCell>
+						<TableCell>
+							<MuiRouterLink
+								variant="body2"
+								to={getMonthAndCategoryLink(
+									props.currentMonthReport.date,
+									currentMonthCategory.id,
+									unknownCategory?.id ?? ''
+								)}
+							>
+								{currentMonthCategory.name}
+							</MuiRouterLink>
+						</TableCell>
+						<TableCell>
+							{formatCurrency(currentMonthCategory.amount)}
+						</TableCell>
+						<TableCell>
+							{props.previousMonthReport ? (
+								<ChangeCellContent
+									currentMonthAmount={
+										currentMonthCategory.amount
+									}
+									previousMonthAmount={
+										previousMonthCategory?.amount
+									}
+								/>
+							) : (
+								'N/A'
 							)}
-						>
-							{category.name}
-						</MuiRouterLink>
-					</TableCell>
-					<TableCell>{formatCurrency(category.amount)}</TableCell>
-					<TableCell>N/A</TableCell>
-					<TableCell>{formatPercent(category.percent)}</TableCell>
-				</TableRow>
-			))}
+						</TableCell>
+						<TableCell>
+							{formatPercent(currentMonthCategory.percent)}
+						</TableCell>
+					</TableRow>
+				);
+			})}
 			<TableRow>
 				<TableCell />
 				<TableCell>

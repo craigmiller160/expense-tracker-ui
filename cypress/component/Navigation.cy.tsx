@@ -17,6 +17,8 @@ describe('Navigation', () => {
 		it('navigates to Reports', () => {
 			categoriesApi.getAllCategories();
 			reportsApi.getDefaultSpendingByMonthAndCategory();
+			needsAttentionApi.getNeedsAttention_all();
+			categoriesApi.getUnknownCategory();
 			mountApp({
 				initialRoute: '/categories'
 			});
@@ -29,6 +31,7 @@ describe('Navigation', () => {
 		it('navigates to Rules', () => {
 			categoriesApi.getAllCategories();
 			rulesApi.getAllRules();
+			rulesApi.getMaxOrdinal();
 			mountApp({
 				initialRoute: '/categories'
 			});
@@ -54,6 +57,8 @@ describe('Navigation', () => {
 		it('navigates to Categories', () => {
 			reportsApi.getDefaultSpendingByMonthAndCategory();
 			categoriesApi.getAllCategories();
+			needsAttentionApi.getNeedsAttention_all();
+			categoriesApi.getUnknownCategory();
 			mountApp({
 				initialRoute: '/reports'
 			});
@@ -79,6 +84,8 @@ describe('Navigation', () => {
 		it('navigates to Reports', () => {
 			categoriesApi.getAllCategories();
 			reportsApi.getDefaultSpendingByMonthAndCategory();
+			needsAttentionApi.getNeedsAttention_all();
+			categoriesApi.getUnknownCategory();
 			mountApp({
 				viewport: 'mobile',
 				initialRoute: '/categories'
@@ -112,6 +119,7 @@ describe('Navigation', () => {
 		it('navigates to Rules', () => {
 			categoriesApi.getAllCategories();
 			rulesApi.getAllRules();
+			rulesApi.getMaxOrdinal();
 			mountApp({
 				viewport: 'mobile',
 				initialRoute: '/categories'
@@ -128,6 +136,8 @@ describe('Navigation', () => {
 		it('navigates to Categories', () => {
 			reportsApi.getDefaultSpendingByMonthAndCategory();
 			categoriesApi.getAllCategories();
+			needsAttentionApi.getNeedsAttention_all();
+			categoriesApi.getUnknownCategory();
 			mountApp({
 				viewport: 'mobile',
 				initialRoute: '/reports'

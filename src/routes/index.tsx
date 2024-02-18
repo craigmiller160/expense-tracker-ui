@@ -1,4 +1,4 @@
-import type { ReactElement } from 'react';
+import { type ReactElement, useMemo } from 'react';
 import { useContext } from 'react';
 import type { RouteObject } from 'react-router';
 import { Navigate, useRoutes } from 'react-router';
@@ -95,7 +95,7 @@ const createPreAuthorizeRoutes = (): RouteObject[] => [
 const createRoutes = (rules: RouteRules): RouteObject[] => [
 	{
 		path: '/',
-		element: <Navigate to="/" />
+		element: <Navigate to="/reports" />
 	},
 	{
 		path: '/',
@@ -115,9 +115,13 @@ const createRoutes = (rules: RouteRules): RouteObject[] => [
 export const useAppRoutes = (): ReactElement | null => {
 	const { status, isPostAuthorization } =
 		useContext<KeycloakAuth>(KeycloakAuthContext);
-	const routes = createRoutes({
-		isAuthorized: status === 'authorized',
-		hasCheckedAuthorization: isPostAuthorization
-	});
+	const routes = useMemo(
+		() =>
+			createRoutes({
+				isAuthorized: status === 'authorized',
+				hasCheckedAuthorization: isPostAuthorization
+			}),
+		[status, isPostAuthorization]
+	);
 	return useRoutes(routes);
 };

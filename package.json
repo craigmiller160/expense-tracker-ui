@@ -45,7 +45,7 @@
     "mochawesome-report-generator": "^6.2.0",
     "msw": "^2.0.10",
     "vitest": "^0.34.5",
-    "@craigmiller160/js-config": "1.0.7"
+    "@craigmiller160/js-config": "1.0.8"
   },
   "dependencies": {
     "@craigmiller160/ajax-api": "2.2.0",

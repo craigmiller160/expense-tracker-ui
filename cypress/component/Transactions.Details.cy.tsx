@@ -558,6 +558,8 @@ describe('Transaction Details Dialog', () => {
 		transactionsApi.getTransactionDetails_duplicate(transactionId);
 		transactionsApi.getPossibleDuplicates(transactionId);
 		transactionsApi.getTransactionDetails(secondId);
+		lastAppliedApi.getLastRuleApplied_noRule(transactionId);
+		lastAppliedApi.getLastRuleApplied_noRule(secondId);
 		mountApp({
 			initialRoute: '/transactions'
 		});

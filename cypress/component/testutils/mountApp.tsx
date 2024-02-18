@@ -49,11 +49,13 @@ export const mountApp = (
 	const initialEntries = getInitialEntries(config);
 	const queryClient = newQueryClient();
 
-	return cy.mount(
+	const result = cy.mount(
 		<MemoryRouter initialEntries={initialEntries}>
 			<KeycloakAuthContext.Provider value={keycloakAuth}>
 				<App queryClient={queryClient} />
 			</KeycloakAuthContext.Provider>
 		</MemoryRouter>
 	);
+	cy.wait(1000);
+	return result;
 };

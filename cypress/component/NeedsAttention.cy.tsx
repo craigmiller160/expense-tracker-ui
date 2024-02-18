@@ -95,6 +95,7 @@ describe('Needs Attention', () => {
 			transactionsApi.searchForTransactions();
 			categoriesApi.getAllCategories();
 			needsAttentionApi.getNeedsAttention_unconfirmed();
+			categoriesApi.getUnknownCategory();
 			mountApp({
 				initialRoute: '/expense-tracker/transactions'
 			});
@@ -107,6 +108,7 @@ describe('Needs Attention', () => {
 			transactionsApi.searchForTransactions();
 			categoriesApi.getAllCategories();
 			needsAttentionApi.getNeedsAttention_uncategorized();
+			categoriesApi.getUnknownCategory();
 			mountApp({
 				initialRoute: '/expense-tracker/transactions'
 			});
@@ -119,6 +121,7 @@ describe('Needs Attention', () => {
 			transactionsApi.searchForTransactions();
 			categoriesApi.getAllCategories();
 			needsAttentionApi.getNeedsAttention_all();
+			categoriesApi.getUnknownCategory();
 			mountApp({
 				initialRoute: '/expense-tracker/transactions'
 			});

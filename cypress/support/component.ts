@@ -15,7 +15,7 @@
 
 // Import commands.js using ES2015 syntax:
 import './commands';
-import './request-tracker';
+import './request-tracker2';
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

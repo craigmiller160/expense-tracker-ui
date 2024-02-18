@@ -1,19 +1,27 @@
-let requests = [];
-Cypress.on('request:event', (eventName: string, data: any) => {
-	if (eventName === 'incoming:request') {
-		requests.push(data);
-	}
-});
+type ProxyRequest = Readonly<{
+	flags: Readonly<{
+		stubbed: boolean;
+	}>;
+	preRequest: Readonly<{
+		method: string;
+		url: string;
+	}>;
+}>;
+
+type ProxyLogging = Readonly<{
+	proxyRequests: ReadonlyArray<ProxyRequest>;
+}>;
+
+/**
+ * Ugly but the only way to access these internal APIs
+ */
+const getProxyLogging = (): ProxyLogging =>
+	(Cypress as any).ProxyLogging as ProxyLogging;
 
 afterEach(() => {
-	const { _ } = Cypress;
-	const handledRequestIds = _.map(cy.state('routes'), 'requests')
-		.map((request) => _.map(request, 'browserRequestId'))
-		.flat();
-	const results = requests.reduce(
-		(acc, r) =>
-			!handledRequestIds.includes(r.requestId) ? acc.concat(r.url) : acc,
-		[]
-	);
-	requests = [];
+	const proxyLogging = getProxyLogging();
+	const callsNotMocked = proxyLogging.proxyRequests
+		.filter((req) => !req.flags.stubbed)
+		.map((req) => `${req.preRequest.method} ${req.preRequest.url}`);
+	expect(callsNotMocked).to.have.length(0);
 });

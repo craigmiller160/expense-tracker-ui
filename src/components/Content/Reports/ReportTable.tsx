@@ -39,29 +39,35 @@ export const ReportTable = (props: Props) => {
 			columns={COLUMNS}
 			tableTitle="Spending by Month & Category"
 		>
-			{props.data?.reports?.map((report) => (
-				<TableRow key={report.date}>
-					<TableCell>
-						<MuiRouterLink
-							variant="body1"
-							to={getMonthLink(report.date)}
-						>
-							{serverDateToReportMonth(report.date)}
-						</MuiRouterLink>
-					</TableCell>
-					<TableCell>
-						<SpendingByCategoryTable
-							report={report}
-							form={props.form}
-						/>
-					</TableCell>
-					<TableCell>
-						<SpendingByCategoryChart
-							categories={report.categories}
-						/>
-					</TableCell>
-				</TableRow>
-			))}
+			{props.data?.reports?.map((currentMonthReport, index, array) => {
+				const previousMonthReport = array[index + 1];
+				return (
+					<TableRow key={currentMonthReport.date}>
+						<TableCell>
+							<MuiRouterLink
+								variant="body1"
+								to={getMonthLink(currentMonthReport.date)}
+							>
+								{serverDateToReportMonth(
+									currentMonthReport.date
+								)}
+							</MuiRouterLink>
+						</TableCell>
+						<TableCell>
+							<SpendingByCategoryTable
+								currentMonthReport={currentMonthReport}
+								previousMonthReport={previousMonthReport}
+								form={props.form}
+							/>
+						</TableCell>
+						<TableCell>
+							<SpendingByCategoryChart
+								categories={currentMonthReport.categories}
+							/>
+						</TableCell>
+					</TableRow>
+				);
+			})}
 		</Table>
 	);
 };

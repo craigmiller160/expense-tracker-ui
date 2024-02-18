@@ -18,10 +18,11 @@ import { Spinner } from '../../UI/Spinner';
 import { MuiRouterLink } from '../../UI/MuiRouterLink';
 import { getMonthAndCategoryLink } from './utils';
 
-type Props = {
-	readonly report: ReportMonthResponse;
-	readonly form: UseFormReturn<ReportFilterFormData>;
-};
+type Props = Readonly<{
+	currentMonthReport: ReportMonthResponse;
+	form: UseFormReturn<ReportFilterFormData>;
+	previousMonthReport?: ReportMonthResponse;
+}>;
 
 const COLUMNS = ['', 'Category', 'Amount', 'Percent'];
 const sortByCategory: Ord<ReportCategoryResponse> = {
@@ -61,8 +62,8 @@ export const sortCategories = (
 export const SpendingByCategoryTable = (props: Props) => {
 	const orderCategoriesBy = props.form.getValues().orderCategoriesBy;
 	const categories = useMemo(
-		() => sortCategories(orderCategoriesBy)(props.report.categories),
-		[orderCategoriesBy, props.report.categories]
+		() => sortCategories(orderCategoriesBy)(props.currentMonthReport.categories),
+		[orderCategoriesBy, props.currentMonthReport.categories]
 	);
 	const { data: unknownCategory, isFetching: unknownCategoryIsFetching } =
 		useGetUnknownCategory();
@@ -82,7 +83,7 @@ export const SpendingByCategoryTable = (props: Props) => {
 						<MuiRouterLink
 							variant="body2"
 							to={getMonthAndCategoryLink(
-								props.report.date,
+								props.currentMonthReport.date,
 								category.id,
 								unknownCategory?.id ?? ''
 							)}
@@ -100,7 +101,7 @@ export const SpendingByCategoryTable = (props: Props) => {
 					<strong>Total</strong>
 				</TableCell>
 				<TableCell>
-					<strong>{formatCurrency(props.report.total)}</strong>
+					<strong>{formatCurrency(props.currentMonthReport.total)}</strong>
 				</TableCell>
 				<TableCell />
 			</TableRow>

@@ -17,6 +17,8 @@ describe('Navigation', () => {
 		it('navigates to Reports', () => {
 			categoriesApi.getAllCategories();
 			reportsApi.getDefaultSpendingByMonthAndCategory();
+			needsAttentionApi.getNeedsAttention_all();
+			categoriesApi.getUnknownCategory();
 			mountApp({
 				initialRoute: '/categories'
 			});

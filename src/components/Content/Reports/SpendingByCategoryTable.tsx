@@ -60,8 +60,9 @@ export const sortCategories = (
 };
 
 type ChangeCellContentProps = Readonly<{
-	currentMonthAmount: number;
-	previousMonthAmount?: number;
+	currentAmount: number;
+	previousAmount?: number;
+	isBold?: boolean;
 }>;
 
 const ChangeCellContent = (props: ChangeCellContentProps) => {
@@ -115,10 +116,8 @@ export const SpendingByCategoryTable = (props: Props) => {
 						<TableCell>
 							{props.previousMonthReport ? (
 								<ChangeCellContent
-									currentMonthAmount={
-										currentMonthCategory.amount
-									}
-									previousMonthAmount={
+									currentAmount={currentMonthCategory.amount}
+									previousAmount={
 										previousMonthCategory?.amount
 									}
 								/>
@@ -143,7 +142,14 @@ export const SpendingByCategoryTable = (props: Props) => {
 					</strong>
 				</TableCell>
 				<TableCell>
-					<strong>N/A</strong>
+					{props.previousMonthReport ? (
+						<ChangeCellContent
+							currentAmount={props.currentMonthReport.total}
+							previousAmount={props.previousMonthReport.total}
+						/>
+					) : (
+						<strong>N/A</strong>
+					)}
 				</TableCell>
 				<TableCell />
 			</TableRow>

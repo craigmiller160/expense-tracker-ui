@@ -62,7 +62,10 @@ export const sortCategories = (
 export const SpendingByCategoryTable = (props: Props) => {
 	const orderCategoriesBy = props.form.getValues().orderCategoriesBy;
 	const categories = useMemo(
-		() => sortCategories(orderCategoriesBy)(props.currentMonthReport.categories),
+		() =>
+			sortCategories(orderCategoriesBy)(
+				props.currentMonthReport.categories
+			),
 		[orderCategoriesBy, props.currentMonthReport.categories]
 	);
 	const { data: unknownCategory, isFetching: unknownCategoryIsFetching } =
@@ -101,7 +104,9 @@ export const SpendingByCategoryTable = (props: Props) => {
 					<strong>Total</strong>
 				</TableCell>
 				<TableCell>
-					<strong>{formatCurrency(props.currentMonthReport.total)}</strong>
+					<strong>
+						{formatCurrency(props.currentMonthReport.total)}
+					</strong>
 				</TableCell>
 				<TableCell />
 			</TableRow>

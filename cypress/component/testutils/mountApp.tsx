@@ -48,15 +48,12 @@ export const mountApp = (
 	handleViewport(config);
 	const initialEntries = getInitialEntries(config);
 	const queryClient = newQueryClient();
-	// eslint-disable-next-line  cypress/no-assigning-return-values
-	const result = cy.mount(
+
+	return cy.mount(
 		<MemoryRouter initialEntries={initialEntries}>
 			<KeycloakAuthContext.Provider value={keycloakAuth}>
 				<App queryClient={queryClient} />
 			</KeycloakAuthContext.Provider>
 		</MemoryRouter>
 	);
-	// eslint-disable-next-line cypress/no-unnecessary-waiting
-	cy.wait(100);
-	return result;
 };

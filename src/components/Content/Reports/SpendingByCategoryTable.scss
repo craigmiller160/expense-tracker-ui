@@ -1,5 +1,9 @@
 .spending-by-category-table {
   .change-cell-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
     &.greater-than {
       color: red;
     }

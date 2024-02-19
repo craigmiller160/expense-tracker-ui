@@ -12,13 +12,15 @@ import { match, P } from 'ts-pattern';
 import type { ReportCategoryOrderBy } from '../../../types/reports';
 import type { UseFormReturn } from 'react-hook-form';
 import type { ReportFilterFormData } from './useGetReportData';
-import { useMemo } from 'react';
+import { type ElementType, useMemo } from 'react';
 import { useGetUnknownCategory } from '../../../ajaxapi/query/CategoryQueries';
 import { Spinner } from '../../UI/Spinner';
 import { MuiRouterLink } from '../../UI/MuiRouterLink';
 import { getMonthAndCategoryLink } from './utils';
 import './SpendingByCategoryTable.scss';
 import classNames from 'classnames';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 type Props = Readonly<{
 	currentMonthReport: ReportMonthResponse;
@@ -69,6 +71,7 @@ type ChangeCellContentProps = Readonly<{
 
 type ClassAndIcon = Readonly<{
 	className: string;
+	Icon?: ElementType;
 }>;
 
 const ChangeCellContent = (props: ChangeCellContentProps) => {
@@ -76,17 +79,19 @@ const ChangeCellContent = (props: ChangeCellContentProps) => {
 		.with(P.nullish, () => props.currentAmount)
 		.otherwise((_) => props.currentAmount - _);
 
-	const { className } = match<number | undefined, ClassAndIcon>(
+	const { className, Icon } = match<number | undefined, ClassAndIcon>(
 		props.previousAmount
 	)
 		.with(P.nullish, () => ({
 			className: 'equal-to'
 		}))
 		.with(P.number.gt(props.currentAmount), () => ({
-			className: 'greater-than'
+			className: 'greater-than',
+			Icon: ArrowDropUpIcon
 		}))
 		.with(P.number.lt(props.currentAmount), () => ({
-			className: 'less-than'
+			className: 'less-than',
+			Icon: ArrowDropDownIcon
 		}))
 		.otherwise(() => ({
 			className: 'equal-to'
@@ -94,7 +99,11 @@ const ChangeCellContent = (props: ChangeCellContentProps) => {
 
 	const fullClassName = classNames('change-cell-content', className);
 
-	return <span className={fullClassName}>{formatCurrency(amount)}</span>;
+	return (
+		<span className={fullClassName}>
+			{formatCurrency(amount)} {Icon ? <Icon /> : undefined}
+		</span>
+	);
 };
 
 export const SpendingByCategoryTable = (props: Props) => {

@@ -13,7 +13,7 @@ import type {
 	SyncFromParams,
 	SyncToParams
 } from '../../../routes/useSearchParamSync';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import type { ParamsWrapper } from '../../../routes/ParamsWrapper';
 import type { StateFromParams } from '../../../routes/useImmerWithSearchParamSync';
 import { useImmerWithSearchParamSync } from '../../../routes/useImmerWithSearchParamSync';
@@ -26,6 +26,7 @@ import {
 	REPORT_CATEGORY_FILTER_OPTIONS,
 	REPORT_CATEGORY_ORDER_BY_OPTIONS
 } from '../../../types/reports';
+import type { ReportPageResponse } from '../../../types/generated/expense-tracker';
 
 export type ReportFilterFormData = {
 	readonly categoryFilterType: ReportCategoryIdFilterOption;
@@ -123,6 +124,13 @@ const stateFromParams: StateFromParams<PaginationState> = (draft, params) => {
 	);
 };
 
+const useExtendReportData = (
+	data?: ReportPageResponse
+): ExtendedReportPageResponse | undefined =>
+	useMemo(() => {
+		return undefined;
+	}, [data]);
+
 export const useGetReportData = (): ReportData => {
 	const [state, setState] = useImmerWithSearchParamSync<PaginationState>({
 		stateToParams,
@@ -166,6 +174,7 @@ export const useGetReportData = (): ReportData => {
 			categoryIds:
 				form.getValues().categories?.map((cat) => cat.value) ?? []
 		});
+	const extendedReportData = useExtendReportData(reportData);
 
 	const onValueHasChanged = createOnValueHasChanged(
 		form.handleSubmit,
@@ -179,7 +188,7 @@ export const useGetReportData = (): ReportData => {
 		},
 		form,
 		data: {
-			report: reportData,
+			report: extendedReportData,
 			categories,
 			isFetching:
 				getReportIsFetching ||

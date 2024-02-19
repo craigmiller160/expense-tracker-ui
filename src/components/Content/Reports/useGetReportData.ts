@@ -3,7 +3,6 @@ import type { Updater } from 'use-immer';
 import type { PaginationState } from '../../../utils/pagination';
 import type { CategoryOption } from '../../../types/categories';
 import { useGetSpendingByMonthAndCategory } from '../../../ajaxapi/query/ReportQueries';
-import type { ReportPageResponse } from '../../../types/generated/expense-tracker';
 import {
 	useGetAllCategories,
 	useGetUnknownCategory
@@ -19,6 +18,7 @@ import type { ParamsWrapper } from '../../../routes/ParamsWrapper';
 import type { StateFromParams } from '../../../routes/useImmerWithSearchParamSync';
 import { useImmerWithSearchParamSync } from '../../../routes/useImmerWithSearchParamSync';
 import type {
+	ExtendedReportPageResponse,
 	ReportCategoryIdFilterOption,
 	ReportCategoryOrderBy
 } from '../../../types/reports';
@@ -56,7 +56,7 @@ type ReportData = Readonly<{
 	}>;
 	form: UseFormReturn<ReportFilterFormData>;
 	data: Readonly<{
-		report?: ReportPageResponse;
+		report?: ExtendedReportPageResponse;
 		categories: ReadonlyArray<CategoryOption>;
 		isFetching: boolean;
 	}>;

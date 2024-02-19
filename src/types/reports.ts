@@ -1,4 +1,9 @@
 import type { SelectOption } from '@craigmiller160/react-hook-form-material-ui';
+import type {
+	ReportCategoryResponse,
+	ReportMonthResponse,
+	ReportPageResponse
+} from './generated/expense-tracker';
 
 export type ReportRequest = {
 	readonly pageNumber: number;
@@ -25,3 +30,19 @@ export const REPORT_CATEGORY_ORDER_BY_OPTIONS: ReadonlyArray<ReportCategoryOrder
 		{ label: 'Category', value: 'CATEGORY' },
 		{ label: 'Amount', value: 'AMOUNT' }
 	];
+
+export type ExtendedReportCategoryResponse = ReportCategoryResponse &
+	Readonly<{
+		amountChange?: number;
+	}>;
+
+export type ExtendedReportMonthResponse = ReportMonthResponse &
+	Readonly<{
+		categories: ReadonlyArray<ExtendedReportCategoryResponse>;
+		totalChange?: number;
+	}>;
+
+export type ExtendedReportPageResponse = ReportPageResponse &
+	Readonly<{
+		reports: ReadonlyArray<ExtendedReportMonthResponse>;
+	}>;

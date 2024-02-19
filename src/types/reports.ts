@@ -36,13 +36,16 @@ export type ExtendedReportCategoryResponse = ReportCategoryResponse &
 		amountChange?: number;
 	}>;
 
-export type ExtendedReportMonthResponse = ReportMonthResponse &
+export type ExtendedReportMonthResponse = Omit<
+	ReportMonthResponse,
+	'categories'
+> &
 	Readonly<{
 		categories: ReadonlyArray<ExtendedReportCategoryResponse>;
 		totalChange?: number;
 	}>;
 
-export type ExtendedReportPageResponse = ReportPageResponse &
+export type ExtendedReportPageResponse = Omit<ReportPageResponse, 'reports'> &
 	Readonly<{
 		reports: ReadonlyArray<ExtendedReportMonthResponse>;
 	}>;

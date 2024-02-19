@@ -8,7 +8,7 @@ import { formatCurrency, formatPercent } from '../../../utils/formatNumbers';
 import { ColorBox } from '../../UI/ColorBox';
 import * as RArray from 'fp-ts/ReadonlyArray';
 import type { Ord } from 'fp-ts/Ord';
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 import type { ReportCategoryOrderBy } from '../../../types/reports';
 import type { UseFormReturn } from 'react-hook-form';
 import type { ReportFilterFormData } from './useGetReportData';
@@ -17,6 +17,8 @@ import { useGetUnknownCategory } from '../../../ajaxapi/query/CategoryQueries';
 import { Spinner } from '../../UI/Spinner';
 import { MuiRouterLink } from '../../UI/MuiRouterLink';
 import { getMonthAndCategoryLink } from './utils';
+import './SpendingByCategoryTable.scss';
+import classNames from 'classnames';
 
 type Props = Readonly<{
 	currentMonthReport: ReportMonthResponse;
@@ -65,8 +67,34 @@ type ChangeCellContentProps = Readonly<{
 	isBold?: boolean;
 }>;
 
+type ClassAndIcon = Readonly<{
+	className: string;
+}>;
+
 const ChangeCellContent = (props: ChangeCellContentProps) => {
-	return <div />;
+	const amount = match(props.previousAmount)
+		.with(P.nullish, () => props.currentAmount)
+		.otherwise((_) => props.currentAmount - _);
+
+	const { className } = match<number | undefined, ClassAndIcon>(
+		props.previousAmount
+	)
+		.with(P.nullish, () => ({
+			className: 'equal-to'
+		}))
+		.with(P.number.gt(props.currentAmount), () => ({
+			className: 'greater-than'
+		}))
+		.with(P.number.lt(props.currentAmount), () => ({
+			className: 'less-than'
+		}))
+		.otherwise(() => ({
+			className: 'equal-to'
+		}));
+
+	const fullClassName = classNames('change-cell-content', className);
+
+	return <span className={fullClassName}>{formatCurrency(amount)}</span>;
 };
 
 export const SpendingByCategoryTable = (props: Props) => {
@@ -86,7 +114,7 @@ export const SpendingByCategoryTable = (props: Props) => {
 	}
 
 	return (
-		<Table columns={COLUMNS} className="SpendingByCategoryTable">
+		<Table columns={COLUMNS} className="spending-by-category-table">
 			{currentMonthCategories.map((currentMonthCategory) => {
 				const previousMonthCategory =
 					props.previousMonthReport?.categories.find(

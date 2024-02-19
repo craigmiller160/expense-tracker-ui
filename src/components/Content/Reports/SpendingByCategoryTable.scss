@@ -1,0 +1,11 @@
+.spending-by-category-table {
+  .change-cell-content {
+    &.greater-than {
+      color: red;
+    }
+
+    &.less-than {
+      color: green;
+    }
+  }
+}

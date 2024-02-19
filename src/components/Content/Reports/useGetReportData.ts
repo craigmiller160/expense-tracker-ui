@@ -49,19 +49,19 @@ const createOnValueHasChanged = (
 		})
 	);
 
-type ReportData = {
-	readonly pagination: {
-		readonly state: PaginationState;
-		readonly setState: Updater<PaginationState>;
-	};
-	readonly form: UseFormReturn<ReportFilterFormData>;
-	readonly data: {
-		readonly report?: ReportPageResponse;
-		readonly categories: ReadonlyArray<CategoryOption>;
-		readonly isFetching: boolean;
-	};
-	readonly onValueHasChanged: () => Promise<void> | undefined;
-};
+type ReportData = Readonly<{
+	pagination: Readonly<{
+		state: PaginationState;
+		setState: Updater<PaginationState>;
+	}>;
+	form: UseFormReturn<ReportFilterFormData>;
+	data: Readonly<{
+		report?: ReportPageResponse;
+		categories: ReadonlyArray<CategoryOption>;
+		isFetching: boolean;
+	}>;
+	onValueHasChanged: () => Promise<void> | undefined;
+}>;
 
 const formToParams: SyncToParams<ReportFilterFormData> = (form, params) => {
 	const categoryString = form.categories.map((cat) => cat.value).join(',');

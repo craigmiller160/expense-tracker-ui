@@ -22,13 +22,11 @@ const TestComponent = (props: Props) => {
 						key={report.date}
 					>
 						<p>Total Change: {report.totalChange}</p>
-						<div data-testid="categories">
-							{report.categories.map((category) => (
-								<p key={category.name}>
-									{category.name}: {category.amountChange}
-								</p>
-							))}
-						</div>
+						{report.categories.map((category) => (
+							<p key={category.name} data-testid="category">
+								{category.name}: {category.amountChange}
+							</p>
+						))}
 					</div>
 				))}
 		</div>
@@ -56,10 +54,20 @@ test.each<ExpectedResults>([
 			{ name: 'Three', amountChange: 4 }
 		]
 	}
-])('extends report data for $date', ({ date, totalChange }) => {
+])('extends report data for $date', ({ date, totalChange, categories }) => {
 	render(<TestComponent data={data} />);
 	const root = screen.getByTestId(`report-${date}`);
 	expect(within(root).getByText(/Total Change/)).toHaveTextContent(
 		`Total Change: ${totalChange}`
 	);
+
+	const categoryElements = within(root).getAllByTestId('category');
+	expect(categoryElements).toHaveLength(categories.length);
+
+	categories.forEach((category, index) => {
+		const categoryElement = categoryElements[index];
+		expect(categoryElement).toHaveTextContent(
+			`${category.name}: ${category.amountChange}`
+		);
+	});
 });

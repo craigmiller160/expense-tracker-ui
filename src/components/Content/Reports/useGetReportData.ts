@@ -128,6 +128,13 @@ const useExtendReportData = (
 	data?: ReportPageResponse
 ): ExtendedReportPageResponse | undefined =>
 	useMemo(() => {
+		if (!data) {
+			return undefined;
+		}
+
+		data.reports.map((currentReport, index, array) => {
+
+		});
 		// TODO finish this
 		return undefined;
 	}, [data]);

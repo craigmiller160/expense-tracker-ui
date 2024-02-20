@@ -3,82 +3,82 @@
     {
       "categories": [
         {
-          "amount": 10,
+          "amount": -10,
           "name": "One",
           "color": "red",
           "percent": 0,
           "id": "1"
         },
         {
-          "amount": 15,
+          "amount": -15,
           "name": "Two",
           "color": "red",
           "percent": 0,
           "id": "1"
         },
         {
-          "amount": 20,
+          "amount": -20,
           "name": "Three",
           "color": "red",
           "percent": 0,
           "id": "1"
         }
       ],
-      "total": 45,
+      "total": -45,
       "date": "2024-01-01"
     },
     {
       "categories": [
         {
-          "amount": 12,
+          "amount": -12,
           "name": "One",
           "color": "red",
           "percent": 0,
           "id": "1"
         },
         {
-          "amount": 30,
+          "amount": -30,
           "name": "Five",
           "color": "red",
           "percent": 0,
           "id": "1"
         },
         {
-          "amount": 22,
+          "amount": -24,
           "name": "Three",
           "color": "red",
           "percent": 0,
           "id": "1"
         }
       ],
-      "total": 60,
+      "total": -60,
       "date": "2023-12-01"
     },
     {
       "categories": [
         {
-          "amount": 10,
+          "amount": -10,
           "name": "One",
           "color": "red",
           "percent": 0,
           "id": "1"
         },
         {
-          "amount": 15,
+          "amount": -15,
           "name": "Two",
           "color": "red",
           "percent": 0,
           "id": "1"
         },
         {
-          "amount": 20,
+          "amount": -20,
           "name": "Three",
           "color": "red",
           "percent": 0,
           "id": "1"
         }
       ],
-      "total": 0,
+      "total": -45,
       "date": "2023-11-01"
     }
   ],

@@ -1,8 +1,8 @@
-import { test } from 'vitest';
+import { test, expect } from 'vitest';
 import type { ReportPageResponse } from '../../../../src/types/generated/expense-tracker';
 import reportResponseForExtension from '../../../__data__/report_response_for_extension.json';
 import { useExtendReportData } from '../../../../src/components/Content/Reports/useExtendReportData';
-import { render } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 
 const data: ReportPageResponse = reportResponseForExtension;
 
@@ -24,7 +24,7 @@ const TestComponent = (props: Props) => {
 						<p>Total Change: {report.totalChange}</p>
 						<div data-testid="categories">
 							{report.categories.map((category) => (
-								<p key={report.date}>
+								<p key={category.name}>
 									{category.name}: {category.amountChange}
 								</p>
 							))}
@@ -35,6 +35,31 @@ const TestComponent = (props: Props) => {
 	);
 };
 
-test('extends report data', () => {
+type ExpectedResults = Readonly<{
+	date: string;
+	totalChange: number;
+	categories: ReadonlyArray<
+		Readonly<{
+			name: string;
+			amountChange: number;
+		}>
+	>;
+}>;
+
+test.each<ExpectedResults>([
+	{
+		date: '2024-01-01',
+		totalChange: 15,
+		categories: [
+			{ name: 'One', amountChange: 2 },
+			{ name: 'Two', amountChange: -15 },
+			{ name: 'Three', amountChange: 4 }
+		]
+	}
+])('extends report data for $date', ({ date, totalChange }) => {
 	render(<TestComponent data={data} />);
+	const root = screen.getByTestId(`report-${date}`);
+	expect(within(root).getByText(/Total Change/)).toHaveTextContent(
+		`Total Change: ${totalChange}`
+	);
 });

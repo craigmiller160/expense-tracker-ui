@@ -14,7 +14,17 @@ const extendCategory =
 	(previousMonthCategories: ReadonlyArray<ReportCategoryResponse>) =>
 	(
 		currentMonthCategory: ReportCategoryResponse
-	): ExtendedReportCategoryResponse => {};
+	): ExtendedReportCategoryResponse => {
+		const { amount: previousAmount } = previousMonthCategories.find(
+			(cat) => cat.name === currentMonthCategory.name
+		) ?? {
+			amount: 0
+		};
+		return {
+			...currentMonthCategory,
+			amountChange: currentMonthCategory.amount - previousAmount
+		};
+	};
 
 const extendReport = (
 	currentReport: ReportMonthResponse,

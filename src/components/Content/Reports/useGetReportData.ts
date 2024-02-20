@@ -18,6 +18,7 @@ import type { ParamsWrapper } from '../../../routes/ParamsWrapper';
 import type { StateFromParams } from '../../../routes/useImmerWithSearchParamSync';
 import { useImmerWithSearchParamSync } from '../../../routes/useImmerWithSearchParamSync';
 import type {
+	ExtendedReportMonthResponse,
 	ExtendedReportPageResponse,
 	ReportCategoryIdFilterOption,
 	ReportCategoryOrderBy
@@ -27,6 +28,7 @@ import {
 	REPORT_CATEGORY_ORDER_BY_OPTIONS
 } from '../../../types/reports';
 import type { ReportPageResponse } from '../../../types/generated/expense-tracker';
+import {useExtendReportData} from './useExtendReportData';
 
 export type ReportFilterFormData = {
 	readonly categoryFilterType: ReportCategoryIdFilterOption;
@@ -123,21 +125,6 @@ const stateFromParams: StateFromParams<PaginationState> = (draft, params) => {
 		parseInt
 	);
 };
-
-const useExtendReportData = (
-	data?: ReportPageResponse
-): ExtendedReportPageResponse | undefined =>
-	useMemo(() => {
-		if (!data) {
-			return undefined;
-		}
-
-		data.reports.map((currentReport, index, array) => {
-
-		});
-		// TODO finish this
-		return undefined;
-	}, [data]);
 
 export const useGetReportData = (): ReportData => {
 	const [state, setState] = useImmerWithSearchParamSync<PaginationState>({

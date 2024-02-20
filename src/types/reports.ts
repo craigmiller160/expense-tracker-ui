@@ -33,7 +33,7 @@ export const REPORT_CATEGORY_ORDER_BY_OPTIONS: ReadonlyArray<ReportCategoryOrder
 
 export type ExtendedReportCategoryResponse = ReportCategoryResponse &
 	Readonly<{
-		amountChange?: number;
+		amountChange: number;
 	}>;
 
 export type ExtendedReportMonthResponse = Omit<
@@ -42,7 +42,7 @@ export type ExtendedReportMonthResponse = Omit<
 > &
 	Readonly<{
 		categories: ReadonlyArray<ExtendedReportCategoryResponse>;
-		totalChange?: number;
+		totalChange: number;
 	}>;
 
 export type ExtendedReportPageResponse = Omit<ReportPageResponse, 'reports'> &

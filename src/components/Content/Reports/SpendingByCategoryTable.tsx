@@ -18,12 +18,13 @@ import { Spinner } from '../../UI/Spinner';
 import { MuiRouterLink } from '../../UI/MuiRouterLink';
 import { getMonthAndCategoryLink } from './utils';
 
-type Props = {
-	readonly report: ReportMonthResponse;
-	readonly form: UseFormReturn<ReportFilterFormData>;
-};
+type Props = Readonly<{
+	currentMonthReport: ReportMonthResponse;
+	previousMonthReport?: ReportMonthResponse;
+	form: UseFormReturn<ReportFilterFormData>;
+}>;
 
-const COLUMNS = ['', 'Category', 'Amount', 'Percent'];
+const COLUMNS = ['', 'Category', 'Amount', 'Change', 'Percent'];
 const sortByCategory: Ord<ReportCategoryResponse> = {
 	equals: (a, b) => a.name === b.name,
 	compare: (a, b) => {
@@ -61,8 +62,11 @@ export const sortCategories = (
 export const SpendingByCategoryTable = (props: Props) => {
 	const orderCategoriesBy = props.form.getValues().orderCategoriesBy;
 	const categories = useMemo(
-		() => sortCategories(orderCategoriesBy)(props.report.categories),
-		[orderCategoriesBy, props.report.categories]
+		() =>
+			sortCategories(orderCategoriesBy)(
+				props.currentMonthReport.categories
+			),
+		[orderCategoriesBy, props.currentMonthReport.categories]
 	);
 	const { data: unknownCategory, isFetching: unknownCategoryIsFetching } =
 		useGetUnknownCategory();
@@ -82,7 +86,7 @@ export const SpendingByCategoryTable = (props: Props) => {
 						<MuiRouterLink
 							variant="body2"
 							to={getMonthAndCategoryLink(
-								props.report.date,
+								props.currentMonthReport.date,
 								category.id,
 								unknownCategory?.id ?? ''
 							)}
@@ -91,6 +95,7 @@ export const SpendingByCategoryTable = (props: Props) => {
 						</MuiRouterLink>
 					</TableCell>
 					<TableCell>{formatCurrency(category.amount)}</TableCell>
+					<TableCell />
 					<TableCell>{formatPercent(category.percent)}</TableCell>
 				</TableRow>
 			))}
@@ -100,8 +105,11 @@ export const SpendingByCategoryTable = (props: Props) => {
 					<strong>Total</strong>
 				</TableCell>
 				<TableCell>
-					<strong>{formatCurrency(props.report.total)}</strong>
+					<strong>
+						{formatCurrency(props.currentMonthReport.total)}
+					</strong>
 				</TableCell>
+				<TableCell />
 				<TableCell />
 			</TableRow>
 		</Table>

@@ -21,10 +21,11 @@ const TestComponent = (props: Props) => {
 						data-testid={`report-${report.date}`}
 						key={report.date}
 					>
-						<p>Total Change: {report.totalChange}</p>
+						<p>Total Change: {report.totalChange ?? 'N/A'}</p>
 						{report.categories.map((category) => (
 							<p key={category.name} data-testid="category">
-								{category.name}: {category.amountChange}
+								{category.name}:{' '}
+								{category.amountChange ?? 'N/A'}
 							</p>
 						))}
 					</div>
@@ -35,11 +36,11 @@ const TestComponent = (props: Props) => {
 
 type ExpectedResults = Readonly<{
 	date: string;
-	totalChange: number;
+	totalChange: string;
 	categories: ReadonlyArray<
 		Readonly<{
 			name: string;
-			amountChange: number;
+			amountChange: string;
 		}>
 	>;
 }>;
@@ -47,23 +48,31 @@ type ExpectedResults = Readonly<{
 test.each<ExpectedResults>([
 	{
 		date: '2024-01-01',
-		totalChange: 15,
+		totalChange: '15',
 		categories: [
-			{ name: 'One', amountChange: 2 },
-			{ name: 'Two', amountChange: -15 },
-			{ name: 'Three', amountChange: 4 }
+			{ name: 'One', amountChange: '2' },
+			{ name: 'Two', amountChange: '-15' },
+			{ name: 'Three', amountChange: '4' }
 		]
 	},
 	{
 		date: '2023-12-01',
-		totalChange: -15,
+		totalChange: '-15',
 		categories: [
-			{ name: 'One', amountChange: -2 },
-			{ name: 'Five', amountChange: -30 },
-			{ name: 'Three', amountChange: -4 }
+			{ name: 'One', amountChange: '-2' },
+			{ name: 'Five', amountChange: '-30' },
+			{ name: 'Three', amountChange: '-4' }
+		]
+	},
+	{
+		date: '2023-11-01',
+		totalChange: 'N/A',
+		categories: [
+			{ name: 'One', amountChange: 'N/A' },
+			{ name: 'Five', amountChange: 'N/A' },
+			{ name: 'Three', amountChange: 'N/A' }
 		]
 	}
-	// TODO need to test the last one
 ])('extends report data for $date', ({ date, totalChange, categories }) => {
 	render(<TestComponent data={data} />);
 	const root = screen.getByTestId(`report-${date}`);

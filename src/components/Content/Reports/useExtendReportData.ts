@@ -15,14 +15,14 @@ const extendCategory =
 	(
 		currentMonthCategory: ReportCategoryResponse
 	): ExtendedReportCategoryResponse => {
-		const { amount: previousAmount } = previousMonthCategories.find(
+		const previousMonthCategory = previousMonthCategories.find(
 			(cat) => cat.name === currentMonthCategory.name
-		) ?? {
-			amount: 0
-		};
+		);
 		return {
 			...currentMonthCategory,
-			amountChange: currentMonthCategory.amount - previousAmount
+			amountChange: previousMonthCategory
+				? currentMonthCategory.amount - previousMonthCategory.amount
+				: undefined
 		};
 	};
 
@@ -31,18 +31,17 @@ const extendReport = (
 	index: number,
 	array: ReadonlyArray<ReportMonthResponse>
 ): ExtendedReportMonthResponse => {
-	const { categories: previousMonthCategories, total: previousMonthTotal } =
-		array[index + 1] ?? {
-			categories: [],
-			total: 0
-		};
+	const previousMonthReport: ReportMonthResponse | undefined =
+		array[index + 1];
 
 	return {
 		...currentReport,
 		categories: currentReport.categories.map(
-			extendCategory(previousMonthCategories)
+			extendCategory(previousMonthReport?.categories ?? [])
 		),
-		totalChange: currentReport.total - previousMonthTotal
+		totalChange: previousMonthReport
+			? currentReport.total - previousMonthReport.total
+			: undefined
 	};
 };
 

@@ -11,37 +11,42 @@ import type {
 import { useMemo } from 'react';
 
 const extendCategory =
-	(previousMonthCategories: ReadonlyArray<ReportCategoryResponse>) =>
+	(previousMonthReport: ReportMonthResponse) =>
 	(
 		currentMonthCategory: ReportCategoryResponse
 	): ExtendedReportCategoryResponse => {
-		const previousMonthCategory = previousMonthCategories.find(
+		if (!previousMonthReport) {
+			return currentMonthCategory;
+		}
+
+		const previousMonthCategory = previousMonthReport.categories.find(
 			(cat) => cat.name === currentMonthCategory.name
 		);
 		return {
 			...currentMonthCategory,
-			amountChange: previousMonthCategory
-				? currentMonthCategory.amount - previousMonthCategory.amount
-				: undefined
+			amountChange:
+				currentMonthCategory.amount -
+				(previousMonthCategory?.amount ?? 0)
 		};
 	};
 
 const extendReport = (
-	currentReport: ReportMonthResponse,
+	currentMonthReport: ReportMonthResponse,
 	index: number,
 	array: ReadonlyArray<ReportMonthResponse>
 ): ExtendedReportMonthResponse => {
 	const previousMonthReport: ReportMonthResponse | undefined =
 		array[index + 1];
+	if (!previousMonthReport) {
+		return currentMonthReport;
+	}
 
 	return {
-		...currentReport,
-		categories: currentReport.categories.map(
-			extendCategory(previousMonthReport?.categories ?? [])
+		...currentMonthReport,
+		categories: currentMonthReport.categories.map(
+			extendCategory(previousMonthReport)
 		),
-		totalChange: previousMonthReport
-			? currentReport.total - previousMonthReport.total
-			: undefined
+		totalChange: currentMonthReport.total - previousMonthReport.total
 	};
 };
 

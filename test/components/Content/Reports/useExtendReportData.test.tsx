@@ -69,7 +69,7 @@ test.each<ExpectedResults>([
 		totalChange: 'N/A',
 		categories: [
 			{ name: 'One', amountChange: 'N/A' },
-			{ name: 'Five', amountChange: 'N/A' },
+			{ name: 'Two', amountChange: 'N/A' },
 			{ name: 'Three', amountChange: 'N/A' }
 		]
 	}

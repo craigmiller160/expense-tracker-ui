@@ -94,10 +94,10 @@ const ChangeCellContent = (props: ChangeCellContentProps) => {
 		}));
 	const fullClassName = classNames('change-cell-content', className);
 	return (
-		<span className={fullClassName}>
-			{props.change ? formatCurrency(props.change) : 'N/A'}{' '}
-			{Icon ? <Icon /> : undefined}
-		</span>
+		<div className={fullClassName}>
+			<span>{props.change ? formatCurrency(props.change) : 'N/A'} </span>
+			<span>{Icon ? <Icon /> : undefined}</span>
+		</div>
 	);
 };
 

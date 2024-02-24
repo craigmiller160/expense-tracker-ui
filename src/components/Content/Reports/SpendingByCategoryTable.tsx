@@ -1,26 +1,31 @@
 import { Table } from '../../UI/Table';
-import type {
-	ReportCategoryResponse,
-	ReportMonthResponse
-} from '../../../types/generated/expense-tracker';
+import type { ReportCategoryResponse } from '../../../types/generated/expense-tracker';
 import { TableCell, TableRow } from '@mui/material';
 import { formatCurrency, formatPercent } from '../../../utils/formatNumbers';
 import { ColorBox } from '../../UI/ColorBox';
 import * as RArray from 'fp-ts/ReadonlyArray';
 import type { Ord } from 'fp-ts/Ord';
-import { match } from 'ts-pattern';
-import type { ReportCategoryOrderBy } from '../../../types/reports';
+import { match, P } from 'ts-pattern';
+import type {
+	ExtendedReportCategoryResponse,
+	ExtendedReportMonthResponse,
+	ReportCategoryOrderBy
+} from '../../../types/reports';
 import type { UseFormReturn } from 'react-hook-form';
 import type { ReportFilterFormData } from './useGetReportData';
-import { useMemo } from 'react';
+import { type ElementType, useMemo } from 'react';
 import { useGetUnknownCategory } from '../../../ajaxapi/query/CategoryQueries';
 import { Spinner } from '../../UI/Spinner';
 import { MuiRouterLink } from '../../UI/MuiRouterLink';
 import { getMonthAndCategoryLink } from './utils';
+import './SpendingByCategoryTable.scss';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import classNames from 'classnames';
 
 type Props = Readonly<{
-	currentMonthReport: ReportMonthResponse;
-	previousMonthReport?: ReportMonthResponse;
+	currentMonthReport: ExtendedReportMonthResponse;
+	previousMonthReport?: ExtendedReportMonthResponse;
 	form: UseFormReturn<ReportFilterFormData>;
 }>;
 
@@ -51,12 +56,49 @@ const sortByAmount: Ord<ReportCategoryResponse> = {
 export const sortCategories = (
 	order: ReportCategoryOrderBy
 ): ((
-	c: ReadonlyArray<ReportCategoryResponse>
-) => ReadonlyArray<ReportCategoryResponse>) => {
+	c: ReadonlyArray<ExtendedReportCategoryResponse>
+) => ReadonlyArray<ExtendedReportCategoryResponse>) => {
 	const sortBy = match(order)
 		.with('AMOUNT', () => sortByAmount)
 		.otherwise(() => sortByCategory);
 	return RArray.sort(sortBy);
+};
+
+type ChangeCellContentProps = Readonly<{
+	change?: number;
+	isBold?: boolean;
+}>;
+
+type ClassAndIcon = Readonly<{
+	className: string;
+	Icon?: ElementType;
+}>;
+
+const ChangeCellContent = (props: ChangeCellContentProps) => {
+	const { className, Icon } = match<number | undefined, ClassAndIcon>(
+		props.change
+	)
+		.with(P.nullish, () => ({
+			className: 'equal-to'
+		}))
+		.with(P.number.gt(0), () => ({
+			className: 'greater-than',
+			Icon: ArrowDropDownIcon
+		}))
+		.with(P.number.lt(0), () => ({
+			className: 'less-than',
+			Icon: ArrowDropUpIcon
+		}))
+		.otherwise(() => ({
+			className: 'equal-to'
+		}));
+	const fullClassName = classNames('change-cell-content', className);
+	return (
+		<span className={fullClassName}>
+			{props.change ? formatCurrency(props.change) : 'N/A'}{' '}
+			{Icon ? <Icon /> : undefined}
+		</span>
+	);
 };
 
 export const SpendingByCategoryTable = (props: Props) => {
@@ -76,7 +118,7 @@ export const SpendingByCategoryTable = (props: Props) => {
 	}
 
 	return (
-		<Table columns={COLUMNS} className=".spending-by-category-table">
+		<Table columns={COLUMNS} className="spending-by-category-table">
 			{categories.map((category) => (
 				<TableRow key={category.name}>
 					<TableCell>
@@ -95,7 +137,9 @@ export const SpendingByCategoryTable = (props: Props) => {
 						</MuiRouterLink>
 					</TableCell>
 					<TableCell>{formatCurrency(category.amount)}</TableCell>
-					<TableCell />
+					<TableCell>
+						<ChangeCellContent change={category.amountChange} />
+					</TableCell>
 					<TableCell>{formatPercent(category.percent)}</TableCell>
 				</TableRow>
 			))}
@@ -109,7 +153,12 @@ export const SpendingByCategoryTable = (props: Props) => {
 						{formatCurrency(props.currentMonthReport.total)}
 					</strong>
 				</TableCell>
-				<TableCell />
+				<TableCell>
+					<ChangeCellContent
+						change={props.currentMonthReport.totalChange}
+						isBold
+					/>
+				</TableCell>
 				<TableCell />
 			</TableRow>
 		</Table>

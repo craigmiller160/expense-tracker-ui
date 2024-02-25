@@ -13,12 +13,11 @@ import type {
 	SyncFromParams,
 	SyncToParams
 } from '../../../routes/useSearchParamSync';
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import type { ParamsWrapper } from '../../../routes/ParamsWrapper';
 import type { StateFromParams } from '../../../routes/useImmerWithSearchParamSync';
 import { useImmerWithSearchParamSync } from '../../../routes/useImmerWithSearchParamSync';
 import type {
-	ExtendedReportMonthResponse,
 	ExtendedReportPageResponse,
 	ReportCategoryIdFilterOption,
 	ReportCategoryOrderBy
@@ -27,8 +26,7 @@ import {
 	REPORT_CATEGORY_FILTER_OPTIONS,
 	REPORT_CATEGORY_ORDER_BY_OPTIONS
 } from '../../../types/reports';
-import type { ReportPageResponse } from '../../../types/generated/expense-tracker';
-import {useExtendReportData} from './useExtendReportData';
+import { useExtendReportData } from './useExtendReportData';
 
 export type ReportFilterFormData = {
 	readonly categoryFilterType: ReportCategoryIdFilterOption;

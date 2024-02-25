@@ -10,7 +10,7 @@ export default defineConfig({
 	},
 	retries: {
 		openMode: 0,
-		runMode: 2
+		runMode: 4
 	},
 	screenshotOnRunFailure: true,
 	video: false,

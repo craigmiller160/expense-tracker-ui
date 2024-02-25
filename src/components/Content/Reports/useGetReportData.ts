@@ -3,7 +3,6 @@ import type { Updater } from 'use-immer';
 import type { PaginationState } from '../../../utils/pagination';
 import type { CategoryOption } from '../../../types/categories';
 import { useGetSpendingByMonthAndCategory } from '../../../ajaxapi/query/ReportQueries';
-import type { ReportPageResponse } from '../../../types/generated/expense-tracker';
 import {
 	useGetAllCategories,
 	useGetUnknownCategory
@@ -19,6 +18,7 @@ import type { ParamsWrapper } from '../../../routes/ParamsWrapper';
 import type { StateFromParams } from '../../../routes/useImmerWithSearchParamSync';
 import { useImmerWithSearchParamSync } from '../../../routes/useImmerWithSearchParamSync';
 import type {
+	ExtendedReportPageResponse,
 	ReportCategoryIdFilterOption,
 	ReportCategoryOrderBy
 } from '../../../types/reports';
@@ -26,6 +26,7 @@ import {
 	REPORT_CATEGORY_FILTER_OPTIONS,
 	REPORT_CATEGORY_ORDER_BY_OPTIONS
 } from '../../../types/reports';
+import { useExtendReportData } from './useExtendReportData';
 
 export type ReportFilterFormData = {
 	readonly categoryFilterType: ReportCategoryIdFilterOption;
@@ -49,19 +50,19 @@ const createOnValueHasChanged = (
 		})
 	);
 
-type ReportData = {
-	readonly pagination: {
-		readonly state: PaginationState;
-		readonly setState: Updater<PaginationState>;
-	};
-	readonly form: UseFormReturn<ReportFilterFormData>;
-	readonly data: {
-		readonly report?: ReportPageResponse;
-		readonly categories: ReadonlyArray<CategoryOption>;
-		readonly isFetching: boolean;
-	};
-	readonly onValueHasChanged: () => Promise<void> | undefined;
-};
+type ReportData = Readonly<{
+	pagination: Readonly<{
+		state: PaginationState;
+		setState: Updater<PaginationState>;
+	}>;
+	form: UseFormReturn<ReportFilterFormData>;
+	data: Readonly<{
+		report?: ExtendedReportPageResponse;
+		categories: ReadonlyArray<CategoryOption>;
+		isFetching: boolean;
+	}>;
+	onValueHasChanged: () => Promise<void> | undefined;
+}>;
 
 const formToParams: SyncToParams<ReportFilterFormData> = (form, params) => {
 	const categoryString = form.categories.map((cat) => cat.value).join(',');
@@ -166,6 +167,7 @@ export const useGetReportData = (): ReportData => {
 			categoryIds:
 				form.getValues().categories?.map((cat) => cat.value) ?? []
 		});
+	const extendedReportData = useExtendReportData(reportData);
 
 	const onValueHasChanged = createOnValueHasChanged(
 		form.handleSubmit,
@@ -179,7 +181,7 @@ export const useGetReportData = (): ReportData => {
 		},
 		form,
 		data: {
-			report: reportData,
+			report: extendedReportData,
 			categories,
 			isFetching:
 				getReportIsFetching ||

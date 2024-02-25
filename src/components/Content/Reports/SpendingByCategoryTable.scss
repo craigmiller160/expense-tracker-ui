@@ -1,0 +1,32 @@
+.spending-by-category-table {
+  .change-cell-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+    >span {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      width: 50%;
+
+      &:nth-child(1) {
+        justify-content: end;
+      }
+
+      &:nth-child(2) {
+        justify-content: start;
+      }
+    }
+
+    &.less-than {
+      color: red;
+    }
+
+    &.greater-than {
+      color: green;
+    }
+  }
+}

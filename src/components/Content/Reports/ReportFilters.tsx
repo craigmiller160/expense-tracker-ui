@@ -1,7 +1,10 @@
 import type { UseFormReturn } from 'react-hook-form';
 import { Button, Paper } from '@mui/material';
 import { constVoid } from 'fp-ts/function';
-import type { ValueHasChanged } from '@craigmiller160/react-hook-form-material-ui';
+import {
+	DatePicker,
+	type ValueHasChanged
+} from '@craigmiller160/react-hook-form-material-ui';
 import {
 	Autocomplete,
 	Select
@@ -58,6 +61,14 @@ export const ReportFilters = (props: Props) => {
 						control={control}
 						name="orderCategoriesBy"
 						label="Order Categories By"
+					/>
+				</ResponsiveRow>
+				<ResponsiveRow>
+					<DatePicker
+						control={control}
+						name="selectedMonth"
+						label="Select Month"
+						views={['year', 'month']}
 					/>
 				</ResponsiveRow>
 				<ResponsiveRow>

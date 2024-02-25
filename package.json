@@ -49,7 +49,7 @@
   },
   "dependencies": {
     "@craigmiller160/ajax-api": "2.2.0",
-    "@craigmiller160/react-hook-form-material-ui": "1.5.1",
+    "@craigmiller160/react-hook-form-material-ui": "file:.yalc/@craigmiller160/react-hook-form-material-ui",
     "@craigmiller160/react-keycloak": "1.2.1",
     "@craigmiller160/ts-functions": "1.8.0-beta.3",
     "@date-io/date-fns": "^2.14.0",

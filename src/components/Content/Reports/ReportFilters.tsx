@@ -16,11 +16,11 @@ import {
 	REPORT_CATEGORY_ORDER_BY_OPTIONS
 } from '../../../types/reports';
 
-type Props = {
-	readonly form: UseFormReturn<ReportFilterFormData>;
-	readonly onValueHasChanged: ValueHasChanged;
-	readonly categories?: ReadonlyArray<CategoryOption>;
-};
+type Props = Readonly<{
+	form: UseFormReturn<ReportFilterFormData>;
+	onValueHasChanged: ValueHasChanged;
+	categories?: ReadonlyArray<CategoryOption>;
+}>;
 
 export const ReportFilters = (props: Props) => {
 	const {

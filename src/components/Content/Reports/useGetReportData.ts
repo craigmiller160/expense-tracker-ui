@@ -28,16 +28,18 @@ import {
 } from '../../../types/reports';
 import { useExtendReportData } from './useExtendReportData';
 
-export type ReportFilterFormData = {
-	readonly categoryFilterType: ReportCategoryIdFilterOption;
-	readonly categories: ReadonlyArray<CategoryOption>;
-	readonly orderCategoriesBy: ReportCategoryOrderBy;
-};
+export type ReportFilterFormData = Readonly<{
+	categoryFilterType: ReportCategoryIdFilterOption;
+	categories: ReadonlyArray<CategoryOption>;
+	orderCategoriesBy: ReportCategoryOrderBy;
+	selectedMonth: string | null;
+}>;
 
 export const defaultReportFilterFormData: ReportFilterFormData = {
 	categoryFilterType: REPORT_CATEGORY_FILTER_OPTIONS[0],
 	categories: [],
-	orderCategoriesBy: REPORT_CATEGORY_ORDER_BY_OPTIONS[0].value
+	orderCategoriesBy: REPORT_CATEGORY_ORDER_BY_OPTIONS[0].value,
+	selectedMonth: null
 };
 
 const createOnValueHasChanged = (
@@ -70,6 +72,7 @@ const formToParams: SyncToParams<ReportFilterFormData> = (form, params) => {
 	params.setOrDelete('categoryFilterType', form.categoryFilterType.value);
 	params.setOrDelete('categories', categoryString);
 	params.setOrDelete('orderCategoriesBy', form.orderCategoriesBy);
+	params.setOrDelete('selectedMonth', form.selectedMonth);
 };
 
 const formFromParams =
@@ -99,13 +102,18 @@ const formFromParams =
 			'orderCategoriesBy',
 			defaultReportFilterFormData.orderCategoriesBy
 		);
+		const selectedMonth = params.getOrDefault(
+			'selectedMonth',
+			defaultReportFilterFormData.selectedMonth
+		);
 		return {
 			categories,
 			categoryFilterType:
 				REPORT_CATEGORY_FILTER_OPTIONS.find(
 					(type) => type.value === categoryFilterTypeValue
 				) ?? REPORT_CATEGORY_FILTER_OPTIONS[0],
-			orderCategoriesBy: orderCategoriesByValue
+			orderCategoriesBy: orderCategoriesByValue,
+			selectedMonth
 		};
 	};
 

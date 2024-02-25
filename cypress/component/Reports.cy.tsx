@@ -40,7 +40,7 @@ const validateReport = (reportRowIndex: number) => {
 				.eq(2)
 				.contains(formatCurrency(report.categories[index].amount));
 			getReportTableCells()
-				.eq(3)
+				.eq(4)
 				.contains(formatPercent(report.categories[index].percent));
 		})
 	);
